@@ -11,5 +11,7 @@ namespace RaymarEquipmentInventory
         public string? Summary { get; set; }
 
         public string? NewSummary { get; set; }
+
+        public string? NewSummaryTwo { get; set; }
     }
 }
