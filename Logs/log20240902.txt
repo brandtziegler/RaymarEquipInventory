@@ -1,0 +1,132 @@
+2024-09-02 14:01:45.813 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-02 14:01:45.870 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-02 14:01:45.892 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-02 14:01:45.892 -04:00 [INF] Hosting environment: Development
+2024-09-02 14:01:45.893 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2024-09-02 14:01:47.780 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-02 14:01:47.975 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 200.7371ms
+2024-09-02 14:01:48.002 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-02 14:01:48.002 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-02 14:01:48.012 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 10.5468ms
+2024-09-02 14:01:48.068 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 66.1606ms
+2024-09-02 14:01:48.144 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-02 14:01:48.225 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 81.4118ms
+2024-09-02 14:03:09.505 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventory - null null
+2024-09-02 14:03:09.517 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 14:03:09.533 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-02 14:03:12.419 -04:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2024-09-02 14:03:12.421 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory) in 2885.1205ms
+2024-09-02 14:03:12.422 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 14:03:12.423 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventory - 404 null text/plain; charset=utf-8 2918.3593ms
+2024-09-02 14:03:35.847 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventory - null null
+2024-09-02 14:03:35.854 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 14:03:35.855 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-02 14:39:53.072 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-02 14:39:53.092 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-02 14:39:53.093 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-02 14:39:53.094 -04:00 [INF] Hosting environment: Development
+2024-09-02 14:39:53.095 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2024-09-02 14:39:54.705 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-02 14:39:54.850 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 147.7685ms
+2024-09-02 14:39:54.876 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-02 14:39:54.876 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-02 14:39:54.882 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 6.0089ms
+2024-09-02 14:39:54.910 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 33.7384ms
+2024-09-02 14:39:55.010 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-02 14:39:55.092 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 82.437ms
+2024-09-02 14:41:55.334 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-02 14:41:55.357 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-02 14:41:55.360 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-02 14:41:55.361 -04:00 [INF] Hosting environment: Development
+2024-09-02 14:41:55.362 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2024-09-02 14:41:57.089 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-02 14:41:57.237 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 152.9367ms
+2024-09-02 14:41:57.269 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-02 14:41:57.269 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-02 14:41:57.280 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 11.0521ms
+2024-09-02 14:41:57.322 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 52.6171ms
+2024-09-02 14:41:57.347 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-02 14:41:57.437 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 90.7418ms
+2024-09-02 14:42:01.379 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventory - null null
+2024-09-02 14:42:01.385 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 14:42:01.394 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-02 14:43:34.320 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-02 14:43:34.345 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-02 14:43:34.348 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-02 14:43:34.349 -04:00 [INF] Hosting environment: Development
+2024-09-02 14:43:34.349 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2024-09-02 14:43:36.236 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-02 14:43:36.360 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 125.836ms
+2024-09-02 14:43:36.390 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-02 14:43:36.390 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-02 14:43:36.399 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 9.1524ms
+2024-09-02 14:43:36.424 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 34.5574ms
+2024-09-02 14:43:36.450 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-02 14:43:36.522 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 71.9511ms
+2024-09-02 14:43:41.385 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventory - null null
+2024-09-02 14:43:41.391 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 14:43:41.400 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-02 14:49:55.047 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-02 14:49:55.069 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-02 14:49:55.070 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-02 14:49:55.072 -04:00 [INF] Hosting environment: Development
+2024-09-02 14:49:55.073 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2024-09-02 14:49:56.909 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-02 14:49:57.037 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 131.3304ms
+2024-09-02 14:49:57.057 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-02 14:49:57.057 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-02 14:49:57.067 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 10.3537ms
+2024-09-02 14:49:57.086 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 29.3515ms
+2024-09-02 14:49:57.119 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-02 14:49:57.187 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 68.7483ms
+2024-09-02 14:50:06.609 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventory - null null
+2024-09-02 14:50:06.615 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 14:50:06.624 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-02 14:50:36.173 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-02 14:50:36.193 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-02 14:50:36.194 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-02 14:50:36.195 -04:00 [INF] Hosting environment: Development
+2024-09-02 14:50:36.195 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2024-09-02 14:50:38.095 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-02 14:50:38.219 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 126.0468ms
+2024-09-02 14:50:38.267 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-02 14:50:38.267 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-02 14:50:38.272 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.3341ms
+2024-09-02 14:50:38.298 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 30.8315ms
+2024-09-02 14:50:38.327 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-02 14:50:38.403 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 76.0074ms
+2024-09-02 14:50:41.700 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventory - null null
+2024-09-02 14:50:41.705 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 14:50:41.714 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-02 14:56:58.688 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-02 14:56:58.726 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-02 14:56:58.727 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-02 14:56:58.728 -04:00 [INF] Hosting environment: Development
+2024-09-02 14:56:58.729 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2024-09-02 14:57:00.424 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-02 14:57:00.547 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 124.9024ms
+2024-09-02 14:57:00.578 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-02 14:57:00.578 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-02 14:57:00.585 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 6.9566ms
+2024-09-02 14:57:00.611 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 32.7461ms
+2024-09-02 14:57:00.636 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-02 14:57:00.709 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 73.3045ms
+2024-09-02 14:57:11.038 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventory - null null
+2024-09-02 14:57:11.044 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 14:57:11.052 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-02 14:58:17.227 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-02 14:58:17.251 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-02 14:58:17.253 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-02 14:58:17.254 -04:00 [INF] Hosting environment: Development
+2024-09-02 14:58:17.255 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2024-09-02 14:58:19.002 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-02 14:58:19.121 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 122.1345ms
+2024-09-02 14:58:19.231 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-02 14:58:19.231 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-02 14:58:19.239 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 8.8962ms
+2024-09-02 14:58:19.258 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 27.0884ms
+2024-09-02 14:58:19.289 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-02 14:58:19.362 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 73.6954ms
+2024-09-02 14:58:25.475 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventory - null null
+2024-09-02 14:58:25.480 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 14:58:25.488 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).

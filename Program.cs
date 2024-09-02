@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using RaymarEquipmentInventory.Models;
 using RaymarEquipmentInventory.Services;
-
+using System.Data.Odbc;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog for logging
@@ -21,11 +21,33 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
+
+var quickBooksConnectionString = builder.Configuration.GetConnectionString("QuickBooksODBCConnection");
+using (OdbcConnection conn = new OdbcConnection(quickBooksConnectionString))
+{
+    try
+    {
+        conn.Open();
+        // If all goes well, nothing to see here, just a connection being opened.
+    }
+    catch (Exception ex)
+    {
+        // This is where we get to make fun of our tech error:
+        Console.WriteLine($"Oh great, another error. Apparently, QuickBooks doesn't like your connection string. Here's what it thinks: {ex.Message}");
+    }
+}
+
+
 var connectionString = builder.Configuration.GetConnectionString("RaymarAzureConnection");
+
 builder.Services.AddDbContext<RaymarInventoryDBContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IInventoryService, InventoryService>(); // Registering our new service
+builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
+
 
 var app = builder.Build();
 

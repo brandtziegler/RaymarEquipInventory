@@ -9,10 +9,12 @@ namespace RaymarEquipmentInventory.Controllers
     public class InventoryController : Controller
     {
         private readonly IInventoryService _inventoryService;
+        private readonly IQuickBooksConnectionService _quickBooksConnectionService;
 
-        public InventoryController(IInventoryService inventoryService)
+        public InventoryController(IInventoryService inventoryService, IQuickBooksConnectionService quickBooksConnectionService)
         {
             _inventoryService = inventoryService;
+            _quickBooksConnectionService = quickBooksConnectionService; 
         }
 
         // Dummy endpoint for getting a product by ID
@@ -51,6 +53,30 @@ namespace RaymarEquipmentInventory.Controllers
             }
 
             return Ok("Inventory data processed successfully.");
+        }
+
+        [HttpGet("GrabInventory")]
+        public IActionResult GrabInventory()
+        {
+            try
+            {
+                List<InventoryData> inventoryParts = _inventoryService.GetInventoryPartsFromQuickBooks();
+
+
+
+                if (inventoryParts == null || inventoryParts.Count == 0)
+                {
+                    return NotFound("No inventory parts found.");
+                }
+
+
+                return Ok(inventoryParts); // Returns a 200 status code with inventory data
+            }
+            catch (Exception ex)
+            {
+                // We're catching the exception like it's a wild steer in the middle of a stampede.
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }
