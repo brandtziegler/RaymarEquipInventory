@@ -55,7 +55,7 @@ namespace RaymarEquipmentInventory.Controllers
             return Ok("Inventory data processed successfully.");
         }
 
-        [HttpGet("GrabInventory")]
+        [HttpGet("GrabInventoryAndUpdate")]
         public IActionResult GrabInventory()
         {
             try
@@ -68,7 +68,10 @@ namespace RaymarEquipmentInventory.Controllers
                 {
                     return NotFound("No inventory parts found.");
                 }
+                else
+                {
 
+                }
 
                 return Ok(inventoryParts); // Returns a 200 status code with inventory data
             }

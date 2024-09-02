@@ -13,5 +13,8 @@
         public int? OnHand { get; set; }
         public decimal? AverageCost { get; set; }
         public int? IncomeAccountId { get; set; }
+        public DateTime? CreatedDate { get; set; } = default(DateTime?);
+
+        public DateTime? UpdatedDate { get;set; }   
     }
 }
