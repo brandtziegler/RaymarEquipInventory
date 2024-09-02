@@ -32,8 +32,8 @@ namespace RaymarEquipmentInventory.Services
         public List<InventoryData> GetInventoryPartsFromQuickBooks()
         {
             var inventoryParts = new List<InventoryData>();
-            string query = "SELECT TOP 1 Name FROM Customers";
-            string otherQuery = "SELECT Name, Description, QuantityOnHand, SalesPrice FROM Items WHERE Type = 'Inventory'";
+           
+            string otherQuery = "SELECT ID, Name, PartNumber, Description, PurchaseCost, Price, QuantityOnHand, ReorderPoint FROM Items WHERE Type = 'Inventory'";
             try
             {
                 _quickBooksConnectionService.OpenConnection();
@@ -43,18 +43,33 @@ namespace RaymarEquipmentInventory.Services
                     {
                         while (reader.Read())
                         {
+                            var inventoryIdTest = reader["ID"].ToString();
+                            var itmNameTest = reader["Name"].ToString();
+                            var manuPartNumTest = reader["PartNumber"].ToString();
+                            var descTest = reader["Description"].ToString();
+                            var costTest = reader["PurchaseCost"].ToString();
+                            var salePriceText = reader["Price"].ToString();
+                            var qtyTest = reader["QuantityOnHand"].ToString();
+                            //var reorderPointTest = reader["ReorderPoint"].ToString();
+                            
+
                             inventoryParts.Add(new InventoryData
                             {
-
-                                Description = reader["Description"].ToString(),
-                                OnHand = Convert.ToInt32(reader["QuantityOnHand"]),
-                                SalesPrice = Convert.ToDecimal(reader["SalesPrice"])
+                                InventoryId = CleanString(reader["ID"].ToString()),
+                                ItemName = CleanString(reader["Name"].ToString()),
+                                ManufacturerPartNumber = CleanString(reader["PartNumber"].ToString()),
+                                Description = CleanString(reader["Description"].ToString()),
+                                Cost = ParseDecimal(reader["PurchaseCost"] ?? 0),
+                                SalesPrice = ParseDecimal(reader["Price"] ?? 0),
+                                ReorderPoint = ParseInt(reader["ReorderPoint"]),
+                                OnHand = ParseInt(reader["QuantityOnHand"] ?? 0),
                             });
+
                         }
                     }
-                }
 
-                _quickBooksConnectionService.CloseConnection();
+                    _quickBooksConnectionService.CloseConnection();
+                }
             }
             catch (Exception ex)
             {
@@ -63,6 +78,40 @@ namespace RaymarEquipmentInventory.Services
             }
 
             return inventoryParts;
+        }
+
+
+        private static string CleanString(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            // Remove non-printable characters and trim whitespace
+            return new string(input.Where(c => !char.IsControl(c)).ToArray()).Trim();
+        }
+
+        // Method to safely parse decimals
+        private static decimal? ParseDecimal(object input)
+        {
+            if (input == null || input == DBNull.Value)
+                return null;
+
+            if (decimal.TryParse(input.ToString(), out decimal result))
+                return result;
+
+            return null; // Or return a default value if needed
+        }
+
+        // Method to safely parse integers
+        private static int? ParseInt(object input)
+        {
+            if (input == null || input == DBNull.Value)
+                return null;
+
+            if (int.TryParse(input.ToString(), out int result))
+                return result;
+
+            return null; // Or return a default value if needed
         }
 
     }

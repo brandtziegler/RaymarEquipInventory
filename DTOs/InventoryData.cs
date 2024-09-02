@@ -2,7 +2,7 @@
 {
     public class InventoryData
     {
-        public int InventoryId { get; set; }
+        public string InventoryId { get; set; }
         public string ItemName { get; set; }
         public string ManufacturerPartNumber { get; set; }
         public string Description { get; set; }
