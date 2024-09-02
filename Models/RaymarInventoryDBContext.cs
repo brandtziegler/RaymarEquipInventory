@@ -49,6 +49,10 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.ManufacturerPartNumber)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.QuickBooksInvId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("QuickBooksInvID");
             entity.Property(e => e.SalesPrice).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.IncomeAccount).WithMany(p => p.InventoryData)

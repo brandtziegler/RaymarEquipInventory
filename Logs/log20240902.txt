@@ -386,3 +386,331 @@
 2024-09-02 16:21:29.416 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventory - null null
 2024-09-02 16:21:29.425 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
 2024-09-02 16:21:29.434 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-02 18:02:59.754 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-02 18:02:59.777 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-02 18:02:59.779 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-02 18:02:59.779 -04:00 [INF] Hosting environment: Development
+2024-09-02 18:02:59.780 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2024-09-02 18:03:01.022 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-02 18:03:01.291 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 271.5129ms
+2024-09-02 18:03:01.322 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-02 18:03:01.322 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-02 18:03:01.330 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 8.3158ms
+2024-09-02 18:03:01.382 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 60.1411ms
+2024-09-02 18:03:01.404 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-02 18:03:01.483 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 79.4989ms
+2024-09-02 18:03:40.363 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventoryAndUpdate - null null
+2024-09-02 18:03:40.370 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 18:03:40.384 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-02 18:08:11.061 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-02 18:08:11.123 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-02 18:08:11.124 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-02 18:08:11.125 -04:00 [INF] Hosting environment: Development
+2024-09-02 18:08:11.125 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2024-09-02 18:08:11.679 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-02 18:08:11.825 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 149.2321ms
+2024-09-02 18:08:11.865 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-02 18:08:11.865 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-02 18:08:11.871 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.9902ms
+2024-09-02 18:08:11.896 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 31.696ms
+2024-09-02 18:08:11.922 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-02 18:08:11.998 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 76.0703ms
+2024-09-02 18:08:46.648 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventoryAndUpdate - null null
+2024-09-02 18:08:46.654 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 18:08:46.663 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-02 18:09:55.910 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-02 18:09:56.004 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-02 18:09:56.006 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-02 18:09:56.007 -04:00 [INF] Hosting environment: Development
+2024-09-02 18:09:56.007 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2024-09-02 18:09:56.581 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-02 18:09:56.737 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 161.4248ms
+2024-09-02 18:09:56.769 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-02 18:09:56.769 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-02 18:09:56.783 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 14.7922ms
+2024-09-02 18:09:56.808 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 39.1258ms
+2024-09-02 18:09:56.831 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-02 18:09:56.912 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 82.0195ms
+2024-09-02 18:10:42.950 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventoryAndUpdate - null null
+2024-09-02 18:10:42.955 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 18:10:42.964 -04:00 [INF] Route matched with {action = "GrabInventory", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GrabInventory() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-02 18:11:20.962 -04:00 [INF] Executed DbCommand (138ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.036 -04:00 [INF] Executed DbCommand (50ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.085 -04:00 [INF] Executed DbCommand (45ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.129 -04:00 [INF] Executed DbCommand (42ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.174 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.218 -04:00 [INF] Executed DbCommand (41ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.262 -04:00 [INF] Executed DbCommand (42ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.303 -04:00 [INF] Executed DbCommand (40ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.347 -04:00 [INF] Executed DbCommand (40ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.402 -04:00 [INF] Executed DbCommand (53ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.445 -04:00 [INF] Executed DbCommand (41ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.498 -04:00 [INF] Executed DbCommand (51ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.549 -04:00 [INF] Executed DbCommand (49ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.608 -04:00 [INF] Executed DbCommand (57ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.654 -04:00 [INF] Executed DbCommand (44ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.701 -04:00 [INF] Executed DbCommand (44ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.744 -04:00 [INF] Executed DbCommand (41ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.790 -04:00 [INF] Executed DbCommand (44ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.834 -04:00 [INF] Executed DbCommand (41ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.878 -04:00 [INF] Executed DbCommand (42ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.924 -04:00 [INF] Executed DbCommand (44ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:37.976 -04:00 [INF] Executed DbCommand (49ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.020 -04:00 [INF] Executed DbCommand (42ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.084 -04:00 [INF] Executed DbCommand (60ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.128 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.175 -04:00 [INF] Executed DbCommand (45ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.223 -04:00 [INF] Executed DbCommand (47ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.269 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.312 -04:00 [INF] Executed DbCommand (41ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.356 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.401 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.444 -04:00 [INF] Executed DbCommand (41ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.490 -04:00 [INF] Executed DbCommand (44ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.540 -04:00 [INF] Executed DbCommand (49ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.589 -04:00 [INF] Executed DbCommand (47ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.635 -04:00 [INF] Executed DbCommand (44ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.679 -04:00 [INF] Executed DbCommand (42ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.723 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.765 -04:00 [INF] Executed DbCommand (40ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.808 -04:00 [INF] Executed DbCommand (41ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.852 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.897 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.941 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:38.996 -04:00 [INF] Executed DbCommand (53ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:39.039 -04:00 [INF] Executed DbCommand (42ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:39.083 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:39.129 -04:00 [INF] Executed DbCommand (45ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:39.178 -04:00 [INF] Executed DbCommand (47ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:39.223 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:39.267 -04:00 [INF] Executed DbCommand (43ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:39.309 -04:00 [INF] Executed DbCommand (40ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:39.357 -04:00 [INF] Executed DbCommand (46ms) [Parameters=[@__inventoryPart_InventoryId_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+WHERE [i].[QuickBooksInvID] = @__inventoryPart_InventoryId_0
+2024-09-02 18:11:42.418 -04:00 [INF] Executed DbCommand (85ms) [Parameters=[@p0='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p1='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p2='?' (Size = 255) (DbType = AnsiString), @p3='?' (DbType = Int32), @p4='?' (Size = 100) (DbType = AnsiString), @p5='?' (Size = 50) (DbType = AnsiString), @p6='?' (DbType = Int32), @p7='?' (Size = 50) (DbType = AnsiString), @p8='?' (DbType = Int32), @p9='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p10='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p11='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p12='?' (Size = 255) (DbType = AnsiString), @p13='?' (DbType = Int32), @p14='?' (Size = 100) (DbType = AnsiString), @p15='?' (Size = 50) (DbType = AnsiString), @p16='?' (DbType = Int32), @p17='?' (Size = 50) (DbType = AnsiString), @p18='?' (DbType = Int32), @p19='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p20='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p21='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p22='?' (Size = 255) (DbType = AnsiString), @p23='?' (DbType = Int32), @p24='?' (Size = 100) (DbType = AnsiString), @p25='?' (Size = 50) (DbType = AnsiString), @p26='?' (DbType = Int32), @p27='?' (Size = 50) (DbType = AnsiString), @p28='?' (DbType = Int32), @p29='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p30='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p31='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p32='?' (Size = 255) (DbType = AnsiString), @p33='?' (DbType = Int32), @p34='?' (Size = 100) (DbType = AnsiString), @p35='?' (Size = 50) (DbType = AnsiString), @p36='?' (DbType = Int32), @p37='?' (Size = 50) (DbType = AnsiString), @p38='?' (DbType = Int32), @p39='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p40='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p41='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p42='?' (Size = 255) (DbType = AnsiString), @p43='?' (DbType = Int32), @p44='?' (Size = 100) (DbType = AnsiString), @p45='?' (Size = 50) (DbType = AnsiString), @p46='?' (DbType = Int32), @p47='?' (Size = 50) (DbType = AnsiString), @p48='?' (DbType = Int32), @p49='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p50='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p51='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p52='?' (Size = 255) (DbType = AnsiString), @p53='?' (DbType = Int32), @p54='?' (Size = 100) (DbType = AnsiString), @p55='?' (Size = 50) (DbType = AnsiString), @p56='?' (DbType = Int32), @p57='?' (Size = 50) (DbType = AnsiString), @p58='?' (DbType = Int32), @p59='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p60='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p61='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p62='?' (Size = 255) (DbType = AnsiString), @p63='?' (DbType = Int32), @p64='?' (Size = 100) (DbType = AnsiString), @p65='?' (Size = 50) (DbType = AnsiString), @p66='?' (DbType = Int32), @p67='?' (Size = 50) (DbType = AnsiString), @p68='?' (DbType = Int32), @p69='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p70='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p71='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p72='?' (Size = 255) (DbType = AnsiString), @p73='?' (DbType = Int32), @p74='?' (Size = 100) (DbType = AnsiString), @p75='?' (Size = 50) (DbType = AnsiString), @p76='?' (DbType = Int32), @p77='?' (Size = 50) (DbType = AnsiString), @p78='?' (DbType = Int32), @p79='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p80='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p81='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p82='?' (Size = 255) (DbType = AnsiString), @p83='?' (DbType = Int32), @p84='?' (Size = 100) (DbType = AnsiString), @p85='?' (Size = 50) (DbType = AnsiString), @p86='?' (DbType = Int32), @p87='?' (Size = 50) (DbType = AnsiString), @p88='?' (DbType = Int32), @p89='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p90='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p91='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p92='?' (Size = 255) (DbType = AnsiString), @p93='?' (DbType = Int32), @p94='?' (Size = 100) (DbType = AnsiString), @p95='?' (Size = 50) (DbType = AnsiString), @p96='?' (DbType = Int32), @p97='?' (Size = 50) (DbType = AnsiString), @p98='?' (DbType = Int32), @p99='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p100='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p101='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p102='?' (Size = 255) (DbType = AnsiString), @p103='?' (DbType = Int32), @p104='?' (Size = 100) (DbType = AnsiString), @p105='?' (Size = 50) (DbType = AnsiString), @p106='?' (DbType = Int32), @p107='?' (Size = 50) (DbType = AnsiString), @p108='?' (DbType = Int32), @p109='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p110='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p111='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p112='?' (Size = 255) (DbType = AnsiString), @p113='?' (DbType = Int32), @p114='?' (Size = 100) (DbType = AnsiString), @p115='?' (Size = 50) (DbType = AnsiString), @p116='?' (DbType = Int32), @p117='?' (Size = 50) (DbType = AnsiString), @p118='?' (DbType = Int32), @p119='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p120='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p121='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p122='?' (Size = 255) (DbType = AnsiString), @p123='?' (DbType = Int32), @p124='?' (Size = 100) (DbType = AnsiString), @p125='?' (Size = 50) (DbType = AnsiString), @p126='?' (DbType = Int32), @p127='?' (Size = 50) (DbType = AnsiString), @p128='?' (DbType = Int32), @p129='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p130='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p131='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p132='?' (Size = 255) (DbType = AnsiString), @p133='?' (DbType = Int32), @p134='?' (Size = 100) (DbType = AnsiString), @p135='?' (Size = 50) (DbType = AnsiString), @p136='?' (DbType = Int32), @p137='?' (Size = 50) (DbType = AnsiString), @p138='?' (DbType = Int32), @p139='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p140='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p141='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p142='?' (Size = 255) (DbType = AnsiString), @p143='?' (DbType = Int32), @p144='?' (Size = 100) (DbType = AnsiString), @p145='?' (Size = 50) (DbType = AnsiString), @p146='?' (DbType = Int32), @p147='?' (Size = 50) (DbType = AnsiString), @p148='?' (DbType = Int32), @p149='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p150='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p151='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p152='?' (Size = 255) (DbType = AnsiString), @p153='?' (DbType = Int32), @p154='?' (Size = 100) (DbType = AnsiString), @p155='?' (Size = 50) (DbType = AnsiString), @p156='?' (DbType = Int32), @p157='?' (Size = 50) (DbType = AnsiString), @p158='?' (DbType = Int32), @p159='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p160='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p161='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p162='?' (Size = 255) (DbType = AnsiString), @p163='?' (DbType = Int32), @p164='?' (Size = 100) (DbType = AnsiString), @p165='?' (Size = 50) (DbType = AnsiString), @p166='?' (DbType = Int32), @p167='?' (Size = 50) (DbType = AnsiString), @p168='?' (DbType = Int32), @p169='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p170='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p171='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p172='?' (Size = 255) (DbType = AnsiString), @p173='?' (DbType = Int32), @p174='?' (Size = 100) (DbType = AnsiString), @p175='?' (Size = 50) (DbType = AnsiString), @p176='?' (DbType = Int32), @p177='?' (Size = 50) (DbType = AnsiString), @p178='?' (DbType = Int32), @p179='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p180='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p181='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p182='?' (Size = 255) (DbType = AnsiString), @p183='?' (DbType = Int32), @p184='?' (Size = 100) (DbType = AnsiString), @p185='?' (Size = 50) (DbType = AnsiString), @p186='?' (DbType = Int32), @p187='?' (Size = 50) (DbType = AnsiString), @p188='?' (DbType = Int32), @p189='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p190='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p191='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p192='?' (Size = 255) (DbType = AnsiString), @p193='?' (DbType = Int32), @p194='?' (Size = 100) (DbType = AnsiString), @p195='?' (Size = 50) (DbType = AnsiString), @p196='?' (DbType = Int32), @p197='?' (Size = 50) (DbType = AnsiString), @p198='?' (DbType = Int32), @p199='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p200='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p201='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p202='?' (Size = 255) (DbType = AnsiString), @p203='?' (DbType = Int32), @p204='?' (Size = 100) (DbType = AnsiString), @p205='?' (Size = 50) (DbType = AnsiString), @p206='?' (DbType = Int32), @p207='?' (Size = 50) (DbType = AnsiString), @p208='?' (DbType = Int32), @p209='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p210='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p211='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p212='?' (Size = 255) (DbType = AnsiString), @p213='?' (DbType = Int32), @p214='?' (Size = 100) (DbType = AnsiString), @p215='?' (Size = 50) (DbType = AnsiString), @p216='?' (DbType = Int32), @p217='?' (Size = 50) (DbType = AnsiString), @p218='?' (DbType = Int32), @p219='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p220='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p221='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p222='?' (Size = 255) (DbType = AnsiString), @p223='?' (DbType = Int32), @p224='?' (Size = 100) (DbType = AnsiString), @p225='?' (Size = 50) (DbType = AnsiString), @p226='?' (DbType = Int32), @p227='?' (Size = 50) (DbType = AnsiString), @p228='?' (DbType = Int32), @p229='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p230='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p231='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p232='?' (Size = 255) (DbType = AnsiString), @p233='?' (DbType = Int32), @p234='?' (Size = 100) (DbType = AnsiString), @p235='?' (Size = 50) (DbType = AnsiString), @p236='?' (DbType = Int32), @p237='?' (Size = 50) (DbType = AnsiString), @p238='?' (DbType = Int32), @p239='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p240='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p241='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p242='?' (Size = 255) (DbType = AnsiString), @p243='?' (DbType = Int32), @p244='?' (Size = 100) (DbType = AnsiString), @p245='?' (Size = 50) (DbType = AnsiString), @p246='?' (DbType = Int32), @p247='?' (Size = 50) (DbType = AnsiString), @p248='?' (DbType = Int32), @p249='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p250='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p251='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p252='?' (Size = 255) (DbType = AnsiString), @p253='?' (DbType = Int32), @p254='?' (Size = 100) (DbType = AnsiString), @p255='?' (Size = 50) (DbType = AnsiString), @p256='?' (DbType = Int32), @p257='?' (Size = 50) (DbType = AnsiString), @p258='?' (DbType = Int32), @p259='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p260='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p261='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p262='?' (Size = 255) (DbType = AnsiString), @p263='?' (DbType = Int32), @p264='?' (Size = 100) (DbType = AnsiString), @p265='?' (Size = 50) (DbType = AnsiString), @p266='?' (DbType = Int32), @p267='?' (Size = 50) (DbType = AnsiString), @p268='?' (DbType = Int32), @p269='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p270='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p271='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p272='?' (Size = 255) (DbType = AnsiString), @p273='?' (DbType = Int32), @p274='?' (Size = 100) (DbType = AnsiString), @p275='?' (Size = 50) (DbType = AnsiString), @p276='?' (DbType = Int32), @p277='?' (Size = 50) (DbType = AnsiString), @p278='?' (DbType = Int32), @p279='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p280='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p281='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p282='?' (Size = 255) (DbType = AnsiString), @p283='?' (DbType = Int32), @p284='?' (Size = 100) (DbType = AnsiString), @p285='?' (Size = 50) (DbType = AnsiString), @p286='?' (DbType = Int32), @p287='?' (Size = 50) (DbType = AnsiString), @p288='?' (DbType = Int32), @p289='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p290='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p291='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p292='?' (Size = 255) (DbType = AnsiString), @p293='?' (DbType = Int32), @p294='?' (Size = 100) (DbType = AnsiString), @p295='?' (Size = 50) (DbType = AnsiString), @p296='?' (DbType = Int32), @p297='?' (Size = 50) (DbType = AnsiString), @p298='?' (DbType = Int32), @p299='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p300='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p301='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p302='?' (Size = 255) (DbType = AnsiString), @p303='?' (DbType = Int32), @p304='?' (Size = 100) (DbType = AnsiString), @p305='?' (Size = 50) (DbType = AnsiString), @p306='?' (DbType = Int32), @p307='?' (Size = 50) (DbType = AnsiString), @p308='?' (DbType = Int32), @p309='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p310='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p311='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p312='?' (Size = 255) (DbType = AnsiString), @p313='?' (DbType = Int32), @p314='?' (Size = 100) (DbType = AnsiString), @p315='?' (Size = 50) (DbType = AnsiString), @p316='?' (DbType = Int32), @p317='?' (Size = 50) (DbType = AnsiString), @p318='?' (DbType = Int32), @p319='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p320='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p321='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p322='?' (Size = 255) (DbType = AnsiString), @p323='?' (DbType = Int32), @p324='?' (Size = 100) (DbType = AnsiString), @p325='?' (Size = 50) (DbType = AnsiString), @p326='?' (DbType = Int32), @p327='?' (Size = 50) (DbType = AnsiString), @p328='?' (DbType = Int32), @p329='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p330='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p331='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p332='?' (Size = 255) (DbType = AnsiString), @p333='?' (DbType = Int32), @p334='?' (Size = 100) (DbType = AnsiString), @p335='?' (Size = 50) (DbType = AnsiString), @p336='?' (DbType = Int32), @p337='?' (Size = 50) (DbType = AnsiString), @p338='?' (DbType = Int32), @p339='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p340='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p341='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p342='?' (Size = 255) (DbType = AnsiString), @p343='?' (DbType = Int32), @p344='?' (Size = 100) (DbType = AnsiString), @p345='?' (Size = 50) (DbType = AnsiString), @p346='?' (DbType = Int32), @p347='?' (Size = 50) (DbType = AnsiString), @p348='?' (DbType = Int32), @p349='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p350='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p351='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p352='?' (Size = 255) (DbType = AnsiString), @p353='?' (DbType = Int32), @p354='?' (Size = 100) (DbType = AnsiString), @p355='?' (Size = 50) (DbType = AnsiString), @p356='?' (DbType = Int32), @p357='?' (Size = 50) (DbType = AnsiString), @p358='?' (DbType = Int32), @p359='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p360='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p361='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p362='?' (Size = 255) (DbType = AnsiString), @p363='?' (DbType = Int32), @p364='?' (Size = 100) (DbType = AnsiString), @p365='?' (Size = 50) (DbType = AnsiString), @p366='?' (DbType = Int32), @p367='?' (Size = 50) (DbType = AnsiString), @p368='?' (DbType = Int32), @p369='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p370='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p371='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p372='?' (Size = 255) (DbType = AnsiString), @p373='?' (DbType = Int32), @p374='?' (Size = 100) (DbType = AnsiString), @p375='?' (Size = 50) (DbType = AnsiString), @p376='?' (DbType = Int32), @p377='?' (Size = 50) (DbType = AnsiString), @p378='?' (DbType = Int32), @p379='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p380='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p381='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p382='?' (Size = 255) (DbType = AnsiString), @p383='?' (DbType = Int32), @p384='?' (Size = 100) (DbType = AnsiString), @p385='?' (Size = 50) (DbType = AnsiString), @p386='?' (DbType = Int32), @p387='?' (Size = 50) (DbType = AnsiString), @p388='?' (DbType = Int32), @p389='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p390='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p391='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p392='?' (Size = 255) (DbType = AnsiString), @p393='?' (DbType = Int32), @p394='?' (Size = 100) (DbType = AnsiString), @p395='?' (Size = 50) (DbType = AnsiString), @p396='?' (DbType = Int32), @p397='?' (Size = 50) (DbType = AnsiString), @p398='?' (DbType = Int32), @p399='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p400='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p401='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p402='?' (Size = 255) (DbType = AnsiString), @p403='?' (DbType = Int32), @p404='?' (Size = 100) (DbType = AnsiString), @p405='?' (Size = 50) (DbType = AnsiString), @p406='?' (DbType = Int32), @p407='?' (Size = 50) (DbType = AnsiString), @p408='?' (DbType = Int32), @p409='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p410='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p411='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p412='?' (Size = 255) (DbType = AnsiString), @p413='?' (DbType = Int32), @p414='?' (Size = 100) (DbType = AnsiString), @p415='?' (Size = 50) (DbType = AnsiString), @p416='?' (DbType = Int32), @p417='?' (Size = 50) (DbType = AnsiString), @p418='?' (DbType = Int32), @p419='?' (Precision = 10) (Scale = 2) (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+MERGE [InventoryData] USING (
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, 0),
+(@p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, 1),
+(@p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, 2),
+(@p30, @p31, @p32, @p33, @p34, @p35, @p36, @p37, @p38, @p39, 3),
+(@p40, @p41, @p42, @p43, @p44, @p45, @p46, @p47, @p48, @p49, 4),
+(@p50, @p51, @p52, @p53, @p54, @p55, @p56, @p57, @p58, @p59, 5),
+(@p60, @p61, @p62, @p63, @p64, @p65, @p66, @p67, @p68, @p69, 6),
+(@p70, @p71, @p72, @p73, @p74, @p75, @p76, @p77, @p78, @p79, 7),
+(@p80, @p81, @p82, @p83, @p84, @p85, @p86, @p87, @p88, @p89, 8),
+(@p90, @p91, @p92, @p93, @p94, @p95, @p96, @p97, @p98, @p99, 9),
+(@p100, @p101, @p102, @p103, @p104, @p105, @p106, @p107, @p108, @p109, 10),
+(@p110, @p111, @p112, @p113, @p114, @p115, @p116, @p117, @p118, @p119, 11),
+(@p120, @p121, @p122, @p123, @p124, @p125, @p126, @p127, @p128, @p129, 12),
+(@p130, @p131, @p132, @p133, @p134, @p135, @p136, @p137, @p138, @p139, 13),
+(@p140, @p141, @p142, @p143, @p144, @p145, @p146, @p147, @p148, @p149, 14),
+(@p150, @p151, @p152, @p153, @p154, @p155, @p156, @p157, @p158, @p159, 15),
+(@p160, @p161, @p162, @p163, @p164, @p165, @p166, @p167, @p168, @p169, 16),
+(@p170, @p171, @p172, @p173, @p174, @p175, @p176, @p177, @p178, @p179, 17),
+(@p180, @p181, @p182, @p183, @p184, @p185, @p186, @p187, @p188, @p189, 18),
+(@p190, @p191, @p192, @p193, @p194, @p195, @p196, @p197, @p198, @p199, 19),
+(@p200, @p201, @p202, @p203, @p204, @p205, @p206, @p207, @p208, @p209, 20),
+(@p210, @p211, @p212, @p213, @p214, @p215, @p216, @p217, @p218, @p219, 21),
+(@p220, @p221, @p222, @p223, @p224, @p225, @p226, @p227, @p228, @p229, 22),
+(@p230, @p231, @p232, @p233, @p234, @p235, @p236, @p237, @p238, @p239, 23),
+(@p240, @p241, @p242, @p243, @p244, @p245, @p246, @p247, @p248, @p249, 24),
+(@p250, @p251, @p252, @p253, @p254, @p255, @p256, @p257, @p258, @p259, 25),
+(@p260, @p261, @p262, @p263, @p264, @p265, @p266, @p267, @p268, @p269, 26),
+(@p270, @p271, @p272, @p273, @p274, @p275, @p276, @p277, @p278, @p279, 27),
+(@p280, @p281, @p282, @p283, @p284, @p285, @p286, @p287, @p288, @p289, 28),
+(@p290, @p291, @p292, @p293, @p294, @p295, @p296, @p297, @p298, @p299, 29),
+(@p300, @p301, @p302, @p303, @p304, @p305, @p306, @p307, @p308, @p309, 30),
+(@p310, @p311, @p312, @p313, @p314, @p315, @p316, @p317, @p318, @p319, 31),
+(@p320, @p321, @p322, @p323, @p324, @p325, @p326, @p327, @p328, @p329, 32),
+(@p330, @p331, @p332, @p333, @p334, @p335, @p336, @p337, @p338, @p339, 33),
+(@p340, @p341, @p342, @p343, @p344, @p345, @p346, @p347, @p348, @p349, 34),
+(@p350, @p351, @p352, @p353, @p354, @p355, @p356, @p357, @p358, @p359, 35),
+(@p360, @p361, @p362, @p363, @p364, @p365, @p366, @p367, @p368, @p369, 36),
+(@p370, @p371, @p372, @p373, @p374, @p375, @p376, @p377, @p378, @p379, 37),
+(@p380, @p381, @p382, @p383, @p384, @p385, @p386, @p387, @p388, @p389, 38),
+(@p390, @p391, @p392, @p393, @p394, @p395, @p396, @p397, @p398, @p399, 39),
+(@p400, @p401, @p402, @p403, @p404, @p405, @p406, @p407, @p408, @p409, 40),
+(@p410, @p411, @p412, @p413, @p414, @p415, @p416, @p417, @p418, @p419, 41)) AS i ([AverageCost], [Cost], [Description], [IncomeAccountID], [ItemName], [ManufacturerPartNumber], [OnHand], [QuickBooksInvID], [ReorderPoint], [SalesPrice], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([AverageCost], [Cost], [Description], [IncomeAccountID], [ItemName], [ManufacturerPartNumber], [OnHand], [QuickBooksInvID], [ReorderPoint], [SalesPrice])
+VALUES (i.[AverageCost], i.[Cost], i.[Description], i.[IncomeAccountID], i.[ItemName], i.[ManufacturerPartNumber], i.[OnHand], i.[QuickBooksInvID], i.[ReorderPoint], i.[SalesPrice])
+OUTPUT INSERTED.[InventoryID], i._Position;
+2024-09-02 18:11:42.526 -04:00 [INF] Executed DbCommand (94ms) [Parameters=[@p0='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p1='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p2='?' (Size = 255) (DbType = AnsiString), @p3='?' (DbType = Int32), @p4='?' (Size = 100) (DbType = AnsiString), @p5='?' (Size = 50) (DbType = AnsiString), @p6='?' (DbType = Int32), @p7='?' (Size = 50) (DbType = AnsiString), @p8='?' (DbType = Int32), @p9='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p10='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p11='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p12='?' (Size = 255) (DbType = AnsiString), @p13='?' (DbType = Int32), @p14='?' (Size = 100) (DbType = AnsiString), @p15='?' (Size = 50) (DbType = AnsiString), @p16='?' (DbType = Int32), @p17='?' (Size = 50) (DbType = AnsiString), @p18='?' (DbType = Int32), @p19='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p20='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p21='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p22='?' (Size = 255) (DbType = AnsiString), @p23='?' (DbType = Int32), @p24='?' (Size = 100) (DbType = AnsiString), @p25='?' (Size = 50) (DbType = AnsiString), @p26='?' (DbType = Int32), @p27='?' (Size = 50) (DbType = AnsiString), @p28='?' (DbType = Int32), @p29='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p30='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p31='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p32='?' (Size = 255) (DbType = AnsiString), @p33='?' (DbType = Int32), @p34='?' (Size = 100) (DbType = AnsiString), @p35='?' (Size = 50) (DbType = AnsiString), @p36='?' (DbType = Int32), @p37='?' (Size = 50) (DbType = AnsiString), @p38='?' (DbType = Int32), @p39='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p40='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p41='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p42='?' (Size = 255) (DbType = AnsiString), @p43='?' (DbType = Int32), @p44='?' (Size = 100) (DbType = AnsiString), @p45='?' (Size = 50) (DbType = AnsiString), @p46='?' (DbType = Int32), @p47='?' (Size = 50) (DbType = AnsiString), @p48='?' (DbType = Int32), @p49='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p50='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p51='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p52='?' (Size = 255) (DbType = AnsiString), @p53='?' (DbType = Int32), @p54='?' (Size = 100) (DbType = AnsiString), @p55='?' (Size = 50) (DbType = AnsiString), @p56='?' (DbType = Int32), @p57='?' (Size = 50) (DbType = AnsiString), @p58='?' (DbType = Int32), @p59='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p60='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p61='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p62='?' (Size = 255) (DbType = AnsiString), @p63='?' (DbType = Int32), @p64='?' (Size = 100) (DbType = AnsiString), @p65='?' (Size = 50) (DbType = AnsiString), @p66='?' (DbType = Int32), @p67='?' (Size = 50) (DbType = AnsiString), @p68='?' (DbType = Int32), @p69='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p70='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p71='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p72='?' (Size = 255) (DbType = AnsiString), @p73='?' (DbType = Int32), @p74='?' (Size = 100) (DbType = AnsiString), @p75='?' (Size = 50) (DbType = AnsiString), @p76='?' (DbType = Int32), @p77='?' (Size = 50) (DbType = AnsiString), @p78='?' (DbType = Int32), @p79='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p80='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p81='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p82='?' (Size = 255) (DbType = AnsiString), @p83='?' (DbType = Int32), @p84='?' (Size = 100) (DbType = AnsiString), @p85='?' (Size = 50) (DbType = AnsiString), @p86='?' (DbType = Int32), @p87='?' (Size = 50) (DbType = AnsiString), @p88='?' (DbType = Int32), @p89='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p90='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p91='?' (Precision = 10) (Scale = 2) (DbType = Decimal), @p92='?' (Size = 255) (DbType = AnsiString), @p93='?' (DbType = Int32), @p94='?' (Size = 100) (DbType = AnsiString), @p95='?' (Size = 50) (DbType = AnsiString), @p96='?' (DbType = Int32), @p97='?' (Size = 50) (DbType = AnsiString), @p98='?' (DbType = Int32), @p99='?' (Precision = 10) (Scale = 2) (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+MERGE [InventoryData] USING (
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, 0),
+(@p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, 1),
+(@p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, 2),
+(@p30, @p31, @p32, @p33, @p34, @p35, @p36, @p37, @p38, @p39, 3),
+(@p40, @p41, @p42, @p43, @p44, @p45, @p46, @p47, @p48, @p49, 4),
+(@p50, @p51, @p52, @p53, @p54, @p55, @p56, @p57, @p58, @p59, 5),
+(@p60, @p61, @p62, @p63, @p64, @p65, @p66, @p67, @p68, @p69, 6),
+(@p70, @p71, @p72, @p73, @p74, @p75, @p76, @p77, @p78, @p79, 7),
+(@p80, @p81, @p82, @p83, @p84, @p85, @p86, @p87, @p88, @p89, 8),
+(@p90, @p91, @p92, @p93, @p94, @p95, @p96, @p97, @p98, @p99, 9)) AS i ([AverageCost], [Cost], [Description], [IncomeAccountID], [ItemName], [ManufacturerPartNumber], [OnHand], [QuickBooksInvID], [ReorderPoint], [SalesPrice], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([AverageCost], [Cost], [Description], [IncomeAccountID], [ItemName], [ManufacturerPartNumber], [OnHand], [QuickBooksInvID], [ReorderPoint], [SalesPrice])
+VALUES (i.[AverageCost], i.[Cost], i.[Description], i.[IncomeAccountID], i.[ItemName], i.[ManufacturerPartNumber], i.[OnHand], i.[QuickBooksInvID], i.[ReorderPoint], i.[SalesPrice])
+OUTPUT INSERTED.[InventoryID], i._Position;
+2024-09-02 18:11:43.721 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryData, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-02 18:11:43.746 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory) in 60778.7407ms
+2024-09-02 18:11:43.747 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventory (RaymarEquipmentInventory)'
+2024-09-02 18:11:43.752 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventoryAndUpdate - 200 null application/json; charset=utf-8 60801.8152ms

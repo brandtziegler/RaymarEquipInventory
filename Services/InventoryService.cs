@@ -12,10 +12,11 @@ namespace RaymarEquipmentInventory.Services
     {
 
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
-
-        public InventoryService(IQuickBooksConnectionService quickBooksConnectionService)
+        private readonly RaymarInventoryDBContext _context;
+        public InventoryService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context)
         {
             _quickBooksConnectionService = quickBooksConnectionService;
+            _context = context;
         }
         public string GetProductById(int id)
         {
@@ -43,16 +44,6 @@ namespace RaymarEquipmentInventory.Services
                     {
                         while (reader.Read())
                         {
-                            var inventoryIdTest = reader["ID"].ToString();
-                            var itmNameTest = reader["Name"].ToString();
-                            var manuPartNumTest = reader["PartNumber"].ToString();
-                            var descTest = reader["Description"].ToString();
-                            var costTest = reader["PurchaseCost"].ToString();
-                            var salePriceText = reader["Price"].ToString();
-                            var qtyTest = reader["QuantityOnHand"].ToString();
-                            //var reorderPointTest = reader["ReorderPoint"].ToString();
-                            
-
                             inventoryParts.Add(new InventoryData
                             {
                                 InventoryId = CleanString(reader["ID"].ToString()),
@@ -69,6 +60,36 @@ namespace RaymarEquipmentInventory.Services
                     }
 
                     _quickBooksConnectionService.CloseConnection();
+
+                    foreach (var inventoryPart in inventoryParts)
+                    {
+                        var mappedInventory = MapDtoToModel(inventoryPart);
+                        var existingInventory = _context.InventoryData.FirstOrDefault(i => i.QuickBooksInvId == inventoryPart.InventoryId);
+                        if (existingInventory != null)
+                        {
+                            // Update existing record
+                            existingInventory.ItemName = inventoryPart.ItemName;
+                            existingInventory.QuickBooksInvId = inventoryPart.InventoryId;
+                            existingInventory.ManufacturerPartNumber = inventoryPart.ManufacturerPartNumber;
+                            existingInventory.Description = inventoryPart.Description;
+                            existingInventory.Cost = inventoryPart.Cost;
+                            existingInventory.SalesPrice = inventoryPart.SalesPrice;
+                            existingInventory.ReorderPoint = inventoryPart.ReorderPoint;
+                            existingInventory.OnHand = inventoryPart.OnHand;
+
+                            // Update additional fields as necessary
+                            _context.InventoryData.Update(existingInventory);
+                        }
+                        else
+                        {
+                            // Insert new record
+                            _context.InventoryData.Add(mappedInventory);
+                        }
+
+                        //We are going to try to either insert records into _context.InventoryData or update _context.InventoryData
+                        //depending on if the InventoryId is already found in QuickBooksInvId
+
+                    }
                 }
             }
             catch (Exception ex)
@@ -76,11 +97,25 @@ namespace RaymarEquipmentInventory.Services
                 Console.WriteLine($"Well, ain't that a kick in the teeth: {ex.Message}");
                 // Handle logging or re-throw as needed
             }
-
+            _context.SaveChanges();
             return inventoryParts;
         }
 
-
+        private Models.InventoryDatum MapDtoToModel(DTOs.InventoryData inventoryPart)
+        {
+            return new Models.InventoryDatum
+            {
+                QuickBooksInvId = inventoryPart.InventoryId, // Map the ID
+                ItemName = inventoryPart.ItemName,
+                ManufacturerPartNumber = inventoryPart.ManufacturerPartNumber,
+                Description = inventoryPart.Description,
+                Cost = inventoryPart.Cost,
+                SalesPrice = inventoryPart.SalesPrice,
+                ReorderPoint = inventoryPart.ReorderPoint,
+                OnHand = inventoryPart.OnHand
+                // Map additional fields as necessary
+            };
+        }
         private static string CleanString(string input)
         {
             if (string.IsNullOrEmpty(input))

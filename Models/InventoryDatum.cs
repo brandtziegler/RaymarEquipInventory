@@ -27,5 +27,7 @@ public partial class InventoryDatum
 
     public int? IncomeAccountId { get; set; }
 
+    public string QuickBooksInvId { get; set; }
+
     public virtual IncomeAccount IncomeAccount { get; set; }
 }
