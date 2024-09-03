@@ -30,6 +30,53 @@ namespace RaymarEquipmentInventory.Services
             return "Returning all products... because why not?";
         }
 
+
+        public async Task UpdateOrInsertInventoryAsync(List<InventoryData> inventoryDataList)
+        {
+            if (inventoryDataList == null || inventoryDataList.Count == 0)
+            {
+                return; // If there’s nothing to update or insert, we just move on.
+            }
+
+            try
+            {
+                foreach (var inventoryPart in inventoryDataList)
+                {
+                    var mappedInventory = MapDtoToModel(inventoryPart);
+                    var existingInventory = await _context.InventoryData
+                        .FirstOrDefaultAsync(i => i.QuickBooksInvId == inventoryPart.InventoryId); // Using async for efficiency
+
+                    if (existingInventory != null)
+                    {
+                        // Update the existing record
+                        existingInventory.ItemName = inventoryPart.ItemName;
+                        existingInventory.QuickBooksInvId = inventoryPart.InventoryId;
+                        existingInventory.ManufacturerPartNumber = inventoryPart.ManufacturerPartNumber;
+                        existingInventory.Description = inventoryPart.Description;
+                        existingInventory.Cost = inventoryPart.Cost;
+                        existingInventory.SalesPrice = inventoryPart.SalesPrice;
+                        existingInventory.ReorderPoint = inventoryPart.ReorderPoint;
+                        existingInventory.OnHand = inventoryPart.OnHand;
+
+                        // Update in the context
+                        _context.InventoryData.Update(existingInventory);
+                    }
+                    else
+                    {
+                        // Insert new record into the context
+                        await _context.InventoryData.AddAsync(mappedInventory);
+                    }
+                }
+
+                await _context.SaveChangesAsync(); // Save all changes asynchronously
+            }
+            catch (Exception ex)
+            {
+                // Log the exception - make sure you replace this with your actual logging framework
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
         public List<InventoryData> GetInventoryPartsFromQuickBooks()
         {
             var inventoryParts = new List<InventoryData>();
@@ -61,35 +108,35 @@ namespace RaymarEquipmentInventory.Services
 
                     _quickBooksConnectionService.CloseConnection();
 
-                    foreach (var inventoryPart in inventoryParts)
-                    {
-                        var mappedInventory = MapDtoToModel(inventoryPart);
-                        var existingInventory = _context.InventoryData.FirstOrDefault(i => i.QuickBooksInvId == inventoryPart.InventoryId);
-                        if (existingInventory != null)
-                        {
-                            // Update existing record
-                            existingInventory.ItemName = inventoryPart.ItemName;
-                            existingInventory.QuickBooksInvId = inventoryPart.InventoryId;
-                            existingInventory.ManufacturerPartNumber = inventoryPart.ManufacturerPartNumber;
-                            existingInventory.Description = inventoryPart.Description;
-                            existingInventory.Cost = inventoryPart.Cost;
-                            existingInventory.SalesPrice = inventoryPart.SalesPrice;
-                            existingInventory.ReorderPoint = inventoryPart.ReorderPoint;
-                            existingInventory.OnHand = inventoryPart.OnHand;
+                    //foreach (var inventoryPart in inventoryParts)
+                    //{
+                    //    var mappedInventory = MapDtoToModel(inventoryPart);
+                    //    var existingInventory = _context.InventoryData.FirstOrDefault(i => i.QuickBooksInvId == inventoryPart.InventoryId);
+                    //    if (existingInventory != null)
+                    //    {
+                    //        // Update existing record
+                    //        existingInventory.ItemName = inventoryPart.ItemName;
+                    //        existingInventory.QuickBooksInvId = inventoryPart.InventoryId;
+                    //        existingInventory.ManufacturerPartNumber = inventoryPart.ManufacturerPartNumber;
+                    //        existingInventory.Description = inventoryPart.Description;
+                    //        existingInventory.Cost = inventoryPart.Cost;
+                    //        existingInventory.SalesPrice = inventoryPart.SalesPrice;
+                    //        existingInventory.ReorderPoint = inventoryPart.ReorderPoint;
+                    //        existingInventory.OnHand = inventoryPart.OnHand;
 
-                            // Update additional fields as necessary
-                            _context.InventoryData.Update(existingInventory);
-                        }
-                        else
-                        {
-                            // Insert new record
-                            _context.InventoryData.Add(mappedInventory);
-                        }
+                    //        // Update additional fields as necessary
+                    //        _context.InventoryData.Update(existingInventory);
+                    //    }
+                    //    else
+                    //    {
+                    //        // Insert new record
+                    //        _context.InventoryData.Add(mappedInventory);
+                    //    }
 
-                        //We are going to try to either insert records into _context.InventoryData or update _context.InventoryData
-                        //depending on if the InventoryId is already found in QuickBooksInvId
+                    //    //We are going to try to either insert records into _context.InventoryData or update _context.InventoryData
+                    //    //depending on if the InventoryId is already found in QuickBooksInvId
 
-                    }
+                    //}
                 }
             }
             catch (Exception ex)
