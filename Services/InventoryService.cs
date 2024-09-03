@@ -33,6 +33,7 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task UpdateOrInsertInventoryAsync(List<InventoryData> inventoryDataList)
         {
+
             if (inventoryDataList == null || inventoryDataList.Count == 0)
             {
                 return; // If there’s nothing to update or insert, we just move on.
@@ -40,6 +41,7 @@ namespace RaymarEquipmentInventory.Services
 
             try
             {
+                var newInventoryCount = 0;
                 foreach (var inventoryPart in inventoryDataList)
                 {
                     var mappedInventory = MapDtoToModel(inventoryPart);
@@ -65,6 +67,7 @@ namespace RaymarEquipmentInventory.Services
                     {
                         // Insert new record into the context
                         await _context.InventoryData.AddAsync(mappedInventory);
+                        newInventoryCount++;
                     }
                 }
 

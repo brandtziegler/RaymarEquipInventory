@@ -70,7 +70,7 @@ namespace RaymarEquipmentInventory.Controllers
                 }
                 else
                 {
-
+                    _inventoryService.UpdateOrInsertInventoryAsync(inventoryParts); // Calls the async method to update or insert inventory data
                 }
 
                 return Ok(inventoryParts); // Returns a 200 status code with inventory data
