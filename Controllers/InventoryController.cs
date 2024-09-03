@@ -61,7 +61,7 @@ namespace RaymarEquipmentInventory.Controllers
             try
             {
                 // Await the async method to ensure it completes before moving on
-                List<InventoryData> inventoryParts = await _inventoryService.GetInventoryPartsFromQuickBooksAsync();
+                List<InventoryData> inventoryParts = await _inventoryService.GetInventoryPartsFromQuickBooksAsync(false);
 
                 if (inventoryParts == null || inventoryParts.Count == 0)
                 {

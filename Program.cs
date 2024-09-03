@@ -7,6 +7,7 @@ using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Data.SqlClient;
+using RaymarEquipmentInventory.BackgroundTasks;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -71,27 +72,32 @@ builder.Services.AddScoped<IInventoryService, InventoryService>(); // Registerin
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 
 
+builder.Host.UseWindowsService(); // This line enables running as a Windows Service
 var app = builder.Build();
 app.UseCors("AllowLocalhostOrigins");
 
-using (var connection = new SqlConnection(builder.Configuration.GetConnectionString("RaymarAzureConnection")))
-{
-    try
-    {
-        connection.Open();
-        Console.WriteLine("Connection successful!");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Connection failed: {ex.Message}");
-    }
-}
 
-//var hangfireConfig = new HangfireConfiguration(
-//    serviceProvider.GetRequiredService<IRecurringJobManager>(),
-//    serviceProvider);
 
-//hangfireConfig.InitializeJobs();
+
+//using (var connection = new SqlConnection(builder.Configuration.GetConnectionString("RaymarAzureConnection")))
+//{
+//    try
+//    {
+//        connection.Open();
+//        Console.WriteLine("Connection successful!");
+//    }
+//    catch (Exception ex)
+//    {
+//        Console.WriteLine($"Connection failed: {ex.Message}");
+//    }
+//}
+
+var serviceProvider = app.Services;
+var hangfireConfig = new HangfireConfiguration(
+    serviceProvider.GetRequiredService<IRecurringJobManager>(),
+    serviceProvider);
+
+hangfireConfig.InitializeJobs();
 
 app.UseHangfireDashboard();
 //app.UseHangfireServer();

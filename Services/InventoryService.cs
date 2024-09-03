@@ -80,7 +80,7 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-        public async Task<List<InventoryData>> GetInventoryPartsFromQuickBooksAsync()
+        public async Task<List<InventoryData>> GetInventoryPartsFromQuickBooksAsync(bool doUpdate = false)
         {
             var inventoryParts = new List<InventoryData>();
 
@@ -110,6 +110,11 @@ namespace RaymarEquipmentInventory.Services
                     }
 
                     _quickBooksConnectionService.CloseConnection(); // Assuming this is still synchronous
+
+                    if (doUpdate)
+                    {
+                        await UpdateOrInsertInventoryAsync(inventoryParts); // Update or insert the inventory data
+                    }
                 }
             }
             catch (Exception ex)
