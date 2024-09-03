@@ -80,19 +80,20 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-        public List<InventoryData> GetInventoryPartsFromQuickBooks()
+        public async Task<List<InventoryData>> GetInventoryPartsFromQuickBooksAsync()
         {
             var inventoryParts = new List<InventoryData>();
-           
+
             string otherQuery = "SELECT ID, Name, PartNumber, Description, PurchaseCost, Price, QuantityOnHand, ReorderPoint FROM Items WHERE Type = 'Inventory'";
             try
             {
-                _quickBooksConnectionService.OpenConnection();
+                _quickBooksConnectionService.OpenConnection(); // This is assumed to be synchronous
+
                 using (var cmd = new OdbcCommand(otherQuery, _quickBooksConnectionService.GetConnection()))
                 {
-                    using (var reader = cmd.ExecuteReader())
+                    using (var reader = await cmd.ExecuteReaderAsync()) // Use async version
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync()) // Use async version to read
                         {
                             inventoryParts.Add(new InventoryData
                             {
@@ -105,41 +106,10 @@ namespace RaymarEquipmentInventory.Services
                                 ReorderPoint = ParseInt(reader["ReorderPoint"]),
                                 OnHand = ParseInt(reader["QuantityOnHand"] ?? 0),
                             });
-
                         }
                     }
 
-                    _quickBooksConnectionService.CloseConnection();
-
-                    //foreach (var inventoryPart in inventoryParts)
-                    //{
-                    //    var mappedInventory = MapDtoToModel(inventoryPart);
-                    //    var existingInventory = _context.InventoryData.FirstOrDefault(i => i.QuickBooksInvId == inventoryPart.InventoryId);
-                    //    if (existingInventory != null)
-                    //    {
-                    //        // Update existing record
-                    //        existingInventory.ItemName = inventoryPart.ItemName;
-                    //        existingInventory.QuickBooksInvId = inventoryPart.InventoryId;
-                    //        existingInventory.ManufacturerPartNumber = inventoryPart.ManufacturerPartNumber;
-                    //        existingInventory.Description = inventoryPart.Description;
-                    //        existingInventory.Cost = inventoryPart.Cost;
-                    //        existingInventory.SalesPrice = inventoryPart.SalesPrice;
-                    //        existingInventory.ReorderPoint = inventoryPart.ReorderPoint;
-                    //        existingInventory.OnHand = inventoryPart.OnHand;
-
-                    //        // Update additional fields as necessary
-                    //        _context.InventoryData.Update(existingInventory);
-                    //    }
-                    //    else
-                    //    {
-                    //        // Insert new record
-                    //        _context.InventoryData.Add(mappedInventory);
-                    //    }
-
-                    //    //We are going to try to either insert records into _context.InventoryData or update _context.InventoryData
-                    //    //depending on if the InventoryId is already found in QuickBooksInvId
-
-                    //}
+                    _quickBooksConnectionService.CloseConnection(); // Assuming this is still synchronous
                 }
             }
             catch (Exception ex)
@@ -147,7 +117,7 @@ namespace RaymarEquipmentInventory.Services
                 Console.WriteLine($"Well, ain't that a kick in the teeth: {ex.Message}");
                 // Handle logging or re-throw as needed
             }
-            _context.SaveChanges();
+
             return inventoryParts;
         }
 

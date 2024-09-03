@@ -56,28 +56,50 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
         [HttpGet("GrabInventoryAndUpdate")]
-        public IActionResult GrabInventory()
+        public async Task<IActionResult> GrabInventoryAndUpdate()
         {
             try
             {
-                List<InventoryData> inventoryParts = _inventoryService.GetInventoryPartsFromQuickBooks();
-
-
+                // Await the async method to ensure it completes before moving on
+                List<InventoryData> inventoryParts = await _inventoryService.GetInventoryPartsFromQuickBooksAsync();
 
                 if (inventoryParts == null || inventoryParts.Count == 0)
                 {
-                    return NotFound("No inventory parts found.");
+                    return NotFound("No inventory parts found."); // Returns 404 if no inventory parts are found
                 }
                 else
                 {
-                    _inventoryService.UpdateOrInsertInventoryAsync(inventoryParts); // Calls the async method to update or insert inventory data
+                    await _inventoryService.UpdateOrInsertInventoryAsync(inventoryParts); // Awaits the async method to update or insert inventory data
                 }
 
-                return Ok(inventoryParts); // Returns a 200 status code with inventory data
+                return Ok(inventoryParts); // Returns a 200 status code with the inventory data
             }
             catch (Exception ex)
             {
-                // We're catching the exception like it's a wild steer in the middle of a stampede.
+                // Catching the exception and returning a 500 error with the message
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        [HttpGet("GetInventoryForDropdown")]
+        public async Task<IActionResult> GetInventoryForDropdown()
+        {
+            try
+            {
+                List<InventoryData> inventoryParts = await _inventoryService.GetInventoryPartsFromQuickBooksAsync();
+
+                if (inventoryParts == null || inventoryParts.Count == 0)
+                {
+                    return NotFound("No inventory parts found."); // Returns 404 if no inventory parts are found
+                }
+
+
+                return Ok(inventoryParts); // Returns a 200 status code with the inventory data
+            }
+            catch (Exception ex)
+            {
+                // Catching the exception and returning a 500 error with the message
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }

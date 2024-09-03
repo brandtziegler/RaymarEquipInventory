@@ -3,6 +3,12 @@ using Serilog;
 using RaymarEquipmentInventory.Models;
 using RaymarEquipmentInventory.Services;
 using System.Data.Odbc;
+using Hangfire;
+using Hangfire.SqlServer;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Data.SqlClient;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog for logging
@@ -12,6 +18,22 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
+
+// Add Hangfire services to the container
+builder.Services.AddHangfire(configuration => configuration
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage(builder.Configuration.GetConnectionString("RaymarAzureConnection"), new SqlServerStorageOptions
+    {
+        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+        QueuePollInterval = TimeSpan.Zero,
+        UseRecommendedIsolationLevel = true,
+        DisableGlobalLocks = true
+    }));
+// Add Hangfire server
+builder.Services.AddHangfireServer();
 
 builder.Host.UseSerilog();
 // Add services to the container.
@@ -50,6 +72,29 @@ builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionSer
 
 
 var app = builder.Build();
+app.UseCors("AllowLocalhostOrigins");
+
+using (var connection = new SqlConnection(builder.Configuration.GetConnectionString("RaymarAzureConnection")))
+{
+    try
+    {
+        connection.Open();
+        Console.WriteLine("Connection successful!");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Connection failed: {ex.Message}");
+    }
+}
+
+//var hangfireConfig = new HangfireConfiguration(
+//    serviceProvider.GetRequiredService<IRecurringJobManager>(),
+//    serviceProvider);
+
+//hangfireConfig.InitializeJobs();
+
+app.UseHangfireDashboard();
+//app.UseHangfireServer();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
