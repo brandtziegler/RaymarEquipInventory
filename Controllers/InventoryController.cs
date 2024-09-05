@@ -87,7 +87,7 @@ namespace RaymarEquipmentInventory.Controllers
         {
             try
             {
-                List<InventoryData> inventoryParts = await _inventoryService.GetInventoryPartsFromQuickBooksAsync();
+                List<InventoryForDropdown> inventoryParts = await _inventoryService.GetDropdownInfo();
 
                 if (inventoryParts == null || inventoryParts.Count == 0)
                 {
@@ -103,5 +103,7 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+
     }
 }

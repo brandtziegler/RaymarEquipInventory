@@ -126,6 +126,35 @@ namespace RaymarEquipmentInventory.Services
             return inventoryParts;
         }
 
+        public async Task<List<InventoryForDropdown>> GetDropdownInfo()
+        {
+            var dropdownList = new List<InventoryForDropdown>();
+
+            try
+            {
+                // Pull all the relevant inventory data from SQL Server
+                var existingInventory = await _context.InventoryData.ToListAsync();
+
+                // Map the SQL Server data to the InventoryForDropdown object
+                dropdownList = existingInventory.Select(item => new InventoryForDropdown
+                {
+                    QuickBooksInvId = item.QuickBooksInvId, // Pull the QuickBooks Inventory ID directly
+                    ItemNameWithPartNum = $"{item.ManufacturerPartNumber}:{item.ItemName}", // Combine part number and item name
+                    QtyAvailable = item.OnHand ?? 0 // Get the quantity available
+                }).ToList(); // Convert to list
+
+                // Return the dropdown list to the controller
+                return dropdownList;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Well, ain't that a kick in the teeth: {ex.Message}");
+                // Handle logging or re-throw as needed
+                throw;
+            }
+        }
+
+
         private Models.InventoryDatum MapDtoToModel(DTOs.InventoryData inventoryPart)
         {
             return new Models.InventoryDatum

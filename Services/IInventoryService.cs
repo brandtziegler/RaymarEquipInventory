@@ -7,7 +7,9 @@ namespace RaymarEquipmentInventory.Services
         string GetProductById(int id);
         string GetAllProducts();
 
-        Task<List<InventoryData>> GetInventoryPartsFromQuickBooksAsync(bool doUpdate = false); 
+        Task<List<InventoryData>> GetInventoryPartsFromQuickBooksAsync(bool doUpdate = false);
+
+        Task<List<InventoryForDropdown>> GetDropdownInfo();
         Task UpdateOrInsertInventoryAsync(List<InventoryData> inventoryDataList); // Declares the async task method
     }
 }
