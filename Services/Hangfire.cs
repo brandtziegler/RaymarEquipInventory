@@ -23,12 +23,13 @@ namespace RaymarEquipmentInventory.BackgroundTasks
                 TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), // Set the time zone to EST
             };
 
-            // Schedule job to run every 5 minutes, starting at 1:15 PM and ending at 4:00 PM EST
+            // Schedule job to run Monday through Friday at 6:30 PM EST
             _recurringJobManager.AddOrUpdate<IInventoryService>(
                 "QuickBooksInventoryUpdateJob",
                 service => service.GetInventoryPartsFromQuickBooksAsync(true),
-                "15-59/5 13,14,15 * * *", // Cron expression: every 5 minutes from 1:15 PM to 3:59 PM
+                "30 18 * * 1-5", // Cron expression: every weekday (Mon-Fri) at 6:30 PM EST
                 jobOptions);
+
         }
     }
 }
