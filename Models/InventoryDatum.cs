@@ -29,5 +29,9 @@ public partial class InventoryDatum
 
     public string QuickBooksInvId { get; set; }
 
+    public DateTime? LastRestockedDate { get; set; }
+
     public virtual IncomeAccount IncomeAccount { get; set; }
+
+    public virtual ICollection<PartsUsed> PartsUseds { get; set; } = new List<PartsUsed>();
 }

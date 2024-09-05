@@ -13,12 +13,52 @@ public partial class RaymarInventoryDBContext : DbContext
     {
     }
 
+    public virtual DbSet<BillingInformation> BillingInformations { get; set; }
+
     public virtual DbSet<IncomeAccount> IncomeAccounts { get; set; }
 
     public virtual DbSet<InventoryDatum> InventoryData { get; set; }
 
+    public virtual DbSet<Labour> Labours { get; set; }
+
+    public virtual DbSet<MileageAndTime> MileageAndTimes { get; set; }
+
+    public virtual DbSet<PartsUsed> PartsUseds { get; set; }
+
+    public virtual DbSet<Person> People { get; set; }
+
+    public virtual DbSet<ServiceDescription> ServiceDescriptions { get; set; }
+
+    public virtual DbSet<Technician> Technicians { get; set; }
+
+    public virtual DbSet<WorkOrderSheet> WorkOrderSheets { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<BillingInformation>(entity =>
+        {
+            entity.HasKey(e => e.BillingId).HasName("PK__BillingI__F1656D132D42E93A");
+
+            entity.ToTable("BillingInformation");
+
+            entity.Property(e => e.BillingId).HasColumnName("BillingID");
+            entity.Property(e => e.BillingPersonId).HasColumnName("BillingPersonID");
+            entity.Property(e => e.Pono)
+                .HasMaxLength(15)
+                .IsUnicode(false)
+                .HasColumnName("PONo");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+
+            entity.HasOne(d => d.BillingPerson).WithMany(p => p.BillingInformations)
+                .HasForeignKey(d => d.BillingPersonId)
+                .HasConstraintName("FK_Billing_Persons");
+
+            entity.HasOne(d => d.Sheet).WithMany(p => p.BillingInformations)
+                .HasForeignKey(d => d.SheetId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_BillingInformation_WorkOrderSheet");
+        });
+
         modelBuilder.Entity<IncomeAccount>(entity =>
         {
             entity.HasKey(e => e.IncomeAccountId).HasName("PK__IncomeAc__B36A206EFC75E628");
@@ -36,6 +76,8 @@ public partial class RaymarInventoryDBContext : DbContext
         {
             entity.HasKey(e => e.InventoryId).HasName("PK__Inventor__F5FDE6D30BA95700");
 
+            entity.HasIndex(e => e.QuickBooksInvId, "UQ_QuickBooksInvID").IsUnique();
+
             entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
             entity.Property(e => e.AverageCost).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
@@ -46,10 +88,12 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.ItemName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.LastRestockedDate).HasColumnType("datetime");
             entity.Property(e => e.ManufacturerPartNumber)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.QuickBooksInvId)
+                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("QuickBooksInvID");
@@ -58,6 +102,140 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasOne(d => d.IncomeAccount).WithMany(p => p.InventoryData)
                 .HasForeignKey(d => d.IncomeAccountId)
                 .HasConstraintName("FK__Inventory__Incom__5FB337D6");
+        });
+
+        modelBuilder.Entity<Labour>(entity =>
+        {
+            entity.HasKey(e => e.LabourId).HasName("PK__Labour__74A96217720C8D93");
+
+            entity.ToTable("Labour");
+
+            entity.Property(e => e.LabourId).HasColumnName("LabourID");
+            entity.Property(e => e.DateOfLabour).HasColumnType("date");
+            entity.Property(e => e.FinishLabour).HasColumnType("datetime");
+            entity.Property(e => e.OttotalHrs).HasColumnName("OTTotalHrs");
+            entity.Property(e => e.OttotalMin).HasColumnName("OTTotalMin");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.StartLabour).HasColumnType("datetime");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+
+            entity.HasOne(d => d.Sheet).WithMany(p => p.Labours)
+                .HasForeignKey(d => d.SheetId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Labour__SheetID__3864608B");
+
+            entity.HasOne(d => d.Technician).WithMany(p => p.Labours)
+                .HasForeignKey(d => d.TechnicianId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Labour__Technici__395884C4");
+        });
+
+        modelBuilder.Entity<MileageAndTime>(entity =>
+        {
+            entity.HasKey(e => e.MilageTimeId).HasName("PK__MileageA__A0D5FCDE569629AC");
+
+            entity.ToTable("MileageAndTime");
+
+            entity.Property(e => e.MilageTimeId).HasColumnName("MilageTimeID");
+            entity.Property(e => e.DateOfMileageTime).HasColumnType("date");
+            entity.Property(e => e.FinishTravel).HasColumnType("datetime");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.StartTravel).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Sheet).WithMany(p => p.MileageAndTimes)
+                .HasForeignKey(d => d.SheetId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__MileageAn__Sheet__40058253");
+        });
+
+        modelBuilder.Entity<PartsUsed>(entity =>
+        {
+            entity.HasKey(e => e.PartUsedId).HasName("PK__PartsUse__F63FBD3D0E6B9F0B");
+
+            entity.ToTable("PartsUsed");
+
+            entity.Property(e => e.Notes).IsUnicode(false);
+            entity.Property(e => e.QuickBooksInvId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("QuickBooksInvID");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+
+            entity.HasOne(d => d.QuickBooksInv).WithMany(p => p.PartsUseds)
+                .HasPrincipalKey(p => p.QuickBooksInvId)
+                .HasForeignKey(d => d.QuickBooksInvId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__PartsUsed__Quick__1BC821DD");
+
+            entity.HasOne(d => d.Sheet).WithMany(p => p.PartsUseds)
+                .HasForeignKey(d => d.SheetId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PartsUsed_WorkOrderSheet");
+        });
+
+        modelBuilder.Entity<Person>(entity =>
+        {
+            entity.HasKey(e => e.PersonId).HasName("PK__Person__AA2FFB85FE5F2D9D");
+
+            entity.ToTable("Person");
+
+            entity.Property(e => e.PersonId).HasColumnName("PersonID");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.RoleName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<ServiceDescription>(entity =>
+        {
+            entity.HasKey(e => e.ServiceId).HasName("PK__ServiceD__C51BB0EAFE16C469");
+
+            entity.ToTable("ServiceDescription");
+
+            entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
+            entity.Property(e => e.BillingId).HasColumnName("BillingID");
+            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ServiceDescription1)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("ServiceDescription");
+
+            entity.HasOne(d => d.Billing).WithMany(p => p.ServiceDescriptions)
+                .HasForeignKey(d => d.BillingId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ServiceDe__Billi__208CD6FA");
+        });
+
+        modelBuilder.Entity<Technician>(entity =>
+        {
+            entity.HasKey(e => e.TechnicianId).HasName("PK__Technici__301F82C1FBE61792");
+
+            entity.ToTable("Technician");
+
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.Notes).IsUnicode(false);
+            entity.Property(e => e.PersonId).HasColumnName("PersonID");
+
+            entity.HasOne(d => d.Person).WithMany(p => p.Technicians)
+                .HasForeignKey(d => d.PersonId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Technicia__Perso__3587F3E0");
+        });
+
+        modelBuilder.Entity<WorkOrderSheet>(entity =>
+        {
+            entity.HasKey(e => e.SheetId).HasName("PK__WorkOrde__30B2738861CB949F");
+
+            entity.ToTable("WorkOrderSheet");
+
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.DateTimeCreated).HasColumnType("datetime");
         });
 
         OnModelCreatingPartial(modelBuilder);

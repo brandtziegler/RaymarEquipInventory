@@ -16,11 +16,43 @@
    "T4TemplatePath": null,
    "Tables": [
       {
+         "Name": "[dbo].[BillingInformation]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[IncomeAccount]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[InventoryData]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Labour]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MileageAndTime]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PartsUsed]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Person]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ServiceDescription]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Technician]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[WorkOrderSheet]",
          "ObjectType": 0
       }
    ],
