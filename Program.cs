@@ -47,20 +47,20 @@ builder.Services.AddSwaggerGen();
 
 
 
-var quickBooksConnectionString = builder.Configuration.GetConnectionString("QuickBooksODBCConnection");
-using (OdbcConnection conn = new OdbcConnection(quickBooksConnectionString))
-{
-    try
-    {
-        conn.Open();
-        // If all goes well, nothing to see here, just a connection being opened.
-    }
-    catch (Exception ex)
-    {
-        // This is where we get to make fun of our tech error:
-        Console.WriteLine($"Oh great, another error. Apparently, QuickBooks doesn't like your connection string. Here's what it thinks: {ex.Message}");
-    }
-}
+//var quickBooksConnectionString = builder.Configuration.GetConnectionString("QuickBooksODBCConnection");
+//using (OdbcConnection conn = new OdbcConnection(quickBooksConnectionString))
+//{
+//    try
+//    {
+//        conn.Open();
+//        // If all goes well, nothing to see here, just a connection being opened.
+//    }
+//    catch (Exception ex)
+//    {
+//        // This is where we get to make fun of our tech error:
+//        Console.WriteLine($"Oh great, another error. Apparently, QuickBooks doesn't like your connection string. Here's what it thinks: {ex.Message}");
+//    }
+//}
 
 
 var connectionString = builder.Configuration.GetConnectionString("RaymarAzureConnection");
