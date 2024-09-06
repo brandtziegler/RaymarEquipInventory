@@ -24,11 +24,11 @@ namespace RaymarEquipmentInventory.BackgroundTasks
             };
 
             // Schedule job to run Monday through Friday at 6:30 PM EST
-            _recurringJobManager.AddOrUpdate<IInventoryService>(
-                "QuickBooksInventoryUpdateJob",
-                service => service.GetInventoryPartsFromQuickBooksAsync(true),
-                "30 18 * * 1-5", // Cron expression: every weekday (Mon-Fri) at 6:30 PM EST
-                jobOptions);
+            //_recurringJobManager.AddOrUpdate<IInventoryService>(
+            //    "QuickBooksInventoryUpdateJob",
+            //    service => service.GetInventoryPartsFromQuickBooksAsync(true),
+            //    "30 18 * * 1-5", // Cron expression: every weekday (Mon-Fri) at 6:30 PM EST
+            //    jobOptions);
 
         }
     }
