@@ -8,7 +8,7 @@ namespace RaymarEquipmentInventory.Services
     public class QuickBooksConnectionService : IQuickBooksConnectionService
     {
         private readonly IConfiguration _configuration;
-        private OdbcConnection _connection;
+        private OdbcConnection? _connection;
 
         public QuickBooksConnectionService(IConfiguration configuration)
         {

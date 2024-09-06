@@ -11,9 +11,9 @@ public partial class PartsUsed
 
     public int QtyUsed { get; set; }
 
-    public string QuickBooksInvId { get; set; }
+    public string QuickBooksInvId { get; set; } = "";
 
-    public string Notes { get; set; }
+    public string Notes { get; set; } = "";
 
     public int SheetId { get; set; }
 
