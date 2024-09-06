@@ -6,10 +6,10 @@ namespace RaymarEquipmentInventory.DTOs
     {
         public int PartUsedId { get; set; }
 
-        public int QtyUsed { get; set; }
+        public int? QtyUsed { get; set; }
 
-        public string QuickBooksInvId { get; set; }
+        public string? QuickBooksInvId { get; set; } = string.Empty;
 
-        public string Notes { get; set; }
+        public string? Notes { get; set; } = string.Empty;  
     }
 }
