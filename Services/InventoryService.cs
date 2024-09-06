@@ -100,7 +100,7 @@ namespace RaymarEquipmentInventory.Services
                                 InventoryId = CleanString(reader["ID"].ToString() ?? ""),
                                 ItemName = CleanString(reader["Name"].ToString() ?? ""),
                                 ManufacturerPartNumber = CleanString(reader["PartNumber"].ToString() ?? ""),
-                                Description = CleanString(reader["Description"].ToString() ?? ""),
+                                Description = CleanString(reader["Description"].ToString() ?? "Desc"),
                                 Cost = ParseDecimal(reader["PurchaseCost"] ?? 0),
                                 SalesPrice = ParseDecimal(reader["Price"] ?? 0),
                                 ReorderPoint = ParseInt(reader["ReorderPoint"]),
