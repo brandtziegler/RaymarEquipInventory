@@ -83,7 +83,7 @@ namespace RaymarEquipmentInventory.Services
         public async Task<List<InventoryData>> GetInventoryPartsFromQuickBooksAsync(bool doUpdate = false)
         {
             var inventoryParts = new List<InventoryData>();
-
+            var sillyVariable = ""; // This is just here to show that you can declare variables in the method
             string otherQuery = "SELECT ID, Name, PartNumber, Description, PurchaseCost, Price, QuantityOnHand, ReorderPoint FROM Items WHERE Type = 'Inventory'";
             try
             {
