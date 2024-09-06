@@ -16,4 +16,11 @@ public partial class PartsUsed
     public virtual InventoryDatum? QuickBooksInv { get; set; }
 
     public virtual WorkOrderSheet? Sheet { get; set; }
+
+    // Alternative constructor to enforce initialization if required keyword isn't working
+    public PartsUsed()
+    {
+        QuickBooksInvId = "IDFiller";
+        Notes = "SampleNotes";
+    }
 }
