@@ -11,9 +11,13 @@ public partial class PartsUsed
 
     public int QtyUsed { get; set; }
 
-    public string QuickBooksInvId { get; set; } = "";
+    #nullable enable
+    public string? QuickBooksInvId { get; set; } = "";
+    #nullable disable
 
-    public string Notes { get; set; } = "";
+    #nullable enable
+    public string? Notes { get; set; } = "";
+    #nullable disable
 
     public int SheetId { get; set; }
 

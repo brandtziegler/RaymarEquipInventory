@@ -27,12 +27,9 @@ namespace RaymarEquipmentInventory.Services
 
         public void OpenConnection()
         {
-            if (_connection == null)
-            {
-                GetConnection();
-            }
+            _connection ??= GetConnection();
 
-            if (_connection.State == System.Data.ConnectionState.Closed)
+            if (_connection != null && _connection.State == System.Data.ConnectionState.Closed)
             {
                 _connection.Open();
             }

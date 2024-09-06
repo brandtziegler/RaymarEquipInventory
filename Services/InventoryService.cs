@@ -97,10 +97,10 @@ namespace RaymarEquipmentInventory.Services
                         {
                             inventoryParts.Add(new InventoryData
                             {
-                                InventoryId = CleanString(reader["ID"].ToString()),
-                                ItemName = CleanString(reader["Name"].ToString()),
-                                ManufacturerPartNumber = CleanString(reader["PartNumber"].ToString()),
-                                Description = CleanString(reader["Description"].ToString()),
+                                InventoryId = CleanString(reader["ID"].ToString() ?? ""),
+                                ItemName = CleanString(reader["Name"].ToString() ?? ""),
+                                ManufacturerPartNumber = CleanString(reader["PartNumber"].ToString() ?? ""),
+                                Description = CleanString(reader["Description"].ToString() ?? ""),
                                 Cost = ParseDecimal(reader["PurchaseCost"] ?? 0),
                                 SalesPrice = ParseDecimal(reader["Price"] ?? 0),
                                 ReorderPoint = ParseInt(reader["ReorderPoint"]),
