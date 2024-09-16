@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 namespace RaymarEquipmentInventory.DTOs
 {
+
+    //This is all for parts used...
     public class PartsUsed
     {
         public int PartUsedId { get; set; }
