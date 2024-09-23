@@ -84,7 +84,7 @@ namespace RaymarEquipmentInventory.Services
         {
             var inventoryParts = new List<InventoryData>();
 
-            string otherQuery = "SELECT ID, Name, PartNumber, Description, PurchaseCost, Price, QuantityOnHand, ReorderPoint FROM Items WHERE Type = 'Inventory'";
+            string otherQuery = "SELECT TOP 1500 ID, Name, PartNumber, Description, PurchaseCost, Price, QuantityOnHand, ReorderPoint FROM Items WHERE Type = 'Inventory' AND Price > 0.1 AND QuantityOnHand >= 1";
             try
             {
                 _quickBooksConnectionService.OpenConnection(); // This is assumed to be synchronous
