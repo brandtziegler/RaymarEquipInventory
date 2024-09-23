@@ -51,7 +51,7 @@ namespace RaymarEquipmentInventory.Services
                     if (existingInventory != null)
                     {
                         // Update the existing record
-                        existingInventory.ItemName = inventoryPart.ItemName;
+                        existingInventory.ItemName = inventoryPart.Description;
                         existingInventory.QuickBooksInvId = inventoryPart.InventoryId;
                         existingInventory.ManufacturerPartNumber = inventoryPart.ManufacturerPartNumber;
                         existingInventory.Description = inventoryPart.Description;
