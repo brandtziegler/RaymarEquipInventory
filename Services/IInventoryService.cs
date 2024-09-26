@@ -10,6 +10,9 @@ namespace RaymarEquipmentInventory.Services
         Task<List<InventoryData>> GetInventoryPartsFromQuickBooksAsync(bool doUpdate = false);
 
         Task<List<InventoryForDropdown>> GetDropdownInfo();
+
+        Task<List<InventoryForDropdown>> GetAllPartsItems();
+
         Task UpdateOrInsertInventoryAsync(List<InventoryData> inventoryDataList); // Declares the async task method
     }
 }

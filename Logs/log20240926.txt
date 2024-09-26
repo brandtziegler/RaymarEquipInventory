@@ -1,0 +1,670 @@
+2024-09-26 08:57:02.531 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 08:57:03.281 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 08:57:03.471 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 08:57:03.496 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 08:57:03.497 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 08:57:03.497 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 08:57:03.510 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 08:57:03.511 -04:00 [INF] Hosting environment: Development
+2024-09-26 08:57:03.511 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 08:57:03.611 -04:00 [INF] Server dev-workstation:38688:a4d0a153 successfully announced in 100.6222 ms
+2024-09-26 08:57:03.615 -04:00 [INF] Server dev-workstation:38688:a4d0a153 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 08:57:03.673 -04:00 [INF] Server dev-workstation:38688:a4d0a153 all the dispatchers started
+2024-09-26 08:57:04.893 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 08:57:05.035 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 146.1294ms
+2024-09-26 08:57:05.058 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 08:57:05.059 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 08:57:05.062 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 3.9796ms
+2024-09-26 08:57:05.136 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 76.5265ms
+2024-09-26 08:57:05.153 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 08:57:05.192 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 39.6048ms
+2024-09-26 08:58:07.948 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 08:58:55.575 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 08:58:56.150 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 08:58:56.330 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 08:58:56.358 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 08:58:56.359 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 08:58:56.359 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 08:58:56.372 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 08:58:56.373 -04:00 [INF] Hosting environment: Development
+2024-09-26 08:58:56.373 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 08:58:56.458 -04:00 [INF] Server dev-workstation:16876:77e4fdd1 successfully announced in 87.3408 ms
+2024-09-26 08:58:56.464 -04:00 [INF] Server dev-workstation:16876:77e4fdd1 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 08:58:56.525 -04:00 [INF] Server dev-workstation:16876:77e4fdd1 all the dispatchers started
+2024-09-26 08:58:57.181 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 08:58:57.328 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 150.8746ms
+2024-09-26 08:58:57.355 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 08:58:57.356 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 08:58:57.364 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 8.4397ms
+2024-09-26 08:58:57.440 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 83.6121ms
+2024-09-26 08:58:57.467 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 08:58:57.532 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 64.57ms
+2024-09-26 08:59:22.574 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 08:59:22.581 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 08:59:22.585 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 08:59:22.603 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 08:59:23.887 -04:00 [INF] Executed DbCommand (140ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 08:59:28.266 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 08:59:28.284 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 5675.5856ms
+2024-09-26 08:59:28.286 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 08:59:28.293 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 5719.8619ms
+2024-09-26 09:00:51.142 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 09:00:51.763 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 09:00:51.984 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 09:00:52.020 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 09:00:52.022 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 09:00:52.023 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 09:00:52.037 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 09:00:52.038 -04:00 [INF] Hosting environment: Development
+2024-09-26 09:00:52.039 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 09:00:52.141 -04:00 [INF] Server dev-workstation:16888:7e2282dc successfully announced in 104.201 ms
+2024-09-26 09:00:52.147 -04:00 [INF] Server dev-workstation:16888:7e2282dc is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 09:00:52.248 -04:00 [INF] Server dev-workstation:16888:7e2282dc all the dispatchers started
+2024-09-26 09:00:53.033 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 09:00:53.182 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 151.9754ms
+2024-09-26 09:00:53.215 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 09:00:53.217 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 09:00:53.220 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.3617ms
+2024-09-26 09:00:53.246 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 28.8775ms
+2024-09-26 09:00:53.300 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 09:00:53.359 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 58.5281ms
+2024-09-26 09:01:37.927 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229//api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:01:37.932 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 09:01:37.934 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229//api/Inventory/GetInventoryForDropdown - 404 0 null 9.2057ms
+2024-09-26 09:01:37.938 -04:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5229//api/Inventory/GetInventoryForDropdown, Response status code: 404
+2024-09-26 09:16:00.967 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229//api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:16:00.972 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229//api/Inventory/GetInventoryForDropdown - 404 0 null 5.3614ms
+2024-09-26 09:16:00.975 -04:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5229//api/Inventory/GetInventoryForDropdown, Response status code: 404
+2024-09-26 09:16:29.650 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 09:16:30.217 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 09:16:30.391 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 09:16:30.414 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 09:16:30.415 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 09:16:30.415 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 09:16:30.426 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 09:16:30.426 -04:00 [INF] Hosting environment: Development
+2024-09-26 09:16:30.427 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 09:16:30.501 -04:00 [INF] Server dev-workstation:21372:3c70e7d8 successfully announced in 75.6169 ms
+2024-09-26 09:16:30.504 -04:00 [INF] Server dev-workstation:21372:3c70e7d8 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 09:16:30.559 -04:00 [INF] Server dev-workstation:21372:3c70e7d8 all the dispatchers started
+2024-09-26 09:16:31.513 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 09:16:31.623 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 113.1682ms
+2024-09-26 09:16:31.646 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 09:16:31.646 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 09:16:31.649 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 3.445ms
+2024-09-26 09:16:31.670 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 24.1616ms
+2024-09-26 09:16:31.694 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 09:16:31.732 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 38.7585ms
+2024-09-26 09:16:54.500 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:16:54.522 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 09:16:54.526 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:16:54.544 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 09:16:58.007 -04:00 [INF] Executed DbCommand (42ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 09:16:58.967 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 09:16:58.980 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 4431.632ms
+2024-09-26 09:16:58.983 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:16:58.996 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 4496.2413ms
+2024-09-26 09:17:46.654 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 09:17:47.245 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 09:17:47.418 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 09:17:47.442 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 09:17:47.443 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 09:17:47.443 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 09:17:47.454 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 09:17:47.454 -04:00 [INF] Hosting environment: Development
+2024-09-26 09:17:47.455 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 09:17:47.537 -04:00 [INF] Server dev-workstation:15972:42094a77 successfully announced in 83.5447 ms
+2024-09-26 09:17:47.546 -04:00 [INF] Server dev-workstation:15972:42094a77 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 09:17:47.600 -04:00 [INF] Server dev-workstation:15972:42094a77 all the dispatchers started
+2024-09-26 09:17:48.250 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 09:17:48.411 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 163.1736ms
+2024-09-26 09:17:48.434 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 09:17:48.435 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 09:17:48.438 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 3.8157ms
+2024-09-26 09:17:48.460 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 25.3025ms
+2024-09-26 09:17:48.483 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 09:17:48.531 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 47.4584ms
+2024-09-26 09:18:53.987 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:18:54.016 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 09:18:54.021 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:18:54.045 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 09:18:57.071 -04:00 [INF] Executed DbCommand (37ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 09:18:57.755 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 09:18:57.765 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 3715.2872ms
+2024-09-26 09:18:57.767 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:18:57.775 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 3788.9199ms
+2024-09-26 09:19:01.313 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:19:01.317 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:19:01.318 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 09:19:04.979 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 09:19:13.654 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 09:19:13.657 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 12337.1853ms
+2024-09-26 09:19:13.659 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:19:13.660 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 12348.6473ms
+2024-09-26 09:32:28.902 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 09:32:29.507 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 09:32:29.742 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 09:32:29.767 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 09:32:29.768 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 09:32:29.770 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 09:32:29.785 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 09:32:29.786 -04:00 [INF] Hosting environment: Development
+2024-09-26 09:32:29.787 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 09:32:29.869 -04:00 [INF] Server dev-workstation:28716:5b60c7dd successfully announced in 84.0144 ms
+2024-09-26 09:32:29.874 -04:00 [INF] Server dev-workstation:28716:5b60c7dd is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 09:32:29.952 -04:00 [INF] Server dev-workstation:28716:5b60c7dd all the dispatchers started
+2024-09-26 09:32:30.999 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 09:32:31.128 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 133.8292ms
+2024-09-26 09:32:31.158 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 09:32:31.159 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 09:32:31.163 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.2218ms
+2024-09-26 09:32:31.204 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 44.5766ms
+2024-09-26 09:32:31.227 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 09:32:31.280 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 53.6163ms
+2024-09-26 09:36:07.756 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:36:07.762 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 09:36:07.765 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:36:07.781 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 09:36:10.964 -04:00 [INF] Executed DbCommand (36ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 09:36:11.777 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 09:36:11.786 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 3998.845ms
+2024-09-26 09:36:11.788 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:36:11.795 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 4077.104ms
+2024-09-26 09:47:58.581 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:47:58.593 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:47:58.594 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 09:48:02.128 -04:00 [INF] Executed DbCommand (27ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 09:48:05.870 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 09:48:05.875 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 7280.1295ms
+2024-09-26 09:48:05.877 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:48:05.879 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 7298.1879ms
+2024-09-26 09:49:26.737 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:49:26.740 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:49:26.741 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 09:49:31.667 -04:00 [INF] Executed DbCommand (103ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 09:49:32.073 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 09:49:32.077 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 5335.347ms
+2024-09-26 09:49:32.078 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:49:32.079 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 5341.6567ms
+2024-09-26 09:51:01.397 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:51:01.399 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:51:01.400 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 09:51:11.506 -04:00 [INF] Executed DbCommand (42ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 09:51:11.583 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 09:51:11.584 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 10182.7801ms
+2024-09-26 09:51:11.586 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:51:11.587 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 10190.0865ms
+2024-09-26 09:52:24.948 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:52:24.953 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:52:24.953 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 09:52:24.980 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 09:52:25.074 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 09:52:25.089 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 134.8406ms
+2024-09-26 09:52:25.090 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:52:25.091 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 142.9173ms
+2024-09-26 09:54:20.051 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:54:20.057 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:54:20.058 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 09:54:20.085 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 09:54:20.150 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 09:54:20.151 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 92.0304ms
+2024-09-26 09:54:20.152 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:54:20.154 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 103.2022ms
+2024-09-26 09:59:08.658 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 09:59:08.663 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:59:08.664 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 09:59:08.691 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 09:59:08.778 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 09:59:08.782 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 115.8137ms
+2024-09-26 09:59:08.785 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 09:59:08.787 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 129.6961ms
+2024-09-26 10:13:10.246 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229//api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 10:13:10.252 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229//api/Inventory/GetInventoryForDropdown - 404 0 null 6.6704ms
+2024-09-26 10:13:10.256 -04:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5229//api/Inventory/GetInventoryForDropdown, Response status code: 404
+2024-09-26 10:13:39.983 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 10:13:40.555 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 10:13:40.735 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 10:13:40.769 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 10:13:40.771 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 10:13:40.772 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 10:13:40.783 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 10:13:40.784 -04:00 [INF] Hosting environment: Development
+2024-09-26 10:13:40.785 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 10:13:40.864 -04:00 [INF] Server dev-workstation:13788:0f81a467 successfully announced in 80.9174 ms
+2024-09-26 10:13:40.869 -04:00 [INF] Server dev-workstation:13788:0f81a467 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 10:13:40.957 -04:00 [INF] Server dev-workstation:13788:0f81a467 all the dispatchers started
+2024-09-26 10:13:41.401 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 10:13:41.517 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 118.5132ms
+2024-09-26 10:13:41.570 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 10:13:41.571 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 10:13:41.575 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.6209ms
+2024-09-26 10:13:41.595 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 23.9384ms
+2024-09-26 10:13:41.627 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 10:13:41.674 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 46.7854ms
+2024-09-26 10:14:58.566 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 10:14:58.574 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 10:14:58.577 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 10:14:58.592 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 10:14:59.399 -04:00 [INF] Executed DbCommand (54ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 10:14:59.526 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 10:14:59.542 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 947.5317ms
+2024-09-26 10:14:59.543 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 10:14:59.549 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 983.4951ms
+2024-09-26 10:16:25.729 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 10:16:25.734 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 10:16:25.736 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 10:16:25.779 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 10:16:25.815 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 10:16:25.818 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 80.2775ms
+2024-09-26 10:16:25.819 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 10:16:25.820 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 91.4293ms
+2024-09-26 10:18:40.980 -04:00 [INF] 1 servers were removed due to timeout
+2024-09-26 10:25:20.543 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 10:25:20.549 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 10:25:20.550 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 10:25:20.624 -04:00 [INF] Executed DbCommand (24ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 10:25:20.705 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 10:25:20.708 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 155.538ms
+2024-09-26 10:25:20.709 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 10:25:20.710 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 166.7358ms
+2024-09-26 10:26:47.902 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - null null
+2024-09-26 10:26:47.907 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 10:26:47.908 -04:00 [INF] Route matched with {action = "GetInventoryForDropdown", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetInventoryForDropdown() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 10:26:47.933 -04:00 [INF] Executed DbCommand (23ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 10:26:48.020 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 10:26:48.023 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory) in 113.6087ms
+2024-09-26 10:26:48.024 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetInventoryForDropdown (RaymarEquipmentInventory)'
+2024-09-26 10:26:48.025 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetInventoryForDropdown - 200 null application/json; charset=utf-8 123.2483ms
+2024-09-26 10:29:47.811 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 10:29:48.631 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 10:29:48.811 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 10:29:48.836 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 10:29:48.837 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 10:29:48.837 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 10:29:48.873 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 10:29:48.875 -04:00 [INF] Hosting environment: Development
+2024-09-26 10:29:48.879 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 10:29:48.982 -04:00 [INF] Server dev-workstation:3748:79ba8d40 successfully announced in 110.4998 ms
+2024-09-26 10:29:48.987 -04:00 [INF] Server dev-workstation:3748:79ba8d40 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 10:29:49.042 -04:00 [INF] Server dev-workstation:3748:79ba8d40 all the dispatchers started
+2024-09-26 10:29:49.883 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 10:29:50.001 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 120.4712ms
+2024-09-26 10:29:50.021 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 10:29:50.022 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 10:29:50.025 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.3767ms
+2024-09-26 10:29:50.048 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 25.9354ms
+2024-09-26 10:29:50.071 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 10:29:50.116 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 44.3845ms
+2024-09-26 10:34:10.644 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - null null
+2024-09-26 10:34:10.659 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 10:34:10.664 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory)'
+2024-09-26 10:34:10.684 -04:00 [INF] Route matched with {action = "GetAllPartsItems", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllPartsItems() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 10:34:14.178 -04:00 [INF] Executed DbCommand (38ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 10:34:17.993 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 10:34:18.007 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory) in 7318.8082ms
+2024-09-26 10:34:18.009 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory)'
+2024-09-26 10:34:18.015 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - 200 null application/json; charset=utf-8 7371.0781ms
+2024-09-26 10:34:42.164 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - null null
+2024-09-26 10:34:42.170 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory)'
+2024-09-26 10:34:42.171 -04:00 [INF] Route matched with {action = "GetAllPartsItems", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllPartsItems() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 10:34:46.116 -04:00 [INF] Executed DbCommand (24ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 10:34:46.810 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 10:34:46.814 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory) in 4640.9859ms
+2024-09-26 10:34:46.815 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory)'
+2024-09-26 10:34:46.816 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - 200 null application/json; charset=utf-8 4653.7947ms
+2024-09-26 11:45:50.228 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 11:45:50.988 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 11:45:51.259 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 11:45:51.293 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 11:45:51.294 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 11:45:51.294 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 11:45:51.309 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 11:45:51.310 -04:00 [INF] Hosting environment: Development
+2024-09-26 11:45:51.310 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 11:45:51.394 -04:00 [INF] Server dev-workstation:12604:e9a043a4 successfully announced in 85.719 ms
+2024-09-26 11:45:51.397 -04:00 [INF] Server dev-workstation:12604:e9a043a4 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 11:45:51.454 -04:00 [INF] Server dev-workstation:12604:e9a043a4 all the dispatchers started
+2024-09-26 11:45:52.671 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 11:45:52.826 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 158.6708ms
+2024-09-26 11:45:52.860 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 11:45:52.863 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 11:45:52.865 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.4915ms
+2024-09-26 11:45:52.893 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 30.3834ms
+2024-09-26 11:45:52.947 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 11:45:53.004 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 56.2769ms
+2024-09-26 11:53:12.423 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - null null
+2024-09-26 11:53:12.431 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 11:53:12.435 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory)'
+2024-09-26 11:53:12.456 -04:00 [INF] Route matched with {action = "GetAllPartsItems", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllPartsItems() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 11:53:18.679 -04:00 [INF] Executed DbCommand (38ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 11:53:20.083 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 11:53:20.093 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory) in 7633.1539ms
+2024-09-26 11:53:20.095 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory)'
+2024-09-26 11:53:20.102 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - 200 null application/json; charset=utf-8 7708.7221ms
+2024-09-26 12:03:15.152 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - null null
+2024-09-26 12:03:15.159 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory)'
+2024-09-26 12:03:15.160 -04:00 [INF] Route matched with {action = "GetAllPartsItems", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllPartsItems() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-09-26 12:03:15.205 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-09-26 12:03:15.302 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-09-26 12:03:15.304 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory) in 142.7339ms
+2024-09-26 12:03:15.305 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllPartsItems (RaymarEquipmentInventory)'
+2024-09-26 12:03:15.307 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - 200 null application/json; charset=utf-8 155.1185ms
+2024-09-26 16:37:37.127 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 16:37:37.997 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 16:37:38.177 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 16:37:38.202 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 16:37:38.202 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 16:37:38.203 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 16:37:38.214 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 16:37:38.215 -04:00 [INF] Hosting environment: Development
+2024-09-26 16:37:38.215 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 16:37:38.317 -04:00 [INF] Server dev-workstation:33776:d4566d96 successfully announced in 103.5066 ms
+2024-09-26 16:37:38.324 -04:00 [INF] Server dev-workstation:33776:d4566d96 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 16:37:38.405 -04:00 [INF] Server dev-workstation:33776:d4566d96 all the dispatchers started
+2024-09-26 16:37:39.453 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 16:37:39.601 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 152.9487ms
+2024-09-26 16:37:39.625 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 16:37:39.626 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 16:37:39.629 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 3.7886ms
+2024-09-26 16:37:39.650 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 24.3734ms
+2024-09-26 16:37:39.678 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 16:37:39.723 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 44.6597ms
+2024-09-26 16:38:04.694 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Customer/GetCustomersForDropdown - null null
+2024-09-26 16:38:04.703 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 16:38:04.707 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.CustomerController.GetCustomersForDropdown (RaymarEquipmentInventory)'
+2024-09-26 16:38:04.725 -04:00 [INF] Route matched with {action = "GetCustomersForDropdown", controller = "Customer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCustomersForDropdown() on controller RaymarEquipmentInventory.Controllers.CustomerController (RaymarEquipmentInventory).
+2024-09-26 16:38:04.797 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.CustomerController.GetCustomersForDropdown (RaymarEquipmentInventory) in 68.3242ms
+2024-09-26 16:38:04.821 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.CustomerController.GetCustomersForDropdown (RaymarEquipmentInventory)'
+2024-09-26 16:38:04.869 -04:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'RaymarEquipmentInventory.Services.ICustomerService' while attempting to activate 'RaymarEquipmentInventory.Controllers.CustomerController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method16(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-09-26 16:38:04.879 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Customer/GetCustomersForDropdown - 500 null text/plain; charset=utf-8 185.5033ms
+2024-09-26 16:39:59.897 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 16:40:00.655 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 16:40:00.880 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 16:40:00.915 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 16:40:00.916 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 16:40:00.917 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 16:40:00.931 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 16:40:00.931 -04:00 [INF] Hosting environment: Development
+2024-09-26 16:40:00.932 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 16:40:01.042 -04:00 [INF] Server dev-workstation:20520:2ccb1719 successfully announced in 111.4715 ms
+2024-09-26 16:40:01.046 -04:00 [INF] Server dev-workstation:20520:2ccb1719 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 16:40:01.121 -04:00 [INF] Server dev-workstation:20520:2ccb1719 all the dispatchers started
+2024-09-26 16:40:02.040 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 16:40:02.191 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 155.2439ms
+2024-09-26 16:40:02.223 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 16:40:02.225 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 16:40:02.228 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.9014ms
+2024-09-26 16:40:02.257 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 32.3961ms
+2024-09-26 16:40:02.318 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 16:40:02.362 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 43.5805ms
+2024-09-26 16:40:23.781 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Customer/GetCustomersForDropdown - null null
+2024-09-26 16:40:23.790 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 16:40:23.794 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.CustomerController.GetCustomersForDropdown (RaymarEquipmentInventory)'
+2024-09-26 16:40:23.809 -04:00 [INF] Route matched with {action = "GetCustomersForDropdown", controller = "Customer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCustomersForDropdown() on controller RaymarEquipmentInventory.Controllers.CustomerController (RaymarEquipmentInventory).
+2024-09-26 16:54:41.066 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 16:54:41.627 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 16:54:41.802 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 16:54:41.827 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 16:54:41.828 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 16:54:41.828 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 16:54:41.839 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 16:54:41.840 -04:00 [INF] Hosting environment: Development
+2024-09-26 16:54:41.840 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 16:54:41.911 -04:00 [INF] Server dev-workstation:36300:355491be successfully announced in 72.88 ms
+2024-09-26 16:54:41.915 -04:00 [INF] Server dev-workstation:36300:355491be is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 16:54:41.970 -04:00 [INF] Server dev-workstation:36300:355491be all the dispatchers started
+2024-09-26 16:54:42.864 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 16:54:42.989 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 128.5735ms
+2024-09-26 16:54:43.011 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 16:54:43.012 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 16:54:43.015 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 3.6295ms
+2024-09-26 16:54:43.034 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 21.7352ms
+2024-09-26 16:54:43.058 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 16:54:43.101 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 42.5657ms
+2024-09-26 16:56:29.574 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Customer/GetCustomersForDropdown - null null
+2024-09-26 16:56:29.584 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 16:56:29.587 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.CustomerController.GetCustomersForDropdown (RaymarEquipmentInventory)'
+2024-09-26 16:56:29.599 -04:00 [INF] Route matched with {action = "GetCustomersForDropdown", controller = "Customer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCustomersForDropdown() on controller RaymarEquipmentInventory.Controllers.CustomerController (RaymarEquipmentInventory).
+2024-09-26 17:00:35.111 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 17:00:35.852 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 17:00:36.024 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 17:00:36.049 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 17:00:36.051 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 17:00:36.053 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 17:00:36.067 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 17:00:36.073 -04:00 [INF] Hosting environment: Development
+2024-09-26 17:00:36.074 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 17:00:36.170 -04:00 [INF] Server dev-workstation:6708:ad8631ba successfully announced in 103.3271 ms
+2024-09-26 17:00:36.173 -04:00 [INF] Server dev-workstation:6708:ad8631ba is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 17:00:36.243 -04:00 [INF] Server dev-workstation:6708:ad8631ba all the dispatchers started
+2024-09-26 17:00:36.719 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 17:00:36.847 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 130.8873ms
+2024-09-26 17:00:36.868 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 17:00:36.869 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 17:00:36.872 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.3786ms
+2024-09-26 17:00:36.893 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 23.8457ms
+2024-09-26 17:00:36.918 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 17:00:36.960 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 41.5041ms
+2024-09-26 17:00:41.005 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Customer/GetCustomersForDropdown - null null
+2024-09-26 17:00:41.019 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 17:00:41.023 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.CustomerController.GetCustomersForDropdown (RaymarEquipmentInventory)'
+2024-09-26 17:00:41.037 -04:00 [INF] Route matched with {action = "GetCustomersForDropdown", controller = "Customer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCustomersForDropdown() on controller RaymarEquipmentInventory.Controllers.CustomerController (RaymarEquipmentInventory).
+2024-09-26 17:05:46.526 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 17:05:47.070 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 17:05:47.238 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 17:05:47.276 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 17:05:47.276 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 17:05:47.277 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 17:05:47.287 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 17:05:47.288 -04:00 [INF] Hosting environment: Development
+2024-09-26 17:05:47.288 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 17:05:47.362 -04:00 [INF] Server dev-workstation:11196:f32dbce7 successfully announced in 75.1302 ms
+2024-09-26 17:05:47.369 -04:00 [INF] Server dev-workstation:11196:f32dbce7 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 17:05:47.405 -04:00 [INF] 1 servers were removed due to timeout
+2024-09-26 17:05:47.427 -04:00 [INF] Server dev-workstation:11196:f32dbce7 all the dispatchers started
+2024-09-26 17:05:48.567 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 17:05:48.722 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 160.0479ms
+2024-09-26 17:05:48.757 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 17:05:48.758 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 17:05:48.762 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.9597ms
+2024-09-26 17:05:48.800 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 41.7492ms
+2024-09-26 17:05:48.839 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 17:05:48.894 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 54.5368ms
+2024-09-26 17:05:54.279 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Customer/GetCustomersForDropdown - null null
+2024-09-26 17:05:54.287 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 17:05:54.291 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.CustomerController.GetCustomersForDropdown (RaymarEquipmentInventory)'
+2024-09-26 17:05:54.306 -04:00 [INF] Route matched with {action = "GetCustomersForDropdown", controller = "Customer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCustomersForDropdown() on controller RaymarEquipmentInventory.Controllers.CustomerController (RaymarEquipmentInventory).
+2024-09-26 17:08:37.188 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 17:08:37.753 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 17:08:37.920 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 17:08:37.943 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 17:08:37.944 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 17:08:37.944 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 17:08:37.955 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 17:08:37.955 -04:00 [INF] Hosting environment: Development
+2024-09-26 17:08:37.956 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 17:08:38.026 -04:00 [INF] Server dev-workstation:35184:2105bfef successfully announced in 71.5685 ms
+2024-09-26 17:08:38.059 -04:00 [INF] Server dev-workstation:35184:2105bfef is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 17:08:38.117 -04:00 [INF] Server dev-workstation:35184:2105bfef all the dispatchers started
+2024-09-26 17:08:39.042 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 17:08:39.162 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 123.2216ms
+2024-09-26 17:08:39.192 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 17:08:39.192 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 17:08:39.200 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 12.8627ms
+2024-09-26 17:08:39.223 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 31.3956ms
+2024-09-26 17:08:39.254 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 17:08:39.295 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 40.6184ms
+2024-09-26 17:08:58.769 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Customer/GetCustomersForDropdown - null null
+2024-09-26 17:08:58.778 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 17:08:58.782 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.CustomerController.GetCustomersForDropdown (RaymarEquipmentInventory)'
+2024-09-26 17:08:58.797 -04:00 [INF] Route matched with {action = "GetCustomersForDropdown", controller = "Customer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCustomersForDropdown() on controller RaymarEquipmentInventory.Controllers.CustomerController (RaymarEquipmentInventory).
+2024-09-26 17:11:03.961 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 17:11:04.502 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 17:11:04.674 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 17:11:04.698 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 17:11:04.699 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 17:11:04.699 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 17:11:04.711 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 17:11:04.711 -04:00 [INF] Hosting environment: Development
+2024-09-26 17:11:04.712 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 17:11:04.785 -04:00 [INF] Server dev-workstation:19300:36afc4d8 successfully announced in 74.6909 ms
+2024-09-26 17:11:04.790 -04:00 [INF] Server dev-workstation:19300:36afc4d8 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 17:11:04.850 -04:00 [INF] Server dev-workstation:19300:36afc4d8 all the dispatchers started
+2024-09-26 17:11:05.705 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 17:11:05.832 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 130.3041ms
+2024-09-26 17:11:05.858 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 17:11:05.858 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 17:11:05.861 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 3.6844ms
+2024-09-26 17:11:05.880 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 21.4687ms
+2024-09-26 17:11:05.909 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 17:11:05.956 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 47.241ms
+2024-09-26 17:11:10.821 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Customer/GetCustomersForDropdown - null null
+2024-09-26 17:11:10.830 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 17:11:10.834 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.CustomerController.GetCustomersForDropdown (RaymarEquipmentInventory)'
+2024-09-26 17:11:10.848 -04:00 [INF] Route matched with {action = "GetCustomersForDropdown", controller = "Customer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCustomersForDropdown() on controller RaymarEquipmentInventory.Controllers.CustomerController (RaymarEquipmentInventory).
+2024-09-26 17:14:02.095 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-26 17:14:02.635 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-26 17:14:02.803 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-26 17:14:02.826 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-26 17:14:02.827 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-26 17:14:02.827 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-26 17:14:02.837 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-26 17:14:02.838 -04:00 [INF] Hosting environment: Development
+2024-09-26 17:14:02.838 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-26 17:14:02.912 -04:00 [INF] Server dev-workstation:19612:6eddc805 successfully announced in 75.3386 ms
+2024-09-26 17:14:02.918 -04:00 [INF] Server dev-workstation:19612:6eddc805 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-26 17:14:02.972 -04:00 [INF] Server dev-workstation:19612:6eddc805 all the dispatchers started
+2024-09-26 17:14:03.816 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-09-26 17:14:03.947 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 133.3582ms
+2024-09-26 17:14:03.977 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-26 17:14:03.978 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-09-26 17:14:03.981 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.411ms
+2024-09-26 17:14:04.003 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 24.9303ms
+2024-09-26 17:14:04.034 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-09-26 17:14:04.082 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 48.2946ms
+2024-09-26 17:14:07.587 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Customer/GetCustomersForDropdown - null null
+2024-09-26 17:14:07.593 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-09-26 17:14:07.595 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.CustomerController.GetCustomersForDropdown (RaymarEquipmentInventory)'
+2024-09-26 17:14:07.608 -04:00 [INF] Route matched with {action = "GetCustomersForDropdown", controller = "Customer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCustomersForDropdown() on controller RaymarEquipmentInventory.Controllers.CustomerController (RaymarEquipmentInventory).

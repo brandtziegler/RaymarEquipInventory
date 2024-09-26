@@ -69,14 +69,25 @@ builder.Services.AddDbContext<RaymarInventoryDBContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IInventoryService, InventoryService>(); // Registering our new service
+builder.Services.AddScoped<ICustomerService, CustomerService>(); // Registering our new service
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5069")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
 builder.Host.UseWindowsService(); // This line enables running as a Windows Service
 var app = builder.Build();
-app.UseCors("AllowLocalhostOrigins");
-
-
+//app.UseCors("AllowLocalhostOrigins");
+app.UseCors("AllowLocalhost");
 
 
 //using (var connection = new SqlConnection(builder.Configuration.GetConnectionString("RaymarAzureConnection")))

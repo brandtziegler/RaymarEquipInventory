@@ -105,5 +105,28 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
+        [HttpGet("GetAllPartsItems")]
+        public async Task<IActionResult> GetAllPartsItems()
+        {
+            try
+            {
+                List<InventoryForDropdown> inventoryParts = await _inventoryService.GetAllPartsItems();
+
+                if (inventoryParts == null || inventoryParts.Count == 0)
+                {
+                    return NotFound("No inventory parts found."); // Returns 404 if no inventory parts are found
+                }
+
+
+                return Ok(inventoryParts); // Returns a 200 status code with the inventory data
+            }
+            catch (Exception ex)
+            {
+                // Catching the exception and returning a 500 error with the message
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
     }
 }

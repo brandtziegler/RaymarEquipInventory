@@ -13097,3 +13097,35 @@ WHERE [InventoryID] = @p340;
 2024-09-23 13:36:30.241 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GrabInventoryAndUpdate (RaymarEquipmentInventory) in 132874.8051ms
 2024-09-23 13:36:30.242 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventoryAndUpdate (RaymarEquipmentInventory)'
 2024-09-23 13:36:30.249 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventoryAndUpdate - 499 null application/json; charset=utf-8 132911.8025ms
+2024-09-23 13:46:22.354 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-09-23 13:46:23.149 -04:00 [INF] Hangfire SQL objects installed.
+2024-09-23 13:46:23.415 -04:00 [INF] Now listening on: https://localhost:7150
+2024-09-23 13:46:23.416 -04:00 [INF] Now listening on: http://localhost:5229
+2024-09-23 13:46:23.442 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-09-23 13:46:23.442 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-09-23 13:46:23.442 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-09-23 13:46:23.453 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-23 13:46:23.454 -04:00 [INF] Hosting environment: Development
+2024-09-23 13:46:23.455 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-09-23 13:46:23.550 -04:00 [INF] Server dev-workstation:10692:3ac1a833 successfully announced in 96.9425 ms
+2024-09-23 13:46:23.555 -04:00 [INF] Server dev-workstation:10692:3ac1a833 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-09-23 13:46:23.592 -04:00 [INF] 1 servers were removed due to timeout
+2024-09-23 13:46:23.622 -04:00 [INF] Server dev-workstation:10692:3ac1a833 all the dispatchers started
+2024-09-23 13:46:24.177 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2024-09-23 13:46:24.287 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 112.0373ms
+2024-09-23 13:46:24.296 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2024-09-23 13:46:24.302 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.658ms
+2024-09-23 13:46:24.303 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2024-09-23 13:46:24.331 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 28.3357ms
+2024-09-23 13:46:24.341 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/favicon-16x16.png - null null
+2024-09-23 13:46:24.348 -04:00 [INF] Sending file. Request path: '/favicon-16x16.png'. Physical path: 'N/A'
+2024-09-23 13:46:24.350 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/favicon-16x16.png - 499 665 image/png 9.9024ms
+2024-09-23 13:46:24.362 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2024-09-23 13:46:24.407 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 45.2154ms
+2024-09-23 13:46:33.616 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/Inventory/GrabInventoryAndUpdate - null null
+2024-09-23 13:46:33.625 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GrabInventoryAndUpdate (RaymarEquipmentInventory)'
+2024-09-23 13:46:33.641 -04:00 [INF] Route matched with {action = "GrabInventoryAndUpdate", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GrabInventoryAndUpdate() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
