@@ -15,6 +15,14 @@ public partial class Person
 
     public string RoleName { get; set; }
 
+    public string PhoneOne { get; set; }
+
+    public string Email { get; set; }
+
+    public DateTime StartDate { get; set; }
+
+    public DateTime EndDate { get; set; }
+
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
 
     public virtual ICollection<Technician> Technicians { get; set; } = new List<Technician>();

@@ -15,6 +15,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<BillingInformation> BillingInformations { get; set; }
 
+    public virtual DbSet<Customer> Customers { get; set; }
+
     public virtual DbSet<IncomeAccount> IncomeAccounts { get; set; }
 
     public virtual DbSet<InventoryDatum> InventoryData { get; set; }
@@ -31,6 +33,10 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<Technician> Technicians { get; set; }
 
+    public virtual DbSet<TechnicianExperience> TechnicianExperiences { get; set; }
+
+    public virtual DbSet<TechnicianLicence> TechnicianLicences { get; set; }
+
     public virtual DbSet<WorkOrderSheet> WorkOrderSheets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,6 +49,7 @@ public partial class RaymarInventoryDBContext : DbContext
 
             entity.Property(e => e.BillingId).HasColumnName("BillingID");
             entity.Property(e => e.BillingPersonId).HasColumnName("BillingPersonID");
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.Pono)
                 .HasMaxLength(15)
                 .IsUnicode(false)
@@ -53,10 +60,51 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.BillingPersonId)
                 .HasConstraintName("FK_Billing_Persons");
 
+            entity.HasOne(d => d.Customer).WithMany(p => p.BillingInformations)
+                .HasForeignKey(d => d.CustomerId)
+                .HasConstraintName("FK_BillingInformation_Customers");
+
             entity.HasOne(d => d.Sheet).WithMany(p => p.BillingInformations)
                 .HasForeignKey(d => d.SheetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_BillingInformation_WorkOrderSheet");
+        });
+
+        modelBuilder.Entity<Customer>(entity =>
+        {
+            entity.HasKey(e => e.CustomerId);
+
+            entity.HasIndex(e => e.Id, "UQ_Customers_ID").IsUnique();
+
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+            entity.Property(e => e.AccountNumber).HasMaxLength(50);
+            entity.Property(e => e.Company).HasMaxLength(255);
+            entity.Property(e => e.CustomerName)
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.Email).HasMaxLength(255);
+            entity.Property(e => e.FirstName).HasMaxLength(100);
+            entity.Property(e => e.FullName).HasMaxLength(255);
+            entity.Property(e => e.Id)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("ID");
+            entity.Property(e => e.JobProjectedEndDate).HasColumnType("date");
+            entity.Property(e => e.JobStartDate).HasColumnType("date");
+            entity.Property(e => e.JobStatus).HasMaxLength(100);
+            entity.Property(e => e.JobType).HasMaxLength(100);
+            entity.Property(e => e.JobTypeId).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(100);
+            entity.Property(e => e.ParentId)
+                .HasMaxLength(50)
+                .HasColumnName("ParentID");
+            entity.Property(e => e.ParentName).HasMaxLength(255);
+            entity.Property(e => e.Phone).HasMaxLength(20);
+
+            entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
+                .HasPrincipalKey(p => p.Id)
+                .HasForeignKey(d => d.ParentId)
+                .HasConstraintName("FK_ParentCustomer");
         });
 
         modelBuilder.Entity<IncomeAccount>(entity =>
@@ -181,15 +229,23 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.ToTable("Person");
 
             entity.Property(e => e.PersonId).HasColumnName("PersonID");
+            entity.Property(e => e.Email)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.EndDate).HasColumnType("datetime");
             entity.Property(e => e.FirstName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.LastName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.PhoneOne)
+                .HasMaxLength(15)
+                .IsUnicode(false);
             entity.Property(e => e.RoleName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.StartDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<ServiceDescription>(entity =>
@@ -219,13 +275,65 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.ToTable("Technician");
 
             entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.HourlyRate).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Notes).IsUnicode(false);
             entity.Property(e => e.PersonId).HasColumnName("PersonID");
+            entity.Property(e => e.ShiftAvailibility)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.WorkStatus)
+                .HasMaxLength(10)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Person).WithMany(p => p.Technicians)
                 .HasForeignKey(d => d.PersonId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Technicia__Perso__3587F3E0");
+        });
+
+        modelBuilder.Entity<TechnicianExperience>(entity =>
+        {
+            entity.HasKey(e => e.ExperienceId).HasName("PK__Technici__2F4E3469AB34B49A");
+
+            entity.ToTable("TechnicianExperience");
+
+            entity.Property(e => e.ExperienceId).HasColumnName("ExperienceID");
+            entity.Property(e => e.CertificatePdf).HasColumnName("CertificatePDF");
+            entity.Property(e => e.CertificateUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("CertificateURL");
+            entity.Property(e => e.SkillName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+
+            entity.HasOne(d => d.Technician).WithMany(p => p.TechnicianExperiences)
+                .HasForeignKey(d => d.TechnicianId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Technicia__Techn__4F47C5E3");
+        });
+
+        modelBuilder.Entity<TechnicianLicence>(entity =>
+        {
+            entity.HasKey(e => e.LicenseId).HasName("PK__Technici__72D600A2531F22DA");
+
+            entity.Property(e => e.LicenseId).HasColumnName("LicenseID");
+            entity.Property(e => e.ExpiryDate).HasColumnType("datetime");
+            entity.Property(e => e.IssuedDate).HasColumnType("datetime");
+            entity.Property(e => e.LicenceUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("LicenceURL");
+            entity.Property(e => e.LicenseName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+
+            entity.HasOne(d => d.Technician).WithMany(p => p.TechnicianLicences)
+                .HasForeignKey(d => d.TechnicianId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Technicia__Techn__5224328E");
         });
 
         modelBuilder.Entity<WorkOrderSheet>(entity =>

@@ -21,7 +21,11 @@ public partial class BillingInformation
 
     public int? BillingPersonId { get; set; }
 
+    public int? CustomerId { get; set; }
+
     public virtual Person BillingPerson { get; set; }
+
+    public virtual Customer Customer { get; set; }
 
     public virtual ICollection<ServiceDescription> ServiceDescriptions { get; set; } = new List<ServiceDescription>();
 

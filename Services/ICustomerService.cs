@@ -6,5 +6,7 @@ namespace RaymarEquipmentInventory.Services
     {
         Task<List<CustomerData>> GetCustomersFromQuickBooksAsnyc(bool doUpdate = false);
 
+        //Task UpdateOrInsertCustomersAsync(List<CustomerData> customerDataList); // Declares the async task method
+
     }
 }

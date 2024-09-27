@@ -40,7 +40,7 @@ namespace RaymarEquipmentInventory.Controllers
         {
             try
             {
-                List<CustomerData> inventoryParts = await _customerService.GetCustomersFromQuickBooksAsnyc();
+                List<CustomerData> inventoryParts = await _customerService.GetCustomersFromQuickBooksAsnyc(true);
 
                 if (inventoryParts == null || inventoryParts.Count == 0)
                 {

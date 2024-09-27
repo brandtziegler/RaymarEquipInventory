@@ -2,7 +2,6 @@
    "CodeGenerationMode": 3,
    "ContextClassName": "RaymarInventoryDBContext",
    "ContextNamespace": null,
-   "DefaultDacpacSchema": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
    "ModelNamespace": null,
@@ -17,6 +16,10 @@
    "Tables": [
       {
          "Name": "[dbo].[BillingInformation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Customers]",
          "ObjectType": 0
       },
       {
@@ -52,12 +55,21 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[TechnicianExperience]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TechnicianLicences]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[WorkOrderSheet]",
          "ObjectType": 0
       }
    ],
-   "UiHint": "greatfurnituresql.RaymarInventoryDB.dbo",
+   "UiHint": null,
    "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
    "UseDateOnlyTimeOnly": false,
