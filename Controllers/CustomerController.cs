@@ -11,11 +11,13 @@ namespace RaymarEquipmentInventory.Controllers
         private readonly ICustomerService _customerService;
 
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
+        private readonly ISamsaraApiService _samsaraApiService;
 
-        public CustomerController(ICustomerService customerService, IQuickBooksConnectionService quickBooksConnectionService)
+        public CustomerController(ICustomerService customerService, IQuickBooksConnectionService quickBooksConnectionService, ISamsaraApiService samsaraApiService)
         {
             _customerService = customerService;
-            _quickBooksConnectionService = quickBooksConnectionService; 
+            _quickBooksConnectionService = quickBooksConnectionService;
+            _samsaraApiService = samsaraApiService;
         }
 
         //// Dummy endpoint for getting a product by ID
@@ -40,6 +42,7 @@ namespace RaymarEquipmentInventory.Controllers
         {
             try
             {
+                var vehicleData = await _samsaraApiService.GetVehicleByID("281474986627612");
                 List<CustomerData> inventoryParts = await _customerService.GetCustomersFromQuickBooksAsnyc(true);
 
                 if (inventoryParts == null || inventoryParts.Count == 0)

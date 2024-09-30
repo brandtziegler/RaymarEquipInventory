@@ -8,6 +8,7 @@ using Hangfire.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Data.SqlClient;
 using RaymarEquipmentInventory.BackgroundTasks;
+using RaymarEquipmentInventory.Settings.YourApiProject.Settings;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +34,11 @@ builder.Services.AddHangfire(configuration => configuration
         UseRecommendedIsolationLevel = true,
         DisableGlobalLocks = true
     }));
+
+var samsaraApiConfig = builder.Configuration.GetSection("SamsaraApi").Get<SamsaraApiConfig>();
+builder.Services.AddSingleton(samsaraApiConfig);
+
+
 // Add Hangfire server
 builder.Services.AddHangfireServer();
 
@@ -40,6 +46,14 @@ builder.Host.UseSerilog();
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddHttpClient<ISamsaraApiService, SamsaraApiService>(client =>
+{
+    client.BaseAddress = new Uri(samsaraApiConfig.BaseUrl);
+    client.DefaultRequestHeaders.Add("accept", "application/json");
+});
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
