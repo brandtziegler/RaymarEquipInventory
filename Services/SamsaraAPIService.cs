@@ -31,6 +31,7 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<Vehicle> GetVehicleByID(string vehicleId = "")
         {
+            //try this.
             var request = new HttpRequestMessage(HttpMethod.Get, $"/fleet/vehicles/{vehicleId}");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _config.BearerToken);
 
