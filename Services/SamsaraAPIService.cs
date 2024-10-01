@@ -20,12 +20,14 @@ namespace RaymarEquipmentInventory.Services
         private readonly RaymarInventoryDBContext _context;
         private readonly HttpClient _httpClient;
         private readonly SamsaraApiConfig _config;
+        private readonly string _bearerToken;
         public SamsaraApiService(HttpClient httpClient, RaymarInventoryDBContext context, IQuickBooksConnectionService quickBooksConnectionService, SamsaraApiConfig config)
         {
             _quickBooksConnectionService = quickBooksConnectionService;
             _context = context;
             _config = config;
             _httpClient = httpClient;
+            _bearerToken = Environment.GetEnvironmentVariable("SAMSARA_API_TOKEN"); // Fetching from environment variable
         }
 
 
@@ -33,7 +35,7 @@ namespace RaymarEquipmentInventory.Services
         {
             //try this.
             var request = new HttpRequestMessage(HttpMethod.Get, $"/fleet/vehicles/{vehicleId}");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _config.BearerToken);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _bearerToken);
 
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode(); // Throws if status code is not 2xx
@@ -58,7 +60,7 @@ namespace RaymarEquipmentInventory.Services
         public async Task<List<Vehicle>> GetAllVehicles()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"/fleet/vehicles");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _config.BearerToken);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _bearerToken);
 
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode(); // Throws if status code is not 2xx

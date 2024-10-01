@@ -5,12 +5,12 @@
         public class SamsaraApiConfig
         {
             public string BaseUrl { get; set; }
-            public string BearerToken { get; set; }
+            //public string BearerToken { get; set; }
 
-            public SamsaraApiConfig(string baseUrl, string bearerToken)
+            public SamsaraApiConfig(string baseUrl)
             {
                 BaseUrl = baseUrl ?? throw new ArgumentNullException(nameof(baseUrl));
-                BearerToken = bearerToken ?? throw new ArgumentNullException(nameof(bearerToken));
+                //BearerToken = bearerToken ?? throw new ArgumentNullException(nameof(bearerToken));
             }
         }
     }
