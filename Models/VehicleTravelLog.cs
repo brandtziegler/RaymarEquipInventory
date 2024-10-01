@@ -25,7 +25,7 @@ public partial class VehicleTravelLog
 
     public int? WorkOrderId { get; set; }
 
-    public virtual VehicleDatum Vehicle { get; set; }
+    public int? VehicleWorkOrderId { get; set; }
 
-    public virtual WorkOrderSheet WorkOrder { get; set; }
+    public virtual VehicleWorkOrder VehicleWorkOrder { get; set; }
 }

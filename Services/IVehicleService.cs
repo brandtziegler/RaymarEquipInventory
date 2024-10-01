@@ -11,6 +11,6 @@ namespace RaymarEquipmentInventory.Services
 
         Task UpdateOrInsertVehiclesAsync(List<Vehicle> vehicleList); // Declares the async task method
 
-
+        Task UpdateVehicleLog(Int32 SheetID, Int32 VehicleID); // Declares the async task method
     }
 }

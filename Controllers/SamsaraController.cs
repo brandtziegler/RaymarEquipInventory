@@ -56,6 +56,7 @@ namespace RaymarEquipmentInventory.Controllers
                 }
 
                 await _vehicleService.UpdateOrInsertVehiclesAsync(vehicleData); // Calls the service method to update or insert the vehicle data
+                await _vehicleService.UpdateVehicleLog(1, 5); // Calls the service method to update the vehicle log
                 return Ok(vehicleData); // Returns a 200 status code with the inventory data
             }
             catch (Exception ex)

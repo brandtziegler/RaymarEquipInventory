@@ -17,5 +17,5 @@ public partial class VehicleDatum
 
     public virtual ICollection<VehicleHistory> VehicleHistories { get; set; } = new List<VehicleHistory>();
 
-    public virtual ICollection<VehicleTravelLog> VehicleTravelLogs { get; set; } = new List<VehicleTravelLog>();
+    public virtual ICollection<VehicleWorkOrder> VehicleWorkOrders { get; set; } = new List<VehicleWorkOrder>();
 }

@@ -4,6 +4,10 @@ using System.Threading.Tasks;
 using RaymarEquipmentInventory.Models;
 using RaymarEquipmentInventory.DTOs;
 using System.Data.Odbc;
+using RaymarEquipmentInventory.Settings.YourApiProject.Settings;
+using System.Reflection.PortableExecutable;
+using System;
+using System.Net.Http.Headers;
 
 
 namespace RaymarEquipmentInventory.Services
@@ -13,22 +17,18 @@ namespace RaymarEquipmentInventory.Services
 
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly RaymarInventoryDBContext _context;
-        public VehicleService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context)
+        private readonly HttpClient _httpClient;
+        private readonly SamsaraApiConfig _config;
+        private readonly string _bearerToken;
+
+        public VehicleService(HttpClient httpClient, IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context,  SamsaraApiConfig config)
         {
             _quickBooksConnectionService = quickBooksConnectionService;
             _context = context;
+            _config = config;
+            _httpClient = httpClient;
+            _bearerToken = Environment.GetEnvironmentVariable("SAMSARA_API_TOKEN"); // Fetching from environment variable
         }
-        //public string GetProductById(int id)
-        //{
-        //    // Imagine this method actually does something useful.
-        //    return $"Product details for product ID: {id}";
-        //}
-
-        //public string GetAllProducts()
-        //{
-        //    // Again, let's pretend this returns actual product data.
-        //    return "Returning all products... because why not?";
-        //}
 
 
         public async Task UpdateOrInsertVehiclesAsync(List<Vehicle> vehicleList)
@@ -73,67 +73,64 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+
+        public async Task UpdateVehicleLog(Int32 SheetID, Int32 VehicleID)
+        {
+
+            var existingVehicleWO = await _context.VehicleWorkOrders
+                .FirstOrDefaultAsync(i => i.SheetId == SheetID && i.VehicleId == VehicleID); // Using async for efficiency
+
+            var vehicle = await _context.VehicleData
+                .FirstOrDefaultAsync(i => i.VehicleId == VehicleID); // Using async for efficiency
+
+            var workOrder = await _context.WorkOrderSheets
+                .FirstOrDefaultAsync(i => i.SheetId == SheetID); // Using async for efficiency
+
+            if (vehicle != null && workOrder != null)
+            {
+                var samsaraID = vehicle.SamsaraVehicleId;
+                var startTime = workOrder.DateTimeStarted;
+                var endTime = workOrder.DateTimeCompleted;
+                var vehicleId = vehicle.SamsaraVehicleId;
+
+                var startMs = new DateTimeOffset(startTime).ToUnixTimeMilliseconds();
+                var endMs = new DateTimeOffset(endTime).ToUnixTimeMilliseconds();
+              
+                // Create the request URL with parameters
+                var requestUrl = $"/v1/fleet/trips?vehicleId={vehicleId}&startMs={startMs}&endMs={endMs}";
+
+                // Create the request message
+                var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _bearerToken);
+
+                // Send the request
+                var response = await _httpClient.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read the JSON response
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+
+                    // For now, return the JSON string (you could also parse it as needed)
+                    Console.WriteLine("Samsara API Response:");
+                    Console.WriteLine(jsonResponse);
+
+                    // If needed, you could further deserialize the JSON into a C# object
+                    // var trips = JsonSerializer.Deserialize<TripResponse>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                }
+                else
+                {
+                    // Handle error response
+                    Console.WriteLine($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
+                }
+
+            }
+
     
-      
 
 
-        public async Task<List<InventoryForDropdown>> GetDropdownInfo()
-        {
-            var dropdownList = new List<InventoryForDropdown>();
-
-            try
-            {
-                // Pull all the relevant inventory data from SQL Server
-                var existingInventory = await _context.InventoryData.ToListAsync();
-
-                // Map the SQL Server data to the InventoryForDropdown object
-                dropdownList = existingInventory.Select(item => new InventoryForDropdown
-                {
-                    QuickBooksInvId = item.QuickBooksInvId, // Pull the QuickBooks Inventory ID directly
-                    ItemNameWithPartNum = $"{item.ManufacturerPartNumber}:{item.ItemName}", // Combine part number and item name
-                    QtyAvailable = item.OnHand ?? 0 // Get the quantity available
-                }).ToList(); // Convert to list
-
-                // Return the dropdown list to the controller
-                return dropdownList;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Well, ain't that a kick in the teeth: {ex.Message}");
-                // Handle logging or re-throw as needed
-                throw;
-            }
         }
-
-        public async Task<List<InventoryForDropdown>> GetAllPartsItems()
-        {
-            var dropdownList = new List<InventoryForDropdown>();
-
-            try
-            {
-                // Pull all the relevant inventory data from SQL Server
-                var existingInventory = await _context.InventoryData.ToListAsync();
-
-                // Map the SQL Server data to the InventoryForDropdown object
-                dropdownList = existingInventory.Select(item => new InventoryForDropdown
-                {
-                    QuickBooksInvId = item.QuickBooksInvId, // Pull the QuickBooks Inventory ID directly
-                    ItemNameWithPartNum = $"{item.ManufacturerPartNumber}:{item.ItemName}", // Combine part number and item name
-                    QtyAvailable = item.OnHand ?? 0 // Get the quantity available
-                }).ToList(); // Convert to list
-
-                // Return the dropdown list to the controller
-                return dropdownList;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Well, ain't that a kick in the teeth: {ex.Message}");
-                // Handle logging or re-throw as needed
-                throw;
-            }
-        }
-
-
 
         private Models.VehicleDatum MapDtoToModel(DTOs.Vehicle curVehicle)
         {

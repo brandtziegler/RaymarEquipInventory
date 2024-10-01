@@ -75,6 +75,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[VehicleWorkOrder]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[WorkOrderSheet]",
          "ObjectType": 0
       }

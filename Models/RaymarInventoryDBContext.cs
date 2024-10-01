@@ -43,6 +43,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VehicleTravelLog> VehicleTravelLogs { get; set; }
 
+    public virtual DbSet<VehicleWorkOrder> VehicleWorkOrders { get; set; }
+
     public virtual DbSet<WorkOrderSheet> WorkOrderSheets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -401,16 +403,33 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.VehicleId).HasColumnName("VehicleID");
+            entity.Property(e => e.VehicleWorkOrderId).HasColumnName("VehicleWorkOrderID");
             entity.Property(e => e.WorkOrderId).HasColumnName("WorkOrderID");
 
-            entity.HasOne(d => d.Vehicle).WithMany(p => p.VehicleTravelLogs)
-                .HasForeignKey(d => d.VehicleId)
-                .HasConstraintName("FK_VehicleTravelLog_VehicleID");
-
-            entity.HasOne(d => d.WorkOrder).WithMany(p => p.VehicleTravelLogs)
-                .HasForeignKey(d => d.WorkOrderId)
+            entity.HasOne(d => d.VehicleWorkOrder).WithMany(p => p.VehicleTravelLogs)
+                .HasForeignKey(d => d.VehicleWorkOrderId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_VehicleTravelLog_WorkOrderID");
+                .HasConstraintName("FK_VehicleTravelLog_VehicleWorkOrderID");
+        });
+
+        modelBuilder.Entity<VehicleWorkOrder>(entity =>
+        {
+            entity.HasKey(e => e.VehicleWorkOrderId).HasName("PK__VehicleW__B975A16A4016301D");
+
+            entity.ToTable("VehicleWorkOrder");
+
+            entity.Property(e => e.VehicleWorkOrderId).HasColumnName("VehicleWorkOrderID");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.VehicleId).HasColumnName("VehicleID");
+
+            entity.HasOne(d => d.Sheet).WithMany(p => p.VehicleWorkOrders)
+                .HasForeignKey(d => d.SheetId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_VehicleWorkOrder_SheetID");
+
+            entity.HasOne(d => d.Vehicle).WithMany(p => p.VehicleWorkOrders)
+                .HasForeignKey(d => d.VehicleId)
+                .HasConstraintName("FK_VehicleWorkOrder_VehicleID");
         });
 
         modelBuilder.Entity<WorkOrderSheet>(entity =>
@@ -420,7 +439,16 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.ToTable("WorkOrderSheet");
 
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.DateTimeCompleted)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.DateTimeCreated).HasColumnType("datetime");
+            entity.Property(e => e.DateTimeStarted)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.WorkOrdStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);
