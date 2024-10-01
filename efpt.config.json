@@ -63,6 +63,18 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[VehicleData]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VehicleHistory]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VehicleTravelLog]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[WorkOrderSheet]",
          "ObjectType": 0
       }

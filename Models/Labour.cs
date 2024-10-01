@@ -15,13 +15,17 @@ public partial class Labour
 
     public DateTime DateOfLabour { get; set; }
 
-    public DateTime StartLabour { get; set; }
+    public DateTime? StartLabour { get; set; }
 
-    public DateTime FinishLabour { get; set; }
+    public DateTime? FinishLabour { get; set; }
 
     public int? OttotalHrs { get; set; }
 
     public int? OttotalMin { get; set; }
+
+    public bool FlatRateJob { get; set; }
+
+    public string FlatRateJobDescription { get; set; }
 
     public virtual WorkOrderSheet Sheet { get; set; }
 

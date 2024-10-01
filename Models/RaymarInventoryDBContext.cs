@@ -37,6 +37,12 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<TechnicianLicence> TechnicianLicences { get; set; }
 
+    public virtual DbSet<VehicleDatum> VehicleData { get; set; }
+
+    public virtual DbSet<VehicleHistory> VehicleHistories { get; set; }
+
+    public virtual DbSet<VehicleTravelLog> VehicleTravelLogs { get; set; }
+
     public virtual DbSet<WorkOrderSheet> WorkOrderSheets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,6 +61,12 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("PONo");
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.UnitNo)
+                .HasMaxLength(35)
+                .IsUnicode(false);
+            entity.Property(e => e.WorkLocation)
+                .HasMaxLength(100)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.BillingPerson).WithMany(p => p.BillingInformations)
                 .HasForeignKey(d => d.BillingPersonId)
@@ -99,7 +111,7 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("ParentID");
             entity.Property(e => e.ParentName).HasMaxLength(255);
-            entity.Property(e => e.Phone).HasMaxLength(20);
+            entity.Property(e => e.Phone).HasMaxLength(50);
 
             entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
                 .HasPrincipalKey(p => p.Id)
@@ -141,7 +153,6 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.QuickBooksInvId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("QuickBooksInvID");
@@ -161,6 +172,9 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.LabourId).HasColumnName("LabourID");
             entity.Property(e => e.DateOfLabour).HasColumnType("date");
             entity.Property(e => e.FinishLabour).HasColumnType("datetime");
+            entity.Property(e => e.FlatRateJobDescription)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.OttotalHrs).HasColumnName("OTTotalHrs");
             entity.Property(e => e.OttotalMin).HasColumnName("OTTotalMin");
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
@@ -198,23 +212,17 @@ public partial class RaymarInventoryDBContext : DbContext
 
         modelBuilder.Entity<PartsUsed>(entity =>
         {
-            entity.HasKey(e => e.PartUsedId).HasName("PK__PartsUse__F63FBD3D0E6B9F0B");
+            entity.HasKey(e => e.PartUsedId).HasName("PK__PartsUse__F63FBD3DD8122046");
 
             entity.ToTable("PartsUsed");
 
+            entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
             entity.Property(e => e.Notes).IsUnicode(false);
-            entity.Property(e => e.QuickBooksInvId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("QuickBooksInvID");
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
 
-            entity.HasOne(d => d.QuickBooksInv).WithMany(p => p.PartsUseds)
-                .HasPrincipalKey(p => p.QuickBooksInvId)
-                .HasForeignKey(d => d.QuickBooksInvId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PartsUsed__Quick__1BC821DD");
+            entity.HasOne(d => d.Inventory).WithMany(p => p.PartsUseds)
+                .HasForeignKey(d => d.InventoryId)
+                .HasConstraintName("FK_PartsUsed_InventoryData");
 
             entity.HasOne(d => d.Sheet).WithMany(p => p.PartsUseds)
                 .HasForeignKey(d => d.SheetId)
@@ -334,6 +342,75 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.TechnicianId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Technicia__Techn__5224328E");
+        });
+
+        modelBuilder.Entity<VehicleDatum>(entity =>
+        {
+            entity.HasKey(e => e.VehicleId).HasName("PK__VehicleD__476B54B26AF0B11C");
+
+            entity.Property(e => e.VehicleId).HasColumnName("VehicleID");
+            entity.Property(e => e.SamsaraVehicleId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("SamsaraVehicleID");
+            entity.Property(e => e.VehicleName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.VehicleVin)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("VehicleVIN");
+        });
+
+        modelBuilder.Entity<VehicleHistory>(entity =>
+        {
+            entity.HasKey(e => e.VehicleHistoryId).HasName("PK__VehicleH__A3B543D5CA216E56");
+
+            entity.ToTable("VehicleHistory");
+
+            entity.Property(e => e.VehicleHistoryId).HasColumnName("VehicleHistoryID");
+            entity.Property(e => e.TravelTotal).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.VehicleId).HasColumnName("VehicleID");
+
+            entity.HasOne(d => d.Vehicle).WithMany(p => p.VehicleHistories)
+                .HasForeignKey(d => d.VehicleId)
+                .HasConstraintName("FK_VehicleHistory_VehicleID");
+        });
+
+        modelBuilder.Entity<VehicleTravelLog>(entity =>
+        {
+            entity.HasKey(e => e.VehicleTravelId).HasName("PK__VehicleT__30F5990CA15D4699");
+
+            entity.ToTable("VehicleTravelLog");
+
+            entity.Property(e => e.VehicleTravelId).HasColumnName("VehicleTravelID");
+            entity.Property(e => e.CurrentLocation)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.DateTimeCurrent).HasColumnType("datetime");
+            entity.Property(e => e.DateTimeStart).HasColumnType("datetime");
+            entity.Property(e => e.KmatStart)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("KMAtStart");
+            entity.Property(e => e.Kmcurrent)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("KMCurrent");
+            entity.Property(e => e.StartingLocation)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.VehicleId).HasColumnName("VehicleID");
+            entity.Property(e => e.WorkOrderId).HasColumnName("WorkOrderID");
+
+            entity.HasOne(d => d.Vehicle).WithMany(p => p.VehicleTravelLogs)
+                .HasForeignKey(d => d.VehicleId)
+                .HasConstraintName("FK_VehicleTravelLog_VehicleID");
+
+            entity.HasOne(d => d.WorkOrder).WithMany(p => p.VehicleTravelLogs)
+                .HasForeignKey(d => d.WorkOrderId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_VehicleTravelLog_WorkOrderID");
         });
 
         modelBuilder.Entity<WorkOrderSheet>(entity =>

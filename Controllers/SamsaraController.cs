@@ -10,13 +10,15 @@ namespace RaymarEquipmentInventory.Controllers
     public class SamsaraController : Controller
     {
         private readonly ISamsaraApiService _samsaraApiService;
+        private readonly IVehicleService _vehicleService;
 
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
 
-        public SamsaraController(ISamsaraApiService samsaraAPIService, IQuickBooksConnectionService quickBooksConnectionService)
+        public SamsaraController(ISamsaraApiService samsaraAPIService, IQuickBooksConnectionService quickBooksConnectionService, IVehicleService vehicleService)
         {
             _samsaraApiService = samsaraAPIService;
-            _quickBooksConnectionService = quickBooksConnectionService; 
+            _quickBooksConnectionService = quickBooksConnectionService;
+            _vehicleService = vehicleService;
         }
 
         [HttpGet("GetVehicleInfo")]
@@ -30,7 +32,7 @@ namespace RaymarEquipmentInventory.Controllers
                 {
                     return NotFound("Vehicle not found."); // Returns 404 if no inventory parts are found
                 }
-
+     
 
                 return Ok(vehicleData); // Returns a 200 status code with the inventory data
             }
@@ -53,7 +55,7 @@ namespace RaymarEquipmentInventory.Controllers
                     return NotFound("Vehicle not found."); // Returns 404 if no inventory parts are found
                 }
 
-
+                await _vehicleService.UpdateOrInsertVehiclesAsync(vehicleData); // Calls the service method to update or insert the vehicle data
                 return Ok(vehicleData); // Returns a 200 status code with the inventory data
             }
             catch (Exception ex)

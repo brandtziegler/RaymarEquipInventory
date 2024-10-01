@@ -20,4 +20,6 @@ public partial class WorkOrderSheet
     public virtual ICollection<MileageAndTime> MileageAndTimes { get; set; } = new List<MileageAndTime>();
 
     public virtual ICollection<PartsUsed> PartsUseds { get; set; } = new List<PartsUsed>();
+
+    public virtual ICollection<VehicleTravelLog> VehicleTravelLogs { get; set; } = new List<VehicleTravelLog>();
 }

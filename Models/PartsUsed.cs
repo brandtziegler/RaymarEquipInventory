@@ -11,13 +11,13 @@ public partial class PartsUsed
 
     public int QtyUsed { get; set; }
 
-    public string QuickBooksInvId { get; set; }
-
     public string Notes { get; set; }
 
     public int SheetId { get; set; }
 
-    public virtual InventoryDatum QuickBooksInv { get; set; }
+    public int? InventoryId { get; set; }
+
+    public virtual InventoryDatum Inventory { get; set; }
 
     public virtual WorkOrderSheet Sheet { get; set; }
 }

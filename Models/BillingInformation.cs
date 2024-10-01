@@ -13,8 +13,6 @@ public partial class BillingInformation
 
     public string Pono { get; set; }
 
-    public int? UnitNo { get; set; }
-
     public int? Kilometers { get; set; }
 
     public int SheetId { get; set; }
@@ -22,6 +20,12 @@ public partial class BillingInformation
     public int? BillingPersonId { get; set; }
 
     public int? CustomerId { get; set; }
+
+    public string Notes { get; set; }
+
+    public string UnitNo { get; set; }
+
+    public string WorkLocation { get; set; }
 
     public virtual Person BillingPerson { get; set; }
 
