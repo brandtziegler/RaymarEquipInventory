@@ -388,23 +388,22 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.ToTable("VehicleTravelLog");
 
             entity.Property(e => e.VehicleTravelId).HasColumnName("VehicleTravelID");
-            entity.Property(e => e.CurrentLocation)
+            entity.Property(e => e.DateTimeEnd).HasColumnType("datetime");
+            entity.Property(e => e.DateTimeStart).HasColumnType("datetime");
+            entity.Property(e => e.EndingLocation)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.DateTimeCurrent).HasColumnType("datetime");
-            entity.Property(e => e.DateTimeStart).HasColumnType("datetime");
+            entity.Property(e => e.KmatEnd)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("KMAtEnd");
             entity.Property(e => e.KmatStart)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("KMAtStart");
-            entity.Property(e => e.Kmcurrent)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("KMCurrent");
             entity.Property(e => e.StartingLocation)
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.VehicleId).HasColumnName("VehicleID");
             entity.Property(e => e.VehicleWorkOrderId).HasColumnName("VehicleWorkOrderID");
-            entity.Property(e => e.WorkOrderId).HasColumnName("WorkOrderID");
 
             entity.HasOne(d => d.VehicleWorkOrder).WithMany(p => p.VehicleTravelLogs)
                 .HasForeignKey(d => d.VehicleWorkOrderId)

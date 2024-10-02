@@ -13,19 +13,17 @@ public partial class VehicleTravelLog
 
     public DateTime DateTimeStart { get; set; }
 
-    public DateTime DateTimeCurrent { get; set; }
-
     public decimal? KmatStart { get; set; }
-
-    public decimal? Kmcurrent { get; set; }
 
     public string StartingLocation { get; set; }
 
-    public string CurrentLocation { get; set; }
-
-    public int? WorkOrderId { get; set; }
-
     public int? VehicleWorkOrderId { get; set; }
+
+    public DateTime DateTimeEnd { get; set; }
+
+    public string EndingLocation { get; set; }
+
+    public decimal? KmatEnd { get; set; }
 
     public virtual VehicleWorkOrder VehicleWorkOrder { get; set; }
 }

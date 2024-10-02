@@ -78,105 +78,120 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task UpdateVehicleLog(Int32 SheetID, Int32 VehicleID)
         {
-
-            var existingVehicleWO = await _context.VehicleWorkOrders
-                .FirstOrDefaultAsync(i => i.SheetId == SheetID && i.VehicleId == VehicleID); // Using async for efficiency
-
-            var vehicle = await _context.VehicleData
-                .FirstOrDefaultAsync(i => i.VehicleId == VehicleID); // Using async for efficiency
-
-            var workOrder = await _context.WorkOrderSheets
-                .FirstOrDefaultAsync(i => i.SheetId == SheetID); // Using async for efficiency
-
-            if (vehicle != null && workOrder != null)
+            try
             {
-                var samsaraID = vehicle.SamsaraVehicleId;
-                var startTime = new DateTime(2024, 9, 30, 9, 40, 0);  //workOrder.DateTimeStarted; 
-                var endTime = workOrder.DateTimeCompleted;
-                var utcStartTime = startTime.ToUniversalTime();
-                var utcEndTime = endTime.ToUniversalTime();
+                var existingVehicleWO = await _context.VehicleWorkOrders
+                    .FirstOrDefaultAsync(i => i.SheetId == SheetID && i.VehicleId == VehicleID); // Using async for efficiency
 
-                // Convert the local time to UTC first, then to Unix time (milliseconds)
-                var startMs = new DateTimeOffset(utcStartTime).ToUnixTimeMilliseconds();
-                var endMs = new DateTimeOffset(utcEndTime).ToUnixTimeMilliseconds();
+                var vehicle = await _context.VehicleData
+                    .FirstOrDefaultAsync(i => i.VehicleId == VehicleID); // Using async for efficiency
 
+                var workOrder = await _context.WorkOrderSheets
+                    .FirstOrDefaultAsync(i => i.SheetId == SheetID); // Using async for efficiency
 
-                var startTimeFromUnix = DateTimeOffset.FromUnixTimeMilliseconds(startMs).UtcDateTime;
-                var endTimeFromUnix = DateTimeOffset.FromUnixTimeMilliseconds(endMs).UtcDateTime;
-
-                // Create the request URL with parameters
-                var requestUrl = $"{_config.BaseUrl}/v1/fleet/trips?vehicleId={samsaraID}&startMs={startMs}&endMs={endMs}";
-
-                // Create the request message
-                var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
-                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _bearerToken);
-
-                // Send the request
-                var response = await _httpClient.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
+                if (vehicle != null && workOrder != null)
                 {
-                    // Read the JSON response
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var tripResponse = JsonSerializer.Deserialize<TripResponse>(jsonResponse, new JsonSerializerOptions{PropertyNameCaseInsensitive = true});
-                    var trips = tripResponse?.Trips
-                        .Select(tripData => new TripLog(
-                            vehicle.SamsaraVehicleId,
-                            VehicleID, 
-                            SheetID,
-                            tripData.StartMs,
-                            tripData.EndMs,
-                            tripData.StartLocation ?? "Unknown",   // Safeguard against null
-                            tripData.EndLocation ?? "Unknown",            // Safeguard against null
-                            tripData.StartOdometer,
-                            tripData.EndOdometer
-                        ))
-                        .ToList();
+                    var samsaraID = vehicle.SamsaraVehicleId;
+                    var startTime = new DateTime(2024, 9, 30, 9, 40, 0);  // Placeholder for workOrder.DateTimeStarted
+                    var endTime = workOrder.DateTimeCompleted;
+                    var utcStartTime = startTime.ToUniversalTime();
+                    var utcEndTime = endTime.ToUniversalTime();
 
+                    // Convert the local time to UTC first, then to Unix time (milliseconds)
+                    var startMs = new DateTimeOffset(utcStartTime).ToUnixTimeMilliseconds();
+                    var endMs = new DateTimeOffset(utcEndTime).ToUnixTimeMilliseconds();
 
-                    //1. Create a Vehicle Work Order in the databsase and fill it with VehicleID and SheetID
-                    var newVehicleWO = new VehicleWorkOrder
+                    // Create the request URL with parameters
+                    var requestUrl = $"{_config.BaseUrl}/v1/fleet/trips?vehicleId={samsaraID}&startMs={startMs}&endMs={endMs}";
+
+                    // Create the request message
+                    var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _bearerToken);
+
+                    // Send the request
+                    var response = await _httpClient.SendAsync(request);
+
+                    if (response.IsSuccessStatusCode)
                     {
-                        VehicleId = VehicleID,
-                        SheetId = SheetID
-                    };
-                    await _context.VehicleWorkOrders.AddAsync(newVehicleWO);
-                   
+                        // Read the JSON response
+                        var jsonResponse = await response.Content.ReadAsStringAsync();
+                        var tripResponse = JsonSerializer.Deserialize<TripResponse>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                        var trips = tripResponse?.Trips
+                            .Select(tripData => new TripLog(
+                                vehicle.SamsaraVehicleId,
+                                VehicleID,
+                                SheetID,
+                                tripData.StartMs,
+                                tripData.EndMs,
+                                tripData.StartLocation ?? "Unknown", // Safeguard against null
+                                tripData.EndLocation ?? "Unknown",  // Safeguard against null
+                                tripData.StartOdometer,
+                                tripData.EndOdometer
+                            ))
+                            .ToList();
 
-                    //Now loop through trips and insert them into VehicleTravelLog
-                    foreach (var trip in trips)
-                    {
-                        var newTrip = new VehicleTravelLog
+                        // 1. Create a Vehicle Work Order in the database and fill it with VehicleID and SheetID
+                        var newVehicleWO = new VehicleWorkOrder
                         {
-                            VehicleId = trip.VehicleID,
-                            DateTimeStart = trip.StartDateTime,
-                            DateTimeCurrent = trip.EndDateTime,
-                            EndMs = trip.EndMs,
-                            StartLocation = trip.StartLocation,
-                            EndLocation = trip.EndLocation,
-                            StartKm = trip.StartKM,
-                            EndKm = trip.EndKM,
-                            DistanceKm = trip.DistanceKM
+                            VehicleId = VehicleID,
+                            SheetId = SheetID
                         };
+                        await _context.VehicleWorkOrders.AddAsync(newVehicleWO);
+                        await _context.SaveChangesAsync(); // Save all changes asynchronously
 
-                        await _context.VehicleTravelLogs.AddAsync(newTrip);
+                        // Now loop through trips and insert them into VehicleTravelLog
+                        foreach (var trip in trips)
+                        {
+                            var newTrip = new VehicleTravelLog
+                            {
+                                VehicleId = trip.VehicleID,
+                                DateTimeStart = trip.StartDateTime,
+                                KmatStart = (decimal?)trip.StartKM,
+                                StartingLocation = trip.StartLocation,
+                                DateTimeEnd = trip.EndDateTime,
+                                EndingLocation = trip.EndLocation,
+                                KmatEnd = (decimal?)trip.EndKM,
+                                VehicleWorkOrderId = newVehicleWO.VehicleWorkOrderId
+                            };
+
+                            await _context.VehicleTravelLogs.AddAsync(newTrip);
+                        }
+                        await _context.SaveChangesAsync(); // Save all changes asynchronously
+
+                        // For now, return the JSON string (you could also parse it as needed)
+                        Console.WriteLine("Samsara API Response:");
+                        Console.WriteLine(jsonResponse);
                     }
-                    // For now, return the JSON string (you could also parse it as needed)
-                    Console.WriteLine("Samsara API Response:");
-                    Console.WriteLine(jsonResponse);
-                    
-                    // If needed, you could further deserialize the JSON into a C# object
-                    // var trips = JsonSerializer.Deserialize<TripResponse>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    else
+                    {
+                        // Handle error response
+                        Console.WriteLine($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
+                    }
                 }
-                else
-                {
-                    // Handle error response
-                    Console.WriteLine($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
-                }
-
+            }
+            catch (HttpRequestException httpEx)
+            {
+                // Handle HTTP-specific errors like connectivity issues
+                Console.WriteLine($"HTTP Error: {httpEx.Message}");
+            }
+            catch (JsonException jsonEx)
+            {
+                // Handle errors related to JSON parsing
+                Console.WriteLine($"JSON Parsing Error: {jsonEx.Message}");
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Handle database-specific exceptions
+                Console.WriteLine($"Database Update Error: {dbEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Handle any other general errors
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
             }
         }
+
 
         public class TripResponse
         {
