@@ -21,11 +21,11 @@ public partial class WorkOrderSheet
 
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
 
-    public virtual ICollection<Labour> Labours { get; set; } = new List<Labour>();
-
     public virtual ICollection<MileageAndTime> MileageAndTimes { get; set; } = new List<MileageAndTime>();
 
     public virtual ICollection<PartsUsed> PartsUseds { get; set; } = new List<PartsUsed>();
+
+    public virtual ICollection<TechnicianWorkOrder> TechnicianWorkOrders { get; set; } = new List<TechnicianWorkOrder>();
 
     public virtual ICollection<VehicleWorkOrder> VehicleWorkOrders { get; set; } = new List<VehicleWorkOrder>();
 }

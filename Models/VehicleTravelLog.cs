@@ -25,5 +25,7 @@ public partial class VehicleTravelLog
 
     public decimal? KmatEnd { get; set; }
 
+    public decimal? TotalKms { get; set; }
+
     public virtual VehicleWorkOrder VehicleWorkOrder { get; set; }
 }

@@ -152,7 +152,8 @@ namespace RaymarEquipmentInventory.Services
                                 DateTimeEnd = trip.EndDateTime,
                                 EndingLocation = trip.EndLocation,
                                 KmatEnd = (decimal?)trip.EndKM,
-                                VehicleWorkOrderId = newVehicleWO.VehicleWorkOrderId
+                                VehicleWorkOrderId = newVehicleWO.VehicleWorkOrderId,
+                                TotalKms = (decimal?)trip.DistanceKM
                             };
 
                             await _context.VehicleTravelLogs.AddAsync(newTrip);

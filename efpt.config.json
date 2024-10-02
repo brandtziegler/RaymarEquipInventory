@@ -63,6 +63,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[TechnicianWorkOrder]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[VehicleData]",
          "ObjectType": 0
       },

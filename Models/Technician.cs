@@ -19,11 +19,11 @@ public partial class Technician
 
     public string WorkStatus { get; set; }
 
-    public virtual ICollection<Labour> Labours { get; set; } = new List<Labour>();
-
     public virtual Person Person { get; set; }
 
     public virtual ICollection<TechnicianExperience> TechnicianExperiences { get; set; } = new List<TechnicianExperience>();
 
     public virtual ICollection<TechnicianLicence> TechnicianLicences { get; set; } = new List<TechnicianLicence>();
+
+    public virtual ICollection<TechnicianWorkOrder> TechnicianWorkOrders { get; set; } = new List<TechnicianWorkOrder>();
 }

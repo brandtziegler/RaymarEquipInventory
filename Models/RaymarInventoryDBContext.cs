@@ -37,6 +37,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<TechnicianLicence> TechnicianLicences { get; set; }
 
+    public virtual DbSet<TechnicianWorkOrder> TechnicianWorkOrders { get; set; }
+
     public virtual DbSet<VehicleDatum> VehicleData { get; set; }
 
     public virtual DbSet<VehicleHistory> VehicleHistories { get; set; }
@@ -179,19 +181,12 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.OttotalHrs).HasColumnName("OTTotalHrs");
             entity.Property(e => e.OttotalMin).HasColumnName("OTTotalMin");
-            entity.Property(e => e.SheetId).HasColumnName("SheetID");
             entity.Property(e => e.StartLabour).HasColumnType("datetime");
-            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TechnicianWorkOrderId).HasColumnName("TechnicianWorkOrderID");
 
-            entity.HasOne(d => d.Sheet).WithMany(p => p.Labours)
-                .HasForeignKey(d => d.SheetId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Labour__SheetID__3864608B");
-
-            entity.HasOne(d => d.Technician).WithMany(p => p.Labours)
-                .HasForeignKey(d => d.TechnicianId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Labour__Technici__395884C4");
+            entity.HasOne(d => d.TechnicianWorkOrder).WithMany(p => p.Labours)
+                .HasForeignKey(d => d.TechnicianWorkOrderId)
+                .HasConstraintName("FK_Labour_TechnicianWorkOrder");
         });
 
         modelBuilder.Entity<MileageAndTime>(entity =>
@@ -346,6 +341,27 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasConstraintName("FK__Technicia__Techn__5224328E");
         });
 
+        modelBuilder.Entity<TechnicianWorkOrder>(entity =>
+        {
+            entity.HasKey(e => e.TechnicianWorkOrderId).HasName("PK__Technici__7529718EADC1A1AC");
+
+            entity.ToTable("TechnicianWorkOrder");
+
+            entity.Property(e => e.TechnicianWorkOrderId).HasColumnName("TechnicianWorkOrderID");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+
+            entity.HasOne(d => d.Sheet).WithMany(p => p.TechnicianWorkOrders)
+                .HasForeignKey(d => d.SheetId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_TechnicianWorkOrder_SheetID");
+
+            entity.HasOne(d => d.Technician).WithMany(p => p.TechnicianWorkOrders)
+                .HasForeignKey(d => d.TechnicianId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TechnicianWorkOrder_Technician");
+        });
+
         modelBuilder.Entity<VehicleDatum>(entity =>
         {
             entity.HasKey(e => e.VehicleId).HasName("PK__VehicleD__476B54B26AF0B11C");
@@ -402,6 +418,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.StartingLocation)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.TotalKms).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.VehicleId).HasColumnName("VehicleID");
             entity.Property(e => e.VehicleWorkOrderId).HasColumnName("VehicleWorkOrderID");
 

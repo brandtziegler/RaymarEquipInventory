@@ -9,10 +9,6 @@ public partial class Labour
 {
     public int LabourId { get; set; }
 
-    public int SheetId { get; set; }
-
-    public int TechnicianId { get; set; }
-
     public DateTime DateOfLabour { get; set; }
 
     public DateTime? StartLabour { get; set; }
@@ -27,7 +23,7 @@ public partial class Labour
 
     public string FlatRateJobDescription { get; set; }
 
-    public virtual WorkOrderSheet Sheet { get; set; }
+    public int? TechnicianWorkOrderId { get; set; }
 
-    public virtual Technician Technician { get; set; }
+    public virtual TechnicianWorkOrder TechnicianWorkOrder { get; set; }
 }
