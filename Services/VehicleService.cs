@@ -8,7 +8,9 @@ using RaymarEquipmentInventory.Settings.YourApiProject.Settings;
 using System.Reflection.PortableExecutable;
 using System;
 using System.Net.Http.Headers;
-
+using RaymarEquipmentInventory.Helpers;
+using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -89,15 +91,21 @@ namespace RaymarEquipmentInventory.Services
             if (vehicle != null && workOrder != null)
             {
                 var samsaraID = vehicle.SamsaraVehicleId;
-                var startTime = workOrder.DateTimeStarted;
+                var startTime = new DateTime(2024, 9, 30, 9, 40, 0);  //workOrder.DateTimeStarted; 
                 var endTime = workOrder.DateTimeCompleted;
-                var vehicleId = vehicle.SamsaraVehicleId;
+                var utcStartTime = startTime.ToUniversalTime();
+                var utcEndTime = endTime.ToUniversalTime();
 
-                var startMs = new DateTimeOffset(startTime).ToUnixTimeMilliseconds();
-                var endMs = new DateTimeOffset(endTime).ToUnixTimeMilliseconds();
-              
+                // Convert the local time to UTC first, then to Unix time (milliseconds)
+                var startMs = new DateTimeOffset(utcStartTime).ToUnixTimeMilliseconds();
+                var endMs = new DateTimeOffset(utcEndTime).ToUnixTimeMilliseconds();
+
+
+                var startTimeFromUnix = DateTimeOffset.FromUnixTimeMilliseconds(startMs).UtcDateTime;
+                var endTimeFromUnix = DateTimeOffset.FromUnixTimeMilliseconds(endMs).UtcDateTime;
+
                 // Create the request URL with parameters
-                var requestUrl = $"/v1/fleet/trips?vehicleId={vehicleId}&startMs={startMs}&endMs={endMs}";
+                var requestUrl = $"{_config.BaseUrl}/v1/fleet/trips?vehicleId={samsaraID}&startMs={startMs}&endMs={endMs}";
 
                 // Create the request message
                 var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
@@ -111,11 +119,53 @@ namespace RaymarEquipmentInventory.Services
                 {
                     // Read the JSON response
                     var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var tripResponse = JsonSerializer.Deserialize<TripResponse>(jsonResponse, new JsonSerializerOptions{PropertyNameCaseInsensitive = true});
+                    var trips = tripResponse?.Trips
+                        .Select(tripData => new TripLog(
+                            vehicle.SamsaraVehicleId,
+                            VehicleID, 
+                            SheetID,
+                            tripData.StartMs,
+                            tripData.EndMs,
+                            tripData.StartLocation ?? "Unknown",   // Safeguard against null
+                            tripData.EndLocation ?? "Unknown",            // Safeguard against null
+                            tripData.StartOdometer,
+                            tripData.EndOdometer
+                        ))
+                        .ToList();
 
+
+                    //1. Create a Vehicle Work Order in the databsase and fill it with VehicleID and SheetID
+                    var newVehicleWO = new VehicleWorkOrder
+                    {
+                        VehicleId = VehicleID,
+                        SheetId = SheetID
+                    };
+                    await _context.VehicleWorkOrders.AddAsync(newVehicleWO);
+                   
+
+                    //Now loop through trips and insert them into VehicleTravelLog
+                    foreach (var trip in trips)
+                    {
+                        var newTrip = new VehicleTravelLog
+                        {
+                            VehicleId = trip.VehicleID,
+                            DateTimeStart = trip.StartDateTime,
+                            DateTimeCurrent = trip.EndDateTime,
+                            EndMs = trip.EndMs,
+                            StartLocation = trip.StartLocation,
+                            EndLocation = trip.EndLocation,
+                            StartKm = trip.StartKM,
+                            EndKm = trip.EndKM,
+                            DistanceKm = trip.DistanceKM
+                        };
+
+                        await _context.VehicleTravelLogs.AddAsync(newTrip);
+                    }
                     // For now, return the JSON string (you could also parse it as needed)
                     Console.WriteLine("Samsara API Response:");
                     Console.WriteLine(jsonResponse);
-
+                    
                     // If needed, you could further deserialize the JSON into a C# object
                     // var trips = JsonSerializer.Deserialize<TripResponse>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 }
@@ -126,11 +176,28 @@ namespace RaymarEquipmentInventory.Services
                 }
 
             }
-
-    
-
-
         }
+
+        public class TripResponse
+        {
+            public List<TripData> Trips { get; set; }
+        }
+
+        public class TripData
+        {
+            public long StartMs { get; set; }
+            public long EndMs { get; set; }
+
+            public string StartLocation { get; set; }
+            public string EndLocation { get; set; }
+
+            public long StartOdometer { get; set; }
+            public long EndOdometer { get; set; }
+            public long DistanceMeters { get; set; }
+        }
+
+
+
 
         private Models.VehicleDatum MapDtoToModel(DTOs.Vehicle curVehicle)
         {
@@ -142,38 +209,7 @@ namespace RaymarEquipmentInventory.Services
                 // Map additional fields as necessary
             };
         }
-        private static string CleanString(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-                return input;
-
-            // Remove non-printable characters and trim whitespace
-            return new string(input.Where(c => !char.IsControl(c)).ToArray()).Trim();
-        }
-
-        // Method to safely parse decimals
-        private static decimal? ParseDecimal(object input)
-        {
-            if (input == null || input == DBNull.Value)
-                return null;
-
-            if (decimal.TryParse(input.ToString(), out decimal result))
-                return result;
-
-            return null; // Or return a default value if needed
-        }
-
-        // Method to safely parse integers
-        private static int? ParseInt(object input)
-        {
-            if (input == null || input == DBNull.Value)
-                return null;
-
-            if (int.TryParse(input.ToString(), out int result))
-                return result;
-
-            return null; // Or return a default value if needed
-        }
+   
 
     }
 
