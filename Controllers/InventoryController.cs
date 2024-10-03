@@ -105,12 +105,12 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
-        [HttpGet("GetAllPartsItems")]
-        public async Task<IActionResult> GetAllPartsItems()
+        [HttpGet("GetAllInventoryItems")]
+        public async Task<IActionResult> GetAllInventoryItems()
         {
             try
             {
-                List<InventoryForDropdown> inventoryParts = await _inventoryService.GetAllPartsItems();
+                List<InventoryForDropdown> inventoryParts = await _inventoryService.GetAllInventoryItems();
 
                 if (inventoryParts == null || inventoryParts.Count == 0)
                 {

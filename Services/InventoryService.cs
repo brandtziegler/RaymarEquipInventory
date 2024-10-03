@@ -157,7 +157,7 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-        public async Task<List<InventoryForDropdown>> GetAllPartsItems()
+        public async Task<List<InventoryForDropdown>> GetAllInventoryItems()
         {
             var dropdownList = new List<InventoryForDropdown>();
 

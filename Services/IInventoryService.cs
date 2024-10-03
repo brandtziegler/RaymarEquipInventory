@@ -11,7 +11,7 @@ namespace RaymarEquipmentInventory.Services
 
         Task<List<InventoryForDropdown>> GetDropdownInfo();
 
-        Task<List<InventoryForDropdown>> GetAllPartsItems();
+        Task<List<InventoryForDropdown>> GetAllInventoryItems();
 
         Task UpdateOrInsertInventoryAsync(List<InventoryData> inventoryDataList); // Declares the async task method
     }

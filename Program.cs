@@ -86,6 +86,7 @@ builder.Services.AddScoped<IInventoryService, InventoryService>(); // Registerin
 builder.Services.AddScoped<ICustomerService, CustomerService>(); // Registering our new service
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<ITechnicianService, TechnicanService>();
+builder.Services.AddScoped<IPartService, PartService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 
 
