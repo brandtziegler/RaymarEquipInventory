@@ -43,15 +43,15 @@ namespace RaymarEquipmentInventory.Controllers
             try
             {
                 //var vehicleData = await _samsaraApiService.GetVehicleByID("281474986627612");
-                List<CustomerData> inventoryParts = await _customerService.GetCustomersFromQuickBooksAsnyc(true);
+                List<CustomerData> customers = await _customerService.GetCustomersFromQuickBooksAsnyc(true);
 
-                if (inventoryParts == null || inventoryParts.Count == 0)
+                if (customers == null || customers.Count == 0)
                 {
-                    return NotFound("No inventory parts found."); // Returns 404 if no inventory parts are found
+                    return NotFound("No customers found."); // Returns 404 if no inventory parts are found
                 }
 
 
-                return Ok(inventoryParts); // Returns a 200 status code with the inventory data
+                return Ok(customers); // Returns a 200 status code with the inventory data
             }
             catch (Exception ex)
             {

@@ -41,6 +41,54 @@ namespace RaymarEquipmentInventory.Controllers
 
             }
         }
+
+        [HttpGet("GetAllTechnicians")]
+        public async Task<IActionResult> GetAllTechnicians()
+        {
+            try
+            {
+                //var vehicleData = await _samsaraApiService.GetVehicleByID("281474986627612");
+                List<Tech> techs = await _technicianService.GetAllTechs();
+
+                if (techs == null || techs.Count == 0)
+                {
+                    return NotFound("No techs found."); // Returns 404 if no inventory parts are found
+                }
+
+
+                return Ok(techs); // Returns a 200 status code with the inventory data
+            }
+            catch (Exception ex)
+            {
+                // Catching the exception and returning a 500 error with the message
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        [HttpGet("GetTechsByWorkOrder")]
+        public async Task<IActionResult> GetTechsByWorkOrder(Int32 sheetID)
+        {
+            try
+            {
+                //var vehicleData = await _samsaraApiService.GetVehicleByID("281474986627612");
+                List<Tech> techs = await _technicianService.GetTechsByWorkOrder(sheetID);
+
+                if (techs == null || techs.Count == 0)
+                {
+                    return NotFound("No techs found."); // Returns 404 if no inventory parts are found
+                }
+
+
+                return Ok(techs); // Returns a 200 status code with the inventory data
+            }
+            catch (Exception ex)
+            {
+                // Catching the exception and returning a 500 error with the message
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
        
 }
