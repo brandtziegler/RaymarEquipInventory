@@ -15,9 +15,9 @@ public partial class WorkOrderSheet
 
     public string WorkOrdStatus { get; set; }
 
-    public DateTime DateTimeStarted { get; set; }
+    public DateTime? DateTimeStarted { get; set; }
 
-    public DateTime DateTimeCompleted { get; set; }
+    public DateTime? DateTimeCompleted { get; set; }
 
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
 

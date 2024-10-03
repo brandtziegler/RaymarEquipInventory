@@ -49,6 +49,8 @@ public partial class Customer
 
     public int SubLevelId { get; set; }
 
+    public string FullAddress { get; set; }
+
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
 
     public virtual ICollection<Customer> InverseParent { get; set; } = new List<Customer>();

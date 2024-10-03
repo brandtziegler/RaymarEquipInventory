@@ -6,7 +6,7 @@ using RaymarEquipmentInventory.DTOs;
 using System.Data.Odbc;
 using System.Data;
 using System.Reflection.PortableExecutable;
-
+using RaymarEquipmentInventory.Helpers;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -26,8 +26,9 @@ namespace RaymarEquipmentInventory.Services
             var allCustomers = new Dictionary<string, CustomerData>();
             var parentCustomers = new List<CustomerData>();
             var flatCustomers = new List<CustomerData>();
+            //var fieldNames = GetCustomerFieldNames();
             // WHERE (FullName LIKE 'Sarj%' OR ParentName LIKE 'Sarj%') AND 
-            string query = "SELECT ID, ParentID, ParentName, Name, FullName, FirstName, LastName, JobDescription, AccountNumber, Phone, Email, Notes, JobStatus, Company, Sublevel, IsActive FROM Customers" +
+            string query = "SELECT ID, ParentID, ParentName, Name, FullName, FirstName, LastName, JobDescription, AccountNumber, Phone, Email, Notes, JobStatus, Company, Sublevel, BillingAddress, IsActive FROM Customers" +
                            " WHERE IsActive = 1 ORDER BY Sublevel, FullName";
 
             try
@@ -40,25 +41,26 @@ namespace RaymarEquipmentInventory.Services
                     {
                         while (await reader.ReadAsync())
                         {
-                            var activeOrNot = CleanString(reader["IsActive"].ToString() ?? "");
+                            var activeOrNot = StringHelper.CleanString(reader["IsActive"].ToString() ?? "");
 
                             var customer = new CustomerData
                             {
-                                ID = CleanString(reader["ID"].ToString() ?? ""),
-                                ParentID = CleanString(reader["ParentID"].ToString() ?? ""),
-                                ParentName = CleanString(reader["ParentName"].ToString() ?? ""),
-                                Name = CleanString(reader["Name"].ToString() ?? ""),
-                                FullName = CleanString(reader["FullName"].ToString() ?? ""),
-                                FirstName = CleanString(reader["FirstName"].ToString() ?? ""),
-                                LastName = CleanString(reader["LastName"].ToString() ?? ""),
-                                Description = CleanString(reader["JobDescription"].ToString() ?? ""),
-                                AccountNumber = CleanString(reader["AccountNumber"].ToString() ?? ""),
-                                Phone = CleanString(reader["Phone"].ToString() ?? ""),
-                                Email = CleanString(reader["Email"].ToString() ?? ""),
-                                Notes = CleanString(reader["Notes"].ToString() ?? ""),
-                                JobStatus = CleanString(reader["JobStatus"].ToString() ?? ""),
-                                Company = CleanString(reader["Company"].ToString() ?? ""),  // Fixed to match the column
-                                SubLevelId = ParseInt(reader["Sublevel"]) ?? 0,
+                                ID = StringHelper.CleanString(reader["ID"].ToString() ?? ""),
+                                ParentID = StringHelper.CleanString(reader["ParentID"].ToString() ?? ""),
+                                ParentName = StringHelper.CleanString(reader["ParentName"].ToString() ?? ""),
+                                Name = StringHelper.CleanString(reader["Name"].ToString() ?? ""),
+                                FullName = StringHelper.CleanString(reader["FullName"].ToString() ?? ""),
+                                FirstName = StringHelper.CleanString(reader["FirstName"].ToString() ?? ""),
+                                LastName = StringHelper.CleanString(reader["LastName"].ToString() ?? ""),
+                                Description = StringHelper.CleanString(reader["JobDescription"].ToString() ?? ""),
+                                FullAddress = StringHelper.CleanString(reader["BillingAddress"].ToString() ?? ""),
+                                AccountNumber = StringHelper.CleanString(reader["AccountNumber"].ToString() ?? ""),
+                                Phone = StringHelper.CleanString(reader["Phone"].ToString() ?? ""),
+                                Email = StringHelper.CleanString(reader["Email"].ToString() ?? ""),
+                                Notes = StringHelper.CleanString(reader["Notes"].ToString() ?? ""),
+                                JobStatus = StringHelper.CleanString(reader["JobStatus"].ToString() ?? ""),
+                                Company = StringHelper.CleanString(reader["Company"].ToString() ?? ""),  // Fixed to match the column
+                                SubLevelId = StringHelper.ParseInt(reader["Sublevel"]) ?? 0,
                                 IsActive = activeOrNot == "1"
                             };
 
@@ -100,6 +102,38 @@ namespace RaymarEquipmentInventory.Services
             return flatCustomers;
         }
 
+        //private List<string> GetCustomerFieldNames()
+        //{
+        //    var fieldNames = new List<string>();
+
+        //    try
+        //    {
+        //        _quickBooksConnectionService.OpenConnection(); // Ensure the connection is open
+
+        //        using (var connection = _quickBooksConnectionService.GetConnection())
+        //        {
+        //            // Get the schema for the Customers table
+        //            DataTable schemaTable = connection.GetSchema("Columns", new string[] { null, null, "Customers", null });
+
+        //            foreach (DataRow row in schemaTable.Rows)
+        //            {
+        //                string columnName = row["COLUMN_NAME"].ToString();
+        //                fieldNames.Add(columnName);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Handle any exceptions
+        //        throw;
+        //    }
+        //    finally
+        //    {
+        //        _quickBooksConnectionService.CloseConnection(); // Ensure the connection is closed
+        //    }
+
+        //    return fieldNames;
+        //}
         public async Task UpdateOrInsertCustAsync(List<CustomerData> customerDataList)
         {
             if (customerDataList == null || customerDataList.Count == 0)
@@ -173,19 +207,20 @@ namespace RaymarEquipmentInventory.Services
         {
             existingCustomer.Id = customer.ID;
             existingCustomer.ParentId = null; // Temporarily set to null
-            existingCustomer.ParentName = NullIfEmpty(customer.ParentName);
-            existingCustomer.CustomerName = NullIfEmpty(customer.Name);
-            existingCustomer.FullName = NullIfEmpty(customer.FullName);
-            existingCustomer.FirstName = NullIfEmpty(customer.FirstName);
-            existingCustomer.LastName = NullIfEmpty(customer.LastName);
-            existingCustomer.Description = NullIfEmpty(customer.Description);
-            existingCustomer.AccountNumber = NullIfEmpty(customer.AccountNumber);
-            existingCustomer.Phone = NullIfEmpty(customer.Phone);
-            existingCustomer.Email = NullIfEmpty(customer.Email);
-            existingCustomer.Notes = NullIfEmpty(customer.Notes);
-            existingCustomer.JobStatus = NullIfEmpty(customer.JobStatus);
-            existingCustomer.Company = NullIfEmpty(customer.Company);
+            existingCustomer.ParentName = StringHelper.NullIfEmpty(customer.ParentName);
+            existingCustomer.CustomerName = StringHelper.NullIfEmpty(customer.Name);
+            existingCustomer.FullName = StringHelper.NullIfEmpty(customer.FullName);
+            existingCustomer.FirstName = StringHelper.NullIfEmpty(customer.FirstName);
+            existingCustomer.LastName = StringHelper.NullIfEmpty(customer.LastName);
+            existingCustomer.Description = StringHelper.NullIfEmpty(customer.Description);
+            existingCustomer.AccountNumber = StringHelper.NullIfEmpty(customer.AccountNumber);
+            existingCustomer.Phone = StringHelper.NullIfEmpty(customer.Phone);
+            existingCustomer.Email = StringHelper.NullIfEmpty(customer.Email);
+            existingCustomer.Notes = StringHelper.NullIfEmpty(customer.Notes);
+            existingCustomer.JobStatus = StringHelper.NullIfEmpty(customer.JobStatus);
+            existingCustomer.Company = StringHelper.NullIfEmpty(customer.Company);
             existingCustomer.SubLevelId = customer.SubLevelId;
+            existingCustomer.FullAddress = customer.FullAddress;
         }
 
         // Mapping function without ParentID (for inserting initially)
@@ -208,46 +243,12 @@ namespace RaymarEquipmentInventory.Services
                 JobStatus = customer.JobStatus,
                 Company = customer.Company,
                 SubLevelId = customer.SubLevelId,
+                FullAddress = customer.FullAddress
             };
         }
 
 
-        private static string CleanString(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-                return input;
 
-            // Remove non-printable characters and trim whitespace
-            return new string(input.Where(c => !char.IsControl(c)).ToArray()).Trim();
-        }
-        public static string? NullIfEmpty(string input)
-        {
-            return string.IsNullOrEmpty(input) ? null : input;
-        }
-
-        // Method to safely parse decimals
-        private static decimal? ParseDecimal(object input)
-        {
-            if (input == null || input == DBNull.Value)
-                return null;
-
-            if (decimal.TryParse(input.ToString(), out decimal result))
-                return result;
-
-            return null; // Or return a default value if needed
-        }
-
-        // Method to safely parse integers
-        private static int? ParseInt(object input)
-        {
-            if (input == null || input == DBNull.Value)
-                return null;
-
-            if (int.TryParse(input.ToString(), out int result))
-                return result;
-
-            return null; // Or return a default value if needed
-        }
 
     }
 

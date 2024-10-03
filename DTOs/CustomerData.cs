@@ -6,11 +6,13 @@
         public string ParentID { get; set; } = "";
         public string Name { get; set; } = "";
         public string ParentName { get; set; } = "";
+        public string FullAddress { get; set; } = "";
         public string Company { get; set; } = "";
         public string FullName { get; set; } = "";
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
         public string AccountNumber { get; set; } = "";
+        public string UnitNumber { get; set; } = "";
         public string Phone { get; set; } = "";
         public string Email { get; set; } = "";
         public string Notes { get; set; } = "";

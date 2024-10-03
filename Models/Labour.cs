@@ -25,5 +25,7 @@ public partial class Labour
 
     public int? TechnicianWorkOrderId { get; set; }
 
+    public string WorkDescription { get; set; }
+
     public virtual TechnicianWorkOrder TechnicianWorkOrder { get; set; }
 }

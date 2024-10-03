@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using RaymarEquipmentInventory.Models;
 using RaymarEquipmentInventory.DTOs;
 using System.Data.Odbc;
-
+using RaymarEquipmentInventory.Helpers;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -97,14 +97,14 @@ namespace RaymarEquipmentInventory.Services
                         {
                             inventoryParts.Add(new InventoryData
                             {
-                                InventoryId = CleanString(reader["ID"].ToString() ?? ""),
-                                ItemName = CleanString(reader["Name"].ToString() ?? ""),
-                                ManufacturerPartNumber = CleanString(reader["PartNumber"].ToString() ?? ""),
-                                Description = CleanString(reader["Description"].ToString() ?? "Desc"),
-                                Cost = ParseDecimal(reader["PurchaseCost"] ?? 0),
-                                SalesPrice = ParseDecimal(reader["Price"] ?? 0),
-                                ReorderPoint = ParseInt(reader["ReorderPoint"]),
-                                OnHand = ParseInt(reader["QuantityOnHand"] ?? 0),
+                                InventoryId = StringHelper.CleanString(reader["ID"].ToString() ?? ""),
+                                ItemName = StringHelper.CleanString(reader["Name"].ToString() ?? ""),
+                                ManufacturerPartNumber = StringHelper.CleanString(reader["PartNumber"].ToString() ?? ""),
+                                Description = StringHelper.CleanString(reader["Description"].ToString() ?? "Desc"),
+                                Cost = StringHelper.ParseDecimal(reader["PurchaseCost"] ?? 0),
+                                SalesPrice = StringHelper.ParseDecimal(reader["Price"] ?? 0),
+                                ReorderPoint = StringHelper.ParseInt(reader["ReorderPoint"]),
+                                OnHand = StringHelper.ParseInt(reader["QuantityOnHand"] ?? 0),
                             });
                         }
                     }
@@ -202,38 +202,7 @@ namespace RaymarEquipmentInventory.Services
                 // Map additional fields as necessary
             };
         }
-        private static string CleanString(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-                return input;
-
-            // Remove non-printable characters and trim whitespace
-            return new string(input.Where(c => !char.IsControl(c)).ToArray()).Trim();
-        }
-
-        // Method to safely parse decimals
-        private static decimal? ParseDecimal(object input)
-        {
-            if (input == null || input == DBNull.Value)
-                return null;
-
-            if (decimal.TryParse(input.ToString(), out decimal result))
-                return result;
-
-            return null; // Or return a default value if needed
-        }
-
-        // Method to safely parse integers
-        private static int? ParseInt(object input)
-        {
-            if (input == null || input == DBNull.Value)
-                return null;
-
-            if (int.TryParse(input.ToString(), out int result))
-                return result;
-
-            return null; // Or return a default value if needed
-        }
+  
 
     }
 

@@ -100,6 +100,7 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(255);
             entity.Property(e => e.Email).HasMaxLength(255);
             entity.Property(e => e.FirstName).HasMaxLength(100);
+            entity.Property(e => e.FullAddress).IsUnicode(false);
             entity.Property(e => e.FullName).HasMaxLength(255);
             entity.Property(e => e.Id)
                 .IsRequired()
@@ -183,6 +184,9 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.OttotalMin).HasColumnName("OTTotalMin");
             entity.Property(e => e.StartLabour).HasColumnType("datetime");
             entity.Property(e => e.TechnicianWorkOrderId).HasColumnName("TechnicianWorkOrderID");
+            entity.Property(e => e.WorkDescription)
+                .HasMaxLength(250)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.TechnicianWorkOrder).WithMany(p => p.Labours)
                 .HasForeignKey(d => d.TechnicianWorkOrderId)

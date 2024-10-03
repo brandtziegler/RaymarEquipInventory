@@ -92,8 +92,8 @@ namespace RaymarEquipmentInventory.Services
                 if (vehicle != null && workOrder != null)
                 {
                     var samsaraID = vehicle.SamsaraVehicleId;
-                    var startTime = new DateTime(2024, 9, 30, 9, 40, 0);  // Placeholder for workOrder.DateTimeStarted
-                    var endTime = workOrder.DateTimeCompleted;
+                    var startTime = Convert.ToDateTime(workOrder.DateTimeStarted);  // Placeholder for workOrder.DateTimeStarted
+                    var endTime = Convert.ToDateTime(workOrder.DateTimeCompleted);
                     var utcStartTime = startTime.ToUniversalTime();
                     var utcEndTime = endTime.ToUniversalTime();
 

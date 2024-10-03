@@ -9,8 +9,6 @@ public partial class BillingInformation
 {
     public int BillingId { get; set; }
 
-    public int WorkOrderNumber { get; set; }
-
     public string Pono { get; set; }
 
     public int? Kilometers { get; set; }

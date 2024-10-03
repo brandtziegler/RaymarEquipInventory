@@ -42,7 +42,7 @@ namespace RaymarEquipmentInventory.Controllers
         {
             try
             {
-                var vehicleData = await _samsaraApiService.GetVehicleByID("281474986627612");
+                //var vehicleData = await _samsaraApiService.GetVehicleByID("281474986627612");
                 List<CustomerData> inventoryParts = await _customerService.GetCustomersFromQuickBooksAsnyc(true);
 
                 if (inventoryParts == null || inventoryParts.Count == 0)

@@ -34,5 +34,15 @@
 
             return null; // Or return a default value if needed
         }
+
+        public static string? NullIfEmpty(string input)
+        {
+            return string.IsNullOrEmpty(input) ? null : input;
+        }
+
+        public static string? NullIfWhiteSpace(string input)
+        {
+            return string.IsNullOrWhiteSpace(input) ? null : input;
+        }
     }
 }
