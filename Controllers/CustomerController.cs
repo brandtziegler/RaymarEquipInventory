@@ -60,8 +60,25 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpGet("GetCustomerByID")]
+        public async Task<IActionResult> GetCustomerByID(Int32 custID)
+        {
+            try
+            {
+                CustomerData customerData = await _customerService.GetCustomerByID(custID);
+                if (customerData == null)
+                {
+                    return NotFound("No customer with this ID found."); // Returns 404 if no customer is found
+                }
+                return Ok(customerData);
+            }
+            catch (Exception ex)
+            {
+                // Catching the exception and returning a 500 error with the message
+                return StatusCode(500, $"Internal server error: {ex.Message}");
 
-
-
+            }
+        }
     }
+       
 }

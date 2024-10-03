@@ -2,6 +2,7 @@
 {
     public class CustomerData
     {
+        public Int32 CustomerID { get; set; } = 0;  
         public string ID { get; set; } = "";
         public string ParentID { get; set; } = "";
         public string Name { get; set; } = "";

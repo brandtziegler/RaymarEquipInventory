@@ -7,6 +7,7 @@ using System.Data.Odbc;
 using System.Data;
 using System.Reflection.PortableExecutable;
 using RaymarEquipmentInventory.Helpers;
+using Serilog;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -27,7 +28,6 @@ namespace RaymarEquipmentInventory.Services
             var parentCustomers = new List<CustomerData>();
             var flatCustomers = new List<CustomerData>();
             //var fieldNames = GetCustomerFieldNames();
-            // WHERE (FullName LIKE 'Sarj%' OR ParentName LIKE 'Sarj%') AND 
             string query = "SELECT ID, ParentID, ParentName, Name, FullName, FirstName, LastName, JobDescription, AccountNumber, Phone, Email, Notes, JobStatus, Company, Sublevel, BillingAddress, IsActive FROM Customers" +
                            " WHERE IsActive = 1 ORDER BY Sublevel, FullName";
 
@@ -201,6 +201,151 @@ namespace RaymarEquipmentInventory.Services
                 }
             }
         }
+
+        public async Task<CustomerData> GetCustomerByID(int custID)
+        {
+            try
+            {
+                // Step 1: Fetch the customer without fetching the children yet
+                var existingCustomer = await _context.Customers
+                    .Where(i => i.CustomerId == custID)
+                    .Select(c => new CustomerData
+                    {
+                        CustomerID = c.CustomerId,
+                        ID = c.Id,
+                        ParentID = c.ParentId,
+                        ParentName = c.ParentName,
+                        Name = c.CustomerName,
+                        FullName = c.FullName,
+                        FirstName = c.FirstName,
+                        LastName = c.LastName,
+                        Description = c.Description,
+                        AccountNumber = c.AccountNumber,
+                        Phone = c.Phone,
+                        Email = c.Email,
+                        Notes = c.Notes,
+                        Company = c.Company,
+                        SubLevelId = c.SubLevelId,
+                        FullAddress = c.FullAddress,
+                       
+                        // Leave Children empty for now; we'll populate it after fetching the customer
+                        Children = new List<CustomerData>()
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (existingCustomer == null)
+                {
+                    return null; // No customer found
+                }
+
+                // Step 2: Now fetch the children asynchronously after the customer is fetched
+                existingCustomer.Children = await GetChildren(existingCustomer.ID);
+
+                return existingCustomer;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception using Serilog
+                Log.Error(ex, "An error occurred while fetching customer with ID {CustomerID}", custID);
+
+                // Optionally, you can rethrow the exception or return null
+                return null;
+            }
+        }
+
+
+        public async Task<List<CustomerData>> GetAllCustomers()
+        {
+            List<CustomerData> customerDataList = new List<CustomerData>();
+
+            try
+            {
+                // Step 1: Get all parent customers (SubLevelId = 0)
+                var parentCustomers = await _context.Customers
+                    .Where(c => c.SubLevelId == 0)
+                    .ToListAsync();
+
+                // Step 2: Add each parent and fetch its children recursively
+                foreach (var parent in parentCustomers)
+                {
+                    var parentData = new CustomerData
+                    {
+                        CustomerID = parent.CustomerId,
+                        ID = parent.Id,
+                        ParentID = parent.ParentId,
+                        ParentName = parent.ParentName,
+                        Name = parent.CustomerName,
+                        FullName = parent.FullName,
+                        FirstName = parent.FirstName,
+                        LastName = parent.LastName,
+                        Description = parent.Description,
+                        AccountNumber = parent.AccountNumber,
+                        Phone = parent.Phone,
+                        Email = parent.Email,
+                        Notes = parent.Notes,
+                        Company = parent.Company,
+                        SubLevelId = parent.SubLevelId,
+                        FullAddress = parent.FullAddress,
+                    };
+
+                    customerDataList.Add(parentData);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception using Serilog (or your logging framework)
+                Log.Error(ex, "An error occurred while fetching customers.");
+            }
+
+            return customerDataList.OrderBy(c => c.FullName).ToList(); // Order by FullName before returning
+        }
+
+        // Recursive method to get all children of a customer
+        private async Task<List<CustomerData>> GetChildren(string parentId)
+        {
+            // Step 3: Get the children of the given parent
+            var children = await _context.Customers
+                .Where(c => c.ParentId == parentId)
+                .ToListAsync();
+
+            var childDataList = new List<CustomerData>();
+
+            // Step 4: Recursively fetch and add children to the parent
+            foreach (var child in children)
+            {
+                var childData = new CustomerData
+                {
+                    CustomerID = child.CustomerId,
+                    ID = child.Id,
+                    ParentID = child.ParentId,
+                    ParentName = child.ParentName,
+                    Name = child.CustomerName,
+                    FullName = child.FullName,
+                    FirstName = child.FirstName,
+                    LastName = child.LastName,
+                    Description = child.Description,
+                    AccountNumber = child.AccountNumber,
+                    Phone = child.Phone,
+                    Email = child.Email,
+                    Notes = child.Notes,
+                    Company = child.Company,
+                    SubLevelId = child.SubLevelId,
+                    FullAddress = child.FullAddress,
+                    UnitNumber = child.CustomerName,
+                    // Recursively fetch this child's children, if any
+                    Children = await GetChildren(child.Id)
+                };
+
+                childDataList.Add(childData);
+            }
+
+            return childDataList;
+        }
+
+
+
+
+
 
         // Helper method to update an existing customer without touching ParentID
         private void UpdateExistingCustomerWithoutParent(Models.Customer existingCustomer, DTOs.CustomerData customer)
