@@ -61,25 +61,6 @@ namespace RaymarEquipmentInventory.Services
                 }).ToList() // Handle the 1-many relationship with licenses
 
             };
-
-
-            //// Fetch the licences for this technician
-            //var licences = await _context.TechnicianLicences
-            //    .Where(l => l.TechnicianId == techID)
-            //    .ToListAsync();
-
-            //// Now map those licenses to the DTO
-            //techDTO.TechLicences = licences.Select(licence => new TechLicence
-            //{
-            //    LicenseID = licence.LicenseId,
-            //    LicenseName = licence.LicenseName,
-            //    IssuedDate = licence.IssuedDate,
-            //    ExpiryDate = licence.ExpiryDate,
-            //    LicenceUrl = licence.LicenceUrl
-            //}).ToList();
-
-
-
             return techDTO;
         }
 
