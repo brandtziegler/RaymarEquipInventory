@@ -6,9 +6,9 @@ namespace RaymarEquipmentInventory.Services
     {
 
 
-        Task<Tech> GetTechByID(Int32 techID); // Declares the async task method
+        Task<Tech> GetTechByID(int techID); // Declares the async task method
 
-        Task<List<Tech>> GetTechsByWorkOrder(Int32 workOrderID);
+        Task<List<Tech>> GetTechsByWorkOrder(int workOrderID);
 
         Task<List<Tech>> GetAllTechs();
 

@@ -3,8 +3,8 @@
     public class TripLog
     {
         public string SamsaraVehicleID { get; set; } = "";
-        public Int32 VehicleID { get; set; }
-        public Int32 SheetID { get; set; }
+        public int VehicleID { get; set; }
+        public int SheetID { get; set; }
 
         public long StartMs { get; set; }           // Start time in Unix milliseconds
         public long EndMs { get; set; }             // End time in Unix milliseconds
@@ -24,9 +24,9 @@
         public double EndKM { get; set; }           // End odometer converted to kilometers
         public double DistanceKM { get; set; }      // Distance traveled in kilometers
 
-        public Int32 VehicleTravelID { get; set; } = 0;
+        public int VehicleTravelID { get; set; } = 0;
 
-        public TripLog(string samsaraID, Int32 vehicleID, Int32 sheetID, long startMs, long endMs, string startLocation, string endLocation, long startOdometer, long endOdometer)
+        public TripLog(string samsaraID, int vehicleID, int sheetID, long startMs, long endMs, string startLocation, string endLocation, long startOdometer, long endOdometer)
         {
             SamsaraVehicleID = samsaraID;
             VehicleID = vehicleID;

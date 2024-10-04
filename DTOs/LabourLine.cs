@@ -37,7 +37,7 @@ namespace RaymarEquipmentInventory.DTOs
         public string FlatRateJobDescription { get; set; } = "";
         public string WorkDescription { get; set; } = "";
 
-        public Int32 TechnicianID { get; set; } = 0;
+        public int TechnicianID { get; set; } = 0;
         public string TechFirstName { get; set; } = ""; 
         public string TechLastName { get; set; } = "";
         public string TechFullName => $"{TechFirstName} {TechLastName}";

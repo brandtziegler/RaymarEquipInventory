@@ -49,8 +49,8 @@
 2024-10-04 09:34:45.539 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - null null
 2024-10-04 09:34:45.547 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-10-04 09:34:45.551 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
-2024-10-04 09:34:45.574 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 09:34:46.943 -04:00 [INF] Executed DbCommand (40ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 09:34:45.574 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 09:34:46.943 -04:00 [INF] Executed DbCommand (40ms) [Parameters=[@__workOrderID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID], [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
@@ -83,8 +83,8 @@ WHERE [t].[SheetID] = @__workOrderID_0
 2024-10-04 09:35:51.229 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - null null
 2024-10-04 09:35:51.242 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-10-04 09:35:51.245 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
-2024-10-04 09:35:51.263 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 09:36:06.406 -04:00 [INF] Executed DbCommand (42ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 09:35:51.263 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 09:36:06.406 -04:00 [INF] Executed DbCommand (42ms) [Parameters=[@__workOrderID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID], [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
@@ -117,8 +117,8 @@ WHERE [t].[SheetID] = @__workOrderID_0
 2024-10-04 09:38:21.713 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - null null
 2024-10-04 09:38:21.728 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-10-04 09:38:21.731 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
-2024-10-04 09:38:21.748 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 09:38:44.183 -04:00 [INF] Executed DbCommand (32ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 09:38:21.748 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 09:38:44.183 -04:00 [INF] Executed DbCommand (32ms) [Parameters=[@__workOrderID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
@@ -151,8 +151,8 @@ WHERE [t].[SheetID] = @__workOrderID_0
 2024-10-04 09:41:54.707 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - null null
 2024-10-04 09:41:54.719 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-10-04 09:41:54.723 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
-2024-10-04 09:41:54.741 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 09:41:59.845 -04:00 [INF] Executed DbCommand (41ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 09:41:54.741 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 09:41:59.845 -04:00 [INF] Executed DbCommand (41ms) [Parameters=[@__workOrderID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
@@ -184,23 +184,23 @@ WHERE [t].[SheetID] = @__workOrderID_0
 2024-10-04 09:43:33.175 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - null null
 2024-10-04 09:43:33.186 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-10-04 09:43:33.190 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
-2024-10-04 09:43:33.208 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 09:43:37.587 -04:00 [INF] Executed DbCommand (35ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 09:43:33.208 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 09:43:37.587 -04:00 [INF] Executed DbCommand (35ms) [Parameters=[@__workOrderID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
 WHERE [t].[SheetID] = @__workOrderID_0
-2024-10-04 09:43:37.719 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[@__labour_Technician_TechnicianID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 09:43:37.719 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[@__labour_Technician_TechnicianID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT TOP(1) [t].[TechnicianID], [t].[HourlyRate], [t].[Notes], [t].[PersonID], [t].[ShiftAvailibility], [t].[WorkStatus], [p].[PersonID], [p].[Email], [p].[EndDate], [p].[FirstName], [p].[LastName], [p].[PhoneOne], [p].[RoleName], [p].[StartDate]
 FROM [Technician] AS [t]
 INNER JOIN [Person] AS [p] ON [t].[PersonID] = [p].[PersonID]
 WHERE [t].[TechnicianID] = @__labour_Technician_TechnicianID_0
-2024-10-04 09:43:37.751 -04:00 [INF] Executed DbCommand (22ms) [Parameters=[@__labour_Technician_TechnicianID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 09:43:37.751 -04:00 [INF] Executed DbCommand (22ms) [Parameters=[@__labour_Technician_TechnicianID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT TOP(1) [t].[TechnicianID], [t].[HourlyRate], [t].[Notes], [t].[PersonID], [t].[ShiftAvailibility], [t].[WorkStatus], [p].[PersonID], [p].[Email], [p].[EndDate], [p].[FirstName], [p].[LastName], [p].[PhoneOne], [p].[RoleName], [p].[StartDate]
 FROM [Technician] AS [t]
 INNER JOIN [Person] AS [p] ON [t].[PersonID] = [p].[PersonID]
 WHERE [t].[TechnicianID] = @__labour_Technician_TechnicianID_0
-2024-10-04 09:43:37.776 -04:00 [INF] Executed DbCommand (22ms) [Parameters=[@__labour_Technician_TechnicianID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 09:43:37.776 -04:00 [INF] Executed DbCommand (22ms) [Parameters=[@__labour_Technician_TechnicianID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT TOP(1) [t].[TechnicianID], [t].[HourlyRate], [t].[Notes], [t].[PersonID], [t].[ShiftAvailibility], [t].[WorkStatus], [p].[PersonID], [p].[Email], [p].[EndDate], [p].[FirstName], [p].[LastName], [p].[PhoneOne], [p].[RoleName], [p].[StartDate]
 FROM [Technician] AS [t]
 INNER JOIN [Person] AS [p] ON [t].[PersonID] = [p].[PersonID]
@@ -233,8 +233,8 @@ WHERE [t].[TechnicianID] = @__labour_Technician_TechnicianID_0
 2024-10-04 09:46:17.696 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - null null
 2024-10-04 09:46:17.713 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-10-04 09:46:17.716 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
-2024-10-04 09:46:17.733 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 09:46:27.690 -04:00 [INF] Executed DbCommand (40ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 09:46:17.733 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 09:46:27.690 -04:00 [INF] Executed DbCommand (40ms) [Parameters=[@__workOrderID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID], [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
@@ -267,8 +267,8 @@ WHERE [t].[SheetID] = @__workOrderID_0
 2024-10-04 09:57:18.609 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - null null
 2024-10-04 09:57:18.620 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-10-04 09:57:18.624 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
-2024-10-04 09:57:18.642 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 09:57:21.569 -04:00 [INF] Executed DbCommand (36ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 09:57:18.642 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 09:57:21.569 -04:00 [INF] Executed DbCommand (36ms) [Parameters=[@__workOrderID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID], [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
@@ -301,8 +301,8 @@ WHERE [t].[SheetID] = @__workOrderID_0
 2024-10-04 10:00:58.927 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - null null
 2024-10-04 10:00:58.939 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-10-04 10:00:58.944 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
-2024-10-04 10:00:58.961 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 10:01:02.058 -04:00 [INF] Executed DbCommand (36ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 10:00:58.961 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 10:01:02.058 -04:00 [INF] Executed DbCommand (36ms) [Parameters=[@__workOrderID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID], [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
@@ -335,8 +335,8 @@ WHERE [t].[SheetID] = @__workOrderID_0
 2024-10-04 10:05:41.912 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - null null
 2024-10-04 10:05:41.922 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-10-04 10:05:41.926 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
-2024-10-04 10:05:41.944 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 10:05:45.734 -04:00 [INF] Executed DbCommand (39ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 10:05:41.944 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 10:05:45.734 -04:00 [INF] Executed DbCommand (39ms) [Parameters=[@__workOrderID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID], [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus], [p].[PersonID], [p].[Email], [p].[EndDate], [p].[FirstName], [p].[LastName], [p].[PhoneOne], [p].[RoleName], [p].[StartDate]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
@@ -371,8 +371,8 @@ WHERE [t].[SheetID] = @__workOrderID_0
 2024-10-04 10:07:26.431 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - null null
 2024-10-04 10:07:26.440 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-10-04 10:07:26.443 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
-2024-10-04 10:07:26.462 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 10:07:30.798 -04:00 [INF] Executed DbCommand (38ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 10:07:26.462 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 10:07:30.798 -04:00 [INF] Executed DbCommand (38ms) [Parameters=[@__workOrderID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID], [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus], [p].[PersonID], [p].[Email], [p].[EndDate], [p].[FirstName], [p].[LastName], [p].[PhoneOne], [p].[RoleName], [p].[StartDate]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
@@ -406,8 +406,8 @@ WHERE [t].[SheetID] = @__workOrderID_0
 2024-10-04 10:09:23.872 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourByID?labourID=4 - null null
 2024-10-04 10:09:23.883 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-10-04 10:09:23.886 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourByID (RaymarEquipmentInventory)'
-2024-10-04 10:09:23.904 -04:00 [INF] Route matched with {action = "GetLabourByID", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourByID(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 10:09:27.724 -04:00 [INF] Executed DbCommand (44ms) [Parameters=[@__labourId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 10:09:23.904 -04:00 [INF] Route matched with {action = "GetLabourByID", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourByID(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 10:09:27.724 -04:00 [INF] Executed DbCommand (44ms) [Parameters=[@__labourId_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT TOP(1) [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID], [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus], [p].[PersonID], [p].[Email], [p].[EndDate], [p].[FirstName], [p].[LastName], [p].[PhoneOne], [p].[RoleName], [p].[StartDate]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
@@ -420,11 +420,50 @@ WHERE [l].[LabourID] = @__labourId_0
 2024-10-04 10:09:53.030 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourByID?labourID=4 - 200 null application/json; charset=utf-8 29158.0399ms
 2024-10-04 10:09:59.741 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourByID?labourID=5 - null null
 2024-10-04 10:09:59.745 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourByID (RaymarEquipmentInventory)'
-2024-10-04 10:09:59.746 -04:00 [INF] Route matched with {action = "GetLabourByID", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourByID(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
-2024-10-04 10:10:01.630 -04:00 [INF] Executed DbCommand (27ms) [Parameters=[@__labourId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-04 10:09:59.746 -04:00 [INF] Route matched with {action = "GetLabourByID", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourByID(int) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 10:10:01.630 -04:00 [INF] Executed DbCommand (27ms) [Parameters=[@__labourId_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT TOP(1) [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID], [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus], [p].[PersonID], [p].[Email], [p].[EndDate], [p].[FirstName], [p].[LastName], [p].[PhoneOne], [p].[RoleName], [p].[StartDate]
 FROM [Labour] AS [l]
 LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
 LEFT JOIN [Technician] AS [t0] ON [t].[TechnicianID] = [t0].[TechnicianID]
 LEFT JOIN [Person] AS [p] ON [t0].[PersonID] = [p].[PersonID]
 WHERE [l].[LabourID] = @__labourId_0
+2024-10-04 10:29:03.519 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-04 10:29:04.515 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-04 10:29:04.889 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-04 10:29:04.947 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-04 10:29:04.948 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-04 10:29:04.949 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-04 10:29:04.964 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-04 10:29:04.965 -04:00 [INF] Hosting environment: Development
+2024-10-04 10:29:04.966 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-04 10:29:05.111 -04:00 [INF] Server dev-workstation:4488:d889b2ec successfully announced in 146.8781 ms
+2024-10-04 10:29:05.116 -04:00 [INF] Server dev-workstation:4488:d889b2ec is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-04 10:29:05.177 -04:00 [INF] Server dev-workstation:4488:d889b2ec all the dispatchers started
+2024-10-04 10:29:05.606 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-04 10:29:05.790 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 189.6497ms
+2024-10-04 10:29:05.814 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-04 10:29:05.815 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-04 10:29:05.818 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.0575ms
+2024-10-04 10:29:05.847 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 32.3877ms
+2024-10-04 10:29:05.869 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-04 10:29:05.938 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 69.7011ms
+2024-10-04 10:29:15.910 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - null null
+2024-10-04 10:29:15.916 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-04 10:29:15.920 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
+2024-10-04 10:29:15.938 -04:00 [INF] Route matched with {action = "GetLabourForWorkorder", controller = "Labour"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetLabourForWorkorder(Int32) on controller RaymarEquipmentInventory.Controllers.LabourController (RaymarEquipmentInventory).
+2024-10-04 10:29:19.114 -04:00 [INF] Executed DbCommand (38ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID], [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus], [p].[PersonID], [p].[Email], [p].[EndDate], [p].[FirstName], [p].[LastName], [p].[PhoneOne], [p].[RoleName], [p].[StartDate]
+FROM [Labour] AS [l]
+LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
+LEFT JOIN [Technician] AS [t0] ON [t].[TechnicianID] = [t0].[TechnicianID]
+LEFT JOIN [Person] AS [p] ON [t0].[PersonID] = [p].[PersonID]
+WHERE [t].[SheetID] = @__workOrderID_0
+2024-10-04 10:29:21.059 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.LabourLine, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-10-04 10:29:21.075 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory) in 5132.2193ms
+2024-10-04 10:29:21.076 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
+2024-10-04 10:29:21.082 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - 200 null application/json; charset=utf-8 5172.7309ms

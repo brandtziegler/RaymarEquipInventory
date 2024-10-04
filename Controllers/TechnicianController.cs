@@ -23,7 +23,7 @@ namespace RaymarEquipmentInventory.Controllers
 
 
         [HttpGet("GetTechniciansByID")]
-        public async Task<IActionResult> GetTechniciansByID(Int32 techID)
+        public async Task<IActionResult> GetTechniciansByID(int techID)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace RaymarEquipmentInventory.Controllers
 
 
         [HttpGet("GetTechsByWorkOrder")]
-        public async Task<IActionResult> GetTechsByWorkOrder(Int32 sheetID)
+        public async Task<IActionResult> GetTechsByWorkOrder(int sheetID)
         {
             try
             {

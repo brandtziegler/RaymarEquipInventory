@@ -100,7 +100,7 @@ namespace RaymarEquipmentInventory.Services
             return techDTOs;
         }
 
-        public async Task<List<Tech>> GetTechsByWorkOrder(Int32 workOrderID)
+        public async Task<List<Tech>> GetTechsByWorkOrder(int workOrderID)
         {
 
             // Fetch the technicians linked to the work order, including Person and TechnicianLicences

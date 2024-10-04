@@ -11,7 +11,7 @@ namespace RaymarEquipmentInventory.Services
 
         Task<DTOs.PartsUsed> GetPartByID(int partID);
 
-        Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(Int32 workOrderID);
+        Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(int workOrderID);
 
         //Task<List<Tech>> GetAllParts();
 

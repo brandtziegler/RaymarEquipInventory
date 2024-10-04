@@ -58,7 +58,7 @@ namespace RaymarEquipmentInventory.Services
             return partUsedDTO;
         }
 
-        public async Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(Int32 workOrderID)
+        public async Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(int workOrderID)
         {
 
 

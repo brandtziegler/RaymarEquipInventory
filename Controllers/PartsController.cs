@@ -20,7 +20,7 @@ namespace RaymarEquipmentInventory.Controllers
 
 
         [HttpGet("GetPartById")]
-        public async Task<IActionResult> GetPartById(Int32 partID)
+        public async Task<IActionResult> GetPartById(int partID)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace RaymarEquipmentInventory.Controllers
 
 
         [HttpGet("GetPartsByWorkOrder")]
-        public async Task<IActionResult> GetPartsByWorkOrder(Int32 sheetID)
+        public async Task<IActionResult> GetPartsByWorkOrder(int sheetID)
         {
             try
             {

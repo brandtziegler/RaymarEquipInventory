@@ -76,7 +76,7 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task UpdateVehicleLog(Int32 SheetID, Int32 VehicleID)
+        public async Task UpdateVehicleLog(int SheetID, int VehicleID)
         {
             try
             {

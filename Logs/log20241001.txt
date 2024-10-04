@@ -215,7 +215,7 @@ WHERE [v].[SamsaraVehicleID] = @__vehicle_SamsaraVehicleID_0
 SELECT TOP(1) [v].[VehicleID], [v].[SamsaraVehicleID], [v].[VehicleName], [v].[VehicleVIN]
 FROM [VehicleData] AS [v]
 WHERE [v].[SamsaraVehicleID] = @__vehicle_SamsaraVehicleID_0
-2024-10-01 17:05:45.279 -04:00 [INF] Executed DbCommand (46ms) [Parameters=[@p3='?' (DbType = Int32), @p0='?' (Size = 50) (DbType = AnsiString), @p1='?' (Size = 100) (DbType = AnsiString), @p2='?' (Size = 50) (DbType = AnsiString), @p7='?' (DbType = Int32), @p4='?' (Size = 50) (DbType = AnsiString), @p5='?' (Size = 100) (DbType = AnsiString), @p6='?' (Size = 50) (DbType = AnsiString), @p11='?' (DbType = Int32), @p8='?' (Size = 50) (DbType = AnsiString), @p9='?' (Size = 100) (DbType = AnsiString), @p10='?' (Size = 50) (DbType = AnsiString), @p15='?' (DbType = Int32), @p12='?' (Size = 50) (DbType = AnsiString), @p13='?' (Size = 100) (DbType = AnsiString), @p14='?' (Size = 50) (DbType = AnsiString), @p19='?' (DbType = Int32), @p16='?' (Size = 50) (DbType = AnsiString), @p17='?' (Size = 100) (DbType = AnsiString), @p18='?' (Size = 50) (DbType = AnsiString), @p23='?' (DbType = Int32), @p20='?' (Size = 50) (DbType = AnsiString), @p21='?' (Size = 100) (DbType = AnsiString), @p22='?' (Size = 50) (DbType = AnsiString), @p27='?' (DbType = Int32), @p24='?' (Size = 50) (DbType = AnsiString), @p25='?' (Size = 100) (DbType = AnsiString), @p26='?' (Size = 50) (DbType = AnsiString), @p31='?' (DbType = Int32), @p28='?' (Size = 50) (DbType = AnsiString), @p29='?' (Size = 100) (DbType = AnsiString), @p30='?' (Size = 50) (DbType = AnsiString), @p35='?' (DbType = Int32), @p32='?' (Size = 50) (DbType = AnsiString), @p33='?' (Size = 100) (DbType = AnsiString), @p34='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+2024-10-01 17:05:45.279 -04:00 [INF] Executed DbCommand (46ms) [Parameters=[@p3='?' (DbType = int), @p0='?' (Size = 50) (DbType = AnsiString), @p1='?' (Size = 100) (DbType = AnsiString), @p2='?' (Size = 50) (DbType = AnsiString), @p7='?' (DbType = int), @p4='?' (Size = 50) (DbType = AnsiString), @p5='?' (Size = 100) (DbType = AnsiString), @p6='?' (Size = 50) (DbType = AnsiString), @p11='?' (DbType = int), @p8='?' (Size = 50) (DbType = AnsiString), @p9='?' (Size = 100) (DbType = AnsiString), @p10='?' (Size = 50) (DbType = AnsiString), @p15='?' (DbType = int), @p12='?' (Size = 50) (DbType = AnsiString), @p13='?' (Size = 100) (DbType = AnsiString), @p14='?' (Size = 50) (DbType = AnsiString), @p19='?' (DbType = int), @p16='?' (Size = 50) (DbType = AnsiString), @p17='?' (Size = 100) (DbType = AnsiString), @p18='?' (Size = 50) (DbType = AnsiString), @p23='?' (DbType = int), @p20='?' (Size = 50) (DbType = AnsiString), @p21='?' (Size = 100) (DbType = AnsiString), @p22='?' (Size = 50) (DbType = AnsiString), @p27='?' (DbType = int), @p24='?' (Size = 50) (DbType = AnsiString), @p25='?' (Size = 100) (DbType = AnsiString), @p26='?' (Size = 50) (DbType = AnsiString), @p31='?' (DbType = int), @p28='?' (Size = 50) (DbType = AnsiString), @p29='?' (Size = 100) (DbType = AnsiString), @p30='?' (Size = 50) (DbType = AnsiString), @p35='?' (DbType = int), @p32='?' (Size = 50) (DbType = AnsiString), @p33='?' (Size = 100) (DbType = AnsiString), @p34='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
 SET NOCOUNT ON;
 UPDATE [VehicleData] SET [SamsaraVehicleID] = @p0, [VehicleName] = @p1, [VehicleVIN] = @p2
 OUTPUT 1
@@ -244,15 +244,15 @@ WHERE [VehicleID] = @p31;
 UPDATE [VehicleData] SET [SamsaraVehicleID] = @p32, [VehicleName] = @p33, [VehicleVIN] = @p34
 OUTPUT 1
 WHERE [VehicleID] = @p35;
-2024-10-01 17:05:58.928 -04:00 [INF] Executed DbCommand (33ms) [Parameters=[@__SheetID_0='?' (DbType = Int32), @__VehicleID_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-01 17:05:58.928 -04:00 [INF] Executed DbCommand (33ms) [Parameters=[@__SheetID_0='?' (DbType = int), @__VehicleID_1='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT TOP(1) [v].[VehicleWorkOrderID], [v].[SheetID], [v].[VehicleID]
 FROM [VehicleWorkOrder] AS [v]
 WHERE [v].[SheetID] = @__SheetID_0 AND [v].[VehicleID] = @__VehicleID_1
-2024-10-01 17:05:58.976 -04:00 [INF] Executed DbCommand (23ms) [Parameters=[@__VehicleID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-01 17:05:58.976 -04:00 [INF] Executed DbCommand (23ms) [Parameters=[@__VehicleID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT TOP(1) [v].[VehicleID], [v].[SamsaraVehicleID], [v].[VehicleName], [v].[VehicleVIN]
 FROM [VehicleData] AS [v]
 WHERE [v].[VehicleID] = @__VehicleID_0
-2024-10-01 17:05:59.006 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[@__SheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-01 17:05:59.006 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[@__SheetID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT TOP(1) [w].[SheetID], [w].[DateTimeCompleted], [w].[DateTimeCreated], [w].[DateTimeStarted], [w].[WorkOrdStatus], [w].[WorkOrderNumber]
 FROM [WorkOrderSheet] AS [w]
 WHERE [w].[SheetID] = @__SheetID_0
@@ -303,7 +303,7 @@ WHERE [v].[SamsaraVehicleID] = @__vehicle_SamsaraVehicleID_0
 SELECT TOP(1) [v].[VehicleID], [v].[SamsaraVehicleID], [v].[VehicleName], [v].[VehicleVIN]
 FROM [VehicleData] AS [v]
 WHERE [v].[SamsaraVehicleID] = @__vehicle_SamsaraVehicleID_0
-2024-10-01 17:06:46.802 -04:00 [INF] Executed DbCommand (32ms) [Parameters=[@p3='?' (DbType = Int32), @p0='?' (Size = 50) (DbType = AnsiString), @p1='?' (Size = 100) (DbType = AnsiString), @p2='?' (Size = 50) (DbType = AnsiString), @p7='?' (DbType = Int32), @p4='?' (Size = 50) (DbType = AnsiString), @p5='?' (Size = 100) (DbType = AnsiString), @p6='?' (Size = 50) (DbType = AnsiString), @p11='?' (DbType = Int32), @p8='?' (Size = 50) (DbType = AnsiString), @p9='?' (Size = 100) (DbType = AnsiString), @p10='?' (Size = 50) (DbType = AnsiString), @p15='?' (DbType = Int32), @p12='?' (Size = 50) (DbType = AnsiString), @p13='?' (Size = 100) (DbType = AnsiString), @p14='?' (Size = 50) (DbType = AnsiString), @p19='?' (DbType = Int32), @p16='?' (Size = 50) (DbType = AnsiString), @p17='?' (Size = 100) (DbType = AnsiString), @p18='?' (Size = 50) (DbType = AnsiString), @p23='?' (DbType = Int32), @p20='?' (Size = 50) (DbType = AnsiString), @p21='?' (Size = 100) (DbType = AnsiString), @p22='?' (Size = 50) (DbType = AnsiString), @p27='?' (DbType = Int32), @p24='?' (Size = 50) (DbType = AnsiString), @p25='?' (Size = 100) (DbType = AnsiString), @p26='?' (Size = 50) (DbType = AnsiString), @p31='?' (DbType = Int32), @p28='?' (Size = 50) (DbType = AnsiString), @p29='?' (Size = 100) (DbType = AnsiString), @p30='?' (Size = 50) (DbType = AnsiString), @p35='?' (DbType = Int32), @p32='?' (Size = 50) (DbType = AnsiString), @p33='?' (Size = 100) (DbType = AnsiString), @p34='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+2024-10-01 17:06:46.802 -04:00 [INF] Executed DbCommand (32ms) [Parameters=[@p3='?' (DbType = int), @p0='?' (Size = 50) (DbType = AnsiString), @p1='?' (Size = 100) (DbType = AnsiString), @p2='?' (Size = 50) (DbType = AnsiString), @p7='?' (DbType = int), @p4='?' (Size = 50) (DbType = AnsiString), @p5='?' (Size = 100) (DbType = AnsiString), @p6='?' (Size = 50) (DbType = AnsiString), @p11='?' (DbType = int), @p8='?' (Size = 50) (DbType = AnsiString), @p9='?' (Size = 100) (DbType = AnsiString), @p10='?' (Size = 50) (DbType = AnsiString), @p15='?' (DbType = int), @p12='?' (Size = 50) (DbType = AnsiString), @p13='?' (Size = 100) (DbType = AnsiString), @p14='?' (Size = 50) (DbType = AnsiString), @p19='?' (DbType = int), @p16='?' (Size = 50) (DbType = AnsiString), @p17='?' (Size = 100) (DbType = AnsiString), @p18='?' (Size = 50) (DbType = AnsiString), @p23='?' (DbType = int), @p20='?' (Size = 50) (DbType = AnsiString), @p21='?' (Size = 100) (DbType = AnsiString), @p22='?' (Size = 50) (DbType = AnsiString), @p27='?' (DbType = int), @p24='?' (Size = 50) (DbType = AnsiString), @p25='?' (Size = 100) (DbType = AnsiString), @p26='?' (Size = 50) (DbType = AnsiString), @p31='?' (DbType = int), @p28='?' (Size = 50) (DbType = AnsiString), @p29='?' (Size = 100) (DbType = AnsiString), @p30='?' (Size = 50) (DbType = AnsiString), @p35='?' (DbType = int), @p32='?' (Size = 50) (DbType = AnsiString), @p33='?' (Size = 100) (DbType = AnsiString), @p34='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
 SET NOCOUNT ON;
 UPDATE [VehicleData] SET [SamsaraVehicleID] = @p0, [VehicleName] = @p1, [VehicleVIN] = @p2
 OUTPUT 1
@@ -332,15 +332,15 @@ WHERE [VehicleID] = @p31;
 UPDATE [VehicleData] SET [SamsaraVehicleID] = @p32, [VehicleName] = @p33, [VehicleVIN] = @p34
 OUTPUT 1
 WHERE [VehicleID] = @p35;
-2024-10-01 17:06:49.164 -04:00 [INF] Executed DbCommand (22ms) [Parameters=[@__SheetID_0='?' (DbType = Int32), @__VehicleID_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-01 17:06:49.164 -04:00 [INF] Executed DbCommand (22ms) [Parameters=[@__SheetID_0='?' (DbType = int), @__VehicleID_1='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT TOP(1) [v].[VehicleWorkOrderID], [v].[SheetID], [v].[VehicleID]
 FROM [VehicleWorkOrder] AS [v]
 WHERE [v].[SheetID] = @__SheetID_0 AND [v].[VehicleID] = @__VehicleID_1
-2024-10-01 17:06:49.188 -04:00 [INF] Executed DbCommand (21ms) [Parameters=[@__VehicleID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-01 17:06:49.188 -04:00 [INF] Executed DbCommand (21ms) [Parameters=[@__VehicleID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT TOP(1) [v].[VehicleID], [v].[SamsaraVehicleID], [v].[VehicleName], [v].[VehicleVIN]
 FROM [VehicleData] AS [v]
 WHERE [v].[VehicleID] = @__VehicleID_0
-2024-10-01 17:06:49.212 -04:00 [INF] Executed DbCommand (22ms) [Parameters=[@__SheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2024-10-01 17:06:49.212 -04:00 [INF] Executed DbCommand (22ms) [Parameters=[@__SheetID_0='?' (DbType = int)], CommandType='"Text"', CommandTimeout='30']
 SELECT TOP(1) [w].[SheetID], [w].[DateTimeCompleted], [w].[DateTimeCreated], [w].[DateTimeStarted], [w].[WorkOrdStatus], [w].[WorkOrderNumber]
 FROM [WorkOrderSheet] AS [w]
 WHERE [w].[SheetID] = @__SheetID_0

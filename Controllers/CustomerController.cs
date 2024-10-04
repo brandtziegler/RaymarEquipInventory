@@ -61,7 +61,7 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
         [HttpGet("GetCustomerByID")]
-        public async Task<IActionResult> GetCustomerByID(Int32 custID)
+        public async Task<IActionResult> GetCustomerByID(int custID)
         {
             try
             {

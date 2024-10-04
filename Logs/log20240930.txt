@@ -25,7 +25,7 @@
 2024-09-30 13:58:04.872 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Samsara/281474986634398 - null null
 2024-09-30 13:58:04.884 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-09-30 13:58:04.888 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.SamsaraController.GetVehicle (RaymarEquipmentInventory)'
-2024-09-30 13:58:04.910 -04:00 [INF] Route matched with {action = "GetVehicle", controller = "Samsara"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetVehicle(Int32) on controller RaymarEquipmentInventory.Controllers.SamsaraController (RaymarEquipmentInventory).
+2024-09-30 13:58:04.910 -04:00 [INF] Route matched with {action = "GetVehicle", controller = "Samsara"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetVehicle(int) on controller RaymarEquipmentInventory.Controllers.SamsaraController (RaymarEquipmentInventory).
 2024-09-30 13:58:05.520 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
 2024-09-30 13:58:05.531 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.SamsaraController.GetVehicle (RaymarEquipmentInventory) in 614.1825ms
 2024-09-30 13:58:05.532 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.SamsaraController.GetVehicle (RaymarEquipmentInventory)'
@@ -81,7 +81,7 @@
 2024-09-30 14:02:51.074 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Samsara/281474986627612 - null null
 2024-09-30 14:02:51.082 -04:00 [WRN] Failed to determine the https port for redirect.
 2024-09-30 14:02:51.085 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.SamsaraController.GetVehicleById (RaymarEquipmentInventory)'
-2024-09-30 14:02:51.103 -04:00 [INF] Route matched with {action = "GetVehicleById", controller = "Samsara"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetVehicleById(Int32) on controller RaymarEquipmentInventory.Controllers.SamsaraController (RaymarEquipmentInventory).
+2024-09-30 14:02:51.103 -04:00 [INF] Route matched with {action = "GetVehicleById", controller = "Samsara"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetVehicleById(int) on controller RaymarEquipmentInventory.Controllers.SamsaraController (RaymarEquipmentInventory).
 2024-09-30 14:02:51.227 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
 2024-09-30 14:02:51.239 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.SamsaraController.GetVehicleById (RaymarEquipmentInventory) in 132.9756ms
 2024-09-30 14:02:51.240 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.SamsaraController.GetVehicleById (RaymarEquipmentInventory)'

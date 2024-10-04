@@ -2,7 +2,7 @@
 {
     public class CustomerData
     {
-        public Int32 CustomerID { get; set; } = 0;  
+        public int CustomerID { get; set; } = 0;  
         public string ID { get; set; } = "";
         public string ParentID { get; set; } = "";
         public string Name { get; set; } = "";
@@ -27,7 +27,7 @@
         public string Description { get; set; } = "";
 
         public bool IsActive { get; set; } = false;
-        public Int32 SubLevelId { get; set; } = 0;
+        public int SubLevelId { get; set; } = 0;
         public List<CustomerData> Children { get; set; } = new List<CustomerData>();
 
 

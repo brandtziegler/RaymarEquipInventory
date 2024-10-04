@@ -23,7 +23,7 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<List<DTOs.LabourLine>> GetLabourByWorkOrder(Int32 workOrderID)
+        public async Task<List<DTOs.LabourLine>> GetLabourByWorkOrder(int workOrderID)
         {
             var labourList = await _context.Labours
                 .Include(t => t.TechnicianWorkOrder)  // Include the related person
