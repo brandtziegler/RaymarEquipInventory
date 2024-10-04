@@ -100,7 +100,7 @@ namespace RaymarEquipmentInventory.Services
             return techDTOs;
         }
 
-        public async Task<List<Tech>> GetTechsByWorkOrder(int workOrderID)
+        public async Task<List<Tech>> GetTechsByWorkOrder(int sheetID)
         {
 
             // Fetch the technicians linked to the work order, including Person and TechnicianLicences
@@ -108,7 +108,7 @@ namespace RaymarEquipmentInventory.Services
                 .Include(t => t.Technician)  // Include the technician entity
                 .ThenInclude(t => t.Person)  // Include the related person
                 .Include(t => t.Technician.TechnicianLicences)  // Include related licenses (1-many)
-                .Where(w => w.SheetId == workOrderID)
+                .Where(w => w.SheetId == sheetID)
                 .Select(w => w.Technician)  // Select the technician from the work order
                 .ToListAsync();
 

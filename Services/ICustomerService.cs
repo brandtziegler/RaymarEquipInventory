@@ -8,8 +8,5 @@ namespace RaymarEquipmentInventory.Services
         Task<List<CustomerData>> GetAllCustomers();
         Task<CustomerData> GetCustomerByID(int custID);
 
-
-        //Task UpdateOrInsertCustomersAsync(List<CustomerData> customerDataList); // Declares the async task method
-
     }
 }

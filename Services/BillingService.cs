@@ -23,12 +23,12 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<DTOs.Billing> GetLabourForWorkorder(int workOrderID)
+        public async Task<DTOs.Billing> GetLabourForWorkorder(int sheetID)
         {
             var billing = await _context.BillingInformations
               .Include(t => t.Customer)  // Include the related work order
               .Include(t => t.Customer.Parent)  // Include the related work order
-              .Where(t => t.SheetId == workOrderID)
+              .Where(t => t.SheetId == sheetID)
               .FirstOrDefaultAsync();
 
             if (billing == null)

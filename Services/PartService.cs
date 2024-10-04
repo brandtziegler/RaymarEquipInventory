@@ -58,13 +58,13 @@ namespace RaymarEquipmentInventory.Services
             return partUsedDTO;
         }
 
-        public async Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(int workOrderID)
+        public async Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(int sheetID)
         {
 
 
             var partsUsedList = await _context.PartsUseds
                 .Include(t => t.Inventory)  // Include the related person
-                .Where(t => t.SheetId == workOrderID)
+                .Where(t => t.SheetId == sheetID)
                 .ToListAsync();
 
             // Map the list of technicians to the DTO

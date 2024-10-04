@@ -17,6 +17,10 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<Customer> Customers { get; set; }
 
+    public virtual DbSet<Document> Documents { get; set; }
+
+    public virtual DbSet<DocumentType> DocumentTypes { get; set; }
+
     public virtual DbSet<IncomeAccount> IncomeAccounts { get; set; }
 
     public virtual DbSet<InventoryDatum> InventoryData { get; set; }
@@ -122,6 +126,52 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasPrincipalKey(p => p.Id)
                 .HasForeignKey(d => d.ParentId)
                 .HasConstraintName("FK_ParentCustomer");
+        });
+
+        modelBuilder.Entity<Document>(entity =>
+        {
+            entity.HasKey(e => e.DocumentId).HasName("PK__Document__1ABEEF6F3CB9DA3E");
+
+            entity.Property(e => e.DocumentId).HasColumnName("DocumentID");
+            entity.Property(e => e.DocumentTypeId).HasColumnName("DocumentTypeID");
+            entity.Property(e => e.FileName)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FileUrl)
+                .IsRequired()
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("FileURL");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.UploadDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.UploadedBy)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.DocumentType).WithMany(p => p.Documents)
+                .HasForeignKey(d => d.DocumentTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Documents_DocumentTypes");
+
+            entity.HasOne(d => d.Sheet).WithMany(p => p.Documents)
+                .HasForeignKey(d => d.SheetId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Documents_WorkOrderSheet");
+        });
+
+        modelBuilder.Entity<DocumentType>(entity =>
+        {
+            entity.HasKey(e => e.DocumentTypeId).HasName("PK__Document__DBA390C1C2B39F2E");
+
+            entity.Property(e => e.DocumentTypeId).HasColumnName("DocumentTypeID");
+            entity.Property(e => e.DocumentTypeName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<IncomeAccount>(entity =>

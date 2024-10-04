@@ -95,6 +95,7 @@ builder.Services.AddScoped<ITechnicianService, TechnicanService>();
 builder.Services.AddScoped<IPartService, PartService>();
 builder.Services.AddScoped<ILabourService, LabourService>();
 builder.Services.AddScoped<IBillingService, BillingService>();
+builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 
 

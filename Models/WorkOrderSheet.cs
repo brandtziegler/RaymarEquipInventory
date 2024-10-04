@@ -21,6 +21,8 @@ public partial class WorkOrderSheet
 
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
 
+    public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
+
     public virtual ICollection<MileageAndTime> MileageAndTimes { get; set; } = new List<MileageAndTime>();
 
     public virtual ICollection<PartsUsed> PartsUseds { get; set; } = new List<PartsUsed>();
