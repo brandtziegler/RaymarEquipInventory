@@ -23,8 +23,6 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-
-
         public async Task<DTOs.PartsUsed> GetPartByID(int partID)
         {
             // First, let's get the tech, and include the related Person and TechLicences

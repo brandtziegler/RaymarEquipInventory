@@ -87,6 +87,7 @@ builder.Services.AddScoped<ICustomerService, CustomerService>(); // Registering 
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<ITechnicianService, TechnicanService>();
 builder.Services.AddScoped<IPartService, PartService>();
+builder.Services.AddScoped<ILabourService, LabourService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 
 
