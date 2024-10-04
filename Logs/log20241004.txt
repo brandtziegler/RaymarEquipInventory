@@ -467,3 +467,70 @@ WHERE [t].[SheetID] = @__workOrderID_0
 2024-10-04 10:29:21.075 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory) in 5132.2193ms
 2024-10-04 10:29:21.076 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.LabourController.GetLabourForWorkorder (RaymarEquipmentInventory)'
 2024-10-04 10:29:21.082 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Labour/GetLabourForWorkOrder?sheetID=1 - 200 null application/json; charset=utf-8 5172.7309ms
+2024-10-04 12:12:29.055 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-04 12:12:30.009 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-04 12:12:30.234 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-04 12:12:30.279 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-04 12:12:30.280 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-04 12:12:30.280 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-04 12:12:30.292 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-04 12:12:30.293 -04:00 [INF] Hosting environment: Development
+2024-10-04 12:12:30.293 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-04 12:12:30.401 -04:00 [INF] Server dev-workstation:33160:12d5c845 successfully announced in 109.0123 ms
+2024-10-04 12:12:30.409 -04:00 [INF] Server dev-workstation:33160:12d5c845 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-04 12:12:30.475 -04:00 [INF] Server dev-workstation:33160:12d5c845 all the dispatchers started
+2024-10-04 12:12:31.393 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-04 12:12:31.584 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 196.7698ms
+2024-10-04 12:12:31.604 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-04 12:12:31.606 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-04 12:12:31.609 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.7718ms
+2024-10-04 12:12:31.632 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 26.0884ms
+2024-10-04 12:12:31.655 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-04 12:12:31.725 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 69.246ms
+2024-10-04 12:12:56.609 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Billing/GetBillingForWorkOrder?sheetID=1 - null null
+2024-10-04 12:12:56.617 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-04 12:12:56.621 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.BillingController.GetBillingForWorkOrder (RaymarEquipmentInventory)'
+2024-10-04 12:12:56.638 -04:00 [INF] Route matched with {action = "GetBillingForWorkOrder", controller = "Billing"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetBillingForWorkOrder(Int32) on controller RaymarEquipmentInventory.Controllers.BillingController (RaymarEquipmentInventory).
+2024-10-04 12:13:00.359 -04:00 [INF] Executed DbCommand (53ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[BillingID], [b].[BillingPersonID], [b].[CustomerID], [b].[Kilometers], [b].[Notes], [b].[PONo], [b].[SheetID], [b].[UnitNo], [b].[WorkLocation], [c].[CustomerID], [c].[AccountNumber], [c].[Company], [c].[CustomerName], [c].[Description], [c].[Email], [c].[FirstName], [c].[FullAddress], [c].[FullName], [c].[ID], [c].[JobDescription], [c].[JobProjectedEndDate], [c].[JobStartDate], [c].[JobStatus], [c].[JobType], [c].[JobTypeId], [c].[LastName], [c].[Notes], [c].[ParentID], [c].[ParentName], [c].[Phone], [c].[SubLevelId]
+FROM [BillingInformation] AS [b]
+LEFT JOIN [Customers] AS [c] ON [b].[CustomerID] = [c].[CustomerID]
+WHERE [b].[SheetID] = @__workOrderID_0
+2024-10-04 12:14:53.404 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-04 12:14:54.345 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-04 12:14:54.552 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-04 12:14:54.591 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-04 12:14:54.591 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-04 12:14:54.592 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-04 12:14:54.606 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-04 12:14:54.607 -04:00 [INF] Hosting environment: Development
+2024-10-04 12:14:54.607 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-04 12:14:54.733 -04:00 [INF] Server dev-workstation:33856:0bc02849 successfully announced in 128.2 ms
+2024-10-04 12:14:54.740 -04:00 [INF] Server dev-workstation:33856:0bc02849 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-04 12:14:54.825 -04:00 [INF] Server dev-workstation:33856:0bc02849 all the dispatchers started
+2024-10-04 12:14:55.698 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-04 12:14:55.860 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 166.6692ms
+2024-10-04 12:14:55.884 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-04 12:14:55.886 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-04 12:14:55.887 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 3.8744ms
+2024-10-04 12:14:55.919 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 32.6552ms
+2024-10-04 12:14:55.940 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-04 12:14:56.010 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 70.2154ms
+2024-10-04 12:15:08.743 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Billing/GetBillingForWorkOrder?sheetID=1 - null null
+2024-10-04 12:15:08.754 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-04 12:15:08.757 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.BillingController.GetBillingForWorkOrder (RaymarEquipmentInventory)'
+2024-10-04 12:15:08.768 -04:00 [INF] Route matched with {action = "GetBillingForWorkOrder", controller = "Billing"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetBillingForWorkOrder(Int32) on controller RaymarEquipmentInventory.Controllers.BillingController (RaymarEquipmentInventory).
+2024-10-04 12:15:12.268 -04:00 [INF] Executed DbCommand (50ms) [Parameters=[@__workOrderID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[BillingID], [b].[BillingPersonID], [b].[CustomerID], [b].[Kilometers], [b].[Notes], [b].[PONo], [b].[SheetID], [b].[UnitNo], [b].[WorkLocation], [c].[CustomerID], [c].[AccountNumber], [c].[Company], [c].[CustomerName], [c].[Description], [c].[Email], [c].[FirstName], [c].[FullAddress], [c].[FullName], [c].[ID], [c].[JobDescription], [c].[JobProjectedEndDate], [c].[JobStartDate], [c].[JobStatus], [c].[JobType], [c].[JobTypeId], [c].[LastName], [c].[Notes], [c].[ParentID], [c].[ParentName], [c].[Phone], [c].[SubLevelId], [c0].[CustomerID], [c0].[AccountNumber], [c0].[Company], [c0].[CustomerName], [c0].[Description], [c0].[Email], [c0].[FirstName], [c0].[FullAddress], [c0].[FullName], [c0].[ID], [c0].[JobDescription], [c0].[JobProjectedEndDate], [c0].[JobStartDate], [c0].[JobStatus], [c0].[JobType], [c0].[JobTypeId], [c0].[LastName], [c0].[Notes], [c0].[ParentID], [c0].[ParentName], [c0].[Phone], [c0].[SubLevelId]
+FROM [BillingInformation] AS [b]
+LEFT JOIN [Customers] AS [c] ON [b].[CustomerID] = [c].[CustomerID]
+LEFT JOIN [Customers] AS [c0] ON [c].[ParentID] = [c0].[ID]
+WHERE [b].[SheetID] = @__workOrderID_0

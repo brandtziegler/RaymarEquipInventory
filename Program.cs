@@ -36,6 +36,7 @@ builder.Services.AddHangfire(configuration => configuration
     }));
 
 var samsaraApiConfig = builder.Configuration.GetSection("SamsaraApi").Get<SamsaraApiConfig>();
+
 builder.Services.AddSingleton(samsaraApiConfig);
 
 
@@ -47,11 +48,16 @@ builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
 
-builder.Services.AddHttpClient<ISamsaraApiService, SamsaraApiService>(client =>
+
+if (samsaraApiConfig != null)
 {
-    client.BaseAddress = new Uri(samsaraApiConfig.BaseUrl);
-    client.DefaultRequestHeaders.Add("accept", "application/json");
-});
+    builder.Services.AddHttpClient<ISamsaraApiService, SamsaraApiService>(client =>
+    {
+        client.BaseAddress = new Uri(samsaraApiConfig.BaseUrl);
+        client.DefaultRequestHeaders.Add("accept", "application/json");
+    });
+
+}
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -88,6 +94,7 @@ builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<ITechnicianService, TechnicanService>();
 builder.Services.AddScoped<IPartService, PartService>();
 builder.Services.AddScoped<ILabourService, LabourService>();
+builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 
 

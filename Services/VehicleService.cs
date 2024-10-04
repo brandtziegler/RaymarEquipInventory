@@ -29,7 +29,7 @@ namespace RaymarEquipmentInventory.Services
             _context = context;
             _config = config;
             _httpClient = httpClient;
-            _bearerToken = Environment.GetEnvironmentVariable("SAMSARA_API_TOKEN"); // Fetching from environment variable
+            _bearerToken = Environment.GetEnvironmentVariable("SAMSARA_API_TOKEN") ?? ""; // Fetching from environment variable
         }
 
 
@@ -196,7 +196,7 @@ namespace RaymarEquipmentInventory.Services
 
         public class TripResponse
         {
-            public List<TripData> Trips { get; set; }
+            public List<TripData> Trips { get; set; } = new List<TripData>();   
         }
 
         public class TripData
@@ -204,8 +204,8 @@ namespace RaymarEquipmentInventory.Services
             public long StartMs { get; set; }
             public long EndMs { get; set; }
 
-            public string StartLocation { get; set; }
-            public string EndLocation { get; set; }
+            public string StartLocation { get; set; } = "";
+            public string EndLocation { get; set; } = "";
 
             public long StartOdometer { get; set; }
             public long EndOdometer { get; set; }

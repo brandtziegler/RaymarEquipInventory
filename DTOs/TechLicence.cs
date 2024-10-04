@@ -8,7 +8,7 @@
 
         public DateTime? IssuedDate { get; set; }
         public DateTime? ExpiryDate { get; set; }
-        public string LicenceUrl { get; set; }
+        public string LicenceUrl { get; set; } = "";
 
       
     }
