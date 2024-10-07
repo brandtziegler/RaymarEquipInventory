@@ -44,6 +44,31 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpDelete("DeleteDocument/{docID}")]
+        public async Task<IActionResult> DeleteDocument(int docID)
+        {
+            try
+            {
+                // Step 1: Use the service to delete the document
+                bool deleteResult = await _documentService.DeleteDocumentById(docID);
+
+                if (!deleteResult)
+                {
+                    // Return 404 if document not found or could not be deleted
+                    return NotFound("Document not found or could not be deleted.");
+                }
+
+                // If deletion was successful, return 200 OK
+                return Ok("Document deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                // Log the error and return 500 Internal Server Error
+                Log.Error($"Error deleting document with ID {docID}: {ex.Message}");
+                return StatusCode(500, "Internal server error.");
+            }
+        }
+
         [HttpGet("GetDocumentInfoByID")]
         public async Task<IActionResult> GetDocumentInfoByID(int docID)
         {

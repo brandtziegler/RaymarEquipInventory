@@ -10,6 +10,8 @@ namespace RaymarEquipmentInventory.Services
         //Task<RetrieveDocument> GetDocumentById(int documentID);
         Task<RetrieveDocument> GetDocumentByID(int docID);
 
+        Task<bool> DeleteDocumentById(int docID);
+
         Task<(Stream? Stream, string ContentType, string FileName)> GetDocumentContent(string fileUrl, string fileType);
 
         Task<bool> UploadDoc(IFormFile file, string uploadedBy, int workOrderNumber);  // For uploading a document

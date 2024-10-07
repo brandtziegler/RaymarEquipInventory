@@ -21,7 +21,7 @@ namespace RaymarEquipmentInventory.Services
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly RaymarInventoryDBContext _context;
 
-        private string connectionString = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
+        private string connectionString = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING") ?? "";
         public DocumentService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context)
         {
             _quickBooksConnectionService = quickBooksConnectionService;
@@ -87,6 +87,58 @@ namespace RaymarEquipmentInventory.Services
             return docDTO;
 
         }
+
+        public async Task<bool> DeleteDocumentById(int docID)
+        {
+            try
+            {
+                // Step 1: Retrieve the document details from the database
+                var document = await _context.Documents.FindAsync(docID);
+                if (document == null)
+                {
+                    Log.Warning($"Document with ID {docID} not found in the database.");
+                    return false; // Document not found
+                }
+
+                // Step 2: Retrieve the work order number using the SheetID from the document
+                var workOrderSheet = await _context.WorkOrderSheets.FirstOrDefaultAsync(o => o.SheetId == document.SheetId);
+                if (workOrderSheet == null)
+                {
+                    Log.Warning($"WorkOrderSheet with SheetID {document.SheetId} not found for document ID {docID}.");
+                    return false; // WorkOrderSheet not found
+                }
+
+                var workOrderNumber = workOrderSheet.WorkOrderNumber;
+
+                // Step 3: Initialize the Blob Client for the document's blob
+                var blobServiceClient = new BlobServiceClient(connectionString);
+                var containerClient = blobServiceClient.GetBlobContainerClient("workorderdocs");
+                var blobClient = containerClient.GetBlobClient($"{workOrderNumber}/{document.FileName}"); // Adjust for correct path
+
+                // Step 4: Delete the blob from Azure Storage
+                var deleteBlobResponse = await blobClient.DeleteIfExistsAsync();
+                if (!deleteBlobResponse.Value)
+                {
+                    Log.Warning($"Blob for document ID {docID} could not be deleted from storage.");
+                    return false; // Could not delete the blob
+                }
+
+                // Step 5: Remove the document record from the database
+                _context.Documents.Remove(document);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"Document with ID {docID} successfully deleted.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error deleting document with ID {docID}: {ex.Message}");
+                return false;  // Return false to indicate the operation was unsuccessful
+            }
+        }
+
+
+
 
         public async Task<(Stream? Stream, string ContentType, string FileName)> GetDocumentContent(string fileUrl, string fileType)
         {

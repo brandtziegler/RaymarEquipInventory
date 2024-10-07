@@ -922,3 +922,299 @@ WHERE [d].[DocumentID] = @__docID_0
 2024-10-07 11:04:55.675 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.DocumentController.GetDocumentInfoByID (RaymarEquipmentInventory) in 1930.5738ms
 2024-10-07 11:04:55.678 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.GetDocumentInfoByID (RaymarEquipmentInventory)'
 2024-10-07 11:04:55.680 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Document/GetDocumentInfoByID?docID=16 - 200 null application/pdf 1943.2974ms
+2024-10-07 11:21:19.426 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-07 11:21:20.277 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-07 11:21:20.803 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-07 11:21:20.835 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-07 11:21:20.837 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-07 11:21:20.837 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-07 11:21:20.851 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-07 11:21:20.852 -04:00 [INF] Hosting environment: Development
+2024-10-07 11:21:20.853 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-07 11:21:20.960 -04:00 [INF] Server dev-workstation:34580:467f9a1f successfully announced in 109.143 ms
+2024-10-07 11:21:20.966 -04:00 [INF] Server dev-workstation:34580:467f9a1f is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-07 11:21:21.052 -04:00 [INF] Server dev-workstation:34580:467f9a1f all the dispatchers started
+2024-10-07 11:21:21.877 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-07 11:21:22.003 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 129.3097ms
+2024-10-07 11:21:22.026 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-07 11:21:22.027 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-07 11:21:22.030 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.4793ms
+2024-10-07 11:21:22.049 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 21.7654ms
+2024-10-07 11:21:22.076 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-07 11:21:22.119 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 43.1537ms
+2024-10-07 11:22:00.376 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5229/api/Document/UploadDocument?uploadedBy=BAZiegler&workOrderNumber=1 - multipart/form-data; boundary=----WebKitFormBoundaryBePpuKR4vY4unSMp 66328
+2024-10-07 11:22:00.389 -04:00 [INF] CORS policy execution failed.
+2024-10-07 11:22:00.390 -04:00 [INF] Request origin http://localhost:5229 does not have permission to access the resource.
+2024-10-07 11:22:00.392 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-07 11:22:00.396 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.UploadDocument (RaymarEquipmentInventory)'
+2024-10-07 11:22:00.413 -04:00 [INF] Route matched with {action = "UploadDocument", controller = "Document"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadDocument(Microsoft.AspNetCore.Http.IFormFile, System.String, Int32) on controller RaymarEquipmentInventory.Controllers.DocumentController (RaymarEquipmentInventory).
+2024-10-07 11:22:09.472 -04:00 [INF] Executed DbCommand (37ms) [Parameters=[@__ToUpper_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [DocumentTypes] AS [d]
+        WHERE UPPER([d].[DocumentTypeName]) = @__ToUpper_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2024-10-07 11:22:09.657 -04:00 [INF] Executed DbCommand (21ms) [Parameters=[@__workOrderNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID], [w].[DateTimeCompleted], [w].[DateTimeCreated], [w].[DateTimeStarted], [w].[WorkOrdStatus], [w].[WorkOrderNumber]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__workOrderNumber_0
+2024-10-07 11:22:09.660 -04:00 [ERR] Work order number 1 not found.
+2024-10-07 11:22:09.668 -04:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2024-10-07 11:22:09.672 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.DocumentController.UploadDocument (RaymarEquipmentInventory) in 9255.3304ms
+2024-10-07 11:22:09.673 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.UploadDocument (RaymarEquipmentInventory)'
+2024-10-07 11:22:09.683 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5229/api/Document/UploadDocument?uploadedBy=BAZiegler&workOrderNumber=1 - 500 null text/plain; charset=utf-8 9307.7437ms
+2024-10-07 11:22:23.037 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5229/api/Document/UploadDocument?uploadedBy=BAZiegler&workOrderNumber=1 - multipart/form-data; boundary=----WebKitFormBoundaryVI8JbEbED7qi7SA7 66328
+2024-10-07 11:22:23.043 -04:00 [INF] CORS policy execution failed.
+2024-10-07 11:22:23.044 -04:00 [INF] Request origin http://localhost:5229 does not have permission to access the resource.
+2024-10-07 11:22:23.045 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.UploadDocument (RaymarEquipmentInventory)'
+2024-10-07 11:22:23.047 -04:00 [INF] Route matched with {action = "UploadDocument", controller = "Document"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadDocument(Microsoft.AspNetCore.Http.IFormFile, System.String, Int32) on controller RaymarEquipmentInventory.Controllers.DocumentController (RaymarEquipmentInventory).
+2024-10-07 11:22:29.913 -04:00 [INF] Executed DbCommand (20ms) [Parameters=[@__ToUpper_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [DocumentTypes] AS [d]
+        WHERE UPPER([d].[DocumentTypeName]) = @__ToUpper_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2024-10-07 11:23:03.764 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[@__workOrderNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID], [w].[DateTimeCompleted], [w].[DateTimeCreated], [w].[DateTimeStarted], [w].[WorkOrdStatus], [w].[WorkOrderNumber]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__workOrderNumber_0
+2024-10-07 11:23:03.767 -04:00 [ERR] Work order number 1 not found.
+2024-10-07 11:23:03.768 -04:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2024-10-07 11:23:03.769 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.DocumentController.UploadDocument (RaymarEquipmentInventory) in 40720.2566ms
+2024-10-07 11:23:03.770 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.UploadDocument (RaymarEquipmentInventory)'
+2024-10-07 11:23:03.772 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5229/api/Document/UploadDocument?uploadedBy=BAZiegler&workOrderNumber=1 - 500 null text/plain; charset=utf-8 40734.7058ms
+2024-10-07 11:23:12.423 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5229/api/Document/UploadDocument?uploadedBy=BAZiegler&workOrderNumber=1 - multipart/form-data; boundary=----WebKitFormBoundaryyYcW7yObvjESACuD 66328
+2024-10-07 11:23:12.428 -04:00 [INF] CORS policy execution failed.
+2024-10-07 11:23:12.429 -04:00 [INF] Request origin http://localhost:5229 does not have permission to access the resource.
+2024-10-07 11:23:12.430 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.UploadDocument (RaymarEquipmentInventory)'
+2024-10-07 11:23:12.431 -04:00 [INF] Route matched with {action = "UploadDocument", controller = "Document"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadDocument(Microsoft.AspNetCore.Http.IFormFile, System.String, Int32) on controller RaymarEquipmentInventory.Controllers.DocumentController (RaymarEquipmentInventory).
+2024-10-07 11:23:14.919 -04:00 [INF] Executed DbCommand (24ms) [Parameters=[@__ToUpper_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [DocumentTypes] AS [d]
+        WHERE UPPER([d].[DocumentTypeName]) = @__ToUpper_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2024-10-07 11:23:25.068 -04:00 [INF] Executed DbCommand (26ms) [Parameters=[@__workOrderNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID], [w].[DateTimeCompleted], [w].[DateTimeCreated], [w].[DateTimeStarted], [w].[WorkOrdStatus], [w].[WorkOrderNumber]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__workOrderNumber_0
+2024-10-07 11:23:33.107 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-07 11:23:33.712 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-07 11:23:33.915 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-07 11:23:33.938 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-07 11:23:33.939 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-07 11:23:33.939 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-07 11:23:33.950 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-07 11:23:33.950 -04:00 [INF] Hosting environment: Development
+2024-10-07 11:23:33.951 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-07 11:23:34.028 -04:00 [INF] Server dev-workstation:11052:2e3a9ca1 successfully announced in 78.5309 ms
+2024-10-07 11:23:34.031 -04:00 [INF] Server dev-workstation:11052:2e3a9ca1 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-07 11:23:34.086 -04:00 [INF] Server dev-workstation:11052:2e3a9ca1 all the dispatchers started
+2024-10-07 11:23:34.556 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-07 11:23:34.667 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 114.2695ms
+2024-10-07 11:23:34.691 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-07 11:23:34.692 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-07 11:23:34.696 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.1569ms
+2024-10-07 11:23:34.722 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 30.62ms
+2024-10-07 11:23:34.747 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-07 11:23:34.788 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 40.769ms
+2024-10-07 11:23:53.668 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5229/api/Document/UploadDocument?uploadedBy=BAZiegler&workOrderNumber=22466 - multipart/form-data; boundary=----WebKitFormBoundaryEzniBceEbgw9XCGV 66328
+2024-10-07 11:23:53.675 -04:00 [INF] CORS policy execution failed.
+2024-10-07 11:23:53.676 -04:00 [INF] Request origin http://localhost:5229 does not have permission to access the resource.
+2024-10-07 11:23:53.679 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-07 11:23:53.682 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.UploadDocument (RaymarEquipmentInventory)'
+2024-10-07 11:23:53.699 -04:00 [INF] Route matched with {action = "UploadDocument", controller = "Document"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadDocument(Microsoft.AspNetCore.Http.IFormFile, System.String, Int32) on controller RaymarEquipmentInventory.Controllers.DocumentController (RaymarEquipmentInventory).
+2024-10-07 11:23:56.790 -04:00 [INF] Executed DbCommand (33ms) [Parameters=[@__ToUpper_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [DocumentTypes] AS [d]
+        WHERE UPPER([d].[DocumentTypeName]) = @__ToUpper_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2024-10-07 11:23:58.461 -04:00 [INF] Executed DbCommand (23ms) [Parameters=[@__workOrderNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID], [w].[DateTimeCompleted], [w].[DateTimeCreated], [w].[DateTimeStarted], [w].[WorkOrdStatus], [w].[WorkOrderNumber]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__workOrderNumber_0
+2024-10-07 11:24:05.057 -04:00 [INF] Executed DbCommand (22ms) [Parameters=[@__TrimStart_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[DocumentTypeID], [d].[DocumentTypeName]
+FROM [DocumentTypes] AS [d]
+WHERE [d].[DocumentTypeName] = @__TrimStart_0
+2024-10-07 11:24:05.219 -04:00 [INF] Executed DbCommand (40ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 255) (DbType = AnsiString), @p2='?' (Size = 500) (DbType = AnsiString), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime), @p5='?' (Size = 100) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Documents] ([DocumentTypeID], [FileName], [FileURL], [SheetID], [UploadDate], [UploadedBy])
+OUTPUT INSERTED.[DocumentID]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);
+2024-10-07 11:24:07.379 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2024-10-07 11:24:07.389 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.DocumentController.UploadDocument (RaymarEquipmentInventory) in 13685.3025ms
+2024-10-07 11:24:07.391 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.UploadDocument (RaymarEquipmentInventory)'
+2024-10-07 11:24:07.399 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5229/api/Document/UploadDocument?uploadedBy=BAZiegler&workOrderNumber=22466 - 200 null text/plain; charset=utf-8 13731.7634ms
+2024-10-07 11:24:33.527 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Document/GetDocumentInfoByID?docID=17 - null null
+2024-10-07 11:24:33.536 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.GetDocumentInfoByID (RaymarEquipmentInventory)'
+2024-10-07 11:24:33.541 -04:00 [INF] Route matched with {action = "GetDocumentInfoByID", controller = "Document"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocumentInfoByID(Int32) on controller RaymarEquipmentInventory.Controllers.DocumentController (RaymarEquipmentInventory).
+2024-10-07 11:24:33.637 -04:00 [INF] Executed DbCommand (23ms) [Parameters=[@__docID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[DocumentID], [d].[DocumentTypeID], [d].[FileName], [d].[FileURL], [d].[SheetID], [d].[UploadDate], [d].[UploadedBy], [d0].[DocumentTypeID], [d0].[DocumentTypeName]
+FROM [Documents] AS [d]
+INNER JOIN [DocumentTypes] AS [d0] ON [d].[DocumentTypeID] = [d0].[DocumentTypeID]
+WHERE [d].[DocumentID] = @__docID_0
+2024-10-07 11:24:33.773 -04:00 [INF] Executing FileStreamResult, sending file with download name '' ...
+2024-10-07 11:24:33.787 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.DocumentController.GetDocumentInfoByID (RaymarEquipmentInventory) in 244.9545ms
+2024-10-07 11:24:33.788 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.GetDocumentInfoByID (RaymarEquipmentInventory)'
+2024-10-07 11:24:33.789 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Document/GetDocumentInfoByID?docID=17 - 200 null application/vnd.openxmlformats-officedocument.wordprocessingml.document 262.31ms
+2024-10-07 11:24:47.270 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Document/GetDocumentInfoByID?docID=17 - null null
+2024-10-07 11:24:47.286 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.GetDocumentInfoByID (RaymarEquipmentInventory)'
+2024-10-07 11:24:47.287 -04:00 [INF] Route matched with {action = "GetDocumentInfoByID", controller = "Document"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocumentInfoByID(Int32) on controller RaymarEquipmentInventory.Controllers.DocumentController (RaymarEquipmentInventory).
+2024-10-07 11:24:47.363 -04:00 [INF] Executed DbCommand (25ms) [Parameters=[@__docID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[DocumentID], [d].[DocumentTypeID], [d].[FileName], [d].[FileURL], [d].[SheetID], [d].[UploadDate], [d].[UploadedBy], [d0].[DocumentTypeID], [d0].[DocumentTypeName]
+FROM [Documents] AS [d]
+INNER JOIN [DocumentTypes] AS [d0] ON [d].[DocumentTypeID] = [d0].[DocumentTypeID]
+WHERE [d].[DocumentID] = @__docID_0
+2024-10-07 11:24:47.427 -04:00 [INF] Executing FileStreamResult, sending file with download name '' ...
+2024-10-07 11:24:47.442 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.DocumentController.GetDocumentInfoByID (RaymarEquipmentInventory) in 152.32ms
+2024-10-07 11:24:47.445 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.GetDocumentInfoByID (RaymarEquipmentInventory)'
+2024-10-07 11:24:47.446 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Document/GetDocumentInfoByID?docID=17 - 200 null application/vnd.openxmlformats-officedocument.wordprocessingml.document 175.9717ms
+2024-10-07 11:27:43.131 -04:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:5229/api/Document/DeleteDocument/17 - null null
+2024-10-07 11:27:43.135 -04:00 [INF] CORS policy execution failed.
+2024-10-07 11:27:43.136 -04:00 [INF] Request origin http://localhost:5229 does not have permission to access the resource.
+2024-10-07 11:27:43.137 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.DeleteDocument (RaymarEquipmentInventory)'
+2024-10-07 11:27:43.139 -04:00 [INF] Route matched with {action = "DeleteDocument", controller = "Document"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteDocument(Int32) on controller RaymarEquipmentInventory.Controllers.DocumentController (RaymarEquipmentInventory).
+2024-10-07 11:27:51.537 -04:00 [INF] Executed DbCommand (24ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[DocumentID], [d].[DocumentTypeID], [d].[FileName], [d].[FileURL], [d].[SheetID], [d].[UploadDate], [d].[UploadedBy]
+FROM [Documents] AS [d]
+WHERE [d].[DocumentID] = @__p_0
+2024-10-07 11:28:01.963 -04:00 [ERR] Error deleting document with ID 17: The requested URI does not represent any resource on the server.
+RequestId:7ab030ad-c01e-0043-36cd-18db9d000000
+Time:2024-10-07T15:28:02.3000906Z
+Status: 400 (The requested URI does not represent any resource on the server.)
+ErrorCode: InvalidUri
+
+Content:
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Error><Code>InvalidUri</Code><Message>The requested URI does not represent any resource on the server.
+RequestId:7ab030ad-c01e-0043-36cd-18db9d000000
+Time:2024-10-07T15:28:02.3000906Z</Message></Error>
+
+Headers:
+Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
+x-ms-request-id: 7ab030ad-c01e-0043-36cd-18db9d000000
+Date: Mon, 07 Oct 2024 15:28:01 GMT
+Content-Length: 244
+Content-Type: application/xml
+
+2024-10-07 11:28:01.967 -04:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2024-10-07 11:28:01.967 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.DocumentController.DeleteDocument (RaymarEquipmentInventory) in 18827.6286ms
+2024-10-07 11:28:01.968 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.DeleteDocument (RaymarEquipmentInventory)'
+2024-10-07 11:28:01.969 -04:00 [INF] Request finished HTTP/1.1 DELETE http://localhost:5229/api/Document/DeleteDocument/17 - 404 null text/plain; charset=utf-8 18837.6128ms
+2024-10-07 11:28:34.101 -04:00 [INF] 1 servers were removed due to timeout
+2024-10-07 11:28:43.153 -04:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:5229/api/Document/DeleteDocument/17 - null null
+2024-10-07 11:28:43.158 -04:00 [INF] CORS policy execution failed.
+2024-10-07 11:28:43.159 -04:00 [INF] Request origin http://localhost:5229 does not have permission to access the resource.
+2024-10-07 11:28:43.160 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.DeleteDocument (RaymarEquipmentInventory)'
+2024-10-07 11:28:43.162 -04:00 [INF] Route matched with {action = "DeleteDocument", controller = "Document"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteDocument(Int32) on controller RaymarEquipmentInventory.Controllers.DocumentController (RaymarEquipmentInventory).
+2024-10-07 11:28:53.531 -04:00 [INF] Executed DbCommand (22ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[DocumentID], [d].[DocumentTypeID], [d].[FileName], [d].[FileURL], [d].[SheetID], [d].[UploadDate], [d].[UploadedBy]
+FROM [Documents] AS [d]
+WHERE [d].[DocumentID] = @__p_0
+2024-10-07 11:30:49.222 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-07 11:30:49.771 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-07 11:30:49.970 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-07 11:30:49.994 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-07 11:30:49.995 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-07 11:30:49.996 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-07 11:30:50.006 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-07 11:30:50.007 -04:00 [INF] Hosting environment: Development
+2024-10-07 11:30:50.007 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-07 11:30:50.080 -04:00 [INF] Server dev-workstation:30200:c85068ab successfully announced in 74.5312 ms
+2024-10-07 11:30:50.088 -04:00 [INF] Server dev-workstation:30200:c85068ab is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-07 11:30:50.169 -04:00 [INF] Server dev-workstation:30200:c85068ab all the dispatchers started
+2024-10-07 11:30:50.603 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-07 11:30:50.714 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 114.0019ms
+2024-10-07 11:30:50.738 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-07 11:30:50.739 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-07 11:30:50.742 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.1716ms
+2024-10-07 11:30:50.757 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 18.5792ms
+2024-10-07 11:30:50.789 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-07 11:30:50.831 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 42.1925ms
+2024-10-07 11:30:57.980 -04:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:5229/api/Document/DeleteDocument/17 - null null
+2024-10-07 11:30:57.990 -04:00 [INF] CORS policy execution failed.
+2024-10-07 11:30:57.991 -04:00 [INF] Request origin http://localhost:5229 does not have permission to access the resource.
+2024-10-07 11:30:57.994 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-07 11:30:57.997 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.DeleteDocument (RaymarEquipmentInventory)'
+2024-10-07 11:30:58.015 -04:00 [INF] Route matched with {action = "DeleteDocument", controller = "Document"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteDocument(Int32) on controller RaymarEquipmentInventory.Controllers.DocumentController (RaymarEquipmentInventory).
+2024-10-07 11:31:22.492 -04:00 [INF] Executed DbCommand (36ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[DocumentID], [d].[DocumentTypeID], [d].[FileName], [d].[FileURL], [d].[SheetID], [d].[UploadDate], [d].[UploadedBy]
+FROM [Documents] AS [d]
+WHERE [d].[DocumentID] = @__p_0
+2024-10-07 11:31:27.219 -04:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2024-10-07 11:31:27.223 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.DocumentController.DeleteDocument (RaymarEquipmentInventory) in 29204.4625ms
+2024-10-07 11:31:27.223 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.DeleteDocument (RaymarEquipmentInventory)'
+2024-10-07 11:31:27.227 -04:00 [INF] Request finished HTTP/1.1 DELETE http://localhost:5229/api/Document/DeleteDocument/17 - 404 null text/plain; charset=utf-8 29247.3253ms
+2024-10-07 11:35:50.164 -04:00 [INF] 1 servers were removed due to timeout
+2024-10-07 12:01:27.916 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-07 12:01:28.693 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-07 12:01:29.099 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-07 12:01:29.121 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-07 12:01:29.122 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-07 12:01:29.122 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-07 12:01:29.132 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-07 12:01:29.133 -04:00 [INF] Hosting environment: Development
+2024-10-07 12:01:29.133 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-07 12:01:29.238 -04:00 [INF] Server dev-workstation:28568:91189240 successfully announced in 105.7146 ms
+2024-10-07 12:01:29.241 -04:00 [INF] Server dev-workstation:28568:91189240 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-07 12:01:29.310 -04:00 [INF] Server dev-workstation:28568:91189240 all the dispatchers started
+2024-10-07 12:01:29.673 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-07 12:01:29.793 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 122.6671ms
+2024-10-07 12:01:29.827 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-07 12:01:29.828 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-07 12:01:29.831 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.4744ms
+2024-10-07 12:01:29.847 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 18.8564ms
+2024-10-07 12:01:29.876 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-07 12:01:29.920 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 43.69ms
+2024-10-07 12:01:39.946 -04:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:5229/api/Document/DeleteDocument/17 - null null
+2024-10-07 12:01:39.956 -04:00 [INF] CORS policy execution failed.
+2024-10-07 12:01:39.957 -04:00 [INF] Request origin http://localhost:5229 does not have permission to access the resource.
+2024-10-07 12:01:39.959 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-07 12:01:39.963 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.DeleteDocument (RaymarEquipmentInventory)'
+2024-10-07 12:01:39.981 -04:00 [INF] Route matched with {action = "DeleteDocument", controller = "Document"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteDocument(Int32) on controller RaymarEquipmentInventory.Controllers.DocumentController (RaymarEquipmentInventory).
+2024-10-07 12:01:53.515 -04:00 [INF] Executed DbCommand (35ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[DocumentID], [d].[DocumentTypeID], [d].[FileName], [d].[FileURL], [d].[SheetID], [d].[UploadDate], [d].[UploadedBy]
+FROM [Documents] AS [d]
+WHERE [d].[DocumentID] = @__p_0
+2024-10-07 12:01:55.545 -04:00 [INF] Executed DbCommand (23ms) [Parameters=[@__document_SheetId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID], [w].[DateTimeCompleted], [w].[DateTimeCreated], [w].[DateTimeStarted], [w].[WorkOrdStatus], [w].[WorkOrderNumber]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[SheetID] = @__document_SheetId_0
+2024-10-07 12:02:25.343 -04:00 [INF] Executed DbCommand (26ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+DELETE FROM [Documents]
+OUTPUT 1
+WHERE [DocumentID] = @p0;
+2024-10-07 12:02:26.600 -04:00 [INF] Document with ID 17 successfully deleted.
+2024-10-07 12:02:26.611 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2024-10-07 12:02:26.616 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.DocumentController.DeleteDocument (RaymarEquipmentInventory) in 46631.9003ms
+2024-10-07 12:02:26.618 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.DeleteDocument (RaymarEquipmentInventory)'
+2024-10-07 12:02:26.623 -04:00 [INF] Request finished HTTP/1.1 DELETE http://localhost:5229/api/Document/DeleteDocument/17 - 200 null text/plain; charset=utf-8 46677.7029ms
