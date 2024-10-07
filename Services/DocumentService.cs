@@ -11,6 +11,7 @@ using Serilog;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using System.IO;
+using Azure.Storage.Sas;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -57,6 +58,91 @@ namespace RaymarEquipmentInventory.Services
 
         }
 
+
+        public async Task<RetrieveDocument> GetDocumentByID(int docID)
+        {
+            var documents = new List<RetrieveDocument>();
+
+            var attDoc = await _context.Documents
+                .Include(t => t.DocumentType)  // Include the technician entity
+                .FirstOrDefaultAsync(w => w.DocumentId == docID);
+
+            if (attDoc == null)
+            {
+                return null; // Or throw an exception if that's your style
+            }
+
+            var docDTO = attDoc.DocumentId != 0 ? new RetrieveDocument
+            {
+                DocumentID = attDoc.DocumentId,
+                SheetID = attDoc.SheetId,
+                FileType = attDoc.DocumentType?.DocumentTypeName ?? "",
+                FileName = attDoc.FileName,
+                UploadDate = attDoc.UploadDate,
+                FileURL = attDoc.FileUrl
+            } : null;
+
+
+
+            return docDTO;
+
+        }
+
+        public async Task<(Stream? Stream, string ContentType, string FileName)> GetDocumentContent(string fileUrl, string fileType)
+        {
+            try
+            {
+                // Initialize the BlobServiceClient with the connection string
+                var blobServiceClient = new BlobServiceClient(connectionString);
+                var blobUri = new Uri(fileUrl);
+
+                // Extract the container name and blob name from the URI
+                var containerName = blobUri.Segments[1].TrimEnd('/'); // Container should be the first segment
+                var blobName = string.Join("", blobUri.Segments.Skip(2)); // Blob name is the rest
+
+                // Get a reference to the container and then the blob
+                var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+                var blobClient = containerClient.GetBlobClient(blobName);
+
+                // Check if the blob exists
+                if (!await blobClient.ExistsAsync())
+                {
+                    return (null, string.Empty, string.Empty); // Return if the blob's gone AWOL
+                }
+
+                // Generate SAS token with read permissions for the blob
+                var sasUri = blobClient.GenerateSasUri(BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddMinutes(10));
+
+                // Download the blob using the SAS URI
+                var downloadInfo = await new BlobClient(sasUri).DownloadAsync();
+
+                // Set the content type based on file type
+                var contentType = fileType.ToLower() switch
+                {
+                    "pdf" => "application/pdf",
+                    "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "xlsx" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "pptx" => "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                    "txt" => "text/plain",
+                    "csv" => "text/csv",
+                    _ => "application/octet-stream" // Fallback content type
+                };
+
+                // Return the file content as a tuple
+                return (downloadInfo.Value.Content, contentType, Path.GetFileName(fileUrl));
+            }
+            catch (Exception ex)
+            {
+                // Log error like the cynic you are
+                Log.Error($"Error downloading document: {ex.Message}");
+                return (null, string.Empty, string.Empty); // Return a default tuple if an exception occurs
+            }
+        }
+
+
+
+
+
         public async Task<bool> DocTypeIsValid(string docExtension)
         {
             // Trim and convert both the document type and extension to uppercase for a case-insensitive comparison
@@ -64,64 +150,64 @@ namespace RaymarEquipmentInventory.Services
                 .AnyAsync(o => o.DocumentTypeName.ToUpper() == docExtension.Trim().ToUpper());
         }
 
-        public async Task<bool> UploadDoc(UploadDocument documentDTO, string workOrderNumber)
+        public async Task<bool> UploadDoc(IFormFile file, string uploadedBy, int workOrderNumber)
         {
             try
             {
-                // Ensure connection string is set
                 if (string.IsNullOrEmpty(connectionString))
                 {
                     Log.Error("Azure Storage connection string is missing.");
                     return false;
                 }
 
-                // Create BlobServiceClient to interact with Blob storage
+                var sheetID = _context.WorkOrderSheets?.FirstOrDefault(wo => wo.WorkOrderNumber == workOrderNumber)?.SheetId ?? 0;
+
+                if (sheetID == 0)
+                {
+                    Log.Error($"Work order number {workOrderNumber} not found.");
+                    return false;
+                }
                 var blobServiceClient = new BlobServiceClient(connectionString);
-
-                // Get the container client (make sure to create it first in Azure)
                 var containerClient = blobServiceClient.GetBlobContainerClient("workorderdocs");
-
-                // Ensure the container exists (create it if not already there)
                 await containerClient.CreateIfNotExistsAsync(PublicAccessType.None);
 
-                // Create the subfolder path using workOrderNumber
-                string folderPath = $"{workOrderNumber}/{documentDTO.FileName}";
+                string blobPath = $"{workOrderNumber}/{file.FileName}";
+                var blobClient = containerClient.GetBlobClient(blobPath);
 
-                // Get a reference to the Blob (file) in Azure Blob storage
-                var blobClient = containerClient.GetBlobClient(folderPath);
-
-                // Convert file content into a stream (assuming it's a byte array in the DTO for now)
-                byte[] fileContent = Convert.FromBase64String(documentDTO.FileURL);  // This could be adjusted based on how you're handling the file
-                using (var stream = new MemoryStream(fileContent))
+                using (var stream = file.OpenReadStream())
                 {
-                    // Upload the file to Azure Blob Storage
                     await blobClient.UploadAsync(stream, overwrite: true);
                 }
 
-                // Update the FileURL in the documentDTO with the Azure Blob URL
-                documentDTO.FileURL = blobClient.Uri.ToString();
+                var fileUrl = blobClient.Uri.ToString();
 
-                // Assuming you need to store the uploaded file's information in your database
+                // Convert current UTC time to the desired local time zone
+                var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+                var localUploadDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
+
                 var newDocument = new Document
                 {
-                    SheetId = documentDTO.SheetID,
-                    DocumentTypeId = _context.DocumentTypes.FirstOrDefault(dt => dt.DocumentTypeName == documentDTO.FileType).DocumentTypeId,
-                    FileName = documentDTO.FileName,
-                    FileUrl = documentDTO.FileURL,
-                    UploadDate = DateTime.UtcNow
+                    SheetId = sheetID, // Update with actual SheetID if necessary
+                    DocumentTypeId = _context.DocumentTypes.FirstOrDefault(dt => dt.DocumentTypeName == Path.GetExtension(file.FileName).TrimStart('.')).DocumentTypeId,
+                    FileName = file.FileName,
+                    FileUrl = fileUrl,
+                    UploadDate = localUploadDate,  // Save as local time
+                    UploadedBy = uploadedBy
                 };
 
                 _context.Documents.Add(newDocument);
                 await _context.SaveChangesAsync();
 
-                return true;  // Return success
+                return true;
             }
             catch (Exception ex)
             {
                 Log.Error($"Error uploading document: {ex.Message}");
-                return false;  // Handle or log any exceptions that occur
+                return false;
             }
         }
+
+
 
 
 

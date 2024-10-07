@@ -1,4 +1,5 @@
 ﻿using RaymarEquipmentInventory.DTOs;
+using System.Threading.Tasks;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -7,9 +8,17 @@ namespace RaymarEquipmentInventory.Services
         Task<List<RetrieveDocument>> GetDocumentsByWorkOrder(int sheetID);
         Task<bool> DocTypeIsValid(string docExtension);
         //Task<RetrieveDocument> GetDocumentById(int documentID);
-        Task<bool> UploadDoc(UploadDocument documentDTO, string workOrderNumber);  // For uploading a document
+        Task<RetrieveDocument> GetDocumentByID(int docID);
+
+        Task<(Stream? Stream, string ContentType, string FileName)> GetDocumentContent(string fileUrl, string fileType);
+
+        Task<bool> UploadDoc(IFormFile file, string uploadedBy, int workOrderNumber);  // For uploading a document
         //Task<bool> DeleteDocument(int documentID);
         //Task<bool> DeleteDocuments(int sheetID);
+
+
+
+
     }
 
 }

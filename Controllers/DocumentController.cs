@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
+using Serilog;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -43,10 +44,50 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpGet("GetDocumentInfoByID")]
+        public async Task<IActionResult> GetDocumentInfoByID(int docID)
+        {
+            try
+            {
+                // Step 1: Fetch the document metadata from the service
+                var document = await _documentService.GetDocumentByID(docID);
+
+                if (document == null)
+                {
+                    return NotFound("Document not found.");
+                }
+
+                // Step 2: Get the content of the document from Azure Blob Storage
+                var fileContentResult = await _documentService.GetDocumentContent(document.FileURL, document.FileType);
+
+                if (fileContentResult.Stream == null)
+                {
+                    return NotFound("Unable to retrieve the document content.");
+                }
+
+                // Step 3: Set the Content-Disposition based on file type
+                var contentDisposition = document.FileType.ToLower() == "pdf" ? "inline" : "attachment";
+
+                // Step 4: Add the Content-Disposition header directly to the response
+                Response.Headers.Append("Content-Disposition", $"{contentDisposition}; filename=\"{fileContentResult.FileName}\"");
+
+
+                // Step 5: Return the file with the appropriate headers
+                return File(fileContentResult.Stream, fileContentResult.ContentType);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and return a 500 error
+                Log.Error($"Error accessing document: {ex.Message}");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
 
         // New method to upload a document
         [HttpPost("UploadDocument")]
-        public async Task<IActionResult> UploadDocument(IFormFile file, string uploadedBy)
+        public async Task<IActionResult> UploadDocument(IFormFile file, string uploadedBy, int workOrderNumber)
         {
             try
             {
@@ -56,45 +97,25 @@ namespace RaymarEquipmentInventory.Controllers
                     return BadRequest("File and uploader information must be provided.");
                 }
 
-                // Step 2: Get file extension and convert to lowercase
+                // Step 2: Get file extension and validate the document type
                 var fileExtension = Path.GetExtension(file.FileName)?.ToLower().TrimStart('.');
-                
+                if (fileExtension == null ) { return BadRequest("Invalid file extension."); }
                 var docIsValid = await _documentService.DocTypeIsValid(fileExtension);
 
-
-                //// Step 4: Check if the file extension matches any valid document type
                 if (!docIsValid)
                 {
                     return BadRequest("Invalid document type.");
                 }
 
-                //var documentTypeID = validDocumentTypes[fileExtension];
+                // Step 3: Call the UploadDoc method in your DocumentService
+                bool uploadSuccess = await _documentService.UploadDoc(file, uploadedBy, workOrderNumber); // Await here
 
-                // Step 5: Get file details
-                var fileName = file.FileName;
-                var fileType = file.ContentType;
-                //var uploadTimestamp = DateTime.Now;
-                var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");  // Replace with the desired time zone
-                var localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
-                var uploadTimestamp = localTime.ToString("MMMM dd, yyyy hh:mm tt");
-
-                // Step 6: Mock saving file to a blob storage (skip actual saving for now)
-                // Simulate file being saved and URL being generated
-                var fileUrl = $"https://blobstorage.com/sheet-1234/{fileName}"; // Simulated Blob URL
-
-                // Step 7: Return document details and uploader info
-                var documentDetails = new
+                if (!uploadSuccess)
                 {
-                    FileName = fileName,
-                    FileType = fileType,
-                    UploadDate = uploadTimestamp,
-                    UploadedBy = uploadedBy,
-                    FileUrl = fileUrl, 
-                    DateUploaded = uploadTimestamp
+                    return StatusCode(500, "Error uploading the document.");
+                }
 
-                };
-
-                return Ok(documentDetails);
+                return Ok("Document uploaded successfully.");
             }
             catch (Exception ex)
             {
