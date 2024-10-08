@@ -17,11 +17,33 @@ namespace RaymarEquipmentInventory.Services
     {
 
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
+        private readonly ILabourService _labourService;
+        private readonly IPartService _partService;
+        private readonly IDocumentService _documentService;
+        private readonly IBillingService _billingService;
+        private readonly ICustomerService _customerService;
+        private readonly IInventoryService _inventoryService;
+        private readonly ITechnicianService _technicianService;
+        private readonly IVehicleService _vehicleService;
+
         private readonly RaymarInventoryDBContext _context;
-        public WorkOrderService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context)
+        public WorkOrderService(IQuickBooksConnectionService quickBooksConnectionService, 
+            RaymarInventoryDBContext context,
+            ILabourService labourService, IPartService partService, 
+            IDocumentService documentService, IBillingService billingService, ICustomerService customerService,
+            IInventoryService inventoryService, ITechnicianService technicianService,
+            IVehicleService vehicleService)
         {
             _quickBooksConnectionService = quickBooksConnectionService;
             _context = context;
+            _labourService = labourService;
+            _partService = partService;
+            _documentService = documentService;
+            _billingService = billingService;
+            _customerService = customerService;
+            _inventoryService = inventoryService;
+            _technicianService = technicianService;
+            _vehicleService = vehicleService;
         }
 
 
@@ -359,15 +381,21 @@ namespace RaymarEquipmentInventory.Services
                 }
                 workOrderDto.Customer = billing.Customer;
                 workOrderDto.ParentCustomer = billing.Customer.Parent;
+
                 workOrderDto.WOBilling = new DTOs.Billing();
                 workOrderDto.WOBilling.BillingID = billing.BillingId;
                 workOrderDto.WOBilling.SheetId = billing.SheetId;
-                workOrderDto.Customer = billing.Customer;
-                workOrderDto.ParentCustomer = billing.Customer.Parent;
                 workOrderDto.WOBilling.PONo = billing.Pono;
                 workOrderDto.WOBilling.Notes = billing.Notes;
                 workOrderDto.WOBilling.UnitNo = billing.UnitNo;
                 workOrderDto.WOBilling.WorkLocation = billing.WorkLocation;
+
+                var labourLines = await _context.Labours.Include(t => t.TechnicianWorkOrder)
+                    .Where(t => t.TechnicianWorkOrder.SheetId == sheetID).ToListAsync();
+
+                workOrderDto.LabourLines = _labourService.GetLabourByWorkOrder(sheetID).Result;
+                workOrderDto.PartsUsed = _partService.GetPartsByWorkOrder(sheetID).Result;
+                //workOrderDto.VehicleTravelLogs = .(sheetID).Result;
 
 
                 Log.Information($"Successfully retrieved work order with SheetID {sheetID}.");

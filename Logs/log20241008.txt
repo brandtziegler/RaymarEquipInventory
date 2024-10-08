@@ -1,0 +1,109 @@
+2024-10-08 14:08:22.255 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-08 14:08:23.161 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-08 14:08:23.727 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-08 14:08:23.754 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-08 14:08:23.755 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-08 14:08:23.756 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-08 14:08:23.769 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-08 14:08:23.771 -04:00 [INF] Hosting environment: Development
+2024-10-08 14:08:23.776 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-08 14:08:23.875 -04:00 [INF] Server dev-workstation:12812:fd3768c7 successfully announced in 106.3965 ms
+2024-10-08 14:08:23.881 -04:00 [INF] Server dev-workstation:12812:fd3768c7 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-08 14:08:23.946 -04:00 [INF] Server dev-workstation:12812:fd3768c7 all the dispatchers started
+2024-10-08 14:08:24.870 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-08 14:08:25.311 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 443.9388ms
+2024-10-08 14:08:25.337 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-08 14:08:25.337 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-08 14:08:25.341 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.0424ms
+2024-10-08 14:08:25.418 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 80.9608ms
+2024-10-08 14:08:25.440 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-08 14:08:25.481 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 41.7389ms
+2024-10-08 14:09:39.624 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/WorkOrd/GetWorkOrder?sheetID=1 - null null
+2024-10-08 14:09:39.635 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-08 14:09:39.637 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.GetWorkOrder (RaymarEquipmentInventory)'
+2024-10-08 14:09:39.652 -04:00 [INF] Route matched with {action = "GetWorkOrder", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetWorkOrder(Int32) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2024-10-08 14:09:39.719 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.GetWorkOrder (RaymarEquipmentInventory) in 59.9991ms
+2024-10-08 14:09:39.742 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.GetWorkOrder (RaymarEquipmentInventory)'
+2024-10-08 14:09:39.791 -04:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'RaymarEquipmentInventory.Services.IWorkOrderService' while attempting to activate 'RaymarEquipmentInventory.Controllers.WorkOrdController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method16(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-10-08 14:09:39.802 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/WorkOrd/GetWorkOrder?sheetID=1 - 500 null text/plain; charset=utf-8 178.1598ms
+2024-10-08 14:09:41.599 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/WorkOrd/GetWorkOrder?sheetID=1 - null null
+2024-10-08 14:09:41.604 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.GetWorkOrder (RaymarEquipmentInventory)'
+2024-10-08 14:09:41.606 -04:00 [INF] Route matched with {action = "GetWorkOrder", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetWorkOrder(Int32) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2024-10-08 14:09:41.643 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.GetWorkOrder (RaymarEquipmentInventory) in 36.3595ms
+2024-10-08 14:09:41.664 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.GetWorkOrder (RaymarEquipmentInventory)'
+2024-10-08 14:09:41.709 -04:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'RaymarEquipmentInventory.Services.IWorkOrderService' while attempting to activate 'RaymarEquipmentInventory.Controllers.WorkOrdController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method16(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-10-08 14:09:41.714 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/WorkOrd/GetWorkOrder?sheetID=1 - 500 null text/plain; charset=utf-8 115.5235ms
+2024-10-08 14:12:46.393 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-08 14:12:47.173 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-08 14:12:47.669 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-08 14:12:47.700 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-08 14:12:47.701 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-08 14:12:47.701 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-08 14:12:47.714 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-08 14:12:47.715 -04:00 [INF] Hosting environment: Development
+2024-10-08 14:12:47.716 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-08 14:12:47.816 -04:00 [INF] Server dev-workstation:13616:2d9260c1 successfully announced in 102.0862 ms
+2024-10-08 14:12:47.823 -04:00 [INF] Server dev-workstation:13616:2d9260c1 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-08 14:12:47.889 -04:00 [INF] Server dev-workstation:13616:2d9260c1 all the dispatchers started
+2024-10-08 14:12:48.324 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-08 14:12:48.458 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 137.7746ms
+2024-10-08 14:12:48.486 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-08 14:12:48.487 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-08 14:12:48.489 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 3.6198ms
+2024-10-08 14:12:48.517 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 29.9648ms
+2024-10-08 14:12:48.542 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-08 14:12:48.588 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 45.6392ms
+2024-10-08 14:13:16.775 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/WorkOrd/GetWorkOrder?sheetID=1 - null null
+2024-10-08 14:13:16.792 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-08 14:13:16.797 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.GetWorkOrder (RaymarEquipmentInventory)'
+2024-10-08 14:13:16.817 -04:00 [INF] Route matched with {action = "GetWorkOrder", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetWorkOrder(Int32) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2024-10-08 14:13:29.573 -04:00 [INF] Executed DbCommand (59ms) [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID], [w].[DateTimeCompleted], [w].[DateTimeCreated], [w].[DateTimeStarted], [w].[WorkOrdStatus], [w].[WorkOrderNumber]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[SheetID] = @__sheetID_0
+2024-10-08 14:13:57.965 -04:00 [INF] Executed DbCommand (40ms) [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[BillingID], [b].[BillingPersonID], [b].[CustomerID], [b].[Kilometers], [b].[Notes], [b].[PONo], [b].[SheetID], [b].[UnitNo], [b].[WorkLocation], [c].[CustomerID], [c].[AccountNumber], [c].[Company], [c].[CustomerName], [c].[Description], [c].[Email], [c].[FirstName], [c].[FullAddress], [c].[FullName], [c].[ID], [c].[JobDescription], [c].[JobProjectedEndDate], [c].[JobStartDate], [c].[JobStatus], [c].[JobType], [c].[JobTypeId], [c].[LastName], [c].[Notes], [c].[ParentID], [c].[ParentName], [c].[Phone], [c].[SubLevelId], [c0].[CustomerID], [c0].[AccountNumber], [c0].[Company], [c0].[CustomerName], [c0].[Description], [c0].[Email], [c0].[FirstName], [c0].[FullAddress], [c0].[FullName], [c0].[ID], [c0].[JobDescription], [c0].[JobProjectedEndDate], [c0].[JobStartDate], [c0].[JobStatus], [c0].[JobType], [c0].[JobTypeId], [c0].[LastName], [c0].[Notes], [c0].[ParentID], [c0].[ParentName], [c0].[Phone], [c0].[SubLevelId]
+FROM [BillingInformation] AS [b]
+LEFT JOIN [Customers] AS [c] ON [b].[CustomerID] = [c].[CustomerID]
+LEFT JOIN [Customers] AS [c0] ON [c].[ParentID] = [c0].[ID]
+WHERE [b].[SheetID] = @__sheetID_0

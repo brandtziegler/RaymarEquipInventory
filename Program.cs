@@ -88,14 +88,16 @@ var connectionString = builder.Configuration.GetConnectionString("RaymarAzureCon
 builder.Services.AddDbContext<RaymarInventoryDBContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddScoped<IInventoryService, InventoryService>(); // Registering our new service
-builder.Services.AddScoped<ICustomerService, CustomerService>(); // Registering our new service
-builder.Services.AddScoped<IVehicleService, VehicleService>();
-builder.Services.AddScoped<ITechnicianService, TechnicanService>();
-builder.Services.AddScoped<IPartService, PartService>();
-builder.Services.AddScoped<ILabourService, LabourService>();
+
 builder.Services.AddScoped<IBillingService, BillingService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>(); // Registering our new service
 builder.Services.AddScoped<IDocumentService, DocumentService>();
+builder.Services.AddScoped<IInventoryService, InventoryService>(); // Registering our new service
+builder.Services.AddScoped<ILabourService, LabourService>();
+builder.Services.AddScoped<IPartService, PartService>();
+builder.Services.AddScoped<ITechnicianService, TechnicanService>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
+builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 
 
