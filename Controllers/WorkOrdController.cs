@@ -44,6 +44,28 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpGet("GetWorkOrder")]
+        public async Task<IActionResult> GetWorkOrder(int sheetID)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _workOrderService.GetWorkOrder(sheetID);
+
+                if (result == null)
+                {
+                    return BadRequest($"Unable to retrieve work order. Sheet ID {sheetID} does not exist.");
+                }
+
+                return Ok("Work order retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error retrieving work order Sheet ID {sheetID}:  {ex.Message}");
+                return StatusCode(500, "An error occurred while launching the work order.");
+            }
+        }
+
         [HttpPost("RemoveBillFromWorkOrder")]
         public async Task<IActionResult> RemoveBillFromWorkOrder(int billID, int sheetId)
         {

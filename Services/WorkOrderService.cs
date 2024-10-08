@@ -337,6 +337,39 @@ namespace RaymarEquipmentInventory.Services
                     DateTimeCompleted = workOrderEntity.DateTimeCompleted
                 };
 
+
+                // Step 3: Retrieve the billing information for the work order
+
+                var billing = await _context.BillingInformations
+                    .Include(t => t.Customer)  // Include the related work order
+                    .Include(t => t.Customer.Parent)  // Include the related work order
+                    .Where(t => t.SheetId == sheetID)
+                    .FirstOrDefaultAsync();
+
+                if (billing == null)
+                {
+                    Log.Warning($"No bill attached with Work Order {workOrderDto.WorkOrderNumber}!");
+                    return null; // Could return null or throw an exception based on your design
+                }
+
+                if (billing.Customer == null)
+                {
+                    Log.Warning($"No customer attached with Work Order {workOrderDto.WorkOrderNumber}!");
+                    return null; // Could return null or throw an exception based on your design
+                }
+                workOrderDto.Customer = billing.Customer;
+                workOrderDto.ParentCustomer = billing.Customer.Parent;
+                workOrderDto.WOBilling = new DTOs.Billing();
+                workOrderDto.WOBilling.BillingID = billing.BillingId;
+                workOrderDto.WOBilling.SheetId = billing.SheetId;
+                workOrderDto.Customer = billing.Customer;
+                workOrderDto.ParentCustomer = billing.Customer.Parent;
+                workOrderDto.WOBilling.PONo = billing.Pono;
+                workOrderDto.WOBilling.Notes = billing.Notes;
+                workOrderDto.WOBilling.UnitNo = billing.UnitNo;
+                workOrderDto.WOBilling.WorkLocation = billing.WorkLocation;
+
+
                 Log.Information($"Successfully retrieved work order with SheetID {sheetID}.");
                 return workOrderDto;
             }
