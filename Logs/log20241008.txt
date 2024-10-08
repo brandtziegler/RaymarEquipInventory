@@ -107,3 +107,78 @@ FROM [BillingInformation] AS [b]
 LEFT JOIN [Customers] AS [c] ON [b].[CustomerID] = [c].[CustomerID]
 LEFT JOIN [Customers] AS [c0] ON [c].[ParentID] = [c0].[ID]
 WHERE [b].[SheetID] = @__sheetID_0
+2024-10-08 16:57:37.126 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-08 16:57:37.932 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-08 16:57:38.439 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-08 16:57:38.467 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-08 16:57:38.468 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-08 16:57:38.469 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-08 16:57:38.480 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-08 16:57:38.480 -04:00 [INF] Hosting environment: Development
+2024-10-08 16:57:38.481 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-08 16:57:38.580 -04:00 [INF] Server dev-workstation:10032:0b172a25 successfully announced in 100.7083 ms
+2024-10-08 16:57:38.586 -04:00 [INF] Server dev-workstation:10032:0b172a25 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-08 16:57:38.654 -04:00 [INF] Server dev-workstation:10032:0b172a25 all the dispatchers started
+2024-10-08 16:57:39.226 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-08 16:57:39.409 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 188.1061ms
+2024-10-08 16:57:39.441 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-08 16:57:39.442 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-08 16:57:39.446 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.9349ms
+2024-10-08 16:57:39.470 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 28.7334ms
+2024-10-08 16:57:39.496 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-08 16:57:39.544 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 48.352ms
+2024-10-08 16:57:55.366 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/WorkOrd/GetWorkOrder?sheetID=1 - null null
+2024-10-08 16:57:55.375 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-08 16:57:55.379 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.GetWorkOrder (RaymarEquipmentInventory)'
+2024-10-08 16:57:55.406 -04:00 [INF] Route matched with {action = "GetWorkOrder", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetWorkOrder(Int32) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2024-10-08 16:58:12.812 -04:00 [INF] Executed DbCommand (38ms) [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID], [w].[DateTimeCompleted], [w].[DateTimeCreated], [w].[DateTimeStarted], [w].[WorkOrdStatus], [w].[WorkOrderNumber]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[SheetID] = @__sheetID_0
+2024-10-08 16:58:15.753 -04:00 [INF] Executed DbCommand (28ms) [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[BillingID], [b].[BillingPersonID], [b].[CustomerID], [b].[Kilometers], [b].[Notes], [b].[PONo], [b].[SheetID], [b].[UnitNo], [b].[WorkLocation], [c].[CustomerID], [c].[AccountNumber], [c].[Company], [c].[CustomerName], [c].[Description], [c].[Email], [c].[FirstName], [c].[FullAddress], [c].[FullName], [c].[ID], [c].[JobDescription], [c].[JobProjectedEndDate], [c].[JobStartDate], [c].[JobStatus], [c].[JobType], [c].[JobTypeId], [c].[LastName], [c].[Notes], [c].[ParentID], [c].[ParentName], [c].[Phone], [c].[SubLevelId], [c0].[CustomerID], [c0].[AccountNumber], [c0].[Company], [c0].[CustomerName], [c0].[Description], [c0].[Email], [c0].[FirstName], [c0].[FullAddress], [c0].[FullName], [c0].[ID], [c0].[JobDescription], [c0].[JobProjectedEndDate], [c0].[JobStartDate], [c0].[JobStatus], [c0].[JobType], [c0].[JobTypeId], [c0].[LastName], [c0].[Notes], [c0].[ParentID], [c0].[ParentName], [c0].[Phone], [c0].[SubLevelId]
+FROM [BillingInformation] AS [b]
+LEFT JOIN [Customers] AS [c] ON [b].[CustomerID] = [c].[CustomerID]
+LEFT JOIN [Customers] AS [c0] ON [c].[ParentID] = [c0].[ID]
+WHERE [b].[SheetID] = @__sheetID_0
+2024-10-08 16:58:29.486 -04:00 [INF] Executed DbCommand (28ms) [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID]
+FROM [Labour] AS [l]
+LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
+WHERE [t].[SheetID] = @__sheetID_0
+2024-10-08 16:58:33.437 -04:00 [INF] Executed DbCommand (29ms) [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [l].[LabourID], [l].[DateOfLabour], [l].[FinishLabour], [l].[FlatRateJob], [l].[FlatRateJobDescription], [l].[OTTotalHrs], [l].[OTTotalMin], [l].[StartLabour], [l].[TechnicianWorkOrderID], [l].[WorkDescription], [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID], [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus], [p].[PersonID], [p].[Email], [p].[EndDate], [p].[FirstName], [p].[LastName], [p].[PhoneOne], [p].[RoleName], [p].[StartDate]
+FROM [Labour] AS [l]
+LEFT JOIN [TechnicianWorkOrder] AS [t] ON [l].[TechnicianWorkOrderID] = [t].[TechnicianWorkOrderID]
+LEFT JOIN [Technician] AS [t0] ON [t].[TechnicianID] = [t0].[TechnicianID]
+LEFT JOIN [Person] AS [p] ON [t0].[PersonID] = [p].[PersonID]
+WHERE [t].[SheetID] = @__sheetID_0
+2024-10-08 16:58:34.107 -04:00 [INF] Executed DbCommand (27ms) [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId], [p].[InventoryID], [p].[Notes], [p].[QtyUsed], [p].[SheetID], [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [PartsUsed] AS [p]
+LEFT JOIN [InventoryData] AS [i] ON [p].[InventoryID] = [i].[InventoryID]
+WHERE [p].[SheetID] = @__sheetID_0
+2024-10-08 16:58:34.777 -04:00 [INF] Executed DbCommand (30ms) [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus], [p].[PersonID], [p].[Email], [p].[EndDate], [p].[FirstName], [p].[LastName], [p].[PhoneOne], [p].[RoleName], [p].[StartDate], [t].[TechnicianWorkOrderID], [t1].[LicenseID], [t1].[ExpiryDate], [t1].[IssuedDate], [t1].[LicenceURL], [t1].[LicenseName], [t1].[TechnicianID]
+FROM [TechnicianWorkOrder] AS [t]
+INNER JOIN [Technician] AS [t0] ON [t].[TechnicianID] = [t0].[TechnicianID]
+INNER JOIN [Person] AS [p] ON [t0].[PersonID] = [p].[PersonID]
+LEFT JOIN [TechnicianLicences] AS [t1] ON [t0].[TechnicianID] = [t1].[TechnicianID]
+WHERE [t].[SheetID] = @__sheetID_0
+ORDER BY [t].[TechnicianWorkOrderID], [t0].[TechnicianID], [p].[PersonID]
+2024-10-08 16:58:35.610 -04:00 [INF] Executed DbCommand (22ms) [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[DocumentID], [d].[DocumentTypeID], [d].[FileName], [d].[FileURL], [d].[SheetID], [d].[UploadDate], [d].[UploadedBy], [d0].[DocumentTypeID], [d0].[DocumentTypeName]
+FROM [Documents] AS [d]
+INNER JOIN [DocumentTypes] AS [d0] ON [d].[DocumentTypeID] = [d0].[DocumentTypeID]
+WHERE [d].[SheetID] = @__sheetID_0
+2024-10-08 16:58:47.900 -04:00 [INF] Executed DbCommand (26ms) [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [v].[VehicleTravelID], [v].[DateTimeEnd], [v].[DateTimeStart], [v].[EndingLocation], [v].[KMAtEnd], [v].[KMAtStart], [v].[StartingLocation], [v].[TotalKms], [v].[VehicleID], [v].[VehicleWorkOrderID]
+FROM [VehicleTravelLog] AS [v]
+LEFT JOIN [VehicleWorkOrder] AS [v0] ON [v].[VehicleWorkOrderID] = [v0].[VehicleWorkOrderID]
+WHERE [v0].[SheetID] = @__sheetID_0
+2024-10-08 16:58:47.923 -04:00 [INF] Successfully retrieved 26 trip log entries for SheetID 1.
+2024-10-08 16:58:47.925 -04:00 [INF] Successfully retrieved work order with SheetID 1.
