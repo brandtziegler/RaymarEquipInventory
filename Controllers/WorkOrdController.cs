@@ -44,28 +44,116 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        //[HttpGet("GetLabourForWorkOrder")]
-        //public async Task<IActionResult> GetLabourForWorkorder(int sheetID)
-        //{
-        //    try
-        //    {
-        //        //var vehicleData = await _samsaraApiService.GetVehicleByID("281474986627612");
-        //        List<LabourLine> labourDetails = await _labourService.GetLabourByWorkOrder(sheetID);
+        [HttpPost("RemoveBillFromWorkOrder")]
+        public async Task<IActionResult> RemoveBillFromWorkOrder(int billID, int sheetId)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _workOrderService.RemoveBillFromWorkOrder(billID, sheetId);
 
-        //        if (labourDetails == null || labourDetails.Count == 0)
-        //        {
-        //            return NotFound("No labour found."); // Returns 404 if no inventory parts are found
-        //        }
+                if (!result)
+                {
+                    return BadRequest("Unable to remove bill from work order");
+                }
+
+                return Ok("Bill removed from work order successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error removing bill {billID} from work order {sheetId}: {ex.Message}");
+                return StatusCode(500, $"An error occurred while removing the bill {billID} from the work order {sheetId}.");
+            }
+        }
+
+        [HttpPost("AddPartToWorkorder")]
+        public async Task<IActionResult> AddPartToWorkorder([FromBody] PartsUsed partDTO)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _workOrderService.AddPartToWorkOrder(partDTO);
+
+                if (!result)
+                {
+                    return BadRequest("Unable to add part to work order");
+                }
+
+                return Ok("Part added to work order successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error launching work order: {ex.Message}");
+                return StatusCode(500, "An error occurred while launching the work order.");
+            }
+        }
+
+        [HttpPost("RemovePartFromWorkorder")]
+        public async Task<IActionResult> RemovePartFromWorkOrder(int partID, int sheetId)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _workOrderService.RemovePartFromWorkOrder(partID, sheetId);
+
+                if (!result)
+                {
+                    return BadRequest("Unable to add part to work order");
+                }
+
+                return Ok("Part added to work order successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error launching work order: {ex.Message}");
+                return StatusCode(500, "An error occurred while launching the work order.");
+            }
+        }
 
 
-        //        return Ok(labourDetails); // Returns a 200 status code with the inventory data
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Catching the exception and returning a 500 error with the message
-        //        return StatusCode(500, $"Internal server error: {ex.Message}");
-        //    }
-        //}
+        [HttpPost("AddTechToWorkOrder")]
+        public async Task<IActionResult> AddTechToWorkOrder(int techID, int sheetID)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _workOrderService.AddTechToWorkOrder(techID, sheetID);
+
+                if (!result)
+                {
+                    return BadRequest("Unable to add technician to work order");
+                }
+
+                return Ok("Technician added successfully");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error adding tech ID {techID} to work order: {ex.Message}");
+                return StatusCode(500, "An error occurred while launching the work order.");
+            }
+        }
+
+        [HttpPost("DeleteTechFromWorkOrder")]
+        public async Task<IActionResult> DeleteTechFromWorkOrder(int techID, int sheetID)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _workOrderService.DeleteTechFromWorkOrder(techID, sheetID);
+
+                if (!result)
+                {
+                    return BadRequest("Unable to remove technician to work order");
+                }
+
+                return Ok("Technician removed successfully");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error removing tech ID {techID} from work order: {ex.Message}");
+                return StatusCode(500, "An error occurred while launching the work order.");
+            }
+        }
 
     }
        

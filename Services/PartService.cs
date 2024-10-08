@@ -58,6 +58,48 @@ namespace RaymarEquipmentInventory.Services
             return partUsedDTO;
         }
 
+        public async Task<bool> UpdatePart(DTOs.PartsUsed partsUsedDto)
+        {
+            // Start by checking for required fields in the DTO
+            if (partsUsedDto.PartUsedId == 0 || partsUsedDto.SheetId == null || partsUsedDto.InventoryId == 0 || partsUsedDto.QtyUsed == null)
+            {
+                Log.Warning("Failed to update part: PartUsedId, SheetID, InventoryId, and QtyUsed are required fields.");
+                return false;
+            }
+
+            try
+            {
+                // Step 1: Retrieve the existing PartsUsed entity from the database
+                var partUsedEntity = await _context.PartsUseds
+                    .FirstOrDefaultAsync(p => p.PartUsedId == partsUsedDto.PartUsedId);
+
+                if (partUsedEntity == null)
+                {
+                    Log.Warning($"Part with PartUsedId {partsUsedDto.PartUsedId} not found.");
+                    return false;
+                }
+
+                // Step 2: Update the entity's properties with values from the DTO
+                partUsedEntity.InventoryId = partsUsedDto.InventoryId;
+                partUsedEntity.QtyUsed = partsUsedDto.QtyUsed.Value;
+                partUsedEntity.Notes = partsUsedDto.Notes ?? string.Empty;  // Optional, use empty string if null
+
+                // Step 3: Save changes to the database
+                _context.PartsUseds.Update(partUsedEntity);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"Successfully updated part with PartUsedId {partsUsedDto.PartUsedId} for Work Order {partsUsedDto.SheetId}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log error and return failure
+                Log.Error($"Error updating part: {ex.Message}");
+                return false;
+            }
+        }
+
+
         public async Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(int sheetID)
         {
 

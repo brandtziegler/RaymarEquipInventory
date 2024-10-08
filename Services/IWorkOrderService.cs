@@ -13,10 +13,13 @@ namespace RaymarEquipmentInventory.Services
         //Task<DTOs.PartsUsed> GetlabourById(int partID);
 
         Task<DTOs.Billing> GetLabourForWorkorder(int sheetID);
-
-
         Task<bool> AddTechToWorkOrder(int techID, int sheetID);
+        Task<bool> DeleteTechFromWorkOrder(int techID, int sheetID);
+        Task<bool> AddPartToWorkOrder(DTOs.PartsUsed partsUsedDto);
+        Task<bool> RemovePartFromWorkOrder(int partUsedId, int sheetId);
+
         Task<bool> LaunchWorkOrder(Billing billingInfo);
+        Task<bool> RemoveBillFromWorkOrder(int billID, int sheetID);
         //Task<List<Tech>> GetAllParts();
 
     }

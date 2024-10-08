@@ -237,6 +237,106 @@ namespace RaymarEquipmentInventory.Services
             return billingDTO;
 
         }
+
+        public async Task<bool> RemovePartFromWorkOrder(int partUsedId, int sheetId)
+        {
+            try
+            {
+                // Step 1: Find the PartsUsed entity by PartUsedId and SheetId
+                var partToRemove = await _context.PartsUseds
+                    .FirstOrDefaultAsync(p => p.PartUsedId == partUsedId && p.SheetId == sheetId);
+
+                if (partToRemove == null)
+                {
+                    // Part not found
+                    Log.Warning($"Part with PartUsedId {partUsedId} and SheetId {sheetId} not found.");
+                    return false;
+                }
+
+                // Step 2: Remove the part from the database
+                _context.PartsUseds.Remove(partToRemove);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"Part with PartUsedId {partUsedId} successfully removed from Work Order {sheetId}.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log error and return failure
+                Log.Error($"Error removing part from work order: {ex.Message}");
+                return false;
+            }
+        }
+
+
+        public async Task<bool> RemoveBillFromWorkOrder(int billingId, int sheetId)
+        {
+            try
+            {
+                // Step 1: Find the PartsUsed entity by PartUsedId and SheetId
+                var billToRemove = await _context.BillingInformations
+                    .FirstOrDefaultAsync(p => p.BillingId == billingId && p.SheetId == sheetId);
+
+                if (billToRemove == null)
+                {
+                    // Part not found
+                    Log.Warning($"Bill with BillikngID {billingId} and SheetId {sheetId} not found.");
+                    return false;
+                }
+
+                // Step 2: Remove the part from the database
+                _context.BillingInformations.Remove(billToRemove);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"Bill with Billing ID {billingId} successfully removed from Work Order {sheetId}.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log error and return failure
+                Log.Error($"Error removing part from work order: {ex.Message}");
+                return false;
+            }
+        }
+
+
+
+        public async Task<bool> AddPartToWorkOrder(DTOs.PartsUsed partsUsedDto)
+        {
+            // Start by checking for required fields in the DTO
+            if (partsUsedDto.SheetId == null || partsUsedDto.InventoryId == 0 || partsUsedDto.QtyUsed == null)
+            {
+                Log.Warning("Failed to add part: SheetID, InventoryId, and QtyUsed are required fields.");
+                return false;
+            }
+
+            try
+            {
+                // Step 1: Map the DTO to the PartsUsed entity
+                var partUsedEntity = new Models.PartsUsed
+                {
+                    SheetId = partsUsedDto.SheetId.Value,
+                    InventoryId = partsUsedDto.InventoryId,
+                    QtyUsed = partsUsedDto.QtyUsed.Value,
+                    Notes = partsUsedDto.Notes ?? string.Empty  // Optional, use empty string if null
+                };
+
+                // Step 2: Add the part to the database
+                await _context.PartsUseds.AddAsync(partUsedEntity);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"Successfully added part with InventoryID {partsUsedDto.InventoryId} to Work Order {partsUsedDto.SheetId}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log error and return failure
+                Log.Error($"Error adding part to work order: {ex.Message}");
+                return false;
+            }
+        }
+
+
     }
 
 }

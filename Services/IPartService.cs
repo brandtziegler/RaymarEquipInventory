@@ -13,6 +13,8 @@ namespace RaymarEquipmentInventory.Services
 
         Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(int sheetID);
 
+        Task<bool> UpdatePart(DTOs.PartsUsed partsUsedDto);
+
         //Task<List<Tech>> GetAllParts();
 
     }

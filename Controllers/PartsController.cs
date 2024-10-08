@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
+using Serilog;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -36,6 +37,28 @@ namespace RaymarEquipmentInventory.Controllers
                 // Catching the exception and returning a 500 error with the message
                 return StatusCode(500, $"Internal server error: {ex.Message}");
 
+            }
+        }
+
+        [HttpPost("UpdatePart")]
+        public async Task<IActionResult> UpdatePart([FromBody] PartsUsed partDTO)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _partService.UpdatePart(partDTO);
+
+                if (!result)
+                {
+                    return BadRequest("Unable to update part");
+                }
+
+                return Ok("Part updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error updating part {partDTO.InventoryData.InventoryId}: {ex.Message}");
+                return StatusCode(500, "An error occurred while launching the work order.");
             }
         }
 
