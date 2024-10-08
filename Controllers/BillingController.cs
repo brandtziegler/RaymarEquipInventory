@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
+using Serilog;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -18,6 +19,29 @@ namespace RaymarEquipmentInventory.Controllers
             _billingService = billingService;
             _quickBooksConnectionService = quickBooksConnectionService;
             _samsaraApiService = samsaraApiService;
+        }
+
+
+        [HttpPost("UpdateBill")]
+        public async Task<IActionResult> UpdateBill([FromBody] Billing billingDto)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _billingService.UpdateBillingInfo(billingDto);
+
+                if (!result)
+                {
+                    return BadRequest("Unable to update bill with the provided billing information.");
+                }
+
+                return Ok("Bill was updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error updating Bill: {ex.Message}");
+                return StatusCode(500, "An error occurred while launching the work order.");
+            }
         }
 
         [HttpGet("GetBillingForWorkOrder")]
