@@ -91,6 +91,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[WorkOrderCounter]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[WorkOrderSheet]",
          "ObjectType": 0
       }

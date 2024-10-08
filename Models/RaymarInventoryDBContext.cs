@@ -51,6 +51,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VehicleWorkOrder> VehicleWorkOrders { get; set; }
 
+    public virtual DbSet<WorkOrderCounter> WorkOrderCounters { get; set; }
+
     public virtual DbSet<WorkOrderSheet> WorkOrderSheets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -500,6 +502,17 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasOne(d => d.Vehicle).WithMany(p => p.VehicleWorkOrders)
                 .HasForeignKey(d => d.VehicleId)
                 .HasConstraintName("FK_VehicleWorkOrder_VehicleID");
+        });
+
+        modelBuilder.Entity<WorkOrderCounter>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__WorkOrde__3214EC0781D9C1CC");
+
+            entity.ToTable("WorkOrderCounter");
+
+            entity.Property(e => e.LastModified)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
         });
 
         modelBuilder.Entity<WorkOrderSheet>(entity =>
