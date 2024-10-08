@@ -16,7 +16,7 @@ namespace RaymarEquipmentInventory.Services
 
 
         Task<bool> AddTechToWorkOrder(int techID, int sheetID);
-        Task<bool> LaunchWorkOrder(BillingInformation billingInfo);
+        Task<bool> LaunchWorkOrder(Billing billingInfo);
         //Task<List<Tech>> GetAllParts();
 
     }

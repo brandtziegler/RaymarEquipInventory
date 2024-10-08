@@ -9,6 +9,7 @@ using System.Reflection.PortableExecutable;
 using RaymarEquipmentInventory.Helpers;
 using Serilog;
 using Azure.Storage.Blobs;
+using Microsoft.Data.SqlClient;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -24,12 +25,75 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<bool> LaunchWorkOrder(BillingInformation billingInfo)
+        public async Task<bool> LaunchWorkOrder(Billing billingInfo)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                // Step 1: Get the next work order number
+                int workOrderNumber = await GetNextWorkOrderNumber();
+
+                // Step 2: Create the WorkOrder record using the generated number
+                var newWorkOrder = new WorkOrderSheet
+                {
+                    WorkOrderNumber = workOrderNumber,
+                    DateTimeCreated = DateTime.Now,
+                    WorkOrdStatus = "Created",
+                    DateTimeCompleted = null,
+                    DateTimeStarted = null,
+                    // Other initialization steps
+                };
+                await _context.WorkOrderSheets.AddAsync(newWorkOrder);
+                await _context.SaveChangesAsync();
 
 
-            return true;
+                // Step 3: Create the BillingInformation record and link it to the WorkOrder
+                var newBilling = new BillingInformation
+                {
+                    Pono = billingInfo.PONo,
+                    SheetId = newWorkOrder.SheetId, // Link to WorkOrderSheet's SheetID
+                    CustomerId = billingInfo.CustomerId,
+                    BillingPersonId = billingInfo.TechId,
+                    Notes = billingInfo.Notes,
+                    UnitNo = billingInfo.UnitNo,
+                    WorkLocation = billingInfo.WorkLocation,
+                };
+                await _context.BillingInformations.AddAsync(newBilling);
+                await _context.SaveChangesAsync();
 
+
+                // Commit transaction
+                await transaction.CommitAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                Log.Error($"Error launching work order: {ex.Message}");
+                return false;
+            }
+        }
+
+        private async Task<int> GetNextWorkOrderNumber()
+        {
+            // Fetch the current work order number and increment it
+            var workOrderCounter = await _context.WorkOrderCounters.FirstOrDefaultAsync();
+            if (workOrderCounter == null)
+            {
+                throw new InvalidOperationException("WorkOrderCounter record not found.");
+            }
+
+            // Increment the work order number
+            int newWorkOrderNumber = workOrderCounter.CurrentNumber + 1;
+            workOrderCounter.CurrentNumber = newWorkOrderNumber;
+            workOrderCounter.LastModified = DateTime.Now;
+
+            // Save the changes to the counter
+            _context.WorkOrderCounters.Update(workOrderCounter);
+            await _context.SaveChangesAsync();
+
+            return newWorkOrderNumber;
         }
         public async Task<bool> AddTechToWorkOrder(int techID, int sheetID)
         {
