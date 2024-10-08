@@ -205,6 +205,52 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task<bool> AddLbrToWorkOrder(LabourLine labourDTO)
+        {
+            // Step 1: Check for required fields
+            if (labourDTO.TechnicianID == 0 || labourDTO.SheetId == 0 || labourDTO.DateofLabour == null)
+            {
+                Log.Warning("TechnicianID, SheetID, and DateOfLabour are required fields.");
+                return false;
+            }
+
+            try
+            {
+                // Step 2: Retrieve the TechnicianWorkOrderID based on TechnicianID and SheetID
+                var technicianWorkOrder = await _context.TechnicianWorkOrders
+                    .FirstOrDefaultAsync(t => t.TechnicianId == labourDTO.TechnicianID && t.SheetId == labourDTO.SheetId);
+
+                if (technicianWorkOrder == null)
+                {
+                    Log.Warning($"TechnicianWorkOrder not found for TechnicianID {labourDTO.TechnicianID} and SheetID {labourDTO.SheetId}.");
+                    return false;  // No matching TechnicianWorkOrder entry found
+                }
+
+                // Step 3: Map the LabourLine DTO to the Labour entity, now with TechnicianWorkOrderID
+                var newLabour = new Labour
+                {
+                    DateOfLabour = labourDTO.DateofLabour.Value,
+                    FlatRateJob = labourDTO.FlatRateJob,
+                    FlatRateJobDescription = labourDTO.FlatRateJobDescription ?? string.Empty,
+                    TechnicianWorkOrderId = technicianWorkOrder.TechnicianWorkOrderId,
+                    WorkDescription = labourDTO.WorkDescription ?? string.Empty
+                };
+
+                // Step 4: Add the new labour record to the database
+                await _context.Labours.AddAsync(newLabour);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"Successfully added labour entry for TechnicianWorkOrderID {technicianWorkOrder.TechnicianWorkOrderId}.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error adding labour to work order: {ex.Message}");
+                return false;
+            }
+        }
+
+
 
         public async Task<DTOs.Billing> GetLabourForWorkorder(int sheetID)
         {

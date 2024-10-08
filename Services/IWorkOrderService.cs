@@ -20,6 +20,8 @@ namespace RaymarEquipmentInventory.Services
 
         Task<bool> LaunchWorkOrder(Billing billingInfo);
         Task<bool> RemoveBillFromWorkOrder(int billID, int sheetID);
+        Task<bool> AddLbrToWorkOrder(LabourLine labourDTO);
+
         //Task<List<Tech>> GetAllParts();
 
     }

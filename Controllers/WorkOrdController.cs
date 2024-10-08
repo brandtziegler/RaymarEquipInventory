@@ -110,7 +110,27 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpPost("AddLbrToWorkOrder")]
+        public async Task<IActionResult> AddLbrToWorkOrder([FromBody] LabourLine labourDTO)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _workOrderService.AddLbrToWorkOrder(labourDTO);
 
+                if (!result)
+                {
+                    return BadRequest("Unable to add part to work order");
+                }
+
+                return Ok("Part added to work order successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error launching work order: {ex.Message}");
+                return StatusCode(500, "An error occurred while launching the work order.");
+            }
+        }
         [HttpPost("AddTechToWorkOrder")]
         public async Task<IActionResult> AddTechToWorkOrder(int techID, int sheetID)
         {
