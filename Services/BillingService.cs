@@ -22,6 +22,77 @@ namespace RaymarEquipmentInventory.Services
             _context = context;
         }
 
+        public async Task<bool> AddCustomerToBill(int billId, int customerId, string unitNo)
+        {
+            try
+            {
+                // Retrieve the bill from the database
+                var bill = await _context.BillingInformations.Include(b => b.Customer)
+                                                .FirstOrDefaultAsync(b => b.BillingId == billId);
+                if (bill == null)
+                {
+                    Log.Warning($"Bill with ID {billId} not found.");
+                    return false;
+                }
+
+                // Retrieve the customer
+                var customer = await _context.Customers.FindAsync(customerId);
+                if (customer == null)
+                {
+                    Log.Warning($"Customer with ID {customerId} not found.");
+                    return false;
+                }
+
+                // Associate the customer with the bill
+                bill.Customer = customer;
+                bill.UnitNo = unitNo;
+                await _context.SaveChangesAsync();
+
+                Log.Information($"Customer {customerId} successfully added to Bill {billId}.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error adding Customer {customerId} to Bill {billId}: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> RemoveCustomerFromBill(int billId, int customerId)
+        {
+            try
+            {
+                // Retrieve the bill
+                var bill = await _context.BillingInformations.Include(b => b.Customer)
+                                                .FirstOrDefaultAsync(b => b.BillingId == billId);
+                if (bill == null)
+                {
+                    Log.Warning($"Bill with ID {billId} not found.");
+                    return false;
+                }
+
+                var customer = bill.Customer;
+                //// Find the customer in the bill's customer list
+                //var customer = bill.Customer.FirstOrDefault(c => c.CustomerId == customerId);
+                if (customer == null)
+                {
+                    Log.Warning($"Customer {customerId} not associated with Bill {billId}.");
+                    return false;
+                }
+
+                // Remove the association
+                bill.Customer = null;
+                await _context.SaveChangesAsync();
+
+                Log.Information($"Customer {customerId} successfully removed from Bill {billId}.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error removing Customer {customerId} from Bill {billId}: {ex.Message}");
+                return false;
+            }
+        }
 
         public async Task<DTOs.Billing> GetLabourForWorkorder(int sheetID)
         {
