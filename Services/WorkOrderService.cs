@@ -311,6 +311,43 @@ namespace RaymarEquipmentInventory.Services
 
         }
 
+
+        public async Task<DTOs.WorkOrder> GetWorkOrder(int sheetID)
+        {
+            try
+            {
+                // Step 1: Retrieve the basic work order details from the database
+                var workOrderEntity = await _context.WorkOrderSheets
+                    .FirstOrDefaultAsync(w => w.SheetId == sheetID);
+
+                if (workOrderEntity == null)
+                {
+                    Log.Warning($"Work order with SheetID {sheetID} not found.");
+                    return null; // Could return null or throw an exception based on your design
+                }
+
+                // Step 2: Map the WorkOrderSheet fields to the WorkOrder DTO
+                var workOrderDto = new DTOs.WorkOrder
+                {
+                    SheetId = workOrderEntity.SheetId,
+                    WorkOrderNumber = workOrderEntity.WorkOrderNumber,
+                    WorkOrderStatus = workOrderEntity.WorkOrdStatus,
+                    DateTimeCreated = workOrderEntity.DateTimeCreated,
+                    DateTimeStarted = workOrderEntity.DateTimeStarted,
+                    DateTimeCompleted = workOrderEntity.DateTimeCompleted
+                };
+
+                Log.Information($"Successfully retrieved work order with SheetID {sheetID}.");
+                return workOrderDto;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error retrieving work order with SheetID {sheetID}: {ex.Message}");
+                return null;
+            }
+        }
+
+
         public async Task<bool> RemovePartFromWorkOrder(int partUsedId, int sheetId)
         {
             try

@@ -4,6 +4,7 @@
     {
         public string SamsaraVehicleID { get; set; } = "";
         public int VehicleID { get; set; }
+
         public int SheetID { get; set; }
 
         public long StartMs { get; set; }           // Start time in Unix milliseconds
@@ -43,6 +44,8 @@
             // Convert distance from meters to kilometers
             DistanceKM = EndKM - StartKM;
         }
+
+        public Vehicle Vehicle { get; set; } = new Vehicle();
 
         // Helper method to convert meters/odometer to kilometers
         private double ConvertToKilometers(long meters)
