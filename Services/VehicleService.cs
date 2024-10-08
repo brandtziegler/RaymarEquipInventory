@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using RaymarEquipmentInventory.Helpers;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
+using Serilog;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -72,6 +73,44 @@ namespace RaymarEquipmentInventory.Services
             {
                 // Log the exception - make sure you replace this with your actual logging framework
                 Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<List<TripLog>> GetTripLog(int sheetID)
+        {
+            try
+            {
+                // Retrieve the trip logs associated with the given sheetID
+                var existingTripLogs = await _context.VehicleTravelLogs
+                    .Where(i => i.VehicleWorkOrder.SheetId == sheetID)
+                    .ToListAsync();
+
+                if (existingTripLogs == null || !existingTripLogs.Any())
+                {
+                    Log.Warning($"No trip logs found for SheetID {sheetID}.");
+                    return new List<TripLog>(); // Return an empty list if no records found
+                }
+
+                // Map each entity to the TripLog DTO using the constructor
+                var tripLogDtos = existingTripLogs.Select(log => new TripLog(
+                    samsaraID: log.VehicleId.ToString(),           // SamsaraVehicleID as string
+                    vehicleID: log.VehicleId,
+                    sheetID: sheetID,
+                    startMs: ((DateTimeOffset)log.DateTimeStart).ToUnixTimeMilliseconds(),
+                    endMs: ((DateTimeOffset)log.DateTimeEnd).ToUnixTimeMilliseconds(),
+                    startLocation: log.StartingLocation ?? string.Empty,
+                    endLocation: log.EndingLocation ?? string.Empty,
+                    startOdometer: (long)(log.KmatStart * 1000),  // Converting from KM to meters
+                    endOdometer: (long)(log.KmatEnd * 1000)       // Converting from KM to meters
+                )).ToList();
+
+                Log.Information($"Successfully retrieved {tripLogDtos.Count} trip log entries for SheetID {sheetID}.");
+                return tripLogDtos;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error retrieving trip logs for SheetID {sheetID}: {ex.Message}");
+                return new List<TripLog>(); // Return an empty list in case of error
             }
         }
 

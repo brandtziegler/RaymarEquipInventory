@@ -395,6 +395,12 @@ namespace RaymarEquipmentInventory.Services
 
                 workOrderDto.LabourLines = _labourService.GetLabourByWorkOrder(sheetID).Result;
                 workOrderDto.PartsUsed = _partService.GetPartsByWorkOrder(sheetID).Result;
+                workOrderDto.Technicians = _technicianService.GetTechsByWorkOrder(sheetID).Result;
+                workOrderDto.Documents = _documentService.GetDocumentsByWorkOrder(sheetID).Result;
+                workOrderDto.VehicleTravelLogs = _vehicleService.GetTripLog(sheetID).Result;
+
+                //workOrderDto.VehicleTravelLogs = 
+
                 //workOrderDto.VehicleTravelLogs = .(sheetID).Result;
 
 

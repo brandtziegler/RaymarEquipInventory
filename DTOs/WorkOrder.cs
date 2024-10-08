@@ -9,7 +9,9 @@ namespace RaymarEquipmentInventory.DTOs
         public List<LabourLine> LabourLines { get; set; } = new List<LabourLine>();
         public List<PartsUsed> PartsUsed { get; set; } = new List<PartsUsed>();
         public List<TripLog> VehicleTravelLogs { get; set; } = new List<TripLog>();
-        public List<Technician> Technicians { get; set; } = new List<Technician>();
+        public List<DTOs.Tech> Technicians { get; set; } = new List<DTOs.Tech>();
+        public List<RetrieveDocument> Documents { get; set; } = new List<RetrieveDocument>();
+        public List<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
 
         public Customer Customer { get; set; } = new Customer();
         public Customer ParentCustomer { get; set; } = new Customer();
