@@ -88,6 +88,59 @@ namespace RaymarEquipmentInventory.Services
             return labourDTO;
         }
 
+        public async Task<bool> UpdateLabour(LabourLine labourDTO)
+        {
+            // Step 1: Validate the LabourID
+            if (labourDTO.LabourId <= 0)
+            {
+                Log.Warning("Labour ID is required for updating a labour record.");
+                return false;
+            }
+
+            try
+            {
+                // Step 2: Find the existing labour entry by LabourID
+                var existingLabour = await _context.Labours.FindAsync(labourDTO.LabourId);
+
+                if (existingLabour == null)
+                {
+                    Log.Warning($"Labour with ID {labourDTO.LabourId} not found.");
+                    return false;
+                }
+
+                // Step 3: Retrieve the TechnicianWorkOrderID based on TechnicianID and SheetID
+                var technicianWorkOrder = await _context.TechnicianWorkOrders
+                    .FirstOrDefaultAsync(t => t.TechnicianId == labourDTO.TechnicianID && t.SheetId == labourDTO.SheetId);
+
+                if (technicianWorkOrder == null)
+                {
+                    Log.Warning($"TechnicianWorkOrder entry not found for TechnicianID {labourDTO.TechnicianID} and SheetID {labourDTO.SheetId}.");
+                    return false;
+                }
+
+                // Step 4: Update the fields based on the DTO
+                existingLabour.DateOfLabour = labourDTO.DateofLabour ?? existingLabour.DateOfLabour;
+                existingLabour.StartLabour = labourDTO.StartLabour ?? existingLabour.StartLabour;
+                existingLabour.FinishLabour = labourDTO.FinishLabour ?? existingLabour.FinishLabour;
+                existingLabour.FlatRateJob = labourDTO.FlatRateJob;
+                existingLabour.FlatRateJobDescription = labourDTO.FlatRateJobDescription ?? existingLabour.FlatRateJobDescription;
+                existingLabour.TechnicianWorkOrderId = technicianWorkOrder.TechnicianWorkOrderId; // Map using retrieved ID
+                existingLabour.WorkDescription = labourDTO.WorkDescription ?? existingLabour.WorkDescription;
+
+                // Step 5: Save the changes
+                _context.Labours.Update(existingLabour);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"Successfully updated labour entry with ID {labourDTO.LabourId}.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error updating labour with ID {labourDTO.LabourId}: {ex.Message}");
+                return false;
+            }
+        }
+
 
 
     }

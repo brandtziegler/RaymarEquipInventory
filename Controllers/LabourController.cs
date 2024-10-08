@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
+using Serilog;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -19,23 +20,6 @@ namespace RaymarEquipmentInventory.Controllers
             _quickBooksConnectionService = quickBooksConnectionService;
             _samsaraApiService = samsaraApiService;
         }
-
-        //// Dummy endpoint for getting a product by ID
-        //[HttpGet("{id}")]
-        //public IActionResult GetProductById(int id)
-        //{
-        //    var product = _inventoryService.GetProductById(id);
-        //    return Ok(product); // Returns a 200 status code with product details
-        //}
-
-        //// Dummy endpoint for getting all products
-        //[HttpGet]
-        //public IActionResult GetAllProducts()
-        //{
-        //    var products = _inventoryService.GetAllProducts();
-        //    return Ok(products); // Returns a 200 status code with all products
-        //}
-
 
         [HttpGet("GetLabourForWorkOrder")]
         public async Task<IActionResult> GetLabourForWorkorder(int sheetID)
@@ -57,6 +41,30 @@ namespace RaymarEquipmentInventory.Controllers
             {
                 // Catching the exception and returning a 500 error with the message
                 return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+
+        [HttpPost("UpdateLabour")]
+        public async Task<IActionResult> UpdateLabour([FromBody] LabourLine labourDTO)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _labourService.UpdateLabour(labourDTO);
+
+                if (!result)
+                {
+                    return BadRequest("Unable to update labour with the provided information.");
+                }
+
+                return Ok("Labour updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error updating labour: {ex.Message}");
+                return StatusCode(500, "An error occurred while updating labour.");
             }
         }
 

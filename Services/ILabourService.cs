@@ -14,7 +14,7 @@ namespace RaymarEquipmentInventory.Services
         Task<List<DTOs.LabourLine>> GetLabourByWorkOrder(int sheetID);
 
         Task<LabourLine> GetLabourById(int labourID);
-
+        Task<bool> UpdateLabour(LabourLine labourDTO);
         //Task<List<Tech>> GetAllParts();
 
     }

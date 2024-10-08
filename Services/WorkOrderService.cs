@@ -250,6 +250,33 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task<bool> RemoveLbrFromWorkOrder(int labourID)
+        {
+            try
+            {
+                // Step 1: Retrieve the labour entry from the database
+                var labourEntry = await _context.Labours.FindAsync(labourID);
+
+                if (labourEntry == null)
+                {
+                    Log.Warning($"Labour entry with ID {labourID} not found.");
+                    return false; // Labour entry does not exist
+                }
+
+                // Step 2: Remove the labour entry from the database
+                _context.Labours.Remove(labourEntry);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"Successfully removed labour entry with ID {labourID} from work order.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error removing labour entry with ID {labourID}: {ex.Message}");
+                return false; // Indicate failure
+            }
+        }
+
 
 
         public async Task<DTOs.Billing> GetLabourForWorkorder(int sheetID)

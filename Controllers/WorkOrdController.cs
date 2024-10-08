@@ -66,6 +66,28 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpPost("RemoveLbrFromWorkSheet")]
+        public async Task<IActionResult> RemoveLbrFromWorkSheet(int lbrID)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _workOrderService.RemoveLbrFromWorkOrder(lbrID);
+
+                if (!result)
+                {
+                    return BadRequest("Unable to remove labour from work order");
+                }
+
+                return Ok("Labour removed from work order successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error removing labour {lbrID} from work order: {ex.Message}");
+                return StatusCode(500, $"An error occurred while removing the labour line:  {lbrID} from the work order.");
+            }
+        }
+
         [HttpPost("AddPartToWorkorder")]
         public async Task<IActionResult> AddPartToWorkorder([FromBody] PartsUsed partDTO)
         {
