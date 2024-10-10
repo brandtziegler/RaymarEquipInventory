@@ -22,19 +22,16 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build RaymarEquipmentInventory.csproj --configuration Release
-        env:                         # Add environment variable for the build step
-          SAMSARA_API_TOKEN: ${{ secrets.SAMSARA_API_TOKEN }}
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish RaymarEquipmentInventory.csproj -c Release -o ./myapp
-        env:  # Add environment variable for the publish step
-          SAMSARA_API_TOKEN: ${{ secrets.SAMSARA_API_TOKEN }}
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ./myapp
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: windows-latest
@@ -54,9 +51,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_BDA90BD87DAA4F7298817A3E378FABCF }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_10FE8A6958094F91871D24A1597FF604 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_937BB13F0B5F49359EE609598FE91C44 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_11120FC40D9A48B697A54B605617C92F }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B59E30FA2F0045438A16293EFBDEB4F4 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_38EE172D153244188374D0104D9AAD7E }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -65,5 +62,4 @@ jobs:
           app-name: 'RaymarInventoryAPI'
           slot-name: 'Production'
           package: .
-        env:                         # Add environment variable for the deploy step
-            SAMSARA_API_TOKEN: ${{ secrets.SAMSARA_API_TOKEN }}
+          
