@@ -134,3 +134,60 @@ ORDER BY [t0].[TechnicianID], [t0].[PersonID0]
 2024-10-10 12:07:45.930 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.TechnicianController.GetTechniciansByID (RaymarEquipmentInventory) in 4576.729ms
 2024-10-10 12:07:45.933 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.TechnicianController.GetTechniciansByID (RaymarEquipmentInventory)'
 2024-10-10 12:07:45.940 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/technician/GetTechniciansByID?techID=5 - 200 null application/json; charset=utf-8 4634.9262ms
+2024-10-10 15:54:15.255 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-10 15:54:16.060 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-10 15:54:16.529 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-10 15:54:16.555 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-10 15:54:16.556 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-10 15:54:16.556 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-10 15:54:16.566 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-10 15:54:16.567 -04:00 [INF] Hosting environment: Development
+2024-10-10 15:54:16.567 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-10 15:54:16.668 -04:00 [INF] Server dev-workstation:18488:531d3e88 successfully announced in 102.6519 ms
+2024-10-10 15:54:16.672 -04:00 [INF] Server dev-workstation:18488:531d3e88 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-10 15:54:16.724 -04:00 [INF] Server dev-workstation:18488:531d3e88 all the dispatchers started
+2024-10-10 15:54:17.167 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-10 15:54:17.309 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 144.724ms
+2024-10-10 15:54:17.340 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-10 15:54:17.341 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-10 15:54:17.344 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 3.8686ms
+2024-10-10 15:54:17.370 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 28.1951ms
+2024-10-10 15:54:17.404 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-10 15:54:17.456 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 52.0695ms
+2024-10-10 15:55:39.812 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-10 15:55:40.432 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-10 15:55:40.638 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-10 15:55:40.667 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-10 15:55:40.668 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-10 15:55:40.669 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-10 15:55:40.681 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-10 15:55:40.682 -04:00 [INF] Hosting environment: Development
+2024-10-10 15:55:40.688 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-10 15:55:40.767 -04:00 [INF] Server dev-workstation:31432:10a87d8a successfully announced in 86.1278 ms
+2024-10-10 15:55:40.771 -04:00 [INF] Server dev-workstation:31432:10a87d8a is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-10 15:55:40.846 -04:00 [INF] Server dev-workstation:31432:10a87d8a all the dispatchers started
+2024-10-10 15:55:41.934 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-10 15:55:42.077 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 146.5419ms
+2024-10-10 15:55:42.121 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-10 15:55:42.126 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.198ms
+2024-10-10 15:55:42.130 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-10 15:55:42.166 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 36.2857ms
+2024-10-10 15:55:42.200 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-10 15:55:42.253 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 52.5522ms
+2024-10-10 15:56:29.060 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Document/GetDocumentInfoByID?docID=15 - null null
+2024-10-10 15:56:29.079 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-10 15:56:29.083 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.DocumentController.GetDocumentInfoByID (RaymarEquipmentInventory)'
+2024-10-10 15:56:29.104 -04:00 [INF] Route matched with {action = "GetDocumentInfoByID", controller = "Document"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocumentInfoByID(Int32) on controller RaymarEquipmentInventory.Controllers.DocumentController (RaymarEquipmentInventory).
+2024-10-10 15:56:45.996 -04:00 [INF] Executed DbCommand (50ms) [Parameters=[@__docID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[DocumentID], [d].[DocumentTypeID], [d].[FileName], [d].[FileURL], [d].[SheetID], [d].[UploadDate], [d].[UploadedBy], [d0].[DocumentTypeID], [d0].[DocumentTypeName]
+FROM [Documents] AS [d]
+INNER JOIN [DocumentTypes] AS [d0] ON [d].[DocumentTypeID] = [d0].[DocumentTypeID]
+WHERE [d].[DocumentID] = @__docID_0
