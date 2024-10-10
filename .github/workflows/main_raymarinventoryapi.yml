@@ -23,7 +23,7 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build RaymarEquipmentInventory.csproj --configuration Release
-        env:                         # Add environment variable for the build step
+        env:                         # Add environment variable for the build step now.
           SAMSARA_API_TOKEN: ${{ secrets.SAMSARA_API_TOKEN }}
 
       - name: dotnet publish
