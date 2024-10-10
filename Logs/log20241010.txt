@@ -1,0 +1,136 @@
+2024-10-10 10:47:43.105 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-10 10:47:44.031 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-10 10:47:44.577 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-10 10:47:44.609 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-10 10:47:44.612 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-10 10:47:44.613 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-10 10:47:44.624 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-10 10:47:44.625 -04:00 [INF] Hosting environment: Development
+2024-10-10 10:47:44.625 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-10 10:47:44.737 -04:00 [INF] Server dev-workstation:5408:18efa7e7 successfully announced in 113.4816 ms
+2024-10-10 10:47:44.744 -04:00 [INF] Server dev-workstation:5408:18efa7e7 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-10 10:47:44.797 -04:00 [INF] Server dev-workstation:5408:18efa7e7 all the dispatchers started
+2024-10-10 10:47:45.705 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-10 10:47:45.869 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 168.9359ms
+2024-10-10 10:47:45.893 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-10 10:47:45.894 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-10 10:47:45.899 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 6.0534ms
+2024-10-10 10:47:45.993 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 98.2593ms
+2024-10-10 10:47:46.013 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-10 10:47:46.054 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 41.0574ms
+2024-10-10 10:49:59.331 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - null null
+2024-10-10 10:49:59.343 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-10 10:49:59.346 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetProductById (RaymarEquipmentInventory)'
+2024-10-10 10:49:59.359 -04:00 [INF] Route matched with {action = "GetProductById", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetProductById(Int32) on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-10-10 10:49:59.955 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2024-10-10 10:49:59.966 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetProductById (RaymarEquipmentInventory) in 604.0394ms
+2024-10-10 10:49:59.970 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetProductById (RaymarEquipmentInventory)'
+2024-10-10 10:49:59.971 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - 400 null application/problem+json; charset=utf-8 642.3784ms
+2024-10-10 10:50:45.695 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - null null
+2024-10-10 10:50:45.701 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetProductById (RaymarEquipmentInventory)'
+2024-10-10 10:50:45.702 -04:00 [INF] Route matched with {action = "GetProductById", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetProductById(Int32) on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-10-10 10:50:45.736 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2024-10-10 10:50:45.737 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetProductById (RaymarEquipmentInventory) in 33.2632ms
+2024-10-10 10:50:45.738 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetProductById (RaymarEquipmentInventory)'
+2024-10-10 10:50:45.739 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - 400 null application/problem+json; charset=utf-8 44.1746ms
+2024-10-10 10:51:19.161 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - null null
+2024-10-10 10:51:19.172 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetProductById (RaymarEquipmentInventory)'
+2024-10-10 10:51:19.173 -04:00 [INF] Route matched with {action = "GetProductById", controller = "Inventory"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetProductById(Int32) on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-10-10 10:51:19.214 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2024-10-10 10:51:19.215 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetProductById (RaymarEquipmentInventory) in 41.6115ms
+2024-10-10 10:51:19.216 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetProductById (RaymarEquipmentInventory)'
+2024-10-10 10:51:19.218 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllPartsItems - 400 null application/problem+json; charset=utf-8 56.4945ms
+2024-10-10 10:51:30.819 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-10 10:51:30.822 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 3.0205ms
+2024-10-10 11:42:11.573 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-10 11:42:12.340 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-10 11:42:12.745 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-10 11:42:12.770 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-10 11:42:12.771 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-10 11:42:12.771 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-10 11:42:12.781 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-10 11:42:12.782 -04:00 [INF] Hosting environment: Development
+2024-10-10 11:42:12.782 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-10 11:42:12.871 -04:00 [INF] Server dev-workstation:20456:32e7ca5c successfully announced in 89.6145 ms
+2024-10-10 11:42:12.874 -04:00 [INF] Server dev-workstation:20456:32e7ca5c is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-10 11:42:12.909 -04:00 [INF] 1 servers were removed due to timeout
+2024-10-10 11:42:12.932 -04:00 [INF] Server dev-workstation:20456:32e7ca5c all the dispatchers started
+2024-10-10 11:42:13.413 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-10 11:42:13.539 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 130.3197ms
+2024-10-10 11:42:13.563 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-10 11:42:13.564 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-10 11:42:13.568 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.7026ms
+2024-10-10 11:42:13.588 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 23.7125ms
+2024-10-10 11:42:13.616 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-10 11:42:13.660 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 44.4759ms
+2024-10-10 11:43:48.350 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllInventoryItems - null null
+2024-10-10 11:43:48.376 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-10 11:43:48.381 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllInventoryItems (RaymarEquipmentInventory)'
+2024-10-10 11:43:48.400 -04:00 [INF] Route matched with {action = "GetAllInventoryItems", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllInventoryItems() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-10-10 11:43:52.531 -04:00 [INF] Executed DbCommand (38ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-10-10 11:43:52.678 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-10-10 11:43:52.698 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetAllInventoryItems (RaymarEquipmentInventory) in 4291.752ms
+2024-10-10 11:43:52.700 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllInventoryItems (RaymarEquipmentInventory)'
+2024-10-10 11:43:52.708 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllInventoryItems - 200 null application/json; charset=utf-8 4357.6231ms
+2024-10-10 11:43:57.506 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllInventoryItems - null null
+2024-10-10 11:43:57.510 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllInventoryItems (RaymarEquipmentInventory)'
+2024-10-10 11:43:57.512 -04:00 [INF] Route matched with {action = "GetAllInventoryItems", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllInventoryItems() on controller RaymarEquipmentInventory.Controllers.InventoryController (RaymarEquipmentInventory).
+2024-10-10 11:44:04.573 -04:00 [INF] Executed DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[InventoryID], [i].[AverageCost], [i].[Cost], [i].[Description], [i].[IncomeAccountID], [i].[ItemName], [i].[LastRestockedDate], [i].[ManufacturerPartNumber], [i].[OnHand], [i].[QuickBooksInvID], [i].[ReorderPoint], [i].[SalesPrice]
+FROM [InventoryData] AS [i]
+2024-10-10 11:44:10.920 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.InventoryForDropdown, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-10-10 11:44:10.924 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.InventoryController.GetAllInventoryItems (RaymarEquipmentInventory) in 13410.9501ms
+2024-10-10 11:44:10.926 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.InventoryController.GetAllInventoryItems (RaymarEquipmentInventory)'
+2024-10-10 11:44:10.927 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Inventory/GetAllInventoryItems - 200 null application/json; charset=utf-8 13422.3885ms
+2024-10-10 12:07:18.053 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-10 12:07:18.870 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-10 12:07:19.383 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-10 12:07:19.408 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-10 12:07:19.416 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-10 12:07:19.427 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-10 12:07:19.437 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-10 12:07:19.438 -04:00 [INF] Hosting environment: Development
+2024-10-10 12:07:19.439 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-10 12:07:19.544 -04:00 [INF] Server dev-workstation:27680:a7b15993 successfully announced in 106.797 ms
+2024-10-10 12:07:19.547 -04:00 [INF] Server dev-workstation:27680:a7b15993 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-10 12:07:19.604 -04:00 [INF] Server dev-workstation:27680:a7b15993 all the dispatchers started
+2024-10-10 12:07:20.233 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-10 12:07:20.391 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 163.7685ms
+2024-10-10 12:07:20.421 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-10 12:07:20.422 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-10 12:07:20.426 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 6.0693ms
+2024-10-10 12:07:20.445 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 23.1801ms
+2024-10-10 12:07:20.483 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-10 12:07:20.573 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 90.6603ms
+2024-10-10 12:07:41.305 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/technician/GetTechniciansByID?techID=5 - null null
+2024-10-10 12:07:41.320 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-10 12:07:41.324 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.TechnicianController.GetTechniciansByID (RaymarEquipmentInventory)'
+2024-10-10 12:07:41.348 -04:00 [INF] Route matched with {action = "GetTechniciansByID", controller = "Technician"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetTechniciansByID(Int32) on controller RaymarEquipmentInventory.Controllers.TechnicianController (RaymarEquipmentInventory).
+2024-10-10 12:07:45.796 -04:00 [INF] Executed DbCommand (113ms) [Parameters=[@__techID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t0].[TechnicianID], [t0].[HourlyRate], [t0].[Notes], [t0].[PersonID], [t0].[ShiftAvailibility], [t0].[WorkStatus], [t0].[PersonID0], [t0].[Email], [t0].[EndDate], [t0].[FirstName], [t0].[LastName], [t0].[PhoneOne], [t0].[RoleName], [t0].[StartDate], [t1].[LicenseID], [t1].[ExpiryDate], [t1].[IssuedDate], [t1].[LicenceURL], [t1].[LicenseName], [t1].[TechnicianID]
+FROM (
+    SELECT TOP(1) [t].[TechnicianID], [t].[HourlyRate], [t].[Notes], [t].[PersonID], [t].[ShiftAvailibility], [t].[WorkStatus], [p].[PersonID] AS [PersonID0], [p].[Email], [p].[EndDate], [p].[FirstName], [p].[LastName], [p].[PhoneOne], [p].[RoleName], [p].[StartDate]
+    FROM [Technician] AS [t]
+    INNER JOIN [Person] AS [p] ON [t].[PersonID] = [p].[PersonID]
+    WHERE [t].[TechnicianID] = @__techID_0
+) AS [t0]
+LEFT JOIN [TechnicianLicences] AS [t1] ON [t0].[TechnicianID] = [t1].[TechnicianID]
+ORDER BY [t0].[TechnicianID], [t0].[PersonID0]
+2024-10-10 12:07:45.908 -04:00 [INF] Executing OkObjectResult, writing value of type 'RaymarEquipmentInventory.DTOs.Tech'.
+2024-10-10 12:07:45.930 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.TechnicianController.GetTechniciansByID (RaymarEquipmentInventory) in 4576.729ms
+2024-10-10 12:07:45.933 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.TechnicianController.GetTechniciansByID (RaymarEquipmentInventory)'
+2024-10-10 12:07:45.940 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/technician/GetTechniciansByID?techID=5 - 200 null application/json; charset=utf-8 4634.9262ms
