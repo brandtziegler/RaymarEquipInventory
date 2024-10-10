@@ -32,33 +32,38 @@ jobs:
         with:
           name: .net-app
           path: ./output
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
+ deploy:
+  runs-on: windows-latest
+  needs: build
+  environment:
+    name: 'Production'
+    url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  permissions:
+    id-token: write  # This is required for requesting the JWT
 
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-app
-      
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_11120FC40D9A48B697A54B605617C92F }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B59E30FA2F0045438A16293EFBDEB4F4 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_38EE172D153244188374D0104D9AAD7E }}
+  steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v4
+      with:
+        name: .net-app
+        path: ./app
+    
+    - name: List contents of app directory
+      run: ls -R ./app
+    
+    - name: Login to Azure
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_11120FC40D9A48B697A54B605617C92F }}
+        tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B59E30FA2F0045438A16293EFBDEB4F4 }}
+        subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_38EE172D153244188374D0104D9AAD7E }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'RaymarInventoryAPI'
-          slot-name: 'Production'
-          package: ./app
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'RaymarInventoryAPI'
+        slot-name: 'Production'
+        package: ./app/**
+
           
