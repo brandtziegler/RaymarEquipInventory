@@ -1,0 +1,24 @@
+2024-10-11 09:22:00.403 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-11 09:22:01.217 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-11 09:22:01.678 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-11 09:22:01.713 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-11 09:22:01.715 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-11 09:22:01.715 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-11 09:22:01.727 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-11 09:22:01.728 -04:00 [INF] Hosting environment: Development
+2024-10-11 09:22:01.729 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-11 09:22:01.851 -04:00 [INF] Server dev-workstation:280:12a6f3e2 successfully announced in 124.3402 ms
+2024-10-11 09:22:01.855 -04:00 [INF] Server dev-workstation:280:12a6f3e2 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-11 09:22:01.911 -04:00 [INF] Server dev-workstation:280:12a6f3e2 all the dispatchers started
+2024-10-11 09:22:02.623 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-11 09:22:02.775 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 154.0866ms
+2024-10-11 09:22:02.802 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-11 09:22:02.804 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-11 09:22:02.806 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.5799ms
+2024-10-11 09:22:02.880 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 76.5067ms
+2024-10-11 09:22:02.898 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-11 09:22:02.940 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 42.6871ms

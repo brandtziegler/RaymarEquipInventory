@@ -103,10 +103,10 @@ builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionSer
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost",
+    options.AddPolicy("AllowAllOrigins",
         builder =>
         {
-            builder.WithOrigins("http://localhost:5069")
+            builder.AllowAnyOrigin()
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
@@ -115,9 +115,9 @@ builder.Services.AddCors(options =>
 builder.Host.UseWindowsService(); // This line enables running as a Windows Service
 var app = builder.Build();
 //app.UseCors("AllowLocalhostOrigins");
-app.UseCors("AllowLocalhost");
+app.UseCors("AllowAllOrigins");
 
-
+app.MapGet("/", () => "Welcome to Raymar Inventory API!");
 //using (var connection = new SqlConnection(builder.Configuration.GetConnectionString("RaymarAzureConnection")))
 //{
 //    try
@@ -142,7 +142,7 @@ app.UseHangfireDashboard();
 //app.UseHangfireServer();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
