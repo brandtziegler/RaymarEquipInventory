@@ -22,7 +22,7 @@ namespace RaymarEquipmentInventory.Controllers
 
 
 
-        [HttpGet("api/technician/GetTechniciansByID")]
+        [HttpGet("GetTechniciansByID")]
         public async Task<IActionResult> GetTechniciansByID(int techID)
         {
             ///just one more change to test. now test this.
