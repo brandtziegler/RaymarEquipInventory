@@ -2,7 +2,7 @@
 {
     public class Billing
     {
-        //adding billing comment.
+        //adding billing comment.ssss
         public int BillingID { get; set; }
         public string PONo { get; set; } = "";
         public int SheetId { get; set; }
