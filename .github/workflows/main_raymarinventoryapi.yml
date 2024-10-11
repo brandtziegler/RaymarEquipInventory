@@ -24,6 +24,9 @@ jobs:
       - name: dotnet publish
         run: dotnet publish RaymarEquipmentInventory.csproj -c Release -o ./output
 
+      - name: List contents of output directory
+        run: ls -R ./output
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
