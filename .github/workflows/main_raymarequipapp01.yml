@@ -25,13 +25,14 @@ jobs:
         run: dotnet build RaymarEquipmentInventory.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish RaymarEquipmentInventory.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish RaymarEquipmentInventory.csproj -c Release -o "./myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ./myapp
+
 
 
   deploy:
