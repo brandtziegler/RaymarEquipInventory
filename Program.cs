@@ -118,6 +118,12 @@ var app = builder.Build();
 app.UseCors("AllowAllOrigins");
 
 app.MapGet("/", () => "Welcome to Raymar Inventory API!");
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 //using (var connection = new SqlConnection(builder.Configuration.GetConnectionString("RaymarAzureConnection")))
 //{
 //    try
