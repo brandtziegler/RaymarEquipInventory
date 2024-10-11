@@ -38,7 +38,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     environment:
-      name: 'Production'  # This is just for tagging the environment in GitHub Actions, not the actual deployment slot
+      name: 'Production'  # Change to 'Development' if targeting a dev slot
     permissions:
       id-token: write
 
@@ -62,8 +62,10 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'RaymarInventoryAPI'  # Replace with your actual Azure Web App name
+          app-name: 'RaymarInventoryAPI'
+          slot-name: 'Development'  # Adjust this based on environment
           package: './output'
+
 
 
 
