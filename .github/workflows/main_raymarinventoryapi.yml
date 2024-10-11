@@ -11,7 +11,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
@@ -21,13 +22,13 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
-      - name: dotnet publish
+      - name: Publish with dotnet
         run: dotnet publish RaymarEquipmentInventory.csproj -c Release -o ./output
 
       - name: List contents of output directory
         run: ls -R ./output
 
-      - name: Upload artifact for deployment job
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
@@ -37,8 +38,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      name: 'Production'  # This is just for tagging the environment in GitHub Actions, not the actual deployment slot
     permissions:
       id-token: write
 
@@ -51,20 +51,20 @@ jobs:
       - name: List contents of downloaded directory
         run: ls -R 
 
-      - name: Login to Azure
+      - name: Azure Login
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_11120FC40D9A48B697A54B605617C92F }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B59E30FA2F0045438A16293EFBDEB4F4 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_38EE172D153244188374D0104D9AAD7E }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'RaymarInventoryAPI'
-          slot-name: 'Production'
-          package: .
+          app-name: 'RaymarInventoryAPI'  # Replace with your actual Azure Web App name
+          package: './output'
+
 
 
 
