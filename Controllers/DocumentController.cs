@@ -83,22 +83,15 @@ namespace RaymarEquipmentInventory.Controllers
                 }
 
                 // Step 2: Get the content of the document from Azure Blob Storage
-                var fileContentResult = await _documentService.GetDocumentContent(document.FileURL, document.FileType);
+                var (fileStream, contentType, fileName) = await _documentService.GetDocumentContent(document.FileURL, document.FileType);
 
-                if (fileContentResult.Stream == null)
+                if (fileStream == null)
                 {
                     return NotFound("Unable to retrieve the document content.");
                 }
 
-                // Step 3: Set the Content-Disposition based on file type
-                var contentDisposition = document.FileType.ToLower() == "pdf" ? "inline" : "attachment";
+                return File(fileStream, contentType, fileName);
 
-                // Step 4: Add the Content-Disposition header directly to the response
-                Response.Headers.Append("Content-Disposition", $"{contentDisposition}; filename=\"{fileContentResult.FileName}\"");
-
-
-                // Step 5: Return the file with the appropriate headers
-                return File(fileContentResult.Stream, fileContentResult.ContentType);
             }
             catch (Exception ex)
             {

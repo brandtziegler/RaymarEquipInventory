@@ -88,8 +88,8 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        [HttpPost("RemoveLbrFromWorkSheet")]
-        public async Task<IActionResult> RemoveLbrFromWorkSheet(int lbrID)
+        [HttpPost("RemoveLbrFromWorkOrder")]
+        public async Task<IActionResult> RemoveLbrFromWorkOrder(int lbrID)
         {
             try
             {
