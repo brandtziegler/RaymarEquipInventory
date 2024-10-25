@@ -33,5 +33,7 @@ public partial class InventoryDatum
 
     public virtual IncomeAccount IncomeAccount { get; set; }
 
+    public virtual ICollection<InventoryDocument> InventoryDocuments { get; set; } = new List<InventoryDocument>();
+
     public virtual ICollection<PartsUsed> PartsUseds { get; set; } = new List<PartsUsed>();
 }

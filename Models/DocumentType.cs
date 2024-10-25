@@ -12,4 +12,6 @@ public partial class DocumentType
     public string DocumentTypeName { get; set; }
 
     public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
+
+    public virtual ICollection<InventoryDocument> InventoryDocuments { get; set; } = new List<InventoryDocument>();
 }

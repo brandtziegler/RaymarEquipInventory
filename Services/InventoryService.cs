@@ -80,6 +80,42 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task<int> InsertInventoryAsync(string itemName = "", string itemDescription = "", string mfgPartNo = "")
+        {
+            if (!string.IsNullOrEmpty(itemName) && !string.IsNullOrEmpty(itemDescription))
+            {
+                try
+                {
+                    var mappedInventory = new InventoryDatum
+                    {
+                        ItemName = itemName,
+                        Description = itemDescription,
+                        ManufacturerPartNumber = mfgPartNo
+                    };
+
+                    // Insert new record into the context
+                    await _context.InventoryData.AddAsync(mappedInventory);
+                    await _context.SaveChangesAsync(); // Save all changes asynchronously
+
+                    // Ensure that the InventoryID is populated after saving
+                    var invId = mappedInventory.InventoryId;  // Assuming InventoryID is auto-generated
+                    if (invId > 0)
+                    {
+                        return invId;  // Return the generated InventoryID
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception - replace with actual logging framework
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                    return 0;
+                }
+            }
+
+            return 0; // Return 0 if the data is invalid or something went wrong
+        }
+
+
         public async Task<List<InventoryData>> GetInventoryPartsFromQuickBooksAsync(bool doUpdate = false)
         {
             var inventoryParts = new List<InventoryData>();

@@ -1,0 +1,91 @@
+2024-10-25 08:48:06.655 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-25 08:48:08.202 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-25 08:48:08.280 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2024-10-25 08:48:08.505 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-25 08:48:08.506 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2024-10-25 08:48:08.507 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2024-10-25 08:48:08.507 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2024-10-25 08:48:08.508 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2024-10-25 08:48:08.533 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-25 08:48:08.534 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-25 08:48:08.534 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-25 08:48:08.541 -04:00 [DBG] Execution loop BackgroundServerProcess:6862730e has started in 4.1085 ms
+2024-10-25 08:48:08.661 -04:00 [INF] Server dev-workstation:29704:df843cc0 successfully announced in 115.5728 ms
+2024-10-25 08:48:08.668 -04:00 [DBG] Execution loop ServerHeartbeatProcess:4b7527d0 has started in 4.1868 ms
+2024-10-25 08:48:08.668 -04:00 [INF] Server dev-workstation:29704:df843cc0 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-25 08:48:08.672 -04:00 [DBG] Execution loop ServerWatchdog:c9926d0a has started in 2.647 ms
+2024-10-25 08:48:08.675 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:ed6e653c has started in 4.5602 ms
+2024-10-25 08:48:08.677 -04:00 [DBG] Execution loop ExpirationManager:9a0a237f has started in 4.198 ms
+2024-10-25 08:48:08.679 -04:00 [DBG] Execution loop CountersAggregator:c9ccb2b5 has started in 4.2601 ms
+2024-10-25 08:48:08.681 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:ec5226f7 has started in 4.2827 ms
+2024-10-25 08:48:08.684 -04:00 [DBG] Execution loop Worker:d54a7840 has started in 4.5737 ms
+2024-10-25 08:48:08.685 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2024-10-25 08:48:08.687 -04:00 [DBG] Aggregating records in 'Counter' table...
+2024-10-25 08:48:08.687 -04:00 [DBG] Execution loop Worker:ce508f3a has started in 7.2946 ms
+2024-10-25 08:48:08.689 -04:00 [DBG] Execution loop Worker:d98f99e4 has started in 9.2116 ms
+2024-10-25 08:48:08.690 -04:00 [DBG] Execution loop Worker:dad17f7b has started in 11.0014 ms
+2024-10-25 08:48:08.692 -04:00 [DBG] Execution loop Worker:6fb0f032 has started in 13.1083 ms
+2024-10-25 08:48:08.694 -04:00 [DBG] Execution loop Worker:bee26c51 has started in 14.4359 ms
+2024-10-25 08:48:08.697 -04:00 [DBG] Execution loop Worker:378523d0 has started in 17.22 ms
+2024-10-25 08:48:08.700 -04:00 [DBG] Execution loop Worker:46d12c94 has started in 20.7327 ms
+2024-10-25 08:48:08.730 -04:00 [INF] Server dev-workstation:29704:df843cc0 all the dispatchers started
+2024-10-25 08:48:08.702 -04:00 [DBG] Execution loop Worker:637fe00d has started in 22.473 ms
+2024-10-25 08:48:08.704 -04:00 [DBG] Execution loop Worker:cb0e2860 has started in 24.4243 ms
+2024-10-25 08:48:08.707 -04:00 [DBG] Execution loop Worker:e46ce217 has started in 27.269 ms
+2024-10-25 08:48:08.709 -04:00 [DBG] Execution loop Worker:198d3afb has started in 29.6423 ms
+2024-10-25 08:48:08.712 -04:00 [DBG] Execution loop Worker:fa784d17 has started in 32.3193 ms
+2024-10-25 08:48:08.714 -04:00 [DBG] Execution loop Worker:71e55b9b has started in 34.362 ms
+2024-10-25 08:48:08.716 -04:00 [DBG] Execution loop Worker:febbf397 has started in 36.4548 ms
+2024-10-25 08:48:08.718 -04:00 [DBG] Execution loop Worker:8b682f8d has started in 38.4473 ms
+2024-10-25 08:48:08.721 -04:00 [DBG] Execution loop Worker:63b71a83 has started in 41.4146 ms
+2024-10-25 08:48:08.723 -04:00 [DBG] Execution loop Worker:5f0a2175 has started in 43.5627 ms
+2024-10-25 08:48:08.725 -04:00 [DBG] Execution loop Worker:37cd1d82 has started in 45.5925 ms
+2024-10-25 08:48:08.727 -04:00 [DBG] Execution loop Worker:9ad334d9 has started in 48.0091 ms
+2024-10-25 08:48:08.730 -04:00 [DBG] Execution loop DelayedJobScheduler:113eb08b has started in 4.7344 ms
+2024-10-25 08:48:08.732 -04:00 [DBG] Execution loop RecurringJobScheduler:8ceb76dd has started in 4.5273 ms
+2024-10-25 08:48:08.936 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2024-10-25 08:48:08.963 -04:00 [DBG] Connection id "0HN7KUD3K7O62" received FIN.
+2024-10-25 08:48:08.963 -04:00 [DBG] Connection id "0HN7KUD3K7O61" received FIN.
+2024-10-25 08:48:08.976 -04:00 [DBG] Connection id "0HN7KUD3K7O61" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-10-25 08:48:08.976 -04:00 [DBG] Connection id "0HN7KUD3K7O62" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-10-25 08:48:09.045 -04:00 [DBG] Removing outdated records from the 'List' table...
+2024-10-25 08:48:09.166 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2024-10-25 08:48:09.230 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2024-10-25 08:48:10.495 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-25 08:48:10.593 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2024-10-25 08:48:10.605 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2024-10-25 08:48:10.606 -04:00 [DBG] Request did not match any endpoints
+2024-10-25 08:48:10.638 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2024-10-25 08:48:10.640 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2024-10-25 08:48:10.654 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2024-10-25 08:48:10.655 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2024-10-25 08:48:10.657 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 164.5685ms
+2024-10-25 08:48:10.681 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-25 08:48:10.682 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-25 08:48:10.686 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.7981ms
+2024-10-25 08:48:10.733 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 51.1588ms
+2024-10-25 08:48:10.753 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-25 08:48:10.754 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2024-10-25 08:48:10.755 -04:00 [DBG] Request did not match any endpoints
+2024-10-25 08:48:10.797 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 44.2584ms
+2024-10-25 08:48:13.915 -04:00 [DBG] Connection id "0HN7KUD3K7O63" received FIN.
+2024-10-25 08:48:13.915 -04:00 [DBG] Connection id "0HN7KUD3K7O64" received FIN.
+2024-10-25 08:48:13.915 -04:00 [DBG] Connection id "0HN7KUD3K7O63" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-10-25 08:48:13.916 -04:00 [DBG] Connection id "0HN7KUD3K7O64" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-10-25 08:48:38.750 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent
+2024-10-25 08:49:08.793 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent
+2024-10-25 08:49:38.827 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent
+2024-10-25 08:50:08.876 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent
+2024-10-25 08:50:38.910 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent
+2024-10-25 08:51:08.960 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent
+2024-10-25 08:51:39.010 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent
+2024-10-25 08:52:09.055 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent
+2024-10-25 08:52:39.091 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent
+2024-10-25 08:53:08.741 -04:00 [DBG] Aggregating records in 'Counter' table...
+2024-10-25 08:53:09.139 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent
+2024-10-25 08:53:39.172 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent
+2024-10-25 08:54:09.209 -04:00 [DBG] Server dev-workstation:29704:df843cc0 heartbeat successfully sent

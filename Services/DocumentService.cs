@@ -138,8 +138,6 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-
-
         public async Task<(Stream? Stream, string ContentType, string FileName)> GetDocumentContent(string fileUrl, string fileType)
         {
             try
@@ -200,6 +198,67 @@ namespace RaymarEquipmentInventory.Services
             // Trim and convert both the document type and extension to uppercase for a case-insensitive comparison
             return await _context.DocumentTypes
                 .AnyAsync(o => o.DocumentTypeName.ToUpper() == docExtension.Trim().ToUpper());
+        }
+
+
+        public async Task<bool> UploadPartDocument(IFormFile file, string uploadedBy, int inventoryId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    Log.Error("Azure Storage connection string is missing.");
+                    return false;
+                }
+
+                var inventoryExists = _context.InventoryData.Any(i => i.InventoryId == inventoryId);
+
+                if (!inventoryExists)
+                {
+                    Log.Error($"Inventory ID {inventoryId} not found.");
+                    return false;
+                }
+
+                var blobServiceClient = new BlobServiceClient(connectionString);
+                var containerClient = blobServiceClient.GetBlobContainerClient("partsreceipts");
+                await containerClient.CreateIfNotExistsAsync(PublicAccessType.None);
+
+                string blobPath = $"{inventoryId}/{file.FileName}";
+                var blobClient = containerClient.GetBlobClient(blobPath);
+
+                using (var stream = file.OpenReadStream())
+                {
+                    await blobClient.UploadAsync(stream, overwrite: true);
+                }
+
+                var fileUrl = blobClient.Uri.ToString();
+
+                // Convert current UTC time to local time
+                var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+                var localUploadDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
+
+                var docTypeId = _context.DocumentTypes.FirstOrDefault(dt => dt.DocumentTypeName == Path.GetExtension(file.FileName).TrimStart('.')).DocumentTypeId;
+                
+                var newInventoryDocument = new InventoryDocument
+                {
+                    InventoryId = inventoryId, // This is the correct field for your Inventory Document
+                    DocumentTypeId = docTypeId,
+                    FileName = file.FileName,
+                    FileUrl = fileUrl,
+                    UploadDate = localUploadDate, // Save as local time
+                    UploadedBy = uploadedBy
+                };
+
+                _context.InventoryDocuments.Add(newInventoryDocument);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error uploading part document: {ex.Message}");
+                return false;
+            }
         }
 
         public async Task<bool> UploadDoc(IFormFile file, string uploadedBy, int workOrderNumber)

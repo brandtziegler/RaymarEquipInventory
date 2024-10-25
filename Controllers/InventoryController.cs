@@ -10,10 +10,11 @@ namespace RaymarEquipmentInventory.Controllers
     {
         private readonly IInventoryService _inventoryService;
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
-
-        public InventoryController(IInventoryService inventoryService, IQuickBooksConnectionService quickBooksConnectionService)
+        private readonly IDocumentService _documentService;
+        public InventoryController(IInventoryService inventoryService, IDocumentService documentService, IQuickBooksConnectionService quickBooksConnectionService)
         {
             _inventoryService = inventoryService;
+            _documentService = documentService;
             _quickBooksConnectionService = quickBooksConnectionService; 
         }
 
@@ -33,25 +34,40 @@ namespace RaymarEquipmentInventory.Controllers
             return Ok(products); // Returns a 200 status code with all products
         }
 
-        [HttpPost("UpdateInventory")]
-        public IActionResult UpdateInventory([FromBody] List<InventoryData> inventoryDataList)
+        [HttpPost("InsertInventory")]
+        public async Task<IActionResult> InsertInventory(IFormFile file, string uploadedBy, string itemName, string mfgPartNumber, string description)
         {
-            if (inventoryDataList == null || inventoryDataList.Count == 0)
+
+
+            // Check if no inventory data was provided
+            if ( itemName == null)
             {
-                return BadRequest("No inventory data provided.");
+                return NotFound("Need item name."); // Returns 404 if no inventory parts are found
+            }
+            var fileExtension = Path.GetExtension(file.FileName)?.ToLower().TrimStart('.');
+            if (fileExtension == null) { return BadRequest("Invalid file extension."); }
+            var docIsValid = await _documentService.DocTypeIsValid(fileExtension);
+            if (!docIsValid)
+            {
+                return BadRequest("Invalid document type.");
+            }
+            // Validate required fields in the provided data
+            bool isDataValid = !string.IsNullOrEmpty(itemName) && !string.IsNullOrEmpty(description);
+            if (!isDataValid)
+            {
+                return BadRequest("Invalid inventory data provided. ItemName and Description are required.");
             }
 
-            // This is where you would loop through the list and update the database
-            // For now, just pretending we're doing something useful
-            foreach (var item in inventoryDataList)
-            {
-                // Logic to update the database would go here
-                // For now, just a placeholder
-                var message = $"Updating inventory item: {item.ItemName}, ID: {item.InventoryId}";
-                // Log or output the message
-                Console.WriteLine(message);
+            // Attempt to insert or update inventory data
+           var invId =  await _inventoryService.InsertInventoryAsync(itemName, description, mfgPartNumber);
+           
+            if (invId != 0) {
+                bool uploadSuccess = await _documentService.UploadPartDocument(file, uploadedBy, invId);
             }
 
+        
+
+            // Return success message after processing
             return Ok("Inventory data processed successfully.");
         }
 

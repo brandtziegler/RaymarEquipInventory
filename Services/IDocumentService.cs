@@ -18,7 +18,7 @@ namespace RaymarEquipmentInventory.Services
         //Task<bool> DeleteDocument(int documentID);
         //Task<bool> DeleteDocuments(int sheetID);
 
-
+        Task<bool> UploadPartDocument(IFormFile file, string uploadedBy, int inventoryId);
 
 
     }

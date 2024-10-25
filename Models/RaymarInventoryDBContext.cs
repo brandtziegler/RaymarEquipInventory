@@ -25,6 +25,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<InventoryDatum> InventoryData { get; set; }
 
+    public virtual DbSet<InventoryDocument> InventoryDocuments { get; set; }
+
     public virtual DbSet<Labour> Labours { get; set; }
 
     public virtual DbSet<MileageAndTime> MileageAndTimes { get; set; }
@@ -193,7 +195,9 @@ public partial class RaymarInventoryDBContext : DbContext
         {
             entity.HasKey(e => e.InventoryId).HasName("PK__Inventor__F5FDE6D30BA95700");
 
-            entity.HasIndex(e => e.QuickBooksInvId, "UQ_QuickBooksInvID").IsUnique();
+            entity.HasIndex(e => e.QuickBooksInvId, "IX_Unique_QuickBooksInvID")
+                .IsUnique()
+                .HasFilter("([QuickBooksInvID] IS NOT NULL)");
 
             entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
             entity.Property(e => e.AverageCost).HasColumnType("decimal(10, 2)");
@@ -218,6 +222,41 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasOne(d => d.IncomeAccount).WithMany(p => p.InventoryData)
                 .HasForeignKey(d => d.IncomeAccountId)
                 .HasConstraintName("FK__Inventory__Incom__5FB337D6");
+        });
+
+        modelBuilder.Entity<InventoryDocument>(entity =>
+        {
+            entity.HasKey(e => e.InventoryDocumentId).HasName("PK__Inventor__1A4F64173D88C100");
+
+            entity.ToTable("InventoryDocument");
+
+            entity.Property(e => e.InventoryDocumentId).HasColumnName("InventoryDocumentID");
+            entity.Property(e => e.DocumentTypeId).HasColumnName("DocumentTypeID");
+            entity.Property(e => e.FileName)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FileUrl)
+                .IsRequired()
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("FileURL");
+            entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
+            entity.Property(e => e.UploadDate).HasColumnType("datetime");
+            entity.Property(e => e.UploadedBy)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.DocumentType).WithMany(p => p.InventoryDocuments)
+                .HasForeignKey(d => d.DocumentTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InventoryDocuments_DocumentTypes");
+
+            entity.HasOne(d => d.Inventory).WithMany(p => p.InventoryDocuments)
+                .HasForeignKey(d => d.InventoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InventoryDocuments_InventoryData");
         });
 
         modelBuilder.Entity<Labour>(entity =>
