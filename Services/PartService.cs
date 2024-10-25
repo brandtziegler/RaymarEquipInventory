@@ -105,7 +105,8 @@ namespace RaymarEquipmentInventory.Services
 
 
             var partsUsedList = await _context.PartsUseds
-                .Include(t => t.Inventory)  // Include the related person
+                .Include(t => t.Inventory)  // Include the related Inventory
+                    .ThenInclude(i => i.InventoryDocuments)  // Include the related InventoryDocuments
                 .Where(t => t.SheetId == sheetID)
                 .ToListAsync();
 
@@ -125,7 +126,15 @@ namespace RaymarEquipmentInventory.Services
                     Description = partUsed.Inventory.Description,
                     Cost = partUsed.Inventory.Cost,
                     SalesPrice = partUsed.Inventory.SalesPrice,
-                    ReorderPoint = partUsed.Inventory.ReorderPoint
+                    ReorderPoint = partUsed.Inventory.ReorderPoint,
+                    InventoryDocuments = partUsed.Inventory.InventoryDocuments.Select(doc => new DTOs.InventoryDocument
+                    {
+                        InventoryDocumentId = doc.InventoryDocumentId,
+                        FileName = doc.FileName,
+                        FileURL = doc.FileUrl,
+                        UploadDate = doc.UploadDate,
+                        UploadedBy = doc.UploadedBy
+                    }).ToList()
                 }
             }).ToList();
 

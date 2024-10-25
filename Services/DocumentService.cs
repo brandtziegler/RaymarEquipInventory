@@ -239,7 +239,7 @@ namespace RaymarEquipmentInventory.Services
 
                 var docTypeId = _context.DocumentTypes.FirstOrDefault(dt => dt.DocumentTypeName == Path.GetExtension(file.FileName).TrimStart('.')).DocumentTypeId;
                 
-                var newInventoryDocument = new InventoryDocument
+                var newInventoryDocument = new RaymarEquipmentInventory.Models.InventoryDocument
                 {
                     InventoryId = inventoryId, // This is the correct field for your Inventory Document
                     DocumentTypeId = docTypeId,
