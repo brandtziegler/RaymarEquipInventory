@@ -65,8 +65,6 @@ namespace RaymarEquipmentInventory.Controllers
                 bool uploadSuccess = await _documentService.UploadPartDocument(file, uploadedBy, invId);
             }
 
-        
-
             // Return success message after processing
             return Ok("Inventory data processed successfully.");
         }
