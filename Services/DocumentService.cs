@@ -113,6 +113,33 @@ namespace RaymarEquipmentInventory.Services
             return docDTO;
         }
 
+        public async Task<DTOs.InventoryDocument> GetPlaceHolderDocument(int docTypeId)
+        {
+            var attDoc = await _context.PlaceholderDocuments
+                .Include(t => t.DocumentType)  // Include the technician entity
+                .FirstOrDefaultAsync(w => w.DocumentTypeId == docTypeId);
+
+            if (attDoc == null)
+            {
+                return null; // Or throw an exception if that's your style
+            }
+
+            var docDTO = attDoc != null ? new DTOs.InventoryDocument
+            {
+                DocType = attDoc.DocumentType != null ? new DTOs.DocumentType
+                {
+                    DocumentTypeId = attDoc.DocumentType.DocumentTypeId,
+                    DocumentTypeName = attDoc.DocumentType.DocumentTypeName,
+                    MimeType = attDoc.DocumentType.MimeType
+                } : new DTOs.DocumentType(), // Ensure DocType is not null
+                FileName = attDoc.FileName,
+                FileURL = attDoc.FileUrl,
+                UploadDate = attDoc.UploadDate
+            } : null;
+
+            return docDTO;
+        }
+
 
         public async Task<bool> DeleteDocumentById(int docID)
         {

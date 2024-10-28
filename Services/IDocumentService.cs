@@ -12,6 +12,8 @@ namespace RaymarEquipmentInventory.Services
 
         Task<InventoryDocument> GetInvDocumentByID(int docID);
 
+        Task<InventoryDocument> GetPlaceHolderDocument(int docTypeId);
+
         Task<bool> DeleteDocumentById(int docID);
 
         Task<(Stream? Stream, string ContentType, string FileName)> GetDocumentContent(string fileUrl, string fileType);

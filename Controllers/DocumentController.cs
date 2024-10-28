@@ -135,12 +135,12 @@ namespace RaymarEquipmentInventory.Controllers
 
 
         [HttpGet("GetPlaceholderImage")]
-        public async Task<IActionResult> GetPlaceholderImage(int docID)
+        public async Task<IActionResult> GetPlaceholderImage()
         {
             try
             {
                 // Step 1: Fetch the document metadata from the service
-                var document = await _documentService.GetInvDocumentByID(docID);
+                var document = await _documentService.GetPlaceHolderDocument(8);
 
                 if (document == null)
                 {

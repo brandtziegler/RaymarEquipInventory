@@ -152,9 +152,9 @@ namespace RaymarEquipmentInventory.Services
                         {
                 new DTOs.InventoryDocument
                 {
-                    InventoryDocumentId = placeholderDocument.FileId,
-                    FileName = placeholderDocument.FileName,
-                    FileURL = placeholderDocument.FileUrl,
+                    InventoryDocumentId = 0,
+                    FileName = placeholderDocument?.FileName ?? "",
+                    FileURL = placeholderDocument?.FileUrl ?? "",
                     DocType = new DTOs.DocumentType
                     {
                         DocumentTypeId = placeholderDocument.DocumentType.DocumentTypeId,
