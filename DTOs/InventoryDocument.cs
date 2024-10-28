@@ -6,7 +6,7 @@
 
         public int InventoryId { get; set; } // Foreign Key
 
-        public int DocumentTypeId { get; set; } // ID of the document type
+        public DocumentType DocType { get; set; } = new DTOs.DocumentType(); // Type of document
 
         public string FileName { get; set; } = ""; // Name of the file
 

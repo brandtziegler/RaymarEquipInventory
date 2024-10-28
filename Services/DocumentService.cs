@@ -61,8 +61,6 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<RetrieveDocument> GetDocumentByID(int docID)
         {
-            var documents = new List<RetrieveDocument>();
-
             var attDoc = await _context.Documents
                 .Include(t => t.DocumentType)  // Include the technician entity
                 .FirstOrDefaultAsync(w => w.DocumentId == docID);
@@ -82,10 +80,37 @@ namespace RaymarEquipmentInventory.Services
                 FileURL = attDoc.FileUrl
             } : null;
 
+            return docDTO;
+        }
 
+        public async Task<DTOs.InventoryDocument> GetInvDocumentByID(int docID)
+        {
+            var attDoc = await _context.InventoryDocuments
+                .Include(t => t.DocumentType)  // Include the technician entity
+                .FirstOrDefaultAsync(w => w.InventoryDocumentId == docID);
+
+            if (attDoc == null)
+            {
+                return null; // Or throw an exception if that's your style
+            }
+
+            var docDTO = attDoc.InventoryDocumentId != 0 ? new DTOs.InventoryDocument
+            {
+                InventoryDocumentId = attDoc.InventoryDocumentId,
+                InventoryId = attDoc.InventoryId,
+                DocType = attDoc.DocumentType != null ? new DTOs.DocumentType
+                {
+                    DocumentTypeId = attDoc.DocumentType.DocumentTypeId,
+                    DocumentTypeName = attDoc.DocumentType.DocumentTypeName
+                } : null,   
+                FileName = attDoc.FileName,
+                FileURL = attDoc.FileUrl,
+                UploadDate = attDoc.UploadDate, 
+                UploadedBy = attDoc.UploadedBy
+               
+            } : null;
 
             return docDTO;
-
         }
 
         public async Task<bool> DeleteDocumentById(int docID)
