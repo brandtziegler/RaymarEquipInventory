@@ -341,3 +341,109 @@ WHERE [d].[DocumentID] = @__docID_0
 2024-10-28 14:08:13.117 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
 2024-10-28 14:08:13.119 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0049ms - processed: 0 items - remaining: 1 items
 2024-10-28 14:08:14.013 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:08:23.135 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:08:23.136 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.003ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:08:33.153 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:08:33.155 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0068ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:08:43.165 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:08:43.167 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0036ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:08:44.057 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:08:53.168 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:08:53.170 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0072ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:09:03.181 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:09:03.183 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0072ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:09:13.199 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:09:13.202 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0084ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:09:14.096 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:09:23.211 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:09:23.213 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0035ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:09:33.220 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:09:33.225 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.008ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:09:43.245 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:09:43.247 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0087ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:09:44.139 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:09:53.249 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:09:53.250 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0035ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:09:57.427 -04:00 [INF] 2 servers were removed due to timeout
+2024-10-28 14:09:57.428 -04:00 [DBG] Aggregating records in 'Counter' table...
+2024-10-28 14:10:03.260 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:10:03.262 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0082ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:10:13.273 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:10:13.274 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0038ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:10:14.184 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:10:23.280 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:10:23.282 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.005ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:10:33.299 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:10:33.301 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.1402ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:10:43.312 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:10:43.315 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.1763ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:10:44.223 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:10:53.333 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:10:53.334 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0711ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:11:03.344 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:11:03.347 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0068ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:11:13.366 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:11:13.369 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.005ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:11:14.251 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:11:23.378 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:11:23.379 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0019ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:11:33.396 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:11:33.398 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0046ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:11:43.404 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:11:43.406 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0043ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:11:44.301 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:11:53.413 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:11:53.415 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0066ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:12:03.428 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:12:03.430 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0046ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:12:13.441 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:12:13.443 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0045ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:12:14.349 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:12:23.458 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:12:23.462 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0097ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:12:33.471 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:12:33.473 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0034ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:12:43.479 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:12:43.481 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0041ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:12:44.387 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:12:53.495 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:12:53.497 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.005ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:13:03.514 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:13:03.515 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0043ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:13:13.523 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:13:13.525 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0051ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:13:14.431 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:13:23.537 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:13:23.538 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0023ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:13:33.555 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:13:33.557 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0042ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:13:43.559 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:13:43.560 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:13:44.477 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:13:53.575 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:13:53.578 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:14:03.583 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:14:03.584 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0025ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:14:13.596 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:14:13.597 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0014ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:14:14.521 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:14:23.612 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:14:23.615 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0032ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:14:33.617 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:14:33.618 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0018ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:14:43.623 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:14:43.625 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0035ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:14:44.561 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:14:53.633 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:14:53.637 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0047ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:14:57.463 -04:00 [DBG] Aggregating records in 'Counter' table...
+2024-10-28 14:15:01.244 -04:00 [DBG] Connection id "0HN7NFC46VCC9" received FIN.
+2024-10-28 14:15:01.252 -04:00 [DBG] Connection id "0HN7NFC46VCC9" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-10-28 14:15:03.421 -04:00 [DBG] 1 recurring job(s) processed by scheduler.
+2024-10-28 14:15:03.651 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:15:03.653 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:15:13.654 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:15:13.656 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0035ms - processed: 0 items - remaining: 1 items
+2024-10-28 14:15:14.591 -04:00 [DBG] Server dev-workstation:21336:0adaf6a5 heartbeat successfully sent
+2024-10-28 14:15:23.667 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2024-10-28 14:15:23.669 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0025ms - processed: 0 items - remaining: 1 items
