@@ -83,5 +83,26 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+
+        [HttpGet("GetPartsByWorkOrderTwo")]
+        public async Task<IActionResult> GetPartsByWorkOrderTwo(int sheetID)
+        {
+            try
+            {
+                List<PartsUsed> partsUsedData = await _partService.GetPartsByWorkOrder(sheetID);
+                if (partsUsedData == null)
+                {
+                    return NotFound("No customer with this ID found."); // Returns 404 if no customer is found
+                }
+                return Ok(partsUsedData);
+            }
+            catch (Exception ex)
+            {
+                // Catching the exception and returning a 500 error with the message
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+
+            }
+        }
+
     }
 }
