@@ -111,6 +111,10 @@ namespace RaymarEquipmentInventory.Services
                 .Where(t => t.SheetId == sheetID)
                 .ToListAsync();
 
+            var placeholderDocument = await _context.PlaceholderDocuments
+            .Include(id => id.DocumentType).Where(t => t.FileId == 1)
+             .FirstOrDefaultAsync(); // Assuming there's only one placeholder document or you can filter by c
+
             // Map the list of technicians to the DTO
             var partsUsedDTO = partsUsedList.Select(partUsed => new DTOs.PartsUsed
             {
@@ -128,21 +132,40 @@ namespace RaymarEquipmentInventory.Services
                     Cost = partUsed.Inventory.Cost,
                     SalesPrice = partUsed.Inventory.SalesPrice,
                     ReorderPoint = partUsed.Inventory.ReorderPoint,
-                    InventoryDocuments = partUsed.Inventory.InventoryDocuments.Select(doc => new DTOs.InventoryDocument
-                    {
-                        InventoryDocumentId = doc.InventoryDocumentId,
-                        
-                        FileName = doc.FileName,
-                        FileURL = doc.FileUrl,
-                        DocType = new DTOs.DocumentType
+
+                    // Check if InventoryDocuments are present, otherwise add placeholder
+                    InventoryDocuments = partUsed.Inventory.InventoryDocuments.Any()
+                        ? partUsed.Inventory.InventoryDocuments.Select(doc => new DTOs.InventoryDocument
                         {
-                            DocumentTypeId = doc.DocumentType.DocumentTypeId,
-                            DocumentTypeName = doc.DocumentType.DocumentTypeName, 
-                            MimeType = doc.DocumentType.MimeType
-                        },
-                        UploadDate = doc.UploadDate,
-                        UploadedBy = doc.UploadedBy
-                    }).ToList()
+                            InventoryDocumentId = doc.InventoryDocumentId,
+                            FileName = doc.FileName,
+                            FileURL = doc.FileUrl,
+                            DocType = new DTOs.DocumentType
+                            {
+                                DocumentTypeId = doc.DocumentType.DocumentTypeId,
+                                DocumentTypeName = doc.DocumentType.DocumentTypeName,
+                                MimeType = doc.DocumentType.MimeType
+                            },
+                            UploadDate = doc.UploadDate,
+                            UploadedBy = doc.UploadedBy
+                        }).ToList()
+                        : new List<DTOs.InventoryDocument> // Use the placeholder if InventoryDocuments is empty
+                        {
+                new DTOs.InventoryDocument
+                {
+                    InventoryDocumentId = placeholderDocument.FileId,
+                    FileName = placeholderDocument.FileName,
+                    FileURL = placeholderDocument.FileUrl,
+                    DocType = new DTOs.DocumentType
+                    {
+                        DocumentTypeId = placeholderDocument.DocumentType.DocumentTypeId,
+                        DocumentTypeName = placeholderDocument.DocumentType.DocumentTypeName,
+                        MimeType = placeholderDocument.DocumentType.MimeType
+                    },
+                    UploadDate = placeholderDocument.UploadDate,
+                    UploadedBy = "System" // You can adjust this field as necessary
+                }
+                        }
                 }
             }).ToList();
 

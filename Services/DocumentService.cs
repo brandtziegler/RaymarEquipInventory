@@ -113,6 +113,7 @@ namespace RaymarEquipmentInventory.Services
             return docDTO;
         }
 
+
         public async Task<bool> DeleteDocumentById(int docID)
         {
             try

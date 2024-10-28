@@ -59,6 +59,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[PlaceholderDocument]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[ServiceDescription]",
          "ObjectType": 0
       },

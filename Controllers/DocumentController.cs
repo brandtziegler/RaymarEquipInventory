@@ -134,6 +134,38 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
+        [HttpGet("GetPlaceholderImage")]
+        public async Task<IActionResult> GetPlaceholderImage(int docID)
+        {
+            try
+            {
+                // Step 1: Fetch the document metadata from the service
+                var document = await _documentService.GetInvDocumentByID(docID);
+
+                if (document == null)
+                {
+                    return NotFound("Document not found.");
+                }
+
+                // Step 2: Get the content of the document from Azure Blob Storage
+                var (fileStream, contentType, fileName) = await _documentService.GetDocumentContent(document.FileURL, document.DocType.MimeType);
+
+                if (fileStream == null)
+                {
+                    return NotFound("Unable to retrieve the document content.");
+                }
+
+                return File(fileStream, contentType, fileName);
+
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and return a 500 error
+                Log.Error($"Error accessing document: {ex.Message}");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         // New method to upload a document
         [HttpPost("UploadDocument")]
         public async Task<IActionResult> UploadDocument(IFormFile file, string uploadedBy, int workOrderNumber)

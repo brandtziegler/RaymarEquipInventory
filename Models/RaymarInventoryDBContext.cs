@@ -35,6 +35,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<Person> People { get; set; }
 
+    public virtual DbSet<PlaceholderDocument> PlaceholderDocuments { get; set; }
+
     public virtual DbSet<ServiceDescription> ServiceDescriptions { get; set; }
 
     public virtual DbSet<Technician> Technicians { get; set; }
@@ -349,6 +351,31 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.StartDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<PlaceholderDocument>(entity =>
+        {
+            entity.HasKey(e => e.FileId).HasName("PK__Placehol__6F0F989FB2AF5CE8");
+
+            entity.ToTable("PlaceholderDocument");
+
+            entity.Property(e => e.FileId).HasColumnName("FileID");
+            entity.Property(e => e.DocumentTypeId).HasColumnName("DocumentTypeID");
+            entity.Property(e => e.FileName)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FileUrl)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("FileURL");
+            entity.Property(e => e.UploadDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.DocumentType).WithMany(p => p.PlaceholderDocuments)
+                .HasForeignKey(d => d.DocumentTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PlaceholderDocuments_DocumentTypes");
         });
 
         modelBuilder.Entity<ServiceDescription>(entity =>
