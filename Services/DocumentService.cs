@@ -74,7 +74,7 @@ namespace RaymarEquipmentInventory.Services
             {
                 DocumentID = attDoc.DocumentId,
                 SheetID = attDoc.SheetId,
-                FileType = attDoc.DocumentType?.DocumentTypeName ?? "",
+                FileType = attDoc.DocumentType?.MimeType ?? "",
                 FileName = attDoc.FileName,
                 UploadDate = attDoc.UploadDate,
                 FileURL = attDoc.FileUrl
@@ -101,13 +101,13 @@ namespace RaymarEquipmentInventory.Services
                 DocType = attDoc.DocumentType != null ? new DTOs.DocumentType
                 {
                     DocumentTypeId = attDoc.DocumentType.DocumentTypeId,
-                    DocumentTypeName = attDoc.DocumentType.DocumentTypeName
-                } : null,   
+                    DocumentTypeName = attDoc.DocumentType.DocumentTypeName,
+                    MimeType = attDoc.DocumentType.MimeType
+                } : new DTOs.DocumentType(), // Ensure DocType is not null
                 FileName = attDoc.FileName,
                 FileURL = attDoc.FileUrl,
-                UploadDate = attDoc.UploadDate, 
+                UploadDate = attDoc.UploadDate,
                 UploadedBy = attDoc.UploadedBy
-               
             } : null;
 
             return docDTO;
@@ -192,16 +192,7 @@ namespace RaymarEquipmentInventory.Services
                 var downloadInfo = await new BlobClient(sasUri).DownloadAsync();
 
                 // Set the content type based on file type
-                var contentType = fileType.ToLower() switch
-                {
-                    "pdf" => "application/pdf",
-                    "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    "xlsx" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    "pptx" => "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-                    "txt" => "text/plain",
-                    "csv" => "text/csv",
-                    _ => "application/octet-stream" // Fallback content type
-                };
+                var contentType = fileType.ToLower();
 
                 // Return the file content as a tuple
                 return (downloadInfo.Value.Content, contentType, Path.GetFileName(fileUrl));
