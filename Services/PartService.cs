@@ -112,8 +112,7 @@ namespace RaymarEquipmentInventory.Services
                 .ToListAsync();
 
             var placeholderDocument = await _context.PlaceholderDocuments
-            .Include(id => id.DocumentType).Where(t => t.FileId == 1)
-             .FirstOrDefaultAsync(); // Assuming there's only one placeholder document or you can filter by c
+            .Include(id => id.DocumentType).FirstOrDefaultAsync(); // Assuming there's only one placeholder document or you can filter by c
 
             // Map the list of technicians to the DTO
             var partsUsedDTO = partsUsedList.Select(partUsed => new DTOs.PartsUsed
