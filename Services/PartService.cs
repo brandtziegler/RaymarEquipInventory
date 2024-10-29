@@ -112,15 +112,17 @@ namespace RaymarEquipmentInventory.Services
             return await partsUsedQuery.CountAsync();
         }
 
-
         public async Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(
-           int sheetID,
-           int pageNumber = 0,
-           int pageSize = 0,
-           string itemName = null,
-           int? qtyUsedMin = null,
-           int? qtyUsedMax = null,
-           string manufacturerPartNumber = null)
+            int sheetID,
+            int pageNumber = 0,
+            int pageSize = 0,
+            string itemName = null,
+            int? qtyUsedMin = null,
+            int? qtyUsedMax = null,
+            string manufacturerPartNumber = null,
+            string sortBy = "itemName", // Default sort field
+            string sortDirection = "asc" // Default sort direction
+        )
         {
             // Start building the base query for Models.PartsUsed
             var partsUsedQuery = _context.PartsUseds
@@ -131,6 +133,9 @@ namespace RaymarEquipmentInventory.Services
 
             // Apply filtering
             partsUsedQuery = ApplyFilters(partsUsedQuery, itemName, qtyUsedMin, qtyUsedMax, manufacturerPartNumber);
+
+            // Apply sorting
+            partsUsedQuery = ApplySorting(partsUsedQuery, sortBy, sortDirection);
 
             // Apply pagination if required
             if (pageNumber > 0 && pageSize > 0)
@@ -144,6 +149,28 @@ namespace RaymarEquipmentInventory.Services
             // Map Models.PartsUsed entities to DTOs.PartsUsed
             return await MapToDto(partsUsedList);
         }
+
+        // Private method for sorting Models.PartsUsed
+        private IQueryable<Models.PartsUsed> ApplySorting(
+            IQueryable<Models.PartsUsed> query,
+            string sortBy,
+            string sortDirection)
+        {
+            // Default to ascending order unless "desc" is specified
+            bool isDescending = sortDirection.ToLower() == "desc";
+
+            // Apply sorting based on specified field
+            query = sortBy.ToLower() switch
+            {
+                "qtyused" => isDescending ? query.OrderByDescending(p => p.QtyUsed) : query.OrderBy(p => p.QtyUsed),
+                "manufacturerpartnumber" => isDescending ? query.OrderByDescending(p => p.Inventory.ManufacturerPartNumber) : query.OrderBy(p => p.Inventory.ManufacturerPartNumber),
+                "itemname" => isDescending ? query.OrderByDescending(p => p.Inventory.ItemName) : query.OrderBy(p => p.Inventory.ItemName),
+                _ => isDescending ? query.OrderByDescending(p => p.Inventory.ItemName) : query.OrderBy(p => p.Inventory.ItemName) // Default sort
+            };
+
+            return query;
+        }
+
 
         // Private method for filtering Models.PartsUsed
         private IQueryable<Models.PartsUsed> ApplyFilters(

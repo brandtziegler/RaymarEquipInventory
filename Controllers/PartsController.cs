@@ -67,34 +67,26 @@ namespace RaymarEquipmentInventory.Controllers
         public async Task<IActionResult> GetPartsByWorkOrder(
             int sheetID,
             int pageNumber = 1,
-            int pageSize = 5,
+            int pageSize = 20,
             string itemName = null,
             int? qtyUsedMin = null,
             int? qtyUsedMax = null,
-            string manufacturerPartNumber = null)
+            string manufacturerPartNumber = null,
+            string sortBy = "itemName", // Default sort field
+            string sortDirection = "asc" // Default sort direction
+        )
         {
             try
             {
-                // Call the service method with pagination and filtering
-                List<PartsUsed> partsUsedData = await _partService.GetPartsByWorkOrder(
-                    sheetID,
-                    pageNumber,
-                    pageSize,
-                    itemName,
-                    qtyUsedMin,
-                    qtyUsedMax,
-                    manufacturerPartNumber);
+                var partsUsed = await _partService.GetPartsByWorkOrder(
+                    sheetID, pageNumber, pageSize, itemName, qtyUsedMin, qtyUsedMax, manufacturerPartNumber, sortBy, sortDirection);
 
-                if (partsUsedData == null || !partsUsedData.Any())
-                {
-                    return NotFound("No parts found for this work order."); // Returns 404 if no parts are found
-                }
-
-                return Ok(partsUsedData);
+                return Ok(partsUsed);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                // Log the exception as necessary
+                return StatusCode(500, "An error occurred while retrieving parts.");
             }
         }
 

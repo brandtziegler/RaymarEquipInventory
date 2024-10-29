@@ -11,7 +11,7 @@ namespace RaymarEquipmentInventory.Services
 
         Task<DTOs.PartsUsed> GetPartByID(int partID);
 
-        Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(int sheetID, int pageNumber, int pageSize, string itemName, int? qtyUsedMin, int? qtyUsedMax, string manufacturerPartNumber);
+        Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(int sheetID, int pageNumber, int pageSize, string itemName, int? qtyUsedMin, int? qtyUsedMax, string manufacturerPartNumber, string sortBy, string sortDirection);
 
         Task<int> GetPartsCountByWorkOrder(int sheetID, string itemName, int? qtyUsedMin, int? qtyUsedMax, string manufacturerPartNumber);
 
