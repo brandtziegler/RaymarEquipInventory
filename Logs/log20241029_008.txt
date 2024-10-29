@@ -1,0 +1,379 @@
+2024-10-29 09:52:01.350 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-29 09:52:01.368 -04:00 [INF] Hosting environment: Development
+2024-10-29 09:52:01.370 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-29 10:03:42.464 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-29 10:03:43.086 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-29 10:03:43.190 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2024-10-29 10:03:43.378 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-29 10:03:43.379 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2024-10-29 10:03:43.379 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2024-10-29 10:03:43.380 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2024-10-29 10:03:43.381 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2024-10-29 10:03:43.420 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-29 10:03:43.421 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-29 10:03:43.422 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-29 10:03:43.433 -04:00 [DBG] Execution loop BackgroundServerProcess:ecce9820 has started in 8.4356 ms
+2024-10-29 10:03:43.552 -04:00 [INF] Server dev-workstation:28884:04578812 successfully announced in 114.1501 ms
+2024-10-29 10:03:43.556 -04:00 [INF] Server dev-workstation:28884:04578812 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-29 10:03:43.556 -04:00 [DBG] Execution loop ServerHeartbeatProcess:c378f47e has started in 2.8524 ms
+2024-10-29 10:03:43.559 -04:00 [DBG] Execution loop ServerWatchdog:18ccb8f0 has started in 2.0976 ms
+2024-10-29 10:03:43.561 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:92827d93 has started in 3.7263 ms
+2024-10-29 10:03:43.564 -04:00 [DBG] Execution loop ExpirationManager:3f1415b8 has started in 2.9008 ms
+2024-10-29 10:03:43.566 -04:00 [DBG] Execution loop CountersAggregator:4ee3288a has started in 3.6626 ms
+2024-10-29 10:03:43.567 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:c9a37834 has started in 3.8468 ms
+2024-10-29 10:03:43.575 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2024-10-29 10:03:43.578 -04:00 [DBG] Aggregating records in 'Counter' table...
+2024-10-29 10:03:43.569 -04:00 [DBG] Execution loop Worker:b6a156ed has started in 4.1789 ms
+2024-10-29 10:03:43.571 -04:00 [DBG] Execution loop Worker:7a219939 has started in 6.4679 ms
+2024-10-29 10:03:43.574 -04:00 [DBG] Execution loop Worker:306d89f8 has started in 8.9354 ms
+2024-10-29 10:03:43.602 -04:00 [INF] 1 servers were removed due to timeout
+2024-10-29 10:03:43.576 -04:00 [DBG] Execution loop Worker:6b793209 has started in 11.3581 ms
+2024-10-29 10:03:43.579 -04:00 [DBG] Execution loop Worker:842f95d9 has started in 13.8698 ms
+2024-10-29 10:03:43.616 -04:00 [INF] Server dev-workstation:28884:04578812 all the dispatchers started
+2024-10-29 10:03:43.582 -04:00 [DBG] Execution loop Worker:ab9059d9 has started in 17.3785 ms
+2024-10-29 10:03:43.582 -04:00 [DBG] Execution loop Worker:1477cdaf has started in 17.489 ms
+2024-10-29 10:03:43.584 -04:00 [DBG] Execution loop Worker:da9c088c has started in 19.5428 ms
+2024-10-29 10:03:43.587 -04:00 [DBG] Execution loop Worker:76e0d67f has started in 22.4775 ms
+2024-10-29 10:03:43.589 -04:00 [DBG] Execution loop Worker:63a9701c has started in 24.1318 ms
+2024-10-29 10:03:43.593 -04:00 [DBG] Execution loop Worker:21699e80 has started in 27.7194 ms
+2024-10-29 10:03:43.595 -04:00 [DBG] Execution loop Worker:dd9191aa has started in 29.9176 ms
+2024-10-29 10:03:43.597 -04:00 [DBG] Execution loop Worker:9c81b6db has started in 32.2704 ms
+2024-10-29 10:03:43.599 -04:00 [DBG] Execution loop Worker:cbad3cc1 has started in 34.4195 ms
+2024-10-29 10:03:43.602 -04:00 [DBG] Execution loop Worker:15372c5c has started in 36.9694 ms
+2024-10-29 10:03:43.605 -04:00 [DBG] Execution loop Worker:a8856ada has started in 39.7824 ms
+2024-10-29 10:03:43.608 -04:00 [DBG] Execution loop Worker:94e3df2a has started in 43.3817 ms
+2024-10-29 10:03:43.608 -04:00 [DBG] Execution loop Worker:481df101 has started in 43.2344 ms
+2024-10-29 10:03:43.610 -04:00 [DBG] Execution loop Worker:c21508a7 has started in 45.584 ms
+2024-10-29 10:03:43.613 -04:00 [DBG] Execution loop Worker:6740144f has started in 48.1776 ms
+2024-10-29 10:03:43.616 -04:00 [DBG] Execution loop DelayedJobScheduler:2aa535f8 has started in 5.3671 ms
+2024-10-29 10:03:43.618 -04:00 [DBG] Execution loop RecurringJobScheduler:c1690f1f has started in 5.1337 ms
+2024-10-29 10:03:43.746 -04:00 [DBG] Connection id "0HN7O49VTNMOK" received FIN.
+2024-10-29 10:03:43.746 -04:00 [DBG] Connection id "0HN7O49VTNMOL" received FIN.
+2024-10-29 10:03:43.759 -04:00 [DBG] Connection id "0HN7O49VTNMOL" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-10-29 10:03:43.759 -04:00 [DBG] Connection id "0HN7O49VTNMOK" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-10-29 10:03:43.808 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2024-10-29 10:03:44.002 -04:00 [DBG] Removing outdated records from the 'List' table...
+2024-10-29 10:03:44.078 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2024-10-29 10:03:44.137 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2024-10-29 10:03:44.399 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2024-10-29 10:03:44.481 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2024-10-29 10:03:44.490 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2024-10-29 10:03:44.491 -04:00 [DBG] Request did not match any endpoints
+2024-10-29 10:03:44.514 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2024-10-29 10:03:44.515 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2024-10-29 10:03:44.527 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2024-10-29 10:03:44.528 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2024-10-29 10:03:44.529 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 133.9413ms
+2024-10-29 10:03:44.540 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2024-10-29 10:03:44.541 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2024-10-29 10:03:44.546 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 5.885ms
+2024-10-29 10:03:44.573 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 31.5282ms
+2024-10-29 10:03:44.600 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2024-10-29 10:03:44.602 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2024-10-29 10:03:44.603 -04:00 [DBG] Request did not match any endpoints
+2024-10-29 10:03:44.650 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 49.8727ms
+2024-10-29 10:03:47.438 -04:00 [DBG] Connection id "0HN7O49VTNMOM" received FIN.
+2024-10-29 10:03:47.439 -04:00 [DBG] Connection id "0HN7O49VTNMON" received FIN.
+2024-10-29 10:03:47.440 -04:00 [DBG] Connection id "0HN7O49VTNMOM" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-10-29 10:03:47.440 -04:00 [DBG] Connection id "0HN7O49VTNMON" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-10-29 10:04:13.600 -04:00 [DBG] Server dev-workstation:28884:04578812 heartbeat successfully sent
+2024-10-29 10:04:37.777 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Parts/GetPartsCountByWorkOrder?sheetID=1 - null null
+2024-10-29 10:04:37.793 -04:00 [DBG] 1 candidate(s) found for the request path '/api/Parts/GetPartsCountByWorkOrder'
+2024-10-29 10:04:37.796 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.PartsController.GetPartsCountByWorkOrder (RaymarEquipmentInventory)' with route pattern 'api/Parts/GetPartsCountByWorkOrder' is valid for the request path '/api/Parts/GetPartsCountByWorkOrder'
+2024-10-29 10:04:37.797 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.PartsController.GetPartsCountByWorkOrder (RaymarEquipmentInventory)'
+2024-10-29 10:04:37.800 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2024-10-29 10:04:37.801 -04:00 [WRN] Failed to determine the https port for redirect.
+2024-10-29 10:04:37.803 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.PartsController.GetPartsCountByWorkOrder (RaymarEquipmentInventory)'
+2024-10-29 10:04:37.820 -04:00 [INF] Route matched with {action = "GetPartsCountByWorkOrder", controller = "Parts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPartsCountByWorkOrder(Int32, System.String, System.Nullable`1[System.Int32], System.Nullable`1[System.Int32], System.String) on controller RaymarEquipmentInventory.Controllers.PartsController (RaymarEquipmentInventory).
+2024-10-29 10:04:37.823 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2024-10-29 10:04:37.824 -04:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2024-10-29 10:04:37.826 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2024-10-29 10:04:37.827 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2024-10-29 10:04:37.828 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2024-10-29 10:04:37.830 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.PartsController (RaymarEquipmentInventory)
+2024-10-29 10:04:38.004 -04:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2024-10-29 10:04:38.028 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.PartsController (RaymarEquipmentInventory)
+2024-10-29 10:04:38.036 -04:00 [DBG] Attempting to bind parameter 'sheetID' of type 'System.Int32' ...
+2024-10-29 10:04:38.038 -04:00 [DBG] Attempting to bind parameter 'sheetID' of type 'System.Int32' using the name 'sheetID' in request data ...
+2024-10-29 10:04:38.041 -04:00 [DBG] Done attempting to bind parameter 'sheetID' of type 'System.Int32'.
+2024-10-29 10:04:38.042 -04:00 [DBG] Done attempting to bind parameter 'sheetID' of type 'System.Int32'.
+2024-10-29 10:04:38.043 -04:00 [DBG] Attempting to validate the bound parameter 'sheetID' of type 'System.Int32' ...
+2024-10-29 10:04:38.045 -04:00 [DBG] Done attempting to validate the bound parameter 'sheetID' of type 'System.Int32'.
+2024-10-29 10:04:38.046 -04:00 [DBG] Attempting to bind parameter 'itemName' of type 'System.String' ...
+2024-10-29 10:04:38.046 -04:00 [DBG] Attempting to bind parameter 'itemName' of type 'System.String' using the name '' in request data ...
+2024-10-29 10:04:38.047 -04:00 [DBG] Could not find a value in the request with name '' for binding parameter 'itemName' of type 'System.String'.
+2024-10-29 10:04:38.048 -04:00 [DBG] Done attempting to bind parameter 'itemName' of type 'System.String'.
+2024-10-29 10:04:38.049 -04:00 [DBG] Done attempting to bind parameter 'itemName' of type 'System.String'.
+2024-10-29 10:04:38.049 -04:00 [DBG] Attempting to validate the bound parameter 'itemName' of type 'System.String' ...
+2024-10-29 10:04:38.050 -04:00 [DBG] Done attempting to validate the bound parameter 'itemName' of type 'System.String'.
+2024-10-29 10:04:38.050 -04:00 [DBG] Attempting to bind parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]' ...
+2024-10-29 10:04:38.051 -04:00 [DBG] Attempting to bind parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]' using the name '' in request data ...
+2024-10-29 10:04:38.052 -04:00 [DBG] Could not find a value in the request with name '' for binding parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:38.052 -04:00 [DBG] Done attempting to bind parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:38.053 -04:00 [DBG] Done attempting to bind parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:38.053 -04:00 [DBG] Attempting to validate the bound parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]' ...
+2024-10-29 10:04:38.054 -04:00 [DBG] Done attempting to validate the bound parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:38.054 -04:00 [DBG] Attempting to bind parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]' ...
+2024-10-29 10:04:38.055 -04:00 [DBG] Attempting to bind parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]' using the name '' in request data ...
+2024-10-29 10:04:38.056 -04:00 [DBG] Could not find a value in the request with name '' for binding parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:38.059 -04:00 [DBG] Done attempting to bind parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:38.060 -04:00 [DBG] Done attempting to bind parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:38.061 -04:00 [DBG] Attempting to validate the bound parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]' ...
+2024-10-29 10:04:38.062 -04:00 [DBG] Done attempting to validate the bound parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:38.063 -04:00 [DBG] Attempting to bind parameter 'manufacturerPartNumber' of type 'System.String' ...
+2024-10-29 10:04:38.064 -04:00 [DBG] Attempting to bind parameter 'manufacturerPartNumber' of type 'System.String' using the name '' in request data ...
+2024-10-29 10:04:38.066 -04:00 [DBG] Could not find a value in the request with name '' for binding parameter 'manufacturerPartNumber' of type 'System.String'.
+2024-10-29 10:04:38.067 -04:00 [DBG] Done attempting to bind parameter 'manufacturerPartNumber' of type 'System.String'.
+2024-10-29 10:04:38.068 -04:00 [DBG] Done attempting to bind parameter 'manufacturerPartNumber' of type 'System.String'.
+2024-10-29 10:04:38.069 -04:00 [DBG] Attempting to validate the bound parameter 'manufacturerPartNumber' of type 'System.String' ...
+2024-10-29 10:04:38.070 -04:00 [DBG] Done attempting to validate the bound parameter 'manufacturerPartNumber' of type 'System.String'.
+2024-10-29 10:04:38.299 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.311 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.313 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.314 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.316 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.317 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.318 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.319 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.320 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.344 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.350 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.351 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.352 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.356 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.364 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.365 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.366 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.367 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.369 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.370 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.371 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.372 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.376 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.377 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.378 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.379 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.380 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.381 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.382 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.383 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.385 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.386 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.387 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.388 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.389 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.392 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.398 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.402 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.407 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.413 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.434 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.435 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.437 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.454 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.456 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.458 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.460 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.462 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.463 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.465 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.466 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.467 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.469 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.470 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.472 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.477 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.479 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.480 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.481 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.483 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.484 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.486 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.487 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.488 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.490 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.492 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.494 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.495 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.496 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.496 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.497 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.498 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.499 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.500 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.501 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.501 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.502 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.519 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.528 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.530 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.549 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.551 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.552 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.553 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.555 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.556 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.565 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2024-10-29 10:04:38.866 -04:00 [DBG] Entity Framework Core 7.0.16 initialized 'RaymarInventoryDBContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:7.0.16' with options: None
+2024-10-29 10:04:38.911 -04:00 [DBG] Compiling query expression: 
+'DbSet<PartsUsed>()
+    .Where(p => p.SheetId == __sheetID_0)
+    .Count()'
+2024-10-29 10:04:39.033 -04:00 [DBG] Generated query execution expression: 
+'queryContext => ShapedQueryCompilingExpressionVisitor.SingleAsync<int>(
+    asyncEnumerable: new SingleQueryingEnumerable<int>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache.QueryExpression(
+            Projection Mapping:
+                EmptyProjectionMember -> 0
+            SELECT COUNT(*)
+            FROM PartsUsed AS p
+            WHERE p.SheetID == @__sheetID_0), 
+        null, 
+        Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, int>, 
+        RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+        False, 
+        False, 
+        True
+    ), 
+    cancellationToken: queryContext.CancellationToken)'
+2024-10-29 10:04:39.063 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2024-10-29 10:04:39.064 -04:00 [DBG] Creating DbConnection.
+2024-10-29 10:04:39.067 -04:00 [DBG] Created DbConnection. (1ms).
+2024-10-29 10:04:39.070 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (5ms).
+2024-10-29 10:04:39.072 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (9ms).
+2024-10-29 10:04:39.076 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2024-10-29 10:04:39.079 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2024-10-29 10:04:39.085 -04:00 [DBG] Executing DbCommand [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetID_0
+2024-10-29 10:04:39.132 -04:00 [INF] Executed DbCommand (48ms) [Parameters=[@__sheetID_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetID_0
+2024-10-29 10:04:39.143 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2024-10-29 10:04:39.146 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 9ms reading results.
+2024-10-29 10:04:39.148 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2024-10-29 10:04:39.149 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2024-10-29 10:04:39.153 -04:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2024-10-29 10:04:39.155 -04:00 [DBG] No information found on request to perform content negotiation.
+2024-10-29 10:04:39.155 -04:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2024-10-29 10:04:39.156 -04:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2024-10-29 10:04:39.159 -04:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2024-10-29 10:04:39.159 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Int32'.
+2024-10-29 10:04:39.165 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.PartsController.GetPartsCountByWorkOrder (RaymarEquipmentInventory) in 1333.4083ms
+2024-10-29 10:04:39.166 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.PartsController.GetPartsCountByWorkOrder (RaymarEquipmentInventory)'
+2024-10-29 10:04:39.168 -04:00 [DBG] 'RaymarInventoryDBContext' disposed.
+2024-10-29 10:04:39.171 -04:00 [DBG] Disposing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2024-10-29 10:04:39.172 -04:00 [DBG] Disposed connection to database '' on server '' (1ms).
+2024-10-29 10:04:39.173 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Parts/GetPartsCountByWorkOrder?sheetID=1 - 200 null application/json; charset=utf-8 1395.7459ms
+2024-10-29 10:04:43.628 -04:00 [DBG] Server dev-workstation:28884:04578812 heartbeat successfully sent
+2024-10-29 10:04:54.205 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/api/Parts/GetPartsCountByWorkOrder?sheetID=1&qtyUsedMin=5 - null null
+2024-10-29 10:04:54.210 -04:00 [DBG] 1 candidate(s) found for the request path '/api/Parts/GetPartsCountByWorkOrder'
+2024-10-29 10:04:54.212 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.PartsController.GetPartsCountByWorkOrder (RaymarEquipmentInventory)' with route pattern 'api/Parts/GetPartsCountByWorkOrder' is valid for the request path '/api/Parts/GetPartsCountByWorkOrder'
+2024-10-29 10:04:54.213 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.PartsController.GetPartsCountByWorkOrder (RaymarEquipmentInventory)'
+2024-10-29 10:04:54.214 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2024-10-29 10:04:54.215 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.PartsController.GetPartsCountByWorkOrder (RaymarEquipmentInventory)'
+2024-10-29 10:04:54.216 -04:00 [INF] Route matched with {action = "GetPartsCountByWorkOrder", controller = "Parts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPartsCountByWorkOrder(Int32, System.String, System.Nullable`1[System.Int32], System.Nullable`1[System.Int32], System.String) on controller RaymarEquipmentInventory.Controllers.PartsController (RaymarEquipmentInventory).
+2024-10-29 10:04:54.217 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2024-10-29 10:04:54.218 -04:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2024-10-29 10:04:54.219 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2024-10-29 10:04:54.220 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2024-10-29 10:04:54.222 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2024-10-29 10:04:54.224 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.PartsController (RaymarEquipmentInventory)
+2024-10-29 10:04:54.226 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.PartsController (RaymarEquipmentInventory)
+2024-10-29 10:04:54.227 -04:00 [DBG] Attempting to bind parameter 'sheetID' of type 'System.Int32' ...
+2024-10-29 10:04:54.227 -04:00 [DBG] Attempting to bind parameter 'sheetID' of type 'System.Int32' using the name 'sheetID' in request data ...
+2024-10-29 10:04:54.228 -04:00 [DBG] Done attempting to bind parameter 'sheetID' of type 'System.Int32'.
+2024-10-29 10:04:54.228 -04:00 [DBG] Done attempting to bind parameter 'sheetID' of type 'System.Int32'.
+2024-10-29 10:04:54.229 -04:00 [DBG] Attempting to validate the bound parameter 'sheetID' of type 'System.Int32' ...
+2024-10-29 10:04:54.229 -04:00 [DBG] Done attempting to validate the bound parameter 'sheetID' of type 'System.Int32'.
+2024-10-29 10:04:54.230 -04:00 [DBG] Attempting to bind parameter 'itemName' of type 'System.String' ...
+2024-10-29 10:04:54.230 -04:00 [DBG] Attempting to bind parameter 'itemName' of type 'System.String' using the name '' in request data ...
+2024-10-29 10:04:54.231 -04:00 [DBG] Could not find a value in the request with name '' for binding parameter 'itemName' of type 'System.String'.
+2024-10-29 10:04:54.232 -04:00 [DBG] Done attempting to bind parameter 'itemName' of type 'System.String'.
+2024-10-29 10:04:54.232 -04:00 [DBG] Done attempting to bind parameter 'itemName' of type 'System.String'.
+2024-10-29 10:04:54.232 -04:00 [DBG] Attempting to validate the bound parameter 'itemName' of type 'System.String' ...
+2024-10-29 10:04:54.233 -04:00 [DBG] Done attempting to validate the bound parameter 'itemName' of type 'System.String'.
+2024-10-29 10:04:54.233 -04:00 [DBG] Attempting to bind parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]' ...
+2024-10-29 10:04:54.234 -04:00 [DBG] Attempting to bind parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]' using the name 'qtyUsedMin' in request data ...
+2024-10-29 10:04:54.235 -04:00 [DBG] Done attempting to bind parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:54.235 -04:00 [DBG] Done attempting to bind parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:54.236 -04:00 [DBG] Attempting to validate the bound parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]' ...
+2024-10-29 10:04:54.236 -04:00 [DBG] Done attempting to validate the bound parameter 'qtyUsedMin' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:54.237 -04:00 [DBG] Attempting to bind parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]' ...
+2024-10-29 10:04:54.237 -04:00 [DBG] Attempting to bind parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]' using the name '' in request data ...
+2024-10-29 10:04:54.238 -04:00 [DBG] Could not find a value in the request with name '' for binding parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:54.239 -04:00 [DBG] Done attempting to bind parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:54.239 -04:00 [DBG] Done attempting to bind parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:54.241 -04:00 [DBG] Attempting to validate the bound parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]' ...
+2024-10-29 10:04:54.242 -04:00 [DBG] Done attempting to validate the bound parameter 'qtyUsedMax' of type 'System.Nullable`1[System.Int32]'.
+2024-10-29 10:04:54.242 -04:00 [DBG] Attempting to bind parameter 'manufacturerPartNumber' of type 'System.String' ...
+2024-10-29 10:04:54.243 -04:00 [DBG] Attempting to bind parameter 'manufacturerPartNumber' of type 'System.String' using the name '' in request data ...
+2024-10-29 10:04:54.244 -04:00 [DBG] Could not find a value in the request with name '' for binding parameter 'manufacturerPartNumber' of type 'System.String'.
+2024-10-29 10:04:54.245 -04:00 [DBG] Done attempting to bind parameter 'manufacturerPartNumber' of type 'System.String'.
+2024-10-29 10:04:54.246 -04:00 [DBG] Done attempting to bind parameter 'manufacturerPartNumber' of type 'System.String'.
+2024-10-29 10:04:54.247 -04:00 [DBG] Attempting to validate the bound parameter 'manufacturerPartNumber' of type 'System.String' ...
+2024-10-29 10:04:54.247 -04:00 [DBG] Done attempting to validate the bound parameter 'manufacturerPartNumber' of type 'System.String'.
+2024-10-29 10:04:54.262 -04:00 [DBG] Entity Framework Core 7.0.16 initialized 'RaymarInventoryDBContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:7.0.16' with options: None
+2024-10-29 10:04:54.266 -04:00 [DBG] Compiling query expression: 
+'DbSet<PartsUsed>()
+    .Where(p => p.SheetId == __sheetID_0)
+    .Where(p => p.QtyUsed >= __qtyUsedMin_Value_1)
+    .Count()'
+2024-10-29 10:04:54.270 -04:00 [DBG] Generated query execution expression: 
+'queryContext => ShapedQueryCompilingExpressionVisitor.SingleAsync<int>(
+    asyncEnumerable: new SingleQueryingEnumerable<int>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache.QueryExpression(
+            Projection Mapping:
+                EmptyProjectionMember -> 0
+            SELECT COUNT(*)
+            FROM PartsUsed AS p
+            WHERE (p.SheetID == @__sheetID_0) && (p.QtyUsed >= @__qtyUsedMin_Value_1)), 
+        null, 
+        Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, int>, 
+        RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+        False, 
+        False, 
+        True
+    ), 
+    cancellationToken: queryContext.CancellationToken)'
+2024-10-29 10:04:54.271 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2024-10-29 10:04:54.272 -04:00 [DBG] Creating DbConnection.
+2024-10-29 10:04:54.272 -04:00 [DBG] Created DbConnection. (0ms).
+2024-10-29 10:04:54.273 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (1ms).
+2024-10-29 10:04:54.274 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (2ms).
+2024-10-29 10:04:54.275 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2024-10-29 10:04:54.275 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2024-10-29 10:04:54.276 -04:00 [DBG] Executing DbCommand [Parameters=[@__sheetID_0='?' (DbType = Int32), @__qtyUsedMin_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetID_0 AND [p].[QtyUsed] >= @__qtyUsedMin_Value_1
+2024-10-29 10:04:54.299 -04:00 [INF] Executed DbCommand (23ms) [Parameters=[@__sheetID_0='?' (DbType = Int32), @__qtyUsedMin_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetID_0 AND [p].[QtyUsed] >= @__qtyUsedMin_Value_1
+2024-10-29 10:04:54.300 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2024-10-29 10:04:54.301 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 0ms reading results.
+2024-10-29 10:04:54.301 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2024-10-29 10:04:54.302 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2024-10-29 10:04:54.303 -04:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2024-10-29 10:04:54.303 -04:00 [DBG] No information found on request to perform content negotiation.
+2024-10-29 10:04:54.304 -04:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2024-10-29 10:04:54.304 -04:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2024-10-29 10:04:54.304 -04:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2024-10-29 10:04:54.305 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Int32'.
+2024-10-29 10:04:54.306 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.PartsController.GetPartsCountByWorkOrder (RaymarEquipmentInventory) in 82.3252ms
+2024-10-29 10:04:54.307 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.PartsController.GetPartsCountByWorkOrder (RaymarEquipmentInventory)'
+2024-10-29 10:04:54.308 -04:00 [DBG] 'RaymarInventoryDBContext' disposed.
+2024-10-29 10:04:54.309 -04:00 [DBG] Disposing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2024-10-29 10:04:54.309 -04:00 [DBG] Disposed connection to database '' on server '' (0ms).
+2024-10-29 10:04:54.310 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/api/Parts/GetPartsCountByWorkOrder?sheetID=1&qtyUsedMin=5 - 200 null application/json; charset=utf-8 104.6705ms
+2024-10-29 10:05:01.434 -04:00 [DBG] Connection id "0HN7O49VTNMOO" received FIN.
+2024-10-29 10:05:01.435 -04:00 [DBG] Connection id "0HN7O49VTNMOO" sending FIN because: "The Socket transport's send loop completed gracefully."

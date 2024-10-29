@@ -100,22 +100,99 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(int sheetID)
+    public async Task<int> GetPartsCountByWorkOrder(
+    int sheetID,
+    string itemName = null,
+    int? qtyUsedMin = null,
+    int? qtyUsedMax = null,
+    string manufacturerPartNumber = null)
         {
+            var partsUsedQuery = _context.PartsUseds.Where(p => p.SheetId == sheetID);
+            partsUsedQuery = ApplyFilters(partsUsedQuery, itemName, qtyUsedMin, qtyUsedMax, manufacturerPartNumber);
+            return await partsUsedQuery.CountAsync();
+        }
 
 
-            var partsUsedList = await _context.PartsUseds
-                .Include(t => t.Inventory)  // Include the related Inventory
-                    .ThenInclude(i => i.InventoryDocuments)  // Include the related InventoryDocuments
-                    .ThenInclude(DTOs => DTOs.DocumentType)  // Include the related DocumentType
-                .Where(t => t.SheetId == sheetID)
-                .ToListAsync();
+        public async Task<List<DTOs.PartsUsed>> GetPartsByWorkOrder(
+           int sheetID,
+           int pageNumber = 0,
+           int pageSize = 0,
+           string itemName = null,
+           int? qtyUsedMin = null,
+           int? qtyUsedMax = null,
+           string manufacturerPartNumber = null)
+        {
+            // Start building the base query for Models.PartsUsed
+            var partsUsedQuery = _context.PartsUseds
+                .Include(p => p.Inventory)
+                    .ThenInclude(i => i.InventoryDocuments)
+                    .ThenInclude(d => d.DocumentType)
+                .Where(p => p.SheetId == sheetID);
 
+            // Apply filtering
+            partsUsedQuery = ApplyFilters(partsUsedQuery, itemName, qtyUsedMin, qtyUsedMax, manufacturerPartNumber);
+
+            // Apply pagination if required
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                partsUsedQuery = ApplyPagination(partsUsedQuery, pageNumber, pageSize);
+            }
+
+            // Execute query and retrieve Models.PartsUsed entities
+            var partsUsedList = await partsUsedQuery.ToListAsync();
+
+            // Map Models.PartsUsed entities to DTOs.PartsUsed
+            return await MapToDto(partsUsedList);
+        }
+
+        // Private method for filtering Models.PartsUsed
+        private IQueryable<Models.PartsUsed> ApplyFilters(
+            IQueryable<Models.PartsUsed> query,
+            string itemName,
+            int? qtyUsedMin,
+            int? qtyUsedMax,
+            string manufacturerPartNumber)
+        {
+            if (!string.IsNullOrEmpty(itemName))
+            {
+                query = query.Where(p => p.Inventory.ItemName.Contains(itemName));
+            }
+
+            if (qtyUsedMin.HasValue)
+            {
+                query = query.Where(p => p.QtyUsed >= qtyUsedMin.Value);
+            }
+
+            if (qtyUsedMax.HasValue)
+            {
+                query = query.Where(p => p.QtyUsed <= qtyUsedMax.Value);
+            }
+
+            if (!string.IsNullOrEmpty(manufacturerPartNumber))
+            {
+                query = query.Where(p => p.Inventory.ManufacturerPartNumber.Contains(manufacturerPartNumber));
+            }
+
+            return query;
+        }
+
+        // Private method for pagination of Models.PartsUsed
+        private IQueryable<Models.PartsUsed> ApplyPagination(IQueryable<Models.PartsUsed> query, int pageNumber, int pageSize)
+        {
+            int skipCount = (pageNumber - 1) * pageSize;
+            return query.Skip(skipCount).Take(pageSize);
+        }
+
+        // Private method to map Models.PartsUsed to DTOs.PartsUsed
+        private async Task<List<DTOs.PartsUsed>> MapToDto(List<Models.PartsUsed> partsUsedList)
+        {
+            // Fetch placeholder document details
             var placeholderDocument = await _context.PlaceholderDocuments
-            .Include(id => id.DocumentType).FirstOrDefaultAsync(); // Assuming there's only one placeholder document or you can filter by c
+                .Include(d => d.DocumentType)
+                .FirstOrDefaultAsync();
 
-            // Map the list of technicians to the DTO
-            var partsUsedDTO = partsUsedList.Select(partUsed => new DTOs.PartsUsed
+            // Map each Models.PartsUsed to DTOs.PartsUsed
+            return partsUsedList.Select(partUsed => new DTOs.PartsUsed
             {
                 PartUsedId = partUsed.PartUsedId,
                 InventoryId = partUsed.InventoryId ?? 0,
@@ -131,8 +208,6 @@ namespace RaymarEquipmentInventory.Services
                     Cost = partUsed.Inventory.Cost,
                     SalesPrice = partUsed.Inventory.SalesPrice,
                     ReorderPoint = partUsed.Inventory.ReorderPoint,
-
-                    // Check if InventoryDocuments are present, otherwise add placeholder
                     InventoryDocuments = partUsed.Inventory.InventoryDocuments.Any()
                         ? partUsed.Inventory.InventoryDocuments.Select(doc => new DTOs.InventoryDocument
                         {
@@ -148,27 +223,25 @@ namespace RaymarEquipmentInventory.Services
                             UploadDate = doc.UploadDate,
                             UploadedBy = doc.UploadedBy
                         }).ToList()
-                        : new List<DTOs.InventoryDocument> // Use the placeholder if InventoryDocuments is empty
+                        : new List<DTOs.InventoryDocument>
                         {
-                new DTOs.InventoryDocument
-                {
-                    InventoryDocumentId = 0,
-                    FileName = placeholderDocument?.FileName ?? "",
-                    FileURL = placeholderDocument?.FileUrl ?? "",
-                    DocType = new DTOs.DocumentType
+                    new DTOs.InventoryDocument
                     {
-                        DocumentTypeId = placeholderDocument.DocumentType.DocumentTypeId,
-                        DocumentTypeName = placeholderDocument.DocumentType.DocumentTypeName,
-                        MimeType = placeholderDocument.DocumentType.MimeType
-                    },
-                    UploadDate = placeholderDocument.UploadDate,
-                    UploadedBy = "System" // You can adjust this field as necessary
-                }
+                        InventoryDocumentId = 0,
+                        FileName = placeholderDocument?.FileName ?? "",
+                        FileURL = placeholderDocument?.FileUrl ?? "",
+                        DocType = new DTOs.DocumentType
+                        {
+                            DocumentTypeId = placeholderDocument?.DocumentType.DocumentTypeId ?? 0,
+                            DocumentTypeName = placeholderDocument?.DocumentType.DocumentTypeName ?? "",
+                            MimeType = placeholderDocument?.DocumentType.MimeType ?? ""
+                        },
+                        UploadDate = placeholderDocument?.UploadDate ?? DateTime.MinValue,
+                        UploadedBy = "System"
+                    }
                         }
                 }
             }).ToList();
-
-            return partsUsedDTO;
         }
 
 

@@ -64,45 +64,62 @@ namespace RaymarEquipmentInventory.Controllers
 
 
         [HttpGet("GetPartsByWorkOrder")]
-        public async Task<IActionResult> GetPartsByWorkOrder(int sheetID)
+        public async Task<IActionResult> GetPartsByWorkOrder(
+            int sheetID,
+            int pageNumber = 1,
+            int pageSize = 5,
+            string itemName = null,
+            int? qtyUsedMin = null,
+            int? qtyUsedMax = null,
+            string manufacturerPartNumber = null)
         {
             try
             {
-                List<PartsUsed> partsUsedData = await _partService.GetPartsByWorkOrder(sheetID);
-                if (partsUsedData == null)
+                // Call the service method with pagination and filtering
+                List<PartsUsed> partsUsedData = await _partService.GetPartsByWorkOrder(
+                    sheetID,
+                    pageNumber,
+                    pageSize,
+                    itemName,
+                    qtyUsedMin,
+                    qtyUsedMax,
+                    manufacturerPartNumber);
+
+                if (partsUsedData == null || !partsUsedData.Any())
                 {
-                    return NotFound("No customer with this ID found."); // Returns 404 if no customer is found
+                    return NotFound("No parts found for this work order."); // Returns 404 if no parts are found
                 }
+
                 return Ok(partsUsedData);
             }
             catch (Exception ex)
             {
-                // Catching the exception and returning a 500 error with the message
                 return StatusCode(500, $"Internal server error: {ex.Message}");
-
             }
         }
 
-
-        [HttpGet("GetPartsByWorkOrderTwo")]
-        public async Task<IActionResult> GetPartsByWorkOrderTwo(int sheetID)
+        [HttpGet("GetPartsCountByWorkOrder")]
+        public async Task<IActionResult> GetPartsCountByWorkOrder(
+    int sheetID,
+    string itemName = null,
+    int? qtyUsedMin = null,
+    int? qtyUsedMax = null,
+    string manufacturerPartNumber = null)
         {
             try
             {
-                List<PartsUsed> partsUsedData = await _partService.GetPartsByWorkOrder(sheetID);
-                if (partsUsedData == null)
-                {
-                    return NotFound("No customer with this ID found."); // Returns 404 if no customer is found
-                }
-                return Ok(partsUsedData);
+                int count = await _partService.GetPartsCountByWorkOrder(sheetID, itemName, qtyUsedMin, qtyUsedMax, manufacturerPartNumber);
+                return Ok(count);
             }
             catch (Exception ex)
             {
-                // Catching the exception and returning a 500 error with the message
                 return StatusCode(500, $"Internal server error: {ex.Message}");
-
             }
         }
+
+
+
+
 
     }
 }

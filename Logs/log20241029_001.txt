@@ -1,0 +1,57 @@
+2024-10-29 08:59:46.348 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-29 08:59:46.374 -04:00 [INF] Hosting environment: Development
+2024-10-29 08:59:46.374 -04:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2024-10-29 09:06:54.121 -04:00 [INF] Start installing Hangfire SQL objects...
+2024-10-29 09:06:54.763 -04:00 [INF] Hangfire SQL objects installed.
+2024-10-29 09:06:54.839 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2024-10-29 09:06:54.950 -04:00 [INF] Now listening on: http://localhost:5229
+2024-10-29 09:06:54.952 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2024-10-29 09:06:54.953 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2024-10-29 09:06:54.955 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2024-10-29 09:06:54.956 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2024-10-29 09:06:54.985 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2024-10-29 09:06:54.986 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-10-29 09:06:54.987 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-10-29 09:06:54.996 -04:00 [DBG] Execution loop BackgroundServerProcess:9c340113 has started in 4.8859 ms
+2024-10-29 09:06:55.124 -04:00 [INF] Server dev-workstation:17824:7f4b0a5b successfully announced in 101.0735 ms
+2024-10-29 09:06:55.154 -04:00 [DBG] Execution loop ServerHeartbeatProcess:3a7ee143 has started in 28.1908 ms
+2024-10-29 09:06:55.154 -04:00 [INF] Server dev-workstation:17824:7f4b0a5b is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-10-29 09:06:55.161 -04:00 [DBG] Execution loop ServerWatchdog:2fe046d3 has started in 2.6356 ms
+2024-10-29 09:06:55.163 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:0417175d has started in 4.4472 ms
+2024-10-29 09:06:55.165 -04:00 [DBG] Execution loop ExpirationManager:c74986bb has started in 3.6047 ms
+2024-10-29 09:06:55.168 -04:00 [DBG] Execution loop CountersAggregator:9d651caf has started in 4.3489 ms
+2024-10-29 09:06:55.170 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:635d3dfe has started in 4.603 ms
+2024-10-29 09:06:55.175 -04:00 [DBG] Connection id "0HN7O3A8315S4" received FIN.
+2024-10-29 09:06:55.175 -04:00 [DBG] Connection id "0HN7O3A8315S3" received FIN.
+2024-10-29 09:06:55.175 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2024-10-29 09:06:55.177 -04:00 [DBG] Aggregating records in 'Counter' table...
+2024-10-29 09:06:55.173 -04:00 [DBG] Execution loop Worker:b55c371f has started in 4.8104 ms
+2024-10-29 09:06:55.175 -04:00 [DBG] Execution loop Worker:8cbb2099 has started in 6.8072 ms
+2024-10-29 09:06:55.216 -04:00 [INF] Server dev-workstation:17824:7f4b0a5b all the dispatchers started
+2024-10-29 09:06:55.177 -04:00 [DBG] Execution loop Worker:15034618 has started in 8.7607 ms
+2024-10-29 09:06:55.178 -04:00 [DBG] Execution loop Worker:709d99a1 has started in 10.6264 ms
+2024-10-29 09:06:55.180 -04:00 [DBG] Execution loop Worker:b86a2a4b has started in 12.4715 ms
+2024-10-29 09:06:55.184 -04:00 [DBG] Execution loop Worker:269f1ce2 has started in 16.3461 ms
+2024-10-29 09:06:55.184 -04:00 [DBG] Execution loop Worker:adf92327 has started in 15.7738 ms
+2024-10-29 09:06:55.186 -04:00 [DBG] Execution loop Worker:560cb7f8 has started in 18.0509 ms
+2024-10-29 09:06:55.188 -04:00 [DBG] Execution loop Worker:63f64925 has started in 19.9921 ms
+2024-10-29 09:06:55.190 -04:00 [DBG] Execution loop Worker:d88d8104 has started in 21.9593 ms
+2024-10-29 09:06:55.193 -04:00 [DBG] Execution loop Worker:4e7d1c2d has started in 25.0958 ms
+2024-10-29 09:06:55.194 -04:00 [DBG] Execution loop Worker:d3e1e95c has started in 26.5499 ms
+2024-10-29 09:06:55.197 -04:00 [DBG] Execution loop Worker:5f1ff5c9 has started in 28.8046 ms
+2024-10-29 09:06:55.199 -04:00 [DBG] Execution loop Worker:52b65c03 has started in 30.8082 ms
+2024-10-29 09:06:55.201 -04:00 [DBG] Execution loop Worker:2df19c22 has started in 33.5289 ms
+2024-10-29 09:06:55.204 -04:00 [DBG] Execution loop Worker:cb520f33 has started in 36.0823 ms
+2024-10-29 09:06:55.207 -04:00 [DBG] Execution loop Worker:83ddde41 has started in 39.514 ms
+2024-10-29 09:06:55.209 -04:00 [DBG] Execution loop Worker:6e3ec86f has started in 41.1764 ms
+2024-10-29 09:06:55.211 -04:00 [DBG] Execution loop Worker:e46319be has started in 43.3977 ms
+2024-10-29 09:06:55.214 -04:00 [DBG] Execution loop Worker:eba52b45 has started in 45.8306 ms
+2024-10-29 09:06:55.216 -04:00 [DBG] Execution loop DelayedJobScheduler:c4ddd826 has started in 4.6872 ms
+2024-10-29 09:06:55.218 -04:00 [DBG] Execution loop RecurringJobScheduler:2a108be7 has started in 4.8246 ms
+2024-10-29 09:06:55.227 -04:00 [DBG] Connection id "0HN7O3A8315S4" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-10-29 09:06:55.227 -04:00 [DBG] Connection id "0HN7O3A8315S3" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-10-29 09:06:55.404 -04:00 [DBG] Removing outdated records from the 'Job' table...
