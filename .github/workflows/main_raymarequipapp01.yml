@@ -64,4 +64,5 @@ jobs:
           app-name: 'RaymarEquipApp01'
           slot-name: 'Production'
           package: .
+          clean: true
           
