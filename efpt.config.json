@@ -2,6 +2,7 @@
    "CodeGenerationMode": 3,
    "ContextClassName": "RaymarInventoryDBContext",
    "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
    "ModelNamespace": null,
@@ -48,6 +49,10 @@
       },
       {
          "Name": "[dbo].[MileageAndTime]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PartsDocument]",
          "ObjectType": 0
       },
       {
@@ -107,9 +112,8 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": null,
+   "UiHint": "greatfurnituresql.RaymarInventoryDB.dbo",
    "UncountableWords": null,
-   "UseAsyncStoredProcedureCalls": true,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
    "UseDateOnlyTimeOnly": false,

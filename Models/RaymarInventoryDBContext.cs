@@ -31,6 +31,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<MileageAndTime> MileageAndTimes { get; set; }
 
+    public virtual DbSet<PartsDocument> PartsDocuments { get; set; }
+
     public virtual DbSet<PartsUsed> PartsUseds { get; set; }
 
     public virtual DbSet<Person> People { get; set; }
@@ -305,6 +307,26 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.SheetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__MileageAn__Sheet__40058253");
+        });
+
+        modelBuilder.Entity<PartsDocument>(entity =>
+        {
+            entity.HasKey(e => e.PartsDocumentId).HasName("PK__PartsDoc__B8CA25B2925B0A13");
+
+            entity.ToTable("PartsDocument");
+
+            entity.Property(e => e.PartsDocumentId).HasColumnName("PartsDocumentID");
+            entity.Property(e => e.DocumentId).HasColumnName("DocumentID");
+
+            entity.HasOne(d => d.Document).WithMany(p => p.PartsDocuments)
+                .HasForeignKey(d => d.DocumentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PartsDocument_Documents");
+
+            entity.HasOne(d => d.PartUsed).WithMany(p => p.PartsDocuments)
+                .HasForeignKey(d => d.PartUsedId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PartsDocument_PartsUsed");
         });
 
         modelBuilder.Entity<PartsUsed>(entity =>

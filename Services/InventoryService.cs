@@ -172,13 +172,14 @@ namespace RaymarEquipmentInventory.Services
             try
             {
                 // Pull all the relevant inventory data from SQL Server
-                var existingInventory = await _context.InventoryData.ToListAsync();
+                var existingInventory = await _context.InventoryData.Where(o => !o.ManufacturerPartNumber.Contains("TST")).ToListAsync();
 
                 // Map the SQL Server data to the InventoryForDropdown object
                 dropdownList = existingInventory.Select(item => new InventoryForDropdown
                 {
                     QuickBooksInvId = item.QuickBooksInvId, // Pull the QuickBooks Inventory ID directly
-                    ItemNameWithPartNum = $"{item.ManufacturerPartNumber}:{item.ItemName}", // Combine part number and item name
+                    ItemName = item.ItemName, // Pull the item name directly
+                    PartNumber = item.ManufacturerPartNumber, // Pull the part number directly
                     QtyAvailable = item.OnHand ?? 0 // Get the quantity available
                 }).ToList(); // Convert to list
 
@@ -206,7 +207,8 @@ namespace RaymarEquipmentInventory.Services
                 dropdownList = existingInventory.Select(item => new InventoryForDropdown
                 {
                     QuickBooksInvId = item.QuickBooksInvId, // Pull the QuickBooks Inventory ID directly
-                    ItemNameWithPartNum = $"{item.ManufacturerPartNumber}:{item.ItemName}", // Combine part number and item name
+                    ItemName = item.ItemName, 
+                    PartNumber = item.ManufacturerPartNumber,
                     QtyAvailable = item.OnHand ?? 0 // Get the quantity available
                 }).ToList(); // Convert to list
 

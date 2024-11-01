@@ -23,5 +23,7 @@ public partial class Document
 
     public virtual DocumentType DocumentType { get; set; }
 
+    public virtual ICollection<PartsDocument> PartsDocuments { get; set; } = new List<PartsDocument>();
+
     public virtual WorkOrderSheet Sheet { get; set; }
 }

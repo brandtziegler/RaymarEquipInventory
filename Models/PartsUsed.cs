@@ -19,5 +19,7 @@ public partial class PartsUsed
 
     public virtual InventoryDatum Inventory { get; set; }
 
+    public virtual ICollection<PartsDocument> PartsDocuments { get; set; } = new List<PartsDocument>();
+
     public virtual WorkOrderSheet Sheet { get; set; }
 }
