@@ -21,7 +21,7 @@
 
         public string ItemNameWithPartNum => $"{PartNumber}-{ItemName}";
 
-        // Method to clean up the item name
+        // Method to clean up the item name-small change.
         private string CleanItemName(string rawName)
         {
             return rawName
