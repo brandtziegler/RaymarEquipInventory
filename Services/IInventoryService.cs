@@ -9,7 +9,7 @@ namespace RaymarEquipmentInventory.Services
 
         Task<List<InventoryData>> GetInventoryPartsFromQuickBooksAsync(bool doUpdate = false);
 
-        Task<List<InventoryForDropdown>> GetDropdownInfo();
+        Task<List<InventoryForDropdown>> GetDropdownInfo(string searchTerm);
 
         Task<List<InventoryForDropdown>> GetAllInventoryItems();
 

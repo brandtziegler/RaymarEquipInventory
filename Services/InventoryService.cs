@@ -162,37 +162,56 @@ namespace RaymarEquipmentInventory.Services
             return inventoryParts;
         }
 
-      
 
 
-        public async Task<List<InventoryForDropdown>> GetDropdownInfo()
+
+        public async Task<List<InventoryForDropdown>> GetDropdownInfo(string searchTerm)
         {
             var dropdownList = new List<InventoryForDropdown>();
 
             try
             {
-                // Pull all the relevant inventory data from SQL Server
-                var existingInventory = await _context.InventoryData.Where(o => !o.ManufacturerPartNumber.Contains("TST")).ToListAsync();
+                // Start building the base query
+                IQueryable<InventoryDatum> query = _context.InventoryData
+                    .Where(o => !o.ManufacturerPartNumber.Contains("TST")); // Exclude test items
 
-                // Map the SQL Server data to the InventoryForDropdown object
+                if (!string.IsNullOrWhiteSpace(searchTerm))
+                {
+                    // Split the search term into individual keywords
+                    var keywords = searchTerm.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                    // Apply filter for each keyword
+                    foreach (var keyword in keywords)
+                    {
+                        query = query.Where(item =>
+                            EF.Functions.Like(item.ManufacturerPartNumber.ToLower(), $"%{keyword}%") ||
+                            EF.Functions.Like(item.ItemName.ToLower(), $"%{keyword}%"));
+                    }
+                }
+
+                // Always order the results by ItemName alphabetically
+                query = query.OrderBy(item => item.ItemName);
+
+                // Execute the query and map results to InventoryForDropdown
+                var existingInventory = await query.ToListAsync();
+
                 dropdownList = existingInventory.Select(item => new InventoryForDropdown
                 {
-                    QuickBooksInvId = item.QuickBooksInvId, // Pull the QuickBooks Inventory ID directly
-                    ItemName = item.ItemName, // Pull the item name directly
-                    PartNumber = item.ManufacturerPartNumber, // Pull the part number directly
-                    QtyAvailable = item.OnHand ?? 0 // Get the quantity available
-                }).ToList(); // Convert to list
+                    QuickBooksInvId = item.QuickBooksInvId,
+                    ItemName = item.ItemName,
+                    PartNumber = item.ManufacturerPartNumber,
+                    QtyAvailable = item.OnHand ?? 0
+                }).ToList();
 
-                // Return the dropdown list to the controller
                 return dropdownList;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Well, ain't that a kick in the teeth: {ex.Message}");
-                // Handle logging or re-throw as needed
                 throw;
             }
         }
+
 
         public async Task<List<InventoryForDropdown>> GetAllInventoryItems()
         {

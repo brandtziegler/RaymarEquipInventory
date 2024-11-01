@@ -97,11 +97,11 @@ namespace RaymarEquipmentInventory.Controllers
 
 
         [HttpGet("GetInventoryForDropdown")]
-        public async Task<IActionResult> GetInventoryForDropdown()
+        public async Task<IActionResult> GetInventoryForDropdown(string? searchTerm)
         {
             try
             {
-                List<InventoryForDropdown> inventoryParts = await _inventoryService.GetDropdownInfo();
+                List<InventoryForDropdown> inventoryParts = await _inventoryService.GetDropdownInfo(searchTerm);
 
                 if (inventoryParts == null || inventoryParts.Count == 0)
                 {
