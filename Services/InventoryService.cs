@@ -213,7 +213,7 @@ namespace RaymarEquipmentInventory.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Well, ain't that a kick in the teeth: {ex.Message}");
+                Console.WriteLine($"Testing new code.: {ex.Message}");
                 throw;
             }
         }
