@@ -204,7 +204,7 @@ namespace RaymarEquipmentInventory.Services
                         QuickBooksInvId = item.QuickBooksInvId,
                         ItemName = item.ItemName,
                         PartNumber = item.ManufacturerPartNumber,
-                        QtyAvailable = item.OnHand ?? 0
+                        QtyAvailable = item.OnHand ?? 0,
                     })
                     .OrderBy(item => item.ItemName) // Sort by ItemName alphabetically
                     .ToList();

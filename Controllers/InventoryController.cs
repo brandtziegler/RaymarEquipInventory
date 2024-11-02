@@ -118,6 +118,12 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpGet("GimmeAFunnyJoke")]
+        public IActionResult GimmeAFunnyJoke()
+        {
+            // A quick test response for verification
+            return Ok("Why don't skeletons fight each other? They don't have the guts!");
+        }
 
         [HttpGet("GetAllInventoryItems")]
         public async Task<IActionResult> GetAllInventoryItems()
