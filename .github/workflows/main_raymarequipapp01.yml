@@ -56,10 +56,7 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_021B4E57428C45B3B20D8702858BB73D }}
           
       - name: Set SCM_DO_BUILD_DURING_DEPLOYMENT to true
-        run: |
-          az webapp config appsettings set --name 'RaymarEquipApp01' \
-            --resource-group 'RaymarEquipService' \
-            --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
+        run: az webapp config appsettings set --name 'RaymarEquipApp01' --resource-group 'RaymarEquipService' --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
         shell: pwsh
 
       # Restart Web App to clear any locked files
