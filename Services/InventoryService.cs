@@ -171,16 +171,18 @@ namespace RaymarEquipmentInventory.Services
 
             try
             {
-                // Start building the base query
+                // Step 1: Basic filtering that can be translated to SQL
                 IQueryable<InventoryDatum> query = _context.InventoryData
-                    .Where(o => !o.ManufacturerPartNumber.Contains("TST")); // Exclude test items
+                    .Where(o => !o.ManufacturerPartNumber.Contains("TST")) // Exclude test items
+                    .Where(item => !string.IsNullOrWhiteSpace(item.ItemName) &&
+                                   !string.IsNullOrWhiteSpace(item.ManufacturerPartNumber));
 
                 if (!string.IsNullOrWhiteSpace(searchTerm))
                 {
                     // Split the search term into individual keywords
                     var keywords = searchTerm.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-                    // Apply filter for each keyword
+                    // Apply keyword filter for each keyword
                     foreach (var keyword in keywords)
                     {
                         query = query.Where(item =>
@@ -189,19 +191,23 @@ namespace RaymarEquipmentInventory.Services
                     }
                 }
 
-                // Always order the results by ItemName alphabetically
-                query = query.OrderBy(item => item.ItemName);
-
-                // Execute the query and map results to InventoryForDropdown
+                // Step 2: Execute the query to get preliminary results from the database
                 var existingInventory = await query.ToListAsync();
 
-                dropdownList = existingInventory.Select(item => new InventoryForDropdown
-                {
-                    QuickBooksInvId = item.QuickBooksInvId,
-                    ItemName = item.ItemName,
-                    PartNumber = item.ManufacturerPartNumber,
-                    QtyAvailable = item.OnHand ?? 0
-                }).ToList();
+                // Step 3: Perform in-memory filtering using regex and sort by ItemName
+                dropdownList = existingInventory
+                    .Where(item =>
+                        System.Text.RegularExpressions.Regex.IsMatch(item.ItemName, @"^[a-zA-Z0-9\s]+$") &&
+                        System.Text.RegularExpressions.Regex.IsMatch(item.ManufacturerPartNumber, @"^[a-zA-Z0-9\s]+$"))
+                    .Select(item => new InventoryForDropdown
+                    {
+                        QuickBooksInvId = item.QuickBooksInvId,
+                        ItemName = item.ItemName,
+                        PartNumber = item.ManufacturerPartNumber,
+                        QtyAvailable = item.OnHand ?? 0
+                    })
+                    .OrderBy(item => item.ItemName) // Sort by ItemName alphabetically
+                    .ToList();
 
                 return dropdownList;
             }
@@ -211,6 +217,8 @@ namespace RaymarEquipmentInventory.Services
                 throw;
             }
         }
+
+
 
 
         public async Task<List<InventoryForDropdown>> GetAllInventoryItems()

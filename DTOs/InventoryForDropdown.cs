@@ -25,17 +25,14 @@
         private string CleanItemName(string rawName)
         {
             return rawName
-                .Replace("\\\"", "\"")                // Convert escaped inches \" to actual "
-                .Replace(" ,", ",")                   // Remove spaces before commas
-                .Replace("  ", " ")                   // Replace double spaces with single spaces
-                .Trim()                               // Trim leading and trailing whitespace
-                .Replace(" , ", ", ")                 // Standardize comma spacing
-                .Replace(" .", ".")                   // Remove space before periods
-                .Replace(" ,", ",")                   // Remove spaces before commas
-                .Replace(", ,", ",")                  // Handle any accidental double commas
-                .Replace(" ,", ",")                   // Fix any lingering space-comma issues
-                .Replace(", ,", ",")                  // Catch double commas, just in case
-                .Replace("\"", " in.");            // Replace inches symbol with word
+                .Replace("\\\"", " in.")               // Replace escaped inches with "in."
+                .Replace(" ,", ",")                    // Remove spaces before commas
+                .Replace("  ", " ")                    // Replace double spaces with single spaces
+                .Trim()                                // Trim leading and trailing whitespace
+                .Replace(" , ", ", ")                  // Standardize comma spacing
+                .Replace(" .", ".")                    // Remove space before periods
+                .Replace(", ,", ",")                   // Handle any accidental double commas
+                .Replace("\"", " in.");                // Replace any remaining inches symbol with word
         }
 
     }
