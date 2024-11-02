@@ -213,7 +213,7 @@ namespace RaymarEquipmentInventory.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Testing new code now.: {ex.Message}");
+                Console.WriteLine($"Testing new code now...here: {ex.Message}");
                 throw;
             }
         }
