@@ -25,15 +25,17 @@ jobs:
         run: dotnet build RaymarEquipmentInventory.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish RaymarEquipmentInventory.csproj -c Release -o "./myapp"
+        run: |
+          dotnet publish RaymarEquipmentInventory.csproj -c Release -o "./myapp"
+          cd myapp
+          zip -r ../myapp.zip .   # Create a zip file of the published app
+        shell: bash
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ./myapp
-
-
+          path: ./myapp.zip   # Upload the zip file as the artifact
 
   deploy:
     runs-on: windows-latest
@@ -42,20 +44,30 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_EE2D3F8CD53D461983D7F2E649F6909C }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C25373A2BA41446BB3EC203AE590F8AF }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_021B4E57428C45B3B20D8702858BB73D }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+
+      - name: Set SCM_DO_BUILD_DURING_DEPLOYMENT to true
+        run: |
+          az webapp config appsettings set --name 'RaymarEquipApp01' \
+            --resource-group 'RaymarEquipService' \
+            --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
+
+      - name: Restart Azure Web App (optional)
+        run: |
+          az webapp restart --name 'RaymarEquipApp01' --resource-group 'RaymarEquipService'
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -63,6 +75,8 @@ jobs:
         with:
           app-name: 'RaymarEquipApp01'
           slot-name: 'Production'
-          package: .
-          clean: true
+          package: './myapp.zip'   # Deploy the zip file
+          clean: true              # Ensure that previous files are removed
+          enable-app-offline: true # Temporarily take the app offline to avoid file locks
+
           
