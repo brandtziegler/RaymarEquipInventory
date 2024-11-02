@@ -167,22 +167,20 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<List<InventoryForDropdown>> GetDropdownInfo(string searchTerm)
         {
-            var dropdownList = new List<InventoryForDropdown>();
-
             try
             {
                 // Step 1: Basic filtering that can be translated to SQL
                 IQueryable<InventoryDatum> query = _context.InventoryData
-                    .Where(o => !o.ManufacturerPartNumber.Contains("TST")) // Exclude test items
-                    .Where(item => !string.IsNullOrWhiteSpace(item.ItemName) &&
-                                   !string.IsNullOrWhiteSpace(item.ManufacturerPartNumber));
+                    .Where(item => !string.IsNullOrWhiteSpace(item.ItemName) && // Exclude items with empty ItemName
+                                   !string.IsNullOrWhiteSpace(item.ManufacturerPartNumber) && // Exclude items with empty ManufacturerPartNumber
+                                   !item.ManufacturerPartNumber.Contains("TST")); // Exclude test items
 
                 if (!string.IsNullOrWhiteSpace(searchTerm))
                 {
                     // Split the search term into individual keywords
                     var keywords = searchTerm.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-                    // Apply keyword filter for each keyword
+                    // Apply each keyword as a separate LIKE filter
                     foreach (var keyword in keywords)
                     {
                         query = query.Where(item =>
@@ -191,32 +189,27 @@ namespace RaymarEquipmentInventory.Services
                     }
                 }
 
-                // Step 2: Execute the query to get preliminary results from the database
-                var existingInventory = await query.ToListAsync();
-
-                // Step 3: Perform in-memory filtering using regex and sort by ItemName
-                dropdownList = existingInventory
-                    .Where(item =>
-                        System.Text.RegularExpressions.Regex.IsMatch(item.ItemName, @"^[a-zA-Z0-9\s]+$") &&
-                        System.Text.RegularExpressions.Regex.IsMatch(item.ManufacturerPartNumber, @"^[a-zA-Z0-9\s]+$"))
+                // Step 2: Sort results by ItemName alphabetically and map to DTO
+                var dropdownList = await query
+                    .OrderBy(item => item.ItemName)
                     .Select(item => new InventoryForDropdown
                     {
                         QuickBooksInvId = item.QuickBooksInvId,
                         ItemName = item.ItemName,
                         PartNumber = item.ManufacturerPartNumber,
-                        QtyAvailable = item.OnHand ?? 0,
+                        QtyAvailable = item.OnHand ?? 0
                     })
-                    .OrderBy(item => item.ItemName) // Sort by ItemName alphabetically
-                    .ToList();
+                    .ToListAsync();
 
                 return dropdownList;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Testing new code now...here: {ex.Message}");
+                Console.WriteLine($"Error occurred: {ex.Message}");
                 throw;
             }
         }
+
 
 
 
