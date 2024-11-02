@@ -27,9 +27,8 @@ jobs:
       - name: dotnet publish
         run: |
           dotnet publish RaymarEquipmentInventory.csproj -c Release -o "./myapp"
-          cd myapp
-          zip -r ../myapp.zip .   # Create a zip file of the published app
-        shell: bash
+          Compress-Archive -Path "./myapp/*" -DestinationPath "./myapp.zip"   # Use PowerShell to create a ZIP file
+        shell: pwsh
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
