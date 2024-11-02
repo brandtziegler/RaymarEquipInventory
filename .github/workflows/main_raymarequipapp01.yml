@@ -60,7 +60,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C25373A2BA41446BB3EC203AE590F8AF }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_021B4E57428C45B3B20D8702858BB73D }}
           
-      # Stop the Web App to release any file locks
+     # Stop the Web App to release any file locks
       - name: Stop Azure Web App
         run: |
           az webapp stop --name 'RaymarEquipApp01' --resource-group 'RaymarEquipService'
@@ -68,10 +68,7 @@ jobs:
 
       # Set WEBSITE_RUN_FROM_PACKAGE to enable read-only deployment
       - name: Set WEBSITE_RUN_FROM_PACKAGE to 1
-        run: |
-          az webapp config appsettings set --name 'RaymarEquipApp01' \
-            --resource-group 'RaymarEquipService' \
-            --settings WEBSITE_RUN_FROM_PACKAGE=1
+        run: az webapp config appsettings set --name 'RaymarEquipApp01' --resource-group 'RaymarEquipService' --settings WEBSITE_RUN_FROM_PACKAGE=1
         shell: pwsh
 
       # Deploy to Azure Web App with clean option
