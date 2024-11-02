@@ -73,3 +73,8 @@ jobs:
           slot-name: 'Production'
           package: './myapp.zip'
           clean: true
+
+      - name: Confirm Package File Exists (Debug)
+        run: |
+          if [ -f "./myapp.zip" ]; then echo "Package found"; else echo "Package not found"; exit 1; fi
+        shell: bash
