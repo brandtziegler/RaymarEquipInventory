@@ -60,16 +60,21 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C25373A2BA41446BB3EC203AE590F8AF }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_021B4E57428C45B3B20D8702858BB73D }}
           
-      - name: Set SCM_DO_BUILD_DURING_DEPLOYMENT to true
-        run: az webapp config appsettings set --name 'RaymarEquipApp01' --resource-group 'RaymarEquipService' --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
-        shell: pwsh
-
-      # Restart Web App to clear any locked files
-      - name: Restart Azure Web App
+      # Stop the Web App to release any file locks
+      - name: Stop Azure Web App
         run: |
-          az webapp restart --name 'RaymarEquipApp01' --resource-group 'RaymarEquipService'
+          az webapp stop --name 'RaymarEquipApp01' --resource-group 'RaymarEquipService'
         shell: pwsh
 
+      # Set WEBSITE_RUN_FROM_PACKAGE to enable read-only deployment
+      - name: Set WEBSITE_RUN_FROM_PACKAGE to 1
+        run: |
+          az webapp config appsettings set --name 'RaymarEquipApp01' \
+            --resource-group 'RaymarEquipService' \
+            --settings WEBSITE_RUN_FROM_PACKAGE=1
+        shell: pwsh
+
+      # Deploy to Azure Web App with clean option
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -78,4 +83,11 @@ jobs:
           slot-name: 'Production'
           package: './myapp.zip'
           clean: true
+
+      # Start the Web App after deployment
+      - name: Start Azure Web App
+        run: |
+          az webapp start --name 'RaymarEquipApp01' --resource-group 'RaymarEquipService'
+        shell: pwsh
+
 
