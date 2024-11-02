@@ -60,9 +60,8 @@ jobs:
 
       - name: Set SCM_DO_BUILD_DURING_DEPLOYMENT to true
         run: |
-          az webapp config appsettings set --name 'RaymarEquipApp01' \
-            --resource-group 'RaymarEquipService' \
-            --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
+          az webapp config appsettings set --name 'RaymarEquipApp01' --resource-group 'RaymarEquipService' --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
+        shell: pwsh
 
       - name: Restart Azure Web App (optional)
         run: |
