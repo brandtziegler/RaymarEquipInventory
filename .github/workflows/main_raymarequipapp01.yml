@@ -73,7 +73,3 @@ jobs:
           slot-name: 'Production'
           package: './myapp.zip'
           clean: true
-          enable-app-offline: true
-
-
-          
