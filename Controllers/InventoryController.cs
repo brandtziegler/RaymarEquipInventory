@@ -101,6 +101,7 @@ namespace RaymarEquipmentInventory.Controllers
         {
             try
             {
+                //search inventory.
                 List<InventoryForDropdown> inventoryParts = await _inventoryService.GetDropdownInfo(searchTerm ?? "");
 
                 if (inventoryParts == null || inventoryParts.Count == 0)
