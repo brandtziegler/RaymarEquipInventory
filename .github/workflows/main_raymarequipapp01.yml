@@ -27,6 +27,11 @@ jobs:
           Compress-Archive -Path "./myapp/*" -DestinationPath "./myapp.zip"
         shell: pwsh
 
+      - name: Confirm Package File Exists (Debug)
+        run: |
+          if [ -f "./myapp.zip" ]; then echo "Package found"; else echo "Package not found"; exit 1; fi
+        shell: bash
+        
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -74,7 +79,3 @@ jobs:
           package: './myapp.zip'
           clean: true
 
-      - name: Confirm Package File Exists (Debug)
-        run: |
-          if [ -f "./myapp.zip" ]; then echo "Package found"; else echo "Package not found"; exit 1; fi
-        shell: bash
