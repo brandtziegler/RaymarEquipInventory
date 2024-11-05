@@ -255,45 +255,73 @@ namespace RaymarEquipmentInventory.Services
                     return false;
                 }
 
+                // Check if the inventory exists in the database
                 var inventoryExists = _context.InventoryData.Any(i => i.InventoryId == inventoryId);
-
                 if (!inventoryExists)
                 {
                     Log.Error($"Inventory ID {inventoryId} not found.");
                     return false;
                 }
 
+                // Initialize blob service and container client
                 var blobServiceClient = new BlobServiceClient(connectionString);
                 var containerClient = blobServiceClient.GetBlobContainerClient("partsreceipts");
                 await containerClient.CreateIfNotExistsAsync(PublicAccessType.None);
 
+                // Define the blob path and check if the blob already exists
                 string blobPath = $"{inventoryId}/{file.FileName}";
                 var blobClient = containerClient.GetBlobClient(blobPath);
 
+                // Upload the file, overwriting if it already exists
                 using (var stream = file.OpenReadStream())
                 {
                     await blobClient.UploadAsync(stream, overwrite: true);
                 }
 
+                // Get the blob file URL
                 var fileUrl = blobClient.Uri.ToString();
 
-                // Convert current UTC time to local time
+                // Convert current UTC time to Eastern Standard Time (local time)
                 var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
                 var localUploadDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
 
-                var docTypeId = _context.DocumentTypes.FirstOrDefault(dt => dt.DocumentTypeName == Path.GetExtension(file.FileName).TrimStart('.')).DocumentTypeId;
-                
-                var newInventoryDocument = new RaymarEquipmentInventory.Models.InventoryDocument
-                {
-                    InventoryId = inventoryId, // This is the correct field for your Inventory Document
-                    DocumentTypeId = docTypeId,
-                    FileName = file.FileName,
-                    FileUrl = fileUrl,
-                    UploadDate = localUploadDate, // Save as local time
-                    UploadedBy = uploadedBy
-                };
+                // Get Document Type ID based on file extension
+                var docTypeId = _context.DocumentTypes
+                                        .FirstOrDefault(dt => dt.DocumentTypeName == Path.GetExtension(file.FileName).TrimStart('.'))?.DocumentTypeId;
 
-                _context.InventoryDocuments.Add(newInventoryDocument);
+                // Check if an InventoryDocument entry for this inventoryId already exists
+                var existingDocument = _context.InventoryDocuments
+                                               .FirstOrDefault(doc => doc.InventoryId == inventoryId);
+
+                if (existingDocument != null)
+                {
+                    // Update the existing document entry to ensure only one image per inventory item
+                    existingDocument.DocumentTypeId = docTypeId ?? 8;
+                    existingDocument.FileName = file.FileName;
+                    existingDocument.FileUrl = fileUrl;
+                    existingDocument.UploadDate = localUploadDate;
+                    existingDocument.UploadedBy = uploadedBy;
+
+                    Log.Information($"Updated existing document entry for Inventory ID {inventoryId}.");
+                }
+                else
+                {
+                    // Create a new document entry
+                    var newInventoryDocument = new RaymarEquipmentInventory.Models.InventoryDocument
+                    {
+                        InventoryId = inventoryId,
+                        DocumentTypeId = docTypeId ?? 8,
+                        FileName = file.FileName,
+                        FileUrl = fileUrl,
+                        UploadDate = localUploadDate,
+                        UploadedBy = uploadedBy
+                    };
+
+                    _context.InventoryDocuments.Add(newInventoryDocument);
+                    Log.Information($"Added new document entry for Inventory ID {inventoryId}.");
+                }
+
+                // Save changes to the database
                 await _context.SaveChangesAsync();
 
                 return true;
@@ -304,6 +332,7 @@ namespace RaymarEquipmentInventory.Services
                 return false;
             }
         }
+
 
         public async Task<bool> UploadDoc(IFormFile file, string uploadedBy, int workOrderNumber)
         {

@@ -204,6 +204,44 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        // New method to upload an inventory document
+        [HttpPost("UploadInvDocument")]
+        public async Task<IActionResult> UploadInvDocument(IFormFile file, string uploadedBy, int inventoryId)
+        {
+            try
+            {
+                // Step 1: Validate if file and uploadedBy are present
+                if (file == null || string.IsNullOrWhiteSpace(uploadedBy))
+                {
+                    return BadRequest("File and uploader information must be provided.");
+                }
+
+                // Step 2: Get file extension and validate the document type
+                var fileExtension = Path.GetExtension(file.FileName)?.ToLower().TrimStart('.');
+                if (fileExtension == null) { return BadRequest("Invalid file extension."); }
+                var docIsValid = await _documentService.DocTypeIsValid(fileExtension);
+
+                if (!docIsValid)
+                {
+                    return BadRequest("Invalid document type.");
+                }
+
+                // Step 3: Call the UploadDoc method in your DocumentService
+                bool uploadSuccess = await _documentService.UploadPartDocument(file, uploadedBy, inventoryId); // Await here
+
+                if (!uploadSuccess)
+                {
+                    return StatusCode(500, "Error uploading the document.");
+                }
+
+                return Ok("Document uploaded successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
        
 }
