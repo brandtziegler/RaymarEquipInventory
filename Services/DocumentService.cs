@@ -268,11 +268,22 @@ namespace RaymarEquipmentInventory.Services
                 var containerClient = blobServiceClient.GetBlobContainerClient("partsreceipts");
                 await containerClient.CreateIfNotExistsAsync(PublicAccessType.None);
 
-                // Define the blob path and check if the blob already exists
-                string blobPath = $"{inventoryId}/{file.FileName}";
+                // Define the folder path based on the inventory ID
+                string folderPath = $"{inventoryId}/";
+
+                // List and delete all blobs under the specified folder
+                await foreach (var blobItem in containerClient.GetBlobsAsync(prefix: folderPath))
+                {
+                    var blobToDelete = containerClient.GetBlobClient(blobItem.Name);
+                    await blobToDelete.DeleteIfExistsAsync();
+                    Log.Information($"Deleted blob: {blobItem.Name}");
+                }
+
+                // Define the new blob path and create the blob client
+                string blobPath = $"{folderPath}{file.FileName}";
                 var blobClient = containerClient.GetBlobClient(blobPath);
 
-                // Upload the file, overwriting if it already exists
+                // Upload the file to the cleared folder path
                 using (var stream = file.OpenReadStream())
                 {
                     await blobClient.UploadAsync(stream, overwrite: true);
@@ -332,6 +343,7 @@ namespace RaymarEquipmentInventory.Services
                 return false;
             }
         }
+
 
 
         public async Task<bool> UploadDoc(IFormFile file, string uploadedBy, int workOrderNumber)
