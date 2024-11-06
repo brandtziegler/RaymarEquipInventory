@@ -213,16 +213,35 @@ namespace RaymarEquipmentInventory.Controllers
                 // Step 1: Validate if file and uploadedBy are present
                 if (file == null || string.IsNullOrWhiteSpace(uploadedBy))
                 {
+                    Console.WriteLine($"Upload failed for Inventory ID: #{inventoryId}: Missing file or uploader information.");
                     return BadRequest("File and uploader information must be provided.");
+                }
+
+                // Log the file details
+                Console.WriteLine($"Received file: {file.FileName}");
+                Console.WriteLine($"File size: {file.Length} bytes");
+                Console.WriteLine($"Content type: {file.ContentType}");
+
+                // Check if file is empty
+                if (file.Length == 0)
+                {
+                    Console.WriteLine($"Received file {file.FileName} for Inventory ID: #{inventoryId}is empty (0 bytes).");
+                    return BadRequest("Uploaded file is empty.");
                 }
 
                 // Step 2: Get file extension and validate the document type
                 var fileExtension = Path.GetExtension(file.FileName)?.ToLower().TrimStart('.');
-                if (fileExtension == null) { return BadRequest("Invalid file extension."); }
+                if (fileExtension == null)
+                {
+                    Console.WriteLine("Invalid file extension.");
+                    return BadRequest("Invalid file extension.");
+                }
+
                 var docIsValid = await _documentService.DocTypeIsValid(fileExtension);
 
                 if (!docIsValid)
                 {
+                    Console.WriteLine("Invalid document type.");
                     return BadRequest("Invalid document type.");
                 }
 
@@ -231,17 +250,21 @@ namespace RaymarEquipmentInventory.Controllers
 
                 if (!uploadSuccess)
                 {
+                    Console.WriteLine("Error in DocumentService.UploadPartDocument: Upload failed.");
                     return StatusCode(500, "Error uploading the document.");
                 }
 
+                Console.WriteLine("Document uploaded successfully.");
                 return Ok("Document uploaded successfully.");
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Internal server error: {ex.Message}");
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
+
     }
-       
+
 }
