@@ -1,0 +1,116 @@
+2025-01-30 08:18:49.379 -05:00 [INF] Start installing Hangfire SQL objects...
+2025-01-30 08:18:50.023 -05:00 [INF] Hangfire SQL objects installed.
+2025-01-30 08:18:50.115 -05:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-01-30 08:18:50.273 -05:00 [INF] Now listening on: http://localhost:5229
+2025-01-30 08:18:50.274 -05:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-01-30 08:18:50.275 -05:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-01-30 08:18:50.275 -05:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-01-30 08:18:50.276 -05:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-01-30 08:18:50.304 -05:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-01-30 08:18:50.305 -05:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-01-30 08:18:50.305 -05:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-01-30 08:18:50.315 -05:00 [DBG] Execution loop BackgroundServerProcess:50a818ec has started in 6.5043 ms
+2025-01-30 08:18:50.364 -05:00 [DBG] Connection id "0HNA162HDULPO" received FIN.
+2025-01-30 08:18:50.364 -05:00 [DBG] Connection id "0HNA162HDULPN" received FIN.
+2025-01-30 08:18:50.371 -05:00 [DBG] Connection id "0HNA162HDULPO" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-01-30 08:18:50.371 -05:00 [DBG] Connection id "0HNA162HDULPN" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-01-30 08:18:50.451 -05:00 [INF] Server dev-workstation:24524:cfce9615 successfully announced in 128.0913 ms
+2025-01-30 08:18:50.459 -05:00 [INF] Server dev-workstation:24524:cfce9615 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-01-30 08:18:50.459 -05:00 [DBG] Execution loop ServerHeartbeatProcess:956aa1bf has started in 6.1947 ms
+2025-01-30 08:18:50.465 -05:00 [DBG] Execution loop ServerWatchdog:ad70f828 has started in 4.9985 ms
+2025-01-30 08:18:50.469 -05:00 [DBG] Execution loop ServerJobCancellationWatcher:cded985a has started in 8.3083 ms
+2025-01-30 08:18:50.473 -05:00 [DBG] Execution loop ExpirationManager:7f42b300 has started in 6.18 ms
+2025-01-30 08:18:50.478 -05:00 [DBG] Execution loop CountersAggregator:71171199 has started in 8.1685 ms
+2025-01-30 08:18:50.480 -05:00 [DBG] Execution loop SqlServerHeartbeatProcess:1c7c34b7 has started in 7.4241 ms
+2025-01-30 08:18:50.486 -05:00 [DBG] Execution loop Worker:1ba41469 has started in 11.255 ms
+2025-01-30 08:18:50.486 -05:00 [DBG] Aggregating records in 'Counter' table...
+2025-01-30 08:18:50.490 -05:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-01-30 08:18:50.488 -05:00 [DBG] Execution loop Worker:c3a9dc1f has started in 14.8373 ms
+2025-01-30 08:18:50.493 -05:00 [DBG] Execution loop Worker:e8509dac has started in 19.2285 ms
+2025-01-30 08:18:50.498 -05:00 [DBG] Execution loop Worker:fad3fede has started in 25.0828 ms
+2025-01-30 08:18:50.502 -05:00 [DBG] Execution loop Worker:13b4fdcd has started in 29.1066 ms
+2025-01-30 08:18:50.505 -05:00 [DBG] Execution loop Worker:f757a0c2 has started in 31.5592 ms
+2025-01-30 08:18:50.509 -05:00 [DBG] Execution loop Worker:334dc6d3 has started in 35.9101 ms
+2025-01-30 08:18:50.515 -05:00 [DBG] Execution loop Worker:4c923d0a has started in 41.1721 ms
+2025-01-30 08:18:50.517 -05:00 [DBG] Execution loop Worker:89d293a9 has started in 43.6502 ms
+2025-01-30 08:18:50.521 -05:00 [DBG] Execution loop Worker:cacdb696 has started in 47.821 ms
+2025-01-30 08:18:50.529 -05:00 [DBG] Execution loop Worker:622d60f0 has started in 55.5358 ms
+2025-01-30 08:18:50.533 -05:00 [DBG] Execution loop Worker:e08f88d9 has started in 59.8164 ms
+2025-01-30 08:18:50.541 -05:00 [DBG] Execution loop Worker:883f2228 has started in 66.8022 ms
+2025-01-30 08:18:50.541 -05:00 [DBG] Execution loop Worker:f75c50c4 has started in 66.8231 ms
+2025-01-30 08:18:50.543 -05:00 [DBG] Execution loop Worker:e3180437 has started in 69.8806 ms
+2025-01-30 08:18:50.548 -05:00 [DBG] Execution loop Worker:f470e69b has started in 74.0562 ms
+2025-01-30 08:18:50.551 -05:00 [DBG] Execution loop Worker:d75ee9b2 has started in 77.958 ms
+2025-01-30 08:18:50.556 -05:00 [DBG] Execution loop Worker:b950f497 has started in 82.2185 ms
+2025-01-30 08:18:50.570 -05:00 [INF] Server dev-workstation:24524:cfce9615 all the dispatchers started
+2025-01-30 08:18:50.560 -05:00 [DBG] Execution loop Worker:90347ee1 has started in 86.5338 ms
+2025-01-30 08:18:50.564 -05:00 [DBG] Execution loop Worker:6b65e726 has started in 90.773 ms
+2025-01-30 08:18:50.570 -05:00 [DBG] Execution loop DelayedJobScheduler:b5132780 has started in 10.1531 ms
+2025-01-30 08:18:50.574 -05:00 [DBG] Execution loop RecurringJobScheduler:6ea5a756 has started in 10.1738 ms
+2025-01-30 08:18:50.652 -05:00 [DBG] Removing outdated records from the 'Job' table...
+2025-01-30 08:18:50.982 -05:00 [DBG] Removing outdated records from the 'List' table...
+2025-01-30 08:18:51.101 -05:00 [DBG] Removing outdated records from the 'Set' table...
+2025-01-30 08:18:51.170 -05:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-01-30 08:18:53.785 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2025-01-30 08:18:53.893 -05:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-01-30 08:18:53.906 -05:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-01-30 08:18:53.908 -05:00 [DBG] Request did not match any endpoints
+2025-01-30 08:18:53.940 -05:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-01-30 08:18:53.943 -05:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-01-30 08:18:53.958 -05:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-01-30 08:18:53.960 -05:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-01-30 08:18:53.962 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 179.7847ms
+2025-01-30 08:18:53.985 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2025-01-30 08:18:53.987 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2025-01-30 08:18:53.993 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 7.5273ms
+2025-01-30 08:18:54.110 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 123.3938ms
+2025-01-30 08:18:54.131 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2025-01-30 08:18:54.134 -05:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-01-30 08:18:54.135 -05:00 [DBG] Request did not match any endpoints
+2025-01-30 08:18:54.195 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 63.4357ms
+2025-01-30 08:18:56.798 -05:00 [DBG] Connection id "0HNA162HDULPP" received FIN.
+2025-01-30 08:18:56.798 -05:00 [DBG] Connection id "0HNA162HDULPQ" received FIN.
+2025-01-30 08:18:56.799 -05:00 [DBG] Connection id "0HNA162HDULPP" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-01-30 08:18:56.800 -05:00 [DBG] Connection id "0HNA162HDULPQ" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-01-30 08:19:20.524 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:19:50.566 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:20:20.613 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:20:50.660 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:21:20.691 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:21:50.730 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:22:20.777 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:22:50.813 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:23:20.853 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:23:50.701 -05:00 [DBG] Aggregating records in 'Counter' table...
+2025-01-30 08:23:50.896 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:24:20.939 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:24:50.982 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:25:21.023 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:25:51.058 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:26:21.124 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:26:51.163 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:27:21.203 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:27:51.237 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:28:21.282 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:28:50.733 -05:00 [DBG] Aggregating records in 'Counter' table...
+2025-01-30 08:28:51.318 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:29:21.351 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:29:51.401 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:30:21.442 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:30:51.478 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:31:21.518 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:31:51.549 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:32:21.581 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:32:51.617 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:33:21.638 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:33:50.789 -05:00 [DBG] Aggregating records in 'Counter' table...
+2025-01-30 08:33:51.685 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:34:21.732 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:34:51.774 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:35:21.826 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:35:51.873 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent
+2025-01-30 08:36:21.917 -05:00 [DBG] Server dev-workstation:24524:cfce9615 heartbeat successfully sent

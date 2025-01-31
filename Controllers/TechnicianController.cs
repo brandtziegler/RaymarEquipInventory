@@ -43,7 +43,7 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        [HttpGet("GetAllTechnicians")]
+        [HttpGet("GetAllTechnicians")]  
         public async Task<IActionResult> GetAllTechnicians()
         {
             try
