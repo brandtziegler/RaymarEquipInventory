@@ -1,0 +1,91 @@
+2025-02-04 08:59:24.992 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-02-04 08:59:25.019 -05:00 [INF] Hosting environment: Development
+2025-02-04 08:59:25.020 -05:00 [INF] Content root path: D:\2024DevWork\APIProjects\RaymarEquipInventory
+2025-02-04 13:35:12.487 -05:00 [INF] Start installing Hangfire SQL objects...
+2025-02-04 13:35:13.355 -05:00 [INF] Hangfire SQL objects installed.
+2025-02-04 13:35:13.448 -05:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-02-04 13:35:13.783 -05:00 [INF] Now listening on: http://localhost:5229
+2025-02-04 13:35:13.783 -05:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-02-04 13:35:13.784 -05:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-02-04 13:35:13.784 -05:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-02-04 13:35:13.785 -05:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-02-04 13:35:13.816 -05:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-02-04 13:35:13.817 -05:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-02-04 13:35:13.818 -05:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-02-04 13:35:13.820 -05:00 [DBG] Connection id "0HNA59AKVJAVT" received FIN.
+2025-02-04 13:35:13.821 -05:00 [DBG] Connection id "0HNA59AKVJAVU" reset.
+2025-02-04 13:35:13.825 -05:00 [DBG] Execution loop BackgroundServerProcess:122ab9bc has started in 4.3353 ms
+2025-02-04 13:35:13.831 -05:00 [DBG] Connection id "0HNA59AKVJAVU" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-02-04 13:35:13.831 -05:00 [DBG] Connection id "0HNA59AKVJAVT" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-02-04 13:35:13.998 -05:00 [INF] Server dev-workstation:26944:0b027209 successfully announced in 164.0455 ms
+2025-02-04 13:35:14.005 -05:00 [INF] Server dev-workstation:26944:0b027209 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-02-04 13:35:14.005 -05:00 [DBG] Execution loop ServerHeartbeatProcess:6c929143 has started in 3.9955 ms
+2025-02-04 13:35:14.009 -05:00 [DBG] Execution loop ServerWatchdog:459351ac has started in 3.0708 ms
+2025-02-04 13:35:14.012 -05:00 [DBG] Execution loop ServerJobCancellationWatcher:1a2a329c has started in 5.7653 ms
+2025-02-04 13:35:14.017 -05:00 [DBG] Execution loop ExpirationManager:0a78b019 has started in 6.62 ms
+2025-02-04 13:35:14.019 -05:00 [DBG] Execution loop CountersAggregator:fe13d3b6 has started in 6.573 ms
+2025-02-04 13:35:14.022 -05:00 [DBG] Execution loop SqlServerHeartbeatProcess:676cec83 has started in 5.1491 ms
+2025-02-04 13:35:14.035 -05:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-02-04 13:35:14.035 -05:00 [DBG] Aggregating records in 'Counter' table...
+2025-02-04 13:35:14.025 -05:00 [DBG] Execution loop Worker:cf5e2fa5 has started in 5.9304 ms
+2025-02-04 13:35:14.030 -05:00 [DBG] Execution loop Worker:b0104917 has started in 10.7858 ms
+2025-02-04 13:35:14.035 -05:00 [DBG] Execution loop Worker:c650ee76 has started in 15.1111 ms
+2025-02-04 13:35:14.038 -05:00 [DBG] Execution loop Worker:0efa1b08 has started in 18.362 ms
+2025-02-04 13:35:14.040 -05:00 [DBG] Execution loop Worker:2293cac1 has started in 21.0587 ms
+2025-02-04 13:35:14.045 -05:00 [DBG] Execution loop Worker:fe5750e5 has started in 25.934 ms
+2025-02-04 13:35:14.049 -05:00 [DBG] Execution loop Worker:b30547b7 has started in 28.8193 ms
+2025-02-04 13:35:14.053 -05:00 [DBG] Execution loop Worker:90d90cfc has started in 33.4418 ms
+2025-02-04 13:35:14.055 -05:00 [DBG] Execution loop Worker:e0dcfb19 has started in 35.648 ms
+2025-02-04 13:35:14.058 -05:00 [DBG] Execution loop Worker:f8259948 has started in 38.6908 ms
+2025-02-04 13:35:14.062 -05:00 [DBG] Execution loop Worker:5d4cd007 has started in 42.4514 ms
+2025-02-04 13:35:14.065 -05:00 [DBG] Execution loop Worker:126f0111 has started in 46.0069 ms
+2025-02-04 13:35:14.098 -05:00 [INF] Server dev-workstation:26944:0b027209 all the dispatchers started
+2025-02-04 13:35:14.070 -05:00 [DBG] Execution loop Worker:82979ac5 has started in 50.5468 ms
+2025-02-04 13:35:14.075 -05:00 [DBG] Execution loop Worker:f0c06510 has started in 54.3102 ms
+2025-02-04 13:35:14.080 -05:00 [DBG] Execution loop Worker:fd8e0576 has started in 61.1074 ms
+2025-02-04 13:35:14.078 -05:00 [DBG] Execution loop Worker:b54d0c26 has started in 58.3748 ms
+2025-02-04 13:35:14.083 -05:00 [DBG] Execution loop Worker:7961dd78 has started in 63.8642 ms
+2025-02-04 13:35:14.087 -05:00 [DBG] Execution loop Worker:1d557572 has started in 68.0301 ms
+2025-02-04 13:35:14.091 -05:00 [DBG] Execution loop Worker:90a4b452 has started in 71.886 ms
+2025-02-04 13:35:14.095 -05:00 [DBG] Execution loop Worker:b951bbd2 has started in 75.4304 ms
+2025-02-04 13:35:14.098 -05:00 [DBG] Execution loop DelayedJobScheduler:e1249a23 has started in 7.2113 ms
+2025-02-04 13:35:14.103 -05:00 [DBG] Execution loop RecurringJobScheduler:867a639b has started in 8.2257 ms
+2025-02-04 13:35:14.126 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/index.html - null null
+2025-02-04 13:35:14.207 -05:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-02-04 13:35:14.223 -05:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-02-04 13:35:14.224 -05:00 [DBG] Request did not match any endpoints
+2025-02-04 13:35:14.256 -05:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-02-04 13:35:14.257 -05:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-02-04 13:35:14.272 -05:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-02-04 13:35:14.273 -05:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-02-04 13:35:14.275 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/index.html - 200 null text/html;charset=utf-8 152.3262ms
+2025-02-04 13:35:14.288 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - null null
+2025-02-04 13:35:14.290 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/_vs/browserLink - null null
+2025-02-04 13:35:14.292 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.5065ms
+2025-02-04 13:35:14.317 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/_vs/browserLink - 200 null text/javascript; charset=UTF-8 27.5813ms
+2025-02-04 13:35:14.342 -05:00 [DBG] Removing outdated records from the 'Job' table...
+2025-02-04 13:35:14.344 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/favicon-16x16.png - null null
+2025-02-04 13:35:14.345 -05:00 [DBG] Connection id "0HNA59AKVJB00" received FIN.
+2025-02-04 13:35:14.346 -05:00 [DBG] No candidates found for the request path '/swagger/favicon-16x16.png'
+2025-02-04 13:35:14.347 -05:00 [DBG] Connection id "0HNA59AKVJB00" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-02-04 13:35:14.348 -05:00 [DBG] Request did not match any endpoints
+2025-02-04 13:35:14.374 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - null null
+2025-02-04 13:35:14.407 -05:00 [DBG] The file transmission was cancelled
+System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at Microsoft.AspNetCore.Http.SendFileResponseExtensions.SendFileAsyncCore(HttpResponse response, IFileInfo file, Int64 offset, Nullable`1 count, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.SendFileResponseExtensions.SendFileAsyncCore(HttpResponse response, IFileInfo file, Int64 offset, Nullable`1 count, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileContext.SendAsync()
+2025-02-04 13:35:14.408 -05:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-02-04 13:35:14.412 -05:00 [INF] Sending file. Request path: '/favicon-16x16.png'. Physical path: 'N/A'
+2025-02-04 13:35:14.413 -05:00 [DBG] Request did not match any endpoints
+2025-02-04 13:35:14.414 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/favicon-16x16.png - 499 665 image/png 69.9336ms
+2025-02-04 13:35:14.438 -05:00 [DBG] Removing outdated records from the 'List' table...
+2025-02-04 13:35:14.460 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5229/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 86.3515ms
+2025-02-04 13:35:14.562 -05:00 [DBG] Removing outdated records from the 'Set' table...
+2025-02-04 13:35:14.637 -05:00 [DBG] Removing outdated records from the 'Hash' table...

@@ -57,9 +57,17 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VehicleWorkOrder> VehicleWorkOrders { get; set; }
 
+    public virtual DbSet<VwWorkOrdBriefDetail> VwWorkOrdBriefDetails { get; set; }
+
+    public virtual DbSet<VwWorkOrderTechnician> VwWorkOrderTechnicians { get; set; }
+
     public virtual DbSet<WorkOrderCounter> WorkOrderCounters { get; set; }
 
     public virtual DbSet<WorkOrderSheet> WorkOrderSheets { get; set; }
+
+    public virtual DbSet<WorkOrderStatus> WorkOrderStatuses { get; set; }
+
+    public virtual DbSet<WorkOrderType> WorkOrderTypes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -100,7 +108,9 @@ public partial class RaymarInventoryDBContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId);
+            entity.HasKey(e => e.CustomerId).HasName("PK_Customers");
+
+            entity.ToTable("Customer");
 
             entity.HasIndex(e => e.Id, "UQ_Customers_ID").IsUnique();
 
@@ -595,6 +605,52 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasConstraintName("FK_VehicleWorkOrder_VehicleID");
         });
 
+        modelBuilder.Entity<VwWorkOrdBriefDetail>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_WorkOrdBriefDetails");
+
+            entity.Property(e => e.CustomerName).HasMaxLength(255);
+            entity.Property(e => e.DateTimeCompleted).HasColumnType("datetime");
+            entity.Property(e => e.DateTimeCreated).HasColumnType("datetime");
+            entity.Property(e => e.DateTimeStarted).HasColumnType("datetime");
+            entity.Property(e => e.FullAddress).IsUnicode(false);
+            entity.Property(e => e.Pono)
+                .HasMaxLength(15)
+                .IsUnicode(false)
+                .HasColumnName("PONo");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.VehicleName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.WorkLocation)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.WorkOrderStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.WorkOrderType)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VwWorkOrderTechnician>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_WorkOrderTechnicians");
+
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+        });
+
         modelBuilder.Entity<WorkOrderCounter>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__WorkOrde__3214EC0781D9C1CC");
@@ -620,9 +676,75 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.DateTimeStarted)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.StatusId).HasColumnName("StatusID");
+            entity.Property(e => e.TypeId).HasColumnName("TypeID");
             entity.Property(e => e.WorkOrdStatus)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.Status).WithMany(p => p.WorkOrderSheets)
+                .HasForeignKey(d => d.StatusId)
+                .HasConstraintName("FK_WorkOrderSheet_Status");
+
+            entity.HasOne(d => d.Type).WithMany(p => p.WorkOrderSheets)
+                .HasForeignKey(d => d.TypeId)
+                .HasConstraintName("FK_WorkOrdType");
+        });
+
+        modelBuilder.Entity<WorkOrderStatus>(entity =>
+        {
+            entity.HasKey(e => e.StatusId).HasName("PK__WorkOrde__C8EE20432C030B1A");
+
+            entity.ToTable("WorkOrderStatus");
+
+            entity.Property(e => e.StatusId).HasColumnName("StatusID");
+            entity.Property(e => e.DateTimeCreated)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.StatusName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.WorkOrdTypeId).HasColumnName("WorkOrdTypeID");
+
+            entity.HasOne(d => d.WorkOrdType).WithMany(p => p.WorkOrderStatuses)
+                .HasForeignKey(d => d.WorkOrdTypeId)
+                .HasConstraintName("FK_WorkOrderStatus_WorkOrderType");
+        });
+
+        modelBuilder.Entity<WorkOrderType>(entity =>
+        {
+            entity.HasKey(e => e.TypeId).HasName("PK__WorkOrde__516F0395B4AD1E39");
+
+            entity.ToTable("WorkOrderType");
+
+            entity.Property(e => e.TypeId).HasColumnName("TypeID");
+            entity.Property(e => e.DateTimeCreated)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.TypeName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasMany(d => d.Statuses).WithMany(p => p.WorkOrdTypes)
+                .UsingEntity<Dictionary<string, object>>(
+                    "WorkOrderTypeStatus",
+                    r => r.HasOne<WorkOrderStatus>().WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_WorkOrderStatus"),
+                    l => l.HasOne<WorkOrderType>().WithMany()
+                        .HasForeignKey("WorkOrdTypeId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_WorkOrderType"),
+                    j =>
+                    {
+                        j.HasKey("WorkOrdTypeId", "StatusId");
+                        j.ToTable("WorkOrderType_Status");
+                        j.IndexerProperty<int>("WorkOrdTypeId").HasColumnName("WorkOrdTypeID");
+                        j.IndexerProperty<int>("StatusId").HasColumnName("StatusID");
+                    });
         });
 
         OnModelCreatingPartial(modelBuilder);

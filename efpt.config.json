@@ -2,7 +2,6 @@
    "CodeGenerationMode": 3,
    "ContextClassName": "RaymarInventoryDBContext",
    "ContextNamespace": null,
-   "DefaultDacpacSchema": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
    "ModelNamespace": null,
@@ -20,7 +19,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Customers]",
+         "Name": "[dbo].[Customer]",
          "ObjectType": 0
       },
       {
@@ -110,10 +109,31 @@
       {
          "Name": "[dbo].[WorkOrderSheet]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[WorkOrderStatus]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[WorkOrderType]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[WorkOrderType_Status]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[vw_WorkOrdBriefDetails]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_WorkOrderTechnicians]",
+         "ObjectType": 3
       }
    ],
-   "UiHint": "greatfurnituresql.RaymarInventoryDB.dbo",
+   "UiHint": null,
    "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
    "UseDateOnlyTimeOnly": false,

@@ -10,15 +10,17 @@ namespace RaymarEquipmentInventory.Controllers
     public class WorkOrdController : Controller
     {
         private readonly IWorkOrderService _workOrderService;
-
+        private readonly ITechnicianService _technicianService;
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly ISamsaraApiService _samsaraApiService;
 
-        public WorkOrdController(IWorkOrderService workOrderService, IQuickBooksConnectionService quickBooksConnectionService, ISamsaraApiService samsaraApiService)
+        public WorkOrdController(IWorkOrderService workOrderService, 
+            IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, ISamsaraApiService samsaraApiService)
         {
             _workOrderService = workOrderService;
             _quickBooksConnectionService = quickBooksConnectionService;
             _samsaraApiService = samsaraApiService;
+            _technicianService = technicianService;
         }
 
 
@@ -63,6 +65,34 @@ namespace RaymarEquipmentInventory.Controllers
             {
                 Log.Error($"Error retrieving work order Sheet ID {sheetID}:  {ex.Message}");
                 return StatusCode(500, "An error occurred while launching the work order.");
+            }
+        }
+
+        [HttpGet("GetWorkOrderBriefDetails")]
+        public async Task<IActionResult> GetWorkOrderBriefDetails()
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _workOrderService.GetWorkOrderBriefDetails();
+
+                foreach (var item in result)
+                {
+                    item.Techs = await _technicianService.GetTechsByWorkOrder(item.SheetID);
+
+                }
+
+                if (result == null)
+                {
+                    return BadRequest($"Unable to retrieve work orders.");
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error retrieving work orders:  {ex.Message}");
+                return StatusCode(500, "An error occurred while launching the work orders.");
             }
         }
 

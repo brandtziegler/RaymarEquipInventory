@@ -23,7 +23,8 @@ namespace RaymarEquipmentInventory.Services
         Task<bool> AddLbrToWorkOrder(LabourLine labourDTO);
         Task<bool> RemoveLbrFromWorkOrder(int labourID);
 
-        Task<DTOs.WorkOrder> GetWorkOrder(int sheetID); 
+        Task<DTOs.WorkOrder> GetWorkOrder(int sheetID);
+        Task<List<DTOs.WorkOrderBriefDetails>> GetWorkOrderBriefDetails();
         //Task<List<Tech>> GetAllParts();
 
     }

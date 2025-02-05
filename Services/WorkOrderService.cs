@@ -414,8 +414,33 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task<List<DTOs.WorkOrderBriefDetails>> GetWorkOrderBriefDetails()
+        {
 
-        public async Task<bool> RemovePartFromWorkOrder(int partUsedId, int sheetId)
+                var woBriefDetails = await _context.VwWorkOrdBriefDetails.ToListAsync();
+                var woBriefDetailDTOs = woBriefDetails.Select(briefdetail => new WorkOrderBriefDetails
+                {
+                    SheetID = briefdetail.SheetId,
+                    WorkOrderNumber = briefdetail.WorkOrderNumber,
+                    DateTimeCompleted = briefdetail.DateTimeCompleted,
+                    DateTimeCreated = briefdetail.DateTimeCreated,
+                    DateTimeStarted = briefdetail.DateTimeStarted,
+                    WorkLocation = briefdetail.WorkLocation,
+                    WorkOrderStatus = briefdetail.WorkOrderStatus,
+                    WorkOrderType = briefdetail.WorkOrderType,
+                    PONo = briefdetail.Pono,
+                    CustomerName = briefdetail.CustomerName,
+                    FullAddress = briefdetail.FullAddress,
+                    VehicleName = briefdetail.VehicleName,
+                }).ToList();
+
+
+                return woBriefDetailDTOs;
+  
+           
+        }
+
+                public async Task<bool> RemovePartFromWorkOrder(int partUsedId, int sheetId)
         {
             try
             {
