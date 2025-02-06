@@ -59,6 +59,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VwWorkOrdBriefDetail> VwWorkOrdBriefDetails { get; set; }
 
+    public virtual DbSet<VwWorkOrderStatusWithType> VwWorkOrderStatusWithTypes { get; set; }
+
     public virtual DbSet<VwWorkOrderTechnician> VwWorkOrderTechnicians { get; set; }
 
     public virtual DbSet<WorkOrderCounter> WorkOrderCounters { get; set; }
@@ -616,11 +618,18 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.DateTimeCreated).HasColumnType("datetime");
             entity.Property(e => e.DateTimeStarted).HasColumnType("datetime");
             entity.Property(e => e.FullAddress).IsUnicode(false);
+            entity.Property(e => e.HexColor).HasMaxLength(7);
+            entity.Property(e => e.IconName).HasMaxLength(50);
+            entity.Property(e => e.ParentName).HasMaxLength(255);
             entity.Property(e => e.Pono)
                 .HasMaxLength(15)
                 .IsUnicode(false)
                 .HasColumnName("PONo");
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.StatusId).HasColumnName("StatusID");
+            entity.Property(e => e.TypeHexColor).HasMaxLength(7);
+            entity.Property(e => e.TypeIconName).HasMaxLength(50);
+            entity.Property(e => e.TypeId).HasColumnName("TypeID");
             entity.Property(e => e.VehicleName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -631,6 +640,25 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.WorkOrderType)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VwWorkOrderStatusWithType>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_WorkOrderStatusWithType");
+
+            entity.Property(e => e.HexColor).HasMaxLength(7);
+            entity.Property(e => e.IconName).HasMaxLength(50);
+            entity.Property(e => e.StatusId).HasColumnName("StatusID");
+            entity.Property(e => e.StatusName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TypeId).HasColumnName("TypeID");
+            entity.Property(e => e.TypeName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });
@@ -701,6 +729,14 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.DateTimeCreated)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.HexColor)
+                .IsRequired()
+                .HasMaxLength(7)
+                .HasDefaultValueSql("('#000000')");
+            entity.Property(e => e.IconName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasDefaultValueSql("('info')");
             entity.Property(e => e.StatusName)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -722,6 +758,14 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.DateTimeCreated)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.HexColor)
+                .IsRequired()
+                .HasMaxLength(7)
+                .HasDefaultValueSql("('#000000')");
+            entity.Property(e => e.IconName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasDefaultValueSql("('info')");
             entity.Property(e => e.TypeName)
                 .IsRequired()
                 .HasMaxLength(50)

@@ -13,6 +13,10 @@ public partial class WorkOrderType
 
     public string TypeName { get; set; }
 
+    public string IconName { get; set; }
+
+    public string HexColor { get; set; }
+
     public virtual ICollection<WorkOrderSheet> WorkOrderSheets { get; set; } = new List<WorkOrderSheet>();
 
     public virtual ICollection<WorkOrderStatus> WorkOrderStatuses { get; set; } = new List<WorkOrderStatus>();

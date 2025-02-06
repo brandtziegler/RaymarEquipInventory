@@ -17,15 +17,29 @@ public partial class VwWorkOrdBriefDetail
 
     public DateTime? DateTimeStarted { get; set; }
 
+    public int? StatusId { get; set; }
+
     public string WorkOrderStatus { get; set; }
 
+    public int? TypeId { get; set; }
+
+    public string TypeIconName { get; set; }
+
+    public string TypeHexColor { get; set; }
+
     public string WorkOrderType { get; set; }
+
+    public string IconName { get; set; }
+
+    public string HexColor { get; set; }
 
     public string Pono { get; set; }
 
     public string WorkLocation { get; set; }
 
     public string CustomerName { get; set; }
+
+    public string ParentName { get; set; }
 
     public string FullAddress { get; set; }
 

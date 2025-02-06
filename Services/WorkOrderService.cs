@@ -430,6 +430,11 @@ namespace RaymarEquipmentInventory.Services
                     WorkOrderType = briefdetail.WorkOrderType,
                     PONo = briefdetail.Pono,
                     CustomerName = briefdetail.CustomerName,
+                    IconName = briefdetail.IconName,
+                    HexColor = briefdetail.HexColor,
+                    TypeHexColor = briefdetail.TypeHexColor, 
+                    TypeIconName = briefdetail.TypeIconName,
+                    ParentName = briefdetail.ParentName,
                     FullAddress = briefdetail.FullAddress,
                     VehicleName = briefdetail.VehicleName,
                 }).ToList();
