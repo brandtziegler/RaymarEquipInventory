@@ -17,6 +17,16 @@ public partial class PartsUsed
 
     public int? InventoryId { get; set; }
 
+    public string PartNumber { get; set; }
+
+    public string Description { get; set; }
+
+    public DateTime? UploadDate { get; set; }
+
+    public string UploadedBy { get; set; }
+
+    public bool? Deleted { get; set; }
+
     public virtual InventoryDatum Inventory { get; set; }
 
     public virtual ICollection<PartsDocument> PartsDocuments { get; set; } = new List<PartsDocument>();

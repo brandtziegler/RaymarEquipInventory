@@ -25,6 +25,8 @@ public partial class BillingInformation
 
     public string WorkLocation { get; set; }
 
+    public string JobSiteCity { get; set; }
+
     public virtual Person BillingPerson { get; set; }
 
     public virtual Customer Customer { get; set; }

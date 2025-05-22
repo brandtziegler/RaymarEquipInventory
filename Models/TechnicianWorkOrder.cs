@@ -18,4 +18,6 @@ public partial class TechnicianWorkOrder
     public virtual WorkOrderSheet Sheet { get; set; }
 
     public virtual Technician Technician { get; set; }
+
+    public virtual ICollection<WorkOrderFee> WorkOrderFees { get; set; } = new List<WorkOrderFee>();
 }

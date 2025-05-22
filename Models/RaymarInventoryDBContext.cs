@@ -21,6 +21,10 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<DocumentType> DocumentTypes { get; set; }
 
+    public virtual DbSet<FlatLabour> FlatLabours { get; set; }
+
+    public virtual DbSet<HourlyLabourType> HourlyLabourTypes { get; set; }
+
     public virtual DbSet<IncomeAccount> IncomeAccounts { get; set; }
 
     public virtual DbSet<InventoryDatum> InventoryData { get; set; }
@@ -28,6 +32,8 @@ public partial class RaymarInventoryDBContext : DbContext
     public virtual DbSet<InventoryDocument> InventoryDocuments { get; set; }
 
     public virtual DbSet<Labour> Labours { get; set; }
+
+    public virtual DbSet<LabourType> LabourTypes { get; set; }
 
     public virtual DbSet<MileageAndTime> MileageAndTimes { get; set; }
 
@@ -38,6 +44,8 @@ public partial class RaymarInventoryDBContext : DbContext
     public virtual DbSet<Person> People { get; set; }
 
     public virtual DbSet<PlaceholderDocument> PlaceholderDocuments { get; set; }
+
+    public virtual DbSet<RegularLabour> RegularLabours { get; set; }
 
     public virtual DbSet<ServiceDescription> ServiceDescriptions { get; set; }
 
@@ -57,6 +65,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VehicleWorkOrder> VehicleWorkOrders { get; set; }
 
+    public virtual DbSet<VwPartsUsedWithInventory> VwPartsUsedWithInventories { get; set; }
+
     public virtual DbSet<VwWorkOrdBriefDetail> VwWorkOrdBriefDetails { get; set; }
 
     public virtual DbSet<VwWorkOrderStatusWithType> VwWorkOrderStatusWithTypes { get; set; }
@@ -65,9 +75,13 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<WorkOrderCounter> WorkOrderCounters { get; set; }
 
+    public virtual DbSet<WorkOrderFee> WorkOrderFees { get; set; }
+
     public virtual DbSet<WorkOrderSheet> WorkOrderSheets { get; set; }
 
     public virtual DbSet<WorkOrderStatus> WorkOrderStatuses { get; set; }
+
+    public virtual DbSet<WorkOrderStatusSetup> WorkOrderStatusSetups { get; set; }
 
     public virtual DbSet<WorkOrderType> WorkOrderTypes { get; set; }
 
@@ -82,6 +96,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.BillingId).HasColumnName("BillingID");
             entity.Property(e => e.BillingPersonId).HasColumnName("BillingPersonID");
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+            entity.Property(e => e.JobSiteCity).HasMaxLength(100);
             entity.Property(e => e.Pono)
                 .HasMaxLength(15)
                 .IsUnicode(false)
@@ -197,6 +212,45 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<FlatLabour>(entity =>
+        {
+            entity.HasKey(e => e.FlatLabourId).HasName("PK__FlatLabo__AEB1952A50FC06F6");
+
+            entity.ToTable("FlatLabour");
+
+            entity.Property(e => e.FlatLabourId).HasColumnName("FlatLabourID");
+            entity.Property(e => e.FeeAndExpense)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.LabourDescription)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.LabourName)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.LabourTypeId).HasColumnName("LabourTypeID");
+
+            entity.HasOne(d => d.LabourType).WithMany(p => p.FlatLabours)
+                .HasForeignKey(d => d.LabourTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__FlatLabou__Labou__7DCDAAA2");
+        });
+
+        modelBuilder.Entity<HourlyLabourType>(entity =>
+        {
+            entity.HasKey(e => e.LabourTypeId).HasName("PK__HourlyLa__57BD0EB26FFD85FC");
+
+            entity.ToTable("HourlyLabourType");
+
+            entity.Property(e => e.LabourTypeId).HasColumnName("LabourTypeID");
+            entity.Property(e => e.LabourTypeDescription)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<IncomeAccount>(entity =>
         {
             entity.HasKey(e => e.IncomeAccountId).HasName("PK__IncomeAc__B36A206EFC75E628");
@@ -303,6 +357,19 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasConstraintName("FK_Labour_TechnicianWorkOrder");
         });
 
+        modelBuilder.Entity<LabourType>(entity =>
+        {
+            entity.HasKey(e => e.LabourTypeId).HasName("PK__LabourTy__57BD0EB2BB52924E");
+
+            entity.ToTable("LabourType");
+
+            entity.Property(e => e.LabourTypeId).HasColumnName("LabourTypeID");
+            entity.Property(e => e.LabourTypeDescription)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<MileageAndTime>(entity =>
         {
             entity.HasKey(e => e.MilageTimeId).HasName("PK__MileageA__A0D5FCDE569629AC");
@@ -314,6 +381,8 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.FinishTravel).HasColumnType("datetime");
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
             entity.Property(e => e.StartTravel).HasColumnType("datetime");
+            entity.Property(e => e.TotalOthours).HasColumnName("TotalOTHours");
+            entity.Property(e => e.TotalOtminutes).HasColumnName("TotalOTMinutes");
 
             entity.HasOne(d => d.Sheet).WithMany(p => p.MileageAndTimes)
                 .HasForeignKey(d => d.SheetId)
@@ -347,9 +416,20 @@ public partial class RaymarInventoryDBContext : DbContext
 
             entity.ToTable("PartsUsed");
 
+            entity.Property(e => e.Deleted).HasDefaultValueSql("((0))");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
             entity.Property(e => e.Notes).IsUnicode(false);
+            entity.Property(e => e.PartNumber)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.UploadDate).HasColumnType("datetime");
+            entity.Property(e => e.UploadedBy)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Inventory).WithMany(p => p.PartsUseds)
                 .HasForeignKey(d => d.InventoryId)
@@ -410,6 +490,27 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.DocumentTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PlaceholderDocuments_DocumentTypes");
+        });
+
+        modelBuilder.Entity<RegularLabour>(entity =>
+        {
+            entity.HasKey(e => e.LabourId).HasName("PK__RegularL__74A96217F243C2C3");
+
+            entity.ToTable("RegularLabour");
+
+            entity.Property(e => e.LabourId).HasColumnName("LabourID");
+            entity.Property(e => e.DateLabourFinished).HasColumnType("datetime");
+            entity.Property(e => e.DateLabourStarted).HasColumnType("datetime");
+            entity.Property(e => e.DateOfLabor).HasColumnType("date");
+            entity.Property(e => e.FinishLabor).HasColumnType("datetime");
+            entity.Property(e => e.LabourTypeId).HasColumnName("LabourTypeID");
+            entity.Property(e => e.StartLabor).HasColumnType("datetime");
+            entity.Property(e => e.TechnicianWorkOrderId).HasColumnName("TechnicianWorkOrderID");
+            entity.Property(e => e.TotalOthours).HasColumnName("TotalOTHours");
+            entity.Property(e => e.TotalOtminutes).HasColumnName("TotalOTMinutes");
+            entity.Property(e => e.WorkDescription)
+                .HasMaxLength(250)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<ServiceDescription>(entity =>
@@ -607,12 +708,39 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasConstraintName("FK_VehicleWorkOrder_VehicleID");
         });
 
+        modelBuilder.Entity<VwPartsUsedWithInventory>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_PartsUsedWithInventory");
+
+            entity.Property(e => e.AverageCost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
+            entity.Property(e => e.ItemName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.ManufacturerPartNumber)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Notes).IsUnicode(false);
+            entity.Property(e => e.QuickBooksInvId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.SalesPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+        });
+
         modelBuilder.Entity<VwWorkOrdBriefDetail>(entity =>
         {
             entity
                 .HasNoKey()
                 .ToView("vw_WorkOrdBriefDetails");
 
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.CustomerName).HasMaxLength(255);
             entity.Property(e => e.DateTimeCompleted).HasColumnType("datetime");
             entity.Property(e => e.DateTimeCreated).HasColumnType("datetime");
@@ -690,6 +818,32 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasColumnType("datetime");
         });
 
+        modelBuilder.Entity<WorkOrderFee>(entity =>
+        {
+            entity.HasKey(e => e.WorkOrderFeeId).HasName("PK__WorkOrde__0A62BD89EEAB0375");
+
+            entity.Property(e => e.WorkOrderFeeId).HasColumnName("WorkOrderFeeID");
+            entity.Property(e => e.FlatLabourId).HasColumnName("FlatLabourID");
+            entity.Property(e => e.LabourTypeId).HasColumnName("LabourTypeID");
+            entity.Property(e => e.TechnicianWorkOrderId).HasColumnName("TechnicianWorkOrderID");
+            entity.Property(e => e.WorkDescription).IsUnicode(false);
+
+            entity.HasOne(d => d.FlatLabour).WithMany(p => p.WorkOrderFees)
+                .HasForeignKey(d => d.FlatLabourId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__WorkOrder__FlatL__019E3B86");
+
+            entity.HasOne(d => d.LabourType).WithMany(p => p.WorkOrderFees)
+                .HasForeignKey(d => d.LabourTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__WorkOrder__Labou__02925FBF");
+
+            entity.HasOne(d => d.TechnicianWorkOrder).WithMany(p => p.WorkOrderFees)
+                .HasForeignKey(d => d.TechnicianWorkOrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__WorkOrder__Techn__038683F8");
+        });
+
         modelBuilder.Entity<WorkOrderSheet>(entity =>
         {
             entity.HasKey(e => e.SheetId).HasName("PK__WorkOrde__30B2738861CB949F");
@@ -746,6 +900,24 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasOne(d => d.WorkOrdType).WithMany(p => p.WorkOrderStatuses)
                 .HasForeignKey(d => d.WorkOrdTypeId)
                 .HasConstraintName("FK_WorkOrderStatus_WorkOrderType");
+        });
+
+        modelBuilder.Entity<WorkOrderStatusSetup>(entity =>
+        {
+            entity.HasKey(e => e.StatusId).HasName("PK__WorkOrde__C8EE2043B902B393");
+
+            entity.ToTable("WorkOrderStatusSetup");
+
+            entity.Property(e => e.StatusId).HasColumnName("StatusID");
+            entity.Property(e => e.HexColor)
+                .IsRequired()
+                .HasMaxLength(7);
+            entity.Property(e => e.IconName)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.StatusName)
+                .IsRequired()
+                .HasMaxLength(50);
         });
 
         modelBuilder.Entity<WorkOrderType>(entity =>

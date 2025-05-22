@@ -25,5 +25,15 @@ public partial class MileageAndTime
 
     public int? TimeTotalMin { get; set; }
 
+    public int? SegmentNumber { get; set; }
+
+    public int? TotalDistance { get; set; }
+
+    public int? TotalOthours { get; set; }
+
+    public int? TotalOtminutes { get; set; }
+
+    public bool IsOvertime { get; set; }
+
     public virtual WorkOrderSheet Sheet { get; set; }
 }

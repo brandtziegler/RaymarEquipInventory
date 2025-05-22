@@ -1,0 +1,131 @@
+2025-05-22 09:06:43.587 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-05-22 09:06:44.512 -04:00 [INF] Hangfire SQL objects installed.
+2025-05-22 09:06:44.630 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-05-22 09:06:45.101 -04:00 [INF] Now listening on: https://localhost:7150
+2025-05-22 09:06:45.102 -04:00 [INF] Now listening on: http://localhost:5229
+2025-05-22 09:06:45.103 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-05-22 09:06:45.104 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-05-22 09:06:45.104 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-05-22 09:06:45.105 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-05-22 09:06:45.140 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-05-22 09:06:45.140 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-05-22 09:06:45.141 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-05-22 09:06:45.152 -04:00 [DBG] Execution loop BackgroundServerProcess:211c0fb3 has started in 6.4314 ms
+2025-05-22 09:06:45.338 -04:00 [INF] Server bz2024ad:25468:c93afef5 successfully announced in 177.2211 ms
+2025-05-22 09:06:45.344 -04:00 [DBG] Execution loop ServerHeartbeatProcess:77b8b34a has started in 3.935 ms
+2025-05-22 09:06:45.344 -04:00 [INF] Server bz2024ad:25468:c93afef5 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-05-22 09:06:45.348 -04:00 [DBG] Execution loop ServerWatchdog:3733965e has started in 2.933 ms
+2025-05-22 09:06:45.350 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:8d6a808a has started in 5.0417 ms
+2025-05-22 09:06:45.353 -04:00 [DBG] Execution loop ExpirationManager:a233ca10 has started in 3.9156 ms
+2025-05-22 09:06:45.355 -04:00 [DBG] Execution loop CountersAggregator:96565924 has started in 4.8851 ms
+2025-05-22 09:06:45.358 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:fe8165a5 has started in 5.1512 ms
+2025-05-22 09:06:45.365 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-05-22 09:06:45.367 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-05-22 09:06:45.361 -04:00 [DBG] Execution loop Worker:19ae4f53 has started in 5.7233 ms
+2025-05-22 09:06:45.364 -04:00 [DBG] Execution loop Worker:471bc965 has started in 8.5111 ms
+2025-05-22 09:06:45.366 -04:00 [DBG] Execution loop Worker:52e235e4 has started in 10.9512 ms
+2025-05-22 09:06:45.369 -04:00 [DBG] Execution loop Worker:ed23f635 has started in 13.7571 ms
+2025-05-22 09:06:45.372 -04:00 [DBG] Execution loop Worker:54c0eb92 has started in 16.6975 ms
+2025-05-22 09:06:45.378 -04:00 [DBG] Execution loop Worker:854c9060 has started in 20.3468 ms
+2025-05-22 09:06:45.377 -04:00 [DBG] Execution loop Worker:8f901a5b has started in 22.1969 ms
+2025-05-22 09:06:45.380 -04:00 [DBG] Execution loop Worker:2c81e407 has started in 24.6987 ms
+2025-05-22 09:06:45.383 -04:00 [DBG] Execution loop Worker:fc75f192 has started in 27.5631 ms
+2025-05-22 09:06:45.385 -04:00 [DBG] Execution loop Worker:7847f3a0 has started in 30.0654 ms
+2025-05-22 09:06:45.388 -04:00 [DBG] Execution loop Worker:3fc4cfa6 has started in 32.9404 ms
+2025-05-22 09:06:45.391 -04:00 [DBG] Execution loop Worker:d6002ca7 has started in 35.519 ms
+2025-05-22 09:06:45.394 -04:00 [DBG] Execution loop Worker:dfbc6cd5 has started in 38.4512 ms
+2025-05-22 09:06:45.419 -04:00 [INF] Server bz2024ad:25468:c93afef5 all the dispatchers started
+2025-05-22 09:06:45.396 -04:00 [DBG] Execution loop Worker:6b7bf11a has started in 41.1762 ms
+2025-05-22 09:06:45.399 -04:00 [DBG] Execution loop Worker:c1f8b202 has started in 44.0033 ms
+2025-05-22 09:06:45.402 -04:00 [DBG] Execution loop Worker:441fe027 has started in 47.1912 ms
+2025-05-22 09:06:45.406 -04:00 [DBG] Execution loop Worker:0a4761aa has started in 50.4245 ms
+2025-05-22 09:06:45.408 -04:00 [DBG] Execution loop Worker:7e66e854 has started in 53.1927 ms
+2025-05-22 09:06:45.413 -04:00 [DBG] Execution loop Worker:ad32dc81 has started in 57.5747 ms
+2025-05-22 09:06:45.416 -04:00 [DBG] Execution loop Worker:26996c6b has started in 60.6877 ms
+2025-05-22 09:06:45.419 -04:00 [DBG] Execution loop DelayedJobScheduler:6ec507c3 has started in 5.9023 ms
+2025-05-22 09:06:45.421 -04:00 [DBG] Execution loop RecurringJobScheduler:282edc69 has started in 5.5887 ms
+2025-05-22 09:06:45.465 -04:00 [DBG] Connection id "0HNCP660H3UGJ" received FIN.
+2025-05-22 09:06:45.465 -04:00 [DBG] Connection id "0HNCP660H3UGI" received FIN.
+2025-05-22 09:06:45.526 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-05-22 09:06:45.603 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-05-22 09:06:45.603 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-05-22 09:06:45.614 -04:00 [DBG] Connection id "0HNCP660H3UGJ" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-05-22 09:06:45.614 -04:00 [DBG] Connection id "0HNCP660H3UGI" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-05-22 09:06:45.879 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-05-22 09:06:46.046 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-05-22 09:06:46.140 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-05-22 09:06:47.497 -04:00 [DBG] Connection 0HNCP660H3UGK established using the following protocol: "Tls13"
+2025-05-22 09:06:47.545 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2025-05-22 09:06:47.654 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-05-22 09:06:47.669 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-05-22 09:06:47.670 -04:00 [DBG] Request did not match any endpoints
+2025-05-22 09:06:47.705 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-05-22 09:06:47.706 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-05-22 09:06:47.718 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-05-22 09:06:47.719 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-05-22 09:06:47.722 -04:00 [DBG] Connection id "0HNCP660H3UGK" received FIN.
+2025-05-22 09:06:47.723 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 180.098ms
+2025-05-22 09:06:47.723 -04:00 [DBG] Connection id "0HNCP660H3UGK" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-05-22 09:06:47.748 -04:00 [DBG] Connection 0HNCP660H3UGL established using the following protocol: "Tls13"
+2025-05-22 09:06:47.751 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2025-05-22 09:06:47.751 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2025-05-22 09:06:47.770 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 19.0714ms
+2025-05-22 09:06:48.121 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 370.302ms
+2025-05-22 09:06:48.156 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2025-05-22 09:06:48.157 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-05-22 09:06:48.158 -04:00 [DBG] Request did not match any endpoints
+2025-05-22 09:06:48.218 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 62.472ms
+2025-05-22 09:06:50.605 -04:00 [DBG] Connection id "0HNCP660H3UGL" received FIN.
+2025-05-22 09:06:50.606 -04:00 [DBG] Connection id "0HNCP660H3UGL" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-05-22 09:07:15.411 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:07:45.457 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:08:15.506 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:08:45.568 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:09:15.615 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:09:45.659 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:10:15.710 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:10:45.767 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:11:15.812 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:11:45.608 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-05-22 09:11:45.867 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:12:15.914 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:12:45.962 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:13:16.014 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:13:46.063 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:14:16.108 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:14:46.146 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:15:16.184 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:15:46.241 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:16:16.290 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:16:45.655 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-05-22 09:16:46.341 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:17:16.377 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:17:46.437 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:18:16.477 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:18:46.528 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:19:16.581 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:19:46.641 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:20:16.689 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:20:46.743 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:21:16.800 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:21:45.699 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-05-22 09:21:46.843 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:22:16.889 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:22:46.937 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:23:16.982 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:23:47.023 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent
+2025-05-22 09:24:17.073 -04:00 [DBG] Server bz2024ad:25468:c93afef5 heartbeat successfully sent

@@ -35,7 +35,11 @@ public partial class VwWorkOrdBriefDetail
 
     public string Pono { get; set; }
 
+    public string Notes { get; set; }
+
     public string WorkLocation { get; set; }
+
+    public int? CustomerId { get; set; }
 
     public string CustomerName { get; set; }
 

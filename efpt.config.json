@@ -2,6 +2,7 @@
    "CodeGenerationMode": 3,
    "ContextClassName": "RaymarInventoryDBContext",
    "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
    "ModelNamespace": null,
@@ -31,6 +32,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[FlatLabour]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[HourlyLabourType]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[IncomeAccount]",
          "ObjectType": 0
       },
@@ -44,6 +53,10 @@
       },
       {
          "Name": "[dbo].[Labour]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[LabourType]",
          "ObjectType": 0
       },
       {
@@ -64,6 +77,10 @@
       },
       {
          "Name": "[dbo].[PlaceholderDocument]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[RegularLabour]",
          "ObjectType": 0
       },
       {
@@ -107,11 +124,19 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[WorkOrderFees]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[WorkOrderSheet]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[WorkOrderStatus]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[WorkOrderStatusSetup]",
          "ObjectType": 0
       },
       {
@@ -121,6 +146,10 @@
       {
          "Name": "[dbo].[WorkOrderType_Status]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[vw_PartsUsedWithInventory]",
+         "ObjectType": 3
       },
       {
          "Name": "[dbo].[vw_WorkOrdBriefDetails]",
@@ -135,9 +164,8 @@
          "ObjectType": 3
       }
    ],
-   "UiHint": null,
+   "UiHint": "greatfurnituresql.RaymarInventoryDB.dbo",
    "UncountableWords": null,
-   "UseAsyncStoredProcedureCalls": true,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
    "UseDateOnlyTimeOnly": false,

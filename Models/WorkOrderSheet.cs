@@ -23,6 +23,8 @@ public partial class WorkOrderSheet
 
     public int? TypeId { get; set; }
 
+    public string Notes { get; set; }
+
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
 
     public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
