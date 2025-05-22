@@ -44,6 +44,26 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpPost("AddRegularLabour")]
+        public async Task<IActionResult> AddRegularLabour([FromBody] RegularLabourLine labour)
+        {
+            try
+            {
+                var result = await _hourlylabourService.InsertRegularLabourAsync(labour);
+
+                if (!result)
+                {
+                    return BadRequest("Unable to insert regular labour.");
+                }
+
+                return Ok("Regular labour inserted successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error inserting regular labour: {ex.Message}");
+                return StatusCode(500, "An error occurred while inserting regular labour.");
+            }
+        }
 
 
         [HttpGet("GetHourlyLabourById")]
