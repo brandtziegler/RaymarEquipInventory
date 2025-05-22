@@ -56,9 +56,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_EE2D3F8CD53D461983D7F2E649F6909C }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C25373A2BA41446BB3EC203AE590F8AF }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_021B4E57428C45B3B20D8702858BB73D }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           
      # Stop the Web App to release any file locks
       - name: Stop Azure Web App
