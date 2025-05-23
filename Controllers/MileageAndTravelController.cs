@@ -24,24 +24,16 @@ namespace RaymarEquipmentInventory.Controllers
 
 
         [HttpPost("AddTravelLog")]
-        public async Task<IActionResult> AddTravelLog([FromBody] TravelLog travelLog)
+        public async Task<IActionResult> AddTravelLogEntry([FromBody] TravelLog entry)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                var result = await _mileageTravelService.InsertTravelLogAsync(travelLog);
-
-                if (!result)
-                {
-                    return BadRequest("Unable to insert travel log.");
-                }
-
-                return Ok("Travel Log inserted successfully.");
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return BadRequest(new { errors });
             }
-            catch (Exception ex)
-            {
-                Log.Error($"Error inserting travel log: {ex.Message}");
-                return StatusCode(500, "An error occurred while inserting travel log.");
-            }
+
+            var success = await _mileageTravelService.InsertTravelLogAsync(entry);
+            return success ? Ok() : BadRequest("Insert failed.");
         }
 
 
