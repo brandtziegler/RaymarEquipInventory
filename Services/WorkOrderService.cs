@@ -511,7 +511,7 @@ namespace RaymarEquipmentInventory.Services
         public async Task<bool> AddPartToWorkOrder(DTOs.PartsUsed partsUsedDto)
         {
             // Start by checking for required fields in the DTO
-            if (partsUsedDto.SheetId == null || partsUsedDto.InventoryId == 0 || partsUsedDto.QtyUsed == null)
+            if (partsUsedDto.SheetId == null || partsUsedDto.InventoryID == 0 || partsUsedDto.QtyUsed == null)
             {
                 Log.Warning("Failed to add part: SheetID, InventoryId, and QtyUsed are required fields.");
                 return false;
@@ -523,7 +523,7 @@ namespace RaymarEquipmentInventory.Services
                 var partUsedEntity = new Models.PartsUsed
                 {
                     SheetId = partsUsedDto.SheetId.Value,
-                    InventoryId = partsUsedDto.InventoryId,
+                    InventoryId = partsUsedDto.InventoryID,
                     QtyUsed = partsUsedDto.QtyUsed.Value,
                     Notes = partsUsedDto.Notes ?? string.Empty  // Optional, use empty string if null
                 };
@@ -532,7 +532,7 @@ namespace RaymarEquipmentInventory.Services
                 await _context.PartsUseds.AddAsync(partUsedEntity);
                 await _context.SaveChangesAsync();
 
-                Log.Information($"Successfully added part with InventoryID {partsUsedDto.InventoryId} to Work Order {partsUsedDto.SheetId}");
+                Log.Information($"Successfully added part with InventoryID {partsUsedDto.InventoryID} to Work Order {partsUsedDto.SheetId}");
                 return true;
             }
             catch (Exception ex)

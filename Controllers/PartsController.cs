@@ -63,6 +63,19 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
+        [HttpPost("AddPartsUsed")]
+        public async Task<IActionResult> AddPartsUsed([FromBody] PartsUsed entry)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return BadRequest(new { errors });
+            }
+
+            var success = await _partService.InsertPartsUsedAsync(entry);
+            return success ? Ok() : BadRequest("Insert failed.");
+        }
+
         [HttpGet("GetPartsByWorkOrder")]
         public async Task<IActionResult> GetPartsByWorkOrder(
             int sheetID,

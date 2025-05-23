@@ -39,7 +39,7 @@ namespace RaymarEquipmentInventory.Services
             var partUsedDTO = new DTOs.PartsUsed
             {
                 PartUsedId = partUsed.PartUsedId,
-                InventoryId = partUsed.InventoryId ?? 0,
+                InventoryID = partUsed.InventoryId ?? 0,
                 QtyUsed = partUsed.QtyUsed,
                 SheetId = partUsed.SheetId,
                 Notes = partUsed.Notes,
@@ -61,7 +61,7 @@ namespace RaymarEquipmentInventory.Services
         public async Task<bool> UpdatePart(DTOs.PartsUsed partsUsedDto)
         {
             // Start by checking for required fields in the DTO
-            if (partsUsedDto.PartUsedId == 0 || partsUsedDto.SheetId == null || partsUsedDto.InventoryId == 0 || partsUsedDto.QtyUsed == null)
+            if (partsUsedDto.PartUsedId == 0 || partsUsedDto.SheetId == null || partsUsedDto.InventoryID == 0 || partsUsedDto.QtyUsed == null)
             {
                 Log.Warning("Failed to update part: PartUsedId, SheetID, InventoryId, and QtyUsed are required fields.");
                 return false;
@@ -80,7 +80,7 @@ namespace RaymarEquipmentInventory.Services
                 }
 
                 // Step 2: Update the entity's properties with values from the DTO
-                partUsedEntity.InventoryId = partsUsedDto.InventoryId;
+                partUsedEntity.InventoryId = partsUsedDto.InventoryID;
                 partUsedEntity.QtyUsed = partsUsedDto.QtyUsed.Value;
                 partUsedEntity.Notes = partsUsedDto.Notes ?? string.Empty;  // Optional, use empty string if null
 
@@ -99,8 +99,50 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task<bool> InsertPartsUsedAsync(DTOs.PartsUsed dto)
+        {
+            try
+            {
+                // Basic validation
+                if (dto.SheetId is null || dto.SheetId <= 0)
+                {
+                    Log.Warning("SheetId is required and must be valid.");
+                    return false;
+                }
 
-    public async Task<int> GetPartsCountByWorkOrder(
+                if (dto.InventoryID <= 0)
+                {
+                    Log.Warning("InventoryId is required and must be valid.");
+                    return false;
+                }
+
+                var newEntry = new Models.PartsUsed
+                {
+                    QtyUsed = dto.QtyUsed ?? 0,
+                    Notes = dto.Notes?.Trim() ?? "",
+                    SheetId = dto.SheetId ?? 0,
+                    InventoryId = dto.InventoryID,
+                    PartNumber = dto.PartNumber,  // optional, could be filled later
+                    Description = dto.Description, // optional, could be filled later
+                    UploadDate = DateTime.Now, // Server decides this
+                    UploadedBy = "iPad App",     // Optional default
+                    Deleted = false              // Not deleted by default
+                };
+
+                await _context.PartsUseds.AddAsync(newEntry);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"Inserted part usage for InventoryID {dto.InventoryID}, Qty: {dto.QtyUsed}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to insert part usage: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<int> GetPartsCountByWorkOrder(
     int sheetID,
     string itemName = null,
     int? qtyUsedMin = null,
@@ -222,7 +264,7 @@ namespace RaymarEquipmentInventory.Services
             return partsUsedList.Select(partUsed => new DTOs.PartsUsed
             {
                 PartUsedId = partUsed.PartUsedId,
-                InventoryId = partUsed.InventoryId ?? 0,
+                InventoryID = partUsed.InventoryId ?? 0,
                 QtyUsed = partUsed.QtyUsed,
                 SheetId = partUsed.SheetId,
                 Notes = partUsed.Notes,
