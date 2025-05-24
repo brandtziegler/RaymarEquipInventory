@@ -97,6 +97,52 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+
+        public async Task<bool> InsertWorkOrderAsync(DTOs.WorkOrdSheet workOrdSheet)
+        {
+            try
+            {
+                // Step 1: Basic Validation
+                if (workOrdSheet.WorkOrderNumber <= 0)
+                {
+                    Log.Warning("WorkOrderNumber must be greater than 0.");
+                    return false;
+                }
+
+                if (workOrdSheet.DateTimeCreated is null)
+                {
+                    Log.Warning("DateTimeCreated is required.");
+                    return false;
+                }
+
+                // Step 2: Create Entity
+                var newEntry = new Models.WorkOrderSheet
+                {
+                    WorkOrderNumber = workOrdSheet.WorkOrderNumber,
+                    DateTimeCreated = workOrdSheet.DateTimeCreated ?? DateTime.UtcNow,
+                    WorkOrderStatus = workOrdSheet.WorkOrderStatus?.Trim() ?? "",
+                    DateTimeStarted = workOrdSheet.DateTimeStarted,
+                    DateTimeCompleted = workOrdSheet.DateTimeCompleted,
+                    WorkDescription = workOrdSheet.WorkDescription
+                    // Optional: Add Notes if you extend your DTO to include it
+                };
+
+                // Step 3: Insert
+                await _context.WorkOrderSheets.AddAsync(newEntry);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"✅ Inserted WorkOrderSheet with W/O # {newEntry.WorkOrderNumber}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message ?? "No inner exception";
+                Log.Error($"❌ Failed to insert WorkOrderSheet: {ex.Message} | Inner: {inner}");
+                return false;
+            }
+        }
+
+
         private async Task<int> GetNextWorkOrderNumber()
         {
             // Fetch the current work order number and increment it
@@ -146,7 +192,7 @@ namespace RaymarEquipmentInventory.Services
                 }
 
                 //4. Add the tech to the work order
-                var newTechOnWO = new TechnicianWorkOrder()
+                var newTechOnWO = new Models.TechnicianWorkOrder()
                 {
                     TechnicianId = techID,
                     SheetId = sheetID

@@ -17,8 +17,6 @@ public partial class WorkOrderType
 
     public string HexColor { get; set; }
 
-    public virtual ICollection<WorkOrderSheet> WorkOrderSheets { get; set; } = new List<WorkOrderSheet>();
-
     public virtual ICollection<WorkOrderStatus> WorkOrderStatuses { get; set; } = new List<WorkOrderStatus>();
 
     public virtual ICollection<WorkOrderStatus> Statuses { get; set; } = new List<WorkOrderStatus>();

@@ -21,7 +21,5 @@ public partial class WorkOrderStatus
 
     public virtual WorkOrderType WorkOrdType { get; set; }
 
-    public virtual ICollection<WorkOrderSheet> WorkOrderSheets { get; set; } = new List<WorkOrderSheet>();
-
     public virtual ICollection<WorkOrderType> WorkOrdTypes { get; set; } = new List<WorkOrderType>();
 }

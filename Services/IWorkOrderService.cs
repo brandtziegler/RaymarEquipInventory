@@ -19,6 +19,8 @@ namespace RaymarEquipmentInventory.Services
         Task<bool> RemovePartFromWorkOrder(int partUsedId, int sheetId);
 
         Task<bool> LaunchWorkOrder(Billing billingInfo);
+
+        Task<bool> InsertWorkOrderAsync(DTOs.WorkOrdSheet workOrdSheet);
         Task<bool> RemoveBillFromWorkOrder(int billID, int sheetID);
         Task<bool> AddLbrToWorkOrder(LabourLine labourDTO);
         Task<bool> RemoveLbrFromWorkOrder(int labourID);

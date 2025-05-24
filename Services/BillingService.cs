@@ -63,7 +63,7 @@ namespace RaymarEquipmentInventory.Services
             try
             {
                 // Step 1: Basic validation
-                if (billingDto.SheetId <= 0 || billingDto.CustomerId <= 0)
+                if (billingDto.CustomerId <= 0)
                 {
                     Log.Warning("SheetId and CustomerId are required.");
                     return false;
@@ -93,7 +93,8 @@ namespace RaymarEquipmentInventory.Services
             }
             catch (Exception ex)
             {
-                Log.Error($"❌ Failed to insert BillingInfo: {ex.Message}");
+                var inner = ex.InnerException?.Message ?? "No inner exception";
+                Log.Error($"❌ Failed to insert BillingInfo: {ex.Message} | Inner: {inner}");
                 return false;
             }
         }

@@ -861,19 +861,13 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.DateTimeStarted)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.StatusId).HasColumnName("StatusID");
-            entity.Property(e => e.TypeId).HasColumnName("TypeID");
+            entity.Property(e => e.WorkDescription).IsUnicode(false);
             entity.Property(e => e.WorkOrdStatus)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-
-            entity.HasOne(d => d.Status).WithMany(p => p.WorkOrderSheets)
-                .HasForeignKey(d => d.StatusId)
-                .HasConstraintName("FK_WorkOrderSheet_Status");
-
-            entity.HasOne(d => d.Type).WithMany(p => p.WorkOrderSheets)
-                .HasForeignKey(d => d.TypeId)
-                .HasConstraintName("FK_WorkOrdType");
+            entity.Property(e => e.WorkOrderStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<WorkOrderStatus>(entity =>

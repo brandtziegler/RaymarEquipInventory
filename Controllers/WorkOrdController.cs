@@ -46,6 +46,28 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpPost("InsertWorkOrder")]
+        public async Task<IActionResult> InsertWorkOrder([FromBody] DTOs.WorkOrdSheet workOrdDto)
+        {
+            try
+            {
+                // Call your service to insert the work order information
+                var result = await _workOrderService.InsertWorkOrderAsync(workOrdDto);
+
+                if (!result)
+                {
+                    return BadRequest("Unable to create new work order.");
+                }
+
+                return Ok("Work order launched successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error creating new work order: {ex.Message}");
+                return StatusCode(500, "An error occurred while creating new work order.");
+            }
+        }
+
         [HttpGet("GetWorkOrder")]
         public async Task<IActionResult> GetWorkOrder(int sheetID)
         {

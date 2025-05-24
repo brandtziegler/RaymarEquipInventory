@@ -102,6 +102,7 @@ builder.Services.AddScoped<IPartService, PartService>();
 builder.Services.AddScoped<ITechnicianService, TechnicanService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
+builder.Services.AddScoped<ITechWOService, TechWOService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 
 

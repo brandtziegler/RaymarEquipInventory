@@ -19,11 +19,11 @@ public partial class WorkOrderSheet
 
     public DateTime? DateTimeCompleted { get; set; }
 
-    public int? StatusId { get; set; }
-
-    public int? TypeId { get; set; }
-
     public string Notes { get; set; }
+
+    public string WorkOrderStatus { get; set; }
+
+    public string WorkDescription { get; set; }
 
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
 
@@ -33,11 +33,7 @@ public partial class WorkOrderSheet
 
     public virtual ICollection<PartsUsed> PartsUseds { get; set; } = new List<PartsUsed>();
 
-    public virtual WorkOrderStatus Status { get; set; }
-
     public virtual ICollection<TechnicianWorkOrder> TechnicianWorkOrders { get; set; } = new List<TechnicianWorkOrder>();
-
-    public virtual WorkOrderType Type { get; set; }
 
     public virtual ICollection<VehicleWorkOrder> VehicleWorkOrders { get; set; } = new List<VehicleWorkOrder>();
 }
