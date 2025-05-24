@@ -95,6 +95,9 @@ public partial class RaymarInventoryDBContext : DbContext
 
             entity.Property(e => e.BillingId).HasColumnName("BillingID");
             entity.Property(e => e.BillingPersonId).HasColumnName("BillingPersonID");
+            entity.Property(e => e.CustPath)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.JobSiteCity).HasMaxLength(100);
             entity.Property(e => e.Pono)
@@ -105,6 +108,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.UnitNo)
                 .HasMaxLength(35)
                 .IsUnicode(false);
+            entity.Property(e => e.WorkDescription).IsUnicode(false);
             entity.Property(e => e.WorkLocation)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -234,7 +238,6 @@ public partial class RaymarInventoryDBContext : DbContext
 
             entity.HasOne(d => d.LabourType).WithMany(p => p.FlatLabours)
                 .HasForeignKey(d => d.LabourTypeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__FlatLabou__Labou__7DCDAAA2");
         });
 

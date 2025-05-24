@@ -15,7 +15,7 @@ public partial class FlatLabour
 
     public string FeeAndExpense { get; set; }
 
-    public int LabourTypeId { get; set; }
+    public int? LabourTypeId { get; set; }
 
     public virtual LabourType LabourType { get; set; }
 

@@ -44,6 +44,29 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+
+        [HttpPost("InsertBilling")]
+        public async Task<IActionResult> InsertBilling([FromBody] Billing billingDTO)
+        {
+            try
+            {
+                // Call your service to create the work order and attach billing information
+                var result = await _billingService.InsertBillingInformationAsync(billingDTO);
+
+                if (!result)
+                {
+                    return BadRequest("Unable to insert billing");
+                }
+
+                return Ok("Work Order Fee updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error inserting billing {billingDTO.CustPath}: {ex.Message}");
+                return StatusCode(500, "An error occurred while inserting into billing.");
+            }
+        }
+
         [HttpGet("GetBillingForWorkOrder")]
         public async Task<IActionResult> GetBillingForWorkOrder(int sheetID)
         {

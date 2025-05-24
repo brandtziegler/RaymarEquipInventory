@@ -58,6 +58,46 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task<bool> InsertBillingInformationAsync(DTOs.Billing billingDto)
+        {
+            try
+            {
+                // Step 1: Basic validation
+                if (billingDto.SheetId <= 0 || billingDto.CustomerId <= 0)
+                {
+                    Log.Warning("SheetId and CustomerId are required.");
+                    return false;
+                }
+
+                // Step 2: Create entity
+                var newEntry = new Models.BillingInformation
+                {
+                    SheetId = billingDto.SheetId,
+                    BillingPersonId = billingDto.BillingPersonID,
+                    CustomerId = billingDto.CustomerId,
+                    Notes = billingDto.Notes?.Trim() ?? "",
+                    UnitNo = billingDto.UnitNo?.Trim() ?? "",
+                    JobSiteCity = billingDto.JobSiteCity?.Trim() ?? "",
+                    Kilometers = billingDto.Kilometers,
+                    Pono = billingDto.PONo?.Trim() ?? "",
+                    WorkDescription = billingDto.WorkDescription?.Trim() ?? "",
+                    CustPath = billingDto.CustPath?.Trim() ?? ""
+                };
+
+                // Step 3: Save to DB
+                await _context.BillingInformations.AddAsync(newEntry);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"✅ Inserted BillingInfo for SheetID {billingDto.SheetId} and CustomerID {billingDto.CustomerId}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"❌ Failed to insert BillingInfo: {ex.Message}");
+                return false;
+            }
+        }
+
 
         public async Task<bool> UpdateBillingInfo(Billing billingDto)
         {
@@ -86,7 +126,7 @@ namespace RaymarEquipmentInventory.Services
                 billingRecord.CustomerId = billingDto.CustomerId;
                 billingRecord.Notes = billingDto.Notes;
                 billingRecord.UnitNo = billingDto.UnitNo;
-                billingRecord.WorkLocation = billingDto.WorkLocation;
+                billingRecord.WorkLocation = billingDto.JobSiteCity;
                 // Add any additional fields you want to update
 
                 // Step 3: Save changes back to the database
@@ -164,8 +204,7 @@ namespace RaymarEquipmentInventory.Services
                 ParentCustomerQBId = billing.Customer.Parent.Id,
                 PONo = billing.Pono,
                 Notes = billing.Notes,
-                UnitNo = billing.UnitNo,
-                WorkLocation = billing.WorkLocation
+                UnitNo = billing.UnitNo
             };
             return billingDTO;
 
