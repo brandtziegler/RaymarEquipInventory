@@ -48,11 +48,7 @@ namespace RaymarEquipmentInventory.Services
                     return false;
                 }
 
-                if (workOrdFee.Qty <= 0)
-                {
-                    Log.Warning("Qty must be greater than 0.");
-                    return false;
-                }
+
 
                 // Step 2: Create new EF entity
                 var newEntry = new Models.WorkOrderFee
