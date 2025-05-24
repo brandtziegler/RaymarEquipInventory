@@ -31,10 +31,10 @@ namespace RaymarEquipmentInventory.Controllers
 
                 if (!result)
                 {
-                    return BadRequest("Unable to insert work order fee");
+                    return BadRequest("Unable to insert tech work order");
                 }
 
-                return Ok("Work Order Fee updated successfully.");
+                return Ok("Tech work order updated successfully.");
             }
             catch (Exception ex)
             {
