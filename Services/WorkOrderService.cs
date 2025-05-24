@@ -79,7 +79,7 @@ namespace RaymarEquipmentInventory.Services
                     BillingPersonId = billingInfo.TechId,
                     Notes = billingInfo.Notes,
                     UnitNo = billingInfo.UnitNo,
-                    WorkLocation = billingInfo.WorkLocation,
+                    WorkLocation = "",
                 };
                 await _context.BillingInformations.AddAsync(newBilling);
                 await _context.SaveChangesAsync();
@@ -326,8 +326,8 @@ namespace RaymarEquipmentInventory.Services
                 ParentCustomerQBId = billing.Customer.Parent.Id,
                 PONo = billing.Pono,
                 Notes = billing.Notes,
-                UnitNo = billing.UnitNo,
-                WorkLocation = billing.WorkLocation
+                UnitNo = billing.UnitNo
+                //WorkLocation = billing.WorkLocation
             };
             return billingDTO;
 
@@ -388,7 +388,7 @@ namespace RaymarEquipmentInventory.Services
                 workOrderDto.WOBilling.PONo = billing.Pono;
                 workOrderDto.WOBilling.Notes = billing.Notes;
                 workOrderDto.WOBilling.UnitNo = billing.UnitNo;
-                workOrderDto.WOBilling.WorkLocation = billing.WorkLocation;
+                //workOrderDto.WOBilling.WorkLocation = billing.WorkLocation;
 
                 var labourLines = await _context.Labours.Include(t => t.TechnicianWorkOrder)
                     .Where(t => t.TechnicianWorkOrder.SheetId == sheetID).ToListAsync();
