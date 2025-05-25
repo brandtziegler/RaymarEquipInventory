@@ -1,0 +1,125 @@
+2025-05-25 18:59:31.784 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-25 18:59:31.818 -04:00 [INF] Hosting environment: Development
+2025-05-25 18:59:31.818 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2025-05-25 19:11:16.004 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-05-25 19:11:16.699 -04:00 [INF] Hangfire SQL objects installed.
+2025-05-25 19:11:16.804 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-05-25 19:11:17.014 -04:00 [INF] Now listening on: https://localhost:7150
+2025-05-25 19:11:17.015 -04:00 [INF] Now listening on: http://localhost:5229
+2025-05-25 19:11:17.016 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-05-25 19:11:17.017 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-05-25 19:11:17.017 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-05-25 19:11:17.018 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-05-25 19:11:17.056 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-05-25 19:11:17.056 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-05-25 19:11:17.058 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-05-25 19:11:17.075 -04:00 [DBG] Execution loop BackgroundServerProcess:e2380be9 has started in 8.9435 ms
+2025-05-25 19:11:17.081 -04:00 [DBG] Connection id "0HNCRS5PU4GPS" received FIN.
+2025-05-25 19:11:17.081 -04:00 [DBG] Connection id "0HNCRS5PU4GPT" received FIN.
+2025-05-25 19:11:17.222 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-05-25 19:11:17.222 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-05-25 19:11:17.233 -04:00 [DBG] Connection id "0HNCRS5PU4GPT" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-05-25 19:11:17.233 -04:00 [DBG] Connection id "0HNCRS5PU4GPS" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-05-25 19:11:17.320 -04:00 [INF] Server bz2024ad:9360:86c40e44 successfully announced in 237.9352 ms
+2025-05-25 19:11:17.327 -04:00 [DBG] Execution loop ServerHeartbeatProcess:2ce11a99 has started in 5.0756 ms
+2025-05-25 19:11:17.327 -04:00 [INF] Server bz2024ad:9360:86c40e44 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-05-25 19:11:17.332 -04:00 [DBG] Execution loop ServerWatchdog:13325d86 has started in 3.6333 ms
+2025-05-25 19:11:17.335 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:5832547e has started in 6.2161 ms
+2025-05-25 19:11:17.339 -04:00 [DBG] Execution loop ExpirationManager:ef798135 has started in 5.5633 ms
+2025-05-25 19:11:17.343 -04:00 [DBG] Execution loop CountersAggregator:b9e8b4b3 has started in 7.5629 ms
+2025-05-25 19:11:17.345 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:bccd40e4 has started in 5.986 ms
+2025-05-25 19:11:17.371 -04:00 [DBG] Execution loop Worker:c402cc4f has started in 29.2661 ms
+2025-05-25 19:11:17.373 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-05-25 19:11:17.378 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-05-25 19:11:17.371 -04:00 [DBG] Execution loop Worker:14ba7750 has started in 29.2661 ms
+2025-05-25 19:11:17.376 -04:00 [DBG] Execution loop Worker:a9ccba46 has started in 33.5144 ms
+2025-05-25 19:11:17.377 -04:00 [DBG] Execution loop Worker:2428e0b9 has started in 35.2071 ms
+2025-05-25 19:11:17.380 -04:00 [DBG] Execution loop Worker:f839563b has started in 37.8132 ms
+2025-05-25 19:11:17.389 -04:00 [DBG] Execution loop Worker:88f8b9be has started in 46.7154 ms
+2025-05-25 19:11:17.393 -04:00 [DBG] Execution loop Worker:57810cb4 has started in 51.2246 ms
+2025-05-25 19:11:17.395 -04:00 [DBG] Execution loop Worker:39ce54c9 has started in 53.3113 ms
+2025-05-25 19:11:17.402 -04:00 [DBG] Execution loop Worker:d21b2537 has started in 60.0748 ms
+2025-05-25 19:11:17.403 -04:00 [DBG] Execution loop Worker:961df408 has started in 56.7561 ms
+2025-05-25 19:11:17.405 -04:00 [DBG] Execution loop Worker:d5350846 has started in 63.2557 ms
+2025-05-25 19:11:17.409 -04:00 [DBG] Execution loop Worker:3e934e9c has started in 66.9126 ms
+2025-05-25 19:11:17.413 -04:00 [DBG] Execution loop Worker:be534c2d has started in 70.821 ms
+2025-05-25 19:11:17.416 -04:00 [DBG] Execution loop Worker:856292bd has started in 73.9786 ms
+2025-05-25 19:11:17.419 -04:00 [DBG] Execution loop Worker:0e7711c2 has started in 76.8608 ms
+2025-05-25 19:11:17.422 -04:00 [DBG] Execution loop Worker:ac601268 has started in 79.5933 ms
+2025-05-25 19:11:17.426 -04:00 [DBG] Execution loop Worker:e4a0f0cd has started in 83.8904 ms
+2025-05-25 19:11:17.428 -04:00 [DBG] Execution loop Worker:d0479e74 has started in 85.7635 ms
+2025-05-25 19:11:17.431 -04:00 [DBG] Execution loop Worker:69d38eb7 has started in 88.7688 ms
+2025-05-25 19:11:17.434 -04:00 [DBG] Execution loop Worker:e5fd22a8 has started in 91.556 ms
+2025-05-25 19:11:17.437 -04:00 [INF] Server bz2024ad:9360:86c40e44 all the dispatchers started
+2025-05-25 19:11:17.437 -04:00 [DBG] Execution loop DelayedJobScheduler:eac76e71 has started in 5.7337 ms
+2025-05-25 19:11:17.440 -04:00 [DBG] Execution loop RecurringJobScheduler:94920ab0 has started in 6.4984 ms
+2025-05-25 19:11:17.561 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-05-25 19:11:17.781 -04:00 [DBG] Connection 0HNCRS5PU4GPU established using the following protocol: "Tls13"
+2025-05-25 19:11:17.810 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-05-25 19:11:17.850 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2025-05-25 19:11:17.924 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-05-25 19:11:17.940 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-05-25 19:11:17.942 -04:00 [DBG] Request did not match any endpoints
+2025-05-25 19:11:17.975 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-05-25 19:11:17.982 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-05-25 19:11:17.995 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-05-25 19:11:17.996 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-05-25 19:11:17.998 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 150.6657ms
+2025-05-25 19:11:18.035 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2025-05-25 19:11:18.035 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2025-05-25 19:11:18.042 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 7.4302ms
+2025-05-25 19:11:18.073 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 38.5934ms
+2025-05-25 19:11:18.127 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-05-25 19:11:18.185 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2025-05-25 19:11:18.187 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-05-25 19:11:18.188 -04:00 [DBG] Request did not match any endpoints
+2025-05-25 19:11:18.215 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-05-25 19:11:18.252 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 68.2345ms
+2025-05-25 19:11:20.696 -04:00 [DBG] Connection id "0HNCRS5PU4GPU" received FIN.
+2025-05-25 19:11:20.698 -04:00 [DBG] Connection id "0HNCRS5PU4GPU" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-05-25 19:11:47.381 -04:00 [DBG] Server bz2024ad:9360:86c40e44 heartbeat successfully sent
+2025-05-25 19:12:17.436 -04:00 [DBG] Server bz2024ad:9360:86c40e44 heartbeat successfully sent
+2025-05-25 19:12:29.623 -04:00 [DBG] Connection 0HNCRS5PU4GPV established using the following protocol: "Tls13"
+2025-05-25 19:12:29.626 -04:00 [INF] Request starting HTTP/2 POST https://localhost:7150/api/WorkOrd/SendWorkOrderEmail - application/json 276
+2025-05-25 19:12:29.631 -04:00 [DBG] 1 candidate(s) found for the request path '/api/WorkOrd/SendWorkOrderEmail'
+2025-05-25 19:12:29.634 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.SendWorkOrderEmail (RaymarEquipmentInventory)' with route pattern 'api/WorkOrd/SendWorkOrderEmail' is valid for the request path '/api/WorkOrd/SendWorkOrderEmail'
+2025-05-25 19:12:29.635 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.SendWorkOrderEmail (RaymarEquipmentInventory)'
+2025-05-25 19:12:29.638 -04:00 [DBG] The request has an origin header: 'https://localhost:7150'.
+2025-05-25 19:12:29.643 -04:00 [INF] CORS policy execution successful.
+2025-05-25 19:12:29.645 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-05-25 19:12:29.648 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.SendWorkOrderEmail (RaymarEquipmentInventory)'
+2025-05-25 19:12:29.663 -04:00 [INF] Route matched with {action = "SendWorkOrderEmail", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendWorkOrderEmail(RaymarEquipmentInventory.DTOs.WorkOrdMailContent) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2025-05-25 19:12:29.666 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-05-25 19:12:29.667 -04:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-05-25 19:12:29.668 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2025-05-25 19:12:29.670 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-05-25 19:12:29.671 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2025-05-25 19:12:29.674 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-05-25 19:12:29.758 -04:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-05-25 19:12:29.780 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-05-25 19:12:29.791 -04:00 [DBG] Attempting to bind parameter 'dto' of type 'RaymarEquipmentInventory.DTOs.WorkOrdMailContent' ...
+2025-05-25 19:12:29.793 -04:00 [DBG] Attempting to bind parameter 'dto' of type 'RaymarEquipmentInventory.DTOs.WorkOrdMailContent' using the name '' in request data ...
+2025-05-25 19:12:29.795 -04:00 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2025-05-25 19:12:29.803 -04:00 [DBG] JSON input formatter succeeded, deserializing to type 'RaymarEquipmentInventory.DTOs.WorkOrdMailContent'
+2025-05-25 19:12:29.803 -04:00 [DBG] Done attempting to bind parameter 'dto' of type 'RaymarEquipmentInventory.DTOs.WorkOrdMailContent'.
+2025-05-25 19:12:29.804 -04:00 [DBG] Done attempting to bind parameter 'dto' of type 'RaymarEquipmentInventory.DTOs.WorkOrdMailContent'.
+2025-05-25 19:12:29.805 -04:00 [DBG] Attempting to validate the bound parameter 'dto' of type 'RaymarEquipmentInventory.DTOs.WorkOrdMailContent' ...
+2025-05-25 19:12:29.812 -04:00 [DBG] Done attempting to validate the bound parameter 'dto' of type 'RaymarEquipmentInventory.DTOs.WorkOrdMailContent'.
+2025-05-25 19:12:35.291 -04:00 [INF] Start processing HTTP request POST https://api.resend.com/emails
+2025-05-25 19:12:35.293 -04:00 [INF] Sending HTTP request POST https://api.resend.com/emails
+2025-05-25 19:12:35.586 -04:00 [INF] Received HTTP response headers after 290.1102ms - 403
+2025-05-25 19:12:35.587 -04:00 [INF] End processing HTTP request after 296.8735ms - 403

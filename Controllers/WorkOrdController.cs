@@ -2,6 +2,7 @@
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
+using System.Net.Http;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -13,14 +14,15 @@ namespace RaymarEquipmentInventory.Controllers
         private readonly ITechnicianService _technicianService;
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly ISamsaraApiService _samsaraApiService;
-
+        private readonly IHttpClientFactory _httpClientFactory;
         public WorkOrdController(IWorkOrderService workOrderService, 
-            IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, ISamsaraApiService samsaraApiService)
+            IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, ISamsaraApiService samsaraApiService, IHttpClientFactory httpClientFactory)
         {
             _workOrderService = workOrderService;
             _quickBooksConnectionService = quickBooksConnectionService;
             _samsaraApiService = samsaraApiService;
             _technicianService = technicianService;
+            _httpClientFactory = httpClientFactory;
         }
 
 
@@ -66,6 +68,50 @@ namespace RaymarEquipmentInventory.Controllers
                 Log.Error($"Error creating new work order: {ex.Message}");
                 return StatusCode(500, "An error occurred while creating new work order.");
             }
+        }
+
+        [HttpPost("SendWorkOrderEmail")]
+        public async Task<IActionResult> SendWorkOrderEmail([FromBody] DTOs.WorkOrdMailContent dto)
+        {
+            //re_exsqgshN_HidHMnaoQHNwGn7gn6yy6RbW
+            //RaymarWONotice
+            var resendKey = "re_exsqgshN_HidHMnaoQHNwGn7gn6yy6RbW";
+            var email = new
+            {
+                from = "onboarding@resend.dev",
+                to = "brandt@brandtziegler.com",
+                subject = $"Work Order #{dto.WorkOrderNumber} for {dto.CustPath} Uploaded",
+                html = $@"
+            <h2>Work Order Synced</h2>
+            <p>Sheet ID: {dto.SheetId}</p>
+            <p>Customer Path: {dto.CustPath}</p>
+            <p>Description: {dto.WorkDescription}</p>
+            <p>Work Order #{dto.WorkOrderNumber} is now live in Firebase & Azure SQL.</p>"
+            };
+
+            try
+            {
+                var client = _httpClientFactory.CreateClient();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", resendKey);
+
+                var response = await client.PostAsJsonAsync("https://api.resend.com/emails", email);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var body = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("❌ Email failed: " + body);
+                    return StatusCode((int)response.StatusCode, body);
+                }
+
+                Console.WriteLine("✅ Email sent.");
+                return Ok("Email sent.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("🔥 Exception: " + ex.Message);
+                return StatusCode(500, "Internal error: " + ex.Message);
+            }
+
         }
 
         [HttpGet("GetWorkOrder")]

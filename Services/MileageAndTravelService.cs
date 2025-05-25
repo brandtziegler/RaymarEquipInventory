@@ -122,7 +122,8 @@ namespace RaymarEquipmentInventory.Services
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to insert Travel entry: {ex.Message}");
+                var inner = ex.InnerException?.Message ?? "No inner exception.";
+                Log.Error($"❌ Failed to insert Travel entry: {ex.Message} | Inner: {inner}");
                 return false;
             }
         }
