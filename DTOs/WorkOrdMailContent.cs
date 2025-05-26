@@ -8,5 +8,8 @@ namespace RaymarEquipmentInventory.DTOs
         public int WorkOrderNumber { get; set; } = 0;
         public string CustPath { get; set; } = "";
         public string WorkDescription { get; set; } = "";
+        public string EmailAddress { get; set; } = "";
+        public string FirebaseLink { get; set; } = "";
+
     }
 }

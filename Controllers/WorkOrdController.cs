@@ -3,6 +3,7 @@ using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
 using System.Net.Http;
+using System.Net.Mail;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -73,20 +74,34 @@ namespace RaymarEquipmentInventory.Controllers
         [HttpPost("SendWorkOrderEmail")]
         public async Task<IActionResult> SendWorkOrderEmail([FromBody] DTOs.WorkOrdMailContent dto)
         {
-            //re_exsqgshN_HidHMnaoQHNwGn7gn6yy6RbW
-            //RaymarWONotice
             var resendKey = "re_exsqgshN_HidHMnaoQHNwGn7gn6yy6RbW";
+
+            // ✅ Email format sanity check
+            try
+            {
+                var _ = new MailAddress(dto.EmailAddress);
+            }
+            catch (FormatException)
+            {
+                return BadRequest("Invalid email format.");
+            }
+
             var email = new
             {
-                from = "onboarding@resend.dev",
-                to = "brandt@brandtziegler.com",
+                from = "service@taskfuel.app",
+                to = dto.EmailAddress,
                 subject = $"Work Order #{dto.WorkOrderNumber} for {dto.CustPath} Uploaded",
                 html = $@"
-            <h2>Work Order Synced</h2>
-            <p>Sheet ID: {dto.SheetId}</p>
-            <p>Customer Path: {dto.CustPath}</p>
-            <p>Description: {dto.WorkDescription}</p>
-            <p>Work Order #{dto.WorkOrderNumber} is now live in Firebase & Azure SQL.</p>"
+                    <h2>Work Order Synced</h2>
+                    <p><strong>Customer Path:</strong> {dto.CustPath}</p>
+                    <p><strong>Description:</strong> {dto.WorkDescription}</p>
+                    <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Firebase & Azure SQL.</p>
+                    <p>You can view the uploaded files here:<br>
+                    <a href='https://console.firebase.google.com/u/0/project/raymarequipapp/storage/raymarequipapp.firebasestorage.app/files/~2FWO%23{dto.WorkOrderNumber}'>
+                        View WO#{dto.WorkOrderNumber} Files in Firebase
+                    </a></p>
+                    <p><em>Login Email:</em> raymardeveloper@gmail.com<br>
+                    <em>Password:</em> TaskFue!202S</p>"
             };
 
             try
@@ -111,8 +126,51 @@ namespace RaymarEquipmentInventory.Controllers
                 Console.WriteLine("🔥 Exception: " + ex.Message);
                 return StatusCode(500, "Internal error: " + ex.Message);
             }
-
         }
+
+        //[HttpPost("SendWorkOrderEmail")]
+        //public async Task<IActionResult> SendWorkOrderEmail([FromBody] DTOs.WorkOrdMailContent dto)
+        //{
+        //    //re_exsqgshN_HidHMnaoQHNwGn7gn6yy6RbW
+        //    //RaymarWONotice
+        //    var resendKey = "re_exsqgshN_HidHMnaoQHNwGn7gn6yy6RbW";
+        //    var email = new
+        //    {
+        //        from = "service@taskfuel.app",
+        //        to = dto.EmailAddress,
+        //        subject = $"Work Order #{dto.WorkOrderNumber} for {dto.CustPath} Uploaded",
+        //        html = $@"
+        //    <h2>Work Order Synced</h2>
+        //    <p>Sheet ID: {dto.SheetId}</p>
+        //    <p>Customer Path: {dto.CustPath}</p>
+        //    <p>Description: {dto.WorkDescription}</p>
+        //    <p>Work Order #{dto.WorkOrderNumber} is now live in Firebase & Azure SQL.</p>"
+        //    };
+
+        //    try
+        //    {
+        //        var client = _httpClientFactory.CreateClient();
+        //        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", resendKey);
+
+        //        var response = await client.PostAsJsonAsync("https://api.resend.com/emails", email);
+
+        //        if (!response.IsSuccessStatusCode)
+        //        {
+        //            var body = await response.Content.ReadAsStringAsync();
+        //            Console.WriteLine("❌ Email failed: " + body);
+        //            return StatusCode((int)response.StatusCode, body);
+        //        }
+
+        //        Console.WriteLine("✅ Email sent.");
+        //        return Ok("Email sent.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("🔥 Exception: " + ex.Message);
+        //        return StatusCode(500, "Internal error: " + ex.Message);
+        //    }
+
+        //}
 
         [HttpGet("GetWorkOrder")]
         public async Task<IActionResult> GetWorkOrder(int sheetID)
