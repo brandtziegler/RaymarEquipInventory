@@ -26,7 +26,8 @@ namespace RaymarEquipmentInventory.Services
             _quickBooksConnectionService = quickBooksConnectionService;
             _context = context;
 
-            var json = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS_JSON");
+            var raw = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS_JSON");
+            var json = raw.Replace("\\n", "\n");
 
             var credential = GoogleCredential.FromJson(json)
                 .CreateScoped(DriveService.ScopeConstants.Drive);
