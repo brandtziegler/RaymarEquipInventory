@@ -76,8 +76,8 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        [HttpPost("upload")]
-        public async Task<IActionResult> Upload(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
+        [HttpPost("UploadAFile")]
+        public async Task<IActionResult> UploadAFile(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
         {
             await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
             return Ok("Files uploaded");
