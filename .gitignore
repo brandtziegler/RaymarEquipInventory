@@ -7,4 +7,3 @@ bin/
 *.suo
 *.userosscache
 *.sln.docstates
-service-account.json

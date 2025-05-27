@@ -26,10 +26,9 @@ namespace RaymarEquipmentInventory.Services
             _quickBooksConnectionService = quickBooksConnectionService;
             _context = context;
 
-            var raw = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS_JSON");
-            var json = raw.Replace("\\n", "\n");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "service-account.json");
 
-            var credential = GoogleCredential.FromJson(json)
+            var credential = GoogleCredential.FromFile(path)
                 .CreateScoped(DriveService.ScopeConstants.Drive);
 
             _driveService = new DriveService(new BaseClientService.Initializer
@@ -38,7 +37,6 @@ namespace RaymarEquipmentInventory.Services
                 ApplicationName = "TaskFuelUploader"
             });
         }
-
 
         public async Task UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
         {
