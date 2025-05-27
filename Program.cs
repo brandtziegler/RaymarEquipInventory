@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Data.SqlClient;
 using RaymarEquipmentInventory.BackgroundTasks;
 using RaymarEquipmentInventory.Settings.YourApiProject.Settings;
+using Microsoft.AspNetCore.Http.Features;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -96,6 +97,7 @@ builder.Services.AddScoped<IWorkOrderFeeService, WorkOrderFeeService>(); // Regi
 builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IHourlyLabourService, HourlyLabourService>(); // Registering our new service
 builder.Services.AddScoped<IMileageAndTravelService, MileageAndTravelService>(); // Registering our new service
+builder.Services.AddScoped<IDriveUploaderService, DriveUploaderService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>(); // Registering our new service
 builder.Services.AddScoped<ILabourService, LabourService>();
@@ -106,6 +108,10 @@ builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<ITechWOService, TechWOService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 200_000_000; // 200MB if you want
+});
 
 builder.Services.AddCors(options =>
 {

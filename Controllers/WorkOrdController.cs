@@ -16,14 +16,19 @@ namespace RaymarEquipmentInventory.Controllers
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly ISamsaraApiService _samsaraApiService;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IDriveUploaderService _driveUploaderService;
         public WorkOrdController(IWorkOrderService workOrderService, 
-            IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, ISamsaraApiService samsaraApiService, IHttpClientFactory httpClientFactory)
+            IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, 
+            ISamsaraApiService samsaraApiService, 
+            IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService)
         {
             _workOrderService = workOrderService;
             _quickBooksConnectionService = quickBooksConnectionService;
             _samsaraApiService = samsaraApiService;
             _technicianService = technicianService;
             _httpClientFactory = httpClientFactory;
+            _driveUploaderService = driveUploaderService;
+
         }
 
 
@@ -69,6 +74,13 @@ namespace RaymarEquipmentInventory.Controllers
                 Log.Error($"Error creating new work order: {ex.Message}");
                 return StatusCode(500, "An error occurred while creating new work order.");
             }
+        }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> Upload(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
+        {
+            await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
+            return Ok("Files uploaded");
         }
 
         [HttpPost("SendWorkOrderEmail")]
