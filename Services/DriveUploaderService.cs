@@ -17,49 +17,47 @@ namespace RaymarEquipmentInventory.Services
 {
     public class DriveUploaderService : IDriveUploaderService
     {
-
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly RaymarInventoryDBContext _context;
-        private readonly DriveService _driveService;
+
         public DriveUploaderService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context)
         {
             _quickBooksConnectionService = quickBooksConnectionService;
             _context = context;
+        }
 
+        public async Task UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
+        {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "service-account.json");
             if (!System.IO.File.Exists(path))
             {
                 throw new Exception($"service-account.json NOT FOUND at {path}");
             }
 
+            Log.Information($"Machine UTC Time: {DateTime.UtcNow:O}");
+            Log.Information($"Machine Local Time: {DateTime.Now:O}");
+
             var credential = GoogleCredential.FromFile(path)
                 .CreateScoped(DriveService.ScopeConstants.Drive);
 
-            _driveService = new DriveService(new BaseClientService.Initializer
+            var driveService = new DriveService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential,
                 ApplicationName = "TaskFuelUploader"
             });
-        }
 
-        public async Task UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
-        {
             string rootFolderId = "1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk";
-
-            // Customer path: "Consbec>Site1" — already nicely formed
             string[] pathSegments = custPath.Split('>');
-
             string currentParentId = rootFolderId;
 
             foreach (var segment in pathSegments)
             {
-                currentParentId = await EnsureFolderExistsAsync(segment.Trim(), currentParentId);
+                currentParentId = await EnsureFolderExistsAsync(segment.Trim(), currentParentId, driveService);
             }
 
-            string workOrderFolderId = await EnsureFolderExistsAsync(workOrderId, currentParentId);
-
-            string pdfFolderId = await EnsureFolderExistsAsync("PDFs", workOrderFolderId);
-            string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId);
+            string workOrderFolderId = await EnsureFolderExistsAsync(workOrderId, currentParentId, driveService);
+            string pdfFolderId = await EnsureFolderExistsAsync("PDFs", workOrderFolderId, driveService);
+            string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId, driveService);
 
             foreach (var file in files)
             {
@@ -79,16 +77,15 @@ namespace RaymarEquipmentInventory.Services
                     Parents = new List<string> { targetFolderId }
                 };
 
-                var upload = _driveService.Files.Create(metadata, stream, file.ContentType);
+                var upload = driveService.Files.Create(metadata, stream, file.ContentType);
                 upload.Fields = "id, webViewLink";
                 await upload.UploadAsync();
             }
         }
 
-
-        private async Task<string> EnsureFolderExistsAsync(string folderName, string parentId)
+        private async Task<string> EnsureFolderExistsAsync(string folderName, string parentId, DriveService driveService)
         {
-            var listRequest = _driveService.Files.List();
+            var listRequest = driveService.Files.List();
             listRequest.Q = $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and '{parentId}' in parents and trashed=false";
             listRequest.Fields = "files(id)";
             var result = await listRequest.ExecuteAsync();
@@ -103,19 +100,12 @@ namespace RaymarEquipmentInventory.Services
                 Parents = new List<string> { parentId }
             };
 
-            var createRequest = _driveService.Files.Create(newFolder);
+            var createRequest = driveService.Files.Create(newFolder);
             createRequest.Fields = "id";
             var created = await createRequest.ExecuteAsync();
 
             return created.Id;
         }
-
-
-
-
-
-
-
     }
 
 }
