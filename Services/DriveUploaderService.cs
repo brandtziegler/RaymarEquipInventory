@@ -26,7 +26,7 @@ namespace RaymarEquipmentInventory.Services
             _quickBooksConnectionService = quickBooksConnectionService;
             _context = context;
 
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "taskfueluploader-097ea40f8784.json");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "service-account.json");
             if (!System.IO.File.Exists(path))
             {
                 throw new Exception($"service-account.json NOT FOUND at {path}");
