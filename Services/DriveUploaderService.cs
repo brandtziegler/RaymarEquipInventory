@@ -32,22 +32,20 @@ namespace RaymarEquipmentInventory.Services
             Log.Information($"Machine UTC Time: {DateTime.UtcNow:O}");
             Log.Information($"Machine Local Time: {DateTime.Now:O}");
 
-            var jsonObject = new
-            {
-                type = Environment.GetEnvironmentVariable("GOOGLE_TYPE"),
-                project_id = Environment.GetEnvironmentVariable("GOOGLE_PROJECT_ID"),
-                private_key_id = Environment.GetEnvironmentVariable("GOOGLE_PRIVATE_KEY_ID"),
-                private_key = Environment.GetEnvironmentVariable("GOOGLE_PRIVATE_KEY")?.Replace("\\n", "\n"),
-                client_email = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_EMAIL"),
-                client_id = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID"),
-                auth_uri = Environment.GetEnvironmentVariable("GOOGLE_AUTH_URI"),
-                token_uri = Environment.GetEnvironmentVariable("GOOGLE_TOKEN_URI"),
-                auth_provider_x509_cert_url = Environment.GetEnvironmentVariable("GOOGLE_AUTH_CERT_URL"),
-                client_x509_cert_url = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_CERT_URL"),
-                universe_domain = Environment.GetEnvironmentVariable("GOOGLE_UNIVERSE_DOMAIN"),
-            };
-
-            var json = JsonConvert.SerializeObject(jsonObject);
+            var json = @"
+{
+  ""type"": ""service_account"",
+  ""project_id"": ""taskfueluploader"",
+  ""private_key_id"": ""0f5cb989c78d2e5105376f9d6562288b52aac69c"",
+  ""private_key"": ""-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC/1rVd1bYvFr8C\\ndtEshfXu1pJ8bMKe1uZFF7dpzuiZrm/RVbN79cAMPSpitdpIQSwIVLmKe/7AI794\\nkvVjfcWe2AvrksbAhGU6FYuT7M/y/3Nt3Lg7cr6d4bUFQdkpOEa6VzG9PjH3mPvP\\nEXoWHTpPG5o/8c1if+5GIbz+ApUlQCp4uro7KNtAhtl3PfyEqusiBsleR4g6W1GX\\nh48G3tLtQGHGQzX07jY5NUNGg/WsbDnWlyvhgk10EnggKFZ5VGoNRk2AC3J61JJ1\\nqooKkCfzG3BX7cWQIoj8xUoGisaGiZmtsNlyIGxFDhGAOwNeaoDUFJlubeMv50kJ\\nBLbsVjC3AgMBAAECggEARuJ3Maz+HHgzLB3rPKBjN1Vh20f0wex2OaGBzD8AA4lJ\\nF/iq0WsFA4C2YLMBbSFnu8xSorEeeLC81zi2I4UduIvsG6eoeQpyvPupD4e5bvil\\nFjsweAb2GDCGSuMB8xEwUTpWzq5kmDCXGvRCQFmcag6w+F/InFTZHmDpDJK3uYNP\\nIsXz80CFcheubScICsxq4Idwiqv0hwJPf6Sr1S8T+imWZZysf7b952eHQ1B1EaPH\\nV5Z4xqXRqwBRte40jMlNXg+yhtlSYyEiiIyfpU32VAN+pFlLiGPoDf2HHF+DPip8\\njiWpORNBgAVHK26Wlt8enEqDQYvvDdiMAQ65DymiwQKBgQD7An1Ai7fYptGff5gl\\nSM30bksm1IBGO+uBVyrP/BBrpo+JUSjB/9wM1D/DKtZmBBzHMO3j+b/VzwbFQ+tv\\nYxQBFPup/mtCQdy+7+xkzVMUVe8wPbx9OB85xXAJwjn3Nymb8jFzXtHLGrq6x8i9\\nWFbiBFnaeRqnnox6iD9rartF+wKBgQDDpxGuMSC+aFkfMQO+25KmOL2Rmff61lyh\\noakpqwovBcPeTScd0QGcWEzgqNT3vl/t1UxqsebqJZMMhnuLYQk/B2BeFoREOBXK\\nHftKAfqQgZVCz25t9epFeGUDGd/+nEZr7FtgrRi61zQ5iRwStxxF+X8K8h60/qBO\\nMKbpQXiPdQKBgBWwhmAwcodvCsgMf3ohS2KmsSm+zQLEpLn9bT6hmk2jC94ivDHf\\nSQV2xbe4mOQh0NbJfJTpfNEd3YjoMIzkc9MQHBr5WA1WoZuCIdwn/djRACUcAJCV\\na+VTETZWqSmag6btC6bbd6dkPORs5QSvgHpxQ85kDpCTW7Iu2cQPafVHAoGBALxr\\nRqGkek4km79oKp1BRAeEGTwBNUmB6w9Val3QdCw4txp83rDeOVjhyJeKwB4eXq/i\\nfIc78I+JxAWJ9ayStJ7Ycbvqn1I7WPCe0wPAyBcmVCJVNZn7+7MPcOf9oTPIOCFz\\nK8T8rhYxbgACxOBZK4dP8UMPTPctSCBExllYTcyJAoGAZmVdmsiCKrhq2eWgm9Po\\nHnQqOUv4m2CbAPyTGh7/Kjm7X/uOqEoQ+1fdNilFKZUMMxxb5S5Tfsdgpo3I/Ik/\\naxkxao1GMcnBKbWWvjpaBvZIbgbT5693yU+CCK+w17BIoXgReTEmhVS4sxrBYBzg\\n87h6Y7yjsfTU2KtBWAWyz7g=\\n-----END PRIVATE KEY-----\\n"",
+  ""client_email"": ""taskfuel-uploader@taskfueluploader.iam.gserviceaccount.com"",
+  ""client_id"": ""114918734538053070077"",
+  ""auth_uri"": ""https://accounts.google.com/o/oauth2/auth"",
+  ""token_uri"": ""https://oauth2.googleapis.com/token"",
+  ""auth_provider_x509_cert_url"": ""https://www.googleapis.com/oauth2/v1/certs"",
+  ""client_x509_cert_url"": ""https://www.googleapis.com/robot/v1/metadata/x509/taskfuel-uploader%40taskfueluploader.iam.gserviceaccount.com"",
+  ""universe_domain"": ""googleapis.com""
+}";
 
             var credential = GoogleCredential.FromJson(json)
                 .CreateScoped(DriveService.ScopeConstants.Drive);
