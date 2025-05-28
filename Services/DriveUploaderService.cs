@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Server.IISIntegration;
 using Google.Apis.Drive.v3;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
+using Newtonsoft.Json;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -28,16 +29,27 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
         {
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "service-account.json");
-            if (!System.IO.File.Exists(path))
-            {
-                throw new Exception($"service-account.json NOT FOUND at {path}");
-            }
-
             Log.Information($"Machine UTC Time: {DateTime.UtcNow:O}");
             Log.Information($"Machine Local Time: {DateTime.Now:O}");
 
-            var credential = GoogleCredential.FromFile(path)
+            var jsonObject = new
+            {
+                type = Environment.GetEnvironmentVariable("GOOGLE_TYPE"),
+                project_id = Environment.GetEnvironmentVariable("GOOGLE_PROJECT_ID"),
+                private_key_id = Environment.GetEnvironmentVariable("GOOGLE_PRIVATE_KEY_ID"),
+                private_key = Environment.GetEnvironmentVariable("GOOGLE_PRIVATE_KEY")?.Replace("\\n", "\n"),
+                client_email = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_EMAIL"),
+                client_id = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID"),
+                auth_uri = Environment.GetEnvironmentVariable("GOOGLE_AUTH_URI"),
+                token_uri = Environment.GetEnvironmentVariable("GOOGLE_TOKEN_URI"),
+                auth_provider_x509_cert_url = Environment.GetEnvironmentVariable("GOOGLE_AUTH_CERT_URL"),
+                client_x509_cert_url = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_CERT_URL"),
+                universe_domain = Environment.GetEnvironmentVariable("GOOGLE_UNIVERSE_DOMAIN"),
+            };
+
+            var json = JsonConvert.SerializeObject(jsonObject);
+
+            var credential = GoogleCredential.FromJson(json)
                 .CreateScoped(DriveService.ScopeConstants.Drive);
 
             var driveService = new DriveService(new BaseClientService.Initializer
