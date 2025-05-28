@@ -76,8 +76,8 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        [HttpPost("UploadStupidFile")]
-        public async Task<IActionResult> UploadTheFile(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
+        [HttpPost("UploadAppFiles")]
+        public async Task<IActionResult> UploadAppFiles(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
         {
             await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
             return Ok("Files uploaded");
@@ -109,8 +109,8 @@ namespace RaymarEquipmentInventory.Controllers
                     <p><strong>Description:</strong> {dto.WorkDescription}</p>
                     <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Firebase & Azure SQL.</p>
                     <p>You can view the uploaded files here:<br>
-                    <a href='https://console.firebase.google.com/u/0/project/raymarequipapp/storage/raymarequipapp.firebasestorage.app/files/~2FWO%23{dto.WorkOrderNumber}'>
-                        View WO#{dto.WorkOrderNumber} Files in Firebase
+                    <a href='https://drive.google.com/drive/folders/1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk'>
+                        View WO#{dto.WorkOrderNumber} Files on Google Drive for  {dto.CustPath}
                     </a></p>
                     <p><em>Login Email:</em> raymardeveloper@gmail.com<br>
                     <em>Password:</em> TaskFue!202S</p>"
