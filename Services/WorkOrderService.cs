@@ -98,49 +98,64 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<bool> InsertWorkOrderAsync(DTOs.WorkOrdSheet workOrdSheet)
+        public async Task<WorkOrderInsertResult?> InsertWorkOrderAsync(DTOs.WorkOrdSheet workOrdSheet)
         {
             try
             {
-                // Step 1: Basic Validation
-                if (workOrdSheet.WorkOrderNumber <= 0)
+                // Step 1: Get next W/O number
+                var nextNumberRow = await _context.NextWorkOrderNumbers.FirstOrDefaultAsync();
+                if (nextNumberRow == null)
                 {
-                    Log.Warning("WorkOrderNumber must be greater than 0.");
-                    return false;
+                    Log.Error("❌ NextWorkOrderNumber table is empty.");
+                    return null;
                 }
 
-                if (workOrdSheet.DateTimeCreated is null)
-                {
-                    Log.Warning("DateTimeCreated is required.");
-                    return false;
-                }
+                int assignedWONumber = nextNumberRow.Wonumber;
+                nextNumberRow.Wonumber += 1;
+                await _context.SaveChangesAsync();
 
-                // Step 2: Create Entity
-                var newEntry = new Models.WorkOrderSheet
+                // Step 2: Insert WorkOrderSheet
+                var newSheet = new Models.WorkOrderSheet
                 {
-                    WorkOrderNumber = workOrdSheet.WorkOrderNumber,
+                    WorkOrderNumber = assignedWONumber,
                     DateTimeCreated = workOrdSheet.DateTimeCreated ?? DateTime.UtcNow,
                     WorkOrderStatus = workOrdSheet.WorkOrderStatus?.Trim() ?? "",
                     DateTimeStarted = workOrdSheet.DateTimeStarted,
                     DateTimeCompleted = workOrdSheet.DateTimeCompleted,
                     WorkDescription = workOrdSheet.WorkDescription
-                    // Optional: Add Notes if you extend your DTO to include it
                 };
 
-                // Step 3: Insert
-                await _context.WorkOrderSheets.AddAsync(newEntry);
+                await _context.WorkOrderSheets.AddAsync(newSheet);
                 await _context.SaveChangesAsync();
 
-                Log.Information($"✅ Inserted WorkOrderSheet with W/O # {newEntry.WorkOrderNumber}");
-                return true;
+                // Step 3: Insert TechnicianWorkOrder
+                var techEntry = new Models.TechnicianWorkOrder
+                {
+                    SheetId = newSheet.SheetId,
+                    TechnicianId = workOrdSheet.TechnicianID
+                };
+
+                await _context.TechnicianWorkOrders.AddAsync(techEntry);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"✅ Inserted WorkOrderSheet #{assignedWONumber} (SheetID {newSheet.SheetId}), and TechnicianWorkOrderID {techEntry.TechnicianWorkOrderId}");
+
+                return new WorkOrderInsertResult
+                {
+                    WorkOrderNumber = assignedWONumber,
+                    SheetId = newSheet.SheetId,
+                    TechnicianWorkOrderId = techEntry.TechnicianWorkOrderId
+                };
             }
             catch (Exception ex)
             {
-                var inner = ex.InnerException?.Message ?? "No inner exception";
-                Log.Error($"❌ Failed to insert WorkOrderSheet: {ex.Message} | Inner: {inner}");
-                return false;
+                Log.Error($"❌ InsertWorkOrderAsync failed: {ex.Message}");
+                return null;
             }
         }
+
+
+
 
 
         private async Task<int> GetNextWorkOrderNumber()

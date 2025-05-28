@@ -64,6 +64,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[NextWorkOrderNumber]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[PartsDocument]",
          "ObjectType": 0
       },

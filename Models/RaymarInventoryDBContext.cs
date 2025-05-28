@@ -37,6 +37,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<MileageAndTime> MileageAndTimes { get; set; }
 
+    public virtual DbSet<NextWorkOrderNumber> NextWorkOrderNumbers { get; set; }
+
     public virtual DbSet<PartsDocument> PartsDocuments { get; set; }
 
     public virtual DbSet<PartsUsed> PartsUseds { get; set; }
@@ -391,6 +393,15 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.SheetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__MileageAn__Sheet__40058253");
+        });
+
+        modelBuilder.Entity<NextWorkOrderNumber>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__NextWork__3214EC073B381161");
+
+            entity.ToTable("NextWorkOrderNumber");
+
+            entity.Property(e => e.Wonumber).HasColumnName("WONumber");
         });
 
         modelBuilder.Entity<PartsDocument>(entity =>

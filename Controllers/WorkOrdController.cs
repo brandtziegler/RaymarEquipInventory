@@ -59,20 +59,17 @@ namespace RaymarEquipmentInventory.Controllers
         {
             try
             {
-                // Call your service to insert the work order information
                 var result = await _workOrderService.InsertWorkOrderAsync(workOrdDto);
 
-                if (!result)
-                {
+                if (result == null)
                     return BadRequest("Unable to create new work order.");
-                }
 
-                return Ok("Work order launched successfully.");
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                Log.Error($"Error creating new work order: {ex.Message}");
-                return StatusCode(500, "An error occurred while creating new work order.");
+                Log.Error($"Error inserting W/O: {ex.Message}");
+                return StatusCode(500, "Error inserting work order.");
             }
         }
 
@@ -140,49 +137,6 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        //[HttpPost("SendWorkOrderEmail")]
-        //public async Task<IActionResult> SendWorkOrderEmail([FromBody] DTOs.WorkOrdMailContent dto)
-        //{
-        //    //re_exsqgshN_HidHMnaoQHNwGn7gn6yy6RbW
-        //    //RaymarWONotice
-        //    var resendKey = "re_exsqgshN_HidHMnaoQHNwGn7gn6yy6RbW";
-        //    var email = new
-        //    {
-        //        from = "service@taskfuel.app",
-        //        to = dto.EmailAddress,
-        //        subject = $"Work Order #{dto.WorkOrderNumber} for {dto.CustPath} Uploaded",
-        //        html = $@"
-        //    <h2>Work Order Synced</h2>
-        //    <p>Sheet ID: {dto.SheetId}</p>
-        //    <p>Customer Path: {dto.CustPath}</p>
-        //    <p>Description: {dto.WorkDescription}</p>
-        //    <p>Work Order #{dto.WorkOrderNumber} is now live in Firebase & Azure SQL.</p>"
-        //    };
-
-        //    try
-        //    {
-        //        var client = _httpClientFactory.CreateClient();
-        //        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", resendKey);
-
-        //        var response = await client.PostAsJsonAsync("https://api.resend.com/emails", email);
-
-        //        if (!response.IsSuccessStatusCode)
-        //        {
-        //            var body = await response.Content.ReadAsStringAsync();
-        //            Console.WriteLine("❌ Email failed: " + body);
-        //            return StatusCode((int)response.StatusCode, body);
-        //        }
-
-        //        Console.WriteLine("✅ Email sent.");
-        //        return Ok("Email sent.");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("🔥 Exception: " + ex.Message);
-        //        return StatusCode(500, "Internal error: " + ex.Message);
-        //    }
-
-        //}
 
         [HttpGet("GetWorkOrder")]
         public async Task<IActionResult> GetWorkOrder(int sheetID)
