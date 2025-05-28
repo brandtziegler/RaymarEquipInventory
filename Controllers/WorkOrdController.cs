@@ -77,7 +77,7 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
         [HttpPost("UploadStupidFile")]
-        public async Task<IActionResult> UploadStupidFile(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
+        public async Task<IActionResult> UploadTheFile(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
         {
             await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
             return Ok("Files uploaded");
