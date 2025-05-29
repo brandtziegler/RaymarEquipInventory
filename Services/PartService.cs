@@ -110,11 +110,7 @@ namespace RaymarEquipmentInventory.Services
                     return false;
                 }
 
-                if (dto.InventoryID <= 0)
-                {
-                    Log.Warning("InventoryId is required and must be valid.");
-                    return false;
-                }
+
 
                 var newEntry = new Models.PartsUsed
                 {
@@ -137,7 +133,12 @@ namespace RaymarEquipmentInventory.Services
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to insert part usage: {ex.Message}");
+                var fullError = ex.InnerException != null
+                    ? $"{ex.Message} | Inner: {ex.InnerException.Message}"
+                    : ex.Message;
+
+                Log.Error(ex, $"❌ Failed to insert part usage. Details: {fullError}");
+
                 return false;
             }
         }
