@@ -102,6 +102,7 @@ namespace RaymarEquipmentInventory.Services
         {
             try
             {
+              
                 // Step 1: Get next W/O number
                 var nextNumberRow = await _context.NextWorkOrderNumbers.FirstOrDefaultAsync();
                 if (nextNumberRow == null)
@@ -128,24 +129,44 @@ namespace RaymarEquipmentInventory.Services
                 await _context.WorkOrderSheets.AddAsync(newSheet);
                 await _context.SaveChangesAsync();
 
-                // Step 3: Insert TechnicianWorkOrder
-                var techEntry = new Models.TechnicianWorkOrder
+                // Step 3: Insert ALL TechnicianWorkOrders
+                var allTechs = await _context.Technicians.ToListAsync();
+                int anchorTechnicianWorkOrderId = 0;
+                var technicianMappings = new List<TechnicianWorkOrderMapping>();
+
+                foreach (var tech in allTechs)
                 {
-                    SheetId = newSheet.SheetId,
-                    TechnicianId = workOrdSheet.TechnicianID
-                };
+                    var techEntry = new Models.TechnicianWorkOrder
+                    {
+                        SheetId = newSheet.SheetId,
+                        TechnicianId = tech.TechnicianId
+                    };
 
-                await _context.TechnicianWorkOrders.AddAsync(techEntry);
-                await _context.SaveChangesAsync();
+                    await _context.TechnicianWorkOrders.AddAsync(techEntry);
+                    await _context.SaveChangesAsync();
 
-                Log.Information($"✅ Inserted WorkOrderSheet #{assignedWONumber} (SheetID {newSheet.SheetId}), and TechnicianWorkOrderID {techEntry.TechnicianWorkOrderId}");
+                    if (tech.TechnicianId == workOrdSheet.TechnicianID)
+                    {
+                        anchorTechnicianWorkOrderId = techEntry.TechnicianWorkOrderId;
+                    }
+
+                    technicianMappings.Add(new TechnicianWorkOrderMapping
+                    {
+                        TechnicianId = tech.TechnicianId,
+                        TechnicianWorkOrderId = techEntry.TechnicianWorkOrderId
+                    });
+
+                    Log.Information($"👷 Inserted TechnicianWorkOrder for TechID {tech.TechnicianId} (TWO_ID {techEntry.TechnicianWorkOrderId})");
+                }
 
                 return new WorkOrderInsertResult
                 {
                     WorkOrderNumber = assignedWONumber,
                     SheetId = newSheet.SheetId,
-                    TechnicianWorkOrderId = techEntry.TechnicianWorkOrderId
+                    TechnicianWorkOrderId = anchorTechnicianWorkOrderId,
+                    TechnicianMappings = technicianMappings
                 };
+
             }
             catch (Exception ex)
             {
