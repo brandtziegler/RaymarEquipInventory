@@ -54,6 +54,10 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+
+        [HttpGet("ping")]
+        public IActionResult Ping() => Ok("Connected");
+
         [HttpPost("InsertWorkOrder")]
         public async Task<IActionResult> InsertWorkOrder([FromBody] DTOs.WorkOrdSheet workOrdDto)
         {
