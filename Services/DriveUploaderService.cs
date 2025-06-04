@@ -52,7 +52,7 @@ namespace RaymarEquipmentInventory.Services
                 var clientID = GetEnv("GOOGLE_CLIENT_ID");
                 var authURI = GetEnv("GOOGLE_AUTH_URI");
                 var tokenURI = GetEnv("GOOGLE_TOKEN_URI");
-                var authProviderCertUrl = GetEnv("GOOGLE_AUTH_PROVIDER_CERT_URL");
+                var authProviderCertUrl = GetEnv("GOOGLE_AUTH_CERT_URL");
                 var clientCertUrl = GetEnv("GOOGLE_CLIENT_CERT_URL");
                 var universeDomain = GetEnv("GOOGLE_UNIVERSE_DOMAIN");
 
