@@ -1,0 +1,258 @@
+2025-06-03 18:40:27.721 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-06-03 18:40:27.754 -04:00 [INF] Hosting environment: Development
+2025-06-03 18:40:27.754 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2025-06-03 19:57:51.398 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-06-03 19:57:52.048 -04:00 [INF] Hangfire SQL objects installed.
+2025-06-03 19:57:52.179 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-06-03 19:57:52.413 -04:00 [INF] Now listening on: https://localhost:7150
+2025-06-03 19:57:52.414 -04:00 [INF] Now listening on: http://localhost:5229
+2025-06-03 19:57:52.415 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-06-03 19:57:52.416 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-06-03 19:57:52.416 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-06-03 19:57:52.417 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-06-03 19:57:52.456 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-06-03 19:57:52.456 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-06-03 19:57:52.457 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-06-03 19:57:52.467 -04:00 [DBG] Execution loop BackgroundServerProcess:d693d273 has started in 6.8971 ms
+2025-06-03 19:57:52.612 -04:00 [INF] Server bz2024ad:29260:dee305a4 successfully announced in 137.9115 ms
+2025-06-03 19:57:52.617 -04:00 [DBG] Execution loop ServerHeartbeatProcess:6812e120 has started in 4.0303 ms
+2025-06-03 19:57:52.617 -04:00 [INF] Server bz2024ad:29260:dee305a4 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-06-03 19:57:52.621 -04:00 [DBG] Execution loop ServerWatchdog:5ff7c224 has started in 2.7801 ms
+2025-06-03 19:57:52.624 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:6520726f has started in 4.7934 ms
+2025-06-03 19:57:52.626 -04:00 [DBG] Execution loop ExpirationManager:a85e8802 has started in 3.9865 ms
+2025-06-03 19:57:52.629 -04:00 [DBG] Execution loop CountersAggregator:87831a5b has started in 4.7521 ms
+2025-06-03 19:57:52.631 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:b0b23aec has started in 4.7755 ms
+2025-06-03 19:57:52.636 -04:00 [DBG] Execution loop Worker:fecc614c has started in 7.2715 ms
+2025-06-03 19:57:52.640 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-06-03 19:57:52.640 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 19:57:52.639 -04:00 [DBG] Execution loop Worker:86b8dd21 has started in 10.0137 ms
+2025-06-03 19:57:52.641 -04:00 [DBG] Execution loop Worker:ce699735 has started in 12.5122 ms
+2025-06-03 19:57:52.644 -04:00 [DBG] Execution loop Worker:07d8e5d0 has started in 14.8873 ms
+2025-06-03 19:57:52.646 -04:00 [DBG] Execution loop Worker:5ba27345 has started in 17.3549 ms
+2025-06-03 19:57:52.649 -04:00 [DBG] Execution loop Worker:8b5999d7 has started in 20.6688 ms
+2025-06-03 19:57:52.653 -04:00 [DBG] Execution loop Worker:799954d0 has started in 24.694 ms
+2025-06-03 19:57:52.686 -04:00 [DBG] Execution loop Worker:a975e627 has started in 57.4891 ms
+2025-06-03 19:57:52.686 -04:00 [DBG] Execution loop Worker:0120866c has started in 57.492 ms
+2025-06-03 19:57:52.694 -04:00 [DBG] Execution loop Worker:7c852359 has started in 65.1816 ms
+2025-06-03 19:57:52.697 -04:00 [DBG] Execution loop Worker:7b82a423 has started in 67.9733 ms
+2025-06-03 19:57:52.702 -04:00 [DBG] Execution loop Worker:e3a593bc has started in 72.8396 ms
+2025-06-03 19:57:52.706 -04:00 [DBG] Execution loop Worker:4c5c512a has started in 77.194 ms
+2025-06-03 19:57:52.709 -04:00 [DBG] Execution loop Worker:7209e4ff has started in 80.6285 ms
+2025-06-03 19:57:52.736 -04:00 [INF] Server bz2024ad:29260:dee305a4 all the dispatchers started
+2025-06-03 19:57:52.712 -04:00 [DBG] Execution loop Worker:13e17504 has started in 83.4328 ms
+2025-06-03 19:57:52.716 -04:00 [DBG] Execution loop Worker:1721959d has started in 87.4217 ms
+2025-06-03 19:57:52.723 -04:00 [DBG] Execution loop Worker:f8d36d1b has started in 93.9128 ms
+2025-06-03 19:57:52.727 -04:00 [DBG] Execution loop Worker:bd1b9188 has started in 98.0369 ms
+2025-06-03 19:57:52.731 -04:00 [DBG] Execution loop Worker:25616b2b has started in 101.7923 ms
+2025-06-03 19:57:52.732 -04:00 [DBG] Execution loop Worker:1970ad96 has started in 103.5744 ms
+2025-06-03 19:57:52.737 -04:00 [DBG] Execution loop DelayedJobScheduler:3f7bf932 has started in 9.2738 ms
+2025-06-03 19:57:52.739 -04:00 [DBG] Execution loop RecurringJobScheduler:25ecc008 has started in 6.4746 ms
+2025-06-03 19:57:52.757 -04:00 [DBG] Connection id "0HND2V9PVBDS1" received FIN.
+2025-06-03 19:57:52.757 -04:00 [DBG] Connection id "0HND2V9PVBDS2" received FIN.
+2025-06-03 19:57:52.880 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-06-03 19:57:52.880 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-06-03 19:57:52.891 -04:00 [DBG] Connection id "0HND2V9PVBDS1" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-03 19:57:52.891 -04:00 [DBG] Connection id "0HND2V9PVBDS2" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-03 19:57:52.894 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-06-03 19:57:53.308 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-06-03 19:57:53.436 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-06-03 19:57:53.528 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-06-03 19:57:53.704 -04:00 [DBG] Connection 0HND2V9PVBDS3 established using the following protocol: "Tls13"
+2025-06-03 19:57:53.761 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2025-06-03 19:57:53.882 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-06-03 19:57:53.904 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-06-03 19:57:53.905 -04:00 [DBG] Request did not match any endpoints
+2025-06-03 19:57:53.937 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-06-03 19:57:53.938 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-06-03 19:57:53.949 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-06-03 19:57:53.951 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-06-03 19:57:53.955 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 199.2552ms
+2025-06-03 19:57:53.986 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2025-06-03 19:57:53.986 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2025-06-03 19:57:53.996 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 9.9684ms
+2025-06-03 19:57:54.043 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 56.8047ms
+2025-06-03 19:57:54.133 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2025-06-03 19:57:54.136 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-06-03 19:57:54.136 -04:00 [DBG] Request did not match any endpoints
+2025-06-03 19:57:54.214 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 81.0442ms
+2025-06-03 19:57:56.702 -04:00 [DBG] Connection id "0HND2V9PVBDS3" received FIN.
+2025-06-03 19:57:56.704 -04:00 [DBG] Connection id "0HND2V9PVBDS3" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-03 19:58:22.676 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 19:58:52.732 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 19:59:22.775 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 19:59:52.817 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:00:35.191 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:01:05.228 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:01:35.270 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:02:05.325 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:02:35.369 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:03:05.256 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:03:05.401 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:03:35.444 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:04:05.478 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:04:35.519 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:05:05.573 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:05:35.630 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:06:05.679 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:06:35.736 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:07:05.798 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:07:35.852 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:08:05.320 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:08:05.903 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:08:35.949 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:09:06.006 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:09:36.053 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:10:06.095 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:10:36.155 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:11:06.220 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:11:36.283 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:12:06.335 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:12:36.386 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:13:05.360 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:13:06.439 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:13:36.502 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:14:06.562 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:14:36.616 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:15:06.671 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:15:36.720 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:16:06.767 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:16:36.828 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:17:06.877 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:17:36.938 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:18:05.406 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:18:06.992 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:18:37.045 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:19:07.092 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:19:37.140 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:20:07.202 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:20:37.251 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:21:07.296 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:21:37.345 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:22:07.398 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:22:37.440 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:23:05.454 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:23:07.486 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:23:37.539 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:24:07.589 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:24:37.642 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:25:07.697 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:25:37.757 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:26:07.810 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:26:37.860 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:27:07.904 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:27:37.952 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:28:05.503 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:28:05.955 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-06-03 20:28:06.056 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-06-03 20:28:06.173 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-06-03 20:28:06.280 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-06-03 20:28:06.380 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-06-03 20:28:07.993 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:28:38.034 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:29:08.075 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:29:38.126 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:30:08.174 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:30:38.212 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:31:08.267 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:31:38.376 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:32:08.422 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:32:38.471 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:33:05.548 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:33:08.513 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:33:38.560 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:34:08.613 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:34:38.673 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:35:08.716 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:35:38.761 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:36:08.808 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:36:38.855 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:37:08.908 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:37:38.965 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:38:05.594 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:38:09.010 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:38:39.064 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:39:09.120 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:39:39.179 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:40:09.231 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:40:39.265 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:41:09.306 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:41:39.361 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:42:09.416 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:42:39.469 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:43:05.639 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:43:09.508 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:43:39.565 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:44:09.624 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:44:39.671 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:45:09.720 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:45:39.766 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:46:09.813 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:46:39.873 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:47:09.937 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:47:39.982 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:48:05.675 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:48:10.025 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:48:40.077 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:49:10.122 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:49:40.175 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:50:10.220 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:50:40.267 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:51:10.329 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:51:40.389 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:52:10.439 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:52:40.484 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:53:05.719 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:53:10.542 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:53:40.595 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:54:10.661 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:54:40.716 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:55:10.767 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:55:40.908 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:56:10.968 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:56:41.009 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:57:11.059 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:57:41.111 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:58:05.757 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 20:58:06.498 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-06-03 20:58:06.598 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-06-03 20:58:06.695 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-06-03 20:58:06.794 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-06-03 20:58:06.887 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-06-03 20:58:11.173 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:58:41.232 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:59:11.278 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 20:59:41.328 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:00:11.377 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:00:41.427 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:01:11.484 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:01:41.538 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:02:11.601 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:02:41.650 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:03:05.798 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 21:03:11.705 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:03:41.750 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:04:11.791 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:04:41.846 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:05:11.894 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:05:41.947 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:06:12.001 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:06:42.043 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:07:12.088 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:07:42.151 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:08:05.845 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-03 21:08:12.198 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent
+2025-06-03 21:08:42.245 -04:00 [DBG] Server bz2024ad:29260:dee305a4 heartbeat successfully sent

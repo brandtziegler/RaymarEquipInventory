@@ -19,6 +19,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
@@ -26,7 +27,18 @@
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7150;http://localhost:5229",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "GOOGLE_TYPE": "service_account",
+        "GOOGLE_PROJECT_ID": "taskfueluploader",
+        "GOOGLE_PRIVATE_KEY_ID": "4392043e7c33832fd20fd3bd75a1038e4b62122b",
+        "GOOGLE_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDB9Y1MCzFQfSFn\\nv17mIBiu3FrTuEUtyDFwMkAuHdE0p/6nXbu7t091H6cb8iJFZRYDWUkfgNlPs3Np\\nJcCU/VvubeZWLOUM4xlKnF5cp0fT4YFbcLVJkAmgPNXX8EVMKpMyaM4cLlbbFolW\\n5IeImL2LDY5NWzzUsdMr8Mce43zid4MvoCN/ltfUd/5nzqrZU+T/B6BFuFBh0gAY\\neOTjK7UxAvo/Xm+4m6+s38ShOdwz7HwNH1hRyAC+PYoFDUNGxfaaU19Hg/f87Mvn\\nMmiPIsoPwMYqzqIyZR+DO7/xF03Ci1e77bMpSABkyEQkzpA+GF36yW880UKslfR8\\nT3iE2nV9AgMBAAECggEAEqBoAiBGC16E9X9rl+qHrE1FnLUC0b96vfVZdARRib7D\\nZiPKil+zjgIs7HJfp63qRAaQTunzFKQdZoDlYnmFWVutBeQYWBk8Hc3wAvJeo8Kx\\nh0xG4KpoPj7xY2Qz53lkOvBVMOAjX7VlmZZnTK8sbrztyFCFgkCUkND18mmy3dWk\\n1srLqqWP3DE6WLB7zUQcBA4r/XAwGjFRjsTnYIVnY1l+icYTKawPDO1qSLbK7Ar5\\nEvx773IXPy9MYY6tdJ7Jj8F5yuIWwbRCxTmMf6GfocxCvbGJwcC01Ju44utuN717\\nn0NkkqBUV9VvtxxCOYPuR9gR00QFZpEFudk7K7pw4QKBgQD3f7WEgC8ucbAEL06n\\nyVUYsNBPRGJfE62l4tc726wLBeBQaoMGmTSSBeMXLr+psDc4mCnRNNP8e98Ue8ja\\nu4CzNoGOaFYwJYhj9XNKvBXBXRhUUXijkXSl7p46efStH0j8wjxSipwOqDvEsApj\\nIN9FKUiP15x9rJB/E/VIiywwHQKBgQDInw+wJ6I2pAfoPt9lVX4cQZlfW+7CCQcb\\nWjsKcIAqq/VyffW9g4lLWf145k6mHswG15q7zPQ7hpb5iIhdtliRAbrKr0nceN9R\\nTIfr1lxpRjt0KL43hYP6/HzWx5aWTJzacRBkMDOblGQVwm/Sih1VjkNaxSe58Wlv\\nzLhj+vUc4QKBgG9ziwIH1zdK6sB3rSvRdgiQVr3bRZEbA29YHyRNX8P2+XQ9ApPO\\nGeZH0GN4IccAG13Y57vV1kA0Z9iJhYE6PlJ1kRHX2jgELs8UkL5uxD029uXBaln9\\n/lFaitY6ZPwwwmVP8moZEP1otMF1pLfO7bvvQ0XDCi1tsAQJsMLiKRvhAoGAVNKT\\nsnn/ZrTRtwsmLtUHvfCqZRwchaOFgrYSsmZAeko8O40wIlGD8fz5Y22UoT3yK45r\\nGK4eMTDFknl8loqrRZwCmwGj6/ibCuedrEP0zHnqV0GGszjbRXoNWk4GyENaKi2V\\nrZaHq2cBLgYIe27z2iGNLsqe8ko0txVKfNM1YWECgYEAhrnIgFC5sxhSqHwUeBFc\\nnknDpflGgiyDlNsKhZ4l/N29ZSS33jWORtMqX1de7rV5ejmGSz2mVXSOCHxM6R8e\\nJKfD6SL/HoQRgJKLN89nNxVDNERlOUSdFesaQFq/IOL+wAkuAbikjQUKmAA7eSPE\\n/M10De6ZYS6Z9wX4flu+FcM=\\n-----END PRIVATE KEY-----\\n",
+        "GOOGLE_CLIENT_EMAIL": "taskfuel-uploader@taskfueluploader.iam.gserviceaccount.com",
+        "GOOGLE_CLIENT_ID": "111742076022927988339",
+        "GOOGLE_AUTH_URI": "https://accounts.google.com/o/oauth2/auth",
+        "GOOGLE_TOKEN_URI": "https://oauth2.googleapis.com/token",
+        "GOOGLE_AUTH_CERT_URL": "https://www.googleapis.com/oauth2/v1/certs",
+        "GOOGLE_CLIENT_CERT_URL": "https://www.googleapis.com/robot/v1/metadata/x509/taskfuel-uploader%40taskfueluploader.iam.gserviceaccount.com",
+        "GOOGLE_UNIVERSE_DOMAIN": "googleapis.com"
       }
     },
     "IIS Express": {
