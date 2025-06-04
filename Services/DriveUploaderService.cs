@@ -47,12 +47,12 @@ namespace RaymarEquipmentInventory.Services
                 var serviceType = GetEnv("GOOGLE_TYPE");
                 var projectID = GetEnv("GOOGLE_PROJECT_ID");
                 var privateKeyID = GetEnv("GOOGLE_PRIVATE_KEY_ID");
-                var privateKey = GetEnv("GOOGLE_PRIVATE_KEY");
+                var privateKey = GetEnv("GOOGLE_PRIVATE_KEY").Replace("\\n", "\n");
                 var clientEmail = GetEnv("GOOGLE_CLIENT_EMAIL");
                 var clientID = GetEnv("GOOGLE_CLIENT_ID");
                 var authURI = GetEnv("GOOGLE_AUTH_URI");
                 var tokenURI = GetEnv("GOOGLE_TOKEN_URI");
-                var authProviderCertUrl = GetEnv("GOOGLE_AUTH_CERT_URL");
+                var authProviderCertUrl = GetEnv("GOOGLE_AUTH_PROVIDER_CERT_URL");
                 var clientCertUrl = GetEnv("GOOGLE_CLIENT_CERT_URL");
                 var universeDomain = GetEnv("GOOGLE_UNIVERSE_DOMAIN");
 
