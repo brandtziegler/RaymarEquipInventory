@@ -56,21 +56,35 @@ namespace RaymarEquipmentInventory.Services
                 var clientCertUrl = GetEnv("GOOGLE_CLIENT_CERT_URL");
                 var universeDomain = GetEnv("GOOGLE_UNIVERSE_DOMAIN");
 
-                var json = $@"
-        {{
-          ""type"": ""{serviceType}"",
-          ""project_id"": ""{projectID}"",
-          ""private_key_id"": ""{privateKeyID}"",
-          ""private_key"": ""{privateKey}"",
-          ""client_email"": ""{clientEmail}"",
-          ""client_id"": ""{clientID}"",
-          ""auth_uri"": ""{authURI}"",
-          ""token_uri"": ""{tokenURI}"",
-          ""auth_provider_x509_cert_url"": ""{authProviderCertUrl}"",
-          ""client_x509_cert_url"": ""{clientCertUrl}"",
-          ""universe_domain"": ""{universeDomain}""
-        }}";
+                //        var json = $@"
+                //{{
+                //  ""type"": ""{serviceType}"",
+                //  ""project_id"": ""{projectID}"",
+                //  ""private_key_id"": ""{privateKeyID}"",
+                //  ""private_key"": ""{privateKey}"",
+                //  ""client_email"": ""{clientEmail}"",
+                //  ""client_id"": ""{clientID}"",
+                //  ""auth_uri"": ""{authURI}"",
+                //  ""token_uri"": ""{tokenURI}"",
+                //  ""auth_provider_x509_cert_url"": ""{authProviderCertUrl}"",
+                //  ""client_x509_cert_url"": ""{clientCertUrl}"",
+                //  ""universe_domain"": ""{universeDomain}""
+                //}}";
 
+                var json = JsonConvert.SerializeObject(new Dictionary<string, string>
+                {
+                    ["type"] = GetEnv("GOOGLE_TYPE"),
+                    ["project_id"] = GetEnv("GOOGLE_PROJECT_ID"),
+                    ["private_key_id"] = GetEnv("GOOGLE_PRIVATE_KEY_ID"),
+                    ["private_key"] = GetEnv("GOOGLE_PRIVATE_KEY").Replace("\\n", "\n"),
+                    ["client_email"] = GetEnv("GOOGLE_CLIENT_EMAIL"),
+                    ["client_id"] = GetEnv("GOOGLE_CLIENT_ID"),
+                    ["auth_uri"] = GetEnv("GOOGLE_AUTH_URI"),
+                    ["token_uri"] = GetEnv("GOOGLE_TOKEN_URI"),
+                    ["auth_provider_x509_cert_url"] = GetEnv("GOOGLE_AUTH_CERT_URL"),
+                    ["client_x509_cert_url"] = GetEnv("GOOGLE_CLIENT_CERT_URL"),
+                    ["universe_domain"] = GetEnv("GOOGLE_UNIVERSE_DOMAIN")
+                });
                 Log.Information("Creating GoogleCredential from environment variables...");
                 var credential = GoogleCredential.FromJson(json).CreateScoped(DriveService.ScopeConstants.Drive);
 
