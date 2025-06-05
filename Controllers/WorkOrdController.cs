@@ -80,9 +80,37 @@ namespace RaymarEquipmentInventory.Controllers
         [HttpPost("UploadAppFiles")]
         public async Task<IActionResult> UploadAppFiles(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
         {
+            
             await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
             return Ok("Files uploaded");
         }
+
+        [HttpPost("VerifyKey")]
+        public IActionResult VerifyKey()
+        {
+            try
+            {
+                var lines = _driveUploaderService.VerifyAndSplitPrivateKey();
+
+                if (lines == null || lines.Count == 0)
+                {
+                    return BadRequest("❌ Private key is missing or improperly formatted.");
+                }
+
+                return Ok(new
+                {
+                    message = "✅ Private key is valid and properly split.",
+                    lineCount = lines.Count,
+                    lines = lines
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "💥 Unexpected error during private key verification.");
+                return StatusCode(500, "Internal Server Error. Check logs for details.");
+            }
+        }
+
 
         [HttpPost("SendWorkOrderEmail")]
         public async Task<IActionResult> SendWorkOrderEmail([FromBody] DTOs.WorkOrdMailContent dto)

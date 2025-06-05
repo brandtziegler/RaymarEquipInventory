@@ -14,6 +14,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Newtonsoft.Json;
 using Google;
+using System.Text;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -27,6 +28,57 @@ namespace RaymarEquipmentInventory.Services
             _quickBooksConnectionService = quickBooksConnectionService;
             _context = context;
         }
+
+
+        public List<string> VerifyAndSplitPrivateKey()
+        {
+            var raw = Environment.GetEnvironmentVariable("GOOGLE_PRIVATE_KEY");
+
+            if (string.IsNullOrWhiteSpace(raw))
+            {
+                Log.Error("🛑 GOOGLE_PRIVATE_KEY is null or empty.");
+                return null;
+            }
+
+            Log.Information("🔍 Raw private key (first 80 chars): " + raw.Substring(0, Math.Min(80, raw.Length)));
+
+            var cleaned = raw.Replace("\\n", "\n");
+
+            // Validate delimiters
+            if (!cleaned.StartsWith("-----BEGIN PRIVATE KEY-----") ||
+                !cleaned.Trim().EndsWith("-----END PRIVATE KEY-----"))
+            {
+                Log.Error("❌ Cleaned key is missing BEGIN/END delimiters.");
+                return null;
+            }
+
+            // Validate by trying to create a credential
+            try
+            {
+                var credential = new ServiceAccountCredential(
+                    new ServiceAccountCredential.Initializer("test@your-project.iam.gserviceaccount.com")
+                    {
+                        Scopes = new[] { DriveService.ScopeConstants.Drive }
+                    }.FromPrivateKey(cleaned)
+                );
+
+                Log.Information("🎯 Credential creation succeeded.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "💥 Credential creation failed.");
+                return null;
+            }
+
+            // Split into individual lines
+            var lines = cleaned.Split('\n').Select(line => line.TrimEnd('\r')).ToList();
+
+            Log.Information($"✅ Private key validated and split. Line count: {lines.Count}");
+
+            return lines;
+        }
+
+
 
         public async Task UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
         {
@@ -48,6 +100,7 @@ namespace RaymarEquipmentInventory.Services
                 var projectID = GetEnv("GOOGLE_PROJECT_ID");
                 var privateKeyID = GetEnv("GOOGLE_PRIVATE_KEY_ID");
                 var privateKey = GetEnv("GOOGLE_PRIVATE_KEY").Replace("\\n", "\n");
+                var privateKey64a = GetEnv("GOOGLE_PRIVATE_KEY64");
                 var clientEmail = GetEnv("GOOGLE_CLIENT_EMAIL");
                 var clientID = GetEnv("GOOGLE_CLIENT_ID");
                 var authURI = GetEnv("GOOGLE_AUTH_URI");
@@ -56,43 +109,25 @@ namespace RaymarEquipmentInventory.Services
                 var clientCertUrl = GetEnv("GOOGLE_CLIENT_CERT_URL");
                 var universeDomain = GetEnv("GOOGLE_UNIVERSE_DOMAIN");
 
-                //        var json = $@"
-                //{{
-                //  ""type"": ""{serviceType}"",
-                //  ""project_id"": ""{projectID}"",
-                //  ""private_key_id"": ""{privateKeyID}"",
-                //  ""private_key"": ""{privateKey}"",
-                //  ""client_email"": ""{clientEmail}"",
-                //  ""client_id"": ""{clientID}"",
-                //  ""auth_uri"": ""{authURI}"",
-                //  ""token_uri"": ""{tokenURI}"",
-                //  ""auth_provider_x509_cert_url"": ""{authProviderCertUrl}"",
-                //  ""client_x509_cert_url"": ""{clientCertUrl}"",
-                //  ""universe_domain"": ""{universeDomain}""
-                //}}";
+              // Rebuild private key from split env vars
+                var privateKeyLines = Enumerable.Range(1, 28)
+                    .Select(i => Environment.GetEnvironmentVariable($"GOOGLE_PRIVATE_KEY_{i}"))
+                    .Where(line => !string.IsNullOrWhiteSpace(line))
+                    .ToList();
 
-                //var json = JsonConvert.SerializeObject(new Dictionary<string, string>
-                //{
-                //    ["type"] = GetEnv("GOOGLE_TYPE"),
-                //    ["project_id"] = GetEnv("GOOGLE_PROJECT_ID"),
-                //    ["private_key_id"] = GetEnv("GOOGLE_PRIVATE_KEY_ID"),
-                //    ["private_key"] = GetEnv("GOOGLE_PRIVATE_KEY").Replace("\\n", "\n"),
-                //    ["client_email"] = GetEnv("GOOGLE_CLIENT_EMAIL"),
-                //    ["client_id"] = GetEnv("GOOGLE_CLIENT_ID"),
-                //    ["auth_uri"] = GetEnv("GOOGLE_AUTH_URI"),
-                //    ["token_uri"] = GetEnv("GOOGLE_TOKEN_URI"),
-                //    ["auth_provider_x509_cert_url"] = GetEnv("GOOGLE_AUTH_CERT_URL"),
-                //    ["client_x509_cert_url"] = GetEnv("GOOGLE_CLIENT_CERT_URL"),
-                //    ["universe_domain"] = GetEnv("GOOGLE_UNIVERSE_DOMAIN")
-                //});
-                Log.Information("Creating GoogleCredential from environment variables...");
+                if (privateKeyLines.Count != 28)
+                    throw new InvalidOperationException($"Expected 28 lines of private key, but got {privateKeyLines.Count}.");
+
+                var privateKeyCombined = string.Join("\n", privateKeyLines);
+
+
                 var credential = new ServiceAccountCredential(
-    new ServiceAccountCredential.Initializer(GetEnv("GOOGLE_CLIENT_EMAIL"))
-    {
-        ProjectId = GetEnv("GOOGLE_PROJECT_ID"),
-        Scopes = new[] { DriveService.ScopeConstants.Drive }
-    }.FromPrivateKey(GetEnv("GOOGLE_PRIVATE_KEY").Replace("\\n", "\n"))
-);
+                    new ServiceAccountCredential.Initializer(GetEnv("GOOGLE_CLIENT_EMAIL"))
+                    {
+                        ProjectId = GetEnv("GOOGLE_PROJECT_ID"),
+                        Scopes = new[] { DriveService.ScopeConstants.Drive }
+                    }.FromPrivateKey(privateKeyCombined)
+                );
 
 
                 var driveService = new DriveService(new BaseClientService.Initializer

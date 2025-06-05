@@ -1,0 +1,270 @@
+2025-06-05 10:10:43.036 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-06-05 10:10:43.063 -04:00 [INF] Hosting environment: Development
+2025-06-05 10:10:43.064 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2025-06-05 10:34:37.831 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-06-05 10:34:38.560 -04:00 [INF] Hangfire SQL objects installed.
+2025-06-05 10:34:38.671 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-06-05 10:34:38.891 -04:00 [INF] Now listening on: https://localhost:7150
+2025-06-05 10:34:38.892 -04:00 [INF] Now listening on: http://localhost:5229
+2025-06-05 10:34:38.893 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-06-05 10:34:38.893 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-06-05 10:34:38.894 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-06-05 10:34:38.895 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-06-05 10:34:38.935 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-06-05 10:34:38.936 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-06-05 10:34:38.937 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-06-05 10:34:38.949 -04:00 [DBG] Execution loop BackgroundServerProcess:3c7037b0 has started in 5.4623 ms
+2025-06-05 10:34:39.078 -04:00 [INF] Server bz2024ad:5968:79bdf310 successfully announced in 123.3488 ms
+2025-06-05 10:34:39.085 -04:00 [DBG] Execution loop ServerHeartbeatProcess:df480ea7 has started in 4.7438 ms
+2025-06-05 10:34:39.085 -04:00 [INF] Server bz2024ad:5968:79bdf310 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-06-05 10:34:39.090 -04:00 [DBG] Execution loop ServerWatchdog:68759056 has started in 3.4712 ms
+2025-06-05 10:34:39.094 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:f0cd2beb has started in 7.0845 ms
+2025-06-05 10:34:39.097 -04:00 [DBG] Execution loop ExpirationManager:4af8f4f4 has started in 3.0386 ms
+2025-06-05 10:34:39.125 -04:00 [DBG] Execution loop CountersAggregator:747d1fb9 has started in 30.5649 ms
+2025-06-05 10:34:39.125 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:e5cc32ad has started in 27.99 ms
+2025-06-05 10:34:39.130 -04:00 [DBG] Execution loop Worker:b96748c9 has started in 4.5401 ms
+2025-06-05 10:34:39.133 -04:00 [DBG] Execution loop Worker:34f56bed has started in 7.4736 ms
+2025-06-05 10:34:39.134 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-06-05 10:34:39.134 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-05 10:34:39.136 -04:00 [DBG] Execution loop Worker:3cfc1146 has started in 10.78 ms
+2025-06-05 10:34:39.139 -04:00 [DBG] Execution loop Worker:319964a5 has started in 13.5194 ms
+2025-06-05 10:34:39.142 -04:00 [DBG] Execution loop Worker:658491fd has started in 16.834 ms
+2025-06-05 10:34:39.146 -04:00 [DBG] Execution loop Worker:8a567a6d has started in 20.4117 ms
+2025-06-05 10:34:39.198 -04:00 [INF] 1 servers were removed due to timeout
+2025-06-05 10:34:39.178 -04:00 [DBG] Execution loop Worker:aed93b3f has started in 52.5189 ms
+2025-06-05 10:34:39.178 -04:00 [DBG] Execution loop Worker:aaec9bd1 has started in 52.5566 ms
+2025-06-05 10:34:39.184 -04:00 [DBG] Execution loop Worker:bfe1d571 has started in 58.6784 ms
+2025-06-05 10:34:39.190 -04:00 [DBG] Execution loop Worker:ad9760a0 has started in 64.1635 ms
+2025-06-05 10:34:39.194 -04:00 [DBG] Execution loop Worker:eb1ad9f7 has started in 68.0003 ms
+2025-06-05 10:34:39.198 -04:00 [DBG] Execution loop Worker:70c173fb has started in 72.0315 ms
+2025-06-05 10:34:39.230 -04:00 [INF] Server bz2024ad:5968:79bdf310 all the dispatchers started
+2025-06-05 10:34:39.202 -04:00 [DBG] Execution loop Worker:06c41aae has started in 77.0686 ms
+2025-06-05 10:34:39.206 -04:00 [DBG] Execution loop Worker:7881be25 has started in 80.2693 ms
+2025-06-05 10:34:39.215 -04:00 [DBG] Execution loop Worker:26921c35 has started in 89.1792 ms
+2025-06-05 10:34:39.215 -04:00 [DBG] Execution loop Worker:6cf6140a has started in 89.4267 ms
+2025-06-05 10:34:39.217 -04:00 [DBG] Execution loop Worker:67f80f29 has started in 91.4021 ms
+2025-06-05 10:34:39.220 -04:00 [DBG] Execution loop Worker:baa7f5c3 has started in 94.6138 ms
+2025-06-05 10:34:39.223 -04:00 [DBG] Execution loop Worker:9c7a3fc6 has started in 97.5526 ms
+2025-06-05 10:34:39.227 -04:00 [DBG] Execution loop Worker:54be956c has started in 101.5353 ms
+2025-06-05 10:34:39.231 -04:00 [DBG] Execution loop DelayedJobScheduler:a08deadc has started in 7.8048 ms
+2025-06-05 10:34:39.232 -04:00 [DBG] Execution loop RecurringJobScheduler:7b48e9c3 has started in 5.7724 ms
+2025-06-05 10:34:39.287 -04:00 [DBG] Connection id "0HND47OD5097K" reset.
+2025-06-05 10:34:39.390 -04:00 [DBG] Failed to authenticate HTTPS connection.
+Microsoft.AspNetCore.Connections.ConnectionResetException: An existing connection was forcibly closed by the remote host.
+ ---> System.Net.Sockets.SocketException (10054): An existing connection was forcibly closed by the remote host.
+   --- End of inner exception stack trace ---
+   at System.IO.Pipelines.Pipe.GetReadResult(ReadResult& result)
+   at System.IO.Pipelines.Pipe.ReadAsync(CancellationToken token)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.DuplexPipeStream.ReadAsyncInternal(Memory`1 destination, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-06-05 10:34:39.402 -04:00 [DBG] Connection id "0HND47OD5097K" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-05 10:34:39.493 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-06-05 10:34:39.780 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-06-05 10:34:39.903 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-06-05 10:34:39.933 -04:00 [DBG] Connection 0HND47OD5097L established using the following protocol: "Tls13"
+2025-06-05 10:34:39.987 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2025-06-05 10:34:40.006 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-06-05 10:34:40.082 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-06-05 10:34:40.107 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-06-05 10:34:40.108 -04:00 [DBG] Request did not match any endpoints
+2025-06-05 10:34:40.146 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-06-05 10:34:40.148 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-06-05 10:34:40.165 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-06-05 10:34:40.166 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-06-05 10:34:40.169 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 185.9183ms
+2025-06-05 10:34:40.193 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2025-06-05 10:34:40.193 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2025-06-05 10:34:40.200 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 7.092ms
+2025-06-05 10:34:40.228 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 34.364ms
+2025-06-05 10:34:40.336 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2025-06-05 10:34:40.338 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-06-05 10:34:40.340 -04:00 [DBG] Request did not match any endpoints
+2025-06-05 10:34:40.410 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 76.3047ms
+2025-06-05 10:34:42.936 -04:00 [DBG] Connection id "0HND47OD5097L" received FIN.
+2025-06-05 10:34:42.938 -04:00 [DBG] Connection id "0HND47OD5097L" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-05 10:35:09.144 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:35:39.186 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:36:09.234 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:36:39.281 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:37:09.334 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:37:39.379 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:38:09.435 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:38:39.486 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:38:50.134 -04:00 [DBG] Connection 0HND47OD5097M established using the following protocol: "Tls13"
+2025-06-05 10:38:50.143 -04:00 [INF] Request starting HTTP/2 POST https://localhost:7150/api/WorkOrd/UploadAppFiles?custPath=TrialTwo%3EZigs&workOrderId=513848 - multipart/form-data; boundary=----WebKitFormBoundary1nxFr2LKeHbxvsWy 278883
+2025-06-05 10:38:50.153 -04:00 [DBG] 1 candidate(s) found for the request path '/api/WorkOrd/UploadAppFiles'
+2025-06-05 10:38:50.161 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFiles (RaymarEquipmentInventory)' with route pattern 'api/WorkOrd/UploadAppFiles' is valid for the request path '/api/WorkOrd/UploadAppFiles'
+2025-06-05 10:38:50.169 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFiles (RaymarEquipmentInventory)'
+2025-06-05 10:38:50.171 -04:00 [DBG] The request has an origin header: 'https://localhost:7150'.
+2025-06-05 10:38:50.172 -04:00 [INF] CORS policy execution successful.
+2025-06-05 10:38:50.174 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-06-05 10:38:50.177 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFiles (RaymarEquipmentInventory)'
+2025-06-05 10:38:50.199 -04:00 [INF] Route matched with {action = "UploadAppFiles", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAppFiles(System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile], System.String, System.String) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2025-06-05 10:38:50.201 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-06-05 10:38:50.202 -04:00 [DBG] Execution plan of resource filters (in the following order): ["Microsoft.AspNetCore.Mvc.ConsumesAttribute"]
+2025-06-05 10:38:50.203 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2025-06-05 10:38:50.205 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-06-05 10:38:50.205 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2025-06-05 10:38:50.209 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-06-05 10:38:50.298 -04:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-06-05 10:38:50.319 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-06-05 10:38:50.353 -04:00 [DBG] Attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' ...
+2025-06-05 10:38:50.356 -04:00 [DBG] Attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' using the name 'files' in request data ...
+2025-06-05 10:38:50.359 -04:00 [DBG] Done attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-06-05 10:38:50.360 -04:00 [DBG] Done attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-06-05 10:38:50.361 -04:00 [DBG] Attempting to validate the bound parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' ...
+2025-06-05 10:38:50.370 -04:00 [DBG] Done attempting to validate the bound parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-06-05 10:38:50.372 -04:00 [DBG] Attempting to bind parameter 'custPath' of type 'System.String' ...
+2025-06-05 10:38:50.373 -04:00 [DBG] Attempting to bind parameter 'custPath' of type 'System.String' using the name 'custPath' in request data ...
+2025-06-05 10:38:50.375 -04:00 [DBG] Done attempting to bind parameter 'custPath' of type 'System.String'.
+2025-06-05 10:38:50.376 -04:00 [DBG] Done attempting to bind parameter 'custPath' of type 'System.String'.
+2025-06-05 10:38:50.376 -04:00 [DBG] Attempting to validate the bound parameter 'custPath' of type 'System.String' ...
+2025-06-05 10:38:50.377 -04:00 [DBG] Done attempting to validate the bound parameter 'custPath' of type 'System.String'.
+2025-06-05 10:38:50.378 -04:00 [DBG] Attempting to bind parameter 'workOrderId' of type 'System.String' ...
+2025-06-05 10:38:50.379 -04:00 [DBG] Attempting to bind parameter 'workOrderId' of type 'System.String' using the name 'workOrderId' in request data ...
+2025-06-05 10:38:50.379 -04:00 [DBG] Done attempting to bind parameter 'workOrderId' of type 'System.String'.
+2025-06-05 10:38:50.380 -04:00 [DBG] Done attempting to bind parameter 'workOrderId' of type 'System.String'.
+2025-06-05 10:38:50.382 -04:00 [DBG] Attempting to validate the bound parameter 'workOrderId' of type 'System.String' ...
+2025-06-05 10:38:50.382 -04:00 [DBG] Done attempting to validate the bound parameter 'workOrderId' of type 'System.String'.
+2025-06-05 10:38:50.409 -04:00 [INF] Machine UTC Time: 2025-06-05T14:38:50.4089717Z
+2025-06-05 10:38:56.724 -04:00 [INF] Machine Local Time: 2025-06-05T10:38:56.7248291-04:00
+2025-06-05 10:39:45.842 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-05 10:39:46.564 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:39:54.478 -04:00 [INF] Ensuring folder structure exists...
+2025-06-05 10:39:54.573 -04:00 [DBG] Execution RecurringJobScheduler is in the Faulted state now due to an exception, execution will be retried no more than in 00:00:01
+Microsoft.Data.SqlClient.SqlException (0x80131904): A connection was successfully established with the server, but then an error occurred during the pre-login handshake. (provider: TCP Provider, error: 0 - An existing connection was forcibly closed by the remote host.)
+ ---> System.ComponentModel.Win32Exception (10054): An existing connection was forcibly closed by the remote host.
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.EnableSsl(UInt32 info, SqlConnectionEncryptOption encrypt, Boolean integratedSecurity, String serverCertificateFilename)
+   at Microsoft.Data.SqlClient.TdsParser.ConsumePreLoginHandshake(SqlConnectionEncryptOption encrypt, Boolean trustServerCert, Boolean integratedSecurity, Boolean& marsCapable, Boolean& fedAuthRequired, Boolean tlsFirst, String serverCert)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at Microsoft.Data.SqlClient.SqlConnection.Open(SqlConnectionOverrides overrides)
+   at Hangfire.SqlServer.SqlServerStorage.CreateAndOpenConnection() in C:\projects\hangfire-525\src\Hangfire.SqlServer\SqlServerStorage.cs:line 365
+   at Hangfire.SqlServer.SqlServerConnection.AcquireLock(String resource, TimeSpan timeout) in C:\projects\hangfire-525\src\Hangfire.SqlServer\SqlServerConnection.cs:line 721
+   at Hangfire.SqlServer.SqlServerConnection.AcquireDistributedLock(String resource, TimeSpan timeout) in C:\projects\hangfire-525\src\Hangfire.SqlServer\SqlServerConnection.cs:line 67
+   at Hangfire.Server.RecurringJobScheduler.UseConnectionDistributedLock[T](JobStorage storage, Func`2 action) in C:\projects\hangfire-525\src\Hangfire.Core\Server\RecurringJobScheduler.cs:line 423
+   at Hangfire.Server.RecurringJobScheduler.EnqueueNextRecurringJobs(BackgroundProcessContext context) in C:\projects\hangfire-525\src\Hangfire.Core\Server\RecurringJobScheduler.cs:line 203
+   at Hangfire.Server.RecurringJobScheduler.Execute(BackgroundProcessContext context) in C:\projects\hangfire-525\src\Hangfire.Core\Server\RecurringJobScheduler.cs:line 176
+   at Hangfire.Server.BackgroundProcessDispatcherBuilder.ExecuteProcess(Guid executionId, Object state) in C:\projects\hangfire-525\src\Hangfire.Core\Server\BackgroundProcessDispatcherBuilder.cs:line 82
+   at Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state) in C:\projects\hangfire-525\src\Hangfire.Core\Processing\BackgroundExecution.cs:line 118
+ClientConnectionId:c2982d97-fe8f-425f-85eb-1407e991c7f4
+Error Number:10054,State:0,Class:20
+2025-06-05 10:39:54.608 -04:00 [DBG] Execution loop RecurringJobScheduler:7b48e9c3 caught an exception and will be retried in 00:00:01
+Microsoft.Data.SqlClient.SqlException (0x80131904): A connection was successfully established with the server, but then an error occurred during the pre-login handshake. (provider: TCP Provider, error: 0 - An existing connection was forcibly closed by the remote host.)
+ ---> System.ComponentModel.Win32Exception (10054): An existing connection was forcibly closed by the remote host.
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.EnableSsl(UInt32 info, SqlConnectionEncryptOption encrypt, Boolean integratedSecurity, String serverCertificateFilename)
+   at Microsoft.Data.SqlClient.TdsParser.ConsumePreLoginHandshake(SqlConnectionEncryptOption encrypt, Boolean trustServerCert, Boolean integratedSecurity, Boolean& marsCapable, Boolean& fedAuthRequired, Boolean tlsFirst, String serverCert)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at Microsoft.Data.SqlClient.SqlConnection.Open(SqlConnectionOverrides overrides)
+   at Hangfire.SqlServer.SqlServerStorage.CreateAndOpenConnection() in C:\projects\hangfire-525\src\Hangfire.SqlServer\SqlServerStorage.cs:line 365
+   at Hangfire.SqlServer.SqlServerConnection.AcquireLock(String resource, TimeSpan timeout) in C:\projects\hangfire-525\src\Hangfire.SqlServer\SqlServerConnection.cs:line 721
+   at Hangfire.SqlServer.SqlServerConnection.AcquireDistributedLock(String resource, TimeSpan timeout) in C:\projects\hangfire-525\src\Hangfire.SqlServer\SqlServerConnection.cs:line 67
+   at Hangfire.Server.RecurringJobScheduler.UseConnectionDistributedLock[T](JobStorage storage, Func`2 action) in C:\projects\hangfire-525\src\Hangfire.Core\Server\RecurringJobScheduler.cs:line 423
+   at Hangfire.Server.RecurringJobScheduler.EnqueueNextRecurringJobs(BackgroundProcessContext context) in C:\projects\hangfire-525\src\Hangfire.Core\Server\RecurringJobScheduler.cs:line 203
+   at Hangfire.Server.RecurringJobScheduler.Execute(BackgroundProcessContext context) in C:\projects\hangfire-525\src\Hangfire.Core\Server\RecurringJobScheduler.cs:line 176
+   at Hangfire.Server.BackgroundProcessDispatcherBuilder.ExecuteProcess(Guid executionId, Object state) in C:\projects\hangfire-525\src\Hangfire.Core\Server\BackgroundProcessDispatcherBuilder.cs:line 82
+   at Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state) in C:\projects\hangfire-525\src\Hangfire.Core\Processing\BackgroundExecution.cs:line 118
+ClientConnectionId:c2982d97-fe8f-425f-85eb-1407e991c7f4
+Error Number:10054,State:0,Class:20
+2025-06-05 10:39:54.612 -04:00 [DBG] Execution loop RecurringJobScheduler:7b48e9c3 will be retried in 00:00:01...
+2025-06-05 10:40:04.996 -04:00 [INF] Uploading 4 file(s)...
+2025-06-05 10:40:16.998 -04:00 [INF] Execution RecurringJobScheduler recovered from the Faulted state after 00:00:22.4250522 and is in the Running state now
+2025-06-05 10:40:17.040 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:40:18.861 -04:00 [INF] ✅ Uploaded file: Build Your Kingdom Here-chords-C.pdf
+2025-06-05 10:40:20.501 -04:00 [INF] ✅ Uploaded file: Come Behold The Wondrous Mystery-chords-B.pdf
+2025-06-05 10:40:22.586 -04:00 [INF] ✅ Uploaded file: Bouquet2-BrandtandCarrie.jpg
+2025-06-05 10:40:24.897 -04:00 [INF] ✅ Uploaded file: Bouquet-WeddingParty.jpg
+2025-06-05 10:40:24.898 -04:00 [INF] 🎯 All uploads complete.
+2025-06-05 10:40:24.906 -04:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-06-05 10:40:24.912 -04:00 [DBG] No information found on request to perform content negotiation.
+2025-06-05 10:40:24.913 -04:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-06-05 10:40:24.913 -04:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-06-05 10:40:24.914 -04:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter' and content type 'text/plain' to write the response.
+2025-06-05 10:40:24.916 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2025-06-05 10:40:24.920 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFiles (RaymarEquipmentInventory) in 94711.3308ms
+2025-06-05 10:40:24.921 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFiles (RaymarEquipmentInventory)'
+2025-06-05 10:40:24.928 -04:00 [INF] Request finished HTTP/2 POST https://localhost:7150/api/WorkOrd/UploadAppFiles?custPath=TrialTwo%3EZigs&workOrderId=513848 - 200 null text/plain; charset=utf-8 94784.3792ms
+2025-06-05 10:40:47.091 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:40:50.326 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client 'ISamsaraApiService'
+2025-06-05 10:40:50.326 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client ''
+2025-06-05 10:41:00.342 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:41:00.345 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0467ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:41:10.357 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:41:10.359 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0081ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:41:17.138 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:41:20.372 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:41:20.374 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0021ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:41:30.380 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:41:30.381 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0029ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:41:40.386 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:41:40.388 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:41:47.186 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:41:50.407 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:41:50.409 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:42:00.426 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:42:00.427 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0018ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:42:10.441 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:42:10.442 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0023ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:42:17.232 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:42:20.453 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:42:20.454 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:42:30.461 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:42:30.462 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0019ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:42:40.467 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:42:40.469 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.002ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:42:47.288 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:42:50.472 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:42:50.473 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0024ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:43:00.492 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:43:00.494 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.002ms - processed: 0 items - remaining: 2 items
+2025-06-05 10:43:10.501 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-05 10:43:10.503 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.4294ms - processed: 2 items - remaining: 0 items
+2025-06-05 10:43:17.337 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:43:47.382 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:44:17.432 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:44:47.475 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:44:53.685 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-05 10:45:17.526 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:45:47.575 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:46:17.618 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:46:47.663 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:47:17.714 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:47:47.777 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:48:17.823 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:48:47.870 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
+2025-06-05 10:49:17.921 -04:00 [DBG] Server bz2024ad:5968:79bdf310 heartbeat successfully sent
