@@ -96,19 +96,7 @@ namespace RaymarEquipmentInventory.Services
                     return value;
                 }
 
-                var serviceType = GetEnv("GOOGLE_TYPE");
-                var projectID = GetEnv("GOOGLE_PROJECT_ID");
-                var privateKeyID = GetEnv("GOOGLE_PRIVATE_KEY_ID");
-                var privateKey = GetEnv("GOOGLE_PRIVATE_KEY").Replace("\\n", "\n");
-                var privateKey64a = GetEnv("GOOGLE_PRIVATE_KEY64");
-                var clientEmail = GetEnv("GOOGLE_CLIENT_EMAIL");
-                var clientID = GetEnv("GOOGLE_CLIENT_ID");
-                var authURI = GetEnv("GOOGLE_AUTH_URI");
-                var tokenURI = GetEnv("GOOGLE_TOKEN_URI");
-                var authProviderCertUrl = GetEnv("GOOGLE_AUTH_CERT_URL");
-                var clientCertUrl = GetEnv("GOOGLE_CLIENT_CERT_URL");
-                var universeDomain = GetEnv("GOOGLE_UNIVERSE_DOMAIN");
-
+   
               // Rebuild private key from split env vars
                 var privateKeyLines = Enumerable.Range(1, 28)
                     .Select(i => Environment.GetEnvironmentVariable($"GOOGLE_PRIVATE_KEY_{i}"))
@@ -203,77 +191,6 @@ namespace RaymarEquipmentInventory.Services
                 throw;
             }
         }
-
-
-        //public async Task UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
-        //{
-        //    Log.Information($"Machine UTC Time: {DateTime.UtcNow:O}");
-        //    Log.Information($"Machine Local Time: {DateTime.Now:O}");
-
-        //    var serviceType = Environment.GetEnvironmentVariable("GOOGLE_TYPE");
-        //    var projectID = Environment.GetEnvironmentVariable("GOOGLE_PROJECT_ID");
-        //    var privateKeyID = Environment.GetEnvironmentVariable("GOOGLE_PRIVATE_KEY_ID");
-        //    var privateKey = Environment.GetEnvironmentVariable("GOOGLE_PRIVATE_KEY")?.Replace("\n", "\\n");
-        //    var clientEmail = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_EMAIL");
-        //    var clientID = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
-        //    var authURI = Environment.GetEnvironmentVariable("GOOGLE_AUTH_URI");
-        //    var tokenURI = Environment.GetEnvironmentVariable("GOOGLE_TOKEN_URI");
-        //    var authProvidderCertUrl = Environment.GetEnvironmentVariable("GOOGLE_AUTH_PROVIDER_CERT_URL");
-        //    var clientCertUrl = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_CERT_URL");
-        //    var universeDomain = Environment.GetEnvironmentVariable("GOOGLE_UNIVERSE_DOMAIN");
-
-        //    var json = $@"
-        //    {{
-        //      ""type"": ""{serviceType}"", ""project_id"": ""{projectID}"", ""private_key_id"": ""{privateKeyID}"", ""private_key"": ""{privateKey}"",
-        //      ""client_email"": ""{clientEmail}"", ""client_id"": ""{clientID}"", ""auth_uri"": ""{authURI}"", ""token_uri"": ""{tokenURI}"",
-        //      ""auth_provider_x509_cert_url"": ""{authProvidderCertUrl}"", ""client_x509_cert_url"": ""{clientCertUrl}"", ""universe_domain"": ""{universeDomain}""
-        //    }}";
-
-        //    var credential = GoogleCredential.FromJson(json)
-        //        .CreateScoped(DriveService.ScopeConstants.Drive);
-
-        //    var driveService = new DriveService(new BaseClientService.Initializer
-        //    {
-        //        HttpClientInitializer = credential,
-        //        ApplicationName = "TaskFuelUploader"
-        //    });
-
-        //    string rootFolderId = "1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk";
-        //    string[] pathSegments = custPath.Split('>');
-        //    string currentParentId = rootFolderId;
-
-        //    foreach (var segment in pathSegments)
-        //    {
-        //        currentParentId = await EnsureFolderExistsAsync(segment.Trim(), currentParentId, driveService);
-        //    }
-
-        //    string workOrderFolderId = await EnsureFolderExistsAsync(workOrderId, currentParentId, driveService);
-        //    string pdfFolderId = await EnsureFolderExistsAsync("PDFs", workOrderFolderId, driveService);
-        //    string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId, driveService);
-
-        //    foreach (var file in files)
-        //    {
-        //        string ext = Path.GetExtension(file.FileName).ToLower();
-        //        string targetFolderId = ext switch
-        //        {
-        //            ".pdf" => pdfFolderId,
-        //            ".jpg" or ".jpeg" or ".png" => imagesFolderId,
-        //            _ => workOrderFolderId
-        //        };
-
-        //        using var stream = file.OpenReadStream();
-
-        //        var metadata = new Google.Apis.Drive.v3.Data.File
-        //        {
-        //            Name = file.FileName,
-        //            Parents = new List<string> { targetFolderId }
-        //        };
-
-        //        var upload = driveService.Files.Create(metadata, stream, file.ContentType);
-        //        upload.Fields = "id, webViewLink";
-        //        await upload.UploadAsync();
-        //    }
-        //}
 
         private async Task<string> EnsureFolderExistsAsync(string folderName, string parentId, DriveService driveService)
         {
