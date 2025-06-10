@@ -85,6 +85,25 @@ namespace RaymarEquipmentInventory.Controllers
             return Ok("Files uploaded");
         }
 
+        [HttpPost("ListPDFFiles")]
+        public async Task<IActionResult> ListPDFFiles()
+        {
+            try
+            {
+                var fileMetadataList = await _driveUploaderService.ListFileUrlsAsync();
+                if (fileMetadataList == null || !fileMetadataList.Any())
+                {
+                    return NotFound("No files found");
+                }
+                return Ok(fileMetadataList);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while listing PDF files");
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+
         [HttpPost("VerifyKey")]
         public IActionResult VerifyKey()
         {

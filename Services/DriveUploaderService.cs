@@ -15,6 +15,7 @@ using Google.Apis.Services;
 using Newtonsoft.Json;
 using Google;
 using System.Text;
+using Google.Apis.Download;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -78,6 +79,75 @@ namespace RaymarEquipmentInventory.Services
             return lines;
         }
 
+        public async Task<List<DTOs.FileMetadata>> ListFileUrlsAsync()
+        {
+            try
+            {
+                Log.Information($"Machine UTC Time: {DateTime.UtcNow:O}");
+                Log.Information($"Machine Local Time: {DateTime.Now:O}");
+
+                // Set up credentials (as you're already doing)
+                string GetEnv(string key)
+                {
+                    var value = Environment.GetEnvironmentVariable(key);
+                    if (string.IsNullOrWhiteSpace(value))
+                        throw new InvalidOperationException($"Missing required environment variable: {key}");
+                    return value;
+                }
+
+                var privateKeyLines = Enumerable.Range(1, 28)
+                    .Select(i => Environment.GetEnvironmentVariable($"GOOGLE_PRIVATE_KEY_{i}"))
+                    .Where(line => !string.IsNullOrWhiteSpace(line))
+                    .ToList();
+
+                if (privateKeyLines.Count != 28)
+                    throw new InvalidOperationException($"Expected 28 lines of private key, but got {privateKeyLines.Count}.");
+
+                var privateKeyCombined = string.Join("\n", privateKeyLines);
+                var credential = new ServiceAccountCredential(
+                    new ServiceAccountCredential.Initializer(GetEnv("GOOGLE_CLIENT_EMAIL"))
+                    {
+                        ProjectId = GetEnv("GOOGLE_PROJECT_ID"),
+                        Scopes = new[] { DriveService.ScopeConstants.Drive }
+                    }.FromPrivateKey(privateKeyCombined)
+                );
+
+                var driveService = new DriveService(new BaseClientService.Initializer
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = "TaskFuelUploader"
+                });
+
+                // List files in the folder
+                var listRequest = driveService.Files.List();
+                listRequest.Q = $"'1drVKdt4x6KRV5UuLImHRkfcARfOo0PJ9' in parents and trashed=false";
+                listRequest.Fields = "files(id, name, mimeType, webContentLink, webViewLink)";
+                var result = await listRequest.ExecuteAsync();
+
+                if (result.Files == null || result.Files.Count == 0)
+                {
+                    Log.Information("No files found in the folder.");
+                    return new List<DTOs.FileMetadata>();
+                }
+
+                var fileMetaDataList = result.Files.Select(file => new DTOs.FileMetadata
+                {
+                    Id = file.Id,
+                    Name = file.Name,
+                    MimeType = file.MimeType,
+                    WebContentLink = file.WebContentLink, // Direct link for download
+                    WebViewLink = file.WebViewLink        // Link for viewing in Drive
+                }).ToList();
+
+                return fileMetaDataList;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while listing files");
+                throw;
+            }
+        }
+
 
 
         public async Task UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
@@ -123,7 +193,7 @@ namespace RaymarEquipmentInventory.Services
                     HttpClientInitializer = credential,
                     ApplicationName = "TaskFuelUploader"
                 });
-
+                //TechPDFs is 1drVKdt4x6KRV5UuLImHRkfcARfOo0PJ9....we will make another service endpoint soon to use that for DOWNLOADS
                 Log.Information("Ensuring folder structure exists...");
                 string rootFolderId = "1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk";
                 string[] pathSegments = custPath.Split('>');
