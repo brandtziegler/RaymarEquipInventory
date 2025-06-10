@@ -118,10 +118,23 @@ namespace RaymarEquipmentInventory.Services
                     ApplicationName = "TaskFuelUploader"
                 });
 
-                // List files in the folder
+                // 1️⃣ Build the query
                 var listRequest = driveService.Files.List();
-                listRequest.Q = $"'1drVKdt4x6KRV5UuLImHRkfcARfOo0PJ9' in parents and trashed=false";
-                listRequest.Fields = "files(id, name, mimeType, webContentLink, webViewLink)";
+                listRequest.Q = "'1drVKdt4x6KRV5UuLImHRkfcARfOo0PJ9' in parents and trashed=false";
+
+                /* 2️⃣ Ask Drive for the extra metadata you want to expose */
+                listRequest.Fields =
+                    "files(" +
+                        "id," +
+                        "name," +
+                        "description," +
+                        "modifiedTime," +                      // ⬅️ NEW
+                        "lastModifyingUser(displayName)," +    // ⬅️ NEW
+                        "mimeType," +
+                        "webContentLink," +
+                        "webViewLink" +
+                    ")";
+                // 3️⃣ Execute
                 var result = await listRequest.ExecuteAsync();
 
                 if (result.Files == null || result.Files.Count == 0)
@@ -129,14 +142,24 @@ namespace RaymarEquipmentInventory.Services
                     Log.Information("No files found in the folder.");
                     return new List<DTOs.FileMetadata>();
                 }
+                var localZone = TimeZoneInfo.Local;
 
+                /* 4️⃣ Map Google API objects to your DTO */
                 var fileMetaDataList = result.Files.Select(file => new DTOs.FileMetadata
                 {
                     Id = file.Id,
-                    Name = file.Name,
+                    PDFName = file.Name,
+                    fileDescription = file.Description ?? string.Empty,   // populate the UI blurb
+                    dateLastEdited = file.ModifiedTimeDateTimeOffset.HasValue
+                    ? TimeZoneInfo.ConvertTime(file.ModifiedTimeDateTimeOffset.Value, localZone)
+                        .ToString("o")
+                    : string.Empty,
+                    lastEditTechName = file.LastModifyingUser?.DisplayName ?? "Unknown",
                     MimeType = file.MimeType,
-                    WebContentLink = file.WebContentLink, // Direct link for download
-                    WebViewLink = file.WebViewLink        // Link for viewing in Drive
+                    WebContentLink = file.WebContentLink,                 // direct download
+                    WebViewLink = file.WebViewLink,                   // browser preview
+                    sheetId = 0
+                    // SheetId stays 0 by default
                 }).ToList();
 
                 return fileMetaDataList;
