@@ -61,7 +61,7 @@ namespace RaymarEquipmentInventory.Services
                 {
                     WorkOrderNumber = workOrderNumber,
                     DateTimeCreated = DateTime.Now,
-                    WorkOrdStatus = "Created",
+                    WorkOrderStatus = "Created",
                     DateTimeCompleted = null,
                     DateTimeStarted = null,
                     // Other initialization steps
@@ -439,7 +439,7 @@ namespace RaymarEquipmentInventory.Services
                 {
                     SheetId = workOrderEntity.SheetId,
                     WorkOrderNumber = workOrderEntity.WorkOrderNumber,
-                    WorkOrderStatus = workOrderEntity.WorkOrdStatus,
+                    WorkOrderStatus = workOrderEntity.WorkOrderStatus,
                     DateTimeCreated = workOrderEntity.DateTimeCreated,
                     DateTimeStarted = workOrderEntity.DateTimeStarted,
                     DateTimeCompleted = workOrderEntity.DateTimeCompleted

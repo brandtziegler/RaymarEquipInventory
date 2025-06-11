@@ -13,8 +13,6 @@ public partial class WorkOrderSheet
 
     public DateTime DateTimeCreated { get; set; }
 
-    public string WorkOrdStatus { get; set; }
-
     public DateTime? DateTimeStarted { get; set; }
 
     public DateTime? DateTimeCompleted { get; set; }
@@ -25,7 +23,13 @@ public partial class WorkOrderSheet
 
     public string WorkDescription { get; set; }
 
+    public DateTime? DateUploaded { get; set; }
+
+    public int? CompletedBy { get; set; }
+
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
+
+    public virtual Technician CompletedByNavigation { get; set; }
 
     public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
 
@@ -36,4 +40,6 @@ public partial class WorkOrderSheet
     public virtual ICollection<TechnicianWorkOrder> TechnicianWorkOrders { get; set; } = new List<TechnicianWorkOrder>();
 
     public virtual ICollection<VehicleWorkOrder> VehicleWorkOrders { get; set; } = new List<VehicleWorkOrder>();
+
+    public virtual ICollection<WorkOrderSyncLog> WorkOrderSyncLogs { get; set; } = new List<WorkOrderSyncLog>();
 }

@@ -26,4 +26,6 @@ public partial class Technician
     public virtual ICollection<TechnicianLicence> TechnicianLicences { get; set; } = new List<TechnicianLicence>();
 
     public virtual ICollection<TechnicianWorkOrder> TechnicianWorkOrders { get; set; } = new List<TechnicianWorkOrder>();
+
+    public virtual ICollection<WorkOrderSheet> WorkOrderSheets { get; set; } = new List<WorkOrderSheet>();
 }

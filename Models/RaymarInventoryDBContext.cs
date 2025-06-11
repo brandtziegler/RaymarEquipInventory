@@ -85,6 +85,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<WorkOrderStatusSetup> WorkOrderStatusSetups { get; set; }
 
+    public virtual DbSet<WorkOrderSyncLog> WorkOrderSyncLogs { get; set; }
+
     public virtual DbSet<WorkOrderType> WorkOrderTypes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -873,12 +875,13 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.WorkDescription).IsUnicode(false);
-            entity.Property(e => e.WorkOrdStatus)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.WorkOrderStatus)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.CompletedByNavigation).WithMany(p => p.WorkOrderSheets)
+                .HasForeignKey(d => d.CompletedBy)
+                .HasConstraintName("FK_WorkOrderSheet_CompletedBy_Technicians");
         });
 
         modelBuilder.Entity<WorkOrderStatus>(entity =>
@@ -926,6 +929,29 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.StatusName)
                 .IsRequired()
                 .HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<WorkOrderSyncLog>(entity =>
+        {
+            entity.HasKey(e => e.LogId).HasName("PK__WorkOrde__5E5499A874179401");
+
+            entity.ToTable("WorkOrderSyncLog");
+
+            entity.HasIndex(e => new { e.SheetId, e.DeviceId }, "IX_WorkOrderSyncLog_Sheet_Device").IsUnique();
+
+            entity.Property(e => e.LogId).HasColumnName("LogID");
+            entity.Property(e => e.DeviceId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("DeviceID");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.SyncedOn).HasDefaultValueSql("(sysutcdatetime())");
+
+            entity.HasOne(d => d.Sheet).WithMany(p => p.WorkOrderSyncLogs)
+                .HasForeignKey(d => d.SheetId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_WorkOrderSyncLog_Sheet");
         });
 
         modelBuilder.Entity<WorkOrderType>(entity =>
