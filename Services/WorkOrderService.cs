@@ -97,6 +97,11 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        // ⏰ grab Eastern Standard Time (covers daylight-savings automatically in Azure)
+        private static readonly TimeZoneInfo _eastern =
+                TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+
+        private static DateTime EasternNow() => TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _eastern);
 
         public async Task<WorkOrderInsertResult?> InsertWorkOrderAsync(DTOs.WorkOrdSheet workOrdSheet)
         {
@@ -115,18 +120,31 @@ namespace RaymarEquipmentInventory.Services
                 nextNumberRow.Wonumber += 1;
                 await _context.SaveChangesAsync();
 
+
+
                 // Step 2: Insert WorkOrderSheet
                 var newSheet = new Models.WorkOrderSheet
                 {
                     WorkOrderNumber = assignedWONumber,
-                    DateTimeCreated = workOrdSheet.DateTimeCreated ?? DateTime.UtcNow,
+                    DateTimeCreated = workOrdSheet.DateTimeCreated ?? EasternNow(),
                     WorkOrderStatus = workOrdSheet.WorkOrderStatus?.Trim() ?? "",
                     DateTimeStarted = workOrdSheet.DateTimeStarted,
                     DateTimeCompleted = workOrdSheet.DateTimeCompleted,
-                    WorkDescription = workOrdSheet.WorkDescription
+                    WorkDescription = workOrdSheet.WorkDescription,
+                    CompletedBy = workOrdSheet.TechnicianID,
+                    DateUploaded = EasternNow()              // 👈 shop time-zone stamp
                 };
 
                 await _context.WorkOrderSheets.AddAsync(newSheet);
+                await _context.SaveChangesAsync();
+
+                // Step 2½ : write sync-log so this sheet won't redownload
+                await _context.WorkOrderSyncLogs.AddAsync(new Models.WorkOrderSyncLog
+                {
+                    SheetId = newSheet.SheetId,
+                    DeviceId = workOrdSheet.DeviceId,   // e.g. “TECH-7”
+                    SyncedOn = EasternNow()
+                });
                 await _context.SaveChangesAsync();
 
                 // Step 3: Insert ALL TechnicianWorkOrders
@@ -171,14 +189,13 @@ namespace RaymarEquipmentInventory.Services
             catch (Exception ex)
             {
 
-                Log.Error(ex, "❌ InsertWorkOrderAsync failed");
-                throw;
-                //Log.Error($"❌ InsertWorkOrderAsync failed: {ex.Message}");
 
-                //if (ex.InnerException != null)
-                //    Log.Error($"➡ Inner Exception: {ex.InnerException.Message}");
+                Log.Error($"❌ InsertWorkOrderAsync failed: {ex.Message}");
 
-                //return null;
+                if (ex.InnerException != null)
+                    Log.Error($"➡ Inner Exception: {ex.InnerException.Message}");
+
+                return null;
             }
         }
 
