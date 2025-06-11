@@ -61,21 +61,27 @@ namespace RaymarEquipmentInventory.Controllers
         [HttpPost("InsertWorkOrder")]
         public async Task<IActionResult> InsertWorkOrder([FromBody] DTOs.WorkOrdSheet workOrdDto)
         {
+            // 0. quick model-binding check
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
                 var result = await _workOrderService.InsertWorkOrderAsync(workOrdDto);
 
                 if (result == null)
-                    return BadRequest("Unable to create new work order.");
+                    return StatusCode(500, "InsertWorkOrder returned null (see logs).");
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                Log.Error($"Error inserting W/O: {ex.Message}");
-                return StatusCode(500, "Error inserting work order.");
+                // 🔥 TEMP: expose full stack so Swagger shows you the root SQL / EF message
+                Log.Error(ex, "InsertWorkOrder failed");
+                return BadRequest(ex.ToString());          // <-- return complete details for now
             }
         }
+
 
         [HttpPost("UploadAppFiles")]
         public async Task<IActionResult> UploadAppFiles(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)

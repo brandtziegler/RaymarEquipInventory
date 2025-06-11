@@ -170,18 +170,17 @@ namespace RaymarEquipmentInventory.Services
             }
             catch (Exception ex)
             {
-                Log.Error($"❌ InsertWorkOrderAsync failed: {ex.Message}");
 
-                if (ex.InnerException != null)
-                    Log.Error($"➡ Inner Exception: {ex.InnerException.Message}");
+                Log.Error(ex, "❌ InsertWorkOrderAsync failed");
+                throw;
+                //Log.Error($"❌ InsertWorkOrderAsync failed: {ex.Message}");
 
-                return null;
+                //if (ex.InnerException != null)
+                //    Log.Error($"➡ Inner Exception: {ex.InnerException.Message}");
+
+                //return null;
             }
         }
-
-
-
-
 
         private async Task<int> GetNextWorkOrderNumber()
         {
