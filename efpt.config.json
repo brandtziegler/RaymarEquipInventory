@@ -144,6 +144,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[WorkOrderSyncEvents]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[WorkOrderSyncLog]",
          "ObjectType": 0
       },

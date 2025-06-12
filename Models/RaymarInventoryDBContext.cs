@@ -85,6 +85,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<WorkOrderStatusSetup> WorkOrderStatusSetups { get; set; }
 
+    public virtual DbSet<WorkOrderSyncEvent> WorkOrderSyncEvents { get; set; }
+
     public virtual DbSet<WorkOrderSyncLog> WorkOrderSyncLogs { get; set; }
 
     public virtual DbSet<WorkOrderType> WorkOrderTypes { get; set; }
@@ -929,6 +931,24 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.StatusName)
                 .IsRequired()
                 .HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<WorkOrderSyncEvent>(entity =>
+        {
+            entity.HasKey(e => e.LogId).HasName("PK__WorkOrde__5E5499A848EEE05F");
+
+            entity.Property(e => e.LogId).HasColumnName("LogID");
+            entity.Property(e => e.DeviceId)
+                .IsRequired()
+                .HasMaxLength(64)
+                .IsUnicode(false)
+                .HasColumnName("DeviceID");
+            entity.Property(e => e.EventType)
+                .IsRequired()
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
         });
 
         modelBuilder.Entity<WorkOrderSyncLog>(entity =>

@@ -139,11 +139,12 @@ namespace RaymarEquipmentInventory.Services
                 await _context.SaveChangesAsync();
 
                 // Step 2½ : write sync-log so this sheet won't redownload
-                await _context.WorkOrderSyncLogs.AddAsync(new Models.WorkOrderSyncLog
+                await _context.WorkOrderSyncEvents.AddAsync(new Models.WorkOrderSyncEvent
                 {
                     SheetId = newSheet.SheetId,
                     DeviceId = workOrdSheet.DeviceId,   // e.g. “TECH-7”
-                    SyncedOn = EasternNow()
+                    EventType = workOrdSheet.WorkOrderStatus?.Trim() ?? "",
+                    Timestamp = EasternNow()
                 });
                 await _context.SaveChangesAsync();
 
