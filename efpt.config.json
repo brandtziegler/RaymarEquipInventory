@@ -186,6 +186,10 @@
       {
          "Name": "[dbo].[vwRoles]",
          "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vwWorkOrderCards]",
+         "ObjectType": 3
       }
    ],
    "UiHint": "greatfurnituresql.RaymarInventoryDB.dbo",

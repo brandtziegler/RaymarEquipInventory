@@ -77,6 +77,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VwWorkOrdBriefDetail> VwWorkOrdBriefDetails { get; set; }
 
+    public virtual DbSet<VwWorkOrderCard> VwWorkOrderCards { get; set; }
+
     public virtual DbSet<VwWorkOrderStatusWithType> VwWorkOrderStatusWithTypes { get; set; }
 
     public virtual DbSet<VwWorkOrderTechnician> VwWorkOrderTechnicians { get; set; }
@@ -849,6 +851,36 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.WorkOrderType)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VwWorkOrderCard>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vwWorkOrderCards");
+
+            entity.Property(e => e.ChildCustomerName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+            entity.Property(e => e.DateTimeCompleted).HasColumnType("datetime");
+            entity.Property(e => e.LastSyncEventType)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.ParentCustomerName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.PathToRoot)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.UnitNo)
+                .HasMaxLength(35)
+                .IsUnicode(false);
+            entity.Property(e => e.WorkDescription).IsUnicode(false);
+            entity.Property(e => e.WorkOrderStatus)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });

@@ -217,6 +217,40 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpGet("GetWorkOrderCards")]
+        public async Task<IActionResult> GetWorkOrderCards(
+            [FromQuery] DateTime? dateUploadedStart,
+            [FromQuery] DateTime? dateUploadedEnd,
+            [FromQuery] DateTime? dateTimeCompletedStart,
+            [FromQuery] DateTime? dateTimeCompletedEnd,
+            [FromQuery] string workOrderStatus = "COMPLETE",
+            [FromQuery] int? customerId = null)
+        {
+            try
+            {
+                var result = await _workOrderService.GetWorkOrderCardsAsync(
+                    dateUploadedStart,
+                    dateUploadedEnd,
+                    dateTimeCompletedStart,
+                    dateTimeCompletedEnd,
+                    workOrderStatus,
+                    customerId
+                );
+
+                if (result == null || result.Count == 0)
+                {
+                    return NotFound("No work order cards found with the provided filters.");
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error retrieving work order cards: {ex.Message}");
+                return StatusCode(500, "An error occurred while retrieving work order cards.");
+            }
+        }
+
         [HttpGet("GetWorkOrderBriefDetails")]
         public async Task<IActionResult> GetWorkOrderBriefDetails()
         {

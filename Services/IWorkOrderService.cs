@@ -25,6 +25,12 @@ namespace RaymarEquipmentInventory.Services
         Task<bool> RemoveBillFromWorkOrder(int billID, int sheetID);
         Task<bool> AddLbrToWorkOrder(LabourLine labourDTO);
         Task<bool> RemoveLbrFromWorkOrder(int labourID);
+        Task<List<WorkOrderCard>> GetWorkOrderCardsAsync(DateTime? dateUploadedStart,
+            DateTime? dateUploadedEnd,
+            DateTime? dateTimeCompletedStart,
+            DateTime? dateTimeCompletedEnd,
+            string workOrderStatus = "COMPLETE",
+            int? customerId = null);
 
         Task<DTOs.WorkOrder> GetWorkOrder(int sheetID);
         Task<List<DTOs.WorkOrderBriefDetails>> GetWorkOrderBriefDetails();

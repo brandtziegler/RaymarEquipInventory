@@ -403,7 +403,6 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-
         public async Task<DTOs.Billing> GetLabourForWorkorder(int sheetID)
         {
             var billing = await _context.BillingInformations
@@ -435,6 +434,66 @@ namespace RaymarEquipmentInventory.Services
             return billingDTO;
 
         }
+
+        public async Task<List<WorkOrderCard>> GetWorkOrderCardsAsync(
+           DateTime? dateUploadedStart,
+           DateTime? dateUploadedEnd,
+           DateTime? dateTimeCompletedStart,
+           DateTime? dateTimeCompletedEnd,
+           string syncEventType = "COMPLETE",
+           int? customerId = null)
+        {
+            var query = _context.VwWorkOrderCards.AsQueryable();
+
+            // Case-insensitive sync event type filter
+            if (!string.IsNullOrWhiteSpace(syncEventType))
+            {
+                var syncTypeUpper = syncEventType.Trim().ToUpper();
+                query = query.Where(w => w.LastSyncEventType.ToUpper() == syncTypeUpper);
+            }
+
+            // Optional date filters
+            if (dateUploadedStart.HasValue)
+                query = query.Where(w => w.DateUploaded >= dateUploadedStart.Value);
+
+            if (dateUploadedEnd.HasValue)
+                query = query.Where(w => w.DateUploaded <= dateUploadedEnd.Value);
+
+            if (dateTimeCompletedStart.HasValue)
+                query = query.Where(w => w.DateTimeCompleted >= dateTimeCompletedStart.Value);
+
+            if (dateTimeCompletedEnd.HasValue)
+                query = query.Where(w => w.DateTimeCompleted <= dateTimeCompletedEnd.Value);
+
+            if (customerId.HasValue)
+                query = query.Where(w => w.CustomerId == customerId.Value);
+
+            // Optional debug logging
+            Log.Information($"Filtering WorkOrderCards on LastSyncEventType = {syncEventType}");
+
+            // Project to DTO
+            var workOrderCards = await query.Select(w => new WorkOrderCard
+            {
+                SheetID = w.SheetId,
+                WorkOrderNumber = w.WorkOrderNumber,
+                WorkDescription = w.WorkDescription,
+                WorkOrderStatus = w.WorkOrderStatus,
+                DateUploaded = w.DateUploaded,
+                DateTimeCompleted = w.DateTimeCompleted,
+                UnitNo = w.UnitNo,
+                CustomerID = w.CustomerId,
+                PathToRoot = w.PathToRoot,
+                ParentCustomerName = w.ParentCustomerName,
+                ChildCustomerName = w.ChildCustomerName,
+                LastSyncEventType = w.LastSyncEventType,
+                LastSyncTimestamp = w.LastSyncTimestamp
+            }).ToListAsync();
+
+            return workOrderCards;
+        }
+
+
+
 
 
         public async Task<DTOs.WorkOrder> GetWorkOrder(int sheetID)
@@ -501,7 +560,7 @@ namespace RaymarEquipmentInventory.Services
                 workOrderDto.Technicians = _technicianService.GetTechsByWorkOrder(sheetID).Result;
                 workOrderDto.Documents = _documentService.GetDocumentsByWorkOrder(sheetID).Result;
                 workOrderDto.VehicleTravelLogs = _vehicleService.GetTripLog(sheetID).Result;
-
+                workOrderDto.PartsUsed = _partService.GetPartsByWorkOrder(sheetID, 1, 1000, null, null, null, null, "", "").Result;
                 //workOrderDto.VehicleTravelLogs = 
 
                 //workOrderDto.VehicleTravelLogs = .(sheetID).Result;
