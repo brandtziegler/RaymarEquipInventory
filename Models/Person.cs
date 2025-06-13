@@ -23,7 +23,11 @@ public partial class Person
 
     public DateTime EndDate { get; set; }
 
+    public int? RoleId { get; set; }
+
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
+
+    public virtual Role Role { get; set; }
 
     public virtual ICollection<Technician> Technicians { get; set; } = new List<Technician>();
 }

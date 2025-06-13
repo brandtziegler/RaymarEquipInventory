@@ -92,6 +92,7 @@ builder.Services.AddDbContext<RaymarInventoryDBContext>(options =>
 
 
 builder.Services.AddScoped<IBillingService, BillingService>();
+builder.Services.AddScoped<IPermissionsService, PermissionsService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>(); // Registering our new service
 builder.Services.AddScoped<IWorkOrderFeeService, WorkOrderFeeService>(); // Registering our new service
 builder.Services.AddScoped<IBillingService, BillingService>();

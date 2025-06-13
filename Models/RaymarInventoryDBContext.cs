@@ -49,6 +49,10 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<RegularLabour> RegularLabours { get; set; }
 
+    public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<RolePermission> RolePermissions { get; set; }
+
     public virtual DbSet<ServiceDescription> ServiceDescriptions { get; set; }
 
     public virtual DbSet<Technician> Technicians { get; set; }
@@ -68,6 +72,8 @@ public partial class RaymarInventoryDBContext : DbContext
     public virtual DbSet<VehicleWorkOrder> VehicleWorkOrders { get; set; }
 
     public virtual DbSet<VwPartsUsedWithInventory> VwPartsUsedWithInventories { get; set; }
+
+    public virtual DbSet<VwRole> VwRoles { get; set; }
 
     public virtual DbSet<VwWorkOrdBriefDetail> VwWorkOrdBriefDetails { get; set; }
 
@@ -479,10 +485,15 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.PhoneOne)
                 .HasMaxLength(15)
                 .IsUnicode(false);
+            entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.RoleName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.People)
+                .HasForeignKey(d => d.RoleId)
+                .HasConstraintName("FK_Person_Role");
         });
 
         modelBuilder.Entity<PlaceholderDocument>(entity =>
@@ -529,6 +540,37 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.WorkDescription)
                 .HasMaxLength(250)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE3A7BCE6EB3");
+
+            entity.ToTable("Role");
+
+            entity.HasIndex(e => e.RoleName, "UQ__Role__8A2B616055CB4C5A").IsUnique();
+
+            entity.Property(e => e.RoleId).HasColumnName("RoleID");
+            entity.Property(e => e.RoleName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<RolePermission>(entity =>
+        {
+            entity.HasKey(e => e.RoleId).HasName("PK__RolePerm__8AFACE3A3E52886B");
+
+            entity.ToTable("RolePermission");
+
+            entity.Property(e => e.RoleId)
+                .ValueGeneratedNever()
+                .HasColumnName("RoleID");
+
+            entity.HasOne(d => d.Role).WithOne(p => p.RolePermission)
+                .HasForeignKey<RolePermission>(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__RolePermi__RoleI__3BCADD1B");
         });
 
         modelBuilder.Entity<ServiceDescription>(entity =>
@@ -750,6 +792,27 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.SalesPrice).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
+        });
+
+        modelBuilder.Entity<VwRole>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vwRoles");
+
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.PersonId).HasColumnName("PersonID");
+            entity.Property(e => e.RoleId).HasColumnName("RoleID");
+            entity.Property(e => e.RoleName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
         });
 
         modelBuilder.Entity<VwWorkOrdBriefDetail>(entity =>

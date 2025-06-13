@@ -88,6 +88,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Role]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[RolePermission]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[ServiceDescription]",
          "ObjectType": 0
       },
@@ -173,6 +181,10 @@
       },
       {
          "Name": "[dbo].[vw_WorkOrderTechnicians]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vwRoles]",
          "ObjectType": 3
       }
    ],
