@@ -302,6 +302,29 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpGet("DownloadWorkOrder/{sheetId}")]
+        public async Task<IActionResult> DownloadWorkOrder(int sheetId)
+        {
+            try
+            {
+                var result = new WorkOrderDetails
+                {
+                    SheetId = sheetId,
+                    Billing = await _workOrderService.GetBillingMin(sheetId) ?? new BillingMin(),
+                    Parts = await _workOrderService.GetPartsUsed(sheetId),
+                    Labour = await _workOrderService.GetLabourLines(sheetId),
+                    Fees = await _workOrderService.GetFees(sheetId),
+                    MileageAndTime = await _workOrderService.GetMileage(sheetId),
+                };
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"❌ Failed to download work order {sheetId}: {ex.Message}");
+                return StatusCode(500, "Could not download work order.");
+            }
+        }
 
         [HttpGet("GetBilling")]
         public async Task<IActionResult> GetBilling(int sheetID)
