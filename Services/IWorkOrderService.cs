@@ -36,7 +36,12 @@ namespace RaymarEquipmentInventory.Services
         Task<List<DTOs.RegularLabourLine>> GetLabourLines(int sheetID);
         Task<List<DTOs.WorkOrderFee>> GetFees(int sheetID);
 
+        Task<List<DTOs.TravelLog>> GetMileage(int sheetID);
+
         Task<DTOs.WorkOrder> GetWorkOrder(int sheetID);
+
+        Task<DTOs.BillingMin?> GetBillingMin(int sheetID);
+
         Task<List<DTOs.WorkOrderBriefDetails>> GetWorkOrderBriefDetails();
         //Task<List<Tech>> GetAllParts();
 

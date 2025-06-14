@@ -533,7 +533,7 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-
+  
         public async Task<List<DTOs.RegularLabourLine>> GetLabourLines(int sheetID)
         {
             try
@@ -556,7 +556,7 @@ namespace RaymarEquipmentInventory.Services
                 var result = regularLabourLines.Select(l => new DTOs.RegularLabourLine
                 {
                     LabourId = l.LabourId,
-                    TechnicianWorkOrderID = l.TechnicianWorkOrderId.Value,
+                    TechnicianWorkOrderID = l.TechnicianWorkOrderId ?? 0,
                     DateOfLabor = l.DateOfLabor,
                     StartLabor = l.StartLabor,
                     FinishLabor = l.FinishLabor,
@@ -575,6 +575,81 @@ namespace RaymarEquipmentInventory.Services
             {
                 Log.Error($"❌ Failed to get RegularLabour for SheetID {sheetID}: {ex.Message}");
                 return null;
+            }
+        }
+
+
+        public async Task<DTOs.BillingMin?> GetBillingMin(int sheetID)
+        {
+            try
+            {
+                var result = await _context.BillingInformations
+                    .Where(b => b.SheetId == sheetID)
+                    .Join(_context.WorkOrderSheets,
+                        b => b.SheetId,
+                        w => w.SheetId,
+                        (b, w) => new DTOs.BillingMin
+                        {
+                            SheetId = b.SheetId,
+                            CustomerId = b.CustomerId ?? 0,
+                            PONo = b.Pono ?? "",
+                            Kilometers = b.Kilometers ?? 0,
+                            UnitNo = b.UnitNo ?? "",
+                            JobSiteCity = b.JobSiteCity ?? "",
+                            WorkDescription = w.WorkDescription ?? "",
+                            CustPath = b.CustPath ?? "",
+                            WorkOrderStatus = w.WorkOrderStatus ?? "",
+                            DateUploaded = w.DateUploaded,
+                            CompletedBy = w.CompletedBy
+                        })
+                    .FirstOrDefaultAsync();
+
+                if (result == null)
+                    Console.WriteLine($"⚠️ No BillingMin found for SheetID {sheetID}");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"❌ BillingMin fetch failed for SheetID {sheetID}: {ex.Message}");
+                return null;
+            }
+        }
+
+
+        public async Task<List<DTOs.TravelLog>> GetMileage(int sheetID)
+        {
+            try
+            {
+                var results = await _context.MileageAndTimes
+                    .Where(m => m.SheetId == sheetID)
+                    .Select(m => new DTOs.TravelLog
+                    {
+                        MilageTimeID = m.MilageTimeId,
+                        SheetId = m.SheetId,
+                        DateOfTravel = m.DateOfMileageTime,
+                        StartTravel = m.StartTravel,
+                        FinishTravel = m.FinishTravel,
+                        StartOdometerKm = m.StartOdometerKm ?? 0,
+                        FinishOdometerKm = m.FinishOdometerKm ?? 0,
+                        TotalDistance = m.TotalDistance ?? 0,
+                        TotalHours = m.TimeTotalHrs ?? 0,
+                        TotalMinutes = m.TimeTotalMin ?? 0,
+                        TotalOTHours = m.TotalOthours ?? 0,
+                        TotalOTMinutes = m.TotalOtminutes ?? 0,
+                        IsOvertime = m.IsOvertime,
+                        SegmentNumber = m.SegmentNumber,
+                        TimeTotalMin = m.TimeTotalMin
+                    })
+                    .ToListAsync();
+
+                Console.WriteLine($"✅ Retrieved {results.Count} mileage records for SheetID {sheetID}.");
+                return results;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"❌ Failed to retrieve mileage for SheetID {sheetID}: {ex.Message}");
+                return new List<DTOs.TravelLog>(); // graceful fallback
             }
         }
 

@@ -260,6 +260,26 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpGet("GetMileage")]
+        public async Task<IActionResult> GetMileage(int sheetID)
+        {
+            try
+            {
+                var result = await _workOrderService.GetMileage(sheetID);
+
+                if (result == null)
+                {
+                    return NotFound($"No mileage used found for Sheet ID {sheetID}.");
+                }
+
+                return Ok(result); // ✅ Return the full JSON list
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error retrieving mileage used for Sheet ID {sheetID}: {ex.Message}");
+                return StatusCode(500, "An error occurred while retrieving mileage.");
+            }
+        }
 
         [HttpGet("GetPartsUsed")]
         public async Task<IActionResult> GetPartsUsed(int sheetID)
@@ -279,6 +299,28 @@ namespace RaymarEquipmentInventory.Controllers
             {
                 Log.Error($"Error retrieving parts used for Sheet ID {sheetID}: {ex.Message}");
                 return StatusCode(500, "An error occurred while retrieving parts used.");
+            }
+        }
+
+
+        [HttpGet("GetBilling")]
+        public async Task<IActionResult> GetBilling(int sheetID)
+        {
+            try
+            {
+                var result = await _workOrderService.GetBillingMin(sheetID);
+
+                if (result == null)
+                {
+                    return NotFound($"No billing found for Sheet ID {sheetID}.");
+                }
+
+                return Ok(result); // ✅ Return the full JSON list
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error retrieving billing for Sheet ID {sheetID}: {ex.Message}");
+                return StatusCode(500, "An error occurred while retrieving billing.");
             }
         }
 

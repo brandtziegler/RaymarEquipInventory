@@ -4,6 +4,8 @@ namespace RaymarEquipmentInventory.DTOs
 {
     public class TravelLog
     {
+
+        public int? MilageTimeID { get; set; }
         public int SheetId { get; set; } // FK to TechnicianWorkOrder
         public DateTime DateOfTravel { get; set; }
 
@@ -24,6 +26,8 @@ namespace RaymarEquipmentInventory.DTOs
         public bool IsOvertime { get; set; }
 
         public int? SegmentNumber { get; set; } // Optional — set if multiple per day
+
+        public int? TimeTotalMin { get; set; }
     }
 
 }
