@@ -75,6 +75,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VwRole> VwRoles { get; set; }
 
+    public virtual DbSet<VwRolesMin> VwRolesMins { get; set; }
+
     public virtual DbSet<VwWorkOrdBriefDetail> VwWorkOrdBriefDetails { get; set; }
 
     public virtual DbSet<VwWorkOrderCard> VwWorkOrderCards { get; set; }
@@ -814,6 +816,17 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+        });
+
+        modelBuilder.Entity<VwRolesMin>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vwRolesMin");
+
+            entity.Property(e => e.PersonId).HasColumnName("PersonID");
+            entity.Property(e => e.RolePermissionId).HasColumnName("RolePermissionID");
             entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
         });
 

@@ -26,16 +26,13 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<DTOs.RolesAndPermissions?> GetPermissionsByTechnicianIdAsync(int technicianId)
         {
-            var result = await _context.VwRoles
+            var result = await _context.VwRolesMins
                 .Where(v => v.TechnicianId == technicianId)
                 .Select(v => new DTOs.RolesAndPermissions
                 {
                     TechnicianID = v.TechnicianId,
                     PersonID = v.PersonId,
-                    FirstName = v.FirstName,
-                    LastName = v.LastName,
-                    RoleID = v.RoleId,
-                    RoleName = v.RoleName,
+                    RolePermissionID = v.RolePermissionId,
                     CanDownloadFromCloud = v.CanDownloadFromCloud,
                     CanUploadToCloud = v.CanUploadToCloud,
                     CanApprove = v.CanApprove,

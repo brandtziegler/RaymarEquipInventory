@@ -4,10 +4,7 @@
     {
         public int TechnicianID { get; set; }
         public int PersonID { get; set; }
-        public string FirstName { get; set; } = "";
-        public string LastName { get; set; } = "";
-        public int RoleID { get; set; }
-        public string RoleName { get; set; } = "";
+        public int RolePermissionID { get; set; }
         public bool CanDownloadFromCloud { get; set; }
         public bool CanUploadToCloud { get; set; }
         public bool CanApprove { get; set; }

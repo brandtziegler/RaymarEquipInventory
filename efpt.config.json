@@ -188,6 +188,10 @@
          "ObjectType": 3
       },
       {
+         "Name": "[dbo].[vwRolesMin]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[vwWorkOrderCards]",
          "ObjectType": 3
       }
