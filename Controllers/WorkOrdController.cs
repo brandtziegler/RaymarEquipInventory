@@ -217,6 +217,30 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+
+
+        [HttpGet("GetPartsUsed")]
+        public async Task<IActionResult> GetPartsUsed(int sheetID)
+        {
+            try
+            {
+                var result = await _workOrderService.GetWorkOrderPartsUsed(sheetID);
+
+                if (result == null)
+                {
+                    return NotFound($"No parts used found for Sheet ID {sheetID}.");
+                }
+
+                return Ok(result); // ✅ Return the full JSON list
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error retrieving parts used for Sheet ID {sheetID}: {ex.Message}");
+                return StatusCode(500, "An error occurred while retrieving parts used.");
+            }
+        }
+
+
         [HttpGet("GetWorkOrderCards")]
         public async Task<IActionResult> GetWorkOrderCards(
             [FromQuery] DateTime? dateUploadedStart,

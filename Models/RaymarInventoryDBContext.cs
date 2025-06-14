@@ -425,12 +425,16 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.ToTable("PartsDocument");
 
             entity.Property(e => e.PartsDocumentId).HasColumnName("PartsDocumentID");
-            entity.Property(e => e.DocumentId).HasColumnName("DocumentID");
-
-            entity.HasOne(d => d.Document).WithMany(p => p.PartsDocuments)
-                .HasForeignKey(d => d.DocumentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PartsDocument_Documents");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FileName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.UploadDate).HasColumnType("datetime");
+            entity.Property(e => e.UploadedBy)
+                .HasMaxLength(100)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.PartUsed).WithMany(p => p.PartsDocuments)
                 .HasForeignKey(d => d.PartUsedId)

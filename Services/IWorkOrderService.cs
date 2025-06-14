@@ -32,6 +32,8 @@ namespace RaymarEquipmentInventory.Services
             string workOrderStatus = "COMPLETE",
             int? customerId = null);
 
+        Task<List<DTOs.PartsUsed>> GetWorkOrderPartsUsed(int sheetID);
+
         Task<DTOs.WorkOrder> GetWorkOrder(int sheetID);
         Task<List<DTOs.WorkOrderBriefDetails>> GetWorkOrderBriefDetails();
         //Task<List<Tech>> GetAllParts();

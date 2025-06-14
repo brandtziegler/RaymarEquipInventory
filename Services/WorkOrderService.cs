@@ -492,8 +492,96 @@ namespace RaymarEquipmentInventory.Services
             return workOrderCards;
         }
 
+        public async Task<List<DTOs.PartsUsed>> GetWorkOrderPartsUsed(int sheetID)
+        {
+            try
+            {
+                var woPartsUsedDetails = await _context.PartsUseds
+                    .Where(p => p.SheetId == sheetID)
+                    .ToListAsync();
 
+                if (woPartsUsedDetails == null || !woPartsUsedDetails.Any())
+                {
+                    Log.Warning($"No parts found for WorkOrder with SheetID {sheetID}.");
+                    return new List<DTOs.PartsUsed>();
+                }
 
+                var woPartsUsedDetailDTOs = new List<DTOs.PartsUsed>();
+
+                foreach (var p in woPartsUsedDetails)
+                {
+                    var dto = new DTOs.PartsUsed
+                    {
+                        PartUsedId = p.PartUsedId,
+                        SheetId = p.SheetId,
+                        QtyUsed = p.QtyUsed,
+                        Notes = p.Notes,
+                        InventoryID = p.InventoryId,
+                        PartNumber = p.PartNumber,
+                        Description = p.Description,
+                        UploadDate = p.UploadDate,
+                        UploadedBy = p.UploadedBy,
+                        Deleted = p.Deleted ?? false,
+                        PartsDocs = new List<DTOs.PartsDocument>() // Init list
+                    };
+
+                    // Pull Inventory info if applicable
+                    if (p.InventoryId.HasValue)
+                    {
+                        var inventory = await _context.InventoryData
+                            .Where(i => i.InventoryId == p.InventoryId)
+                            .FirstOrDefaultAsync();
+
+                        if (inventory != null)
+                        {
+                            dto.InventoryData = new DTOs.InventoryData
+                            {
+                                InventoryId = inventory.InventoryId.ToString(),
+                                ItemName = inventory.ItemName,
+                                ManufacturerPartNumber = inventory.ManufacturerPartNumber,
+                                QuickBooksInvId = inventory.QuickBooksInvId,
+                                Description = inventory.Description,
+                                Cost = inventory.Cost,
+                                SalesPrice = inventory.SalesPrice,
+                                ReorderPoint = inventory.ReorderPoint,
+                                OnHand = inventory.OnHand,
+                                AverageCost = inventory.AverageCost,
+                                IncomeAccountId = inventory.IncomeAccountId,
+                                InventoryDocuments = new List<DTOs.InventoryDocument>() // still leave empty for now
+                            };
+                        }
+                    }
+
+                    // Pull PartDocuments
+                    var partDocs = await _context.PartsDocuments
+                        .Where(d => d.PartUsedId == p.PartUsedId)
+                        .ToListAsync();
+
+                    foreach (var doc in partDocs)
+                    {
+                        dto.PartsDocs.Add(new DTOs.PartsDocument
+                        {
+                            PartsDocumentId = doc.PartsDocumentId,
+                            PartUsedId = doc.PartUsedId,
+                            FileName = doc.FileName,
+                            Description = doc.Description,
+                            UploadedBy = doc.UploadedBy,
+                            UploadedDate = doc.UploadDate
+                        });
+                    }
+
+                    woPartsUsedDetailDTOs.Add(dto);
+                }
+
+                Log.Information($"✅ Retrieved {woPartsUsedDetailDTOs.Count} parts for WorkOrder with SheetID {sheetID}.");
+                return woPartsUsedDetailDTOs;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"❌ Error retrieving parts for SheetID {sheetID}: {ex.Message}");
+                return null;
+            }
+        }
 
 
         public async Task<DTOs.WorkOrder> GetWorkOrder(int sheetID)

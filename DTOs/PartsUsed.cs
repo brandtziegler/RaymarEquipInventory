@@ -26,7 +26,7 @@ namespace RaymarEquipmentInventory.DTOs
 
         public string? UploadedBy { get; set; } = string.Empty;
 
-
+        public List<PartsDocument> PartsDocs { get; set; }  
         public InventoryData InventoryData { get; set; } = new InventoryData();
 
         public bool Deleted { get; set; }

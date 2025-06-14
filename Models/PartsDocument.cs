@@ -11,9 +11,13 @@ public partial class PartsDocument
 
     public int PartUsedId { get; set; }
 
-    public int DocumentId { get; set; }
+    public string FileName { get; set; }
 
-    public virtual Document Document { get; set; }
+    public string Description { get; set; }
+
+    public string UploadedBy { get; set; }
+
+    public DateTime? UploadDate { get; set; }
 
     public virtual PartsUsed PartUsed { get; set; }
 }
