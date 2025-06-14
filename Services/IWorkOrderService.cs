@@ -44,6 +44,6 @@ namespace RaymarEquipmentInventory.Services
 
         Task<List<DTOs.WorkOrderBriefDetails>> GetWorkOrderBriefDetails();
         //Task<List<Tech>> GetAllParts();
-
+        Task LogFailedSync(int sheetId, string reason);
     }
 }

@@ -321,10 +321,11 @@ namespace RaymarEquipmentInventory.Controllers
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"❌ Failed to download work order {sheetId}: {ex.Message}");
+                await _workOrderService.LogFailedSync(sheetId, ex.Message);
                 return StatusCode(500, "Could not download work order.");
             }
         }
+
 
         [HttpGet("GetBilling")]
         public async Task<IActionResult> GetBilling(int sheetID)

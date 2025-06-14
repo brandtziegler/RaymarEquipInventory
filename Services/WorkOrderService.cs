@@ -579,6 +579,25 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
+        public async Task LogFailedSync(int sheetId, string reason)
+        {
+            try
+            {
+                await _context.FailedSyncLogs.AddAsync(new FailedSyncLog
+                {
+                    SheetId = sheetId,
+                    Reason = reason,
+                    Timestamp = DateTime.UtcNow
+                });
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"❌ Failed to log sync failure for SheetID {sheetId}: {ex.Message}");
+            }
+        }
+
         public async Task<DTOs.BillingMin?> GetBillingMin(int sheetID)
         {
             try

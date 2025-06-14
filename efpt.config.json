@@ -32,6 +32,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[FailedSyncLog]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[FlatLabour]",
          "ObjectType": 0
       },

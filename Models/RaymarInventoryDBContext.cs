@@ -21,6 +21,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<DocumentType> DocumentTypes { get; set; }
 
+    public virtual DbSet<FailedSyncLog> FailedSyncLogs { get; set; }
+
     public virtual DbSet<FlatLabour> FlatLabours { get; set; }
 
     public virtual DbSet<HourlyLabourType> HourlyLabourTypes { get; set; }
@@ -230,6 +232,20 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.MimeType)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<FailedSyncLog>(entity =>
+        {
+            entity.HasKey(e => e.FailedSyncLogId).HasName("PK__FailedSy__A6F78217D919125B");
+
+            entity.ToTable("FailedSyncLog");
+
+            entity.Property(e => e.FailedSyncLogId).HasColumnName("FailedSyncLogID");
+            entity.Property(e => e.Reason).IsRequired();
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.Timestamp)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
         });
 
         modelBuilder.Entity<FlatLabour>(entity =>
