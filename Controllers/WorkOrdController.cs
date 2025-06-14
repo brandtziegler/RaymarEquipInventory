@@ -217,6 +217,48 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpGet("GetLabourLines")]
+        public async Task<IActionResult> GetLabourLines(int sheetID)
+        {
+            try
+            {
+                var result = await _workOrderService.GetLabourLines(sheetID);
+
+                if (result == null)
+                {
+                    return NotFound($"No labour found for Sheet ID {sheetID}.");
+                }
+
+                return Ok(result); // ✅ Return the full JSON list
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error retrieving labour used for Sheet ID {sheetID}: {ex.Message}");
+                return StatusCode(500, "An error occurred while retrieving labour.");
+            }
+        }
+
+
+        [HttpGet("GetFees")]
+        public async Task<IActionResult> GetFees(int sheetID)
+        {
+            try
+            {
+                var result = await _workOrderService.GetFees(sheetID);
+
+                if (result == null)
+                {
+                    return NotFound($"No parts used found for Sheet ID {sheetID}.");
+                }
+
+                return Ok(result); // ✅ Return the full JSON list
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error retrieving parts used for Sheet ID {sheetID}: {ex.Message}");
+                return StatusCode(500, "An error occurred while retrieving parts used.");
+            }
+        }
 
 
         [HttpGet("GetPartsUsed")]
@@ -224,7 +266,7 @@ namespace RaymarEquipmentInventory.Controllers
         {
             try
             {
-                var result = await _workOrderService.GetWorkOrderPartsUsed(sheetID);
+                var result = await _workOrderService.GetPartsUsed(sheetID);
 
                 if (result == null)
                 {

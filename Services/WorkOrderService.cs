@@ -492,7 +492,95 @@ namespace RaymarEquipmentInventory.Services
             return workOrderCards;
         }
 
-        public async Task<List<DTOs.PartsUsed>> GetWorkOrderPartsUsed(int sheetID)
+        public async Task<List<DTOs.WorkOrderFee>> GetFees(int sheetID)
+        {
+            try
+            {
+                // Step 1: Get the TechnicianWorkOrderIDs for the given SheetID
+                var techWorkOrderIds = await _context.TechnicianWorkOrders
+                    .Where(t => t.SheetId == sheetID)
+                    .Select(t => t.TechnicianWorkOrderId)
+                    .ToListAsync();
+
+                if (!techWorkOrderIds.Any())
+                {
+                    Log.Warning($"No TechnicianWorkOrders found for SheetID {sheetID}.");
+                    return new List<DTOs.WorkOrderFee>();
+                }
+
+                // Step 2: Get the fees
+                var feeLines = await _context.WorkOrderFees
+                    .Where(f => techWorkOrderIds.Contains(f.TechnicianWorkOrderId))
+                    .ToListAsync();
+
+                var result = feeLines.Select(f => new DTOs.WorkOrderFee
+                {
+                    TechnicianWorkOrderID = f.TechnicianWorkOrderId,
+                    FlatLabourID = f.FlatLabourId,
+                    LabourTypeID = f.LabourTypeId,
+                    Qty = f.Qty,
+                    WorkDescription = f.WorkDescription
+                }).ToList();
+
+                Log.Information($"✅ Retrieved {result.Count} WorkOrderFees for SheetID {sheetID}.");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"❌ Failed to get WorkOrderFees for SheetID {sheetID}: {ex.Message}");
+                return null;
+            }
+        }
+
+
+
+        public async Task<List<DTOs.RegularLabourLine>> GetLabourLines(int sheetID)
+        {
+            try
+            {
+                var techWorkOrderIds = await _context.TechnicianWorkOrders
+                    .Where(t => t.SheetId == sheetID)
+                    .Select(t => t.TechnicianWorkOrderId)
+                    .ToListAsync();
+
+                if (!techWorkOrderIds.Any())
+                {
+                    Log.Warning($"No TechnicianWorkOrders found for SheetID {sheetID}.");
+                    return new List<DTOs.RegularLabourLine>();
+                }
+
+                var regularLabourLines = await _context.RegularLabours
+                    .Where(l => l.TechnicianWorkOrderId.HasValue && techWorkOrderIds.Contains(l.TechnicianWorkOrderId.Value))
+                    .ToListAsync();
+
+                var result = regularLabourLines.Select(l => new DTOs.RegularLabourLine
+                {
+                    LabourId = l.LabourId,
+                    TechnicianWorkOrderID = l.TechnicianWorkOrderId.Value,
+                    DateOfLabor = l.DateOfLabor,
+                    StartLabor = l.StartLabor,
+                    FinishLabor = l.FinishLabor,
+                    WorkDescription = l.WorkDescription,
+                    TotalHours = l.TotalHours ?? 0,
+                    TotalMinutes = l.TotalMinutes ?? 0,
+                    TotalOTHours = l.TotalOthours ?? 0,
+                    TotalOTMinutes = l.TotalOtminutes ?? 0,
+                    LabourTypeID = l.LabourTypeId
+                }).ToList();
+
+                Log.Information($"✅ Retrieved {result.Count} RegularLabour lines for SheetID {sheetID}.");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"❌ Failed to get RegularLabour for SheetID {sheetID}: {ex.Message}");
+                return null;
+            }
+        }
+
+
+
+        public async Task<List<DTOs.PartsUsed>> GetPartsUsed(int sheetID)
         {
             try
             {
