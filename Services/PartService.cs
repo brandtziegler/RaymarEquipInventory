@@ -110,8 +110,6 @@ namespace RaymarEquipmentInventory.Services
                     return false;
                 }
 
-
-
                 var newEntry = new Models.PartsUsed
                 {
                     QtyUsed = dto.QtyUsed ?? 0,
@@ -126,6 +124,26 @@ namespace RaymarEquipmentInventory.Services
                 };
 
                 await _context.PartsUseds.AddAsync(newEntry);
+                await _context.SaveChangesAsync();
+
+                //add parts documents...
+                if (dto.PartsDocs != null && dto.PartsDocs.Count > 0)
+                {
+                    foreach (var doc in dto.PartsDocs)
+                    {
+                        var newDoc = new Models.PartsDocument
+                        {
+                            PartUsedId = newEntry.PartUsedId, // Must use newEntry's generated ID
+                            FileName = doc.FileName,
+                            Description = doc.Description ?? "UNKNOWN",
+                            UploadedBy = "iPad App",
+                            UploadDate = DateTime.Now
+                        };
+
+                        await _context.PartsDocuments.AddAsync(newDoc);
+                    }
+                }
+
                 await _context.SaveChangesAsync();
 
                 Log.Information($"Inserted part usage for InventoryID {dto.InventoryID}, Qty: {dto.QtyUsed}");
