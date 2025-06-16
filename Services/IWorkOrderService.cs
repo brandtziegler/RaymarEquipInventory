@@ -32,6 +32,9 @@ namespace RaymarEquipmentInventory.Services
             string workOrderStatus = "COMPLETE",
             int? customerId = null);
 
+
+        Task UpdateWOStatus(int sheetId, string workOrderStatus, string deviceId);
+
         Task<List<DTOs.PartsUsed>> GetPartsUsed(int sheetID);
         Task<List<DTOs.RegularLabourLine>> GetLabourLines(int sheetID);
         Task<List<DTOs.WorkOrderFee>> GetFees(int sheetID);

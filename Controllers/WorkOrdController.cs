@@ -369,11 +369,7 @@ namespace RaymarEquipmentInventory.Controllers
                     customerId
                 );
 
-                if (result == null || result.Count == 0)
-                {
-                    return NotFound("No work order cards found with the provided filters.");
-                }
-
+                // ✅ Return 200 even if the list is empty
                 return Ok(result);
             }
             catch (Exception ex)
@@ -430,6 +426,22 @@ namespace RaymarEquipmentInventory.Controllers
             {
                 Log.Error($"Error removing bill {billID} from work order {sheetId}: {ex.Message}");
                 return StatusCode(500, $"An error occurred while removing the bill {billID} from the work order {sheetId}.");
+            }
+        }
+
+        [HttpPost("UpdateWOStatus")]
+        public async Task<IActionResult> UpdateWOStatus(int sheetId, string workOrderStatus, string deviceId)
+        {
+            try
+            {
+                await _workOrderService.UpdateWOStatus(sheetId, workOrderStatus, deviceId);
+
+                return Ok("Work order status updated.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error updating WO status to {workOrderStatus} for SheetID {sheetId}: {ex.Message}");
+                return StatusCode(500, "An error occurred while updating the work order status.");
             }
         }
 

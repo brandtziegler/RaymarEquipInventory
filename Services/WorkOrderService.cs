@@ -220,6 +220,43 @@ namespace RaymarEquipmentInventory.Services
 
             return newWorkOrderNumber;
         }
+
+
+        public async Task UpdateWOStatus(int sheetId, string workOrderStatus, string deviceId)
+        {
+            try
+            {
+                // Optional: validate the sheet exists
+                var workOrderExists = await _context.WorkOrderSheets
+                    .AnyAsync(w => w.SheetId == sheetId);
+
+                if (!workOrderExists)
+                {
+                    Log.Error($"Work order with SheetID {sheetId} not found.");
+                    return;
+                }
+
+                // You may want to get the device ID from the current context/token/header/etc.
+                var syncEvent = new WorkOrderSyncEvent
+                {
+                    SheetId = sheetId,
+                    EventType = workOrderStatus,
+                    Timestamp = DateTime.UtcNow,
+                    DeviceId = deviceId // Placeholder: inject or extract this properly
+                };
+
+                await _context.WorkOrderSyncEvents.AddAsync(syncEvent);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"✅ Sync event added: SheetID={sheetId}, Status={workOrderStatus}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error updating work order sync status");
+                throw;
+            }
+        }
+
         public async Task<bool> AddTechToWorkOrder(int techID, int sheetID)
         {
 
