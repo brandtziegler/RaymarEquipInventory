@@ -355,6 +355,7 @@ namespace RaymarEquipmentInventory.Controllers
             [FromQuery] DateTime? dateUploadedEnd,
             [FromQuery] DateTime? dateTimeCompletedStart,
             [FromQuery] DateTime? dateTimeCompletedEnd,
+            [FromQuery] int technicianID,
             [FromQuery] string workOrderStatus = "COMPLETE",
             [FromQuery] int? customerId = null)
         {
@@ -365,6 +366,7 @@ namespace RaymarEquipmentInventory.Controllers
                     dateUploadedEnd,
                     dateTimeCompletedStart,
                     dateTimeCompletedEnd,
+                    technicianID, 
                     workOrderStatus,
                     customerId
                 );

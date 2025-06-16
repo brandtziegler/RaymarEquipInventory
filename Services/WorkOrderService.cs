@@ -472,14 +472,30 @@ namespace RaymarEquipmentInventory.Services
 
         }
 
+        private async Task<bool> CanDownloadFromCloud(int technicianId)
+        {
+            return await _context.VwRolesMins
+                .Where(r => r.TechnicianId == technicianId)
+                .Select(r => r.CanDownloadFromCloud)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<List<WorkOrderCard>> GetWorkOrderCardsAsync(
            DateTime? dateUploadedStart,
            DateTime? dateUploadedEnd,
            DateTime? dateTimeCompletedStart,
            DateTime? dateTimeCompletedEnd,
+           int technicianId,
            string syncEventType = "COMPLETE",
            int? customerId = null)
         {
+            // 🚨 Permission check (early exit)
+            if (!await CanDownloadFromCloud(technicianId))
+            {
+                Log.Warning($"Technician {technicianId} does not have permission to download work orders.");
+                return new List<WorkOrderCard>();
+            }
+
             var query = _context.VwWorkOrderCards.AsQueryable();
 
             // Case-insensitive sync event type filter
@@ -506,7 +522,7 @@ namespace RaymarEquipmentInventory.Services
                 query = query.Where(w => w.CustomerId == customerId.Value);
 
             // Optional debug logging
-            Log.Information($"Filtering WorkOrderCards on LastSyncEventType = {syncEventType}");
+            Log.Information($"Technician {technicianId} passed permission check. Filtering WorkOrderCards on LastSyncEventType = {syncEventType}");
 
             // Project to DTO
             var workOrderCards = await query.Select(w => new WorkOrderCard
@@ -528,6 +544,7 @@ namespace RaymarEquipmentInventory.Services
 
             return workOrderCards;
         }
+
 
         public async Task<List<DTOs.WorkOrderFee>> GetFees(int sheetID)
         {

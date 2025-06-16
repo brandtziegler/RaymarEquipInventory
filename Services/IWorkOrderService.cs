@@ -29,6 +29,7 @@ namespace RaymarEquipmentInventory.Services
             DateTime? dateUploadedEnd,
             DateTime? dateTimeCompletedStart,
             DateTime? dateTimeCompletedEnd,
+            int technicianId,
             string workOrderStatus = "COMPLETE",
             int? customerId = null);
 
