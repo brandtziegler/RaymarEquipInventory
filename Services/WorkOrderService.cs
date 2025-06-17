@@ -587,7 +587,6 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-  
         public async Task<List<DTOs.RegularLabourLine>> GetLabourLines(int sheetID)
         {
             try

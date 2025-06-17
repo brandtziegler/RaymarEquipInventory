@@ -3,6 +3,7 @@
     public class WorkOrderDetails
     {
         public int SheetId { get; set; }
+        public List<Tech> TechWorkOrder = new List<Tech>();
         public BillingMin Billing { get; set; }
         public List<PartsUsed> Parts { get; set; } = new List<PartsUsed>(); 
         public List<RegularLabourLine> Labour { get; set; } = new List<RegularLabourLine>();
