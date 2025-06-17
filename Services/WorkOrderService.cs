@@ -587,49 +587,61 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<List<DTOs.RegularLabourLine>> GetLabourLines(int sheetID)
+        public async Task<List<HourlyLbrSummary>> GetLabourLines(int sheetID)
         {
             try
             {
-                var techWorkOrderIds = await _context.TechnicianWorkOrders
+                var techWorkOrders = await _context.TechnicianWorkOrders
                     .Where(t => t.SheetId == sheetID)
-                    .Select(t => t.TechnicianWorkOrderId)
                     .ToListAsync();
 
-                if (!techWorkOrderIds.Any())
+                if (!techWorkOrders.Any())
                 {
                     Log.Warning($"No TechnicianWorkOrders found for SheetID {sheetID}.");
-                    return new List<DTOs.RegularLabourLine>();
+                    return new List<HourlyLbrSummary>();
                 }
 
+                var techWOIds = techWorkOrders.Select(t => t.TechnicianWorkOrderId).ToList();
+
                 var regularLabourLines = await _context.RegularLabours
-                    .Where(l => l.TechnicianWorkOrderId.HasValue && techWorkOrderIds.Contains(l.TechnicianWorkOrderId.Value))
+                    .Where(l => l.TechnicianWorkOrderId.HasValue && techWOIds.Contains(l.TechnicianWorkOrderId.Value))
                     .ToListAsync();
 
-                var result = regularLabourLines.Select(l => new DTOs.RegularLabourLine
-                {
-                    LabourId = l.LabourId,
-                    TechnicianWorkOrderID = l.TechnicianWorkOrderId ?? 0,
-                    DateOfLabor = l.DateOfLabor,
-                    StartLabor = l.StartLabor,
-                    FinishLabor = l.FinishLabor,
-                    WorkDescription = l.WorkDescription,
-                    TotalHours = l.TotalHours ?? 0,
-                    TotalMinutes = l.TotalMinutes ?? 0,
-                    TotalOTHours = l.TotalOthours ?? 0,
-                    TotalOTMinutes = l.TotalOtminutes ?? 0,
-                    LabourTypeID = l.LabourTypeId
-                }).ToList();
+                var grouped = regularLabourLines
+                    .GroupBy(l => new { l.TechnicianWorkOrderId, l.LabourTypeId })
+                    .Select(g => new HourlyLbrSummary
+                    {
 
-                Log.Information($"✅ Retrieved {result.Count} RegularLabour lines for SheetID {sheetID}.");
-                return result;
+                        TechnicianID = techWorkOrders
+                            .First(t => t.TechnicianWorkOrderId == g.Key.TechnicianWorkOrderId).TechnicianId,
+                        LabourTypeID = g.Key.LabourTypeId,
+                        Labour = g.Select(l => new DTOs.RegularLabourLine
+                        {
+                            LabourId = l.LabourId,
+                            TechnicianWorkOrderID = l.TechnicianWorkOrderId ?? 0,
+                            DateOfLabor = l.DateOfLabor.Date,
+                            StartLabor = l.StartLabor,
+                            FinishLabor = l.FinishLabor.HasValue && l.FinishLabor.Value.Date.Year == 1969 ? null : l.FinishLabor,
+                            WorkDescription = l.WorkDescription,
+                            TotalHours = l.TotalHours ?? 0,
+                            TotalMinutes = l.TotalMinutes ?? 0,
+                            TotalOTHours = l.TotalOthours ?? 0,
+                            TotalOTMinutes = l.TotalOtminutes ?? 0,
+                            LabourTypeID = l.LabourTypeId
+                        }).ToList()
+                    })
+                    .ToList();
+
+                Log.Information($"✅ Grouped {grouped.Sum(g => g.Labour.Count)} labour rows for SheetID {sheetID} into {grouped.Count} tech/type combos.");
+                return grouped;
             }
             catch (Exception ex)
             {
-                Log.Error($"❌ Failed to get RegularLabour for SheetID {sheetID}: {ex.Message}");
+                Log.Error($"❌ Failed to group RegularLabour for SheetID {sheetID}: {ex.Message}");
                 return null;
             }
         }
+
 
 
         public async Task LogFailedSync(int sheetId, string reason)
