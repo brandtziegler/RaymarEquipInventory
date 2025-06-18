@@ -1,0 +1,784 @@
+2025-06-18 09:00:59.589 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-06-18 09:00:59.671 -04:00 [INF] Hosting environment: Development
+2025-06-18 09:00:59.671 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2025-06-18 09:03:20.600 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-06-18 09:03:21.451 -04:00 [INF] Hangfire SQL objects installed.
+2025-06-18 09:03:21.554 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-06-18 09:03:22.067 -04:00 [INF] Now listening on: https://localhost:7150
+2025-06-18 09:03:22.068 -04:00 [INF] Now listening on: http://localhost:5229
+2025-06-18 09:03:22.068 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-06-18 09:03:22.069 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-06-18 09:03:22.070 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-06-18 09:03:22.070 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-06-18 09:03:22.106 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-06-18 09:03:22.107 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-06-18 09:03:22.107 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-06-18 09:03:22.116 -04:00 [DBG] Execution loop BackgroundServerProcess:2eaafdd5 has started in 4.407 ms
+2025-06-18 09:03:22.311 -04:00 [INF] Server bz2024ad:2608:4468b83e successfully announced in 187.6088 ms
+2025-06-18 09:03:22.315 -04:00 [DBG] Execution loop ServerHeartbeatProcess:86714f53 has started in 3.2002 ms
+2025-06-18 09:03:22.315 -04:00 [INF] Server bz2024ad:2608:4468b83e is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-06-18 09:03:22.319 -04:00 [DBG] Execution loop ServerWatchdog:8e6a94d7 has started in 2.846 ms
+2025-06-18 09:03:22.322 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:affb7c2f has started in 5.2327 ms
+2025-06-18 09:03:22.324 -04:00 [DBG] Execution loop ExpirationManager:9e814dde has started in 4.1565 ms
+2025-06-18 09:03:22.327 -04:00 [DBG] Execution loop CountersAggregator:8df25afa has started in 4.5266 ms
+2025-06-18 09:03:22.329 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:19721304 has started in 4.6539 ms
+2025-06-18 09:03:22.366 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:03:22.365 -04:00 [DBG] Execution loop Worker:945770e2 has started in 38.4581 ms
+2025-06-18 09:03:22.372 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-06-18 09:03:22.365 -04:00 [DBG] Execution loop Worker:831618e9 has started in 38.4581 ms
+2025-06-18 09:03:22.369 -04:00 [DBG] Execution loop Worker:cb774853 has started in 42.3969 ms
+2025-06-18 09:03:22.371 -04:00 [DBG] Execution loop Worker:c5643623 has started in 43.9882 ms
+2025-06-18 09:03:22.373 -04:00 [DBG] Execution loop Worker:d1f88cb6 has started in 46.7709 ms
+2025-06-18 09:03:22.376 -04:00 [DBG] Execution loop Worker:3c5b3941 has started in 49.3304 ms
+2025-06-18 09:03:22.379 -04:00 [DBG] Execution loop Worker:f4e5135b has started in 51.9254 ms
+2025-06-18 09:03:22.382 -04:00 [DBG] Execution loop Worker:5a89eb5e has started in 54.9312 ms
+2025-06-18 09:03:22.385 -04:00 [DBG] Execution loop Worker:1b40cea7 has started in 57.7104 ms
+2025-06-18 09:03:22.387 -04:00 [DBG] Execution loop Worker:ee567655 has started in 60.3075 ms
+2025-06-18 09:03:22.390 -04:00 [DBG] Execution loop Worker:3ced192e has started in 63.1188 ms
+2025-06-18 09:03:22.392 -04:00 [DBG] Execution loop Worker:e7f990b6 has started in 65.7607 ms
+2025-06-18 09:03:22.396 -04:00 [DBG] Execution loop Worker:00573568 has started in 69.0547 ms
+2025-06-18 09:03:22.400 -04:00 [DBG] Execution loop Worker:8079569c has started in 73.1732 ms
+2025-06-18 09:03:22.402 -04:00 [DBG] Execution loop Worker:f6f32d7d has started in 75.0506 ms
+2025-06-18 09:03:22.421 -04:00 [INF] Server bz2024ad:2608:4468b83e all the dispatchers started
+2025-06-18 09:03:22.405 -04:00 [DBG] Execution loop Worker:f58e56a7 has started in 78.3221 ms
+2025-06-18 09:03:22.408 -04:00 [DBG] Execution loop Worker:01c5a628 has started in 81.4537 ms
+2025-06-18 09:03:22.411 -04:00 [DBG] Execution loop Worker:e1e29de7 has started in 84.2975 ms
+2025-06-18 09:03:22.414 -04:00 [DBG] Execution loop Worker:b942060e has started in 87.7411 ms
+2025-06-18 09:03:22.418 -04:00 [DBG] Execution loop Worker:ea372fb8 has started in 90.9594 ms
+2025-06-18 09:03:22.421 -04:00 [DBG] Execution loop DelayedJobScheduler:313a63ce has started in 6.4532 ms
+2025-06-18 09:03:22.425 -04:00 [DBG] Execution loop RecurringJobScheduler:9678cec3 has started in 6.6785 ms
+2025-06-18 09:03:22.523 -04:00 [DBG] Connection id "0HNDED20KAPQD" received FIN.
+2025-06-18 09:03:22.523 -04:00 [DBG] Connection id "0HNDED20KAPQC" received FIN.
+2025-06-18 09:03:22.524 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-06-18 09:03:22.671 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-06-18 09:03:22.671 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-06-18 09:03:22.682 -04:00 [DBG] Connection id "0HNDED20KAPQD" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-18 09:03:22.682 -04:00 [DBG] Connection id "0HNDED20KAPQC" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-18 09:03:22.918 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-06-18 09:03:23.095 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-06-18 09:03:23.141 -04:00 [DBG] Connection 0HNDED20KAPQE established using the following protocol: "Tls13"
+2025-06-18 09:03:23.220 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-06-18 09:03:23.228 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2025-06-18 09:03:23.361 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-06-18 09:03:23.382 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-06-18 09:03:23.383 -04:00 [DBG] Request did not match any endpoints
+2025-06-18 09:03:23.443 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-06-18 09:03:23.444 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-06-18 09:03:23.457 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-06-18 09:03:23.458 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-06-18 09:03:23.461 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 239.8013ms
+2025-06-18 09:03:23.553 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2025-06-18 09:03:23.553 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2025-06-18 09:03:23.571 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 18.5591ms
+2025-06-18 09:03:23.621 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 68.3934ms
+2025-06-18 09:03:23.715 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2025-06-18 09:03:23.717 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-06-18 09:03:23.718 -04:00 [DBG] Request did not match any endpoints
+2025-06-18 09:03:23.792 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 77.3969ms
+2025-06-18 09:03:26.142 -04:00 [DBG] Connection id "0HNDED20KAPQE" received FIN.
+2025-06-18 09:03:26.144 -04:00 [DBG] Connection id "0HNDED20KAPQE" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-18 09:03:40.583 -04:00 [DBG] Connection 0HNDED20KAPQF established using the following protocol: "Tls13"
+2025-06-18 09:03:40.587 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/WorkOrd/DownloadWorkOrderHours/202?technicianId=8&labourTypeId=1 - null null
+2025-06-18 09:03:40.594 -04:00 [DBG] 1 candidate(s) found for the request path '/api/WorkOrd/DownloadWorkOrderHours/202'
+2025-06-18 09:03:40.598 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)' with route pattern 'api/WorkOrd/DownloadWorkOrderHours/{sheetId}' is valid for the request path '/api/WorkOrd/DownloadWorkOrderHours/202'
+2025-06-18 09:03:40.600 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:03:40.603 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-06-18 09:03:40.606 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:03:40.653 -04:00 [INF] Route matched with {action = "DownloadWorkOrderHours", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DownloadWorkOrderHours(Int32, System.Nullable`1[System.Int32], System.Nullable`1[System.Int32]) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2025-06-18 09:03:40.655 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-06-18 09:03:40.656 -04:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-06-18 09:03:40.657 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2025-06-18 09:03:40.659 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-06-18 09:03:40.660 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2025-06-18 09:03:40.662 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-06-18 09:03:41.078 -04:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-06-18 09:03:41.106 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-06-18 09:03:41.124 -04:00 [DBG] Attempting to bind parameter 'sheetId' of type 'System.Int32' ...
+2025-06-18 09:03:41.127 -04:00 [DBG] Attempting to bind parameter 'sheetId' of type 'System.Int32' using the name 'sheetId' in request data ...
+2025-06-18 09:03:41.128 -04:00 [DBG] Done attempting to bind parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:03:41.129 -04:00 [DBG] Done attempting to bind parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:03:41.131 -04:00 [DBG] Attempting to validate the bound parameter 'sheetId' of type 'System.Int32' ...
+2025-06-18 09:03:41.134 -04:00 [DBG] Done attempting to validate the bound parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:03:41.136 -04:00 [DBG] Attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:03:41.137 -04:00 [DBG] Attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' using the name 'technicianId' in request data ...
+2025-06-18 09:03:41.138 -04:00 [DBG] Done attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:03:41.139 -04:00 [DBG] Done attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:03:41.139 -04:00 [DBG] Attempting to validate the bound parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:03:41.141 -04:00 [DBG] Done attempting to validate the bound parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:03:41.141 -04:00 [DBG] Attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:03:41.142 -04:00 [DBG] Attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' using the name 'labourTypeId' in request data ...
+2025-06-18 09:03:41.143 -04:00 [DBG] Done attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:03:41.144 -04:00 [DBG] Done attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:03:41.145 -04:00 [DBG] Attempting to validate the bound parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:03:41.147 -04:00 [DBG] Done attempting to validate the bound parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:03:41.358 -04:00 [DBG] No relationship from 'WorkOrderStatus' to 'WorkOrderType' has been configured by convention because there are multiple properties on one entity type - {'WorkOrdType', 'WorkOrdTypes'} that could be matched with the properties on the other entity type - {'Statuses', 'WorkOrderStatuses'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.366 -04:00 [DBG] No relationship from 'WorkOrderType' to 'WorkOrderStatus' has been configured by convention because there are multiple properties on one entity type - {'Statuses', 'WorkOrderStatuses'} that could be matched with the properties on the other entity type - {'WorkOrdType', 'WorkOrdTypes'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.379 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.389 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.390 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.392 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.393 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.394 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.395 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.398 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.399 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.400 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.401 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.402 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.422 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.428 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.430 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.431 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.434 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.441 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.442 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.443 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.444 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.445 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.447 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.448 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.449 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.451 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.452 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.453 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.454 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.455 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.456 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.457 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.459 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.460 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.461 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.462 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.463 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.464 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.465 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.470 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.472 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.474 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.477 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.491 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.492 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.493 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.515 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.516 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.518 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.520 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.521 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.522 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.523 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.525 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.526 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.527 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.528 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.530 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.532 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.533 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.535 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.538 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.539 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.541 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.542 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.543 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.544 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.545 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.547 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.548 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.549 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.551 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.552 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.553 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.554 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.555 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.556 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.557 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.558 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.560 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.561 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.562 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.564 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.580 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.587 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.590 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.604 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.606 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.607 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.608 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.610 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.611 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.616 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.660 -04:00 [DBG] No relationship from 'WorkOrderStatus' to 'WorkOrderType' has been configured by convention because there are multiple properties on one entity type - {'WorkOrdType', 'WorkOrdTypes'} that could be matched with the properties on the other entity type - {'Statuses', 'WorkOrderStatuses'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.662 -04:00 [DBG] No relationship from 'WorkOrderType' to 'WorkOrderStatus' has been configured by convention because there are multiple properties on one entity type - {'Statuses', 'WorkOrderStatuses'} that could be matched with the properties on the other entity type - {'WorkOrdType', 'WorkOrdTypes'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-06-18 09:03:41.717 -04:00 [DBG] The index {'SheetId'} was not created on entity type 'WorkOrderSyncLog' as the properties are already covered by the index {'SheetId', 'DeviceId'}.
+2025-06-18 09:03:41.718 -04:00 [DBG] The index {'WorkOrdTypeId'} was not created on entity type 'WorkOrderTypeStatus (Dictionary<string, object>)' as the properties are already covered by the index {'WorkOrdTypeId', 'StatusId'}.
+2025-06-18 09:03:41.937 -04:00 [DBG] Entity Framework Core 7.0.16 initialized 'RaymarInventoryDBContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:7.0.16' with options: None
+2025-06-18 09:03:41.973 -04:00 [DBG] Compiling query expression: 
+'DbSet<TechnicianWorkOrder>()
+    .Where(t => t.SheetId == __sheetID_0)
+    .Where(t => t.TechnicianId == __technicianId_Value_1)'
+2025-06-18 09:03:42.089 -04:00 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<TechnicianWorkOrder>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: TechnicianWorkOrder.TechnicianWorkOrderId (int) Required PK AfterSave:Throw ValueGenerated.OnAdd, 0], [Property: TechnicianWorkOrder.SheetId (int?) FK Index, 1], [Property: TechnicianWorkOrder.TechnicianId (int) Required FK Index, 2] }
+        SELECT t.TechnicianWorkOrderID, t.SheetID, t.TechnicianID
+        FROM TechnicianWorkOrder AS t
+        WHERE (t.SheetID == @__sheetID_0) && (t.TechnicianID == @__technicianId_Value_1)), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, TechnicianWorkOrder>, 
+    RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+    False, 
+    False, 
+    True
+)'
+2025-06-18 09:03:42.116 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-18 09:03:42.118 -04:00 [DBG] Creating DbConnection.
+2025-06-18 09:03:42.121 -04:00 [DBG] Created DbConnection. (1ms).
+2025-06-18 09:03:42.125 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (7ms).
+2025-06-18 09:03:42.128 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (12ms).
+2025-06-18 09:03:42.132 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:03:42.136 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:03:42.142 -04:00 [DBG] Executing DbCommand [Parameters=[@__sheetID_0='?' (DbType = Int32), @__technicianId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID]
+FROM [TechnicianWorkOrder] AS [t]
+WHERE [t].[SheetID] = @__sheetID_0 AND [t].[TechnicianID] = @__technicianId_Value_1
+2025-06-18 09:03:42.193 -04:00 [INF] Executed DbCommand (52ms) [Parameters=[@__sheetID_0='?' (DbType = Int32), @__technicianId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID]
+FROM [TechnicianWorkOrder] AS [t]
+WHERE [t].[SheetID] = @__sheetID_0 AND [t].[TechnicianID] = @__technicianId_Value_1
+2025-06-18 09:03:42.222 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'TechnicianWorkOrder' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:03:42.240 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:03:42.244 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 45ms reading results.
+2025-06-18 09:03:42.247 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:03:42.249 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (2ms).
+2025-06-18 09:03:42.253 -04:00 [DBG] Compiling query expression: 
+'DbSet<RegularLabour>()
+    .Where(l => l.TechnicianWorkOrderId.HasValue && __techWOIds_0.Contains(l.TechnicianWorkOrderId.Value))
+    .Where(l => l.LabourTypeId == __labourTypeId_Value_1)'
+2025-06-18 09:03:42.271 -04:00 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<RegularLabour>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: RegularLabour.LabourId (int) Required PK AfterSave:Throw ValueGenerated.OnAdd, 0], [Property: RegularLabour.DateLabourFinished (DateTime?), 1], [Property: RegularLabour.DateLabourStarted (DateTime?), 2], [Property: RegularLabour.DateOfLabor (DateTime) Required, 3], [Property: RegularLabour.FinishLabor (DateTime?), 4], [Property: RegularLabour.LabourTypeId (int) Required, 5], [Property: RegularLabour.StartLabor (DateTime?), 6], [Property: RegularLabour.TechnicianWorkOrderId (int?), 7], [Property: RegularLabour.TotalHours (int?), 8], [Property: RegularLabour.TotalMinutes (int?), 9], [Property: RegularLabour.TotalOthours (int?), 10], [Property: RegularLabour.TotalOtminutes (int?), 11], [Property: RegularLabour.WorkDescription (string) MaxLength(250) Ansi, 12] }
+        SELECT r.LabourID, r.DateLabourFinished, r.DateLabourStarted, r.DateOfLabor, r.FinishLabor, r.LabourTypeID, r.StartLabor, r.TechnicianWorkOrderID, r.TotalHours, r.TotalMinutes, r.TotalOTHours, r.TotalOTMinutes, r.WorkDescription
+        FROM RegularLabour AS r
+        WHERE (NotEqual(r.TechnicianWorkOrderID) && r.TechnicianWorkOrderID IN (@__techWOIds_0)) && (r.LabourTypeID == @__labourTypeId_Value_1)), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, RegularLabour>, 
+    RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+    False, 
+    False, 
+    True
+)'
+2025-06-18 09:03:42.274 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-18 09:03:42.275 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-06-18 09:03:42.276 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (2ms).
+2025-06-18 09:03:42.277 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:03:42.278 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:03:42.280 -04:00 [DBG] Executing DbCommand [Parameters=[@__labourTypeId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r].[LabourID], [r].[DateLabourFinished], [r].[DateLabourStarted], [r].[DateOfLabor], [r].[FinishLabor], [r].[LabourTypeID], [r].[StartLabor], [r].[TechnicianWorkOrderID], [r].[TotalHours], [r].[TotalMinutes], [r].[TotalOTHours], [r].[TotalOTMinutes], [r].[WorkDescription]
+FROM [RegularLabour] AS [r]
+WHERE ([r].[TechnicianWorkOrderID] IS NOT NULL) AND [r].[TechnicianWorkOrderID] = 1027 AND [r].[LabourTypeID] = @__labourTypeId_Value_1
+2025-06-18 09:03:42.324 -04:00 [INF] Executed DbCommand (44ms) [Parameters=[@__labourTypeId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r].[LabourID], [r].[DateLabourFinished], [r].[DateLabourStarted], [r].[DateOfLabor], [r].[FinishLabor], [r].[LabourTypeID], [r].[StartLabor], [r].[TechnicianWorkOrderID], [r].[TotalHours], [r].[TotalMinutes], [r].[TotalOTHours], [r].[TotalOTMinutes], [r].[WorkDescription]
+FROM [RegularLabour] AS [r]
+WHERE ([r].[TechnicianWorkOrderID] IS NOT NULL) AND [r].[TechnicianWorkOrderID] = 1027 AND [r].[LabourTypeID] = @__labourTypeId_Value_1
+2025-06-18 09:03:42.332 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:03:42.350 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:03:42.351 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:03:42.352 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:03:42.353 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:03:42.354 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:03:42.356 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:03:42.358 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 31ms reading results.
+2025-06-18 09:03:42.359 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:03:42.360 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-06-18 09:03:42.368 -04:00 [INF] ✅ Grouped 6 labour rows for SheetID 202 into 1 tech/type combos.
+2025-06-18 09:03:42.373 -04:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-06-18 09:03:42.376 -04:00 [DBG] No information found on request to perform content negotiation.
+2025-06-18 09:03:42.376 -04:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-06-18 09:03:42.377 -04:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-06-18 09:03:42.378 -04:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-06-18 09:03:42.380 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.HourlyLbrSummary, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-06-18 09:03:42.392 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory) in 1729.9533ms
+2025-06-18 09:03:42.394 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:03:42.398 -04:00 [DBG] 'RaymarInventoryDBContext' disposed.
+2025-06-18 09:03:42.402 -04:00 [DBG] Disposing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:03:42.404 -04:00 [DBG] Disposed connection to database '' on server '' (1ms).
+2025-06-18 09:03:42.405 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/api/WorkOrd/DownloadWorkOrderHours/202?technicianId=8&labourTypeId=1 - 200 null application/json; charset=utf-8 1818.9778ms
+2025-06-18 09:03:52.371 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:04:22.422 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:04:52.477 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:05:22.536 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:05:41.121 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client ''
+2025-06-18 09:05:41.121 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client 'ISamsaraApiService'
+2025-06-18 09:05:51.138 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:05:51.141 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0533ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:05:52.588 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:06:01.149 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:06:01.150 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0034ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:06:11.161 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:06:11.163 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0046ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:06:21.173 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:06:21.174 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0084ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:06:22.634 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:06:31.185 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:06:31.186 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0023ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:06:41.192 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:06:41.193 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0025ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:06:51.195 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:06:51.197 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0034ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:06:52.683 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:07:01.205 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:07:01.207 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0021ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:07:11.209 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:07:11.211 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0033ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:07:21.215 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:07:21.216 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0069ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:07:22.727 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:07:31.218 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:07:31.219 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0024ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:07:41.221 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:07:41.222 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0026ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:07:51.236 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:07:51.237 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.002ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:07:52.780 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:07:53.250 -04:00 [DBG] Connection id "0HNDED20KAPQF" received FIN.
+2025-06-18 09:07:53.252 -04:00 [DBG] Connection id "0HNDED20KAPQF" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-18 09:08:01.247 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:08:01.248 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.003ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:08:11.257 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:08:11.258 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0024ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:08:21.269 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:08:21.270 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0039ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:08:22.440 -04:00 [INF] 1 servers were removed due to timeout
+2025-06-18 09:08:22.653 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:08:22.826 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:08:31.283 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:08:31.285 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0029ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:08:41.291 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:08:41.292 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0018ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:08:51.292 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:08:51.293 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0083ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:08:52.876 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:09:01.304 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:09:01.304 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0024ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:09:11.317 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:09:11.318 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0019ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:09:21.334 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:09:21.335 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0024ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:09:22.924 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:09:31.344 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:09:31.345 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0414ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:09:41.354 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:09:41.355 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0023ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:09:51.369 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:09:51.370 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0042ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:09:52.974 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:10:01.384 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:10:01.385 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.2598ms - processed: 2 items - remaining: 0 items
+2025-06-18 09:10:23.025 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:10:53.080 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:11:23.128 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:11:53.178 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:12:23.243 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:12:53.287 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:13:22.688 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:13:23.348 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:13:53.398 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:14:23.440 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:14:53.490 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:15:23.612 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:15:53.663 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:16:23.714 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:16:53.762 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:17:23.809 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:17:53.852 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:18:22.735 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:18:23.920 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:18:53.963 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:19:24.012 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:19:54.053 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:20:24.096 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:20:54.160 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:21:24.211 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:21:54.264 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:22:24.309 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:22:54.357 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:23:22.780 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:23:24.410 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:23:54.466 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:24:24.522 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:24:54.563 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:25:24.617 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:25:54.675 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:26:24.728 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:26:54.783 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:27:24.833 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:27:54.879 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:28:22.821 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:28:24.921 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:28:54.961 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:29:25.012 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:29:55.051 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:30:25.104 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:30:55.154 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:31:25.211 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:31:55.251 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:32:25.303 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:32:55.344 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:33:22.876 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:33:23.338 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-06-18 09:33:23.432 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-06-18 09:33:23.527 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-06-18 09:33:23.624 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-06-18 09:33:23.715 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-06-18 09:33:25.384 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:33:55.437 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:34:25.482 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:34:55.533 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:35:25.593 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:35:55.634 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:36:25.672 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:36:55.713 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:37:25.768 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:37:55.812 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:38:22.923 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:38:25.858 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:38:55.911 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:39:25.962 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:39:56.012 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:40:26.062 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:40:56.106 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:41:26.153 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:41:56.190 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:42:26.235 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:42:56.277 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:43:22.957 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:43:26.321 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:43:56.363 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:44:26.417 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:44:56.466 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:45:26.506 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:45:56.557 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:46:26.606 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:46:56.647 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:47:26.691 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:47:56.737 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:48:22.992 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:48:26.789 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:48:56.838 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:49:26.882 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:49:56.935 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:50:26.986 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:50:57.031 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:51:27.077 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:51:57.128 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:52:27.183 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:52:57.222 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:53:23.035 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:53:27.282 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:53:57.329 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:54:27.384 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:54:57.428 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:55:27.476 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:55:57.526 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:56:27.570 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:56:35.635 -04:00 [DBG] Connection 0HNDED20KAPQG established using the following protocol: "Tls13"
+2025-06-18 09:56:35.635 -04:00 [DBG] Connection 0HNDED20KAPQH established using the following protocol: "Tls13"
+2025-06-18 09:56:35.639 -04:00 [DBG] Connection id "0HNDED20KAPQH" received FIN.
+2025-06-18 09:56:35.641 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/WorkOrd/DownloadWorkOrderHours/202?technicianId=${8}&labourTypeId=${labourTypeId} - null null
+2025-06-18 09:56:35.643 -04:00 [DBG] Connection id "0HNDED20KAPQH" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-18 09:56:35.667 -04:00 [DBG] 1 candidate(s) found for the request path '/api/WorkOrd/DownloadWorkOrderHours/202'
+2025-06-18 09:56:35.668 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)' with route pattern 'api/WorkOrd/DownloadWorkOrderHours/{sheetId}' is valid for the request path '/api/WorkOrd/DownloadWorkOrderHours/202'
+2025-06-18 09:56:35.669 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:56:35.670 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-06-18 09:56:35.670 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:56:35.671 -04:00 [INF] Route matched with {action = "DownloadWorkOrderHours", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DownloadWorkOrderHours(Int32, System.Nullable`1[System.Int32], System.Nullable`1[System.Int32]) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2025-06-18 09:56:35.672 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-06-18 09:56:35.673 -04:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-06-18 09:56:35.675 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2025-06-18 09:56:35.676 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-06-18 09:56:35.678 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2025-06-18 09:56:35.679 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-06-18 09:56:35.685 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-06-18 09:56:35.687 -04:00 [DBG] Attempting to bind parameter 'sheetId' of type 'System.Int32' ...
+2025-06-18 09:56:35.688 -04:00 [DBG] Attempting to bind parameter 'sheetId' of type 'System.Int32' using the name 'sheetId' in request data ...
+2025-06-18 09:56:35.689 -04:00 [DBG] Done attempting to bind parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:56:35.690 -04:00 [DBG] Done attempting to bind parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:56:35.691 -04:00 [DBG] Attempting to validate the bound parameter 'sheetId' of type 'System.Int32' ...
+2025-06-18 09:56:35.691 -04:00 [DBG] Done attempting to validate the bound parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:56:35.692 -04:00 [DBG] Attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:56:35.693 -04:00 [DBG] Attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' using the name 'technicianId' in request data ...
+2025-06-18 09:56:35.840 -04:00 [DBG] Done attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:35.841 -04:00 [DBG] Done attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:35.841 -04:00 [DBG] Attempting to validate the bound parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:56:35.843 -04:00 [DBG] Done attempting to validate the bound parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:35.843 -04:00 [DBG] Attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:56:35.844 -04:00 [DBG] Attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' using the name 'labourTypeId' in request data ...
+2025-06-18 09:56:35.876 -04:00 [DBG] Done attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:35.877 -04:00 [DBG] Done attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:35.878 -04:00 [DBG] Attempting to validate the bound parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:56:35.878 -04:00 [DBG] Done attempting to validate the bound parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:35.879 -04:00 [DBG] The request has model state errors, returning an error response.
+2025-06-18 09:56:35.881 -04:00 [DBG] Request was short circuited at action filter 'Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter'.
+2025-06-18 09:56:35.882 -04:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-06-18 09:56:35.885 -04:00 [DBG] No information found on request to perform content negotiation.
+2025-06-18 09:56:35.886 -04:00 [DBG] Attempting to select the first output formatter in the output formatters list which supports a content type from the explicitly specified content types '["application/problem+json","application/problem+xml","application/problem+json","application/problem+xml"]'.
+2025-06-18 09:56:35.887 -04:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/problem+json' to write the response.
+2025-06-18 09:56:35.888 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-06-18 09:56:35.898 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory) in 218.8209ms
+2025-06-18 09:56:35.899 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:56:35.900 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/api/WorkOrd/DownloadWorkOrderHours/202?technicianId=${8}&labourTypeId=${labourTypeId} - 400 null application/problem+json; charset=utf-8 259.1518ms
+2025-06-18 09:56:35.936 -04:00 [DBG] Connection 0HNDED20KAPQI established using the following protocol: "Tls13"
+2025-06-18 09:56:35.938 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/favicon.ico - null null
+2025-06-18 09:56:35.940 -04:00 [DBG] No candidates found for the request path '/favicon.ico'
+2025-06-18 09:56:35.940 -04:00 [DBG] Request did not match any endpoints
+2025-06-18 09:56:35.941 -04:00 [DBG] The request path  does not match the path filter
+2025-06-18 09:56:35.942 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/favicon.ico - 404 0 null 4.4785ms
+2025-06-18 09:56:35.945 -04:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7150/favicon.ico, Response status code: 404
+2025-06-18 09:56:57.627 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:56:59.170 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/WorkOrd/DownloadWorkOrderHours/202?technicianId=8&labourTypeId=1 - null null
+2025-06-18 09:56:59.175 -04:00 [DBG] 1 candidate(s) found for the request path '/api/WorkOrd/DownloadWorkOrderHours/202'
+2025-06-18 09:56:59.175 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)' with route pattern 'api/WorkOrd/DownloadWorkOrderHours/{sheetId}' is valid for the request path '/api/WorkOrd/DownloadWorkOrderHours/202'
+2025-06-18 09:56:59.176 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:56:59.177 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-06-18 09:56:59.177 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:56:59.178 -04:00 [INF] Route matched with {action = "DownloadWorkOrderHours", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DownloadWorkOrderHours(Int32, System.Nullable`1[System.Int32], System.Nullable`1[System.Int32]) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2025-06-18 09:56:59.179 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-06-18 09:56:59.180 -04:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-06-18 09:56:59.181 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2025-06-18 09:56:59.182 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-06-18 09:56:59.183 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2025-06-18 09:56:59.184 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-06-18 09:56:59.190 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-06-18 09:56:59.191 -04:00 [DBG] Attempting to bind parameter 'sheetId' of type 'System.Int32' ...
+2025-06-18 09:56:59.192 -04:00 [DBG] Attempting to bind parameter 'sheetId' of type 'System.Int32' using the name 'sheetId' in request data ...
+2025-06-18 09:56:59.193 -04:00 [DBG] Done attempting to bind parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:56:59.194 -04:00 [DBG] Done attempting to bind parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:56:59.195 -04:00 [DBG] Attempting to validate the bound parameter 'sheetId' of type 'System.Int32' ...
+2025-06-18 09:56:59.195 -04:00 [DBG] Done attempting to validate the bound parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:56:59.196 -04:00 [DBG] Attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:56:59.197 -04:00 [DBG] Attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' using the name 'technicianId' in request data ...
+2025-06-18 09:56:59.198 -04:00 [DBG] Done attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:59.198 -04:00 [DBG] Done attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:59.199 -04:00 [DBG] Attempting to validate the bound parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:56:59.200 -04:00 [DBG] Done attempting to validate the bound parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:59.200 -04:00 [DBG] Attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:56:59.201 -04:00 [DBG] Attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' using the name 'labourTypeId' in request data ...
+2025-06-18 09:56:59.202 -04:00 [DBG] Done attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:59.202 -04:00 [DBG] Done attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:59.203 -04:00 [DBG] Attempting to validate the bound parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:56:59.204 -04:00 [DBG] Done attempting to validate the bound parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:56:59.211 -04:00 [DBG] Entity Framework Core 7.0.16 initialized 'RaymarInventoryDBContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:7.0.16' with options: None
+2025-06-18 09:56:59.215 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-18 09:56:59.216 -04:00 [DBG] Creating DbConnection.
+2025-06-18 09:56:59.216 -04:00 [DBG] Created DbConnection. (0ms).
+2025-06-18 09:56:59.217 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (2ms).
+2025-06-18 09:56:59.217 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (2ms).
+2025-06-18 09:56:59.218 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:56:59.219 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:56:59.219 -04:00 [DBG] Executing DbCommand [Parameters=[@__sheetID_0='?' (DbType = Int32), @__technicianId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID]
+FROM [TechnicianWorkOrder] AS [t]
+WHERE [t].[SheetID] = @__sheetID_0 AND [t].[TechnicianID] = @__technicianId_Value_1
+2025-06-18 09:56:59.254 -04:00 [INF] Executed DbCommand (35ms) [Parameters=[@__sheetID_0='?' (DbType = Int32), @__technicianId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID]
+FROM [TechnicianWorkOrder] AS [t]
+WHERE [t].[SheetID] = @__sheetID_0 AND [t].[TechnicianID] = @__technicianId_Value_1
+2025-06-18 09:56:59.256 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'TechnicianWorkOrder' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:56:59.257 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:56:59.258 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-06-18 09:56:59.258 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:56:59.260 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-06-18 09:56:59.261 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-18 09:56:59.261 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-06-18 09:56:59.262 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-06-18 09:56:59.263 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:56:59.263 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:56:59.264 -04:00 [DBG] Executing DbCommand [Parameters=[@__labourTypeId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r].[LabourID], [r].[DateLabourFinished], [r].[DateLabourStarted], [r].[DateOfLabor], [r].[FinishLabor], [r].[LabourTypeID], [r].[StartLabor], [r].[TechnicianWorkOrderID], [r].[TotalHours], [r].[TotalMinutes], [r].[TotalOTHours], [r].[TotalOTMinutes], [r].[WorkDescription]
+FROM [RegularLabour] AS [r]
+WHERE ([r].[TechnicianWorkOrderID] IS NOT NULL) AND [r].[TechnicianWorkOrderID] = 1027 AND [r].[LabourTypeID] = @__labourTypeId_Value_1
+2025-06-18 09:56:59.299 -04:00 [INF] Executed DbCommand (35ms) [Parameters=[@__labourTypeId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r].[LabourID], [r].[DateLabourFinished], [r].[DateLabourStarted], [r].[DateOfLabor], [r].[FinishLabor], [r].[LabourTypeID], [r].[StartLabor], [r].[TechnicianWorkOrderID], [r].[TotalHours], [r].[TotalMinutes], [r].[TotalOTHours], [r].[TotalOTMinutes], [r].[WorkDescription]
+FROM [RegularLabour] AS [r]
+WHERE ([r].[TechnicianWorkOrderID] IS NOT NULL) AND [r].[TechnicianWorkOrderID] = 1027 AND [r].[LabourTypeID] = @__labourTypeId_Value_1
+2025-06-18 09:56:59.300 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:56:59.301 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:56:59.302 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:56:59.303 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:56:59.303 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:56:59.304 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:56:59.305 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:56:59.305 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 5ms reading results.
+2025-06-18 09:56:59.306 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:56:59.307 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-06-18 09:56:59.308 -04:00 [INF] ✅ Grouped 6 labour rows for SheetID 202 into 1 tech/type combos.
+2025-06-18 09:56:59.308 -04:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-06-18 09:56:59.310 -04:00 [DBG] No information found on request to perform content negotiation.
+2025-06-18 09:56:59.310 -04:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-06-18 09:56:59.311 -04:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-06-18 09:56:59.311 -04:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-06-18 09:56:59.312 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.HourlyLbrSummary, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-06-18 09:56:59.313 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory) in 128.6568ms
+2025-06-18 09:56:59.314 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:56:59.315 -04:00 [DBG] 'RaymarInventoryDBContext' disposed.
+2025-06-18 09:56:59.316 -04:00 [DBG] Disposing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:56:59.317 -04:00 [DBG] Disposed connection to database '' on server '' (1ms).
+2025-06-18 09:56:59.319 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/api/WorkOrd/DownloadWorkOrderHours/202?technicianId=8&labourTypeId=1 - 200 null application/json; charset=utf-8 148.4055ms
+2025-06-18 09:57:27.669 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:57:57.725 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:58:23.081 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-18 09:58:27.773 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:58:35.686 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client ''
+2025-06-18 09:58:35.686 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client 'ISamsaraApiService'
+2025-06-18 09:58:45.691 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:58:45.692 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0031ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:58:55.699 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:58:55.699 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.003ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:58:57.826 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:59:05.714 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:59:05.715 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0025ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:59:15.729 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:59:15.729 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0025ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:59:25.731 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:59:25.733 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0049ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:59:26.086 -04:00 [DBG] Connection id "0HNDED20KAPQI" received FIN.
+2025-06-18 09:59:26.093 -04:00 [DBG] Connection id "0HNDED20KAPQI" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-18 09:59:27.875 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 09:59:28.466 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/api/WorkOrd/DownloadWorkOrderHours/202?technicianId=8&labourTypeId=1 - null null
+2025-06-18 09:59:28.475 -04:00 [DBG] 1 candidate(s) found for the request path '/api/WorkOrd/DownloadWorkOrderHours/202'
+2025-06-18 09:59:28.476 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)' with route pattern 'api/WorkOrd/DownloadWorkOrderHours/{sheetId}' is valid for the request path '/api/WorkOrd/DownloadWorkOrderHours/202'
+2025-06-18 09:59:28.477 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:59:28.478 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-06-18 09:59:28.478 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:59:28.479 -04:00 [INF] Route matched with {action = "DownloadWorkOrderHours", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DownloadWorkOrderHours(Int32, System.Nullable`1[System.Int32], System.Nullable`1[System.Int32]) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2025-06-18 09:59:28.480 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-06-18 09:59:28.481 -04:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-06-18 09:59:28.481 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2025-06-18 09:59:28.482 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-06-18 09:59:28.483 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2025-06-18 09:59:28.484 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-06-18 09:59:28.484 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-06-18 09:59:28.485 -04:00 [DBG] Attempting to bind parameter 'sheetId' of type 'System.Int32' ...
+2025-06-18 09:59:28.486 -04:00 [DBG] Attempting to bind parameter 'sheetId' of type 'System.Int32' using the name 'sheetId' in request data ...
+2025-06-18 09:59:28.486 -04:00 [DBG] Done attempting to bind parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:59:28.487 -04:00 [DBG] Done attempting to bind parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:59:28.488 -04:00 [DBG] Attempting to validate the bound parameter 'sheetId' of type 'System.Int32' ...
+2025-06-18 09:59:28.488 -04:00 [DBG] Done attempting to validate the bound parameter 'sheetId' of type 'System.Int32'.
+2025-06-18 09:59:28.489 -04:00 [DBG] Attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:59:28.490 -04:00 [DBG] Attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' using the name 'technicianId' in request data ...
+2025-06-18 09:59:28.491 -04:00 [DBG] Done attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:59:28.492 -04:00 [DBG] Done attempting to bind parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:59:28.493 -04:00 [DBG] Attempting to validate the bound parameter 'technicianId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:59:28.494 -04:00 [DBG] Done attempting to validate the bound parameter 'technicianId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:59:28.495 -04:00 [DBG] Attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:59:28.495 -04:00 [DBG] Attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' using the name 'labourTypeId' in request data ...
+2025-06-18 09:59:28.496 -04:00 [DBG] Done attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:59:28.497 -04:00 [DBG] Done attempting to bind parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:59:28.498 -04:00 [DBG] Attempting to validate the bound parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]' ...
+2025-06-18 09:59:28.499 -04:00 [DBG] Done attempting to validate the bound parameter 'labourTypeId' of type 'System.Nullable`1[System.Int32]'.
+2025-06-18 09:59:28.540 -04:00 [DBG] Entity Framework Core 7.0.16 initialized 'RaymarInventoryDBContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:7.0.16' with options: None
+2025-06-18 09:59:28.544 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-18 09:59:28.544 -04:00 [DBG] Creating DbConnection.
+2025-06-18 09:59:28.545 -04:00 [DBG] Created DbConnection. (0ms).
+2025-06-18 09:59:28.545 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (1ms).
+2025-06-18 09:59:28.546 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (2ms).
+2025-06-18 09:59:28.546 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:59:28.547 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:59:28.548 -04:00 [DBG] Executing DbCommand [Parameters=[@__sheetID_0='?' (DbType = Int32), @__technicianId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID]
+FROM [TechnicianWorkOrder] AS [t]
+WHERE [t].[SheetID] = @__sheetID_0 AND [t].[TechnicianID] = @__technicianId_Value_1
+2025-06-18 09:59:28.584 -04:00 [INF] Executed DbCommand (36ms) [Parameters=[@__sheetID_0='?' (DbType = Int32), @__technicianId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[TechnicianWorkOrderID], [t].[SheetID], [t].[TechnicianID]
+FROM [TechnicianWorkOrder] AS [t]
+WHERE [t].[SheetID] = @__sheetID_0 AND [t].[TechnicianID] = @__technicianId_Value_1
+2025-06-18 09:59:28.585 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'TechnicianWorkOrder' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:59:28.586 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:59:28.587 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-06-18 09:59:28.588 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:59:28.588 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-06-18 09:59:28.589 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-18 09:59:28.590 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-06-18 09:59:28.591 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-06-18 09:59:28.592 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:59:28.592 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:59:28.593 -04:00 [DBG] Executing DbCommand [Parameters=[@__labourTypeId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r].[LabourID], [r].[DateLabourFinished], [r].[DateLabourStarted], [r].[DateOfLabor], [r].[FinishLabor], [r].[LabourTypeID], [r].[StartLabor], [r].[TechnicianWorkOrderID], [r].[TotalHours], [r].[TotalMinutes], [r].[TotalOTHours], [r].[TotalOTMinutes], [r].[WorkDescription]
+FROM [RegularLabour] AS [r]
+WHERE ([r].[TechnicianWorkOrderID] IS NOT NULL) AND [r].[TechnicianWorkOrderID] = 1027 AND [r].[LabourTypeID] = @__labourTypeId_Value_1
+2025-06-18 09:59:28.625 -04:00 [INF] Executed DbCommand (31ms) [Parameters=[@__labourTypeId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r].[LabourID], [r].[DateLabourFinished], [r].[DateLabourStarted], [r].[DateOfLabor], [r].[FinishLabor], [r].[LabourTypeID], [r].[StartLabor], [r].[TechnicianWorkOrderID], [r].[TotalHours], [r].[TotalMinutes], [r].[TotalOTHours], [r].[TotalOTMinutes], [r].[WorkDescription]
+FROM [RegularLabour] AS [r]
+WHERE ([r].[TechnicianWorkOrderID] IS NOT NULL) AND [r].[TechnicianWorkOrderID] = 1027 AND [r].[LabourTypeID] = @__labourTypeId_Value_1
+2025-06-18 09:59:28.626 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:59:28.627 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:59:28.628 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:59:28.628 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:59:28.629 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:59:28.630 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'RegularLabour' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-18 09:59:28.630 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:59:28.631 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 5ms reading results.
+2025-06-18 09:59:28.632 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:59:28.632 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-06-18 09:59:28.633 -04:00 [INF] ✅ Grouped 6 labour rows for SheetID 202 into 1 tech/type combos.
+2025-06-18 09:59:28.634 -04:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-06-18 09:59:28.635 -04:00 [DBG] No information found on request to perform content negotiation.
+2025-06-18 09:59:28.635 -04:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-06-18 09:59:28.636 -04:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-06-18 09:59:28.636 -04:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-06-18 09:59:28.637 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.HourlyLbrSummary, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-06-18 09:59:28.638 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory) in 154.029ms
+2025-06-18 09:59:28.638 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.DownloadWorkOrderHours (RaymarEquipmentInventory)'
+2025-06-18 09:59:28.639 -04:00 [DBG] 'RaymarInventoryDBContext' disposed.
+2025-06-18 09:59:28.640 -04:00 [DBG] Disposing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-06-18 09:59:28.641 -04:00 [DBG] Disposed connection to database '' on server '' (1ms).
+2025-06-18 09:59:28.642 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/api/WorkOrd/DownloadWorkOrderHours/202?technicianId=8&labourTypeId=1 - 200 null application/json; charset=utf-8 176.3437ms
+2025-06-18 09:59:28.651 -04:00 [DBG] Connection id "0HNDED20KAPQJ" received FIN.
+2025-06-18 09:59:28.718 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-06-18 09:59:28.721 -04:00 [DBG] Connection id "0HNDED20KAPQJ" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-18 09:59:35.744 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:59:35.745 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0031ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:59:45.757 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:59:45.758 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:59:55.764 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 09:59:55.765 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 2 items
+2025-06-18 09:59:57.929 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 10:00:05.769 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 10:00:05.770 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.002ms - processed: 0 items - remaining: 2 items
+2025-06-18 10:00:15.779 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 10:00:15.783 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.002ms - processed: 0 items - remaining: 2 items
+2025-06-18 10:00:25.788 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 10:00:25.790 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0024ms - processed: 0 items - remaining: 2 items
+2025-06-18 10:00:27.971 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 10:00:35.793 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 10:00:35.795 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0026ms - processed: 0 items - remaining: 2 items
+2025-06-18 10:00:45.805 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 10:00:45.806 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0013ms - processed: 0 items - remaining: 2 items
+2025-06-18 10:00:55.820 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 10:00:55.820 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items
+2025-06-18 10:00:58.026 -04:00 [DBG] Server bz2024ad:2608:4468b83e heartbeat successfully sent
+2025-06-18 10:01:05.830 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-06-18 10:01:05.830 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items

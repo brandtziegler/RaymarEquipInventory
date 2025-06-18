@@ -587,13 +587,17 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<List<HourlyLbrSummary>> GetLabourLines(int sheetID)
+        public async Task<List<HourlyLbrSummary>> GetLabourLines(int sheetID, int? technicianId = null, int? labourTypeId = null)
         {
             try
             {
-                var techWorkOrders = await _context.TechnicianWorkOrders
-                    .Where(t => t.SheetId == sheetID)
-                    .ToListAsync();
+                var techWorkOrdersQuery = _context.TechnicianWorkOrders
+                    .Where(t => t.SheetId == sheetID);
+
+                if (technicianId.HasValue)
+                    techWorkOrdersQuery = techWorkOrdersQuery.Where(t => t.TechnicianId == technicianId.Value);
+
+                var techWorkOrders = await techWorkOrdersQuery.ToListAsync();
 
                 if (!techWorkOrders.Any())
                 {
@@ -603,15 +607,18 @@ namespace RaymarEquipmentInventory.Services
 
                 var techWOIds = techWorkOrders.Select(t => t.TechnicianWorkOrderId).ToList();
 
-                var regularLabourLines = await _context.RegularLabours
-                    .Where(l => l.TechnicianWorkOrderId.HasValue && techWOIds.Contains(l.TechnicianWorkOrderId.Value))
-                    .ToListAsync();
+                var regularLabourQuery = _context.RegularLabours
+                    .Where(l => l.TechnicianWorkOrderId.HasValue && techWOIds.Contains(l.TechnicianWorkOrderId.Value));
+
+                if (labourTypeId.HasValue)
+                    regularLabourQuery = regularLabourQuery.Where(l => l.LabourTypeId == labourTypeId.Value);
+
+                var regularLabourLines = await regularLabourQuery.ToListAsync();
 
                 var grouped = regularLabourLines
                     .GroupBy(l => new { l.TechnicianWorkOrderId, l.LabourTypeId })
                     .Select(g => new HourlyLbrSummary
                     {
-
                         TechnicianID = techWorkOrders
                             .First(t => t.TechnicianWorkOrderId == g.Key.TechnicianWorkOrderId).TechnicianId,
                         LabourTypeID = g.Key.LabourTypeId,
@@ -641,6 +648,7 @@ namespace RaymarEquipmentInventory.Services
                 return null;
             }
         }
+
 
 
 

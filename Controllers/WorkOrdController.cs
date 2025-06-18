@@ -302,6 +302,24 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpGet("DownloadWorkOrderHours/{sheetId}")]
+        public async Task<IActionResult> DownloadWorkOrderHours(
+        [FromQuery] int sheetId,
+        [FromQuery] int? technicianId = null,
+        [FromQuery] int? labourTypeId = null)
+        {
+            try
+            {
+                var result = await _workOrderService.GetLabourLines(sheetId, technicianId, labourTypeId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                await _workOrderService.LogFailedSync(sheetId, ex.Message);
+                return StatusCode(500, "Could not download work order.");
+            }
+        }
+
         [HttpGet("DownloadWorkOrder/{sheetId}")]
         public async Task<IActionResult> DownloadWorkOrder(int sheetId)
         {
@@ -313,7 +331,6 @@ namespace RaymarEquipmentInventory.Controllers
                     TechWorkOrder = await _technicianService.GetTechsByWorkOrder(sheetId),
                     Billing = await _workOrderService.GetBillingMin(sheetId) ?? new BillingMin(),
                     Parts = await _workOrderService.GetPartsUsed(sheetId),
-                    Labour = await _workOrderService.GetLabourLines(sheetId),
                     Fees = await _workOrderService.GetFees(sheetId),
                     MileageAndTime = await _workOrderService.GetMileage(sheetId),
                 };

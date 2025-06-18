@@ -37,7 +37,7 @@ namespace RaymarEquipmentInventory.Services
         Task UpdateWOStatus(int sheetId, string workOrderStatus, string deviceId);
 
         Task<List<DTOs.PartsUsed>> GetPartsUsed(int sheetID);
-        Task<List<DTOs.HourlyLbrSummary>> GetLabourLines(int sheetID);
+        Task<List<DTOs.HourlyLbrSummary>> GetLabourLines(int sheetID, int? technicianId = null, int? labourTypeId = null);
         Task<List<DTOs.WorkOrderFee>> GetFees(int sheetID);
 
         Task<List<DTOs.TravelLog>> GetMileage(int sheetID);
