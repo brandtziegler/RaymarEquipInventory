@@ -302,7 +302,7 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        [HttpGet("DownloadWorkOrderHours/{sheetId}")]
+        [HttpGet("DownloadWorkOrderHours")]
         public async Task<IActionResult> DownloadWorkOrderHours(
         [FromQuery] int sheetId,
         [FromQuery] int? technicianId = null,
