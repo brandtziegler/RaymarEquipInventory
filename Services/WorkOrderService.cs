@@ -819,6 +819,7 @@ namespace RaymarEquipmentInventory.Services
                             PartsDocumentId = doc.PartsDocumentId,
                             PartUsedId = doc.PartUsedId,
                             FileName = doc.FileName,
+                            FileUrl = doc.FileUrl,
                             Description = doc.Description,
                             UploadedBy = doc.UploadedBy,
                             UploadedDate = doc.UploadDate
