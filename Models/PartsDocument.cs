@@ -19,5 +19,7 @@ public partial class PartsDocument
 
     public DateTime? UploadDate { get; set; }
 
+    public string FileUrl { get; set; }
+
     public virtual PartsUsed PartUsed { get; set; }
 }

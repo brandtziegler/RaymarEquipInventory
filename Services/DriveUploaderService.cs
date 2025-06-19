@@ -16,6 +16,8 @@ using Newtonsoft.Json;
 using Google;
 using System.Text;
 using Google.Apis.Download;
+using Microsoft.Data.SqlClient;
+using Google.Apis.Upload;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -171,6 +173,64 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        private async Task UpdateFileUrlInPartsDocumentAsync(string fileName, string fileId, string extension, string workOrderId)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(fileId))
+                {
+                    Log.Warning($"⚠️ Skipping update for '{fileName}' — fileId is null or empty.");
+                    return;
+                }
+
+                if (extension is not (".jpg" or ".jpeg" or ".png"))
+                {
+                    Log.Warning($"⚠️ Skipping update for '{fileName}' — unsupported extension '{extension}'.");
+                    return;
+                }
+
+                string downloadUrl = $"https://drive.google.com/uc?export=download&id={fileId}";
+
+                // Get SheetID from WorkOrderNumber
+                var sheetId = await _context.WorkOrderSheets
+                    .Where(w => w.WorkOrderNumber == Convert.ToInt32(workOrderId))
+                    .Select(w => (int?)w.SheetId)
+                    .FirstOrDefaultAsync();
+
+                if (sheetId == null)
+                {
+                    Log.Warning($"⚠️ No SheetID found for WorkOrderNumber: {workOrderId}. Skipping update for '{fileName}'.");
+                    return;
+                }
+
+                // Get all PartUsedIds for this sheet
+                var partUsedIds = await _context.PartsUseds
+                    .Where(p => p.SheetId == sheetId.Value)
+                    .Select(p => p.PartUsedId)
+                    .ToListAsync();
+
+                // Find matching PartsDocument
+                var doc = await _context.PartsDocuments
+                    .FirstOrDefaultAsync(p => p.FileName == fileName && partUsedIds.Contains(p.PartUsedId));
+
+                if (doc == null)
+                {
+                    Log.Warning($"⚠️ No matching PartsDocument found for '{fileName}' tied to SheetID: {sheetId}");
+                    return;
+                }
+
+                doc.FileUrl = downloadUrl;
+                await _context.SaveChangesAsync();
+
+                Log.Information($"🖼️ Updated FileUrl for '{fileName}' → (SheetID: {sheetId})");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"🔥 Exception occurred while updating FileUrl for '{fileName}' (WO#: {workOrderId})");
+            }
+        }
+
+
 
 
         public async Task UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
@@ -255,7 +315,13 @@ namespace RaymarEquipmentInventory.Services
 
                         var upload = driveService.Files.Create(metadata, stream, file.ContentType);
                         upload.Fields = "id, webViewLink";
-                        await upload.UploadAsync();
+                        var uploadResult = await upload.UploadAsync();
+
+                        if (uploadResult.Status == UploadStatus.Completed)
+                        {
+                            await UpdateFileUrlInPartsDocumentAsync(file.FileName, upload.ResponseBody?.Id, ext, workOrderId);
+                            Log.Information($"✅ Uploaded file: {file.FileName}");
+                        }
 
                         Log.Information($"✅ Uploaded file: {file.FileName}");
                     }

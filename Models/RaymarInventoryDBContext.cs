@@ -447,6 +447,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.FileName)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.FileUrl).HasMaxLength(500);
             entity.Property(e => e.UploadDate).HasColumnType("datetime");
             entity.Property(e => e.UploadedBy)
                 .HasMaxLength(100)
