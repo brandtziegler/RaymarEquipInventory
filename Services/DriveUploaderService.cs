@@ -326,7 +326,7 @@ namespace RaymarEquipmentInventory.Services
                                 ResponseBodyId = upload.ResponseBody?.Id,
                                 WorkOrderId = workOrderId
                             });
-                            await UpdateFileUrlInPartsDocumentAsync(file.FileName, upload.ResponseBody?.Id, ext, workOrderId);
+                            //await UpdateFileUrlInPartsDocumentAsync(file.FileName, upload.ResponseBody?.Id, ext, workOrderId);
                             Log.Information($"✅ Uploaded file: {file.FileName}");
                         }
 
