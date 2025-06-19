@@ -86,9 +86,52 @@ namespace RaymarEquipmentInventory.Controllers
         [HttpPost("UploadAppFiles")]
         public async Task<IActionResult> UploadAppFiles(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
         {
-            
-            await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
-            return Ok("Files uploaded");
+            var result = new
+            {
+                Uploaded = new List<string>(),
+                UploadFailed = new List<string>(),
+                DbUpdated = new List<string>(),
+                DbUpdateFailed = new List<string>()
+            };
+
+            try
+            {
+                var uploads = await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
+
+                foreach (var upload in uploads)
+                {
+                    try
+                    {
+                        await _driveUploaderService.UpdateFileUrlInPartsDocumentAsync(
+                            upload.FileName,
+                            upload.ResponseBodyId,
+                            upload.Extension,
+                            upload.WorkOrderId
+                        );
+
+                        result.DbUpdated.Add(upload.FileName);
+                    }
+                    catch (Exception dbEx)
+                    {
+                        Log.Error(dbEx, $"❌ Failed DB update for {upload.FileName}");
+                        result.DbUpdateFailed.Add(upload.FileName);
+                    }
+                }
+
+                // Handle any files that failed to upload
+                var uploadedFileNames = uploads.Select(u => u.FileName).ToList();
+                var allFileNames = files.Select(f => f.FileName).ToList();
+
+                result.Uploaded.AddRange(uploadedFileNames);
+                result.UploadFailed.AddRange(allFileNames.Except(uploadedFileNames));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "🔥 Entire UploadAppFiles operation failed");
+                return StatusCode(500, new { message = "Upload failed", error = ex.Message });
+            }
+
+            return Ok(result);
         }
 
         [HttpPost("ListPDFFiles")]

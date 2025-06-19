@@ -173,7 +173,7 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-        private async Task UpdateFileUrlInPartsDocumentAsync(string fileName, string fileId, string extension, string workOrderId)
+        public async Task UpdateFileUrlInPartsDocumentAsync(string fileName, string fileId, string extension, string workOrderId)
         {
             try
             {
@@ -233,13 +233,13 @@ namespace RaymarEquipmentInventory.Services
 
 
 
-        public async Task UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
+        public async Task<List<FileUpload>> UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
         {
             try
             {
                 Log.Information($"Machine UTC Time: {DateTime.UtcNow:O}");
                 Log.Information($"Machine Local Time: {DateTime.Now:O}");
-
+                List<FileUpload> newUploads = new List<FileUpload>();   
                 // Gather environment variables with basic null checking
                 string GetEnv(string key)
                 {
@@ -316,9 +316,16 @@ namespace RaymarEquipmentInventory.Services
                         var upload = driveService.Files.Create(metadata, stream, file.ContentType);
                         upload.Fields = "id, webViewLink";
                         var uploadResult = await upload.UploadAsync();
-
+                        
                         if (uploadResult.Status == UploadStatus.Completed)
                         {
+                            newUploads.Add(new FileUpload
+                            {
+                                FileName = file.FileName,
+                                Extension = ext,
+                                ResponseBodyId = upload.ResponseBody?.Id,
+                                WorkOrderId = workOrderId
+                            });
                             await UpdateFileUrlInPartsDocumentAsync(file.FileName, upload.ResponseBody?.Id, ext, workOrderId);
                             Log.Information($"✅ Uploaded file: {file.FileName}");
                         }
@@ -333,6 +340,7 @@ namespace RaymarEquipmentInventory.Services
                 }
 
                 Log.Information("🎯 All uploads complete.");
+                return newUploads;
             }
             catch (InvalidOperationException envEx)
             {
