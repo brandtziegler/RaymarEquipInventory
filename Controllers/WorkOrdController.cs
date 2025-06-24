@@ -153,11 +153,11 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
         [HttpPost("ListPDFFiles")]
-        public async Task<IActionResult> ListPDFFiles()
+        public async Task<IActionResult> ListPDFFiles(int sheetId)
         {
             try
             {
-                var fileMetadataList = await _driveUploaderService.ListFileUrlsAsync();
+                var fileMetadataList = await _driveUploaderService.ListFileUrlsAsync(sheetId);
                 if (fileMetadataList == null || !fileMetadataList.Any())
                 {
                     return NotFound("No files found");

@@ -81,14 +81,105 @@ namespace RaymarEquipmentInventory.Services
             return lines;
         }
 
-        public async Task<List<DTOs.FileMetadata>> ListFileUrlsAsync()
+        //public async Task<List<DTOs.FileMetadata>> ListFileUrlsAsync()
+        //{
+        //    try
+        //    {
+        //        Log.Information($"Machine UTC Time: {DateTime.UtcNow:O}");
+        //        Log.Information($"Machine Local Time: {DateTime.Now:O}");
+
+        //        // Set up credentials (as you're already doing)
+        //        string GetEnv(string key)
+        //        {
+        //            var value = Environment.GetEnvironmentVariable(key);
+        //            if (string.IsNullOrWhiteSpace(value))
+        //                throw new InvalidOperationException($"Missing required environment variable: {key}");
+        //            return value;
+        //        }
+
+        //        var privateKeyLines = Enumerable.Range(1, 28)
+        //            .Select(i => Environment.GetEnvironmentVariable($"GOOGLE_PRIVATE_KEY_{i}"))
+        //            .Where(line => !string.IsNullOrWhiteSpace(line))
+        //            .ToList();
+
+        //        if (privateKeyLines.Count != 28)
+        //            throw new InvalidOperationException($"Expected 28 lines of private key, but got {privateKeyLines.Count}.");
+
+        //        var privateKeyCombined = string.Join("\n", privateKeyLines);
+        //        var credential = new ServiceAccountCredential(
+        //            new ServiceAccountCredential.Initializer(GetEnv("GOOGLE_CLIENT_EMAIL"))
+        //            {
+        //                ProjectId = GetEnv("GOOGLE_PROJECT_ID"),
+        //                Scopes = new[] { DriveService.ScopeConstants.Drive }
+        //            }.FromPrivateKey(privateKeyCombined)
+        //        );
+
+        //        var driveService = new DriveService(new BaseClientService.Initializer
+        //        {
+        //            HttpClientInitializer = credential,
+        //            ApplicationName = "TaskFuelUploader"
+        //        });
+
+        //        // 1️⃣ Build the query
+        //        var listRequest = driveService.Files.List();
+        //        listRequest.Q = "'1drVKdt4x6KRV5UuLImHRkfcARfOo0PJ9' in parents and trashed=false";
+
+        //        /* 2️⃣ Ask Drive for the extra metadata you want to expose */
+        //        listRequest.Fields =
+        //            "files(" +
+        //                "id," +
+        //                "name," +
+        //                "description," +
+        //                "modifiedTime," +                      // ⬅️ NEW
+        //                "lastModifyingUser(displayName)," +    // ⬅️ NEW
+        //                "mimeType," +
+        //                "webContentLink," +
+        //                "webViewLink" +
+        //            ")";
+        //        // 3️⃣ Execute
+        //        var result = await listRequest.ExecuteAsync();
+
+        //        if (result.Files == null || result.Files.Count == 0)
+        //        {
+        //            Log.Information("No files found in the folder.");
+        //            return new List<DTOs.FileMetadata>();
+        //        }
+        //        var localZone = TimeZoneInfo.Local;
+
+        //        /* 4️⃣ Map Google API objects to your DTO */
+        //        var fileMetaDataList = result.Files.Select(file => new DTOs.FileMetadata
+        //        {
+        //            Id = file.Id,
+        //            PDFName = file.Name,
+        //            fileDescription = file.Description ?? string.Empty,   // populate the UI blurb
+        //            dateLastEdited = file.ModifiedTimeDateTimeOffset.HasValue
+        //            ? TimeZoneInfo.ConvertTime(file.ModifiedTimeDateTimeOffset.Value, localZone)
+        //                .ToString("o")
+        //            : string.Empty,
+        //            lastEditTechName = file.LastModifyingUser?.DisplayName ?? "Unknown",
+        //            MimeType = file.MimeType,
+        //            WebContentLink = file.WebContentLink,                 // direct download
+        //            WebViewLink = file.WebViewLink,                   // browser preview
+        //            sheetId = 0
+        //            // SheetId stays 0 by default
+        //        }).ToList();
+
+        //        return fileMetaDataList;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex, "Error occurred while listing files");
+        //        throw;
+        //    }
+        //}
+
+        public async Task<List<DTOs.FileMetadata>> ListFileUrlsAsync(int sheetId)
         {
             try
             {
                 Log.Information($"Machine UTC Time: {DateTime.UtcNow:O}");
                 Log.Information($"Machine Local Time: {DateTime.Now:O}");
 
-                // Set up credentials (as you're already doing)
                 string GetEnv(string key)
                 {
                     var value = Environment.GetEnvironmentVariable(key);
@@ -120,51 +211,51 @@ namespace RaymarEquipmentInventory.Services
                     ApplicationName = "TaskFuelUploader"
                 });
 
-                // 1️⃣ Build the query
                 var listRequest = driveService.Files.List();
                 listRequest.Q = "'1drVKdt4x6KRV5UuLImHRkfcARfOo0PJ9' in parents and trashed=false";
+                listRequest.Fields = "files(id,name,description,modifiedTime,lastModifyingUser(displayName),mimeType,webContentLink,webViewLink)";
 
-                /* 2️⃣ Ask Drive for the extra metadata you want to expose */
-                listRequest.Fields =
-                    "files(" +
-                        "id," +
-                        "name," +
-                        "description," +
-                        "modifiedTime," +                      // ⬅️ NEW
-                        "lastModifyingUser(displayName)," +    // ⬅️ NEW
-                        "mimeType," +
-                        "webContentLink," +
-                        "webViewLink" +
-                    ")";
-                // 3️⃣ Execute
                 var result = await listRequest.ExecuteAsync();
-
                 if (result.Files == null || result.Files.Count == 0)
                 {
-                    Log.Information("No files found in the folder.");
+                    Log.Information("No files found in the TechPDFs folder.");
                     return new List<DTOs.FileMetadata>();
                 }
-                var localZone = TimeZoneInfo.Local;
 
-                /* 4️⃣ Map Google API objects to your DTO */
-                var fileMetaDataList = result.Files.Select(file => new DTOs.FileMetadata
+                var localZone = TimeZoneInfo.Local;
+                var templates = result.Files.Select(file => new DTOs.FileMetadata
                 {
                     Id = file.Id,
                     PDFName = file.Name,
-                    fileDescription = file.Description ?? string.Empty,   // populate the UI blurb
+                    fileDescription = file.Description ?? string.Empty,
                     dateLastEdited = file.ModifiedTimeDateTimeOffset.HasValue
-                    ? TimeZoneInfo.ConvertTime(file.ModifiedTimeDateTimeOffset.Value, localZone)
-                        .ToString("o")
-                    : string.Empty,
+                        ? TimeZoneInfo.ConvertTime(file.ModifiedTimeDateTimeOffset.Value, localZone).ToString("o")
+                        : string.Empty,
                     lastEditTechName = file.LastModifyingUser?.DisplayName ?? "Unknown",
                     MimeType = file.MimeType,
-                    WebContentLink = file.WebContentLink,                 // direct download
-                    WebViewLink = file.WebViewLink,                   // browser preview
-                    sheetId = 0
-                    // SheetId stays 0 by default
+                    WebContentLink = file.WebContentLink,
+                    WebViewLink = file.WebViewLink,
+                    sheetId = sheetId
                 }).ToList();
 
-                return fileMetaDataList;
+                var filledDocs = await _context.Pdfdocuments
+                    .Where(p => p.SheetId == sheetId)
+                    .ToListAsync();
+
+                foreach (var filled in filledDocs)
+                {
+                    var match = templates.FirstOrDefault(t => t.PDFName == filled.FileName);
+                    if (match != null)
+                    {
+                        match.WebContentLink = filled.FileUrl;
+                        match.WebViewLink = filled.FileUrl;
+                        match.fileDescription = string.IsNullOrWhiteSpace(filled.Description) ? match.fileDescription : filled.Description;
+                        match.dateLastEdited = filled.UploadDate.ToString("o");
+                        match.lastEditTechName = filled.UploadedBy ?? match.lastEditTechName;
+                    }
+                }
+
+                return templates;
             }
             catch (Exception ex)
             {
@@ -172,7 +263,6 @@ namespace RaymarEquipmentInventory.Services
                 throw;
             }
         }
-
 
         public async Task UpdateFileUrlInPDFDocumentAsync(PDFUploadRequest request)
         {

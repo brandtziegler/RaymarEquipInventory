@@ -9,7 +9,7 @@ namespace RaymarEquipmentInventory.Services
         Task UpdateFileUrlInPartsDocumentAsync(string fileName, string fileId, string extension, string workOrderId);
 
         Task UpdateFileUrlInPDFDocumentAsync(PDFUploadRequest request);
-        Task<List<DTOs.FileMetadata>> ListFileUrlsAsync();
+        Task<List<DTOs.FileMetadata>> ListFileUrlsAsync(int sheetId);
         List<string> VerifyAndSplitPrivateKey();
     }
 }
