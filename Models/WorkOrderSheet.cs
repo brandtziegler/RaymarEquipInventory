@@ -37,6 +37,8 @@ public partial class WorkOrderSheet
 
     public virtual ICollection<PartsUsed> PartsUseds { get; set; } = new List<PartsUsed>();
 
+    public virtual ICollection<Pdfdocument> Pdfdocuments { get; set; } = new List<Pdfdocument>();
+
     public virtual ICollection<TechnicianWorkOrder> TechnicianWorkOrders { get; set; } = new List<TechnicianWorkOrder>();
 
     public virtual ICollection<VehicleWorkOrder> VehicleWorkOrders { get; set; } = new List<VehicleWorkOrder>();

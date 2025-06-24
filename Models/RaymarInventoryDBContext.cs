@@ -45,6 +45,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<PartsUsed> PartsUseds { get; set; }
 
+    public virtual DbSet<Pdfdocument> Pdfdocuments { get; set; }
+
     public virtual DbSet<Person> People { get; set; }
 
     public virtual DbSet<PlaceholderDocument> PlaceholderDocuments { get; set; }
@@ -488,6 +490,43 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.SheetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PartsUsed_WorkOrderSheet");
+        });
+
+        modelBuilder.Entity<Pdfdocument>(entity =>
+        {
+            entity.HasKey(e => e.PdfdocumentId).HasName("PK__PDFDocum__B6A0FD3A1C4482F5");
+
+            entity.ToTable("PDFDocument");
+
+            entity.Property(e => e.PdfdocumentId).HasColumnName("PDFDocumentID");
+            entity.Property(e => e.Description)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.DriveFileId)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("DriveFileID");
+            entity.Property(e => e.FileName)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FileUrl)
+                .IsRequired()
+                .HasMaxLength(1000)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.UploadDate)
+                .HasDefaultValueSql("(getutcdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.UploadedBy)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasDefaultValueSql("('iPad App')");
+
+            entity.HasOne(d => d.Sheet).WithMany(p => p.Pdfdocuments)
+                .HasForeignKey(d => d.SheetId)
+                .HasConstraintName("FK_PDFDocument_WorkOrderSheet");
         });
 
         modelBuilder.Entity<Person>(entity =>

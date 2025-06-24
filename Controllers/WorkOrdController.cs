@@ -102,12 +102,30 @@ namespace RaymarEquipmentInventory.Controllers
                 {
                     try
                     {
-                        await _driveUploaderService.UpdateFileUrlInPartsDocumentAsync(
-                            upload.FileName,
-                            upload.ResponseBodyId,
-                            upload.Extension,
-                            upload.WorkOrderId
-                        );
+                        if (upload.Extension is ".jpg" or ".jpeg" or ".png")
+                        {
+                            await _driveUploaderService.UpdateFileUrlInPartsDocumentAsync(
+                                upload.FileName,
+                                upload.ResponseBodyId,
+                                upload.Extension,
+                                upload.WorkOrderId
+                            );
+                        }
+                        else if (upload.Extension is ".pdf")
+                        {
+                            await _driveUploaderService.UpdateFileUrlInPDFDocumentAsync(new PDFUploadRequest
+                            {
+                                FileName = upload.FileName,
+                                FileId = upload.ResponseBodyId,
+                                WorkOrderId = upload.WorkOrderId,
+                                UploadedBy = "iPad App",
+                                Description = string.Empty
+                            });
+                        }
+                        else
+                        {
+                            Log.Warning($"⚠️ Skipping unsupported file type: {upload.FileName} ({upload.Extension})");
+                        }
 
                         result.DbUpdated.Add(upload.FileName);
                     }

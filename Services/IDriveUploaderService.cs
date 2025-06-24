@@ -7,6 +7,8 @@ namespace RaymarEquipmentInventory.Services
         Task<List<FileUpload>> UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId);
 
         Task UpdateFileUrlInPartsDocumentAsync(string fileName, string fileId, string extension, string workOrderId);
+
+        Task UpdateFileUrlInPDFDocumentAsync(PDFUploadRequest request);
         Task<List<DTOs.FileMetadata>> ListFileUrlsAsync();
         List<string> VerifyAndSplitPrivateKey();
     }

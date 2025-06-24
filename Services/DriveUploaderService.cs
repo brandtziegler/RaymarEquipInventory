@@ -173,10 +173,73 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+
+        public async Task UpdateFileUrlInPDFDocumentAsync(PDFUploadRequest request)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(request.FileId))
+                {
+                    Log.Warning($"⚠️ Skipping update for '{request.FileName}' — fileId is null or empty.");
+                    return;
+                }
+
+                string downloadUrl = $"https://drive.google.com/uc?export=download&id={request.FileId}";
+
+                var sheetId = await _context.WorkOrderSheets
+                    .Where(w => w.WorkOrderNumber == Convert.ToInt32(request.WorkOrderId))
+                    .Select(w => (int?)w.SheetId)
+                    .FirstOrDefaultAsync();
+
+                if (sheetId == null)
+                {
+                    Log.Warning($"⚠️ No SheetID found for WorkOrderNumber: {request.WorkOrderId}. Skipping update for '{request.FileName}'.");
+                    return;
+                }
+
+                var existingPdf = await _context.Pdfdocuments
+                    .FirstOrDefaultAsync(p => p.FileName == request.FileName && p.SheetId == sheetId);
+
+                if (existingPdf != null)
+                {
+                    existingPdf.FileUrl = downloadUrl;
+                    existingPdf.UploadedBy = request.UploadedBy;
+                    existingPdf.Description = request.Description;
+                    existingPdf.UploadDate = DateTime.UtcNow;
+                    existingPdf.DriveFileId = request.FileId;
+
+                    Log.Information($"🔁 Updated existing PDFDocument for '{request.FileName}' (SheetID: {sheetId})");
+                }
+                else
+                {
+                    _context.Pdfdocuments.Add(new Pdfdocument
+                    {
+                        SheetId = sheetId.Value,
+                        FileName = request.FileName,
+                        FileUrl = downloadUrl,
+                        UploadedBy = request.UploadedBy,
+                        Description = request.Description,
+                        UploadDate = DateTime.UtcNow,
+                        DriveFileId = request.FileId
+                    });
+
+                    Log.Information($"➕ Inserted new PDFDocument for '{request.FileName}' (SheetID: {sheetId})");
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"🔥 Exception while updating PDFDocument for '{request.FileName}' (WO#: {request.WorkOrderId})");
+            }
+        }
+
+
         public async Task UpdateFileUrlInPartsDocumentAsync(string fileName, string fileId, string extension, string workOrderId)
         {
             try
             {
+               
                 if (string.IsNullOrWhiteSpace(fileId))
                 {
                     Log.Warning($"⚠️ Skipping update for '{fileName}' — fileId is null or empty.");
@@ -229,9 +292,6 @@ namespace RaymarEquipmentInventory.Services
                 Log.Error(ex, $"🔥 Exception occurred while updating FileUrl for '{fileName}' (WO#: {workOrderId})");
             }
         }
-
-
-
 
         public async Task<List<FileUpload>> UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
         {

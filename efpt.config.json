@@ -80,6 +80,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[PDFDocument]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Person]",
          "ObjectType": 0
       },
