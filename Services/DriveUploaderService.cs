@@ -242,18 +242,22 @@ namespace RaymarEquipmentInventory.Services
                     .Where(p => p.SheetId == sheetId)
                     .ToListAsync();
 
-                foreach (var filled in filledDocs)
+                if (sheetId != 0)
                 {
-                    var match = templates.FirstOrDefault(t => t.PDFName == filled.FileName);
-                    if (match != null)
+                    foreach (var filled in filledDocs)
                     {
-                        match.WebContentLink = filled.FileUrl;
-                        match.WebViewLink = filled.FileUrl;
-                        match.fileDescription = string.IsNullOrWhiteSpace(filled.Description) ? match.fileDescription : filled.Description;
-                        match.dateLastEdited = filled.UploadDate.ToString("o");
-                        match.lastEditTechName = filled.UploadedBy ?? match.lastEditTechName;
+                        var match = templates.FirstOrDefault(t => t.PDFName == filled.FileName);
+                        if (match != null)
+                        {
+                            match.WebContentLink = filled.FileUrl;
+                            match.WebViewLink = filled.FileUrl;
+                            match.fileDescription = string.IsNullOrWhiteSpace(filled.Description) ? match.fileDescription : filled.Description;
+                            match.dateLastEdited = filled.UploadDate.ToString("o");
+                            match.lastEditTechName = filled.UploadedBy ?? match.lastEditTechName;
+                        }
                     }
                 }
+
 
                 return templates;
             }
