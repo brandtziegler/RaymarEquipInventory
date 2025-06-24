@@ -36,6 +36,12 @@ namespace RaymarEquipmentInventory.Controllers
             return success ? Ok() : BadRequest("Insert failed.");
         }
 
+        [HttpPost("EnsureMileageSegments")]
+        public async Task<IActionResult> EnsureMileageSegments([FromQuery] int sheetId)
+        {
+            await _mileageTravelService.EnsureThreeSegmentsAsync(sheetId);
+            return Ok("✅ Segments patched if missing.");
+        }
 
         [HttpGet("GetTravelLogByID")]
         public async Task<IActionResult> GetTravelLogByID(int travelLogID)

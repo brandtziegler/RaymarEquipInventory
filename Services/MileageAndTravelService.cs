@@ -128,10 +128,40 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task EnsureThreeSegmentsAsync(int sheetId)
+        {
+            var existingSegments = await _context.MileageAndTimes
+                .Where(m => m.SheetId == sheetId)
+                .Select(m => m.SegmentNumber)
+                .ToListAsync();
 
+            for (int i = 1; i <= 3; i++)
+            {
+                if (!existingSegments.Contains(i))
+                {
+                    await _context.MileageAndTimes.AddAsync(new MileageAndTime
+                    {
+                        SheetId = sheetId,
+                        DateOfMileageTime = DateTime.Today,
+                        StartTravel = DateTime.Today,
+                        FinishTravel = DateTime.Today.AddMinutes(1),
+                        SegmentNumber = i,
+                        StartOdometerKm = 0,
+                        FinishOdometerKm = 0,
+                        TotalDistance = 0,
+                        TimeTotalHrs = 0,
+                        TimeTotalMin = 0,
+                        TotalOthours = 0,
+                        TotalOtminutes = 0,
+                        IsOvertime = false
+                    });
 
+                    Log.Information($"🔧 Inserted fallback segment {i} for SheetID {sheetId}");
+                }
+            }
 
-
+            await _context.SaveChangesAsync();
+        }
 
     }
 

@@ -7,7 +7,7 @@ namespace RaymarEquipmentInventory.Services
 
 
         Task<DTOs.TravelLog> GetTravelByID(int mileageTimeID);
-
+        Task EnsureThreeSegmentsAsync(int sheetId);
         Task<bool> InsertTravelLogAsync(TravelLog travelLog);
     }
 }
