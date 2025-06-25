@@ -59,26 +59,34 @@ namespace RaymarEquipmentInventory.Controllers
         public IActionResult Ping() => Ok("Connected");
 
         [HttpPost("InsertWorkOrder")]
-        public async Task<IActionResult> InsertWorkOrder([FromBody] DTOs.WorkOrdSheet workOrdDto)
+        public async Task<IActionResult> InsertUpdateWorkOrder([FromBody] DTOs.WorkOrdSheet workOrdDto)
         {
-            // 0. quick model-binding check
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-                var result = await _workOrderService.InsertWorkOrderAsync(workOrdDto);
+                WorkOrderInsertResult? result;
 
-                if (result == null)
-                    return StatusCode(500, "InsertWorkOrder returned null (see logs).");
+                if (workOrdDto.RemoteSheetId == 0)
+                {
+                    result = await _workOrderService.InsertWorkOrderAsync(workOrdDto);
+                    if (result == null)
+                        return StatusCode(500, "InsertWorkOrder returned null (see logs).");
+                }
+                else
+                {
+                    result = await _workOrderService.UpdateWorkOrderAsync(workOrdDto);
+                    if (result == null)
+                        return StatusCode(500, "UpdateWorkOrderAsync returned null (see logs).");
+                }
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                // 🔥 TEMP: expose full stack so Swagger shows you the root SQL / EF message
                 Log.Error(ex, "InsertWorkOrder failed");
-                return BadRequest(ex.ToString());          // <-- return complete details for now
+                return BadRequest(ex.ToString());
             }
         }
 

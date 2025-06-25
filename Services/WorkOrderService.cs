@@ -103,6 +103,76 @@ namespace RaymarEquipmentInventory.Services
 
         private static DateTime EasternNow() => TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _eastern);
 
+
+        public async Task<WorkOrderInsertResult?> UpdateWorkOrderAsync(DTOs.WorkOrdSheet workOrdSheet)
+        {
+            try
+            {
+                // Step 1: Find the existing WorkOrderSheet
+                var sheet = await _context.WorkOrderSheets
+                    .FirstOrDefaultAsync(w => w.SheetId == workOrdSheet.RemoteSheetId);
+
+                if (sheet == null)
+                {
+                    Log.Warning($"⚠️ No WorkOrderSheet found for SheetId {workOrdSheet.RemoteSheetId}");
+                    return null;
+                }
+
+                // Step 2: Update editable fields
+                sheet.WorkOrderStatus = workOrdSheet.WorkOrderStatus?.Trim() ?? sheet.WorkOrderStatus;
+                sheet.DateTimeStarted = workOrdSheet.DateTimeStarted ?? sheet.DateTimeStarted;
+                sheet.DateTimeCompleted = workOrdSheet.DateTimeCompleted ?? sheet.DateTimeCompleted;
+                sheet.WorkDescription = workOrdSheet.WorkDescription ?? sheet.WorkDescription;
+                sheet.CompletedBy = workOrdSheet.TechnicianID;
+                sheet.DateUploaded = EasternNow();  // always refresh upload timestamp
+
+                await _context.SaveChangesAsync();
+
+                // Step 3: Insert new sync event
+                await _context.WorkOrderSyncEvents.AddAsync(new Models.WorkOrderSyncEvent
+                {
+                    SheetId = sheet.SheetId,
+                    DeviceId = workOrdSheet.DeviceId,
+                    EventType = sheet.WorkOrderStatus,
+                    Timestamp = EasternNow()
+                });
+
+                await _context.SaveChangesAsync();
+
+                // Step 4: Load technician mappings (but don’t change them)
+                var techWOs = await _context.TechnicianWorkOrders
+                    .Where(t => t.SheetId == sheet.SheetId)
+                    .ToListAsync();
+
+                int anchorTechnicianWorkOrderId = techWOs
+                    .FirstOrDefault(t => t.TechnicianId == workOrdSheet.TechnicianID)?.TechnicianWorkOrderId ?? 0;
+
+                var technicianMappings = techWOs.Select(t => new TechnicianWorkOrderMapping
+                {
+                    TechnicianId = t.TechnicianId,
+                    TechnicianWorkOrderId = t.TechnicianWorkOrderId
+                }).ToList();
+
+                // Step 5: Return same structure as Insert
+                return new WorkOrderInsertResult
+                {
+                    WorkOrderNumber = sheet.WorkOrderNumber,
+                    SheetId = sheet.SheetId,
+                    TechnicianWorkOrderId = anchorTechnicianWorkOrderId,
+                    TechnicianMappings = technicianMappings
+                };
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"❌ UpdateWorkOrderAsync failed for SheetID {workOrdSheet.RemoteSheetId}");
+
+                if (ex.InnerException != null)
+                    Log.Error(ex.InnerException, "➡ Inner exception during WO update");
+
+                return null;
+            }
+        }
+
         public async Task<WorkOrderInsertResult?> InsertWorkOrderAsync(DTOs.WorkOrdSheet workOrdSheet)
         {
             try

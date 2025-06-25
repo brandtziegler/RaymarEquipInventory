@@ -22,6 +22,8 @@ namespace RaymarEquipmentInventory.Services
 
         Task<DTOs.WorkOrderInsertResult?> InsertWorkOrderAsync(DTOs.WorkOrdSheet workOrdSheet);
 
+        Task<DTOs.WorkOrderInsertResult> UpdateWorkOrderAsync(DTOs.WorkOrdSheet workOrdSheet);
+
         Task<bool> RemoveBillFromWorkOrder(int billID, int sheetID);
         Task<bool> AddLbrToWorkOrder(LabourLine labourDTO);
         Task<bool> RemoveLbrFromWorkOrder(int labourID);
