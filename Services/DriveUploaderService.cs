@@ -393,8 +393,8 @@ namespace RaymarEquipmentInventory.Services
             {
                 Log.Information($"Machine UTC Time: {DateTime.UtcNow:O}");
                 Log.Information($"Machine Local Time: {DateTime.Now:O}");
-                List<FileUpload> newUploads = new List<FileUpload>();   
-                // Gather environment variables with basic null checking
+                List<FileUpload> newUploads = new List<FileUpload>();
+
                 string GetEnv(string key)
                 {
                     var value = Environment.GetEnvironmentVariable(key);
@@ -403,8 +403,6 @@ namespace RaymarEquipmentInventory.Services
                     return value;
                 }
 
-   
-              // Rebuild private key from split env vars
                 var privateKeyLines = Enumerable.Range(1, 28)
                     .Select(i => Environment.GetEnvironmentVariable($"GOOGLE_PRIVATE_KEY_{i}"))
                     .Where(line => !string.IsNullOrWhiteSpace(line))
@@ -415,7 +413,6 @@ namespace RaymarEquipmentInventory.Services
 
                 var privateKeyCombined = string.Join("\n", privateKeyLines);
 
-
                 var credential = new ServiceAccountCredential(
                     new ServiceAccountCredential.Initializer(GetEnv("GOOGLE_CLIENT_EMAIL"))
                     {
@@ -424,13 +421,12 @@ namespace RaymarEquipmentInventory.Services
                     }.FromPrivateKey(privateKeyCombined)
                 );
 
-
                 var driveService = new DriveService(new BaseClientService.Initializer
                 {
                     HttpClientInitializer = credential,
                     ApplicationName = "TaskFuelUploader"
                 });
-                //TechPDFs is 1drVKdt4x6KRV5UuLImHRkfcARfOo0PJ9....we will make another service endpoint soon to use that for DOWNLOADS
+
                 Log.Information("Ensuring folder structure exists...");
                 string rootFolderId = "1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk";
                 string[] pathSegments = custPath.Split('>');
@@ -447,6 +443,8 @@ namespace RaymarEquipmentInventory.Services
 
                 Log.Information($"Uploading {files.Count} file(s)...");
 
+                bool imageFolderCleared = false;
+
                 foreach (var file in files)
                 {
                     try
@@ -459,6 +457,38 @@ namespace RaymarEquipmentInventory.Services
                             _ => workOrderFolderId
                         };
 
+                        // 🧼 Clean-up only for PDFs
+                        if (ext == ".pdf")
+                        {
+                            var checkExisting = driveService.Files.List();
+                            checkExisting.Q = $"name = '{file.FileName}' and '{targetFolderId}' in parents and trashed = false";
+                            checkExisting.Fields = "files(id, name)";
+                            var existing = await checkExisting.ExecuteAsync();
+
+                            foreach (var match in existing.Files)
+                            {
+                                Log.Information($"🗑️ Deleting existing PDF: {match.Name} (ID: {match.Id})");
+                                await driveService.Files.Delete(match.Id).ExecuteAsync();
+                            }
+                        }
+
+                        // 🧹 Bulk-clear images ONCE before uploading first one
+                        if (!imageFolderCleared && (ext == ".jpg" || ext == ".jpeg" || ext == ".png"))
+                        {
+                            var clearRequest = driveService.Files.List();
+                            clearRequest.Q = $"'{imagesFolderId}' in parents and trashed = false";
+                            clearRequest.Fields = "files(id, name)";
+                            var existingImages = await clearRequest.ExecuteAsync();
+
+                            foreach (var img in existingImages.Files)
+                            {
+                                Log.Information($"🧹 Deleting old image: {img.Name} (ID: {img.Id})");
+                                await driveService.Files.Delete(img.Id).ExecuteAsync();
+                            }
+
+                            imageFolderCleared = true;
+                        }
+
                         using var stream = file.OpenReadStream();
 
                         var metadata = new Google.Apis.Drive.v3.Data.File
@@ -470,7 +500,7 @@ namespace RaymarEquipmentInventory.Services
                         var upload = driveService.Files.Create(metadata, stream, file.ContentType);
                         upload.Fields = "id, webViewLink";
                         var uploadResult = await upload.UploadAsync();
-                        
+
                         if (uploadResult.Status == UploadStatus.Completed)
                         {
                             newUploads.Add(new FileUpload
@@ -480,7 +510,7 @@ namespace RaymarEquipmentInventory.Services
                                 ResponseBodyId = upload.ResponseBody?.Id,
                                 WorkOrderId = workOrderId
                             });
-                            //await UpdateFileUrlInPartsDocumentAsync(file.FileName, upload.ResponseBody?.Id, ext, workOrderId);
+
                             Log.Information($"✅ Uploaded file: {file.FileName}");
                         }
 
@@ -499,12 +529,12 @@ namespace RaymarEquipmentInventory.Services
             catch (InvalidOperationException envEx)
             {
                 Log.Error(envEx, "❌ Missing environment configuration.");
-                throw; // Rethrow so the caller knows it's a config issue
+                throw;
             }
             catch (GoogleApiException apiEx)
             {
                 Log.Error(apiEx, "❌ Google API error.");
-                throw; // Possibly log/report to external service if needed
+                throw;
             }
             catch (Exception ex)
             {
@@ -512,6 +542,134 @@ namespace RaymarEquipmentInventory.Services
                 throw;
             }
         }
+
+
+
+        //public async Task<List<FileUpload>> UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
+        //{
+        //    try
+        //    {
+        //        Log.Information($"Machine UTC Time: {DateTime.UtcNow:O}");
+        //        Log.Information($"Machine Local Time: {DateTime.Now:O}");
+        //        List<FileUpload> newUploads = new List<FileUpload>();   
+        //        // Gather environment variables with basic null checking
+        //        string GetEnv(string key)
+        //        {
+        //            var value = Environment.GetEnvironmentVariable(key);
+        //            if (string.IsNullOrWhiteSpace(value))
+        //                throw new InvalidOperationException($"Missing required environment variable: {key}");
+        //            return value;
+        //        }
+
+
+        //      // Rebuild private key from split env vars
+        //        var privateKeyLines = Enumerable.Range(1, 28)
+        //            .Select(i => Environment.GetEnvironmentVariable($"GOOGLE_PRIVATE_KEY_{i}"))
+        //            .Where(line => !string.IsNullOrWhiteSpace(line))
+        //            .ToList();
+
+        //        if (privateKeyLines.Count != 28)
+        //            throw new InvalidOperationException($"Expected 28 lines of private key, but got {privateKeyLines.Count}.");
+
+        //        var privateKeyCombined = string.Join("\n", privateKeyLines);
+
+
+        //        var credential = new ServiceAccountCredential(
+        //            new ServiceAccountCredential.Initializer(GetEnv("GOOGLE_CLIENT_EMAIL"))
+        //            {
+        //                ProjectId = GetEnv("GOOGLE_PROJECT_ID"),
+        //                Scopes = new[] { DriveService.ScopeConstants.Drive }
+        //            }.FromPrivateKey(privateKeyCombined)
+        //        );
+
+
+        //        var driveService = new DriveService(new BaseClientService.Initializer
+        //        {
+        //            HttpClientInitializer = credential,
+        //            ApplicationName = "TaskFuelUploader"
+        //        });
+        //        //TechPDFs is 1drVKdt4x6KRV5UuLImHRkfcARfOo0PJ9....we will make another service endpoint soon to use that for DOWNLOADS
+        //        Log.Information("Ensuring folder structure exists...");
+        //        string rootFolderId = "1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk";
+        //        string[] pathSegments = custPath.Split('>');
+        //        string currentParentId = rootFolderId;
+
+        //        foreach (var segment in pathSegments)
+        //        {
+        //            currentParentId = await EnsureFolderExistsAsync(segment.Trim(), currentParentId, driveService);
+        //        }
+
+        //        string workOrderFolderId = await EnsureFolderExistsAsync(workOrderId, currentParentId, driveService);
+        //        string pdfFolderId = await EnsureFolderExistsAsync("PDFs", workOrderFolderId, driveService);
+        //        string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId, driveService);
+
+        //        Log.Information($"Uploading {files.Count} file(s)...");
+
+        //        foreach (var file in files)
+        //        {
+        //            try
+        //            {
+        //                string ext = Path.GetExtension(file.FileName).ToLower();
+        //                string targetFolderId = ext switch
+        //                {
+        //                    ".pdf" => pdfFolderId,
+        //                    ".jpg" or ".jpeg" or ".png" => imagesFolderId,
+        //                    _ => workOrderFolderId
+        //                };
+
+        //                using var stream = file.OpenReadStream();
+
+        //                var metadata = new Google.Apis.Drive.v3.Data.File
+        //                {
+        //                    Name = file.FileName,
+        //                    Parents = new List<string> { targetFolderId }
+        //                };
+
+        //                var upload = driveService.Files.Create(metadata, stream, file.ContentType);
+        //                upload.Fields = "id, webViewLink";
+        //                var uploadResult = await upload.UploadAsync();
+
+        //                if (uploadResult.Status == UploadStatus.Completed)
+        //                {
+        //                    newUploads.Add(new FileUpload
+        //                    {
+        //                        FileName = file.FileName,
+        //                        Extension = ext,
+        //                        ResponseBodyId = upload.ResponseBody?.Id,
+        //                        WorkOrderId = workOrderId
+        //                    });
+        //                    //await UpdateFileUrlInPartsDocumentAsync(file.FileName, upload.ResponseBody?.Id, ext, workOrderId);
+        //                    Log.Information($"✅ Uploaded file: {file.FileName}");
+        //                }
+
+        //                Log.Information($"✅ Uploaded file: {file.FileName}");
+        //            }
+        //            catch (Exception fileEx)
+        //            {
+        //                Log.Warning(fileEx, $"⚠️ Failed to upload file: {file.FileName}");
+        //                // Continue with the next file
+        //            }
+        //        }
+
+        //        Log.Information("🎯 All uploads complete.");
+        //        return newUploads;
+        //    }
+        //    catch (InvalidOperationException envEx)
+        //    {
+        //        Log.Error(envEx, "❌ Missing environment configuration.");
+        //        throw; // Rethrow so the caller knows it's a config issue
+        //    }
+        //    catch (GoogleApiException apiEx)
+        //    {
+        //        Log.Error(apiEx, "❌ Google API error.");
+        //        throw; // Possibly log/report to external service if needed
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex, "🔥 Unexpected error in UploadFilesAsync.");
+        //        throw;
+        //    }
+        //}
 
         private async Task<string> EnsureFolderExistsAsync(string folderName, string parentId, DriveService driveService)
         {
