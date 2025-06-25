@@ -1,0 +1,93 @@
+2025-06-25 18:21:19.113 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-06-25 18:21:22.294 -04:00 [INF] Hangfire SQL objects installed.
+2025-06-25 18:21:22.532 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-06-25 18:21:23.679 -04:00 [INF] Now listening on: https://localhost:7150
+2025-06-25 18:21:23.680 -04:00 [INF] Now listening on: http://localhost:5229
+2025-06-25 18:21:23.680 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-06-25 18:21:23.681 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-06-25 18:21:23.681 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-06-25 18:21:23.682 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-06-25 18:21:23.693 -04:00 [DBG] Connection id "0HNDK6QF7S3K3" received FIN.
+2025-06-25 18:21:23.786 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-06-25 18:21:23.800 -04:00 [DBG] Connection id "0HNDK6QF7S3K3" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-25 18:21:23.838 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-06-25 18:21:23.839 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-06-25 18:21:23.840 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-06-25 18:21:23.887 -04:00 [DBG] Execution loop BackgroundServerProcess:c2abaa96 has started in 5.2384 ms
+2025-06-25 18:21:24.281 -04:00 [INF] Server bz2024ad:27788:4a01fb8c successfully announced in 385.1689 ms
+2025-06-25 18:21:24.289 -04:00 [DBG] Execution loop ServerHeartbeatProcess:9a91d4e9 has started in 6.5417 ms
+2025-06-25 18:21:24.289 -04:00 [INF] Server bz2024ad:27788:4a01fb8c is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-06-25 18:21:24.297 -04:00 [DBG] Execution loop ServerWatchdog:ea4b74a3 has started in 5.4907 ms
+2025-06-25 18:21:24.299 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:6296f9a9 has started in 4.8529 ms
+2025-06-25 18:21:24.302 -04:00 [DBG] Execution loop ExpirationManager:a3bd769c has started in 4.0776 ms
+2025-06-25 18:21:24.305 -04:00 [DBG] Execution loop CountersAggregator:3fb00d9e has started in 5.0671 ms
+2025-06-25 18:21:24.307 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:379787e2 has started in 5.1745 ms
+2025-06-25 18:21:24.311 -04:00 [DBG] Execution loop Worker:9096b86f has started in 6.6723 ms
+2025-06-25 18:21:24.312 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-06-25 18:21:24.312 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-06-25 18:21:24.315 -04:00 [DBG] Execution loop Worker:2aed7d9f has started in 9.9409 ms
+2025-06-25 18:21:24.317 -04:00 [DBG] Execution loop Worker:3ffa14a8 has started in 12.7415 ms
+2025-06-25 18:21:24.320 -04:00 [DBG] Execution loop Worker:143eedc8 has started in 15.3557 ms
+2025-06-25 18:21:24.323 -04:00 [DBG] Execution loop Worker:3398c7b8 has started in 18.1315 ms
+2025-06-25 18:21:24.326 -04:00 [DBG] Execution loop Worker:1138c80a has started in 21.5193 ms
+2025-06-25 18:21:24.329 -04:00 [DBG] Execution loop Worker:89e5de8e has started in 24.7578 ms
+2025-06-25 18:21:24.332 -04:00 [DBG] Execution loop Worker:efa54a7d has started in 27.4723 ms
+2025-06-25 18:21:24.335 -04:00 [DBG] Execution loop Worker:85962270 has started in 30.234 ms
+2025-06-25 18:21:24.339 -04:00 [DBG] Execution loop Worker:15277b0c has started in 34.0666 ms
+2025-06-25 18:21:24.342 -04:00 [DBG] Execution loop Worker:089c7b82 has started in 37.808 ms
+2025-06-25 18:21:24.344 -04:00 [DBG] Execution loop Worker:e52b3b44 has started in 39.8212 ms
+2025-06-25 18:21:24.348 -04:00 [DBG] Execution loop Worker:c0b578e6 has started in 43.0217 ms
+2025-06-25 18:21:24.351 -04:00 [DBG] Execution loop Worker:a39120ea has started in 45.9534 ms
+2025-06-25 18:21:24.353 -04:00 [DBG] Execution loop Worker:7b3e5957 has started in 48.8371 ms
+2025-06-25 18:21:24.357 -04:00 [DBG] Execution loop Worker:8c51c556 has started in 51.9216 ms
+2025-06-25 18:21:24.361 -04:00 [DBG] Execution loop Worker:4c00efeb has started in 56.503 ms
+2025-06-25 18:21:24.365 -04:00 [DBG] Execution loop Worker:0314d50e has started in 59.9143 ms
+2025-06-25 18:21:24.369 -04:00 [DBG] Execution loop Worker:c50df7cf has started in 64.2857 ms
+2025-06-25 18:21:24.371 -04:00 [DBG] Execution loop Worker:1d71c0f5 has started in 66.2492 ms
+2025-06-25 18:21:24.374 -04:00 [INF] Server bz2024ad:27788:4a01fb8c all the dispatchers started
+2025-06-25 18:21:24.374 -04:00 [DBG] Execution loop DelayedJobScheduler:de15227e has started in 5.9565 ms
+2025-06-25 18:21:24.377 -04:00 [DBG] Execution loop RecurringJobScheduler:a5d5aec4 has started in 6.3782 ms
+2025-06-25 18:21:24.752 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-06-25 18:21:25.025 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-06-25 18:21:25.116 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-06-25 18:21:25.237 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-06-25 18:21:28.432 -04:00 [DBG] Connection id "0HNDK6QF7S3K4" received FIN.
+2025-06-25 18:21:28.790 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-06-25 18:21:28.794 -04:00 [DBG] Connection id "0HNDK6QF7S3K4" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-25 18:21:28.796 -04:00 [DBG] Connection 0HNDK6QF7S3K5 established using the following protocol: "Tls13"
+2025-06-25 18:21:28.889 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2025-06-25 18:21:29.465 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-06-25 18:21:29.487 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-06-25 18:21:29.488 -04:00 [DBG] Request did not match any endpoints
+2025-06-25 18:21:30.161 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-06-25 18:21:30.162 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-06-25 18:21:30.176 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-06-25 18:21:30.177 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-06-25 18:21:30.180 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 1295.0543ms
+2025-06-25 18:21:30.208 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2025-06-25 18:21:30.208 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2025-06-25 18:21:30.217 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 9.6022ms
+2025-06-25 18:21:30.383 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 176.1232ms
+2025-06-25 18:21:30.418 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2025-06-25 18:21:30.420 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-06-25 18:21:30.420 -04:00 [DBG] Request did not match any endpoints
+2025-06-25 18:21:30.547 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 129.3799ms
+2025-06-25 18:21:32.964 -04:00 [DBG] Connection id "0HNDK6QF7S3K5" received FIN.
+2025-06-25 18:21:32.967 -04:00 [DBG] Connection id "0HNDK6QF7S3K5" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-25 18:21:54.352 -04:00 [DBG] Server bz2024ad:27788:4a01fb8c heartbeat successfully sent
+2025-06-25 18:22:24.397 -04:00 [DBG] Server bz2024ad:27788:4a01fb8c heartbeat successfully sent
+2025-06-25 18:22:54.443 -04:00 [DBG] Server bz2024ad:27788:4a01fb8c heartbeat successfully sent

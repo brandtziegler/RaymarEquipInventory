@@ -60,7 +60,7 @@ namespace RaymarEquipmentInventory.Services
                 var newWorkOrder = new WorkOrderSheet
                 {
                     WorkOrderNumber = workOrderNumber,
-                    DateTimeCreated = DateTime.Now,
+                    DateTimeCreated = EasternNow(),
                     WorkOrderStatus = "Created",
                     DateTimeCompleted = null,
                     DateTimeStarted = null,
@@ -282,7 +282,7 @@ namespace RaymarEquipmentInventory.Services
             // Increment the work order number
             int newWorkOrderNumber = workOrderCounter.CurrentNumber + 1;
             workOrderCounter.CurrentNumber = newWorkOrderNumber;
-            workOrderCounter.LastModified = DateTime.Now;
+            workOrderCounter.LastModified = EasternNow();
 
             // Save the changes to the counter
             _context.WorkOrderCounters.Update(workOrderCounter);
@@ -311,7 +311,7 @@ namespace RaymarEquipmentInventory.Services
                 {
                     SheetId = sheetId,
                     EventType = workOrderStatus,
-                    Timestamp = DateTime.UtcNow,
+                    Timestamp = EasternNow(),
                     DeviceId = deviceId // Placeholder: inject or extract this properly
                 };
 
@@ -730,7 +730,7 @@ namespace RaymarEquipmentInventory.Services
                 {
                     SheetId = sheetId,
                     Reason = reason,
-                    Timestamp = DateTime.UtcNow
+                    Timestamp = EasternNow()
                 });
 
                 await _context.SaveChangesAsync();
