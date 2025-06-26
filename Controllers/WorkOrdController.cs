@@ -92,8 +92,8 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
-        [HttpPost("ClearPDFFiles")]
-        public async Task<IActionResult> ClearPDFFiles([FromQuery] string custPath, [FromQuery] string workOrderId)
+        [HttpPost("ClearImageFiles")]
+        public async Task<IActionResult> ClearImageFiles([FromQuery] string custPath, [FromQuery] string workOrderId)
         {
             await _driveUploaderService.ClearImageFolderAsync(custPath, workOrderId);
             return Ok("✅ PDF files cleared.");
