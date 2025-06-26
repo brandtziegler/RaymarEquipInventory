@@ -386,6 +386,82 @@ namespace RaymarEquipmentInventory.Services
                 Log.Error(ex, $"🔥 Exception occurred while updating FileUrl for '{fileName}' (WO#: {workOrderId})");
             }
         }
+        public async Task ClearImageFolderAsync(string custPath, string workOrderId)
+        {
+            string GetEnv(string key)
+            {
+                var value = Environment.GetEnvironmentVariable(key);
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new InvalidOperationException($"Missing required environment variable: {key}");
+                return value;
+            }
+
+            var privateKeyLines = Enumerable.Range(1, 28)
+                .Select(i => Environment.GetEnvironmentVariable($"GOOGLE_PRIVATE_KEY_{i}"))
+                .Where(line => !string.IsNullOrWhiteSpace(line))
+                .ToList();
+
+            if (privateKeyLines.Count != 28)
+                throw new InvalidOperationException($"Expected 28 lines of private key, but got {privateKeyLines.Count}.");
+
+            var privateKeyCombined = string.Join("\n", privateKeyLines);
+
+            var credential = new ServiceAccountCredential(
+                new ServiceAccountCredential.Initializer(GetEnv("GOOGLE_CLIENT_EMAIL"))
+                {
+                    ProjectId = GetEnv("GOOGLE_PROJECT_ID"),
+                    Scopes = new[] { DriveService.ScopeConstants.Drive }
+                }.FromPrivateKey(privateKeyCombined)
+            );
+
+            var driveService = new DriveService(new BaseClientService.Initializer
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "TaskFuelUploader"
+            });
+
+            Log.Information("🧭 Resolving folder path for image cleanup...");
+
+            string rootFolderId = "1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk"; // 🔒 Your root folder ID
+            string[] pathSegments = custPath.Split('>');
+            string currentParentId = rootFolderId;
+
+            foreach (var segment in pathSegments)
+            {
+                currentParentId = await EnsureFolderExistsAsync(segment.Trim(), currentParentId, driveService);
+            }
+
+            string workOrderFolderId = await EnsureFolderExistsAsync(workOrderId, currentParentId, driveService);
+            string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId, driveService);
+
+            Log.Information($"🧼 Fetching files in 'Images' folder for deletion...");
+
+            var listRequest = driveService.Files.List();
+            listRequest.Q = $"'{imagesFolderId}' in parents and trashed = false";
+            listRequest.Fields = "files(id, name)";
+            var fileList = await listRequest.ExecuteAsync();
+
+            if (fileList.Files.Count == 0)
+            {
+                Log.Information("📭 No files found to delete in 'Images' folder.");
+                return;
+            }
+
+            foreach (var file in fileList.Files)
+            {
+                try
+                {
+                    await driveService.Files.Delete(file.Id).ExecuteAsync();
+                    Log.Information($"🗑️ Deleted image file: {file.Name} (ID: {file.Id})");
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, $"⚠️ Failed to delete image file: {file.Name}");
+                }
+            }
+
+            Log.Information($"✅ Image folder cleanup complete. {fileList.Files.Count} file(s) processed.");
+        }
 
         public async Task<List<FileUpload>> UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
         {
