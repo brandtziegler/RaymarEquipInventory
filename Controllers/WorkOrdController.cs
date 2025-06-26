@@ -105,15 +105,16 @@ namespace RaymarEquipmentInventory.Controllers
 
             try
             {
-              var uploads = await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
-
-
                 if (files.Any(f => f.FileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
-                      f.FileName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
-                      f.FileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase)))
+      f.FileName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
+      f.FileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase)))
                 {
                     await _driveUploaderService.ClearImageFolderAsync(custPath, workOrderId);
                 }
+
+                var uploads = await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
+
+
 
 
                 foreach (var upload in uploads)
