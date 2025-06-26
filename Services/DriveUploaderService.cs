@@ -438,7 +438,7 @@ namespace RaymarEquipmentInventory.Services
 
             var listRequest = driveService.Files.List();
             listRequest.Q = $"'{imagesFolderId}' in parents and trashed = false";
-            listRequest.Fields = "files(id, name)";
+            listRequest.Fields = "files(id, name, owners)";
             var fileList = await listRequest.ExecuteAsync();
 
             if (fileList.Files.Count == 0)
@@ -451,6 +451,14 @@ namespace RaymarEquipmentInventory.Services
             {
                 try
                 {
+                    var ownerEmail = file.Owners?.FirstOrDefault()?.EmailAddress ?? "unknown";
+
+                    if (!ownerEmail.Contains("taskfuel-uploader"))
+                    {
+                        Log.Warning($"🚫 Skipping file not owned by service account: {file.Name} (Owner: {ownerEmail})");
+                        continue;
+                    }
+
                     await driveService.Files.Delete(file.Id).ExecuteAsync();
                     Log.Information($"🗑️ Deleted image file: {file.Name} (ID: {file.Id})");
                 }
