@@ -472,23 +472,6 @@ namespace RaymarEquipmentInventory.Services
                             }
                         }
 
-                        // 🧹 Bulk-clear images ONCE before uploading first one
-                        if (!imageFolderCleared && (ext == ".jpg" || ext == ".jpeg" || ext == ".png"))
-                        {
-                            var clearRequest = driveService.Files.List();
-                            clearRequest.Q = $"'{imagesFolderId}' in parents and trashed = false";
-                            clearRequest.Fields = "files(id, name)";
-                            var existingImages = await clearRequest.ExecuteAsync();
-
-                            foreach (var img in existingImages.Files)
-                            {
-                                Log.Information($"🧹 Deleting old image: {img.Name} (ID: {img.Id})");
-                                await driveService.Files.Delete(img.Id).ExecuteAsync();
-                            }
-
-                            imageFolderCleared = true;
-                        }
-
                         using var stream = file.OpenReadStream();
 
                         var metadata = new Google.Apis.Drive.v3.Data.File
