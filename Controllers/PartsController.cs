@@ -65,11 +65,6 @@ namespace RaymarEquipmentInventory.Controllers
         [HttpPost("ClearPartsUsedAsync")]
         public async Task<IActionResult> ClearPartsUsedAsync([FromQuery] int sheetId)
         {
-            if (!ModelState.IsValid)
-            {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                return BadRequest(new { errors });
-            }
 
             // 🧹 Step 1: Clear old parts for this SheetID
             var success = await _partService.ClearPartsUsedAsync(sheetId); // <-- implement this in your service/repo layer
@@ -88,9 +83,6 @@ namespace RaymarEquipmentInventory.Controllers
                 return BadRequest(new { errors });
             }
 
-
-
-            // 🧱 Step 2: Insert new parts
             var success = await _partService.InsertPartsUsedAsync(entry);
             return success ? Ok() : BadRequest("Insert failed.");
         }
