@@ -18,6 +18,8 @@ namespace RaymarEquipmentInventory.Services
         Task<bool> UpdatePart(DTOs.PartsUsed partsUsedDto);
 
         Task<bool> InsertPartsUsedAsync(DTOs.PartsUsed partsUsedDto);
+
+        Task<bool> ClearPartsUsedAsync(int sheetId);
         //Task<List<Tech>> GetAllParts();
 
     }

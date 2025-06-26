@@ -99,6 +99,45 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task<bool> ClearPartsUsedAsync(int sheetId)
+        {
+            try
+            {
+                // Step 1: Get all PartUsedIds for the given SheetId
+                var partUsedIds = await _context.PartsUseds
+                    .Where(p => p.SheetId == sheetId)
+                    .Select(p => p.PartUsedId)
+                    .ToListAsync();
+
+                if (!partUsedIds.Any())
+                {
+                    Log.Information($"🧹 No PartsUsed entries found for SheetID {sheetId}. Nothing to clear.");
+                    return true;
+                }
+
+                // Step 2: Delete associated PartsDocuments
+                var docsToDelete = _context.PartsDocuments
+                    .Where(d => partUsedIds.Contains(d.PartUsedId));
+                _context.PartsDocuments.RemoveRange(docsToDelete);
+
+                // Step 3: Delete PartsUseds
+                var partsToDelete = _context.PartsUseds
+                    .Where(p => p.SheetId == sheetId);
+                _context.PartsUseds.RemoveRange(partsToDelete);
+
+                // Final save
+                await _context.SaveChangesAsync();
+
+                Log.Information($"✅ Cleared {partUsedIds.Count} PartsUsed entries and associated PartsDocuments for SheetID {sheetId}.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"🔥 Failed to clear PartsUsed/PartsDocuments for SheetID {sheetId}.");
+                return false;
+            }
+        }
+
         public async Task<bool> InsertPartsUsedAsync(DTOs.PartsUsed dto)
         {
             try

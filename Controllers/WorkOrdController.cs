@@ -92,13 +92,7 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
-        [HttpPost("ClearImageFiles")]
-        public async Task<IActionResult> ClearImageFiles([FromQuery] string custPath, [FromQuery] string workOrderId)
-        {
-            await _driveUploaderService.ClearImageFolderAsync(custPath, workOrderId);
-            return Ok("✅ PDF files cleared.");
-        }
-            [HttpPost("UploadAppFiles")]
+        [HttpPost("UploadAppFiles")]
         public async Task<IActionResult> UploadAppFiles(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
         {
             var result = new
@@ -111,7 +105,16 @@ namespace RaymarEquipmentInventory.Controllers
 
             try
             {
-                var uploads = await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
+              var uploads = await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
+
+
+                if (files.Any(f => f.FileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
+                      f.FileName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
+                      f.FileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase)))
+                {
+                    await _driveUploaderService.ClearImageFolderAsync(custPath, workOrderId);
+                }
+
 
                 foreach (var upload in uploads)
                 {
@@ -119,6 +122,7 @@ namespace RaymarEquipmentInventory.Controllers
                     {
                         if (upload.Extension is ".jpg" or ".jpeg" or ".png")
                         {
+                          
                             await _driveUploaderService.UpdateFileUrlInPartsDocumentAsync(
                                 upload.FileName,
                                 upload.ResponseBodyId,

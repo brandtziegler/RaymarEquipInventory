@@ -64,7 +64,7 @@ namespace RaymarEquipmentInventory.Controllers
 
 
         [HttpPost("AddPartsUsed")]
-        public async Task<IActionResult> AddPartsUsed([FromBody] PartsUsed entry)
+        public async Task<IActionResult> AddPartsUsed([FromQuery] int sheetId, [FromBody] PartsUsed entry)
         {
             if (!ModelState.IsValid)
             {
@@ -72,6 +72,10 @@ namespace RaymarEquipmentInventory.Controllers
                 return BadRequest(new { errors });
             }
 
+            // 🧹 Step 1: Clear old parts for this SheetID
+            await _partService.ClearPartsUsedAsync(sheetId); // <-- implement this in your service/repo layer
+
+            // 🧱 Step 2: Insert new parts
             var success = await _partService.InsertPartsUsedAsync(entry);
             return success ? Ok() : BadRequest("Insert failed.");
         }
