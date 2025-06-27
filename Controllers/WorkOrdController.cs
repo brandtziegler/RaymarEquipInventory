@@ -91,6 +91,20 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpPost("ClearAppFiles")]
+        public async Task<IActionResult> ClearAppFiles([FromQuery] string custPath, [FromQuery] string workOrderId)
+        {
+            try
+            {
+                await _driveUploaderService.ClearImageFolderAsync(custPath, workOrderId);
+                return Ok(new { message = "Folder cleared." });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "❌ Failed to clear image folder.");
+                return StatusCode(500, new { message = "Clear failed", error = ex.Message });
+            }
+        }
 
         [HttpPost("UploadAppFiles")]
         public async Task<IActionResult> UploadAppFiles(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
@@ -105,19 +119,9 @@ namespace RaymarEquipmentInventory.Controllers
 
             try
             {
-                if (files.Any(f => f.FileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
-      f.FileName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
-      f.FileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase)))
-                {
-                    await _driveUploaderService.ClearImageFolderAsync(custPath, workOrderId);
-                }
-
                 var uploads = await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
 
-
-
-
-                foreach (var upload in uploads)
+               foreach (var upload in uploads)
                 {
                     try
                     {
