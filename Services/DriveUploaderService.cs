@@ -388,6 +388,7 @@ namespace RaymarEquipmentInventory.Services
         }
         public async Task ClearImageFolderAsync(string custPath, string workOrderId)
         {
+            // 🔐 Environment variable loader
             string GetEnv(string key)
             {
                 var value = Environment.GetEnvironmentVariable(key);
@@ -396,6 +397,7 @@ namespace RaymarEquipmentInventory.Services
                 return value;
             }
 
+            // 🔑 Build credential
             var privateKeyLines = Enumerable.Range(1, 28)
                 .Select(i => Environment.GetEnvironmentVariable($"GOOGLE_PRIVATE_KEY_{i}"))
                 .Where(line => !string.IsNullOrWhiteSpace(line))
@@ -422,19 +424,35 @@ namespace RaymarEquipmentInventory.Services
 
             Log.Information("🧭 Resolving folder path for image cleanup...");
 
-            string rootFolderId = "1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk"; // 🔒 Your root folder ID
+            string rootFolderId = "1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk";
             string[] pathSegments = custPath.Split('>');
-            string currentParentId = rootFolderId;
+            string? currentParentId = rootFolderId;
 
             foreach (var segment in pathSegments)
             {
-                currentParentId = await EnsureFolderExistsAsync(segment.Trim(), currentParentId, driveService);
+                currentParentId = await TryResolveFolderAsync(segment.Trim(), currentParentId, driveService);
+                if (currentParentId == null)
+                {
+                    Log.Warning($"❌ Folder segment '{segment}' not found. Aborting clear.");
+                    return;
+                }
             }
 
-            string workOrderFolderId = await EnsureFolderExistsAsync(workOrderId, currentParentId, driveService);
-            string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId, driveService);
+            var workOrderFolderId = await TryResolveFolderAsync(workOrderId, currentParentId, driveService);
+            if (workOrderFolderId == null)
+            {
+                Log.Warning($"❌ Work order folder '{workOrderId}' not found. Nothing to clear.");
+                return;
+            }
 
-            Log.Information($"🧼 Fetching files in 'Images' folder for deletion...");
+            var imagesFolderId = await TryResolveFolderAsync("Images", workOrderFolderId, driveService);
+            if (imagesFolderId == null)
+            {
+                Log.Warning("📭 'Images' folder not found. Nothing to clear.");
+                return;
+            }
+
+            Log.Information("🧼 Fetching files in 'Images' folder for deletion...");
 
             var listRequest = driveService.Files.List();
             listRequest.Q = $"'{imagesFolderId}' in parents and trashed = false";
@@ -470,6 +488,7 @@ namespace RaymarEquipmentInventory.Services
 
             Log.Information($"✅ Image folder cleanup complete. {fileList.Files.Count} file(s) processed.");
         }
+
 
         public async Task<List<FileUpload>> UploadFilesAsync(List<IFormFile> files, string custPath, string workOrderId)
         {
@@ -737,6 +756,15 @@ namespace RaymarEquipmentInventory.Services
         //        throw;
         //    }
         //}
+        private async Task<string?> TryResolveFolderAsync(string folderName, string parentId, DriveService driveService)
+        {
+            var listRequest = driveService.Files.List();
+            listRequest.Q = $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and '{parentId}' in parents and trashed=false";
+            listRequest.Fields = "files(id)";
+            var result = await listRequest.ExecuteAsync();
+
+            return result.Files.FirstOrDefault()?.Id;
+        }
 
         private async Task<string> EnsureFolderExistsAsync(string folderName, string parentId, DriveService driveService)
         {
