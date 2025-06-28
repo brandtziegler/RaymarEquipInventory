@@ -68,6 +68,40 @@ namespace RaymarEquipmentInventory.Services
             return travelDTO;
         }
 
+        public async Task<bool> DeleteTravelLogAsync(int sheetId)
+        {
+            try
+            {
+                if (sheetId <= 0)
+                {
+                    Log.Warning("SheetID is required for mileage deletion.");
+                    return false;
+                }
+
+                var entriesToDelete = await _context.MileageAndTimes
+                    .Where(m => m.SheetId == sheetId)
+                    .ToListAsync();
+
+                if (!entriesToDelete.Any())
+                {
+                    Log.Information($"🟡 No mileage entries found for SheetID {sheetId}. Nothing to delete.");
+                    return true;
+                }
+
+                _context.MileageAndTimes.RemoveRange(entriesToDelete);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"🗑️ Deleted {entriesToDelete.Count} mileage entries for SheetID {sheetId}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"❌ Failed to delete mileage entries for SheetID {sheetId}: {ex.Message}");
+                return false;
+            }
+        }
+
+
         public async Task<bool> InsertTravelLogAsync(TravelLog travel)
         {
             try

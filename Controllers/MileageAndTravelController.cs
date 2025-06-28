@@ -21,7 +21,23 @@ namespace RaymarEquipmentInventory.Controllers
             _samsaraApiService = samsaraApiService;
         }
 
+        [HttpPost("ClearMileageEntries")]
+        public async Task<IActionResult> ClearMileageEntries([FromQuery] int sheetId)
+        {
+            try
+            {
+                var result = await _mileageTravelService.DeleteTravelLogAsync(sheetId);
+                if (!result)
+                    return BadRequest("Failed to clear mileage entries.");
 
+                return Ok("Mileage entries cleared successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"🔥 Error clearing mileage entries for SheetID {sheetId}: {ex.Message}");
+                return StatusCode(500, "An error occurred during mileage clearing.");
+            }
+        }
 
         [HttpPost("AddTravelLog")]
         public async Task<IActionResult> AddTravelLogEntry([FromBody] TravelLog entry)
