@@ -137,49 +137,7 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<bool> UpdateBillingInfo(Billing billingDto)
-        {
-            try
-            {
-                // Validation for required fields
-                if (billingDto.CustomerId == 0 || string.IsNullOrWhiteSpace(billingDto.Notes))
-                {
-                    Log.Warning("CustomerId and Notes are mandatory fields and must be provided.");
-                    return false; // Don’t proceed if these fields are missing
-                }
-
-                // Step 1: Find the existing record in the database
-                var billingRecord = await _context.BillingInformations
-                    .FirstOrDefaultAsync(b => b.BillingId == billingDto.BillingID);
-
-                if (billingRecord == null)
-                {
-                    Log.Warning($"Billing record with ID {billingDto.BillingID} not found.");
-                    return false;
-                }
-
-                // Step 2: Update fields with data from the DTO
-                billingRecord.Pono = billingDto.PONo;
-                billingRecord.SheetId = billingDto.SheetId;
-                billingRecord.CustomerId = billingDto.CustomerId;
-                billingRecord.Notes = billingDto.Notes;
-                billingRecord.UnitNo = billingDto.UnitNo;
-                billingRecord.WorkLocation = billingDto.JobSiteCity;
-                // Add any additional fields you want to update
-
-                // Step 3: Save changes back to the database
-                await _context.SaveChangesAsync();
-
-                Log.Information($"Billing record with ID {billingDto.BillingID} updated successfully.");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Error updating billing record with ID {billingDto.BillingID}: {ex.Message}");
-                return false;
-            }
-        }
-
+    
 
         public async Task<bool> RemoveCustomerFromBill(int billId, int customerId)
         {
