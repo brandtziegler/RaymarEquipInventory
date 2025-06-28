@@ -59,6 +59,41 @@ namespace RaymarEquipmentInventory.Services
             return labourDTO;
         }
 
+
+        public async Task<bool> DeleteRegularLabourAsync(int technicianWorkOrderId)
+        {
+            try
+            {
+                if (technicianWorkOrderId <= 0)
+                {
+                    Log.Warning("TechnicianWorkOrderID is required for labour deletion.");
+                    return false;
+                }
+
+                var entriesToDelete = await _context.RegularLabours
+                    .Where(r => r.TechnicianWorkOrderId == technicianWorkOrderId)
+                    .ToListAsync();
+
+                if (!entriesToDelete.Any())
+                {
+                    Log.Information($"🟡 No regular labour entries found for TechnicianWorkOrderID {technicianWorkOrderId}. Nothing to delete.");
+                    return true;
+                }
+
+                _context.RegularLabours.RemoveRange(entriesToDelete);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"🗑️ Deleted {entriesToDelete.Count} RegularLabour entries for TechnicianWorkOrderID {technicianWorkOrderId}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"❌ Failed to delete RegularLabour entries for TechnicianWorkOrderID {technicianWorkOrderId}: {ex.Message}");
+                return false;
+            }
+        }
+
+
         public async Task<bool> InsertRegularLabourAsync(RegularLabourLine labour)
         {
             try

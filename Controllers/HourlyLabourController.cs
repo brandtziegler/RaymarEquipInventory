@@ -44,6 +44,25 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+
+        [HttpPost("ClearRegularLabour")]
+        public async Task<IActionResult> ClearRegularLabour([FromQuery] int technicianWorkOrderId)
+        {
+            try
+            {
+                var result = await _hourlylabourService.DeleteRegularLabourAsync(technicianWorkOrderId);
+                if (!result)
+                    return BadRequest("Failed to clear regular labour entries.");
+
+                return Ok("Regular labour entries cleared successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"🔥 Error clearing regular labour for TechWO ID {technicianWorkOrderId}: {ex.Message}");
+                return StatusCode(500, "An error occurred during regular labour clearing.");
+            }
+        }
+
         [HttpPost("AddRegularLabour")]
         public async Task<IActionResult> AddRegularLabour([FromBody] RegularLabourLine labour)
         {
