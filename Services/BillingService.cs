@@ -58,6 +58,43 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task<bool> UpdateBillingInformationAsync(DTOs.Billing billingDto)
+        {
+            try
+            {
+                var existing = await _context.BillingInformations
+                    .FirstOrDefaultAsync(b => b.SheetId == billingDto.SheetId);
+
+                if (existing == null)
+                {
+                    Log.Warning($"⚠️ No billing record found for SheetID {billingDto.SheetId}");
+                    return false;
+                }
+
+                existing.BillingPersonId = billingDto.BillingPersonID;
+                existing.CustomerId = billingDto.CustomerId;
+                existing.Notes = billingDto.Notes?.Trim() ?? existing.Notes;
+                existing.UnitNo = billingDto.UnitNo?.Trim() ?? existing.UnitNo;
+                existing.JobSiteCity = billingDto.JobSiteCity?.Trim() ?? existing.JobSiteCity;
+                existing.Kilometers = billingDto.Kilometers;
+                existing.Pono = billingDto.PONo?.Trim() ?? existing.Pono;
+                existing.WorkDescription = billingDto.WorkDescription?.Trim() ?? existing.WorkDescription;
+                existing.CustPath = billingDto.CustPath?.Trim() ?? existing.CustPath;
+
+                await _context.SaveChangesAsync();
+
+                Log.Information($"✅ Updated BillingInfo for SheetID {billingDto.SheetId}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message ?? "No inner exception";
+                Log.Error($"❌ Failed to update BillingInfo: {ex.Message} | Inner: {inner}");
+                return false;
+            }
+        }
+
+
         public async Task<bool> InsertBillingInformationAsync(DTOs.Billing billingDto)
         {
             try

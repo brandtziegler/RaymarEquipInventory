@@ -259,8 +259,6 @@ namespace RaymarEquipmentInventory.Services
             }
             catch (Exception ex)
             {
-
-
                 Log.Error($"❌ InsertWorkOrderAsync failed: {ex.Message}");
 
                 if (ex.InnerException != null)
