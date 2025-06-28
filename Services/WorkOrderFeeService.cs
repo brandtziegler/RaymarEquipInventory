@@ -24,6 +24,39 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
+        public async Task<bool> DeleteWorkOrderFees(int technicianWorkOrderId)
+        {
+            try
+            {
+                if (technicianWorkOrderId <= 0)
+                {
+                    Log.Warning("TechnicianWorkOrderID is required for deletion.");
+                    return false;
+                }
+
+                var feesToDelete = await _context.WorkOrderFees
+                    .Where(f => f.TechnicianWorkOrderId == technicianWorkOrderId)
+                    .ToListAsync();
+
+                if (!feesToDelete.Any())
+                {
+                    Log.Information($"🟡 No WorkOrderFees found for TechnicianWorkOrderID {technicianWorkOrderId}. Nothing to delete.");
+                    return true;
+                }
+
+                _context.WorkOrderFees.RemoveRange(feesToDelete);
+                await _context.SaveChangesAsync();
+
+                Log.Information($"🗑️ Deleted {feesToDelete.Count} WorkOrderFee(s) for TechnicianWorkOrderID {technicianWorkOrderId}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"❌ Failed to delete WorkOrderFees for TechnicianWorkOrderID {technicianWorkOrderId}: {ex.Message}");
+                return false;
+            }
+        }
+
 
         public async Task<bool> InsertWorkOrderFee(DTOs.WorkOrderFee workOrdFee)
         {

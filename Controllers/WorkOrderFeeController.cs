@@ -19,7 +19,23 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
+        [HttpPost("ClearWorkOrderFees")]
+        public async Task<IActionResult> ClearWorkOrderFees([FromQuery] int technicianWorkOrderId)
+        {
+            try
+            {
+                var result = await _workOrderFeeService.DeleteWorkOrderFees(technicianWorkOrderId);
+                if (!result)
+                    return BadRequest("Failed to clear work order fees.");
 
+                return Ok("Work order fees cleared successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"🔥 Error clearing fees for TechWO ID {technicianWorkOrderId}: {ex.Message}");
+                return StatusCode(500, "An error occurred during fee clearing.");
+            }
+        }
 
         [HttpPost("InsertWorkOrderFee")]
         public async Task<IActionResult> InsertWorkOrderFee([FromBody] WorkOrderFee workOrderFeeDTO)

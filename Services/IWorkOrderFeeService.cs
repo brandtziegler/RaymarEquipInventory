@@ -7,7 +7,7 @@ namespace RaymarEquipmentInventory.Services
 
 
         //Task<DTOs.TravelLog> GetTravelByID(int mileageTimeID);
-
+        Task<bool> DeleteWorkOrderFees(int technicianWorkOrderId);
         Task<bool> InsertWorkOrderFee(WorkOrderFee workOrderFee);
     }
 }
