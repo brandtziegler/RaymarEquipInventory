@@ -13,7 +13,7 @@ namespace RaymarEquipmentInventory.Services
 
         Task<DTOs.Billing> GetLabourForWorkorder(int sheetID);
 
-        Task<bool> InsertBillingInformationAsync(Billing billingDto);
+        Task<bool> TryInsertBillingInformationAsync(Billing billingDto);
         Task<bool> UpdateBillingInformationAsync(Billing billingDto);
         //Task<List<Tech>> GetAllParts();
 

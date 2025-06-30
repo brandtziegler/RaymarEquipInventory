@@ -94,19 +94,28 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-
-        public async Task<bool> InsertBillingInformationAsync(DTOs.Billing billingDto)
+        public async Task<bool> TryInsertBillingInformationAsync(DTOs.Billing billingDto)
         {
             try
             {
                 // Step 1: Basic validation
-                if (billingDto.CustomerId <= 0)
+                if (billingDto.SheetId <= 0 || billingDto.CustomerId <= 0)
                 {
                     Log.Warning("SheetId and CustomerId are required.");
                     return false;
                 }
 
-                // Step 2: Create entity
+                // Step 2: Check if entry already exists
+                bool exists = await _context.BillingInformations
+                    .AnyAsync(b => b.SheetId == billingDto.SheetId);
+
+                if (exists)
+                {
+                    Log.Warning($"🟡 Billing entry already exists for SheetID {billingDto.SheetId}. Skipping insert.");
+                    return true; // Not a failure — just not an insert
+                }
+
+                // Step 3: Create new entity
                 var newEntry = new Models.BillingInformation
                 {
                     SheetId = billingDto.SheetId,
@@ -121,7 +130,7 @@ namespace RaymarEquipmentInventory.Services
                     CustPath = billingDto.CustPath?.Trim() ?? ""
                 };
 
-                // Step 3: Save to DB
+                // Step 4: Save to DB
                 await _context.BillingInformations.AddAsync(newEntry);
                 await _context.SaveChangesAsync();
 
@@ -136,8 +145,6 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-
-    
 
         public async Task<bool> RemoveCustomerFromBill(int billId, int customerId)
         {

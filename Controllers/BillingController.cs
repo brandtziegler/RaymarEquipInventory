@@ -34,18 +34,14 @@ namespace RaymarEquipmentInventory.Controllers
             {
                 bool result;
 
-                if (billingDTO.SheetId == 0)
-                {
-                    result = await _billingService.InsertBillingInformationAsync(billingDTO);
+                    result = await _billingService.TryInsertBillingInformationAsync(billingDTO);
                     if (!result)
                         return BadRequest("Unable to insert billing.");
-                }
-                else
-                {
+
                     result = await _billingService.UpdateBillingInformationAsync(billingDTO);
                     if (!result)
                         return BadRequest("Unable to update billing.");
-                }
+              
 
                 return Ok("Work Order Fee processed successfully.");
             }
