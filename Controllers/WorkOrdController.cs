@@ -410,8 +410,10 @@ namespace RaymarEquipmentInventory.Controllers
         {
             try
             {
+                var workOrdNumber = await _workOrderService.GetWorkOrderNumber(sheetId);
                 var result = new WorkOrderDetails
                 {
+                    WorkOrderNumber = workOrdNumber,
                     SheetId = sheetId,
                     TechWorkOrder = await _technicianService.GetTechsByWorkOrder(sheetId),
                     Billing = await _workOrderService.GetBillingMin(sheetId) ?? new BillingMin(),

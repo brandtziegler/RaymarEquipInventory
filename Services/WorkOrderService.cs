@@ -27,9 +27,9 @@ namespace RaymarEquipmentInventory.Services
         private readonly IVehicleService _vehicleService;
 
         private readonly RaymarInventoryDBContext _context;
-        public WorkOrderService(IQuickBooksConnectionService quickBooksConnectionService, 
+        public WorkOrderService(IQuickBooksConnectionService quickBooksConnectionService,
             RaymarInventoryDBContext context,
-            ILabourService labourService, IPartService partService, 
+            ILabourService labourService, IPartService partService,
             IDocumentService documentService, IBillingService billingService, ICustomerService customerService,
             IInventoryService inventoryService, ITechnicianService technicianService,
             IVehicleService vehicleService)
@@ -177,7 +177,7 @@ namespace RaymarEquipmentInventory.Services
         {
             try
             {
-              
+
                 // Step 1: Get next W/O number
                 var nextNumberRow = await _context.NextWorkOrderNumbers.FirstOrDefaultAsync();
                 if (nextNumberRow == null)
@@ -410,7 +410,7 @@ namespace RaymarEquipmentInventory.Services
             {
                 // Find the TechnicianWorkOrder entry using the TechnicianID and SheetID
                 var techWorkOrder = await _context.TechnicianWorkOrders.FirstOrDefaultAsync(t => t.TechnicianId == techID && t.SheetId == sheetID);
-   
+
                 if (techWorkOrder == null)
                 {
                     // If no matching entry is found, log a warning and return false
@@ -986,6 +986,16 @@ namespace RaymarEquipmentInventory.Services
                 Log.Error($"Error retrieving work order with SheetID {sheetID}: {ex.Message}");
                 return null;
             }
+        }
+
+
+
+        public async Task<int> GetWorkOrderNumber(int sheetID)
+        {
+            var workOrder = await _context.WorkOrderSheets
+                .FirstOrDefaultAsync(s => s.SheetId == sheetID);
+
+            return workOrder?.WorkOrderNumber ?? 0; // or throw an error/log if not found
         }
 
         public async Task<List<DTOs.WorkOrderBriefDetails>> GetWorkOrderBriefDetails()
