@@ -75,7 +75,7 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
         [HttpPost("AddPartsUsed")]
-        public async Task<IActionResult> AddPartsUsed([FromQuery] int sheetId, [FromBody] PartsUsed entry)
+        public async Task<IActionResult> AddPartsUsed([FromQuery] int sheetId, [FromBody] PartsUsedGroup groupEntry)
         {
             if (!ModelState.IsValid)
             {
@@ -83,7 +83,16 @@ namespace RaymarEquipmentInventory.Controllers
                 return BadRequest(new { errors });
             }
 
-            var success = await _partService.InsertPartsUsedAsync(entry);
+            var success = true;
+
+            foreach (PartsUsed pu in groupEntry.PartsUsedList)
+            {
+                if (!await _partService.InsertPartsUsedAsync(pu))
+                {
+                    success = false;
+                }
+            }
+
             return success ? Ok() : BadRequest("Insert failed.");
         }
 
