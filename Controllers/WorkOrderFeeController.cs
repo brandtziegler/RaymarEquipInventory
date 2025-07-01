@@ -37,30 +37,27 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        [HttpPost("InsertWorkOrderFee")]
-        public async Task<IActionResult> InsertWorkOrderFee([FromBody] WorkOrderFee workOrderFeeDTO)
+        [HttpPost("InsertWorkOrderFeeBatch")]
+        public async Task<IActionResult> InsertWorkOrderFeeBatch([FromBody] WorkOrderFeesGroup feeGroup)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                // Call your service to create the work order and attach billing information
-                var result = await _workOrderFeeService.InsertWorkOrderFee(workOrderFeeDTO);
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return BadRequest(new { errors });
+            }
 
-                if (!result)
+            var success = true;
+
+            foreach (var fee in feeGroup.WorkOrderFeesList)
+            {
+                if (!await _workOrderFeeService.InsertWorkOrderFee(fee))
                 {
-                    return BadRequest("Unable to insert work order fee");
+                    success = false;
                 }
+            }
 
-                return Ok("Work Order Fee updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Error updating work order fee {workOrderFeeDTO.FlatLabourID}: {ex.Message}");
-                return StatusCode(500, "An error occurred while inserting into work order fee.");
-            }
+            return success ? Ok("Batch insert successful.") : BadRequest("One or more inserts failed.");
         }
-
-      
-
 
 
 
