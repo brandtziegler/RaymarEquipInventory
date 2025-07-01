@@ -63,27 +63,30 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        [HttpPost("AddRegularLabour")]
-        public async Task<IActionResult> AddRegularLabour([FromBody] RegularLabourLine labour)
+        [HttpPost("AddRegularLabourBatch")]
+        public async Task<IActionResult> AddRegularLabourBatch([FromBody] RegularLabourLineGroup labourGroup)
         {
-            try
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return BadRequest(new { errors });
+            }
+
+            bool allSucceeded = true;
+
+            foreach (var labour in labourGroup.RegLabourLineList)
             {
                 var result = await _hourlylabourService.InsertRegularLabourAsync(labour);
-
                 if (!result)
                 {
-                    return BadRequest("Unable to insert regular labour.");
+                    allSucceeded = false;
                 }
+            }
 
-                return Ok("Regular labour inserted successfully.");
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Error inserting regular labour: {ex.Message}");
-                return StatusCode(500, "An error occurred while inserting regular labour.");
-            }
+            return allSucceeded
+                ? Ok("✅ All regular labour lines inserted successfully.")
+                : StatusCode(207, "⚠️ Some labour lines failed to insert.");
         }
-
 
         [HttpGet("GetHourlyLabourById")]
         public async Task<IActionResult> GetHourlyLabourById(int hourlyLabourID)
