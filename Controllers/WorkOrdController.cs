@@ -111,7 +111,7 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
         [HttpPost("PrepareDriveFolders")]
-        public async Task<IActionResult> PrepareDriveFolders([FromQuery] string custPath, [FromQuery] string workOrderId)
+        public async Task<IActionResult> PrepareDriveFolders([FromQuery] string custPath, [FromQuery] string workOrderId, [FromQuery] int sheetID)
         {
             if (string.IsNullOrWhiteSpace(custPath) || string.IsNullOrWhiteSpace(workOrderId))
             {
@@ -126,7 +126,7 @@ namespace RaymarEquipmentInventory.Controllers
                 await semaphore.WaitAsync();
 
                 var folderResult = await _driveUploaderService.PrepareGoogleDriveFoldersAsync(custPath, workOrderId);
-
+                folderResult.SheetID = sheetID;
                 return Ok(folderResult); // Returns GoogleDriveFolder DTO as JSON
             }
             catch (Exception ex)
