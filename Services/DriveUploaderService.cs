@@ -825,13 +825,35 @@ namespace RaymarEquipmentInventory.Services
 
         private async Task<string> EnsureFolderExistsAsync(string folderName, string parentId, DriveService driveService)
         {
+            // First attempt: check if folder already exists
             var listRequest = driveService.Files.List();
             listRequest.Q = $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and '{parentId}' in parents and trashed=false";
             listRequest.Fields = "files(id)";
             var result = await listRequest.ExecuteAsync();
 
             if (result.Files.Count > 0)
+            {
+                Log.Information($"📁 Found existing folder '{folderName}' under parent '{parentId}' (ID: {result.Files[0].Id})");
                 return result.Files[0].Id;
+            }
+
+            // Wait briefly for any in-flight folders being created in parallel
+            await Task.Delay(750);
+
+            // Second check after delay (Google Drive is eventually consistent)
+            var retryList = driveService.Files.List();
+            retryList.Q = $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and '{parentId}' in parents and trashed=false";
+            retryList.Fields = "files(id)";
+            var retryResult = await retryList.ExecuteAsync();
+
+            if (retryResult.Files.Count > 0)
+            {
+                Log.Warning($"⚠️ Found folder '{folderName}' after delay — race avoided (ID: {retryResult.Files[0].Id})");
+                return retryResult.Files[0].Id;
+            }
+
+            // Still nothing — safe to create
+            Log.Information($"📂 Creating folder '{folderName}' under parent '{parentId}'");
 
             var newFolder = new Google.Apis.Drive.v3.Data.File
             {
@@ -844,8 +866,10 @@ namespace RaymarEquipmentInventory.Services
             createRequest.Fields = "id";
             var created = await createRequest.ExecuteAsync();
 
+            Log.Information($"✅ Created folder '{folderName}' (ID: {created.Id})");
             return created.Id;
         }
+
     }
 
 }
