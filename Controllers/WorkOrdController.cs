@@ -2,6 +2,7 @@
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
+using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Net.Mail;
 
@@ -17,6 +18,9 @@ namespace RaymarEquipmentInventory.Controllers
         private readonly ISamsaraApiService _samsaraApiService;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IDriveUploaderService _driveUploaderService;
+
+        private static readonly ConcurrentDictionary<string, SemaphoreSlim> FolderLocks = new();
+
         public WorkOrdController(IWorkOrderService workOrderService, 
             IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, 
             ISamsaraApiService samsaraApiService, 
@@ -109,12 +113,17 @@ namespace RaymarEquipmentInventory.Controllers
         [HttpPost("PrepareDriveFolders")]
         public async Task<IActionResult> PrepareDriveFolders([FromQuery] string custPath, [FromQuery] string workOrderId)
         {
+            if (string.IsNullOrWhiteSpace(custPath) || string.IsNullOrWhiteSpace(workOrderId))
+            {
+                return BadRequest(new { message = "custPath and workOrderId are required." });
+            }
+
+            var key = custPath.Trim().ToLower();
+            var semaphore = FolderLocks.GetOrAdd(key, _ => new SemaphoreSlim(1, 1));
+
             try
             {
-                if (string.IsNullOrWhiteSpace(custPath) || string.IsNullOrWhiteSpace(workOrderId))
-                {
-                    return BadRequest(new { message = "custPath and workOrderId are required." });
-                }
+                await semaphore.WaitAsync();
 
                 var folderResult = await _driveUploaderService.PrepareGoogleDriveFoldersAsync(custPath, workOrderId);
 
@@ -125,7 +134,12 @@ namespace RaymarEquipmentInventory.Controllers
                 Log.Error(ex, $"🔥 Error in PrepareDriveFolders endpoint for {custPath} / {workOrderId}");
                 return StatusCode(500, new { message = "Failed to prepare Google Drive folders.", error = ex.Message });
             }
+            finally
+            {
+                semaphore.Release();
+            }
         }
+
 
         [HttpPost("UploadAppFiles")]
         public async Task<IActionResult> UploadAppFiles(List<IFormFile> files, [FromQuery] string workOrderId, [FromQuery] string workOrderFolderId, [FromQuery] string pdfFolderId,
