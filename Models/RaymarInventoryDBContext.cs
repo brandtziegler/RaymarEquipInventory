@@ -25,6 +25,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<FlatLabour> FlatLabours { get; set; }
 
+    public virtual DbSet<GoogleDriveFolder> GoogleDriveFolders { get; set; }
+
     public virtual DbSet<HourlyLabourType> HourlyLabourTypes { get; set; }
 
     public virtual DbSet<IncomeAccount> IncomeAccounts { get; set; }
@@ -273,6 +275,22 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasOne(d => d.LabourType).WithMany(p => p.FlatLabours)
                 .HasForeignKey(d => d.LabourTypeId)
                 .HasConstraintName("FK__FlatLabou__Labou__7DCDAAA2");
+        });
+
+        modelBuilder.Entity<GoogleDriveFolder>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__GoogleDr__3214EC071133B239");
+
+            entity.HasIndex(e => new { e.FolderName, e.ParentFolderId }, "UQ_Folder").IsUnique();
+
+            entity.HasIndex(e => e.FolderId, "UQ__GoogleDr__ACD7107EEF0C654A").IsUnique();
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.FolderId).HasMaxLength(255);
+            entity.Property(e => e.FolderName).HasMaxLength(255);
+            entity.Property(e => e.ParentFolderId).HasMaxLength(255);
         });
 
         modelBuilder.Entity<HourlyLabourType>(entity =>

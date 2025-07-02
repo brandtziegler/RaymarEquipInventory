@@ -489,7 +489,7 @@ namespace RaymarEquipmentInventory.Services
             Log.Information($"✅ Image folder cleanup complete. {fileList.Files.Count} file(s) processed.");
         }
 
-        public async Task<GoogleDriveFolder> PrepareGoogleDriveFoldersAsync(string custPath, string workOrderId)
+        public async Task<DTOs.GoogleDriveFolderDTO> PrepareGoogleDriveFoldersAsync(string custPath, string workOrderId)
         {
             try
             {
@@ -542,7 +542,7 @@ namespace RaymarEquipmentInventory.Services
 
                 Log.Information($"📂 Folder prep complete → WO: {workOrderFolderId}, PDFs: {pdfFolderId}, Images: {imagesFolderId}");
 
-                return new GoogleDriveFolder
+                return new DTOs.GoogleDriveFolderDTO
                 {
                     WorkOrderFolderId = workOrderFolderId,
                     PdfFolderId = pdfFolderId,
@@ -823,7 +823,98 @@ namespace RaymarEquipmentInventory.Services
             return result.Files.FirstOrDefault()?.Id;
         }
 
+
+
         private async Task<string> EnsureFolderExistsAsync(string folderName, string parentId, DriveService driveService)
+        {
+            // 🔍 Step 1: Check local SQL cache
+            var cached = await _context.GoogleDriveFolders
+                .FirstOrDefaultAsync(f => f.FolderName == folderName && f.ParentFolderId == parentId);
+
+            if (cached != null)
+            {
+                Log.Information($"📦 SQL Cache Hit: {folderName} under {parentId} (ID: {cached.FolderId})");
+                return cached.FolderId;
+            }
+
+            // 🔍 Step 2: Hit Google Drive for existing folder (first pass)
+            var listRequest = driveService.Files.List();
+            listRequest.Q = $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and '{parentId}' in parents and trashed=false";
+            listRequest.Fields = "files(id)";
+            var result = await listRequest.ExecuteAsync();
+
+            if (result.Files.Count > 0)
+            {
+                var existingId = result.Files[0].Id;
+                Log.Information($"📁 Found existing folder in Drive: {folderName} under {parentId} (ID: {existingId})");
+
+                // ✅ Save to SQL for next time
+                _context.GoogleDriveFolders.Add(new GoogleDriveFolder
+                {
+                    FolderName = folderName,
+                    ParentFolderId = parentId,
+                    FolderId = existingId,
+                    CreatedAt = DateTime.UtcNow
+                });
+                await _context.SaveChangesAsync();
+
+                return existingId;
+            }
+
+            // 🕒 Step 3: Delay and retry
+            await Task.Delay(750);
+            var retryList = driveService.Files.List();
+            retryList.Q = $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and '{parentId}' in parents and trashed=false";
+            retryList.Fields = "files(id)";
+            var retryResult = await retryList.ExecuteAsync();
+
+            if (retryResult.Files.Count > 0)
+            {
+                var foundAfterDelay = retryResult.Files[0].Id;
+                Log.Warning($"⚠️ Found after delay — race avoided: {folderName} (ID: {foundAfterDelay})");
+
+                _context.GoogleDriveFolders.Add(new GoogleDriveFolder
+                {
+                    FolderName = folderName,
+                    ParentFolderId = parentId,
+                    FolderId = foundAfterDelay,
+                    CreatedAt = DateTime.UtcNow
+                });
+                await _context.SaveChangesAsync();
+
+                return foundAfterDelay;
+            }
+
+            // 🆕 Step 4: Create new folder
+            Log.Information($"📂 Creating new folder in Drive: {folderName} under {parentId}");
+
+            var newFolder = new Google.Apis.Drive.v3.Data.File
+            {
+                Name = folderName,
+                MimeType = "application/vnd.google-apps.folder",
+                Parents = new List<string> { parentId }
+            };
+
+            var createRequest = driveService.Files.Create(newFolder);
+            createRequest.Fields = "id";
+            var created = await createRequest.ExecuteAsync();
+
+            Log.Information($"✅ Folder created: {folderName} (ID: {created.Id})");
+
+            // ✅ Step 5: Store in SQL
+            _context.GoogleDriveFolders.Add(new GoogleDriveFolder
+            {
+                FolderName = folderName,
+                ParentFolderId = parentId,
+                FolderId = created.Id,
+                CreatedAt = DateTime.UtcNow
+            });
+            await _context.SaveChangesAsync();
+
+            return created.Id;
+        }
+
+        private async Task<string> EnsureFolderBackupExistsAsync(string folderName, string parentId, DriveService driveService)
         {
             // First attempt: check if folder already exists
             var listRequest = driveService.Files.List();

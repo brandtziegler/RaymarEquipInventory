@@ -40,6 +40,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[GoogleDriveFolders]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[HourlyLabourType]",
          "ObjectType": 0
       },
