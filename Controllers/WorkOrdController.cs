@@ -106,8 +106,30 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpPost("PrepareDriveFolders")]
+        public async Task<IActionResult> PrepareDriveFolders([FromQuery] string custPath, [FromQuery] string workOrderId)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(custPath) || string.IsNullOrWhiteSpace(workOrderId))
+                {
+                    return BadRequest(new { message = "custPath and workOrderId are required." });
+                }
+
+                var folderResult = await _driveUploaderService.PrepareGoogleDriveFoldersAsync(custPath, workOrderId);
+
+                return Ok(folderResult); // Returns GoogleDriveFolder DTO as JSON
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"🔥 Error in PrepareDriveFolders endpoint for {custPath} / {workOrderId}");
+                return StatusCode(500, new { message = "Failed to prepare Google Drive folders.", error = ex.Message });
+            }
+        }
+
         [HttpPost("UploadAppFiles")]
-        public async Task<IActionResult> UploadAppFiles(List<IFormFile> files, [FromQuery] string custPath, [FromQuery] string workOrderId)
+        public async Task<IActionResult> UploadAppFiles(List<IFormFile> files, [FromQuery] string workOrderId, [FromQuery] string workOrderFolderId, [FromQuery] string pdfFolderId,
+            [FromQuery] string imagesFolderId)
         {
             var result = new
             {
@@ -119,9 +141,15 @@ namespace RaymarEquipmentInventory.Controllers
 
             try
             {
-                var uploads = await _driveUploaderService.UploadFilesAsync(files, custPath, workOrderId);
+                var uploads = await _driveUploaderService.UploadFilesAsync(
+                    files,
+                    workOrderId,
+                    workOrderFolderId,
+                    pdfFolderId,
+                    imagesFolderId
+                );
 
-               foreach (var upload in uploads)
+                foreach (var upload in uploads)
                 {
                     try
                     {

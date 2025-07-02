@@ -1,0 +1,554 @@
+2025-07-02 11:42:50.816 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-07-02 11:42:52.446 -04:00 [INF] Hangfire SQL objects installed.
+2025-07-02 11:42:52.852 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-07-02 11:42:54.184 -04:00 [INF] Now listening on: https://localhost:7150
+2025-07-02 11:42:54.185 -04:00 [INF] Now listening on: http://localhost:5229
+2025-07-02 11:42:54.186 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-07-02 11:42:54.186 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-07-02 11:42:54.187 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-07-02 11:42:54.187 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-07-02 11:42:54.233 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-07-02 11:42:54.234 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-07-02 11:42:54.235 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-07-02 11:42:54.449 -04:00 [DBG] Execution loop BackgroundServerProcess:6566cf5c has started in 209.3671 ms
+2025-07-02 11:42:54.460 -04:00 [DBG] Connection id "0HNDPFSE62G6O" received FIN.
+2025-07-02 11:42:54.536 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-07-02 11:42:54.548 -04:00 [DBG] Connection id "0HNDPFSE62G6O" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-07-02 11:42:54.911 -04:00 [INF] Server bz2024ad:1128:94d28093 successfully announced in 453.0938 ms
+2025-07-02 11:42:54.916 -04:00 [DBG] Execution loop ServerHeartbeatProcess:acde117d has started in 3.923 ms
+2025-07-02 11:42:54.916 -04:00 [INF] Server bz2024ad:1128:94d28093 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-07-02 11:42:54.920 -04:00 [DBG] Execution loop ServerWatchdog:68e63c6c has started in 2.7121 ms
+2025-07-02 11:42:54.923 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:462bf0ee has started in 4.8371 ms
+2025-07-02 11:42:54.926 -04:00 [DBG] Execution loop ExpirationManager:fc25fb2f has started in 4.9364 ms
+2025-07-02 11:42:54.927 -04:00 [DBG] Execution loop CountersAggregator:8d73e666 has started in 4.5656 ms
+2025-07-02 11:42:54.931 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:fdd5fa9b has started in 6.3872 ms
+2025-07-02 11:42:54.935 -04:00 [DBG] Execution loop Worker:33874e5f has started in 7.6548 ms
+2025-07-02 11:42:54.936 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-07-02 11:42:54.936 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-07-02 11:42:54.938 -04:00 [DBG] Execution loop Worker:4b16cdf5 has started in 10.6777 ms
+2025-07-02 11:42:54.942 -04:00 [DBG] Execution loop Worker:d042e963 has started in 14.6485 ms
+2025-07-02 11:42:54.945 -04:00 [DBG] Execution loop Worker:d4f7308d has started in 17.672 ms
+2025-07-02 11:42:54.949 -04:00 [DBG] Execution loop Worker:8ec07d1b has started in 21.9052 ms
+2025-07-02 11:42:54.952 -04:00 [DBG] Execution loop Worker:585315a6 has started in 24.8445 ms
+2025-07-02 11:42:54.955 -04:00 [DBG] Execution loop Worker:d2c67fed has started in 27.4236 ms
+2025-07-02 11:42:54.957 -04:00 [DBG] Execution loop Worker:34851cf4 has started in 30.0925 ms
+2025-07-02 11:42:54.960 -04:00 [DBG] Execution loop Worker:2c42b5f0 has started in 33.006 ms
+2025-07-02 11:42:54.963 -04:00 [DBG] Execution loop Worker:41172c07 has started in 36.0556 ms
+2025-07-02 11:42:54.967 -04:00 [DBG] Execution loop Worker:d062908b has started in 39.0869 ms
+2025-07-02 11:42:54.970 -04:00 [DBG] Execution loop Worker:6ff87c47 has started in 42.0143 ms
+2025-07-02 11:42:54.973 -04:00 [DBG] Execution loop Worker:e235fa5a has started in 45.5503 ms
+2025-07-02 11:42:54.975 -04:00 [DBG] Execution loop Worker:12711805 has started in 47.7121 ms
+2025-07-02 11:42:54.978 -04:00 [DBG] Execution loop Worker:144d2b52 has started in 50.696 ms
+2025-07-02 11:42:54.991 -04:00 [DBG] Execution loop Worker:f864d17d has started in 63.1404 ms
+2025-07-02 11:42:54.993 -04:00 [DBG] Execution loop Worker:75c1d24b has started in 65.7251 ms
+2025-07-02 11:42:54.996 -04:00 [DBG] Execution loop Worker:5ccc4a31 has started in 68.8506 ms
+2025-07-02 11:42:54.999 -04:00 [DBG] Execution loop Worker:762dce36 has started in 71.5663 ms
+2025-07-02 11:42:55.001 -04:00 [DBG] Execution loop Worker:1e1f1887 has started in 73.4049 ms
+2025-07-02 11:42:55.003 -04:00 [DBG] Execution loop DelayedJobScheduler:d65d190b has started in 14.3614 ms
+2025-07-02 11:42:55.006 -04:00 [INF] Server bz2024ad:1128:94d28093 all the dispatchers started
+2025-07-02 11:42:55.009 -04:00 [DBG] Execution loop RecurringJobScheduler:e4fcf62a has started in 3.0925 ms
+2025-07-02 11:42:55.275 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-07-02 11:42:55.577 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-07-02 11:42:55.677 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-07-02 11:42:55.780 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-07-02 11:42:55.790 -04:00 [DBG] Connection 0HNDPFSE62G6P established using the following protocol: "Tls13"
+2025-07-02 11:42:55.858 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2025-07-02 11:42:55.971 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-07-02 11:42:55.994 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-07-02 11:42:55.995 -04:00 [DBG] Request did not match any endpoints
+2025-07-02 11:42:56.063 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-07-02 11:42:56.066 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-07-02 11:42:56.082 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-07-02 11:42:56.083 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-07-02 11:42:56.086 -04:00 [DBG] Connection id "0HNDPFSE62G6P" received FIN.
+2025-07-02 11:42:56.086 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 232.5272ms
+2025-07-02 11:42:56.088 -04:00 [DBG] Connection id "0HNDPFSE62G6P" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-07-02 11:42:56.111 -04:00 [DBG] Connection 0HNDPFSE62G6Q established using the following protocol: "Tls13"
+2025-07-02 11:42:56.115 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2025-07-02 11:42:56.115 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2025-07-02 11:42:56.133 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 18.0539ms
+2025-07-02 11:42:56.227 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 112.6656ms
+2025-07-02 11:42:56.267 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2025-07-02 11:42:56.269 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-07-02 11:42:56.270 -04:00 [DBG] Request did not match any endpoints
+2025-07-02 11:42:56.356 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 89.4767ms
+2025-07-02 11:42:59.088 -04:00 [DBG] Connection id "0HNDPFSE62G6Q" received FIN.
+2025-07-02 11:42:59.089 -04:00 [DBG] Connection id "0HNDPFSE62G6Q" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-07-02 11:43:24.971 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:43:55.015 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:44:25.052 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:44:55.096 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:45:25.145 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:45:55.190 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:46:06.640 -04:00 [DBG] Connection 0HNDPFSE62G6R established using the following protocol: "Tls13"
+2025-07-02 11:46:06.646 -04:00 [INF] Request starting HTTP/2 POST https://localhost:7150/api/WorkOrd/PrepareDriveFolders?custPath=Parkland%20Fuel%20%3E%20Wasaga&workOrderId=709572 - null 0
+2025-07-02 11:46:06.653 -04:00 [DBG] 1 candidate(s) found for the request path '/api/WorkOrd/PrepareDriveFolders'
+2025-07-02 11:46:06.655 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.PrepareDriveFolders (RaymarEquipmentInventory)' with route pattern 'api/WorkOrd/PrepareDriveFolders' is valid for the request path '/api/WorkOrd/PrepareDriveFolders'
+2025-07-02 11:46:06.657 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.PrepareDriveFolders (RaymarEquipmentInventory)'
+2025-07-02 11:46:06.659 -04:00 [DBG] The request has an origin header: 'https://localhost:7150'.
+2025-07-02 11:46:06.660 -04:00 [INF] CORS policy execution successful.
+2025-07-02 11:46:06.662 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-07-02 11:46:06.665 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.PrepareDriveFolders (RaymarEquipmentInventory)'
+2025-07-02 11:46:06.687 -04:00 [INF] Route matched with {action = "PrepareDriveFolders", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] PrepareDriveFolders(System.String, System.String) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2025-07-02 11:46:06.689 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-07-02 11:46:06.690 -04:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-07-02 11:46:06.691 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2025-07-02 11:46:06.692 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-07-02 11:46:06.693 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2025-07-02 11:46:06.695 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-07-02 11:46:07.214 -04:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-07-02 11:46:07.238 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-07-02 11:46:07.256 -04:00 [DBG] Attempting to bind parameter 'custPath' of type 'System.String' ...
+2025-07-02 11:46:07.258 -04:00 [DBG] Attempting to bind parameter 'custPath' of type 'System.String' using the name 'custPath' in request data ...
+2025-07-02 11:46:07.259 -04:00 [DBG] Done attempting to bind parameter 'custPath' of type 'System.String'.
+2025-07-02 11:46:07.260 -04:00 [DBG] Done attempting to bind parameter 'custPath' of type 'System.String'.
+2025-07-02 11:46:07.261 -04:00 [DBG] Attempting to validate the bound parameter 'custPath' of type 'System.String' ...
+2025-07-02 11:46:07.267 -04:00 [DBG] Done attempting to validate the bound parameter 'custPath' of type 'System.String'.
+2025-07-02 11:46:07.268 -04:00 [DBG] Attempting to bind parameter 'workOrderId' of type 'System.String' ...
+2025-07-02 11:46:07.269 -04:00 [DBG] Attempting to bind parameter 'workOrderId' of type 'System.String' using the name 'workOrderId' in request data ...
+2025-07-02 11:46:07.271 -04:00 [DBG] Done attempting to bind parameter 'workOrderId' of type 'System.String'.
+2025-07-02 11:46:07.271 -04:00 [DBG] Done attempting to bind parameter 'workOrderId' of type 'System.String'.
+2025-07-02 11:46:07.272 -04:00 [DBG] Attempting to validate the bound parameter 'workOrderId' of type 'System.String' ...
+2025-07-02 11:46:07.273 -04:00 [DBG] Done attempting to validate the bound parameter 'workOrderId' of type 'System.String'.
+2025-07-02 11:46:07.646 -04:00 [INF] 📁 Preparing Google Drive folders for Parkland Fuel > Wasaga → WorkOrder 709572
+2025-07-02 11:46:13.126 -04:00 [INF] 📂 Folder prep complete → WO: 1l_1R7qMTaDrEHFzDft4TAowENMCdkj0H, PDFs: 1_wHtDwcwO8iHDjcpv5e4qaAKXuUF1m3H, Images: 130ilf6ijlHORo2N-wCTh6N2Mf-_rGqYt
+2025-07-02 11:46:13.141 -04:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-07-02 11:46:13.146 -04:00 [DBG] No information found on request to perform content negotiation.
+2025-07-02 11:46:13.147 -04:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-07-02 11:46:13.148 -04:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-07-02 11:46:13.149 -04:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-07-02 11:46:13.150 -04:00 [INF] Executing OkObjectResult, writing value of type 'RaymarEquipmentInventory.DTOs.GoogleDriveFolder'.
+2025-07-02 11:46:13.157 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.PrepareDriveFolders (RaymarEquipmentInventory) in 6461.85ms
+2025-07-02 11:46:13.158 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.PrepareDriveFolders (RaymarEquipmentInventory)'
+2025-07-02 11:46:13.160 -04:00 [INF] Request finished HTTP/2 POST https://localhost:7150/api/WorkOrd/PrepareDriveFolders?custPath=Parkland%20Fuel%20%3E%20Wasaga&workOrderId=709572 - 200 null application/json; charset=utf-8 6514.9102ms
+2025-07-02 11:46:25.242 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:46:55.287 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:47:25.339 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:47:55.016 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-07-02 11:47:55.384 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:48:07.248 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client 'ISamsaraApiService'
+2025-07-02 11:48:07.248 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client ''
+2025-07-02 11:48:17.256 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:48:17.259 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0407ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:48:25.436 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:48:27.272 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:48:27.273 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0034ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:48:37.285 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:48:37.286 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0024ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:48:47.296 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:48:47.297 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0034ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:48:55.490 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:48:57.306 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:48:57.307 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0024ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:49:07.311 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:49:07.312 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0021ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:49:17.323 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:49:17.324 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0024ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:49:25.529 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:49:27.328 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:49:27.331 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0029ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:49:37.336 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:49:37.338 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0023ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:49:47.344 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:49:47.346 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0026ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:49:55.581 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:49:57.358 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:49:57.360 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0043ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:50:07.374 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:50:07.375 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0021ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:50:17.381 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:50:17.382 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0025ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:50:25.618 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:50:27.384 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:50:27.386 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0057ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:50:37.399 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:50:37.400 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0024ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:50:47.410 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:50:47.412 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0056ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:50:55.660 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:50:57.417 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:50:57.420 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0028ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:51:07.432 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:51:07.433 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.002ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:51:17.448 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:51:17.449 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0014ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:51:25.705 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:51:27.456 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:51:27.459 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0037ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:51:37.471 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:51:37.473 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:51:47.475 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:51:47.477 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0025ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:51:55.745 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:51:57.490 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:51:57.493 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0097ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:52:07.509 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:52:07.510 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0023ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:52:17.519 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:52:17.519 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:52:25.795 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:52:27.526 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:52:27.528 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0019ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:52:37.536 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:52:37.538 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0051ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:52:47.542 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:52:47.544 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0023ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:52:55.058 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-07-02 11:52:55.844 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:52:57.543 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:52:57.544 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0025ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:53:07.551 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:53:07.552 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0019ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:53:17.570 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:53:17.571 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.003ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:53:25.886 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:53:27.580 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:53:27.581 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:53:37.593 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:53:37.595 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:53:47.597 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:53:47.599 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:53:55.926 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:53:57.604 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:53:57.605 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:54:07.612 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:54:07.613 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:54:17.618 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:54:17.619 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0014ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:54:25.979 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:54:27.632 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:54:27.633 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:54:37.635 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:54:37.637 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0014ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:54:47.638 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:54:47.640 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:54:56.032 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:54:57.657 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:54:57.658 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:55:07.657 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:55:07.660 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0026ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:55:17.667 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:55:17.668 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:55:26.074 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:55:27.679 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:55:27.680 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:55:37.683 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:55:37.685 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0013ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:55:47.688 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:55:47.689 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0018ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:55:56.130 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:55:57.705 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:55:57.706 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:56:07.722 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:56:07.724 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:56:17.730 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:56:17.731 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:56:26.185 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:56:27.730 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:56:27.731 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:56:37.746 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:56:37.747 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0014ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:56:47.755 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:56:47.757 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0042ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:56:56.238 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:56:57.773 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:56:57.774 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:57:07.790 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:57:07.791 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0013ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:57:17.796 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:57:17.797 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:57:26.267 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:57:27.803 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:57:27.804 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:57:37.812 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:57:37.814 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0013ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:57:47.824 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:57:47.825 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:57:55.095 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-07-02 11:57:56.321 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:57:57.828 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:57:57.829 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0014ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:58:07.834 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:58:07.837 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0023ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:58:17.847 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:58:17.849 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0021ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:58:26.378 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:58:27.861 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:58:27.864 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0018ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:58:37.873 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:58:37.874 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:58:47.881 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:58:47.882 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0006ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:58:56.429 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:58:57.885 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:58:57.885 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:59:07.890 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:59:07.892 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:59:17.900 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:59:17.901 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0008ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:59:26.470 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:59:27.916 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:59:27.917 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0013ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:59:37.932 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:59:37.934 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0008ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:59:47.940 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:59:47.941 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0007ms - processed: 0 items - remaining: 2 items
+2025-07-02 11:59:56.523 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 11:59:57.955 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 11:59:57.956 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:00:07.964 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:00:07.966 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:00:17.981 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:00:17.982 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:00:26.569 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:00:27.983 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:00:27.984 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0019ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:00:37.989 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:00:37.991 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.002ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:00:48.004 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:00:48.006 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:00:56.614 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:00:58.020 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:00:58.021 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:01:08.034 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:01:08.036 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0008ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:01:18.049 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:01:18.050 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:01:26.661 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:01:28.050 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:01:28.052 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:01:38.066 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:01:38.067 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0023ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:01:48.072 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:01:48.075 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:01:56.731 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:01:58.081 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:01:58.082 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0013ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:02:08.087 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:02:08.089 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:02:18.094 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:02:18.097 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0019ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:02:26.776 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:02:28.105 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:02:28.106 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:02:38.122 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:02:38.123 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0007ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:02:48.137 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:02:48.139 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:02:55.133 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-07-02 12:02:56.831 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:02:58.152 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:02:58.153 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:03:08.172 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:03:08.173 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:03:18.176 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:03:18.178 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:03:26.879 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:03:28.183 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:03:28.185 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0013ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:03:38.195 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:03:38.196 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:03:48.201 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:03:48.202 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:03:56.924 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:03:58.214 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:03:58.215 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0014ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:04:08.221 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:04:08.222 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0013ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:04:18.225 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:04:18.226 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:04:26.977 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:04:28.231 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:04:28.232 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:04:38.245 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:04:38.246 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:04:48.251 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:04:48.255 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:04:57.024 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:04:58.270 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:04:58.272 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0008ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:05:08.285 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:05:08.287 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:05:18.291 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:05:18.292 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:05:27.065 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:05:28.299 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:05:28.301 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:05:38.312 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:05:38.314 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:05:48.322 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:05:48.323 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:05:57.105 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:05:58.330 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:05:58.331 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:06:08.336 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:06:08.338 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:06:18.349 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:06:18.353 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:06:27.158 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:06:28.360 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:06:28.361 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0008ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:06:38.365 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:06:38.366 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:06:48.370 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:06:48.371 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:06:57.200 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:06:58.379 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:06:58.381 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0013ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:07:08.398 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:07:08.399 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0008ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:07:18.407 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:07:18.409 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:07:27.245 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:07:28.413 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:07:28.414 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0008ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:07:38.422 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:07:38.425 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0008ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:07:48.428 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:07:48.429 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:07:55.181 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-07-02 12:07:57.299 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:07:58.435 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:07:58.438 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:08:08.449 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:08:08.452 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:08:18.461 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:08:18.462 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:08:27.355 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:08:28.470 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:08:28.471 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:08:38.484 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:08:38.485 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:08:48.499 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:08:48.501 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:08:57.414 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:08:58.514 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:08:58.516 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:09:08.522 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:09:08.524 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:09:18.537 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:09:18.539 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:09:27.463 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:09:28.552 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:09:28.553 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:09:38.559 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:09:38.560 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:09:48.567 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:09:48.569 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:09:57.510 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:09:58.574 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:09:58.578 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:10:08.580 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:10:08.581 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:10:18.588 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:10:18.594 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:10:27.564 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:10:28.596 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:10:28.598 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:10:38.610 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:10:38.612 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0007ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:10:48.616 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:10:48.619 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:10:57.611 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:10:58.617 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:10:58.618 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:11:08.634 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:11:08.635 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0008ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:11:18.643 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:11:18.644 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:11:27.649 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:11:28.651 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:11:28.652 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:11:38.656 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:11:38.658 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:11:48.665 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:11:48.668 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:11:57.707 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:11:58.674 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:11:58.675 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:12:08.681 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:12:08.683 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:12:18.695 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:12:18.696 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:12:27.760 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:12:28.710 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:12:28.712 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:12:38.719 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:12:38.721 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0019ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:12:48.720 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:12:48.721 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:12:55.228 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-07-02 12:12:55.881 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-07-02 12:12:55.978 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-07-02 12:12:56.077 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-07-02 12:12:56.176 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-07-02 12:12:56.276 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-07-02 12:12:57.802 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:12:58.723 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:12:58.724 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:13:08.730 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:13:08.735 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:13:18.744 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:13:18.745 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:13:27.853 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:13:28.759 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:13:28.761 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:13:38.767 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:13:38.769 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0018ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:13:48.781 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:13:48.783 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:13:57.909 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:13:58.789 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:13:58.791 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:14:08.800 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:14:08.802 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:14:18.812 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:14:18.813 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:14:27.964 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:14:28.826 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:14:28.827 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:14:38.840 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:14:38.841 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:14:48.847 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:14:48.848 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0024ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:14:58.008 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:14:58.855 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:14:58.856 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:15:08.865 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:15:08.868 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:15:18.871 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:15:18.872 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0011ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:15:28.053 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:15:28.879 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:15:28.881 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0007ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:15:38.891 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:15:38.892 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0009ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:15:48.897 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:15:48.900 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0021ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:15:58.097 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:15:58.909 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:15:58.912 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0015ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:16:08.916 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:16:08.918 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.002ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:16:18.930 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:16:18.931 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:16:28.146 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:16:28.946 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:16:28.946 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.001ms - processed: 0 items - remaining: 2 items
+2025-07-02 12:16:38.961 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-02 12:16:38.962 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.3778ms - processed: 2 items - remaining: 0 items
+2025-07-02 12:16:58.187 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:17:28.235 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:17:55.266 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-07-02 12:17:58.289 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:18:28.329 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
+2025-07-02 12:18:58.378 -04:00 [DBG] Server bz2024ad:1128:94d28093 heartbeat successfully sent
