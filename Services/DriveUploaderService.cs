@@ -827,32 +827,17 @@ namespace RaymarEquipmentInventory.Services
 
         private async Task<string> EnsureFolderExistsAsync(string folderName, string parentId, DriveService driveService)
         {
-            // 🔍 Step 1: Check local SQL cache
+            // 🔍 Step 1: Check SQL cache only — no validation
             var cached = await _context.GoogleDriveFolders
                 .FirstOrDefaultAsync(f => f.FolderName == folderName && f.ParentFolderId == parentId);
 
             if (cached != null)
             {
-                try
-                {
-                    var checkRequest = driveService.Files.Get(cached.FolderId);
-                    checkRequest.Fields = "id"; // only need to verify it exists
-                    await checkRequest.ExecuteAsync(); // throws if not found
-
-                    Log.Information($"📦 SQL Cache Verified: {folderName} under {parentId} (ID: {cached.FolderId})");
-                    return cached.FolderId;
-                }
-                catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    Log.Warning($"🗑️ SQL Cache was stale — folder {cached.FolderId} for '{folderName}' under {parentId} no longer exists. Rebuilding...");
-
-                    _context.GoogleDriveFolders.Remove(cached);
-                    await _context.SaveChangesAsync();
-                    // Fall through to Drive list/create logic
-                }
+                Log.Information($"📦 SQL Cache Hit: {folderName} under {parentId} (ID: {cached.FolderId})");
+                return cached.FolderId;
             }
 
-            // 🔍 Step 2: Hit Google Drive for existing folder (first pass)
+            // 🔍 Step 2: Check Drive
             var listRequest = driveService.Files.List();
             listRequest.Q = $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and '{parentId}' in parents and trashed=false";
             listRequest.Fields = "files(id)";
@@ -861,9 +846,8 @@ namespace RaymarEquipmentInventory.Services
             if (result.Files.Count > 0)
             {
                 var existingId = result.Files[0].Id;
-                Log.Information($"📁 Found existing folder in Drive: {folderName} under {parentId} (ID: {existingId})");
+                Log.Information($"📁 Found in Drive: {folderName} under {parentId} (ID: {existingId})");
 
-                // ✅ Save to SQL for next time
                 _context.GoogleDriveFolders.Add(new GoogleDriveFolder
                 {
                     FolderName = folderName,
@@ -876,7 +860,7 @@ namespace RaymarEquipmentInventory.Services
                 return existingId;
             }
 
-            // 🕒 Step 3: Delay and retry
+            // 🕒 Step 3: Delay and retry once
             await Task.Delay(750);
             var retryList = driveService.Files.List();
             retryList.Q = $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and '{parentId}' in parents and trashed=false";
@@ -886,7 +870,7 @@ namespace RaymarEquipmentInventory.Services
             if (retryResult.Files.Count > 0)
             {
                 var foundAfterDelay = retryResult.Files[0].Id;
-                Log.Warning($"⚠️ Found after delay — race avoided: {folderName} (ID: {foundAfterDelay})");
+                Log.Warning($"⚠️ Found after delay: {folderName} (ID: {foundAfterDelay})");
 
                 _context.GoogleDriveFolders.Add(new GoogleDriveFolder
                 {
@@ -900,8 +884,8 @@ namespace RaymarEquipmentInventory.Services
                 return foundAfterDelay;
             }
 
-            // 🆕 Step 4: Create new folder
-            Log.Information($"📂 Creating new folder in Drive: {folderName} under {parentId}");
+            // 🆕 Step 4: Create and cache
+            Log.Information($"📂 Creating new folder: {folderName} under {parentId}");
 
             var newFolder = new Google.Apis.Drive.v3.Data.File
             {
@@ -914,9 +898,8 @@ namespace RaymarEquipmentInventory.Services
             createRequest.Fields = "id";
             var created = await createRequest.ExecuteAsync();
 
-            Log.Information($"✅ Folder created: {folderName} (ID: {created.Id})");
+            Log.Information($"✅ Created folder: {folderName} (ID: {created.Id})");
 
-            // ✅ Step 5: Store in SQL
             _context.GoogleDriveFolders.Add(new GoogleDriveFolder
             {
                 FolderName = folderName,
@@ -928,6 +911,7 @@ namespace RaymarEquipmentInventory.Services
 
             return created.Id;
         }
+
 
 
         private async Task<string> EnsureFolderBackupExistsAsync(string folderName, string parentId, DriveService driveService)
