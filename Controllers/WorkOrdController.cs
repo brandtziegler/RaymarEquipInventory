@@ -118,7 +118,7 @@ namespace RaymarEquipmentInventory.Controllers
                 return BadRequest(new { message = "custPath and workOrderId are required." });
             }
 
-            var key = custPath.Trim().ToLower();
+            var key = custPath.Split('>').First().Trim().ToLower(); // lock on root customer only
             var semaphore = FolderLocks.GetOrAdd(key, _ => new SemaphoreSlim(1, 1));
 
             try
