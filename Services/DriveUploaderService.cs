@@ -833,8 +833,23 @@ namespace RaymarEquipmentInventory.Services
 
             if (cached != null)
             {
-                Log.Information($"📦 SQL Cache Hit: {folderName} under {parentId} (ID: {cached.FolderId})");
-                return cached.FolderId;
+                try
+                {
+                    var checkRequest = driveService.Files.Get(cached.FolderId);
+                    checkRequest.Fields = "id"; // only need to verify it exists
+                    await checkRequest.ExecuteAsync(); // throws if not found
+
+                    Log.Information($"📦 SQL Cache Verified: {folderName} under {parentId} (ID: {cached.FolderId})");
+                    return cached.FolderId;
+                }
+                catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    Log.Warning($"🗑️ SQL Cache was stale — folder {cached.FolderId} for '{folderName}' under {parentId} no longer exists. Rebuilding...");
+
+                    _context.GoogleDriveFolders.Remove(cached);
+                    await _context.SaveChangesAsync();
+                    // Fall through to Drive list/create logic
+                }
             }
 
             // 🔍 Step 2: Hit Google Drive for existing folder (first pass)
@@ -913,6 +928,7 @@ namespace RaymarEquipmentInventory.Services
 
             return created.Id;
         }
+
 
         private async Task<string> EnsureFolderBackupExistsAsync(string folderName, string parentId, DriveService driveService)
         {
