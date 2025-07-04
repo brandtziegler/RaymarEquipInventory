@@ -424,7 +424,7 @@ namespace RaymarEquipmentInventory.Services
 
             Log.Information("🧭 Resolving folder path for image cleanup...");
 
-            string rootFolderId = "1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk";
+            string rootFolderId = "1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7";
             string[] pathSegments = custPath.Split('>');
             string? currentParentId = rootFolderId;
 
@@ -527,7 +527,7 @@ namespace RaymarEquipmentInventory.Services
                     ApplicationName = "TaskFuelUploader"
                 });
 
-                string rootFolderId = "1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk"; // Adjust if needed
+                string rootFolderId = "1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7"; // Adjust if needed
                 string[] pathSegments = custPath.Split('>');
                 string currentParentId = rootFolderId;
 
@@ -718,7 +718,7 @@ namespace RaymarEquipmentInventory.Services
                 });
 
                 Log.Information("Ensuring folder structure exists...");
-                string rootFolderId = "1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk";
+                string rootFolderId = "1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7";
                 string[] pathSegments = custPath.Split('>');
                 string currentParentId = rootFolderId;
 

@@ -291,7 +291,7 @@ namespace RaymarEquipmentInventory.Controllers
                     <p><strong>Description:</strong> {dto.WorkDescription}</p>
                     <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Firebase & Azure SQL.</p>
                     <p>You can view the uploaded files here:<br>
-                    <a href='https://drive.google.com/drive/folders/1adqdzJVDVqdMB6_MSuweBYG8nlr4ASVk'>
+                    <a href='https://drive.google.com/drive/folders/1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7'>
                         View WO#{dto.WorkOrderNumber} Files on Google Drive for  {dto.CustPath}
                     </a></p>
                     <p><em>Login Email:</em> raymardeveloper@gmail.com<br>
