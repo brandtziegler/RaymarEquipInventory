@@ -18,7 +18,7 @@ using System.Text;
 using Google.Apis.Download;
 using Microsoft.Data.SqlClient;
 using Google.Apis.Upload;
-
+using Google.Apis.Drive.v3.Data; // 👈 This is where `Permission` lives
 namespace RaymarEquipmentInventory.Services
 {
     public class DriveUploaderService : IDriveUploaderService
@@ -539,6 +539,27 @@ namespace RaymarEquipmentInventory.Services
                 string workOrderFolderId = await EnsureFolderExistsAsync(workOrderId, currentParentId, driveService);
                 string pdfFolderId = await EnsureFolderExistsAsync("PDFs", workOrderFolderId, driveService);
                 string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId, driveService);
+
+                await driveService.Permissions.Create(new Permission
+                {
+                    Type = "user",
+                    Role = "writer", // or "reader" if you prefer
+                    EmailAddress = "taskfuel.files@gmail.com"
+                }, workOrderFolderId).ExecuteAsync();
+
+                await driveService.Permissions.Create(new Permission
+                {
+                    Type = "user",
+                    Role = "writer", // or "reader" if you prefer
+                    EmailAddress = "taskfuel.files@gmail.com"
+                }, pdfFolderId).ExecuteAsync();
+
+                await driveService.Permissions.Create(new Permission
+                {
+                    Type = "user",
+                    Role = "writer", // or "reader" if you prefer
+                    EmailAddress = "taskfuel.files@gmail.com"
+                }, imagesFolderId).ExecuteAsync();
 
                 Log.Information($"📂 Folder prep complete → WO: {workOrderFolderId}, PDFs: {pdfFolderId}, Images: {imagesFolderId}");
 

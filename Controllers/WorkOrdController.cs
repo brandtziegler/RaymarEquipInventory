@@ -126,6 +126,7 @@ namespace RaymarEquipmentInventory.Controllers
                 await semaphore.WaitAsync();
 
                 var folderResult = await _driveUploaderService.PrepareGoogleDriveFoldersAsync(custPath, workOrderId);
+
                 folderResult.SheetID = sheetID;
                 return Ok(folderResult); // Returns GoogleDriveFolder DTO as JSON
             }
