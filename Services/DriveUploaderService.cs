@@ -535,31 +535,15 @@ namespace RaymarEquipmentInventory.Services
                 {
                     currentParentId = await EnsureFolderExistsAsync(segment.Trim(), currentParentId, driveService);
                 }
-
+                await driveService.Permissions.Create(new Permission
+                {
+                    Type = "user",
+                    Role = "writer", // or "reader" if you prefer
+                    EmailAddress = "taskfuel.files@gmail.com"
+                }, currentParentId).ExecuteAsync();
                 string workOrderFolderId = await EnsureFolderExistsAsync(workOrderId, currentParentId, driveService);
                 string pdfFolderId = await EnsureFolderExistsAsync("PDFs", workOrderFolderId, driveService);
                 string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId, driveService);
-
-                await driveService.Permissions.Create(new Permission
-                {
-                    Type = "user",
-                    Role = "writer", // or "reader" if you prefer
-                    EmailAddress = "taskfuel.files@gmail.com"
-                }, workOrderFolderId).ExecuteAsync();
-
-                await driveService.Permissions.Create(new Permission
-                {
-                    Type = "user",
-                    Role = "writer", // or "reader" if you prefer
-                    EmailAddress = "taskfuel.files@gmail.com"
-                }, pdfFolderId).ExecuteAsync();
-
-                await driveService.Permissions.Create(new Permission
-                {
-                    Type = "user",
-                    Role = "writer", // or "reader" if you prefer
-                    EmailAddress = "taskfuel.files@gmail.com"
-                }, imagesFolderId).ExecuteAsync();
 
                 Log.Information($"📂 Folder prep complete → WO: {workOrderFolderId}, PDFs: {pdfFolderId}, Images: {imagesFolderId}");
 
@@ -979,6 +963,12 @@ namespace RaymarEquipmentInventory.Services
             var created = await createRequest.ExecuteAsync();
 
             Log.Information($"✅ Created folder '{folderName}' (ID: {created.Id})");
+            await driveService.Permissions.Create(new Permission
+            {
+                Type = "user",
+                Role = "writer",
+                EmailAddress = "taskfuel.files@gmail.com"
+            }, created.Id).ExecuteAsync();
             return created.Id;
         }
 
