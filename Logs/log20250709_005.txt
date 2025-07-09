@@ -1,0 +1,156 @@
+2025-07-09 17:07:23.065 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-09 17:07:23.091 -04:00 [INF] Hosting environment: Development
+2025-07-09 17:07:23.092 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2025-07-09 17:24:04.431 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-07-09 17:24:05.357 -04:00 [INF] Hangfire SQL objects installed.
+2025-07-09 17:24:05.467 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-07-09 17:24:06.101 -04:00 [INF] Now listening on: https://localhost:7150
+2025-07-09 17:24:06.102 -04:00 [INF] Now listening on: http://localhost:5229
+2025-07-09 17:24:06.103 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-07-09 17:24:06.103 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-07-09 17:24:06.104 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-07-09 17:24:06.105 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-07-09 17:24:06.141 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-07-09 17:24:06.142 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-07-09 17:24:06.143 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-07-09 17:24:06.153 -04:00 [DBG] Execution loop BackgroundServerProcess:0fdc025d has started in 5.1635 ms
+2025-07-09 17:24:06.317 -04:00 [INF] Server bz2024ad:11580:c8923932 successfully announced in 157.8078 ms
+2025-07-09 17:24:06.322 -04:00 [DBG] Execution loop ServerHeartbeatProcess:5306320a has started in 3.36 ms
+2025-07-09 17:24:06.322 -04:00 [INF] Server bz2024ad:11580:c8923932 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-07-09 17:24:06.326 -04:00 [DBG] Execution loop ServerWatchdog:00e5cfb9 has started in 2.639 ms
+2025-07-09 17:24:06.328 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:3da55ba5 has started in 5.0896 ms
+2025-07-09 17:24:06.331 -04:00 [DBG] Execution loop ExpirationManager:dce2c6e9 has started in 4.3668 ms
+2025-07-09 17:24:06.334 -04:00 [DBG] Execution loop CountersAggregator:e45c0062 has started in 4.9368 ms
+2025-07-09 17:24:06.337 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:13757621 has started in 5.4949 ms
+2025-07-09 17:24:06.379 -04:00 [DBG] Execution loop Worker:488322e4 has started in 45.3063 ms
+2025-07-09 17:24:06.379 -04:00 [DBG] Execution loop Worker:8f5e7e87 has started in 45.3063 ms
+2025-07-09 17:24:06.389 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-07-09 17:24:06.394 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-07-09 17:24:06.384 -04:00 [DBG] Execution loop Worker:81381e10 has started in 48.8645 ms
+2025-07-09 17:24:06.386 -04:00 [DBG] Execution loop Worker:495af4fe has started in 52.0987 ms
+2025-07-09 17:24:06.388 -04:00 [DBG] Execution loop Worker:41f4c2d1 has started in 53.7617 ms
+2025-07-09 17:24:06.391 -04:00 [DBG] Execution loop Worker:b29665a8 has started in 56.333 ms
+2025-07-09 17:24:06.393 -04:00 [DBG] Execution loop Worker:5f5116ef has started in 58.8147 ms
+2025-07-09 17:24:06.395 -04:00 [DBG] Execution loop Worker:b7b2f890 has started in 61.6698 ms
+2025-07-09 17:24:06.398 -04:00 [DBG] Execution loop Worker:a3833d8c has started in 64.6111 ms
+2025-07-09 17:24:06.414 -04:00 [DBG] Connection id "0HNDV5RNO02KO" received FIN.
+2025-07-09 17:24:06.416 -04:00 [INF] 1 servers were removed due to timeout
+2025-07-09 17:24:06.401 -04:00 [DBG] Execution loop Worker:4b5a4642 has started in 67.3455 ms
+2025-07-09 17:24:06.404 -04:00 [DBG] Execution loop Worker:0e190571 has started in 69.8192 ms
+2025-07-09 17:24:06.407 -04:00 [DBG] Execution loop Worker:9847c10d has started in 72.5092 ms
+2025-07-09 17:24:06.410 -04:00 [DBG] Execution loop Worker:6bc6854f has started in 75.9498 ms
+2025-07-09 17:24:06.411 -04:00 [DBG] Execution loop Worker:6cd2acf4 has started in 77.6809 ms
+2025-07-09 17:24:06.435 -04:00 [INF] Server bz2024ad:11580:c8923932 all the dispatchers started
+2025-07-09 17:24:06.414 -04:00 [DBG] Execution loop Worker:6ed03fb0 has started in 80.384 ms
+2025-07-09 17:24:06.418 -04:00 [DBG] Execution loop Worker:7b2f8b3a has started in 84.3021 ms
+2025-07-09 17:24:06.422 -04:00 [DBG] Execution loop Worker:65ea62f8 has started in 87.8153 ms
+2025-07-09 17:24:06.423 -04:00 [DBG] Execution loop Worker:73f58c43 has started in 89.4803 ms
+2025-07-09 17:24:06.426 -04:00 [DBG] Execution loop Worker:fc19e349 has started in 92.0849 ms
+2025-07-09 17:24:06.431 -04:00 [DBG] Execution loop Worker:39deb3fd has started in 97.5048 ms
+2025-07-09 17:24:06.436 -04:00 [DBG] Execution loop DelayedJobScheduler:081446e2 has started in 8.4667 ms
+2025-07-09 17:24:06.438 -04:00 [DBG] Execution loop RecurringJobScheduler:5d736385 has started in 6.6273 ms
+2025-07-09 17:24:06.516 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-07-09 17:24:06.525 -04:00 [DBG] Connection id "0HNDV5RNO02KO" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-07-09 17:24:06.576 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-07-09 17:24:06.990 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-07-09 17:24:07.122 -04:00 [DBG] Connection 0HNDV5RNO02KP established using the following protocol: "Tls13"
+2025-07-09 17:24:07.133 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-07-09 17:24:07.170 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2025-07-09 17:24:07.246 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-07-09 17:24:07.288 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-07-09 17:24:07.310 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-07-09 17:24:07.312 -04:00 [DBG] Request did not match any endpoints
+2025-07-09 17:24:07.347 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-07-09 17:24:07.349 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-07-09 17:24:07.361 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-07-09 17:24:07.362 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-07-09 17:24:07.365 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 199.0675ms
+2025-07-09 17:24:07.389 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2025-07-09 17:24:07.389 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2025-07-09 17:24:07.402 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 13.4908ms
+2025-07-09 17:24:07.430 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 41.0006ms
+2025-07-09 17:24:07.537 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2025-07-09 17:24:07.539 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-07-09 17:24:07.540 -04:00 [DBG] Request did not match any endpoints
+2025-07-09 17:24:07.608 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 71.4067ms
+2025-07-09 17:24:10.304 -04:00 [DBG] Connection id "0HNDV5RNO02KP" received FIN.
+2025-07-09 17:24:10.305 -04:00 [DBG] Connection id "0HNDV5RNO02KP" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-07-09 17:24:36.390 -04:00 [DBG] Server bz2024ad:11580:c8923932 heartbeat successfully sent
+2025-07-09 17:25:06.443 -04:00 [DBG] Server bz2024ad:11580:c8923932 heartbeat successfully sent
+2025-07-09 17:25:30.923 -04:00 [DBG] Connection 0HNDV5RNO02KQ established using the following protocol: "Tls13"
+2025-07-09 17:25:30.925 -04:00 [INF] Request starting HTTP/2 POST https://localhost:7150/api/WorkOrd/ClearAppFiles?custPath=Brandt%20%3E%20One&workOrderId=97080 - null 0
+2025-07-09 17:25:30.931 -04:00 [DBG] 1 candidate(s) found for the request path '/api/WorkOrd/ClearAppFiles'
+2025-07-09 17:25:30.933 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.ClearAppFiles (RaymarEquipmentInventory)' with route pattern 'api/WorkOrd/ClearAppFiles' is valid for the request path '/api/WorkOrd/ClearAppFiles'
+2025-07-09 17:25:30.934 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.ClearAppFiles (RaymarEquipmentInventory)'
+2025-07-09 17:25:30.937 -04:00 [DBG] The request has an origin header: 'https://localhost:7150'.
+2025-07-09 17:25:30.938 -04:00 [INF] CORS policy execution successful.
+2025-07-09 17:25:30.939 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-07-09 17:25:30.941 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.ClearAppFiles (RaymarEquipmentInventory)'
+2025-07-09 17:25:30.957 -04:00 [INF] Route matched with {action = "ClearAppFiles", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ClearAppFiles(System.String, System.String) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2025-07-09 17:25:30.959 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-07-09 17:25:30.960 -04:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-07-09 17:25:30.961 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2025-07-09 17:25:30.962 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-07-09 17:25:30.963 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2025-07-09 17:25:30.965 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-07-09 17:25:31.310 -04:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-07-09 17:25:31.329 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-07-09 17:25:31.342 -04:00 [DBG] Attempting to bind parameter 'custPath' of type 'System.String' ...
+2025-07-09 17:25:31.345 -04:00 [DBG] Attempting to bind parameter 'custPath' of type 'System.String' using the name 'custPath' in request data ...
+2025-07-09 17:25:31.347 -04:00 [DBG] Done attempting to bind parameter 'custPath' of type 'System.String'.
+2025-07-09 17:25:31.347 -04:00 [DBG] Done attempting to bind parameter 'custPath' of type 'System.String'.
+2025-07-09 17:25:31.348 -04:00 [DBG] Attempting to validate the bound parameter 'custPath' of type 'System.String' ...
+2025-07-09 17:25:31.352 -04:00 [DBG] Done attempting to validate the bound parameter 'custPath' of type 'System.String'.
+2025-07-09 17:25:31.353 -04:00 [DBG] Attempting to bind parameter 'workOrderId' of type 'System.String' ...
+2025-07-09 17:25:31.354 -04:00 [DBG] Attempting to bind parameter 'workOrderId' of type 'System.String' using the name 'workOrderId' in request data ...
+2025-07-09 17:25:31.356 -04:00 [DBG] Done attempting to bind parameter 'workOrderId' of type 'System.String'.
+2025-07-09 17:25:31.356 -04:00 [DBG] Done attempting to bind parameter 'workOrderId' of type 'System.String'.
+2025-07-09 17:25:31.357 -04:00 [DBG] Attempting to validate the bound parameter 'workOrderId' of type 'System.String' ...
+2025-07-09 17:25:31.358 -04:00 [DBG] Done attempting to validate the bound parameter 'workOrderId' of type 'System.String'.
+2025-07-09 17:25:46.131 -04:00 [INF] 🧭 Resolving folder path for image cleanup...
+2025-07-09 17:25:46.169 -04:00 [DBG] Server bz2024ad:11580:c8923932 heartbeat successfully sent
+2025-07-09 17:25:48.162 -04:00 [INF] 🧼 Fetching files in 'Images' folder for deletion...
+2025-07-09 17:25:48.460 -04:00 [WRN] 🚫 Skipping file not owned by expected identity: BottlePens.PNG (Owner: unknown)
+2025-07-09 17:25:48.461 -04:00 [INF] ✅ Image folder cleanup complete. 1 file(s) processed.
+2025-07-09 17:25:48.464 -04:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-07-09 17:25:48.466 -04:00 [DBG] No information found on request to perform content negotiation.
+2025-07-09 17:25:48.467 -04:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-07-09 17:25:48.467 -04:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-07-09 17:25:48.468 -04:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-07-09 17:25:48.470 -04:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-09 17:25:48.478 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.ClearAppFiles (RaymarEquipmentInventory) in 17510.4783ms
+2025-07-09 17:25:48.480 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.ClearAppFiles (RaymarEquipmentInventory)'
+2025-07-09 17:25:48.483 -04:00 [INF] Request finished HTTP/2 POST https://localhost:7150/api/WorkOrd/ClearAppFiles?custPath=Brandt%20%3E%20One&workOrderId=97080 - 200 null application/json; charset=utf-8 17557.5072ms
+2025-07-09 17:26:16.214 -04:00 [DBG] Server bz2024ad:11580:c8923932 heartbeat successfully sent
+2025-07-09 17:26:46.266 -04:00 [DBG] Server bz2024ad:11580:c8923932 heartbeat successfully sent
+2025-07-09 17:27:16.314 -04:00 [DBG] Server bz2024ad:11580:c8923932 heartbeat successfully sent
+2025-07-09 17:27:31.338 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client ''
+2025-07-09 17:27:31.338 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client 'ISamsaraApiService'
+2025-07-09 17:27:41.351 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-09 17:27:41.354 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0453ms - processed: 0 items - remaining: 2 items
+2025-07-09 17:27:46.365 -04:00 [DBG] Server bz2024ad:11580:c8923932 heartbeat successfully sent
+2025-07-09 17:27:51.367 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-09 17:27:51.368 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0033ms - processed: 0 items - remaining: 2 items
+2025-07-09 17:28:01.372 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-09 17:28:01.372 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0029ms - processed: 0 items - remaining: 2 items
+2025-07-09 17:28:11.385 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-09 17:28:11.386 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0029ms - processed: 0 items - remaining: 2 items
+2025-07-09 17:28:16.408 -04:00 [DBG] Server bz2024ad:11580:c8923932 heartbeat successfully sent
+2025-07-09 17:28:21.403 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-09 17:28:21.403 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0025ms - processed: 0 items - remaining: 2 items
+2025-07-09 17:28:31.406 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-09 17:28:31.407 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0033ms - processed: 0 items - remaining: 2 items
+2025-07-09 17:28:41.421 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-09 17:28:41.422 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.003ms - processed: 0 items - remaining: 2 items
+2025-07-09 17:28:46.462 -04:00 [DBG] Server bz2024ad:11580:c8923932 heartbeat successfully sent
+2025-07-09 17:28:51.439 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-09 17:28:51.440 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0025ms - processed: 0 items - remaining: 2 items

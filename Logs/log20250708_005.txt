@@ -1,0 +1,244 @@
+2025-07-08 13:28:22.201 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-08 13:28:22.242 -04:00 [INF] Hosting environment: Development
+2025-07-08 13:28:22.243 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2025-07-08 13:38:43.534 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-07-08 13:38:44.473 -04:00 [INF] Hangfire SQL objects installed.
+2025-07-08 13:38:44.574 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-07-08 13:38:45.029 -04:00 [INF] Now listening on: https://localhost:7150
+2025-07-08 13:38:45.030 -04:00 [INF] Now listening on: http://localhost:5229
+2025-07-08 13:38:45.031 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-07-08 13:38:45.032 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-07-08 13:38:45.033 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-07-08 13:38:45.033 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-07-08 13:38:45.071 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-07-08 13:38:45.072 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-07-08 13:38:45.073 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-07-08 13:38:45.081 -04:00 [DBG] Execution loop BackgroundServerProcess:58ac18c0 has started in 3.9202 ms
+2025-07-08 13:38:45.235 -04:00 [INF] Server bz2024ad:36736:a8195bd7 successfully announced in 145.6072 ms
+2025-07-08 13:38:45.241 -04:00 [DBG] Execution loop ServerHeartbeatProcess:08ed0029 has started in 3.8167 ms
+2025-07-08 13:38:45.241 -04:00 [INF] Server bz2024ad:36736:a8195bd7 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-07-08 13:38:45.245 -04:00 [DBG] Execution loop ServerWatchdog:ac180ecb has started in 3.5292 ms
+2025-07-08 13:38:45.248 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:4ad03f3e has started in 6.0781 ms
+2025-07-08 13:38:45.252 -04:00 [DBG] Execution loop ExpirationManager:8dbf4674 has started in 5.7238 ms
+2025-07-08 13:38:45.256 -04:00 [DBG] Execution loop CountersAggregator:a74c879e has started in 7.0749 ms
+2025-07-08 13:38:45.280 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:a0ae3a3e has started in 27.2392 ms
+2025-07-08 13:38:45.282 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-07-08 13:38:45.292 -04:00 [DBG] Execution loop Worker:383ae61f has started in 37.0214 ms
+2025-07-08 13:38:45.288 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-07-08 13:38:45.287 -04:00 [DBG] Execution loop Worker:2ccf8555 has started in 31.4696 ms
+2025-07-08 13:38:45.290 -04:00 [DBG] Execution loop Worker:e4304d22 has started in 34.3655 ms
+2025-07-08 13:38:45.296 -04:00 [DBG] Execution loop Worker:536b6c62 has started in 41.2665 ms
+2025-07-08 13:38:45.300 -04:00 [DBG] Execution loop Worker:12660c37 has started in 44.4097 ms
+2025-07-08 13:38:45.303 -04:00 [DBG] Execution loop Worker:9dd1bae3 has started in 47.6488 ms
+2025-07-08 13:38:45.305 -04:00 [DBG] Execution loop Worker:29d3ba2b has started in 49.7242 ms
+2025-07-08 13:38:45.308 -04:00 [DBG] Execution loop Worker:329a41c0 has started in 53.0845 ms
+2025-07-08 13:38:45.311 -04:00 [DBG] Execution loop Worker:ff99b385 has started in 56.134 ms
+2025-07-08 13:38:45.315 -04:00 [DBG] Execution loop Worker:661b38b7 has started in 59.216 ms
+2025-07-08 13:38:45.319 -04:00 [DBG] Execution loop Worker:dcc7ec28 has started in 63.6405 ms
+2025-07-08 13:38:45.323 -04:00 [DBG] Execution loop Worker:93611a09 has started in 67.333 ms
+2025-07-08 13:38:45.326 -04:00 [DBG] Execution loop Worker:06cc71a2 has started in 70.4449 ms
+2025-07-08 13:38:45.329 -04:00 [DBG] Execution loop Worker:43b530da has started in 73.5696 ms
+2025-07-08 13:38:45.332 -04:00 [DBG] Execution loop Worker:d59bdbdf has started in 76.4469 ms
+2025-07-08 13:38:45.335 -04:00 [DBG] Execution loop Worker:9f827fe9 has started in 79.8114 ms
+2025-07-08 13:38:45.338 -04:00 [DBG] Execution loop Worker:31d0858d has started in 82.8771 ms
+2025-07-08 13:38:45.342 -04:00 [DBG] Execution loop Worker:78086d6c has started in 86.3748 ms
+2025-07-08 13:38:45.349 -04:00 [DBG] Execution loop Worker:2c8907ea has started in 89.5747 ms
+2025-07-08 13:38:45.349 -04:00 [DBG] Execution loop Worker:4600aafe has started in 93.9397 ms
+2025-07-08 13:38:45.354 -04:00 [DBG] Execution loop DelayedJobScheduler:0fcd5b6f has started in 9.4844 ms
+2025-07-08 13:38:45.358 -04:00 [INF] Server bz2024ad:36736:a8195bd7 all the dispatchers started
+2025-07-08 13:38:45.358 -04:00 [DBG] Execution loop RecurringJobScheduler:351bceef has started in 8.4905 ms
+2025-07-08 13:38:45.485 -04:00 [DBG] Connection id "0HNDU8P4VMUGH" received FIN.
+2025-07-08 13:38:45.485 -04:00 [DBG] Connection id "0HNDU8P4VMUGG" received FIN.
+2025-07-08 13:38:45.623 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-07-08 13:38:45.623 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-07-08 13:38:45.633 -04:00 [DBG] Connection id "0HNDU8P4VMUGG" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-07-08 13:38:45.633 -04:00 [DBG] Connection id "0HNDU8P4VMUGH" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-07-08 13:38:45.686 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-07-08 13:38:45.934 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-07-08 13:38:46.060 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-07-08 13:38:46.124 -04:00 [DBG] Connection 0HNDU8P4VMUGI established using the following protocol: "Tls13"
+2025-07-08 13:38:46.157 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-07-08 13:38:46.187 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/index.html - null null
+2025-07-08 13:38:46.302 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-07-08 13:38:46.319 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-07-08 13:38:46.320 -04:00 [DBG] Request did not match any endpoints
+2025-07-08 13:38:46.437 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-07-08 13:38:46.439 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-07-08 13:38:46.457 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-07-08 13:38:46.459 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-07-08 13:38:46.462 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/index.html - 200 null text/html;charset=utf-8 281.1898ms
+2025-07-08 13:38:46.471 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_vs/browserLink - null null
+2025-07-08 13:38:46.471 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - null null
+2025-07-08 13:38:46.483 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 12.1365ms
+2025-07-08 13:38:46.502 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/_vs/browserLink - 200 null text/javascript; charset=UTF-8 31.2622ms
+2025-07-08 13:38:46.610 -04:00 [INF] Request starting HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - null null
+2025-07-08 13:38:46.612 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-07-08 13:38:46.613 -04:00 [DBG] Request did not match any endpoints
+2025-07-08 13:38:46.687 -04:00 [INF] Request finished HTTP/2 GET https://localhost:7150/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 76.6175ms
+2025-07-08 13:38:49.380 -04:00 [DBG] Connection id "0HNDU8P4VMUGI" received FIN.
+2025-07-08 13:38:49.382 -04:00 [DBG] Connection id "0HNDU8P4VMUGI" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-07-08 13:39:15.298 -04:00 [DBG] Server bz2024ad:36736:a8195bd7 heartbeat successfully sent
+2025-07-08 13:39:45.339 -04:00 [DBG] Server bz2024ad:36736:a8195bd7 heartbeat successfully sent
+2025-07-08 13:40:15.387 -04:00 [DBG] Server bz2024ad:36736:a8195bd7 heartbeat successfully sent
+2025-07-08 13:40:27.692 -04:00 [DBG] Connection 0HNDU8P4VMUGJ established using the following protocol: "Tls13"
+2025-07-08 13:40:27.694 -04:00 [INF] Request starting HTTP/2 POST https://localhost:7150/api/WorkOrd/UploadAppFiles?workOrderId=22868&workOrderFolderId=1umMDnIXOf2m28IM51NqPp-Kgivh73_u_&pdfFolderId=14fyhJ2ukb1pnUAfkKXb_ShNGDys4aJFm&imagesFolderId=10V0mdOKsqOdyKiizFKFxhgher6065k1l - multipart/form-data; boundary=----WebKitFormBoundaryEs0WqSE7dgT8vMrP 2554296
+2025-07-08 13:40:27.703 -04:00 [DBG] 1 candidate(s) found for the request path '/api/WorkOrd/UploadAppFiles'
+2025-07-08 13:40:27.706 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFiles (RaymarEquipmentInventory)' with route pattern 'api/WorkOrd/UploadAppFiles' is valid for the request path '/api/WorkOrd/UploadAppFiles'
+2025-07-08 13:40:27.707 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFiles (RaymarEquipmentInventory)'
+2025-07-08 13:40:27.709 -04:00 [DBG] The request has an origin header: 'https://localhost:7150'.
+2025-07-08 13:40:27.710 -04:00 [INF] CORS policy execution successful.
+2025-07-08 13:40:27.712 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-07-08 13:40:27.714 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFiles (RaymarEquipmentInventory)'
+2025-07-08 13:40:27.731 -04:00 [INF] Route matched with {action = "UploadAppFiles", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAppFiles(System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile], System.String, System.String, System.String, System.String) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2025-07-08 13:40:27.733 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-07-08 13:40:27.734 -04:00 [DBG] Execution plan of resource filters (in the following order): ["Microsoft.AspNetCore.Mvc.ConsumesAttribute"]
+2025-07-08 13:40:27.735 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2025-07-08 13:40:27.736 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-07-08 13:40:27.737 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2025-07-08 13:40:27.740 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-07-08 13:40:28.166 -04:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-07-08 13:40:28.202 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-07-08 13:40:28.282 -04:00 [DBG] Attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' ...
+2025-07-08 13:40:28.284 -04:00 [DBG] Attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' using the name 'files' in request data ...
+2025-07-08 13:40:28.286 -04:00 [DBG] Done attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-07-08 13:40:28.287 -04:00 [DBG] Done attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-07-08 13:40:28.287 -04:00 [DBG] Attempting to validate the bound parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' ...
+2025-07-08 13:40:28.293 -04:00 [DBG] Done attempting to validate the bound parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-07-08 13:40:28.295 -04:00 [DBG] Attempting to bind parameter 'workOrderId' of type 'System.String' ...
+2025-07-08 13:40:28.296 -04:00 [DBG] Attempting to bind parameter 'workOrderId' of type 'System.String' using the name 'workOrderId' in request data ...
+2025-07-08 13:40:28.298 -04:00 [DBG] Done attempting to bind parameter 'workOrderId' of type 'System.String'.
+2025-07-08 13:40:28.299 -04:00 [DBG] Done attempting to bind parameter 'workOrderId' of type 'System.String'.
+2025-07-08 13:40:28.299 -04:00 [DBG] Attempting to validate the bound parameter 'workOrderId' of type 'System.String' ...
+2025-07-08 13:40:28.301 -04:00 [DBG] Done attempting to validate the bound parameter 'workOrderId' of type 'System.String'.
+2025-07-08 13:40:28.301 -04:00 [DBG] Attempting to bind parameter 'workOrderFolderId' of type 'System.String' ...
+2025-07-08 13:40:28.302 -04:00 [DBG] Attempting to bind parameter 'workOrderFolderId' of type 'System.String' using the name 'workOrderFolderId' in request data ...
+2025-07-08 13:40:28.303 -04:00 [DBG] Done attempting to bind parameter 'workOrderFolderId' of type 'System.String'.
+2025-07-08 13:40:28.304 -04:00 [DBG] Done attempting to bind parameter 'workOrderFolderId' of type 'System.String'.
+2025-07-08 13:40:28.304 -04:00 [DBG] Attempting to validate the bound parameter 'workOrderFolderId' of type 'System.String' ...
+2025-07-08 13:40:28.305 -04:00 [DBG] Done attempting to validate the bound parameter 'workOrderFolderId' of type 'System.String'.
+2025-07-08 13:40:28.306 -04:00 [DBG] Attempting to bind parameter 'pdfFolderId' of type 'System.String' ...
+2025-07-08 13:40:28.306 -04:00 [DBG] Attempting to bind parameter 'pdfFolderId' of type 'System.String' using the name 'pdfFolderId' in request data ...
+2025-07-08 13:40:28.307 -04:00 [DBG] Done attempting to bind parameter 'pdfFolderId' of type 'System.String'.
+2025-07-08 13:40:28.308 -04:00 [DBG] Done attempting to bind parameter 'pdfFolderId' of type 'System.String'.
+2025-07-08 13:40:28.309 -04:00 [DBG] Attempting to validate the bound parameter 'pdfFolderId' of type 'System.String' ...
+2025-07-08 13:40:28.310 -04:00 [DBG] Done attempting to validate the bound parameter 'pdfFolderId' of type 'System.String'.
+2025-07-08 13:40:28.311 -04:00 [DBG] Attempting to bind parameter 'imagesFolderId' of type 'System.String' ...
+2025-07-08 13:40:28.311 -04:00 [DBG] Attempting to bind parameter 'imagesFolderId' of type 'System.String' using the name 'imagesFolderId' in request data ...
+2025-07-08 13:40:28.312 -04:00 [DBG] Done attempting to bind parameter 'imagesFolderId' of type 'System.String'.
+2025-07-08 13:40:28.313 -04:00 [DBG] Done attempting to bind parameter 'imagesFolderId' of type 'System.String'.
+2025-07-08 13:40:28.314 -04:00 [DBG] Attempting to validate the bound parameter 'imagesFolderId' of type 'System.String' ...
+2025-07-08 13:40:28.315 -04:00 [DBG] Done attempting to validate the bound parameter 'imagesFolderId' of type 'System.String'.
+2025-07-08 13:40:28.512 -04:00 [INF] 📦 Uploading 4 file(s) to pre-created Google Drive folders...
+2025-07-08 13:40:28.515 -04:00 [INF] Machine UTC Time: 2025-07-08T17:40:28.5151456Z
+2025-07-08 13:40:28.515 -04:00 [INF] Machine Local Time: 2025-07-08T13:40:28.5158635-04:00
+2025-07-08 13:40:28.516 -04:00 [INF] 📂 Incoming file: CriticalLifting.pdf (380111 bytes, ContentType: application/pdf)
+2025-07-08 13:40:28.517 -04:00 [INF] 📂 Incoming file: ShallowExcavation.pdf (340547 bytes, ContentType: application/pdf)
+2025-07-08 13:40:28.517 -04:00 [INF] 📂 Incoming file: BottlePens.PNG (1012369 bytes, ContentType: image/png)
+2025-07-08 13:40:28.518 -04:00 [INF] 📂 Incoming file: Me.PNG (820633 bytes, ContentType: image/png)
+2025-07-08 13:40:30.810 -04:00 [ERR] 🔥 Drive upload exception for CriticalLifting.pdf
+The service drive has thrown an exception.
+HttpStatusCode is Forbidden.
+Google.Apis.Requests.RequestError
+Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead. [403]
+Errors [
+	Message[Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.] Location[ - ] Reason[storageQuotaExceeded] Domain[usageLimits]
+]
+
+Google.GoogleApiException: The service drive has thrown an exception. HttpStatusCode is Forbidden. Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+   at Google.Apis.Upload.ResumableUpload.HandleResponse(HttpResponseMessage response)
+   at Google.Apis.Upload.ResumableUpload.SendNextChunkAsync(Stream stream, CancellationToken cancellationToken)
+   at Google.Apis.Upload.ResumableUpload.UploadCoreAsync(CancellationToken cancellationToken)
+2025-07-08 13:40:32.791 -04:00 [ERR] 🔥 Drive upload exception for ShallowExcavation.pdf
+The service drive has thrown an exception.
+HttpStatusCode is Forbidden.
+Google.Apis.Requests.RequestError
+Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead. [403]
+Errors [
+	Message[Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.] Location[ - ] Reason[storageQuotaExceeded] Domain[usageLimits]
+]
+
+Google.GoogleApiException: The service drive has thrown an exception. HttpStatusCode is Forbidden. Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+   at Google.Apis.Upload.ResumableUpload.HandleResponse(HttpResponseMessage response)
+   at Google.Apis.Upload.ResumableUpload.SendNextChunkAsync(Stream stream, CancellationToken cancellationToken)
+   at Google.Apis.Upload.ResumableUpload.UploadCoreAsync(CancellationToken cancellationToken)
+2025-07-08 13:40:33.165 -04:00 [ERR] 🔥 Drive upload exception for BottlePens.PNG
+The service drive has thrown an exception.
+HttpStatusCode is Forbidden.
+Google.Apis.Requests.RequestError
+Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead. [403]
+Errors [
+	Message[Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.] Location[ - ] Reason[storageQuotaExceeded] Domain[usageLimits]
+]
+
+Google.GoogleApiException: The service drive has thrown an exception. HttpStatusCode is Forbidden. Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+   at Google.Apis.Upload.ResumableUpload`1.InitiateSessionAsync(CancellationToken cancellationToken)
+   at Google.Apis.Upload.ResumableUpload.UploadAsync(CancellationToken cancellationToken)
+2025-07-08 13:40:35.769 -04:00 [ERR] 🔥 Drive upload exception for Me.PNG
+The service drive has thrown an exception.
+HttpStatusCode is Forbidden.
+Google.Apis.Requests.RequestError
+Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead. [403]
+Errors [
+	Message[Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.] Location[ - ] Reason[storageQuotaExceeded] Domain[usageLimits]
+]
+
+Google.GoogleApiException: The service drive has thrown an exception. HttpStatusCode is Forbidden. Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+   at Google.Apis.Upload.ResumableUpload.HandleResponse(HttpResponseMessage response)
+   at Google.Apis.Upload.ResumableUpload.SendNextChunkAsync(Stream stream, CancellationToken cancellationToken)
+   at Google.Apis.Upload.ResumableUpload.UploadCoreAsync(CancellationToken cancellationToken)
+2025-07-08 13:40:35.771 -04:00 [INF] 🎯 All uploads complete.
+2025-07-08 13:40:35.781 -04:00 [WRN] ⚠️ Skipping update for 'CriticalLifting.pdf' — fileId is null or empty.
+2025-07-08 13:40:35.782 -04:00 [WRN] ⚠️ Skipping update for 'ShallowExcavation.pdf' — fileId is null or empty.
+2025-07-08 13:40:35.784 -04:00 [WRN] ⚠️ Skipping update for 'BottlePens.PNG' — fileId is null or empty.
+2025-07-08 13:40:35.784 -04:00 [WRN] ⚠️ Skipping update for 'Me.PNG' — fileId is null or empty.
+2025-07-08 13:40:35.787 -04:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-07-08 13:40:35.788 -04:00 [DBG] No information found on request to perform content negotiation.
+2025-07-08 13:40:35.789 -04:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-07-08 13:40:35.789 -04:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-07-08 13:40:35.791 -04:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-07-08 13:40:35.792 -04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[RaymarEquipmentInventory.DTOs.FileUpload, RaymarEquipmentInventory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 13:40:35.800 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFiles (RaymarEquipmentInventory) in 8059.8354ms
+2025-07-08 13:40:35.801 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFiles (RaymarEquipmentInventory)'
+2025-07-08 13:40:35.805 -04:00 [INF] Request finished HTTP/2 POST https://localhost:7150/api/WorkOrd/UploadAppFiles?workOrderId=22868&workOrderFolderId=1umMDnIXOf2m28IM51NqPp-Kgivh73_u_&pdfFolderId=14fyhJ2ukb1pnUAfkKXb_ShNGDys4aJFm&imagesFolderId=10V0mdOKsqOdyKiizFKFxhgher6065k1l - 200 null application/json; charset=utf-8 8111.761ms
+2025-07-08 13:40:45.433 -04:00 [DBG] Server bz2024ad:36736:a8195bd7 heartbeat successfully sent
+2025-07-08 13:41:15.484 -04:00 [DBG] Server bz2024ad:36736:a8195bd7 heartbeat successfully sent
+2025-07-08 13:41:45.531 -04:00 [DBG] Server bz2024ad:36736:a8195bd7 heartbeat successfully sent
+2025-07-08 13:42:15.572 -04:00 [DBG] Server bz2024ad:36736:a8195bd7 heartbeat successfully sent
+2025-07-08 13:42:28.217 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client ''
+2025-07-08 13:42:28.217 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client 'ISamsaraApiService'
+2025-07-08 13:42:38.220 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-08 13:42:38.222 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0424ms - processed: 0 items - remaining: 2 items
+2025-07-08 13:42:45.628 -04:00 [DBG] Server bz2024ad:36736:a8195bd7 heartbeat successfully sent
+2025-07-08 13:42:48.230 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-08 13:42:48.231 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0036ms - processed: 0 items - remaining: 2 items
+2025-07-08 13:42:58.242 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-08 13:42:58.243 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 2 items
+2025-07-08 13:43:08.247 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-08 13:43:08.248 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0026ms - processed: 0 items - remaining: 2 items
+2025-07-08 13:43:15.664 -04:00 [DBG] Server bz2024ad:36736:a8195bd7 heartbeat successfully sent
+2025-07-08 13:43:18.249 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-08 13:43:18.250 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0031ms - processed: 0 items - remaining: 2 items
+2025-07-08 13:43:28.261 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-08 13:43:28.263 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.004ms - processed: 0 items - remaining: 2 items
+2025-07-08 13:43:38.276 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-08 13:43:38.277 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0022ms - processed: 0 items - remaining: 2 items
+2025-07-08 13:43:45.376 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-07-08 13:43:45.716 -04:00 [DBG] Server bz2024ad:36736:a8195bd7 heartbeat successfully sent
+2025-07-08 13:43:48.282 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-08 13:43:48.283 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0031ms - processed: 0 items - remaining: 2 items
+2025-07-08 13:43:58.288 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-07-08 13:43:58.289 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0016ms - processed: 0 items - remaining: 2 items

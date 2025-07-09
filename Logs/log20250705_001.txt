@@ -276,7 +276,7 @@ WHERE [g].[FolderName] = @__folderName_0 AND [g].[ParentFolderId] = @__parentId_
 2025-07-05 11:29:26.906 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 6ms reading results.
 2025-07-05 11:29:26.908 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
 2025-07-05 11:29:26.909 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
-2025-07-05 11:29:28.420 -04:00 [INF] 📂 Creating new folder: Carrie under 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7
+2025-07-05 11:29:28.420 -04:00 [INF] 📂 Creating new folder: Carrie under 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl
 2025-07-05 11:29:28.851 -04:00 [ERR] ❌ Error in PrepareGoogleDriveFoldersAsync.
 The service drive has thrown an exception.
 HttpStatusCode is Forbidden.
@@ -406,7 +406,7 @@ WHERE [g].[FolderName] = @__folderName_0 AND [g].[ParentFolderId] = @__parentId_
 2025-07-05 11:32:53.587 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
 2025-07-05 11:32:53.588 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
 2025-07-05 11:32:53.589 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
-2025-07-05 11:32:54.984 -04:00 [INF] 📂 Creating new folder: Carrie under 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7
+2025-07-05 11:32:54.984 -04:00 [INF] 📂 Creating new folder: Carrie under 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl
 2025-07-05 11:32:55.729 -04:00 [INF] ✅ Created folder: Carrie (ID: 1N6UWh4PNIfAuaOelc-Q-r2eZJDc0B6Ud)
 2025-07-05 11:32:55.762 -04:00 [DBG] 'RaymarInventoryDBContext' generated a temporary value for the property 'Id.GoogleDriveFolder'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
 2025-07-05 11:32:55.787 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'GoogleDriveFolder' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.

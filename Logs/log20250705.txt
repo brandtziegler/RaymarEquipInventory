@@ -277,17 +277,17 @@ WHERE [g].[FolderName] = @__folderName_0 AND [g].[ParentFolderId] = @__parentId_
 2025-07-05 11:16:27.348 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 5ms reading results.
 2025-07-05 11:16:27.350 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
 2025-07-05 11:16:27.352 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (2ms).
-2025-07-05 11:16:28.873 -04:00 [INF] 📂 Creating new folder: Carrie under 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7
+2025-07-05 11:16:28.873 -04:00 [INF] 📂 Creating new folder: Carrie under 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl
 2025-07-05 11:16:29.184 -04:00 [ERR] ❌ Error in PrepareGoogleDriveFoldersAsync.
 The service drive has thrown an exception.
 HttpStatusCode is NotFound.
 Google.Apis.Requests.RequestError
-File not found: 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7. [404]
+File not found: 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl. [404]
 Errors [
-	Message[File not found: 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7.] Location[fileId - parameter] Reason[notFound] Domain[global]
+	Message[File not found: 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl.] Location[fileId - parameter] Reason[notFound] Domain[global]
 ]
 
-Google.GoogleApiException: The service drive has thrown an exception. HttpStatusCode is NotFound. File not found: 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7.
+Google.GoogleApiException: The service drive has thrown an exception. HttpStatusCode is NotFound. File not found: 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl.
    at Google.Apis.Requests.ClientServiceRequest`1.ParseResponse(HttpResponseMessage response)
    at Google.Apis.Requests.ClientServiceRequest`1.ExecuteAsync(CancellationToken cancellationToken)
    at Google.Apis.Requests.ClientServiceRequest`1.ExecuteAsync()
@@ -297,12 +297,12 @@ Google.GoogleApiException: The service drive has thrown an exception. HttpStatus
 The service drive has thrown an exception.
 HttpStatusCode is NotFound.
 Google.Apis.Requests.RequestError
-File not found: 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7. [404]
+File not found: 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl. [404]
 Errors [
-	Message[File not found: 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7.] Location[fileId - parameter] Reason[notFound] Domain[global]
+	Message[File not found: 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl.] Location[fileId - parameter] Reason[notFound] Domain[global]
 ]
 
-Google.GoogleApiException: The service drive has thrown an exception. HttpStatusCode is NotFound. File not found: 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7.
+Google.GoogleApiException: The service drive has thrown an exception. HttpStatusCode is NotFound. File not found: 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl.
    at Google.Apis.Requests.ClientServiceRequest`1.ParseResponse(HttpResponseMessage response)
    at Google.Apis.Requests.ClientServiceRequest`1.ExecuteAsync(CancellationToken cancellationToken)
    at Google.Apis.Requests.ClientServiceRequest`1.ExecuteAsync()

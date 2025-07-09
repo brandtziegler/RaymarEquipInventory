@@ -143,20 +143,18 @@ namespace RaymarEquipmentInventory.Controllers
 
 
         [HttpPost("UploadAppFiles")]
-        public async Task<IActionResult> UploadAppFiles(List<IFormFile> files, [FromQuery] string workOrderId, [FromQuery] string workOrderFolderId, [FromQuery] string pdfFolderId,
+        public async Task<IActionResult> UploadAppFiles(
+            List<IFormFile> files,
+            [FromQuery] string workOrderId,
+            [FromQuery] string workOrderFolderId,
+            [FromQuery] string pdfFolderId,
             [FromQuery] string imagesFolderId)
         {
-            var result = new
-            {
-                Uploaded = new List<string>(),
-                UploadFailed = new List<string>(),
-                DbUpdated = new List<string>(),
-                DbUpdateFailed = new List<string>()
-            };
+            List<FileUpload> uploads;
 
             try
             {
-                var uploads = await _driveUploaderService.UploadFilesAsync(
+                uploads = await _driveUploaderService.UploadFilesAsync(
                     files,
                     workOrderId,
                     workOrderFolderId,
@@ -170,13 +168,13 @@ namespace RaymarEquipmentInventory.Controllers
                     {
                         if (upload.Extension is ".jpg" or ".jpeg" or ".png")
                         {
-                          
                             await _driveUploaderService.UpdateFileUrlInPartsDocumentAsync(
                                 upload.FileName,
                                 upload.ResponseBodyId,
                                 upload.Extension,
                                 upload.WorkOrderId
                             );
+                            upload.stupidLogErrors.Add("✅ DB update: parts document link set.");
                         }
                         else if (upload.Extension is ".pdf")
                         {
@@ -188,27 +186,22 @@ namespace RaymarEquipmentInventory.Controllers
                                 UploadedBy = "iPad App",
                                 Description = string.Empty
                             });
+                            upload.stupidLogErrors.Add("✅ DB update: PDF document link set.");
                         }
                         else
                         {
-                            Log.Warning($"⚠️ Skipping unsupported file type: {upload.FileName} ({upload.Extension})");
+                            var msg = $"⚠️ Skipping unsupported file type: {upload.FileName} ({upload.Extension})";
+                            Log.Warning(msg);
+                            upload.stupidLogErrors.Add(msg);
                         }
-
-                        result.DbUpdated.Add(upload.FileName);
                     }
                     catch (Exception dbEx)
                     {
-                        Log.Error(dbEx, $"❌ Failed DB update for {upload.FileName}");
-                        result.DbUpdateFailed.Add(upload.FileName);
+                        var errMsg = $"❌ Failed DB update for {upload.FileName}: {dbEx.Message}";
+                        Log.Error(dbEx, errMsg);
+                        upload.stupidLogErrors.Add(errMsg);
                     }
                 }
-
-                // Handle any files that failed to upload
-                var uploadedFileNames = uploads.Select(u => u.FileName).ToList();
-                var allFileNames = files.Select(f => f.FileName).ToList();
-
-                result.Uploaded.AddRange(uploadedFileNames);
-                result.UploadFailed.AddRange(allFileNames.Except(uploadedFileNames));
             }
             catch (Exception ex)
             {
@@ -216,9 +209,8 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, new { message = "Upload failed", error = ex.Message });
             }
 
-            return Ok(result);
+            return Ok(uploads);
         }
-
         [HttpPost("ListPDFFiles")]
         public async Task<IActionResult> ListPDFFiles(int sheetId)
         {
@@ -291,7 +283,7 @@ namespace RaymarEquipmentInventory.Controllers
                     <p><strong>Description:</strong> {dto.WorkDescription}</p>
                     <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Firebase & Azure SQL.</p>
                     <p>You can view the uploaded files here:<br>
-                    <a href='https://drive.google.com/drive/folders/1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7'>
+                    <a href='https://drive.google.com/drive/folders/1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl'>
                         View WO#{dto.WorkOrderNumber} Files on Google Drive for  {dto.CustPath}
                     </a></p>
                     <p><em>Login Email:</em> raymardeveloper@gmail.com<br>

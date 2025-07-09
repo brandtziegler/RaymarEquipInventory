@@ -274,7 +274,7 @@ WHERE [g].[FolderName] = @__folderName_0 AND [g].[ParentFolderId] = @__parentId_
 2025-07-05 11:55:41.091 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
 2025-07-05 11:55:41.092 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
 2025-07-05 11:55:41.682 -04:00 [DBG] 🕒 Retrying after 743ms delay for 'Brandt'
-2025-07-05 11:55:42.621 -04:00 [INF] 📂 Creating new folder: Brandt under 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7
+2025-07-05 11:55:42.621 -04:00 [INF] 📂 Creating new folder: Brandt under 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl
 2025-07-05 11:55:43.294 -04:00 [INF] ✅ Created folder: Brandt (ID: 1gITY6cbx3zdGDRhdg8KR0oO_5aeduPyn)
 2025-07-05 11:55:43.307 -04:00 [DBG] 'RaymarInventoryDBContext' generated a temporary value for the property 'Id.GoogleDriveFolder'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
 2025-07-05 11:55:43.330 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'GoogleDriveFolder' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
@@ -578,7 +578,7 @@ WHERE [g].[FolderName] = @__folderName_0 AND [g].[ParentFolderId] = @__parentId_
 2025-07-05 11:57:51.741 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 6ms reading results.
 2025-07-05 11:57:51.741 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
 2025-07-05 11:57:51.742 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
-2025-07-05 11:57:51.743 -04:00 [INF] 📦 SQL Cache Hit: Brandt under 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7 (ID: 1gITY6cbx3zdGDRhdg8KR0oO_5aeduPyn)
+2025-07-05 11:57:51.743 -04:00 [INF] 📦 SQL Cache Hit: Brandt under 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl (ID: 1gITY6cbx3zdGDRhdg8KR0oO_5aeduPyn)
 2025-07-05 11:57:51.744 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
 2025-07-05 11:57:51.744 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
 2025-07-05 11:57:51.745 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
@@ -852,7 +852,7 @@ WHERE [g].[FolderName] = @__folderName_0 AND [g].[ParentFolderId] = @__parentId_
 2025-07-05 11:58:25.859 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
 2025-07-05 11:58:25.860 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
 2025-07-05 11:58:26.264 -04:00 [DBG] 🕒 Retrying after 752ms delay for 'Bob'
-2025-07-05 11:58:27.302 -04:00 [INF] 📂 Creating new folder: Bob under 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7
+2025-07-05 11:58:27.302 -04:00 [INF] 📂 Creating new folder: Bob under 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl
 2025-07-05 11:58:28.062 -04:00 [INF] ✅ Created folder: Bob (ID: 1VxzGyTFMyE3J4dp48OSfnbV0Os3nJX3i)
 2025-07-05 11:58:28.062 -04:00 [DBG] 'RaymarInventoryDBContext' generated a temporary value for the property 'Id.GoogleDriveFolder'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
 2025-07-05 11:58:28.063 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'GoogleDriveFolder' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
@@ -1155,7 +1155,7 @@ WHERE [g].[FolderName] = @__folderName_0 AND [g].[ParentFolderId] = @__parentId_
 2025-07-05 11:58:56.297 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
 2025-07-05 11:58:56.298 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
 2025-07-05 11:58:56.838 -04:00 [DBG] 🕒 Retrying after 501ms delay for 'Joe'
-2025-07-05 11:58:57.706 -04:00 [INF] 📂 Creating new folder: Joe under 1ZFWivpkVhCF11yogNMRWV6zp23hwwDT7
+2025-07-05 11:58:57.706 -04:00 [INF] 📂 Creating new folder: Joe under 1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl
 2025-07-05 11:58:58.404 -04:00 [INF] ✅ Created folder: Joe (ID: 1abIrBp-b6mgzn3b3S6oAtnS6heGDK1iO)
 2025-07-05 11:58:58.405 -04:00 [DBG] 'RaymarInventoryDBContext' generated a temporary value for the property 'Id.GoogleDriveFolder'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
 2025-07-05 11:58:58.406 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'GoogleDriveFolder' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
