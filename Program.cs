@@ -164,6 +164,8 @@ try
         .ConfigureAwait(false);
 
     credential = credential.CreateScoped(DriveService.Scope.Drive);
+
+
 }
 catch (Exception ex)
 {

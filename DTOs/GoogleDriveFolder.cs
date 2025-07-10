@@ -8,5 +8,6 @@ namespace RaymarEquipmentInventory.DTOs
         public string WorkOrderFolderId { get; set; } = string.Empty;
         public string PdfFolderId { get; set; } = string.Empty;
         public string ImagesFolderId { get; set; } = string.Empty;
+        public List<string> stupidLogErrors { get; set; } = new List<string>();
     }
 }

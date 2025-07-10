@@ -111,7 +111,10 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
         [HttpPost("PrepareDriveFolders")]
-        public async Task<IActionResult> PrepareDriveFolders([FromQuery] string custPath, [FromQuery] string workOrderId, [FromQuery] int sheetID)
+        public async Task<IActionResult> PrepareDriveFolders(
+            [FromQuery] string custPath,
+            [FromQuery] string workOrderId,
+            [FromQuery] int sheetID)
         {
             if (string.IsNullOrWhiteSpace(custPath) || string.IsNullOrWhiteSpace(workOrderId))
             {
@@ -121,25 +124,37 @@ namespace RaymarEquipmentInventory.Controllers
             var key = custPath.Split('>').First().Trim().ToLower(); // lock on root customer only
             var semaphore = FolderLocks.GetOrAdd(key, _ => new SemaphoreSlim(1, 1));
 
+            GoogleDriveFolderDTO folderResult = new();
+
             try
             {
                 await semaphore.WaitAsync();
 
-                var folderResult = await _driveUploaderService.PrepareGoogleDriveFoldersAsync(custPath, workOrderId);
-
+                folderResult = await _driveUploaderService.PrepareGoogleDriveFoldersAsync(custPath, workOrderId);
                 folderResult.SheetID = sheetID;
-                return Ok(folderResult); // Returns GoogleDriveFolder DTO as JSON
+
+                if (folderResult.stupidLogErrors.Any())
+                {
+                    return StatusCode(500, folderResult); // Return logs for diagnostic failure
+                }
+
+                return Ok(folderResult);
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"🔥 Error in PrepareDriveFolders endpoint for {custPath} / {workOrderId}");
-                return StatusCode(500, new { message = "Failed to prepare Google Drive folders.", error = ex.Message });
+                Log.Error(ex, $"🔥 Controller-level failure for {custPath} / {workOrderId}");
+
+                folderResult.SheetID = sheetID;
+                folderResult.stupidLogErrors.Add($"🔥 Controller exception: {ex.Message}");
+
+                return StatusCode(500, folderResult); // Still return DTO with logs
             }
             finally
             {
                 semaphore.Release();
             }
         }
+
 
 
         [HttpPost("UploadAppFiles")]

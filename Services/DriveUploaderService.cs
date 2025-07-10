@@ -470,59 +470,187 @@ namespace RaymarEquipmentInventory.Services
                 throw;
             }
         }
-
         public async Task<GoogleDriveFolderDTO> PrepareGoogleDriveFoldersAsync(string custPath, string workOrderId)
         {
+            var dto = new GoogleDriveFolderDTO();
+
             try
             {
                 Log.Information($"📁 Preparing Google Drive folders for {custPath} → WorkOrder {workOrderId}");
 
-                // Use WIF or ADC (Application Default Credentials)
-                GoogleCredential credential = await GoogleCredential
-                    .GetApplicationDefaultAsync()
-                    .ConfigureAwait(false);
-
-                if (credential.IsCreateScopedRequired)
+                // Log key env vars
+                var envVars = new[]
                 {
-                    credential = credential.CreateScoped(DriveService.ScopeConstants.Drive);
+            "GOOGLE_CLOUD_PROJECT",
+            "GOOGLE_WORKLOAD_IDENTITY_POOL",
+            "GOOGLE_WORKLOAD_IDENTITY_PROVIDER",
+            "GOOGLE_IMPERSONATE_SERVICE_ACCOUNT"
+        };
+
+                foreach (var key in envVars)
+                {
+                    string val = Environment.GetEnvironmentVariable(key) ?? "(null)";
+                    dto.stupidLogErrors.Add($"{key} = {val}");
                 }
 
+                // Load credential
+                GoogleCredential credential = null;
+                try
+                {
+                    credential = await GoogleCredential
+                        .GetApplicationDefaultAsync()
+                        .ConfigureAwait(false);
+
+                    dto.stupidLogErrors.Add($"[Cred Type] {credential.GetType().FullName}");
+
+                    if (credential.IsCreateScopedRequired)
+                    {
+                        credential = credential.CreateScoped(DriveService.ScopeConstants.Drive);
+                        dto.stupidLogErrors.Add("[Scope Applied] DriveService.ScopeConstants.Drive");
+                    }
+
+                    var token = await credential.UnderlyingCredential.GetAccessTokenForRequestAsync();
+                    dto.stupidLogErrors.Add($"[Token Preview] {token?.Substring(0, 30)}...");
+                }
+                catch (Exception credEx)
+                {
+                    dto.stupidLogErrors.Add($"❌ Credential or token failure: {credEx.Message}");
+                    Log.Error(credEx, "❌ Credential/token error.");
+                    return dto; // Stop here — no point proceeding without auth
+                }
+
+                // Set up Drive API
                 var driveService = new DriveService(new BaseClientService.Initializer
                 {
                     HttpClientInitializer = credential,
                     ApplicationName = "TaskFuelUploader"
                 });
 
-                //string sharedDriveId = "0APcqm9T1UGNCUk9PVA";  // Your Shared Drive
-                string raymarRootId = "1V13UNyx-eQE7ec24-Z3wPOinQyiNR-Ty";  // RaymarWorkOrders
-
+                string raymarRootId = "1V13UNyx-eQE7ec24-Z3wPOinQyiNR-Ty";
                 string[] pathSegments = custPath.Split('>');
                 string currentParentId = raymarRootId;
 
+                // Walk folder path
                 foreach (var segment in pathSegments)
                 {
-                    currentParentId = await EnsureFolderExistsAsync(segment.Trim(), currentParentId, driveService);
+                    try
+                    {
+                        currentParentId = await EnsureFolderExistsAsync(segment.Trim(), currentParentId, driveService);
+                    }
+                    catch (Exception segEx)
+                    {
+                        dto.stupidLogErrors.Add($"❌ Failed creating folder segment '{segment}': {segEx.Message}");
+                        Log.Error(segEx, $"❌ Folder segment failure: {segment}");
+                        return dto;
+                    }
                 }
 
-                string workOrderFolderId = await EnsureFolderExistsAsync(workOrderId, currentParentId, driveService);
-                string pdfFolderId = await EnsureFolderExistsAsync("PDFs", workOrderFolderId, driveService);
-                string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId, driveService);
-
-                Log.Information($"📂 Folder prep complete → WO: {workOrderFolderId}, PDFs: {pdfFolderId}, Images: {imagesFolderId}");
-
-                return new GoogleDriveFolderDTO
+                // Final folder structure
+                try
                 {
-                    WorkOrderFolderId = workOrderFolderId,
-                    PdfFolderId = pdfFolderId,
-                    ImagesFolderId = imagesFolderId
-                };
+                    dto.WorkOrderFolderId = await EnsureFolderExistsAsync(workOrderId, currentParentId, driveService);
+                    dto.PdfFolderId = await EnsureFolderExistsAsync("PDFs", dto.WorkOrderFolderId, driveService);
+                    dto.ImagesFolderId = await EnsureFolderExistsAsync("Images", dto.WorkOrderFolderId, driveService);
+                }
+                catch (Exception finalEx)
+                {
+                    dto.stupidLogErrors.Add($"❌ Final folder structure failed: {finalEx.Message}");
+                    Log.Error(finalEx, "❌ Final folder creation step failed.");
+                }
+
+                Log.Information($"📂 Folder prep complete → WO: {dto.WorkOrderFolderId}, PDFs: {dto.PdfFolderId}, Images: {dto.ImagesFolderId}");
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "❌ Error in PrepareGoogleDriveFoldersAsync.");
-                throw;
+                var err = $"🔥 UNHANDLED EXCEPTION: {ex.Message}";
+                Log.Error(ex, err);
+                dto.stupidLogErrors.Add(err);
             }
+
+            return dto;
         }
+
+        //public async Task<GoogleDriveFolderDTO> PrepareGoogleDriveFoldersAsync(string custPath, string workOrderId)
+        //{
+        //    var dto = new GoogleDriveFolderDTO();
+
+        //    try
+        //    {
+        //        Log.Information($"📁 Preparing Google Drive folders for {custPath} → WorkOrder {workOrderId}");
+
+        //        // Log env vars
+        //        var envVars = new[]
+        //        {
+        //    "GOOGLE_CLOUD_PROJECT",
+        //    "GOOGLE_WORKLOAD_IDENTITY_POOL",
+        //    "GOOGLE_WORKLOAD_IDENTITY_PROVIDER",
+        //    "GOOGLE_IMPERSONATE_SERVICE_ACCOUNT"
+        //};
+
+        //        foreach (var key in envVars)
+        //        {
+        //            string val = Environment.GetEnvironmentVariable(key) ?? "(null)";
+        //            dto.stupidLogErrors.Add($"{key} = {val}");
+        //        }
+
+        //        // Grab default credential
+        //        var credential = await GoogleCredential
+        //            .GetApplicationDefaultAsync()
+        //            .ConfigureAwait(false);
+
+        //        dto.stupidLogErrors.Add($"[Cred Type] {credential.GetType().FullName}");
+
+        //        if (credential.IsCreateScopedRequired)
+        //        {
+        //            credential = credential.CreateScoped(DriveService.ScopeConstants.Drive);
+        //            dto.stupidLogErrors.Add("[Scope Applied] DriveService.ScopeConstants.Drive");
+        //        }
+
+        //        try
+        //        {
+        //            var token = await credential.UnderlyingCredential.GetAccessTokenForRequestAsync();
+        //            dto.stupidLogErrors.Add($"[Token Preview] {token?.Substring(0, 30)}...");
+        //        }
+        //        catch (Exception tokenEx)
+        //        {
+        //            dto.stupidLogErrors.Add($"[Token Failure] {tokenEx.Message}");
+        //        }
+
+        //        // Set up the Drive service
+        //        var driveService = new DriveService(new BaseClientService.Initializer
+        //        {
+        //            HttpClientInitializer = credential,
+        //            ApplicationName = "TaskFuelUploader"
+        //        });
+
+        //        string raymarRootId = "1V13UNyx-eQE7ec24-Z3wPOinQyiNR-Ty";
+        //        string[] pathSegments = custPath.Split('>');
+        //        string currentParentId = raymarRootId;
+
+        //        foreach (var segment in pathSegments)
+        //        {
+        //            currentParentId = await EnsureFolderExistsAsync(segment.Trim(), currentParentId, driveService);
+        //        }
+
+        //        string workOrderFolderId = await EnsureFolderExistsAsync(workOrderId, currentParentId, driveService);
+        //        string pdfFolderId = await EnsureFolderExistsAsync("PDFs", workOrderFolderId, driveService);
+        //        string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId, driveService);
+
+        //        Log.Information($"📂 Folder prep complete → WO: {workOrderFolderId}, PDFs: {pdfFolderId}, Images: {imagesFolderId}");
+
+        //        dto.WorkOrderFolderId = workOrderFolderId;
+        //        dto.PdfFolderId = pdfFolderId;
+        //        dto.ImagesFolderId = imagesFolderId;
+        //        return dto;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var err = $"❌ EXCEPTION: {ex.Message}";
+        //        Log.Error(ex, err);
+        //        dto.stupidLogErrors.Add(err);
+        //        return dto;
+        //    }
+        //}
 
         public async Task<List<FileUpload>> UploadFilesAsync(
            List<IFormFile> files,
