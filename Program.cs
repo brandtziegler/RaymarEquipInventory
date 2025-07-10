@@ -130,26 +130,40 @@ builder.Services.AddCors(options =>
 builder.Host.UseWindowsService(); // This line enables running as a Windows Service
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
 
-GoogleCredential credential;
+//GoogleCredential credential;
 
-if (env == "Development")
+//if (env == "Development")
+//{
+//    Environment.SetEnvironmentVariable(
+//        "GOOGLE_APPLICATION_CREDENTIALS",
+//        Path.Combine(
+//            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+//            @"gcloud\application_default_credentials.json"
+//        )
+//    );
+
+//    credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
+//}
+//else
+//{
+//    // Ensure the env var is actually removed
+//    Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", null);
+//    Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", string.Empty); // wipe it clean
+
+//    // Let ADC try WIF or Managed Identity
+//    credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
+//}
+
+GoogleCredential credential = null;
+
+try
 {
-    // 🔐 Local dev - set GOOGLE_APPLICATION_CREDENTIALS manually
-    Environment.SetEnvironmentVariable(
-        "GOOGLE_APPLICATION_CREDENTIALS",
-        Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            @"gcloud\application_default_credentials.json"
-        )
-    );
-
     credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
 }
-else
+catch (Exception ex)
 {
-    // 🚀 Azure - use default Workload Identity (WIF) or managed identity
-    Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", null);
-    credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
+    Console.WriteLine($"[WIF Auth Skipped]: {ex.Message}");
+    // Proceed with null or fallback logic
 }
 
 var app = builder.Build();
