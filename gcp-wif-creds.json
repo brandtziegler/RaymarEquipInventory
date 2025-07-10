@@ -4,7 +4,7 @@
   "subject_token_type": "urn:ietf:params:oauth:token-type:jwt",
   "token_url": "https://sts.googleapis.com/v1/token",
   "credential_source": {
-    "file": "/tmp/azure_oidc_token.json",
+    "file": "D:\\home\\site\\wwwroot\\azure_oidc_token",
     "format": {
       "type": "json",
       "subject_token_field_name": "access_token"
