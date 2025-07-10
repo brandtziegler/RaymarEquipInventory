@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Serilog;
 using RaymarEquipmentInventory.Models;
 using RaymarEquipmentInventory.Services;
@@ -128,16 +128,18 @@ builder.Services.AddCors(options =>
 });
 
 builder.Host.UseWindowsService(); // This line enables running as a Windows Service
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+
 GoogleCredential credential;
 
-if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+if (env == "Development")
 {
-    // Local dev uses JSON file
+    // 🔐 Local dev - set GOOGLE_APPLICATION_CREDENTIALS manually
     Environment.SetEnvironmentVariable(
         "GOOGLE_APPLICATION_CREDENTIALS",
         Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-    @"gcloud\application_default_credentials.json"
+            @"gcloud\application_default_credentials.json"
         )
     );
 
@@ -145,12 +147,10 @@ if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development
 }
 else
 {
-    // Azure should not use GOOGLE_APPLICATION_CREDENTIALS
+    // 🚀 Azure - use default Workload Identity (WIF) or managed identity
     Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", null);
-
     credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
 }
-
 
 var app = builder.Build();
 //app.UseCors("AllowLocalhostOrigins");
