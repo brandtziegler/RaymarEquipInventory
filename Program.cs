@@ -12,6 +12,7 @@ using RaymarEquipmentInventory.Settings.YourApiProject.Settings;
 using Microsoft.AspNetCore.Http.Features;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
+using Google.Apis.Drive.v3;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -158,19 +159,16 @@ GoogleCredential credential;
 
 try
 {
-    // Let Google handle ADC (local: gcloud, Azure: WIF)
-    credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
+    credential = await GoogleCredential
+        .GetApplicationDefaultAsync()
+        .ConfigureAwait(false);
 
-    // Optional: scope it if you need Drive or others
-    // credential = credential.CreateScoped(DriveService.Scope.DriveFile);
+    credential = credential.CreateScoped(DriveService.Scope.Drive);
 }
 catch (Exception ex)
 {
     Console.WriteLine($"[WIF/Auth fallback]: {ex.Message}");
-
-    // Swagger or app can still run — but maybe with reduced features
-    // Optional: fallback to a dummy or limited local credential
-    // credential = GoogleCredential.FromAccessToken("dummy-token");
+    // Optional: fallback logic here
 }
 
 var app = builder.Build();
