@@ -9,8 +9,9 @@
   <ItemGroup>
     <None Include="efpt.config.json.user" />
   </ItemGroup>
-
+	
   <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.14.1" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.22.1" />
     <PackageReference Include="Google.Apis.Auth" Version="1.70.0" />
     <PackageReference Include="Google.Apis.Core" Version="1.70.0" />
@@ -31,6 +32,12 @@
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="System.Data.Odbc" Version="8.0.0" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Content Update="gcp-wif-creds.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,9 @@ using Microsoft.AspNetCore.Http.Features;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using Google.Apis.Drive.v3;
-
+using Azure.Identity;
+using Azure.Core;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -159,6 +161,12 @@ GoogleCredential credential;
 
 try
 {
+    // Generate OIDC token from Azure AD → GCP
+    var credentialSource = new DefaultAzureCredential();
+    var tokenContext = new TokenRequestContext(new[] { "https://www.googleapis.com/auth/cloud-platform" });
+    var accessToken = await credentialSource.GetTokenAsync(tokenContext);
+    File.WriteAllText("D:\\home\\site\\wwwroot\\azure_oidc_token", $"{{\"access_token\":\"{accessToken.Token}\"}}");
+
     credential = await GoogleCredential
         .GetApplicationDefaultAsync()
         .ConfigureAwait(false);
