@@ -127,13 +127,17 @@ builder.Services.AddCors(options =>
 
 builder.Host.UseWindowsService(); // This line enables running as a Windows Service
 
-//Environment.SetEnvironmentVariable(
-//    "GOOGLE_APPLICATION_CREDENTIALS",
-//    Path.Combine(
-//        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-//        @"gcloud\application_default_credentials.json"
-//    )
-//);
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    Environment.SetEnvironmentVariable(
+        "GOOGLE_APPLICATION_CREDENTIALS",
+        Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            @"gcloud\application_default_credentials.json"
+        )
+    );
+}
+
 
 var app = builder.Build();
 //app.UseCors("AllowLocalhostOrigins");
