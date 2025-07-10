@@ -161,7 +161,7 @@ GoogleCredential credential;
 
 try
 {
-    // Step 1: Generate the token
+    // Step 1: Generate the token---something new.
     var credentialSource = new DefaultAzureCredential();
     var tokenContext = new TokenRequestContext(new[] { "https://www.googleapis.com/auth/cloud-platform" });
     var accessToken = await credentialSource.GetTokenAsync(tokenContext);
