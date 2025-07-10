@@ -19,6 +19,10 @@ using Google.Apis.Download;
 using Microsoft.Data.SqlClient;
 using Google.Apis.Upload;
 using Google.Apis.Drive.v3.Data; // 👈 This is where `Permission` lives
+using Google.Cloud.Iam.Credentials.V1;
+using Google.Protobuf.WellKnownTypes;
+using Grpc.Auth;
+
 namespace RaymarEquipmentInventory.Services
 {
     public class DriveUploaderService : IDriveUploaderService
@@ -470,13 +474,14 @@ namespace RaymarEquipmentInventory.Services
                 throw;
             }
         }
+
         public async Task<GoogleDriveFolderDTO> PrepareGoogleDriveFoldersAsync(string custPath, string workOrderId)
         {
             var dto = new GoogleDriveFolderDTO();
 
             try
             {
-                Log.Information($"📁 Preparing Google Drive folders for {custPath} → WorkOrder {workOrderId}");
+                Log.Information($"\ud83d\udcc1 Preparing Google Drive folders for {custPath} \u2192 WorkOrder {workOrderId}");
 
                 // Log key env vars
                 var envVars = new[]
@@ -493,36 +498,56 @@ namespace RaymarEquipmentInventory.Services
                     dto.stupidLogErrors.Add($"{key} = {val}");
                 }
 
-                // Load credential
-                GoogleCredential credential = null;
+                // Load base credential from WIF
+                GoogleCredential sourceCredential;
                 try
                 {
-                    credential = await GoogleCredential
+                    sourceCredential = await GoogleCredential
                         .GetApplicationDefaultAsync()
                         .ConfigureAwait(false);
 
-                    dto.stupidLogErrors.Add($"[Cred Type] {credential.GetType().FullName}");
-
-                    if (credential.IsCreateScopedRequired)
-                    {
-                        credential = credential.CreateScoped(DriveService.ScopeConstants.Drive);
-                        dto.stupidLogErrors.Add("[Scope Applied] DriveService.ScopeConstants.Drive");
-                    }
-
-                    var token = await credential.UnderlyingCredential.GetAccessTokenForRequestAsync();
-                    dto.stupidLogErrors.Add($"[Token Preview] {token?.Substring(0, 30)}...");
+                    dto.stupidLogErrors.Add($"[Source Cred Type] {sourceCredential.GetType().FullName}");
                 }
-                catch (Exception credEx)
+                catch (Exception ex)
                 {
-                    dto.stupidLogErrors.Add($"❌ Credential or token failure: {credEx.Message}");
-                    Log.Error(credEx, "❌ Credential/token error.");
-                    return dto; // Stop here — no point proceeding without auth
+                    dto.stupidLogErrors.Add($"\u274c Failed to load base credential: {ex.Message}");
+                    Log.Error(ex, "\u274c Failed to load base WIF credential.");
+                    return dto;
+                }
+
+                // Impersonate the service account manually
+                GoogleCredential impersonatedCredential;
+                try
+                {
+                    var saEmail = Environment.GetEnvironmentVariable("GOOGLE_IMPERSONATE_SERVICE_ACCOUNT") ?? "";
+                    dto.stupidLogErrors.Add($"[Impersonating SA] {saEmail}");
+
+                    var iamClient = new IAMCredentialsClientBuilder
+                    {
+                        TokenAccessMethod = ((ITokenAccess)sourceCredential.UnderlyingCredential).GetAccessTokenForRequestAsync
+                    }.Build();
+
+                    var tokenResponse = iamClient.GenerateAccessToken(new GenerateAccessTokenRequest
+                    {
+                        Name = $"projects/-/serviceAccounts/{saEmail}",
+                        Scope = { DriveService.Scope.Drive },
+                        Lifetime = Duration.FromTimeSpan(TimeSpan.FromMinutes(10))
+                    });
+
+                    impersonatedCredential = GoogleCredential.FromAccessToken(tokenResponse.AccessToken);
+                    dto.stupidLogErrors.Add($"[Token (manual WIF)] {tokenResponse.AccessToken.Substring(0, 30)}...");
+                }
+                catch (Exception ex)
+                {
+                    dto.stupidLogErrors.Add($"\u274c Impersonation failed: {ex.Message}");
+                    Log.Error(ex, "\u274c Failed to impersonate SA.");
+                    return dto;
                 }
 
                 // Set up Drive API
                 var driveService = new DriveService(new BaseClientService.Initializer
                 {
-                    HttpClientInitializer = credential,
+                    HttpClientInitializer = impersonatedCredential,
                     ApplicationName = "TaskFuelUploader"
                 });
 
@@ -539,8 +564,8 @@ namespace RaymarEquipmentInventory.Services
                     }
                     catch (Exception segEx)
                     {
-                        dto.stupidLogErrors.Add($"❌ Failed creating folder segment '{segment}': {segEx.Message}");
-                        Log.Error(segEx, $"❌ Folder segment failure: {segment}");
+                        dto.stupidLogErrors.Add($"\u274c Failed creating folder segment '{segment}': {segEx.Message}");
+                        Log.Error(segEx, $"\u274c Folder segment failure: {segment}");
                         return dto;
                     }
                 }
@@ -554,21 +579,22 @@ namespace RaymarEquipmentInventory.Services
                 }
                 catch (Exception finalEx)
                 {
-                    dto.stupidLogErrors.Add($"❌ Final folder structure failed: {finalEx.Message}");
-                    Log.Error(finalEx, "❌ Final folder creation step failed.");
+                    dto.stupidLogErrors.Add($"\u274c Final folder structure failed: {finalEx.Message}");
+                    Log.Error(finalEx, "\u274c Final folder creation step failed.");
                 }
 
-                Log.Information($"📂 Folder prep complete → WO: {dto.WorkOrderFolderId}, PDFs: {dto.PdfFolderId}, Images: {dto.ImagesFolderId}");
+                Log.Information($"\ud83d\udcc2 Folder prep complete \u2192 WO: {dto.WorkOrderFolderId}, PDFs: {dto.PdfFolderId}, Images: {dto.ImagesFolderId}");
             }
             catch (Exception ex)
             {
-                var err = $"🔥 UNHANDLED EXCEPTION: {ex.Message}";
+                var err = $"\ud83d\udd25 UNHANDLED EXCEPTION: {ex.Message}";
                 Log.Error(ex, err);
                 dto.stupidLogErrors.Add(err);
             }
 
             return dto;
         }
+
 
         //public async Task<GoogleDriveFolderDTO> PrepareGoogleDriveFoldersAsync(string custPath, string workOrderId)
         //{
