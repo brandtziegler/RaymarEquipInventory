@@ -166,8 +166,10 @@ try
     var tokenContext = new TokenRequestContext(new[] { "https://www.googleapis.com/auth/cloud-platform" });
     var accessToken = await credentialSource.GetTokenAsync(tokenContext);
 
-    var tokenPath = Path.Combine(Path.GetTempPath(), "azure_oidc_token.json");
+    var tokenPath = @"D:\home\site\wwwroot\azure_oidc_token";
+    Console.WriteLine($"Writing OIDC token to: {tokenPath}");
     File.WriteAllText(tokenPath, $"{{\"access_token\":\"{accessToken.Token}\"}}");
+    Console.WriteLine("OIDC token written.");
 
     credential = await GoogleCredential
         .GetApplicationDefaultAsync()
