@@ -10,6 +10,8 @@ using Microsoft.Data.SqlClient;
 using RaymarEquipmentInventory.BackgroundTasks;
 using RaymarEquipmentInventory.Settings.YourApiProject.Settings;
 using Microsoft.AspNetCore.Http.Features;
+using Google.Apis.Auth.OAuth2;
+using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -126,16 +128,27 @@ builder.Services.AddCors(options =>
 });
 
 builder.Host.UseWindowsService(); // This line enables running as a Windows Service
+GoogleCredential credential;
 
 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
 {
+    // Local dev uses JSON file
     Environment.SetEnvironmentVariable(
         "GOOGLE_APPLICATION_CREDENTIALS",
         Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            @"gcloud\application_default_credentials.json"
+    @"gcloud\application_default_credentials.json"
         )
     );
+
+    credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
+}
+else
+{
+    // Azure should not use GOOGLE_APPLICATION_CREDENTIALS
+    Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", null);
+
+    credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
 }
 
 
