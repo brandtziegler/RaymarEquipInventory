@@ -165,15 +165,15 @@ try
     var credentialSource = new DefaultAzureCredential();
     var tokenContext = new TokenRequestContext(new[] { "https://www.googleapis.com/auth/cloud-platform" });
     var accessToken = await credentialSource.GetTokenAsync(tokenContext);
-    File.WriteAllText("D:\\home\\site\\wwwroot\\azure_oidc_token", $"{{\"access_token\":\"{accessToken.Token}\"}}");
+
+    var tokenPath = Path.Combine(Path.GetTempPath(), "azure_oidc_token.json");
+    File.WriteAllText(tokenPath, $"{{\"access_token\":\"{accessToken.Token}\"}}");
 
     credential = await GoogleCredential
         .GetApplicationDefaultAsync()
         .ConfigureAwait(false);
 
     credential = credential.CreateScoped(DriveService.Scope.Drive);
-
-
 }
 catch (Exception ex)
 {
