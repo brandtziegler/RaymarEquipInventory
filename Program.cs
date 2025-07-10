@@ -130,40 +130,47 @@ builder.Services.AddCors(options =>
 builder.Host.UseWindowsService(); // This line enables running as a Windows Service
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
 
-//GoogleCredential credential;
+GoogleCredential credential;
 
-//if (env == "Development")
+//try
 //{
-//    Environment.SetEnvironmentVariable(
-//        "GOOGLE_APPLICATION_CREDENTIALS",
-//        Path.Combine(
+//    if (env == "Development")
+//    {
+//        // Optional: manually reinforce the path if you're paranoid
+//        string devCredPath = Path.Combine(
 //            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
 //            @"gcloud\application_default_credentials.json"
-//        )
-//    );
+//        );
+
+//        if (File.Exists(devCredPath))
+//        {
+//            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", devCredPath);
+//        }
+//    }
 
 //    credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
 //}
-//else
+//catch (Exception ex)
 //{
-//    // Ensure the env var is actually removed
-//    Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", null);
-//    Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", string.Empty); // wipe it clean
-
-//    // Let ADC try WIF or Managed Identity
-//    credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
+//    Console.WriteLine($"[ADC fallback]: {ex.Message}");
 //}
 
-GoogleCredential credential = null;
 
 try
 {
+    // Let Google handle ADC (local: gcloud, Azure: WIF)
     credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
+
+    // Optional: scope it if you need Drive or others
+    // credential = credential.CreateScoped(DriveService.Scope.DriveFile);
 }
 catch (Exception ex)
 {
-    Console.WriteLine($"[WIF Auth Skipped]: {ex.Message}");
-    // Proceed with null or fallback logic
+    Console.WriteLine($"[WIF/Auth fallback]: {ex.Message}");
+
+    // Swagger or app can still run — but maybe with reduced features
+    // Optional: fallback to a dummy or limited local credential
+    // credential = GoogleCredential.FromAccessToken("dummy-token");
 }
 
 var app = builder.Build();
