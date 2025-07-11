@@ -116,6 +116,7 @@ namespace RaymarEquipmentInventory.Controllers
             [FromQuery] string workOrderId,
             [FromQuery] int sheetID)
         {
+            //prepares drive folders.
             if (string.IsNullOrWhiteSpace(custPath) || string.IsNullOrWhiteSpace(workOrderId))
             {
                 return BadRequest(new { message = "custPath and workOrderId are required." });
