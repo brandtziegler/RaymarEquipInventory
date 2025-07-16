@@ -14,6 +14,7 @@ namespace RaymarEquipmentInventory.Controllers
     {
         private readonly IWorkOrderService _workOrderService;
         private readonly ITechnicianService _technicianService;
+        private readonly ITokenExchangeService _tokenExchangeService;
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly ISamsaraApiService _samsaraApiService;
         private readonly IHttpClientFactory _httpClientFactory;
@@ -23,7 +24,7 @@ namespace RaymarEquipmentInventory.Controllers
 
         public WorkOrdController(IWorkOrderService workOrderService, 
             IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, 
-            ISamsaraApiService samsaraApiService, 
+            ISamsaraApiService samsaraApiService, ITokenExchangeService tokenExchangeService,
             IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService)
         {
             _workOrderService = workOrderService;
@@ -32,6 +33,7 @@ namespace RaymarEquipmentInventory.Controllers
             _technicianService = technicianService;
             _httpClientFactory = httpClientFactory;
             _driveUploaderService = driveUploaderService;
+            _tokenExchangeService = tokenExchangeService;
 
         }
 
@@ -55,6 +57,53 @@ namespace RaymarEquipmentInventory.Controllers
             {
                 Log.Error($"Error launching work order: {ex.Message}");
                 return StatusCode(500, "An error occurred while launching the work order.");
+            }
+        }
+
+        /// <summary>
+        /// Test WIF integration with Google Drive.
+        /// </summary>
+        [HttpGet("test-token")]
+        public async Task<IActionResult> TestGoogleDriveConnection()
+        {
+            try
+            {
+                var drive = await _tokenExchangeService.GetDriveServiceAsync();
+
+                var listRequest = drive.Files.List();
+                listRequest.Q = "trashed = false and mimeType != 'application/vnd.google-apps.folder'";
+                listRequest.Corpora = "drive";
+                listRequest.DriveId = "0APcqm9T1UGNCUk9PVA"; // <-- Root of TaskFuelDrive
+                listRequest.SupportsAllDrives = true;
+                listRequest.IncludeItemsFromAllDrives = true;
+                listRequest.Fields = "files(id, name, parents, mimeType, modifiedTime)";
+                listRequest.OrderBy = "modifiedTime desc";
+                listRequest.PageSize = 50;
+
+                var result = await listRequest.ExecuteAsync();
+                var files = result.Files.Select(f => new {
+                    f.Id,
+                    f.Name,
+                    f.MimeType,
+                    f.Parents,
+                    Modified = f.ModifiedTimeRaw
+                }).ToList();
+
+                return Ok(new
+                {
+                    message = "✅ Deep WIF Drive test succeeded!",
+                    fileCount = files.Count,
+                    files
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "❌ WIF connection failed",
+                    error = ex.Message,
+                    stack = ex.StackTrace
+                });
             }
         }
 

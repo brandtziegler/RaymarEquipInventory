@@ -112,6 +112,7 @@ builder.Services.AddScoped<ITechnicianService, TechnicanService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<ITechWOService, TechWOService>();
+builder.Services.AddScoped<ITokenExchangeService, TokenExchangeService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 
 builder.Services.Configure<FormOptions>(options =>
@@ -158,42 +159,6 @@ GoogleCredential credential;
 //    Console.WriteLine($"[ADC fallback]: {ex.Message}");
 //}
 
-
-try
-{
-    // Step 1: Generate the token---something new.
-    var credentialSource = new DefaultAzureCredential();
-    var tokenContext = new TokenRequestContext(new[] { "https://www.googleapis.com/auth/cloud-platform" });
-    var accessToken = await credentialSource.GetTokenAsync(tokenContext);
-
-    // Step 2: Write it to disk
-    string oidcPath = @"D:\home\site\wwwroot\azure_oidc_token";
-    Console.WriteLine($"[DEBUG] Writing OIDC token to: {oidcPath}");
-    File.WriteAllText(oidcPath, $"{{\"access_token\":\"{accessToken.Token}\"}}");
-    Console.WriteLine($"[DEBUG] File.Exists(oidcPath) = {File.Exists(oidcPath)}");
-
-    // Step 3: Print path from env var and verify
-    var credentialsEnv = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
-    Console.WriteLine($"[DEBUG] GOOGLE_APPLICATION_CREDENTIALS = {credentialsEnv}");
-    Console.WriteLine($"[DEBUG] Exists: {File.Exists(credentialsEnv)}");
-
-    if (File.Exists(credentialsEnv))
-    {
-        var raw = File.ReadAllText(credentialsEnv);
-        Console.WriteLine($"[DEBUG] Creds JSON: {raw}");
-    }
-
-    // Step 4: Call GoogleCredential
-    credential = await GoogleCredential
-        .GetApplicationDefaultAsync()
-        .ConfigureAwait(false);
-
-    credential = credential.CreateScoped(DriveService.Scope.Drive);
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"[WIF/Auth fallback]: {ex.Message}");
-}
 
 var app = builder.Build();
 //app.UseCors("AllowLocalhostOrigins");
