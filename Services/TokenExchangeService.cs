@@ -36,7 +36,7 @@ namespace RaymarEquipmentInventory.Services
 
             var azureCred = new DefaultAzureCredential();
             var requestContext = new TokenRequestContext(
-                new[] { azureAudience },
+                new[] { "https://management.azure.com/.default" },
                 tenantId: "eacb26db-086d-4556-874b-167804328df6"
             );
             var azureToken = await azureCred.GetTokenAsync(requestContext);
