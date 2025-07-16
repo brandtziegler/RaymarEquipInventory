@@ -23,29 +23,30 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<string> GetGoogleAccessTokenAsync()
         {
-            string audience = Environment.GetEnvironmentVariable("GOOGLE_POOL_AUDIENCE")
-                                ?? throw new InvalidOperationException("GOOGLE_POOL_AUDIENCE is not set");
+            string azureAudience = "https://management.azure.com/.default"; // Azure supports this
+            string gcpAudience = Environment.GetEnvironmentVariable("GOOGLE_POOL_AUDIENCE")
+                ?? throw new InvalidOperationException("GOOGLE_POOL_AUDIENCE is not set");
             string serviceAccountEmail = Environment.GetEnvironmentVariable("GOOGLE_SERVICE_ACCOUNT_EMAIL")
-                                ?? throw new InvalidOperationException("GOOGLE_SERVICE_ACCOUNT_EMAIL is not set");
+                ?? throw new InvalidOperationException("GOOGLE_SERVICE_ACCOUNT_EMAIL is not set");
             string scope = Environment.GetEnvironmentVariable("GOOGLE_SCOPE")
-                                ?? "https://www.googleapis.com/auth/drive";
+                ?? "https://www.googleapis.com/auth/drive";
             string tokenUrl = Environment.GetEnvironmentVariable("GOOGLE_TOKEN_URL")
-                                ?? "https://sts.googleapis.com/v1/token";
+                ?? "https://sts.googleapis.com/v1/token";
 
             var azureCred = new DefaultAzureCredential();
-            var requestContext = new TokenRequestContext(new[] { audience });
+            var requestContext = new TokenRequestContext(new[] { azureAudience });
             var azureToken = await azureCred.GetTokenAsync(requestContext);
 
             var client = _httpClientFactory.CreateClient();
 
             var body = new Dictionary<string, string>
-            {
-                { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
-                { "audience", audience },
-                { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
-                { "subject_token", azureToken.Token },
-                { "scope", scope }
-            };
+    {
+        { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
+        { "audience", gcpAudience },
+        { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
+        { "subject_token", azureToken.Token },
+        { "scope", scope }
+    };
 
             var response = await client.PostAsync(tokenUrl, new FormUrlEncodedContent(body));
 
@@ -73,6 +74,7 @@ namespace RaymarEquipmentInventory.Services
 
             return accessToken;
         }
+
 
         public async Task<DriveService> GetDriveServiceAsync()
         {
