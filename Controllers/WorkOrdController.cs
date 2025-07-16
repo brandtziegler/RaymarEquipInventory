@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Azure.Identity;
+using Microsoft.AspNetCore.Mvc;
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
@@ -57,6 +59,22 @@ namespace RaymarEquipmentInventory.Controllers
             {
                 Log.Error($"Error launching work order: {ex.Message}");
                 return StatusCode(500, "An error occurred while launching the work order.");
+            }
+        }
+
+        [HttpGet("test-azure-token")]
+        public async Task<IActionResult> TestAzureToken()
+        {
+            try
+            {
+                var credential = new DefaultAzureCredential();
+                var context = new TokenRequestContext(new[] { "https://management.azure.com/.default" });
+                var token = await credential.GetTokenAsync(context);
+                return Ok(new { token = token.Token.Substring(0, 30), expires = token.ExpiresOn });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Token fetch failed", error = ex.Message });
             }
         }
 
