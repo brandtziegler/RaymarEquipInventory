@@ -1,5 +1,8 @@
 ﻿using Azure.Core;
 using Azure.Identity;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
 using Microsoft.AspNetCore.Mvc;
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
@@ -17,6 +20,7 @@ namespace RaymarEquipmentInventory.Controllers
         private readonly IWorkOrderService _workOrderService;
         private readonly ITechnicianService _technicianService;
         private readonly ITokenExchangeService _tokenExchangeService;
+        private readonly IFederatedTokenService _federatedTokenService;
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly ISamsaraApiService _samsaraApiService;
         private readonly IHttpClientFactory _httpClientFactory;
@@ -27,7 +31,7 @@ namespace RaymarEquipmentInventory.Controllers
         public WorkOrdController(IWorkOrderService workOrderService, 
             IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, 
             ISamsaraApiService samsaraApiService, ITokenExchangeService tokenExchangeService,
-            IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService)
+            IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService, IFederatedTokenService federatedTokenService)
         {
             _workOrderService = workOrderService;
             _quickBooksConnectionService = quickBooksConnectionService;
@@ -36,6 +40,7 @@ namespace RaymarEquipmentInventory.Controllers
             _httpClientFactory = httpClientFactory;
             _driveUploaderService = driveUploaderService;
             _tokenExchangeService = tokenExchangeService;
+            _federatedTokenService = federatedTokenService;
 
         }
 
@@ -107,12 +112,62 @@ namespace RaymarEquipmentInventory.Controllers
         /// <summary>
         /// Test WIF integration with Google Drive.
         /// </summary>
+        //[HttpGet("test-token")]
+        //public async Task<IActionResult> TestGoogleDriveConnection()
+        //{
+        //    try
+        //    {
+        //        var drive = await _tokenExchangeService.GetDriveServiceAsync();
+
+        //        var listRequest = drive.Files.List();
+        //        listRequest.Q = "trashed = false and mimeType != 'application/vnd.google-apps.folder'";
+        //        listRequest.Corpora = "drive";
+        //        listRequest.DriveId = "0APcqm9T1UGNCUk9PVA"; // <-- Root of TaskFuelDrive
+        //        listRequest.SupportsAllDrives = true;
+        //        listRequest.IncludeItemsFromAllDrives = true;
+        //        listRequest.Fields = "files(id, name, parents, mimeType, modifiedTime)";
+        //        listRequest.OrderBy = "modifiedTime desc";
+        //        listRequest.PageSize = 50;
+
+        //        var result = await listRequest.ExecuteAsync();
+        //        var files = result.Files.Select(f => new {
+        //            f.Id,
+        //            f.Name,
+        //            f.MimeType,
+        //            f.Parents,
+        //            Modified = f.ModifiedTimeRaw
+        //        }).ToList();
+
+        //        return Ok(new
+        //        {
+        //            message = "✅ Deep WIF Drive test succeeded!",
+        //            fileCount = files.Count,
+        //            files
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new
+        //        {
+        //            message = "❌ WIF connection failed",
+        //            error = ex.Message,
+        //            stack = ex.StackTrace
+        //        });
+        //    }
+        //}
         [HttpGet("test-token")]
         public async Task<IActionResult> TestGoogleDriveConnection()
         {
             try
             {
-                var drive = await _tokenExchangeService.GetDriveServiceAsync();
+                var accessToken = await _federatedTokenService.GetGoogleAccessTokenAsync();
+
+                var credential = GoogleCredential.FromAccessToken(accessToken);
+                var drive = new DriveService(new BaseClientService.Initializer
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = "TaskFuelUploader"
+                });
 
                 var listRequest = drive.Files.List();
                 listRequest.Q = "trashed = false and mimeType != 'application/vnd.google-apps.folder'";
@@ -125,7 +180,8 @@ namespace RaymarEquipmentInventory.Controllers
                 listRequest.PageSize = 50;
 
                 var result = await listRequest.ExecuteAsync();
-                var files = result.Files.Select(f => new {
+                var files = result.Files.Select(f => new
+                {
                     f.Id,
                     f.Name,
                     f.MimeType,
@@ -142,11 +198,19 @@ namespace RaymarEquipmentInventory.Controllers
             }
             catch (Exception ex)
             {
+                var message = ex.Message;
+                var fullDetails = ex.ToString();
+
+                if (ex is HttpRequestException httpEx && httpEx.Data.Contains("Body"))
+                {
+                    message += $" | Google STS Response: {httpEx.Data["Body"]}";
+                }
+
                 return StatusCode(500, new
                 {
                     message = "❌ WIF connection failed",
-                    error = ex.Message,
-                    stack = ex.StackTrace
+                    error = message,
+                    stack = fullDetails
                 });
             }
         }

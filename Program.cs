@@ -114,6 +114,7 @@ builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<ITechWOService, TechWOService>();
 builder.Services.AddScoped<ITokenExchangeService, TokenExchangeService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
+builder.Services.AddScoped<IFederatedTokenService, FederatedTokenService>();
 
 builder.Services.Configure<FormOptions>(options =>
 {

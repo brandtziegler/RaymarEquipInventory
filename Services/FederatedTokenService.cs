@@ -1,0 +1,113 @@
+﻿using Azure.Core;
+using Azure.Identity;
+using Google.Apis.Auth.OAuth2;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using Google.Cloud.Iam.Credentials.V1;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
+using Microsoft.Extensions.Logging;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+using System.Text;
+
+namespace RaymarEquipmentInventory.Services
+{
+    public class FederatedTokenService : IFederatedTokenService
+    {
+        private readonly string _tenantId;
+        private readonly string _clientId;
+        private readonly string _audience;
+        private readonly string _serviceAccountEmail;
+        private readonly string _scope;
+        private readonly string _tokenUrl;
+        private readonly string _privateKeyPem;
+
+        public FederatedTokenService()
+        {
+            _tenantId = GetRequiredEnv("AZURE_TENANT_ID");
+            _clientId = GetRequiredEnv("AZURE_CLIENT_ID");
+            _audience = GetRequiredEnv("GOOGLE_POOL_AUDIENCE");
+            _serviceAccountEmail = GetRequiredEnv("GOOGLE_SERVICE_ACCOUNT_EMAIL");
+            _scope = Environment.GetEnvironmentVariable("GOOGLE_SCOPE") ?? "https://www.googleapis.com/auth/drive";
+            _tokenUrl = Environment.GetEnvironmentVariable("GOOGLE_TOKEN_URL") ?? "https://sts.googleapis.com/v1/token";
+            _privateKeyPem = GetRequiredEnv("AZURE_APP_PRIVATE_KEY");
+        }
+
+        private static string GetRequiredEnv(string key)
+        {
+            var value = Environment.GetEnvironmentVariable(key);
+            if (string.IsNullOrWhiteSpace(value))
+                throw new InvalidOperationException($"Missing required environment variable: {key}");
+            return value;
+        }
+
+        public async Task<string> GetGoogleAccessTokenAsync()
+        {
+            var jwt = GenerateSignedJwt();
+
+            var body = new Dictionary<string, string>
+            {
+                { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
+                { "audience", _audience },
+                { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
+                { "requested_token_type", "urn:ietf:params:oauth:token-type:access_token" },
+                { "subject_token", jwt },
+                { "scope", _scope }
+            };
+
+            using var client = new HttpClient();
+            var response = await client.PostAsync(_tokenUrl, new FormUrlEncodedContent(body));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+
+                var exception = new HttpRequestException($"Google token exchange failed: {response.StatusCode}");
+                exception.Data["Body"] = err;
+
+                throw exception;
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var result = JsonDocument.Parse(json);
+
+            if (!result.RootElement.TryGetProperty("access_token", out var tokenElement))
+                throw new ApplicationException("access_token missing in STS response");
+
+            var accessToken = tokenElement.GetString();
+
+            if (string.IsNullOrWhiteSpace(accessToken))
+                throw new ApplicationException("access_token returned as null or empty");
+
+            return accessToken;
+        }
+
+        private string GenerateSignedJwt()
+        {
+            var rsa = RSA.Create();
+            rsa.ImportFromPem(_privateKeyPem.ToCharArray());
+
+            var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
+
+            var now = DateTime.UtcNow;
+            var jwt = new JwtSecurityToken(
+                issuer: _clientId,
+                audience: $"https://login.microsoftonline.com/{_tenantId}/v2.0",
+                claims: new[]
+                {
+                    new Claim("sub", _clientId),
+                    new Claim("jti", Guid.NewGuid().ToString())
+                },
+                notBefore: now,
+                expires: now.AddMinutes(10),
+                signingCredentials: signingCredentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
+    }
+}
