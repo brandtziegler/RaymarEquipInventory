@@ -77,6 +77,32 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, new { message = "Token fetch failed", error = ex.Message });
             }
         }
+        [HttpGet("test-wif-audience-direct")]
+        public async Task<IActionResult> TestWifAudienceDirect()
+        {
+            try
+            {
+                var tenantId = Environment.GetEnvironmentVariable("AZURE_TENANT_ID");
+                var audience = Environment.GetEnvironmentVariable("GOOGLE_POOL_AUDIENCE");
+
+                var clientId = "<no need for client ID with system-assigned MSI>";
+                var credential = new ManagedIdentityCredential(); // skip DefaultAzureCredential entirely
+
+                var context = new TokenRequestContext(new[] { audience });
+                var token = await credential.GetTokenAsync(context);
+
+                return Ok(new { token = token.Token.Substring(0, 40), expires = token.ExpiresOn });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "🔴 WIF direct audience test failed",
+                    error = ex.Message,
+                    trace = ex.StackTrace
+                });
+            }
+        }
 
         /// <summary>
         /// Test WIF integration with Google Drive.
