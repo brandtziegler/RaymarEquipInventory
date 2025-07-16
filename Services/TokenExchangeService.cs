@@ -41,13 +41,22 @@ namespace RaymarEquipmentInventory.Services
             var client = _httpClientFactory.CreateClient();
 
             var body = new Dictionary<string, string>
-    {
-        { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
-        { "audience", gcpAudience },
-        { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
-        { "subject_token", azureToken.Token },
-        { "scope", scope }
-    };
+{
+    { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
+    { "audience", gcpAudience },
+    { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
+    { "requested_token_type", "urn:ietf:params:oauth:token-type:access_token" },
+    { "subject_token", azureToken.Token },
+    { "scope", scope }
+};
+            //        var body = new Dictionary<string, string>
+            //{
+            //    { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
+            //    { "audience", gcpAudience },
+            //    { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
+            //    { "subject_token", azureToken.Token },
+            //    { "scope", scope }
+            //};
 
             var response = await client.PostAsync(tokenUrl, new FormUrlEncodedContent(body));
 
