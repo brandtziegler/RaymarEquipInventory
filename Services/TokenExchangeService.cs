@@ -33,12 +33,13 @@ namespace RaymarEquipmentInventory.Services
             string tokenUrl = Environment.GetEnvironmentVariable("GOOGLE_TOKEN_URL")
                 ?? "https://sts.googleapis.com/v1/token";
 
-            var azureCred = new DefaultAzureCredential();
-            var requestContext = new TokenRequestContext(
-                new[] { "https://management.azure.com/.default" },
-                tenantId: Environment.GetEnvironmentVariable("AZURE_TENANT_ID")
+            var credential = new ManagedIdentityCredential(
+                clientId: Environment.GetEnvironmentVariable("AZURE_CLIENT_ID")
             );
-            var azureToken = await azureCred.GetTokenAsync(requestContext);
+            var tokenRequestContext = new TokenRequestContext(
+                new[] { "https://management.azure.com/.default" }
+            );
+            var azureToken = await credential.GetTokenAsync(tokenRequestContext);
 
             var client = _httpClientFactory.CreateClient();
             var body = new Dictionary<string, string>
