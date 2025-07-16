@@ -35,7 +35,10 @@ namespace RaymarEquipmentInventory.Services
                 ?? "https://sts.googleapis.com/v1/token";
 
             var azureCred = new DefaultAzureCredential();
-            var requestContext = new TokenRequestContext(new[] { azureAudience });
+            var requestContext = new TokenRequestContext(
+                new[] { azureAudience },
+                tenantId: "eacb26db-086d-4556-874b-167804328df6"
+            );
             var azureToken = await azureCred.GetTokenAsync(requestContext);
 
             var client = _httpClientFactory.CreateClient();
@@ -49,14 +52,7 @@ namespace RaymarEquipmentInventory.Services
     { "subject_token", azureToken.Token },
     { "scope", scope }
 };
-            //        var body = new Dictionary<string, string>
-            //{
-            //    { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
-            //    { "audience", gcpAudience },
-            //    { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
-            //    { "subject_token", azureToken.Token },
-            //    { "scope", scope }
-            //};
+
 
             var response = await client.PostAsync(tokenUrl, new FormUrlEncodedContent(body));
 
