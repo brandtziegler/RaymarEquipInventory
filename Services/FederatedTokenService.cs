@@ -67,22 +67,25 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-
         public async Task<string> GetGoogleAccessTokenAsync()
         {
-            var credential = new DefaultAzureCredential();
+            var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions
+            {
+                ManagedIdentityClientId = "0e0f9219-287b-4543-8621-42b2ba27b22f" // ← your UAMI Client ID
+            });
+
             var token = await credential.GetTokenAsync(new TokenRequestContext(new[] { _audience }));
             var jwt = token.Token;
 
             var body = new Dictionary<string, string>
-            {
-                { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
-                { "audience", _audience },
-                { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
-                { "requested_token_type", "urn:ietf:params:oauth:token-type:access_token" },
-                { "subject_token", jwt },
-                { "scope", _scope }
-            };
+    {
+        { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
+        { "audience", _audience },
+        { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
+        { "requested_token_type", "urn:ietf:params:oauth:token-type:access_token" },
+        { "subject_token", jwt },
+        { "scope", _scope }
+    };
 
             using var client = new HttpClient();
             var response = await client.PostAsync(_tokenUrl, new FormUrlEncodedContent(body));
@@ -108,5 +111,46 @@ namespace RaymarEquipmentInventory.Services
 
             return accessToken;
         }
+
+        //public async Task<string> GetGoogleAccessTokenAsync()
+        //{
+        //    var credential = new DefaultAzureCredential();
+        //    var token = await credential.GetTokenAsync(new TokenRequestContext(new[] { _audience }));
+        //    var jwt = token.Token;
+
+        //    var body = new Dictionary<string, string>
+        //    {
+        //        { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
+        //        { "audience", _audience },
+        //        { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
+        //        { "requested_token_type", "urn:ietf:params:oauth:token-type:access_token" },
+        //        { "subject_token", jwt },
+        //        { "scope", _scope }
+        //    };
+
+        //    using var client = new HttpClient();
+        //    var response = await client.PostAsync(_tokenUrl, new FormUrlEncodedContent(body));
+
+        //    if (!response.IsSuccessStatusCode)
+        //    {
+        //        var err = await response.Content.ReadAsStringAsync();
+        //        var exception = new HttpRequestException($"Google token exchange failed: {response.StatusCode}");
+        //        exception.Data["Body"] = err;
+        //        throw exception;
+        //    }
+
+        //    var json = await response.Content.ReadAsStringAsync();
+        //    var result = JsonDocument.Parse(json);
+
+        //    if (!result.RootElement.TryGetProperty("access_token", out var tokenElement))
+        //        throw new ApplicationException("access_token missing in STS response");
+
+        //    var accessToken = tokenElement.GetString();
+
+        //    if (string.IsNullOrWhiteSpace(accessToken))
+        //        throw new ApplicationException("access_token returned as null or empty");
+
+        //    return accessToken;
+        //}
     }
 }
