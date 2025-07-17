@@ -16,7 +16,7 @@ using System.Text;
 
 namespace RaymarEquipmentInventory.Services
 {
-    public class FederatedTokenServiceOld : IFederatedTokenServiceOld
+    public class FederatedTokenServiceOld : FederatedTokenService
     {
         private readonly string _tenantId;
         private readonly string _clientId;
