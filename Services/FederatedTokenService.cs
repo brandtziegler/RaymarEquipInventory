@@ -95,12 +95,12 @@ namespace RaymarEquipmentInventory.Services
 
             var now = DateTime.UtcNow;
             var jwt = new JwtSecurityToken(
-                issuer: _clientId,
-                audience: $"https://login.microsoftonline.com/{_tenantId}/v2.0",
+                issuer: $"https://login.microsoftonline.com/{_tenantId}/v2.0",     // ✔️ stays
+                audience: _audience,                                               // ✔️ use GOOGLE_POOL_AUDIENCE
                 claims: new[]
                 {
-                    new Claim("sub", _clientId),
-                    new Claim("jti", Guid.NewGuid().ToString())
+                new Claim("sub", _clientId),                                   // ✔️ must match federated credential
+                new Claim("jti", Guid.NewGuid().ToString())
                 },
                 notBefore: now,
                 expires: now.AddMinutes(10),
