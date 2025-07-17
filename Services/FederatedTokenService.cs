@@ -51,7 +51,7 @@ namespace RaymarEquipmentInventory.Services
             {
                 var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions
                 {
-                    ManagedIdentityClientId = "0e0f9219-287b-4543-8621-42b2ba27b22f" // <-- your UAMI Client ID
+                    ManagedIdentityClientId = _clientId // <-- your UAMI Client ID
                 });
 
                 var context = new TokenRequestContext(new[]
@@ -81,7 +81,7 @@ namespace RaymarEquipmentInventory.Services
             {
                 var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions
                 {
-                    ManagedIdentityClientId = "0e0f9219-287b-4543-8621-42b2ba27b22f" // <-- your UAMI Client ID
+                    ManagedIdentityClientId = _clientId // <-- your UAMI Client ID
                 });
 
                 var context = new TokenRequestContext(new[]
