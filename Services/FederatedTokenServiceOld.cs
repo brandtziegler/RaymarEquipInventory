@@ -47,6 +47,7 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<string> GetGoogleAccessTokenAsync()
         {
+            //
             // Step 1: Get Azure-issued JWT using your federated App Registration
             var credential = new DefaultAzureCredential();
             var token = await credential.GetTokenAsync(new TokenRequestContext(new[] { _audience }));

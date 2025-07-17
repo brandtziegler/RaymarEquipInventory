@@ -42,10 +42,14 @@ namespace RaymarEquipmentInventory.Services
         {
             try
             {
-                var credential = new DefaultAzureCredential();
+                var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions
+                {
+                    ManagedIdentityClientId = "0e0f9219-287b-4543-8621-42b2ba27b22f" // <-- your UAMI Client ID
+                });
+
                 var context = new TokenRequestContext(new[]
                 {
-            "https://iam.googleapis.com/projects/714700545324/locations/global/workloadIdentityPools/taskfuel-pool/providers/azure-raymar"
+            "https://management.azure.com/.default"
         });
 
                 var token = await credential.GetTokenAsync(context);
@@ -62,6 +66,7 @@ namespace RaymarEquipmentInventory.Services
                 return (false, $"Exception: {ex.Message}", null);
             }
         }
+
 
         public async Task<string> GetGoogleAccessTokenAsync()
         {
