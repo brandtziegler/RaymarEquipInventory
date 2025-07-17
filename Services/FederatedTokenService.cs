@@ -21,12 +21,19 @@ namespace RaymarEquipmentInventory.Services
         private readonly string _audience;
         private readonly string _scope;
         private readonly string _tokenUrl;
+        private readonly string _tenantId;
+        private readonly string _clientId;
+        private readonly string _clientSecret;
 
         public FederatedTokenService()
         {
             _audience = GetRequiredEnv("GOOGLE_POOL_AUDIENCE");
             _scope = Environment.GetEnvironmentVariable("GOOGLE_SCOPE") ?? "https://www.googleapis.com/auth/drive";
             _tokenUrl = Environment.GetEnvironmentVariable("GOOGLE_TOKEN_URL") ?? "https://sts.googleapis.com/v1/token";
+
+            _tenantId = GetRequiredEnv("AZURE_TENANT_ID");
+            _clientId = GetRequiredEnv("AZURE_CLIENT_ID");
+            _clientSecret = GetRequiredEnv("AZURE_CLIENT_SECRET");
         }
 
         private static string GetRequiredEnv(string key)
@@ -69,20 +76,20 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<string> GetGoogleAccessTokenAsync()
         {
-            var credential = new ManagedIdentityCredential("0e0f9219-287b-4543-8621-42b2ba27b22f");
+            var credential = new ClientSecretCredential(_tenantId, _clientId, _clientSecret);
 
             var token = await credential.GetTokenAsync(new TokenRequestContext(new[] { _audience }));
             var jwt = token.Token;
 
             var body = new Dictionary<string, string>
-    {
-        { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
-        { "audience", _audience },
-        { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
-        { "requested_token_type", "urn:ietf:params:oauth:token-type:access_token" },
-        { "subject_token", jwt },
-        { "scope", _scope }
-    };
+            {
+                { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
+                { "audience", _audience },
+                { "subject_token_type", "urn:ietf:params:oauth:token-type:jwt" },
+                { "requested_token_type", "urn:ietf:params:oauth:token-type:access_token" },
+                { "subject_token", jwt },
+                { "scope", _scope }
+            };
 
             using var client = new HttpClient();
             var response = await client.PostAsync(_tokenUrl, new FormUrlEncodedContent(body));
