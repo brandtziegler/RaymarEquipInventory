@@ -70,17 +70,23 @@ namespace RaymarEquipmentInventory.Controllers
         [HttpGet("test-azure-token")]
         public async Task<IActionResult> TestAzureToken()
         {
-            try
+            var (success, message, token) = await _federatedTokenService.TestAzureTokenAsync();
+
+            if (!success)
             {
-                var credential = new DefaultAzureCredential();
-                var context = new TokenRequestContext(new[] { "https://management.azure.com/.default" });
-                var token = await credential.GetTokenAsync(context);
-                return Ok(new { token = token.Token.Substring(0, 30), expires = token.ExpiresOn });
+                return StatusCode(500, new
+                {
+                    message = "❌ Token acquisition failed",
+                    details = message
+                });
             }
-            catch (Exception ex)
+
+            return Ok(new
             {
-                return StatusCode(500, new { message = "Token fetch failed", error = ex.Message });
-            }
+                message = "✅ Token acquired successfully",
+                tokenPreview = token.Substring(0, 100) + "...",
+                issuedAt = DateTime.UtcNow
+            });
         }
         [HttpGet("test-wif-audience-direct")]
         public async Task<IActionResult> TestWifAudienceDirect()

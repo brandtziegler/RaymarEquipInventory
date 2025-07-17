@@ -37,6 +37,32 @@ namespace RaymarEquipmentInventory.Services
             return value;
         }
 
+
+        public async Task<(bool success, string message, string token)> TestAzureTokenAsync()
+        {
+            try
+            {
+                var credential = new DefaultAzureCredential();
+                var context = new TokenRequestContext(new[]
+                {
+            "https://iam.googleapis.com/projects/714700545324/locations/global/workloadIdentityPools/taskfuel-pool/providers/azure-raymar"
+        });
+
+                var token = await credential.GetTokenAsync(context);
+
+                if (string.IsNullOrWhiteSpace(token.Token))
+                {
+                    return (false, "Token was returned as null or empty", null);
+                }
+
+                return (true, "Azure-issued token acquired successfully", token.Token);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Exception: {ex.Message}", null);
+            }
+        }
+
         public async Task<string> GetGoogleAccessTokenAsync()
         {
             var credential = new DefaultAzureCredential();
