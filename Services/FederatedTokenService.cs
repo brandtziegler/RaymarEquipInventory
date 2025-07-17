@@ -93,19 +93,22 @@ namespace RaymarEquipmentInventory.Services
 
             var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
 
-            var now = DateTime.UtcNow;
+            var now = DateTimeOffset.UtcNow;
+
             var jwt = new JwtSecurityToken(
-                issuer: $"https://login.microsoftonline.com/{_tenantId}/v2.0",     // ✔️ stays
-                audience: _audience,                                               // ✔️ use GOOGLE_POOL_AUDIENCE
+                issuer: $"https://login.microsoftonline.com/{_tenantId}/v2.0",
+                audience: _audience,
                 claims: new[]
                 {
-                new Claim("sub", _clientId),                                   // ✔️ must match federated credential
-                new Claim("jti", Guid.NewGuid().ToString())
+        new Claim("sub", _clientId),
+        new Claim("jti", Guid.NewGuid().ToString()),
+        new Claim("iat", now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
                 },
-                notBefore: now,
-                expires: now.AddMinutes(10),
+                notBefore: now.UtcDateTime,
+                expires: now.AddMinutes(10).UtcDateTime,
                 signingCredentials: signingCredentials
             );
+
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
