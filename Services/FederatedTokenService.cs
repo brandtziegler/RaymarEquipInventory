@@ -69,10 +69,7 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<string> GetGoogleAccessTokenAsync()
         {
-            var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions
-            {
-                ManagedIdentityClientId = "0e0f9219-287b-4543-8621-42b2ba27b22f" // ← your UAMI Client ID
-            });
+            var credential = new ManagedIdentityCredential("0e0f9219-287b-4543-8621-42b2ba27b22f");
 
             var token = await credential.GetTokenAsync(new TokenRequestContext(new[] { _audience }));
             var jwt = token.Token;
@@ -111,6 +108,7 @@ namespace RaymarEquipmentInventory.Services
 
             return accessToken;
         }
+
 
         //public async Task<string> GetGoogleAccessTokenAsync()
         //{
