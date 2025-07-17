@@ -76,7 +76,10 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<string> GetGoogleAccessTokenAsync()
         {
-            var credential = new ClientSecretCredential(_tenantId, _clientId, _clientSecret);
+            var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions
+            {
+                ManagedIdentityClientId = _clientId  // This is your AZURE_CLIENT_ID (UAMI)
+            });
 
             var token = await credential.GetTokenAsync(new TokenRequestContext(new[] { _audience }));
             var jwt = token.Token;
