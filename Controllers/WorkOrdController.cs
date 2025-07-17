@@ -88,6 +88,28 @@ namespace RaymarEquipmentInventory.Controllers
                 issuedAt = DateTime.UtcNow
             });
         }
+
+        [HttpGet("test-azure-tokentwo")]
+        public async Task<IActionResult> TestAzureTokenTwo()
+        {
+            var (success, message, token) = await _federatedTokenService.TestAzureTokenTwoAsync();
+
+            if (!success)
+            {
+                return StatusCode(500, new
+                {
+                    message = "❌ Token acquisition failed",
+                    details = message
+                });
+            }
+
+            return Ok(new
+            {
+                message = "✅ Token acquired successfully",
+                tokenPreview = token.Substring(0, 100) + "...",
+                issuedAt = DateTime.UtcNow
+            });
+        }
         [HttpGet("test-wif-audience-direct")]
         public async Task<IActionResult> TestWifAudienceDirect()
         {
