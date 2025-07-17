@@ -16,17 +16,25 @@ using System.Text;
 
 namespace RaymarEquipmentInventory.Services
 {
-    public class FederatedTokenService : IFederatedTokenService
+    public class FederatedTokenServiceOld : IFederatedTokenServiceOld
     {
+        private readonly string _tenantId;
+        private readonly string _clientId;
         private readonly string _audience;
+        private readonly string _serviceAccountEmail;
         private readonly string _scope;
         private readonly string _tokenUrl;
+        private readonly string _privateKeyPem;
 
-        public FederatedTokenService()
+        public FederatedTokenServiceOld()
         {
+            _tenantId = GetRequiredEnv("AZURE_TENANT_ID");
+            _clientId = GetRequiredEnv("AZURE_CLIENT_ID");
             _audience = GetRequiredEnv("GOOGLE_POOL_AUDIENCE");
+            _serviceAccountEmail = GetRequiredEnv("GOOGLE_SERVICE_ACCOUNT_EMAIL");
             _scope = Environment.GetEnvironmentVariable("GOOGLE_SCOPE") ?? "https://www.googleapis.com/auth/drive";
             _tokenUrl = Environment.GetEnvironmentVariable("GOOGLE_TOKEN_URL") ?? "https://sts.googleapis.com/v1/token";
+            _privateKeyPem = GetRequiredEnv("AZURE_APP_PRIVATE_KEY");
         }
 
         private static string GetRequiredEnv(string key)
@@ -39,10 +47,12 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<string> GetGoogleAccessTokenAsync()
         {
+            // Step 1: Get Azure-issued JWT using your federated App Registration
             var credential = new DefaultAzureCredential();
             var token = await credential.GetTokenAsync(new TokenRequestContext(new[] { _audience }));
             var jwt = token.Token;
 
+            // Step 2: Exchange it for a Google access token via STS
             var body = new Dictionary<string, string>
             {
                 { "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
@@ -76,6 +86,34 @@ namespace RaymarEquipmentInventory.Services
                 throw new ApplicationException("access_token returned as null or empty");
 
             return accessToken;
+        }
+
+
+        private string GenerateSignedJwt()
+        {
+            var rsa = RSA.Create();
+            rsa.ImportFromPem(_privateKeyPem.ToCharArray());
+
+            var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
+
+            var now = DateTimeOffset.UtcNow;
+
+            var jwt = new JwtSecurityToken(
+                issuer: $"https://login.microsoftonline.com/{_tenantId}/v2.0",
+                audience: _audience,
+                claims: new[]
+                {
+        new Claim("sub", _clientId),
+        new Claim("jti", Guid.NewGuid().ToString()),
+        new Claim("iat", now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
+                },
+                notBefore: now.UtcDateTime,
+                expires: now.AddMinutes(10).UtcDateTime,
+                signingCredentials: signingCredentials
+            );
+
+
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
     }
 }
