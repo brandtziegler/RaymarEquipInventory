@@ -23,7 +23,7 @@ namespace RaymarEquipmentInventory.Services
         private readonly string _tokenUrl;
         private readonly string _tenantId;
         private readonly string _clientId;
-        private readonly string _clientSecret;
+        //private readonly string _clientSecret;
 
         public FederatedTokenService()
         {
@@ -33,7 +33,7 @@ namespace RaymarEquipmentInventory.Services
 
             _tenantId = GetRequiredEnv("AZURE_TENANT_ID");
             _clientId = GetRequiredEnv("AZURE_CLIENT_ID");
-            _clientSecret = GetRequiredEnv("AZURE_CLIENT_SECRET");
+            //_clientSecret = GetRequiredEnv("AZURE_CLIENT_SECRET");
         }
 
         private static string GetRequiredEnv(string key)
@@ -56,7 +56,8 @@ namespace RaymarEquipmentInventory.Services
 
                 var context = new TokenRequestContext(new[]
                 {
-            "https://management.azure.com/.default"
+            // Replace with your Google audience (same as GOOGLE_POOL_AUDIENCE env var)
+            "https://iam.googleapis.com/projects/714700545324/locations/global/workloadIdentityPools/taskfuel-pool/providers/azure-raymar"
         });
 
                 var token = await credential.GetTokenAsync(context);
