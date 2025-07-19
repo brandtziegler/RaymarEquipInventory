@@ -20,18 +20,19 @@ namespace RaymarEquipmentInventory.Controllers
         private readonly IWorkOrderService _workOrderService;
         private readonly ITechnicianService _technicianService;
         private readonly ITokenExchangeService _tokenExchangeService;
-        private readonly IFederatedTokenService _federatedTokenService;
+        //private readonly IFederatedTokenService _federatedTokenService;
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly ISamsaraApiService _samsaraApiService;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IDriveUploaderService _driveUploaderService;
+        private readonly IDriveAuthService _driveAuthService;
 
         private static readonly ConcurrentDictionary<string, SemaphoreSlim> FolderLocks = new();
 
         public WorkOrdController(IWorkOrderService workOrderService, 
             IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, 
             ISamsaraApiService samsaraApiService, ITokenExchangeService tokenExchangeService,
-            IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService, IFederatedTokenService federatedTokenService)
+            IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService, IDriveAuthService driveAuthService)
         {
             _workOrderService = workOrderService;
             _quickBooksConnectionService = quickBooksConnectionService;
@@ -40,7 +41,8 @@ namespace RaymarEquipmentInventory.Controllers
             _httpClientFactory = httpClientFactory;
             _driveUploaderService = driveUploaderService;
             _tokenExchangeService = tokenExchangeService;
-            _federatedTokenService = federatedTokenService;
+            _driveAuthService = driveAuthService;
+            //_federatedTokenService = federatedTokenService;
 
         }
 
@@ -67,75 +69,75 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        [HttpGet("test-azure-token")]
-        public async Task<IActionResult> TestAzureToken()
-        {
-            var (success, message, token) = await _federatedTokenService.TestAzureTokenAsync();
+        //[HttpGet("test-azure-token")]
+        //public async Task<IActionResult> TestAzureToken()
+        //{
+        //    var (success, message, token) = await _federatedTokenService.TestAzureTokenAsync();
 
-            if (!success)
-            {
-                return StatusCode(500, new
-                {
-                    message = "❌ Token acquisition failed",
-                    details = message
-                });
-            }
+        //    if (!success)
+        //    {
+        //        return StatusCode(500, new
+        //        {
+        //            message = "❌ Token acquisition failed",
+        //            details = message
+        //        });
+        //    }
 
-            return Ok(new
-            {
-                message = "✅ Token acquired successfully",
-                tokenPreview = token.Substring(0, 100) + "...",
-                issuedAt = DateTime.UtcNow
-            });
-        }
+        //    return Ok(new
+        //    {
+        //        message = "✅ Token acquired successfully",
+        //        tokenPreview = token.Substring(0, 100) + "...",
+        //        issuedAt = DateTime.UtcNow
+        //    });
+        //}
 
-        [HttpGet("test-azure-tokentwo")]
-        public async Task<IActionResult> TestAzureTokenTwo()
-        {
-            var (success, message, token) = await _federatedTokenService.TestAzureTokenTwoAsync();
+        //[HttpGet("test-azure-tokentwo")]
+        //public async Task<IActionResult> TestAzureTokenTwo()
+        //{
+        //    var (success, message, token) = await _federatedTokenService.TestAzureTokenTwoAsync();
 
-            if (!success)
-            {
-                return StatusCode(500, new
-                {
-                    message = "❌ Token acquisition failed",
-                    details = message
-                });
-            }
+        //    if (!success)
+        //    {
+        //        return StatusCode(500, new
+        //        {
+        //            message = "❌ Token acquisition failed",
+        //            details = message
+        //        });
+        //    }
 
-            return Ok(new
-            {
-                message = "✅ Token acquired successfully",
-                tokenPreview = token.Substring(0, 100) + "...",
-                issuedAt = DateTime.UtcNow
-            });
-        }
-        [HttpGet("test-wif-audience-direct")]
-        public async Task<IActionResult> TestWifAudienceDirect()
-        {
-            try
-            {
-                var tenantId = Environment.GetEnvironmentVariable("AZURE_TENANT_ID");
-                var audience = Environment.GetEnvironmentVariable("GOOGLE_POOL_AUDIENCE");
+        //    return Ok(new
+        //    {
+        //        message = "✅ Token acquired successfully",
+        //        tokenPreview = token.Substring(0, 100) + "...",
+        //        issuedAt = DateTime.UtcNow
+        //    });
+        //}
+        //[HttpGet("test-wif-audience-direct")]
+        //public async Task<IActionResult> TestWifAudienceDirect()
+        //{
+        //    try
+        //    {
+        //        var tenantId = Environment.GetEnvironmentVariable("AZURE_TENANT_ID");
+        //        var audience = Environment.GetEnvironmentVariable("GOOGLE_POOL_AUDIENCE");
 
-                var clientId = "<no need for client ID with system-assigned MSI>";
-                var credential = new ManagedIdentityCredential(); // skip DefaultAzureCredential entirely
+        //        var clientId = "<no need for client ID with system-assigned MSI>";
+        //        var credential = new ManagedIdentityCredential(); // skip DefaultAzureCredential entirely
 
-                var context = new TokenRequestContext(new[] { audience });
-                var token = await credential.GetTokenAsync(context);
+        //        var context = new TokenRequestContext(new[] { audience });
+        //        var token = await credential.GetTokenAsync(context);
 
-                return Ok(new { token = token.Token.Substring(0, 40), expires = token.ExpiresOn });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    message = "🔴 WIF direct audience test failed",
-                    error = ex.Message,
-                    trace = ex.StackTrace
-                });
-            }
-        }
+        //        return Ok(new { token = token.Token.Substring(0, 40), expires = token.ExpiresOn });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new
+        //        {
+        //            message = "🔴 WIF direct audience test failed",
+        //            error = ex.Message,
+        //            trace = ex.StackTrace
+        //        });
+        //    }
+        //}
 
         /// <summary>
         /// Test WIF integration with Google Drive.
@@ -183,65 +185,65 @@ namespace RaymarEquipmentInventory.Controllers
         //        });
         //    }
         //}
-        [HttpGet("test-token")]
-        public async Task<IActionResult> TestGoogleDriveConnection()
-        {
-            try
-            {
-                var accessToken = await _federatedTokenService.GetGoogleAccessTokenAsync();
+        //[HttpGet("test-token")]
+        //public async Task<IActionResult> TestGoogleDriveConnection()
+        //{
+        //    try
+        //    {
+        //        var accessToken = await _federatedTokenService.GetGoogleAccessTokenAsync();
 
-                var credential = GoogleCredential.FromAccessToken(accessToken);
-                var drive = new DriveService(new BaseClientService.Initializer
-                {
-                    HttpClientInitializer = credential,
-                    ApplicationName = "TaskFuelUploader"
-                });
+        //        var credential = GoogleCredential.FromAccessToken(accessToken);
+        //        var drive = new DriveService(new BaseClientService.Initializer
+        //        {
+        //            HttpClientInitializer = credential,
+        //            ApplicationName = "TaskFuelUploader"
+        //        });
 
-                var listRequest = drive.Files.List();
-                listRequest.Q = "trashed = false and mimeType != 'application/vnd.google-apps.folder'";
-                listRequest.Corpora = "drive";
-                listRequest.DriveId = "0APcqm9T1UGNCUk9PVA"; // <-- Root of TaskFuelDrive
-                listRequest.SupportsAllDrives = true;
-                listRequest.IncludeItemsFromAllDrives = true;
-                listRequest.Fields = "files(id, name, parents, mimeType, modifiedTime)";
-                listRequest.OrderBy = "modifiedTime desc";
-                listRequest.PageSize = 50;
+        //        var listRequest = drive.Files.List();
+        //        listRequest.Q = "trashed = false and mimeType != 'application/vnd.google-apps.folder'";
+        //        listRequest.Corpora = "drive";
+        //        listRequest.DriveId = "0APcqm9T1UGNCUk9PVA"; // <-- Root of TaskFuelDrive
+        //        listRequest.SupportsAllDrives = true;
+        //        listRequest.IncludeItemsFromAllDrives = true;
+        //        listRequest.Fields = "files(id, name, parents, mimeType, modifiedTime)";
+        //        listRequest.OrderBy = "modifiedTime desc";
+        //        listRequest.PageSize = 50;
 
-                var result = await listRequest.ExecuteAsync();
-                var files = result.Files.Select(f => new
-                {
-                    f.Id,
-                    f.Name,
-                    f.MimeType,
-                    f.Parents,
-                    Modified = f.ModifiedTimeRaw
-                }).ToList();
+        //        var result = await listRequest.ExecuteAsync();
+        //        var files = result.Files.Select(f => new
+        //        {
+        //            f.Id,
+        //            f.Name,
+        //            f.MimeType,
+        //            f.Parents,
+        //            Modified = f.ModifiedTimeRaw
+        //        }).ToList();
 
-                return Ok(new
-                {
-                    message = "✅ Deep WIF Drive test succeeded!",
-                    fileCount = files.Count,
-                    files
-                });
-            }
-            catch (Exception ex)
-            {
-                var message = ex.Message;
-                var fullDetails = ex.ToString();
+        //        return Ok(new
+        //        {
+        //            message = "✅ Deep WIF Drive test succeeded!",
+        //            fileCount = files.Count,
+        //            files
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var message = ex.Message;
+        //        var fullDetails = ex.ToString();
 
-                if (ex is HttpRequestException httpEx && httpEx.Data.Contains("Body"))
-                {
-                    message += $" | Google STS Response: {httpEx.Data["Body"]}";
-                }
+        //        if (ex is HttpRequestException httpEx && httpEx.Data.Contains("Body"))
+        //        {
+        //            message += $" | Google STS Response: {httpEx.Data["Body"]}";
+        //        }
 
-                return StatusCode(500, new
-                {
-                    message = "❌ WIF connection failed",
-                    error = message,
-                    stack = fullDetails
-                });
-            }
-        }
+        //        return StatusCode(500, new
+        //        {
+        //            message = "❌ WIF connection failed",
+        //            error = message,
+        //            stack = fullDetails
+        //        });
+        //    }
+        //}
 
 
         [HttpGet("ping")]
@@ -319,9 +321,9 @@ namespace RaymarEquipmentInventory.Controllers
                 folderResult = await _driveUploaderService.PrepareGoogleDriveFoldersAsync(custPath, workOrderId);
                 folderResult.SheetID = sheetID;
 
-                if (folderResult.stupidLogErrors.Any())
+                if (folderResult.HasCriticalError)
                 {
-                    return StatusCode(500, folderResult); // Return logs for diagnostic failure
+                    return StatusCode(500, folderResult);
                 }
 
                 return Ok(folderResult);
@@ -341,7 +343,21 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpPost("UploadToTestFolder")]
+        public async Task<IActionResult> UploadToTestFolder(List<IFormFile> files)
+        {
+            const string testFolderId = "14XRoPlis41OQZ2_WtshCGhMEVKmQOqMa";
 
+            var results = await _driveUploaderService.UploadFilesAsync(
+                files,
+                workOrderId: "TEST123",
+                workOrderFolderId: testFolderId,
+                pdfFolderId: testFolderId,
+                imagesFolderId: testFolderId
+            );
+
+            return Ok(results);
+        }
 
         [HttpPost("UploadAppFiles")]
         public async Task<IActionResult> UploadAppFiles(
@@ -431,31 +447,6 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        [HttpPost("VerifyKey")]
-        public IActionResult VerifyKey()
-        {
-            try
-            {
-                var lines = _driveUploaderService.VerifyAndSplitPrivateKey();
-
-                if (lines == null || lines.Count == 0)
-                {
-                    return BadRequest("❌ Private key is missing or improperly formatted.");
-                }
-
-                return Ok(new
-                {
-                    message = "✅ Private key is valid and properly split.",
-                    lineCount = lines.Count,
-                    lines = lines
-                });
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "💥 Unexpected error during private key verification.");
-                return StatusCode(500, "Internal Server Error. Check logs for details.");
-            }
-        }
 
 
         [HttpPost("SendWorkOrderEmail")]

@@ -9,5 +9,7 @@ namespace RaymarEquipmentInventory.DTOs
         public string PdfFolderId { get; set; } = string.Empty;
         public string ImagesFolderId { get; set; } = string.Empty;
         public List<string> stupidLogErrors { get; set; } = new List<string>();
+
+        public bool HasCriticalError { get; set; } = false;
     }
 }

@@ -104,6 +104,7 @@ builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IHourlyLabourService, HourlyLabourService>(); // Registering our new service
 builder.Services.AddScoped<IMileageAndTravelService, MileageAndTravelService>(); // Registering our new service
 builder.Services.AddScoped<IDriveUploaderService, DriveUploaderService>();
+builder.Services.AddScoped<IDriveAuthService, DriveAuthService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>(); // Registering our new service
 builder.Services.AddScoped<ILabourService, LabourService>();
