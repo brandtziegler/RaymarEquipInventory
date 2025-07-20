@@ -7,7 +7,6 @@ namespace RaymarEquipmentInventory.Services
     {
 
         Task<DriveService> GetDriveServiceFromUserTokenAsync();
-        string GetConfigValue(string key);
 
     }
 }
