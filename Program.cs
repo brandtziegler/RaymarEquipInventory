@@ -113,7 +113,6 @@ builder.Services.AddScoped<ITechnicianService, TechnicanService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<ITechWOService, TechWOService>();
-builder.Services.AddScoped<ITokenExchangeService, TokenExchangeService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 
 

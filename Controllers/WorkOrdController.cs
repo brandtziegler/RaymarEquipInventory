@@ -19,7 +19,7 @@ namespace RaymarEquipmentInventory.Controllers
     {
         private readonly IWorkOrderService _workOrderService;
         private readonly ITechnicianService _technicianService;
-        private readonly ITokenExchangeService _tokenExchangeService;
+   
         //private readonly IFederatedTokenService _federatedTokenService;
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly ISamsaraApiService _samsaraApiService;
@@ -31,7 +31,7 @@ namespace RaymarEquipmentInventory.Controllers
 
         public WorkOrdController(IWorkOrderService workOrderService, 
             IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, 
-            ISamsaraApiService samsaraApiService, ITokenExchangeService tokenExchangeService,
+            ISamsaraApiService samsaraApiService, 
             IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService, IDriveAuthService driveAuthService)
         {
             _workOrderService = workOrderService;
@@ -40,7 +40,7 @@ namespace RaymarEquipmentInventory.Controllers
             _technicianService = technicianService;
             _httpClientFactory = httpClientFactory;
             _driveUploaderService = driveUploaderService;
-            _tokenExchangeService = tokenExchangeService;
+           
             _driveAuthService = driveAuthService;
             //_federatedTokenService = federatedTokenService;
 
@@ -69,183 +69,7 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        //[HttpGet("test-azure-token")]
-        //public async Task<IActionResult> TestAzureToken()
-        //{
-        //    var (success, message, token) = await _federatedTokenService.TestAzureTokenAsync();
-
-        //    if (!success)
-        //    {
-        //        return StatusCode(500, new
-        //        {
-        //            message = "❌ Token acquisition failed",
-        //            details = message
-        //        });
-        //    }
-
-        //    return Ok(new
-        //    {
-        //        message = "✅ Token acquired successfully",
-        //        tokenPreview = token.Substring(0, 100) + "...",
-        //        issuedAt = DateTime.UtcNow
-        //    });
-        //}
-
-        //[HttpGet("test-azure-tokentwo")]
-        //public async Task<IActionResult> TestAzureTokenTwo()
-        //{
-        //    var (success, message, token) = await _federatedTokenService.TestAzureTokenTwoAsync();
-
-        //    if (!success)
-        //    {
-        //        return StatusCode(500, new
-        //        {
-        //            message = "❌ Token acquisition failed",
-        //            details = message
-        //        });
-        //    }
-
-        //    return Ok(new
-        //    {
-        //        message = "✅ Token acquired successfully",
-        //        tokenPreview = token.Substring(0, 100) + "...",
-        //        issuedAt = DateTime.UtcNow
-        //    });
-        //}
-        //[HttpGet("test-wif-audience-direct")]
-        //public async Task<IActionResult> TestWifAudienceDirect()
-        //{
-        //    try
-        //    {
-        //        var tenantId = Environment.GetEnvironmentVariable("AZURE_TENANT_ID");
-        //        var audience = Environment.GetEnvironmentVariable("GOOGLE_POOL_AUDIENCE");
-
-        //        var clientId = "<no need for client ID with system-assigned MSI>";
-        //        var credential = new ManagedIdentityCredential(); // skip DefaultAzureCredential entirely
-
-        //        var context = new TokenRequestContext(new[] { audience });
-        //        var token = await credential.GetTokenAsync(context);
-
-        //        return Ok(new { token = token.Token.Substring(0, 40), expires = token.ExpiresOn });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, new
-        //        {
-        //            message = "🔴 WIF direct audience test failed",
-        //            error = ex.Message,
-        //            trace = ex.StackTrace
-        //        });
-        //    }
-        //}
-
-        /// <summary>
-        /// Test WIF integration with Google Drive.
-        /// </summary>
-        //[HttpGet("test-token")]
-        //public async Task<IActionResult> TestGoogleDriveConnection()
-        //{
-        //    try
-        //    {
-        //        var drive = await _tokenExchangeService.GetDriveServiceAsync();
-
-        //        var listRequest = drive.Files.List();
-        //        listRequest.Q = "trashed = false and mimeType != 'application/vnd.google-apps.folder'";
-        //        listRequest.Corpora = "drive";
-        //        listRequest.DriveId = "0APcqm9T1UGNCUk9PVA"; // <-- Root of TaskFuelDrive
-        //        listRequest.SupportsAllDrives = true;
-        //        listRequest.IncludeItemsFromAllDrives = true;
-        //        listRequest.Fields = "files(id, name, parents, mimeType, modifiedTime)";
-        //        listRequest.OrderBy = "modifiedTime desc";
-        //        listRequest.PageSize = 50;
-
-        //        var result = await listRequest.ExecuteAsync();
-        //        var files = result.Files.Select(f => new {
-        //            f.Id,
-        //            f.Name,
-        //            f.MimeType,
-        //            f.Parents,
-        //            Modified = f.ModifiedTimeRaw
-        //        }).ToList();
-
-        //        return Ok(new
-        //        {
-        //            message = "✅ Deep WIF Drive test succeeded!",
-        //            fileCount = files.Count,
-        //            files
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, new
-        //        {
-        //            message = "❌ WIF connection failed",
-        //            error = ex.Message,
-        //            stack = ex.StackTrace
-        //        });
-        //    }
-        //}
-        //[HttpGet("test-token")]
-        //public async Task<IActionResult> TestGoogleDriveConnection()
-        //{
-        //    try
-        //    {
-        //        var accessToken = await _federatedTokenService.GetGoogleAccessTokenAsync();
-
-        //        var credential = GoogleCredential.FromAccessToken(accessToken);
-        //        var drive = new DriveService(new BaseClientService.Initializer
-        //        {
-        //            HttpClientInitializer = credential,
-        //            ApplicationName = "TaskFuelUploader"
-        //        });
-
-        //        var listRequest = drive.Files.List();
-        //        listRequest.Q = "trashed = false and mimeType != 'application/vnd.google-apps.folder'";
-        //        listRequest.Corpora = "drive";
-        //        listRequest.DriveId = "0APcqm9T1UGNCUk9PVA"; // <-- Root of TaskFuelDrive
-        //        listRequest.SupportsAllDrives = true;
-        //        listRequest.IncludeItemsFromAllDrives = true;
-        //        listRequest.Fields = "files(id, name, parents, mimeType, modifiedTime)";
-        //        listRequest.OrderBy = "modifiedTime desc";
-        //        listRequest.PageSize = 50;
-
-        //        var result = await listRequest.ExecuteAsync();
-        //        var files = result.Files.Select(f => new
-        //        {
-        //            f.Id,
-        //            f.Name,
-        //            f.MimeType,
-        //            f.Parents,
-        //            Modified = f.ModifiedTimeRaw
-        //        }).ToList();
-
-        //        return Ok(new
-        //        {
-        //            message = "✅ Deep WIF Drive test succeeded!",
-        //            fileCount = files.Count,
-        //            files
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        var message = ex.Message;
-        //        var fullDetails = ex.ToString();
-
-        //        if (ex is HttpRequestException httpEx && httpEx.Data.Contains("Body"))
-        //        {
-        //            message += $" | Google STS Response: {httpEx.Data["Body"]}";
-        //        }
-
-        //        return StatusCode(500, new
-        //        {
-        //            message = "❌ WIF connection failed",
-        //            error = message,
-        //            stack = fullDetails
-        //        });
-        //    }
-        //}
-
-
+     
         [HttpGet("ping")]
         public IActionResult Ping() => Ok("Connected");
 
