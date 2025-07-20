@@ -1,3 +1,0 @@
-2025-07-04 20:27:08.019 -04:00 [INF] Application started. Press Ctrl+C to shut down.
-2025-07-04 20:27:08.122 -04:00 [INF] Hosting environment: Development
-2025-07-04 20:27:08.123 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
