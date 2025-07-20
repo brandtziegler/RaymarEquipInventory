@@ -536,14 +536,14 @@ namespace RaymarEquipmentInventory.Services
 
         private async Task<string> EnsureFolderExistsAsync(string folderName, string parentId, DriveService driveService)
         {
-            //var cached = await _context.GoogleDriveFolders
-            //    .FirstOrDefaultAsync(f => f.FolderName == folderName && f.ParentFolderId == parentId);
+            var cached = await _context.GoogleDriveFolders
+                .FirstOrDefaultAsync(f => f.FolderName == folderName && f.ParentFolderId == parentId);
 
-            //if (cached != null)
-            //{
-            //    Log.Information($"📦 SQL Cache Hit: {folderName} under {parentId} (ID: {cached.FolderId})");
-            //    return cached.FolderId;
-            //}
+            if (cached != null)
+            {
+                Log.Information($"📦 SQL Cache Hit: {folderName} under {parentId} (ID: {cached.FolderId})");
+                return cached.FolderId;
+            }
 
             // Helper to list folder from Drive
             async Task<string?> TryFindFolderOnDriveAsync(string name, string parent)
@@ -571,7 +571,7 @@ namespace RaymarEquipmentInventory.Services
             if (existingId != null)
             {
                 Log.Information($"📁 Found in Drive: {folderName} under {parentId} (ID: {existingId})");
-                //await CacheFolderAsync(folderName, parentId, existingId);
+                await CacheFolderAsync(folderName, parentId, existingId);
                 return existingId;
             }
 
@@ -584,7 +584,7 @@ namespace RaymarEquipmentInventory.Services
             if (retryId != null)
             {
                 Log.Warning($"⚠️ Found after retry: {folderName} (ID: {retryId})");
-                //await CacheFolderAsync(folderName, parentId, retryId);
+                await CacheFolderAsync(folderName, parentId, retryId);
                 return retryId;
             }
 
@@ -607,7 +607,7 @@ namespace RaymarEquipmentInventory.Services
                 var created = await createRequest.ExecuteAsync();
                 Log.Information($"✅ Created folder: {folderName} (ID: {created.Id})");
 
-                //await CacheFolderAsync(folderName, parentId, created.Id);
+                await CacheFolderAsync(folderName, parentId, created.Id);
                 return created.Id;
             }
             catch (Google.GoogleApiException ex)
