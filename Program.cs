@@ -115,7 +115,7 @@ builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<ITechWOService, TechWOService>();
 builder.Services.AddScoped<ITokenExchangeService, TokenExchangeService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
-builder.Services.AddScoped<IFederatedTokenService, FederatedTokenService>();
+
 
 builder.Services.Configure<FormOptions>(options =>
 {
@@ -135,31 +135,6 @@ builder.Services.AddCors(options =>
 
 builder.Host.UseWindowsService(); // This line enables running as a Windows Service
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-
-GoogleCredential credential;
-
-//try
-//{
-//    if (env == "Development")
-//    {
-//        // Optional: manually reinforce the path if you're paranoid
-//        string devCredPath = Path.Combine(
-//            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-//            @"gcloud\application_default_credentials.json"
-//        );
-
-//        if (File.Exists(devCredPath))
-//        {
-//            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", devCredPath);
-//        }
-//    }
-
-//    credential = await GoogleCredential.GetApplicationDefaultAsync().ConfigureAwait(false);
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine($"[ADC fallback]: {ex.Message}");
-//}
 
 
 var app = builder.Build();
