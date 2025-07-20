@@ -114,7 +114,11 @@ builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<ITechWOService, TechWOService>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
-
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "");
+Environment.SetEnvironmentVariable("GOOGLE_CLOUD_PROJECT", "");
+Environment.SetEnvironmentVariable("GOOGLE_WORKLOAD_IDENTITY_POOL", "");
+Environment.SetEnvironmentVariable("GOOGLE_WORKLOAD_IDENTITY_PROVIDER", "");
+Environment.SetEnvironmentVariable("GOOGLE_IMPERSONATE_SERVICE_ACCOUNT", "");
 
 builder.Services.Configure<FormOptions>(options =>
 {
