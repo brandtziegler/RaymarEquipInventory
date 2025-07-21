@@ -271,8 +271,6 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-
-
         [HttpPost("SendWorkOrderEmail")]
         public async Task<IActionResult> SendWorkOrderEmail([FromBody] DTOs.WorkOrdMailContent dto)
         {
@@ -297,8 +295,8 @@ namespace RaymarEquipmentInventory.Controllers
                     <h2>Work Order Synced</h2>
                     <p><strong>Customer Path:</strong> {dto.CustPath}</p>
                     <p><strong>Description:</strong> {dto.WorkDescription}</p>
-                    <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Firebase & Azure SQL.</p>
-                    <p>You can view the uploaded files here:<br>
+                    <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Google Drive & Azure SQL.</p>
+                    <p>You can view the uploaded files at this address:<br>
                     <a href='https://drive.google.com/drive/folders/11r1bN17dNkqe9_WclyusJOZ8LSRYexbS'>
                         View WO#{dto.WorkOrderNumber} Files on Google Drive for  {dto.CustPath}
                     </a></p>
@@ -330,6 +328,62 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpPost("SendWorkOrderEmailTwo")]
+        public async Task<IActionResult> SendWorkOrderEmailTwo([FromBody] DTOs.WorkOrdMailContent dto)
+        {
+            var resendKey = "re_exsqgshN_HidHMnaoQHNwGn7gn6yy6RbW";
+
+            // ✅ Email format sanity check
+            try
+            {
+                var _ = new MailAddress(dto.EmailAddress);
+            }
+            catch (FormatException)
+            {
+                return BadRequest("Invalid email format.");
+            }
+
+            var email = new
+            {
+                from = "service@taskfuel.app",
+                to = dto.EmailAddress,
+                subject = $"Work Order #{dto.WorkOrderNumber} for {dto.CustPath} Uploaded",
+                html = $@"
+                    <h2>Work Order Synced</h2>
+                    <p><strong>Customer Path:</strong> {dto.CustPath}</p>
+                    <p><strong>Description:</strong> {dto.WorkDescription}</p>
+                    <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Google Drive & Azure SQL.</p>
+                    <p>You can view the uploaded files at this address:<br>
+                    <a href='https://drive.google.com/drive/folders/11r1bN17dNkqe9_WclyusJOZ8LSRYexbS'>
+                        View WO#{dto.WorkOrderNumber} Files on Google Drive for  {dto.CustPath}
+                    </a></p>
+                  <p><em>Need access? Use the Raymar Google account already shared with this folder.</em></p>
+                  <p><em>If you're not sure of the password, call me directly.</em></p>"
+            };
+
+            try
+            {
+                var client = _httpClientFactory.CreateClient();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", resendKey);
+
+                var response = await client.PostAsJsonAsync("https://api.resend.com/emails", email);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var body = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("❌ Email failed: " + body);
+                    return StatusCode((int)response.StatusCode, body);
+                }
+
+                Console.WriteLine("✅ Email sent.");
+                return Ok("Email sent.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("🔥 Exception: " + ex.Message);
+                return StatusCode(500, "Internal error: " + ex.Message);
+            }
+        }
 
         [HttpGet("GetWorkOrder")]
         public async Task<IActionResult> GetWorkOrder(int sheetID)
