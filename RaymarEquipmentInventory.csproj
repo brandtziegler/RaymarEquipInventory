@@ -42,7 +42,7 @@
 	
   <ItemGroup>
     <None Update="drive-user-token.json.enc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
