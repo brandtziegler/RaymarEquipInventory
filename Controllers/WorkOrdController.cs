@@ -332,7 +332,7 @@ namespace RaymarEquipmentInventory.Controllers
         public async Task<IActionResult> SendWorkOrderEmailTwo([FromBody] DTOs.WorkOrdMailContent dto)
         {
             var resendKey = "re_exsqgshN_HidHMnaoQHNwGn7gn6yy6RbW";
-
+            //New Controller endpoint. 
             // ✅ Email format sanity check
             try
             {
