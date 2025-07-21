@@ -26,7 +26,7 @@ namespace RaymarEquipmentInventory.Controllers
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IDriveUploaderService _driveUploaderService;
         private readonly IDriveAuthService _driveAuthService;
-
+        private readonly IConfiguration _configuration;
         private static readonly ConcurrentDictionary<string, SemaphoreSlim> FolderLocks = new();
 
         public WorkOrdController(IWorkOrderService workOrderService, 
@@ -299,11 +299,11 @@ namespace RaymarEquipmentInventory.Controllers
                     <p><strong>Description:</strong> {dto.WorkDescription}</p>
                     <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Firebase & Azure SQL.</p>
                     <p>You can view the uploaded files here:<br>
-                    <a href='https://drive.google.com/drive/folders/1Hd4opYT_bV_JbQzMoEzDMxPdWGnjFXTl'>
+                    <a href='https://drive.google.com/drive/folders/11r1bN17dNkqe9_WclyusJOZ8LSRYexbS'>
                         View WO#{dto.WorkOrderNumber} Files on Google Drive for  {dto.CustPath}
                     </a></p>
-                    <p><em>Login Email:</em> raymardeveloper@gmail.com<br>
-                    <em>Password:</em> TaskFue!202S</p>"
+                  <p><em>Need access? Use the Raymar Google account already shared with this folder.</em></p>
+                  <p><em>If you're not sure of the password, call me directly.</em></p>"
             };
 
             try
