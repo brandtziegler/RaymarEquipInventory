@@ -67,8 +67,8 @@ jobs:
         shell: pwsh
 
       # Set WEBSITE_RUN_FROM_PACKAGE to enable read-only deployment
-      - name: Set WEBSITE_RUN_FROM_PACKAGE to 1
-        run: az webapp config appsettings set --name 'RaymarEquipApp01' --resource-group 'RaymarEquipService' --settings WEBSITE_RUN_FROM_PACKAGE=1
+      - name: Set WEBSITE_RUN_FROM_PACKAGE to 0
+        run: az webapp config appsettings set --name 'RaymarEquipApp01' --resource-group 'RaymarEquipService' --settings WEBSITE_RUN_FROM_PACKAGE=0
         shell: pwsh
 
       # Deploy to Azure Web App with clean option
