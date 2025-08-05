@@ -100,23 +100,26 @@ namespace RaymarEquipmentInventory.Services
                     templates = templates.Where(t =>
                     {
                         var description = t.fileDescription ?? string.Empty;
-                        var categoriesPart = "";
+                        string categoriesPart = string.Empty;
 
-                        // Try to extract everything after "Categories:" and before "Notes:"
                         var startIndex = description.IndexOf("Categories:", StringComparison.OrdinalIgnoreCase);
                         if (startIndex >= 0)
                         {
                             var afterCategories = description.Substring(startIndex + "Categories:".Length);
-                            var endIndex = afterCategories.IndexOf("Notes:", StringComparison.OrdinalIgnoreCase);
-                            categoriesPart = (endIndex >= 0)
-                                ? afterCategories.Substring(0, endIndex).Trim()
-                                : afterCategories.Trim();
+
+                            // ✅ Fix: strip off any trailing Notes: section, even if no comma
+                            var notesIndex = afterCategories.IndexOf("Notes:", StringComparison.OrdinalIgnoreCase);
+                            if (notesIndex >= 0)
+                                afterCategories = afterCategories.Substring(0, notesIndex);
+
+                            categoriesPart = afterCategories.Trim();
                         }
 
                         if (string.IsNullOrWhiteSpace(categoriesPart))
                             return false;
 
                         var fileTags = categoriesPart.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
                         return fileTags.Any(tag => tags.Contains(tag, StringComparer.OrdinalIgnoreCase));
                     }).ToList();
                 }
