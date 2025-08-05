@@ -41,8 +41,6 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-
-
         public async Task<List<DTOs.FileMetadata>> ListFileUrlsAsync(int sheetId, int? labourTypeId, List<string> tags)
         {
             try
@@ -96,21 +94,29 @@ namespace RaymarEquipmentInventory.Services
                         .ToList();
                 }
 
-                // 🧩 Step 2: Filter by tags from Drive description
+                // 🧩 Step 2: Filter by tags parsed from Categories: before Notes:
                 if (tags != null && tags.Any())
                 {
                     templates = templates.Where(t =>
                     {
-                        var categoriesLine = t.fileDescription
-                            .Split('\n')
-                            .FirstOrDefault(line => line.StartsWith("Categories:", StringComparison.OrdinalIgnoreCase));
+                        var description = t.fileDescription ?? string.Empty;
+                        var categoriesPart = "";
 
-                        if (string.IsNullOrWhiteSpace(categoriesLine))
+                        // Try to extract everything after "Categories:" and before "Notes:"
+                        var startIndex = description.IndexOf("Categories:", StringComparison.OrdinalIgnoreCase);
+                        if (startIndex >= 0)
+                        {
+                            var afterCategories = description.Substring(startIndex + "Categories:".Length);
+                            var endIndex = afterCategories.IndexOf("Notes:", StringComparison.OrdinalIgnoreCase);
+                            categoriesPart = (endIndex >= 0)
+                                ? afterCategories.Substring(0, endIndex).Trim()
+                                : afterCategories.Trim();
+                        }
+
+                        if (string.IsNullOrWhiteSpace(categoriesPart))
                             return false;
 
-                        var tagString = categoriesLine.Replace("Categories:", "", StringComparison.OrdinalIgnoreCase).Trim();
-                        var fileTags = tagString.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-
+                        var fileTags = categoriesPart.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                         return fileTags.Any(tag => tags.Contains(tag, StringComparer.OrdinalIgnoreCase));
                     }).ToList();
                 }
@@ -146,6 +152,7 @@ namespace RaymarEquipmentInventory.Services
                 throw;
             }
         }
+
 
 
         public async Task UpdateFileUrlInPDFDocumentAsync(PDFUploadRequest request)
