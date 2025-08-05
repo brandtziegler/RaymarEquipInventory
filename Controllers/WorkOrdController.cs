@@ -298,7 +298,7 @@ namespace RaymarEquipmentInventory.Controllers
         {
             try
             {
-                var fileMetadataList = await _driveUploaderService.ListFileUrlsAsync(sheetId, labourTypeID);
+                var fileMetadataList = await _driveUploaderService.ListFileUrlsAsync(sheetId, labourTypeID, null);
                 if (fileMetadataList == null || !fileMetadataList.Any())
                 {
                     return NotFound("No files found");
@@ -311,6 +311,31 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
+
+
+        [HttpPost("ListPDFFilesByTag")]
+        public async Task<IActionResult> ListPDFFilesByTag(int sheetId, [FromBody] List<string> tags)
+        {
+            try
+            {
+                var fileMetadataList = await _driveUploaderService.ListFileUrlsAsync(sheetId, null, tags);
+                if (fileMetadataList == null || !fileMetadataList.Any())
+                {
+                    return NotFound("No files found");
+                }
+                return Ok(fileMetadataList);
+            }
+            catch (Exception ex)
+            {
+                #if DEBUG
+                                return StatusCode(500, $"Drive Error: {ex.Message} | {ex.InnerException?.Message}");
+                #else
+                        Log.Error(ex, "Error occurred while listing PDF files");
+                        return StatusCode(500, "An error occurred while processing your request.");
+                #endif
+            }
+        }
+
 
 
 
