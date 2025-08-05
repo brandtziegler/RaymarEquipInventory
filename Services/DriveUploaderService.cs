@@ -41,9 +41,9 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-    
 
-        public async Task<List<DTOs.FileMetadata>> ListFileUrlsAsync(int sheetId)
+
+        public async Task<List<DTOs.FileMetadata>> ListFileUrlsAsync(int sheetId, int? labourTypeId)
         {
             try
             {
@@ -54,7 +54,8 @@ namespace RaymarEquipmentInventory.Services
                 var driveService = await _authService.GetDriveServiceFromUserTokenAsync();
 
                 var listRequest = driveService.Files.List();
-                var templatesFolderId = _config["GoogleDrive:TemplatesFolderId"]?? throw new InvalidOperationException("Missing config: GoogleDrive:TemplatesFolderId");
+                var templatesFolderId = _config["GoogleDrive:TemplatesFolderId"] ??
+                    throw new InvalidOperationException("Missing config: GoogleDrive:TemplatesFolderId");
 
                 listRequest.Q = $"'{templatesFolderId}' in parents and trashed=false";
                 listRequest.Fields = "files(id,name,description,modifiedTime,lastModifyingUser(displayName),mimeType,webContentLink,webViewLink)";
@@ -67,6 +68,8 @@ namespace RaymarEquipmentInventory.Services
                 }
 
                 var localZone = TimeZoneInfo.Local;
+
+                // Step 1: Project all files from Drive
                 var templates = result.Files.Select(file => new DTOs.FileMetadata
                 {
                     Id = file.Id,
@@ -82,6 +85,20 @@ namespace RaymarEquipmentInventory.Services
                     sheetId = sheetId
                 }).ToList();
 
+                // Step 2: Filter by LabourTypeID if provided
+                if (labourTypeId.HasValue)
+                {
+                    var matchingFileNames = await _context.Pdftags
+                        .Where(p => p.LabourTypeId == labourTypeId.Value)
+                        .Select(p => p.FileName)
+                        .ToListAsync();
+
+                    templates = templates
+                        .Where(t => matchingFileNames.Contains(t.PDFName, StringComparer.OrdinalIgnoreCase))
+                        .ToList();
+                }
+
+                // Step 3: Merge any filled files for the given sheet
                 var filledDocs = await _context.Pdfdocuments
                     .Where(p => p.SheetId == sheetId)
                     .ToListAsync();
@@ -112,6 +129,7 @@ namespace RaymarEquipmentInventory.Services
                 throw;
             }
         }
+
         public async Task UpdateFileUrlInPDFDocumentAsync(PDFUploadRequest request)
         {
             try

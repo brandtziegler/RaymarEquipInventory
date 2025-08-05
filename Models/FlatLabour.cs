@@ -17,6 +17,8 @@ public partial class FlatLabour
 
     public int? LabourTypeId { get; set; }
 
+    public decimal Price { get; set; }
+
     public virtual LabourType LabourType { get; set; }
 
     public virtual ICollection<WorkOrderFee> WorkOrderFees { get; set; } = new List<WorkOrderFee>();

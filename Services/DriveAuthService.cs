@@ -20,30 +20,50 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<DriveService> GetDriveServiceFromUserTokenAsync()
         {
-            var encPath = Path.Combine(AppContext.BaseDirectory, "drive-user-token.json.enc");
-            var password = _config["GoogleOAuth:TokenPassword"] ?? throw new InvalidOperationException("Missing TokenPassword");
-            var clientId = _config["GoogleOAuth:ClientId"];
-            var clientSecret = _config["GoogleOAuth:ClientSecret"];
-
-            using var encryptedStream = new FileStream(encPath, FileMode.Open, FileAccess.Read);
-            using var decrypted = DecryptOpenSslAes256(encryptedStream, password);
-
-            var token = await JsonSerializer.DeserializeAsync<TokenResponse>(decrypted);
-
-            var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+            try
             {
-                ClientSecrets = new ClientSecrets { ClientId = clientId, ClientSecret = clientSecret },
-                Scopes = new[] { DriveService.ScopeConstants.Drive }
-            });
+                // 🔐 Production-safe: uses injected config values
+                var encPath = Path.Combine(AppContext.BaseDirectory, "drive-user-token.json.enc");
 
-            var credential = new UserCredential(flow, "user", token);
+                var password = _config["GoogleOAuth:TokenPassword"]
+                    ?? throw new InvalidOperationException("Missing config: GoogleOAuth:TokenPassword");
 
-            return new DriveService(new BaseClientService.Initializer
+                var clientId = _config["GoogleOAuth:ClientId"]
+                    ?? throw new InvalidOperationException("Missing config: GoogleOAuth:ClientId");
+
+                var clientSecret = _config["GoogleOAuth:ClientSecret"]
+                    ?? throw new InvalidOperationException("Missing config: GoogleOAuth:ClientSecret");
+
+                using var encryptedStream = new FileStream(encPath, FileMode.Open, FileAccess.Read);
+                using var decrypted = DecryptOpenSslAes256(encryptedStream, password);
+
+                var token = await JsonSerializer.DeserializeAsync<TokenResponse>(decrypted);
+
+                var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+                {
+                    ClientSecrets = new ClientSecrets
+                    {
+                        ClientId = clientId,
+                        ClientSecret = clientSecret
+                    },
+                    Scopes = new[] { DriveService.ScopeConstants.Drive }
+                });
+
+                var credential = new UserCredential(flow, "user", token);
+
+                return new DriveService(new BaseClientService.Initializer
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = "TaskFuelUploader"
+                });
+            }
+            catch (Exception ex)
             {
-                HttpClientInitializer = credential,
-                ApplicationName = "TaskFuelUploader"
-            });
+                // Let it bubble up but with rich context
+                throw new Exception("Failed to initialize Google Drive service. See inner exception for details.", ex);
+            }
         }
+
 
         private static Stream DecryptOpenSslAes256(Stream inputStream, string password)
         {

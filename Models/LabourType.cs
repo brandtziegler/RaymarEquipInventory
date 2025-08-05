@@ -13,5 +13,7 @@ public partial class LabourType
 
     public virtual ICollection<FlatLabour> FlatLabours { get; set; } = new List<FlatLabour>();
 
+    public virtual ICollection<Pdftag> Pdftags { get; set; } = new List<Pdftag>();
+
     public virtual ICollection<WorkOrderFee> WorkOrderFees { get; set; } = new List<WorkOrderFee>();
 }

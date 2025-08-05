@@ -88,6 +88,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[PDFTags]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Person]",
          "ObjectType": 0
       },

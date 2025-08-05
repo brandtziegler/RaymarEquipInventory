@@ -183,6 +183,47 @@ namespace RaymarEquipmentInventory.Controllers
             return Ok(results);
         }
 
+
+
+        [HttpPost("UploadAndParseToJSON")]
+        public IActionResult UploadAndParseToJSON(
+    List<IFormFile> files)
+        {
+            if (files == null || files.Count == 0)
+                return BadRequest("No files received.");
+
+            var result = new List<object>();
+
+            foreach (var file in files)
+            {
+                var ext = Path.GetExtension(file.FileName).ToLower();
+
+                if (ext is ".jpg" or ".jpeg" or ".png")
+                {
+                    result.Add(new
+                    {
+                        File = file.FileName,
+                        Extension = ext,
+                        Status = "✅ Accepted (image/receipt assumed)"
+                    });
+                }
+                else
+                {
+                    result.Add(new
+                    {
+                        File = file.FileName,
+                        Extension = ext,
+                        Status = "⚠️ Rejected (unsupported file type)"
+                    });
+                }
+            }
+
+            return Ok(new
+            {
+                Message = "File(s) received. No processing done yet.",
+                FileResults = result
+            });
+        }
         [HttpPost("UploadAppFiles")]
         public async Task<IActionResult> UploadAppFiles(
             List<IFormFile> files,
@@ -253,11 +294,11 @@ namespace RaymarEquipmentInventory.Controllers
             return Ok(uploads);
         }
         [HttpPost("ListPDFFiles")]
-        public async Task<IActionResult> ListPDFFiles(int sheetId)
+        public async Task<IActionResult> ListPDFFiles(int sheetId, int? labourTypeID)
         {
             try
             {
-                var fileMetadataList = await _driveUploaderService.ListFileUrlsAsync(sheetId);
+                var fileMetadataList = await _driveUploaderService.ListFileUrlsAsync(sheetId, labourTypeID);
                 if (fileMetadataList == null || !fileMetadataList.Any())
                 {
                     return NotFound("No files found");
@@ -270,6 +311,8 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
+
+
 
         [HttpPost("SendWorkOrderEmail")]
         public async Task<IActionResult> SendWorkOrderEmail([FromBody] DTOs.WorkOrdMailContent dto)

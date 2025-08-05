@@ -49,6 +49,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<Pdfdocument> Pdfdocuments { get; set; }
 
+    public virtual DbSet<Pdftag> Pdftags { get; set; }
+
     public virtual DbSet<Person> People { get; set; }
 
     public virtual DbSet<PlaceholderDocument> PlaceholderDocuments { get; set; }
@@ -271,6 +273,9 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.LabourTypeId).HasColumnName("LabourTypeID");
+            entity.Property(e => e.Price)
+                .HasDefaultValueSql("((0.00))")
+                .HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.LabourType).WithMany(p => p.FlatLabours)
                 .HasForeignKey(d => d.LabourTypeId)
@@ -545,6 +550,23 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasOne(d => d.Sheet).WithMany(p => p.Pdfdocuments)
                 .HasForeignKey(d => d.SheetId)
                 .HasConstraintName("FK_PDFDocument_WorkOrderSheet");
+        });
+
+        modelBuilder.Entity<Pdftag>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__PDFTags__3214EC070C15E1AF");
+
+            entity.ToTable("PDFTags");
+
+            entity.Property(e => e.Categories).HasMaxLength(500);
+            entity.Property(e => e.FileName)
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.LabourTypeId).HasColumnName("LabourTypeID");
+
+            entity.HasOne(d => d.LabourType).WithMany(p => p.Pdftags)
+                .HasForeignKey(d => d.LabourTypeId)
+                .HasConstraintName("FK_PDFTags_LabourType");
         });
 
         modelBuilder.Entity<Person>(entity =>
