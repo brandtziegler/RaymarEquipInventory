@@ -54,7 +54,7 @@ namespace RaymarEquipmentInventory.Services
                 var templatesFolderId = _config["GoogleDrive:TemplatesFolderId"]
                     ?? throw new InvalidOperationException("Missing config: GoogleDrive:TemplatesFolderId");
 
-                listRequest.Q = $"'{templatesFolderId}' in parents and trashed=false";
+                listRequest.Q = $"'{templatesFolderId}' in parents and trashed=false and mimeType != 'application/vnd.google-apps.folder'";
                 listRequest.Fields = "files(id,name,description,modifiedTime,lastModifyingUser(displayName),mimeType,webContentLink,webViewLink)";
 
                 var result = await listRequest.ExecuteAsync();
