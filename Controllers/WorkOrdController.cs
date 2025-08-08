@@ -365,7 +365,7 @@ namespace RaymarEquipmentInventory.Controllers
                     <p><strong>Description:</strong> {dto.WorkDescription}</p>
                     <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Google Drive & Azure SQL.</p>
                     <p>You can view the uploaded files at this address:<br>
-                    <a href='https://drive.google.com/drive/folders/11r1bN17dNkqe9_WclyusJOZ8LSRYexbS'>
+                    <a href='https://drive.google.com/drive/folders/1NmfDJ7Gyig9MhtQO29ZGqB4q1OfKMtBo'>
                         View WO#{dto.WorkOrderNumber} Files on Google Drive for  {dto.CustPath}
                     </a></p>
                   <p><em>Need access? Use the Raymar Google account already shared with this folder.</em></p>
@@ -422,7 +422,7 @@ namespace RaymarEquipmentInventory.Controllers
                     <p><strong>Description:</strong> {dto.WorkDescription}</p>
                     <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Google Drive & Azure SQL.</p>
                     <p>You can view the uploaded files at this address:<br>
-                    <a href='https://drive.google.com/drive/folders/11r1bN17dNkqe9_WclyusJOZ8LSRYexbS'>
+                    <a href='https://drive.google.com/drive/folders/1NmfDJ7Gyig9MhtQO29ZGqB4q1OfKMtBo'>
                         View WO#{dto.WorkOrderNumber} Files on Google Drive for  {dto.CustPath}
                     </a></p>
                   <p><em>Need access? Use the Raymar Google account already shared with this folder.</em></p>
