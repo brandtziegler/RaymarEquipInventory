@@ -154,7 +154,7 @@ namespace RaymarEquipmentInventory.Services
                     QtyUsed = dto.QtyUsed ?? 0,
                     Notes = dto.Notes?.Trim() ?? "",
                     SheetId = dto.SheetId ?? 0,
-                    InventoryId = dto.InventoryID,
+                    InventoryId = dto.InventoryID ?? 7,
                     PartNumber = dto.PartNumber,  // optional, could be filled later
                     Description = dto.Description, // optional, could be filled later
                     UploadDate = DateTime.Now, // Server decides this
