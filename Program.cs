@@ -17,6 +17,9 @@ using Azure.Identity;
 using Azure.Core;
 using System.IO;
 
+using Microsoft.Extensions.Logging;
+using System.Threading;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog for logging
@@ -165,9 +168,14 @@ Log.Logger = new LoggerConfiguration()
 //}
 
 var serviceProvider = app.Services;
+
 var hangfireConfig = new HangfireConfiguration(
     serviceProvider.GetRequiredService<IRecurringJobManager>(),
-    serviceProvider);
+    serviceProvider,
+    serviceProvider.GetRequiredService<ILogger<HangfireConfiguration>>(),   // ← add
+    serviceProvider.GetRequiredService<IDriveAuthService>(),                 // ← add
+    serviceProvider.GetRequiredService<IDriveUploaderService>()              // ← add
+);
 
 hangfireConfig.InitializeJobs();
 
