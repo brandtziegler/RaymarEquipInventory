@@ -170,11 +170,7 @@ Log.Logger = new LoggerConfiguration()
 var serviceProvider = app.Services;
 
 var hangfireConfig = new HangfireConfiguration(
-    serviceProvider.GetRequiredService<IRecurringJobManager>(),
-    serviceProvider,
-    serviceProvider.GetRequiredService<ILogger<HangfireConfiguration>>(),   // ← add
-    serviceProvider.GetRequiredService<IDriveAuthService>(),                 // ← add
-    serviceProvider.GetRequiredService<IDriveUploaderService>()              // ← add
+    serviceProvider.GetRequiredService<IRecurringJobManager>()
 );
 
 hangfireConfig.InitializeJobs();

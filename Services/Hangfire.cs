@@ -10,15 +10,10 @@ namespace RaymarEquipmentInventory.BackgroundTasks
         private readonly IRecurringJobManager _recurringJobManager;
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger _logger;
-        private readonly IDriveAuthService _driveAuthService;
-        private readonly IDriveUploaderService _driveUploaderService;
-        public HangfireConfiguration(IRecurringJobManager recurringJobManager, IServiceProvider serviceProvider, ILogger logger, IDriveAuthService driveAuthService, IDriveUploaderService driveUploaderService)
+
+        public HangfireConfiguration(IRecurringJobManager recurringJobManager)
         {
             _recurringJobManager = recurringJobManager;
-            _serviceProvider = serviceProvider;
-            _logger = logger;
-            _driveAuthService = driveAuthService;
-            _driveUploaderService = driveUploaderService;
         }
 
         public void InitializeJobs()
@@ -42,7 +37,7 @@ namespace RaymarEquipmentInventory.BackgroundTasks
             _recurringJobManager.AddOrUpdate<IDriveUploaderService>(
                 "Daily-DB-Backup-Test-14_40-ET",
                 svc => svc.BackupDatabaseToGoogleDriveAsync(CancellationToken.None),
-                "05 15 * * *",
+                "05 50 * * *",
                 jobOptions);
 
             // ---- Example (left from before) ----
