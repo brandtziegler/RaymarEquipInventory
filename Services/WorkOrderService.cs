@@ -10,6 +10,12 @@ using RaymarEquipmentInventory.Helpers;
 using Serilog;
 using Azure.Storage.Blobs;
 using Microsoft.Data.SqlClient;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
+using Microsoft.SqlServer.Dac; // DacFx
+using System.IO;
+using System.Threading;
 
 namespace RaymarEquipmentInventory.Services
 {

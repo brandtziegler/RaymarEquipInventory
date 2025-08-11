@@ -14,6 +14,6 @@ namespace RaymarEquipmentInventory.Services
 
         Task<DTOs.GoogleDriveFolderDTO> PrepareGoogleDriveFoldersAsync(string custPath, string workOrderId);
         Task<List<FileUpload>> UploadFilesAsync(List<IFormFile> files, string workOrderId, string workOrderFolderId, string pdfFolderId, string imagesFolderId);
-
+        Task<string?> BackupDatabaseToGoogleDriveAsync(CancellationToken ct = default);
     }
 }

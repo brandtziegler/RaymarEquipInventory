@@ -23,6 +23,7 @@ using Google.Cloud.Iam.Credentials.V1;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Auth;
 using System.Diagnostics;
+using Microsoft.SqlServer.Dac;  // DacFx (ExportBacpac)
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -662,6 +663,91 @@ namespace RaymarEquipmentInventory.Services
         //        throw;
         //    }
         //}
+
+
+        // inside class DriveUploaderService …
+        public async Task<string?> BackupDatabaseToGoogleDriveAsync(CancellationToken ct = default)
+        {
+            // 1) Target Drive folder (env var first, then appsettings fallback)
+            var driveFolderId =
+                Environment.GetEnvironmentVariable("GOOGLE_DBBackups")
+                ?? _config["GoogleDrive:DBBackupsFolderId"];
+            if (string.IsNullOrWhiteSpace(driveFolderId))
+                throw new InvalidOperationException("Missing GOOGLE_DBBackups (or GoogleDrive:DBBackupsFolderId).");
+
+            // 2) Connection string from EF context
+            var connString = _context.Database.GetDbConnection().ConnectionString;
+            var csb = new SqlConnectionStringBuilder(connString);
+            var dbName = csb.InitialCatalog ?? "Database";
+            var server = csb.DataSource ?? "server";
+
+            var stamp = DateTime.UtcNow.ToString("yyyyMMdd_HHmmss");
+            var fileName = $"{dbName}_{stamp}.bacpac";
+            var tempPath = Path.Combine(Path.GetTempPath(), fileName);
+
+            Log.Information("Starting .bacpac export for {Db} on {Server} -> {Path}", dbName, server, tempPath);
+
+            try
+            {
+                // 3) Export .bacpac (DacFx is sync; run on background thread)
+                await Task.Run(() =>
+                {
+                    var dac = new DacServices(connString);
+                    dac.Message += (s, e) => Log.Information("DacFx: {Msg}", e.Message);
+                    dac.ExportBacpac(tempPath, dbName);
+                }, ct);
+
+                var size = new FileInfo(tempPath).Length;
+                Log.Information("Bacpac created: {Path} ({Size} bytes)", tempPath, size);
+
+                // 4) Auth to Drive using your existing OAuth2 user token
+                DriveService drive = await _authService.GetDriveServiceFromUserTokenAsync();
+
+                // 5) Upload (resumable)
+                var meta = new Google.Apis.Drive.v3.Data.File
+                {
+                    Name = fileName,
+                    Parents = new[] { driveFolderId }
+                };
+
+                using var fs = new FileStream(tempPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                var upload = drive.Files.Create(meta, fs, "application/octet-stream");
+                upload.Fields = "id,name,parents,size,createdTime,webViewLink";
+                upload.ChunkSize = ResumableUpload.MinimumChunkSize * 8; // ~8MB chunks
+
+                Log.Information("Uploading {File} to Drive folder {Folder}…", fileName, driveFolderId);
+                var result = await upload.UploadAsync(ct);
+
+                if (result.Status != Google.Apis.Upload.UploadStatus.Completed)
+                {
+                    Log.Error(result.Exception, "Google Drive upload failed with status {Status}", result.Status);
+                    return null;
+                }
+
+                var created = upload.ResponseBody;
+                Log.Information("✅ Backup uploaded. fileId={FileId} size={Size}", created.Id, created.Size);
+
+                return created.Id;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "BackupDatabaseToGoogleDriveAsync failed.");
+                return null;
+            }
+            finally
+            {
+                try
+                {
+                    if (System.IO.File.Exists(tempPath))
+                        System.IO.File.Delete(tempPath);
+                }
+                catch (Exception cleanupEx)
+                {
+                    Log.Warning(cleanupEx, "Failed to remove temp {Path}", tempPath);
+                }
+            }
+        }
+
         private async Task<string> EnsureFolderExistsAsync(string folderName, string parentId, DriveService driveService)
         {
             // 1) Check cache, but verify it still has the right parent

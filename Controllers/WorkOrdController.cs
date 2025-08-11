@@ -106,6 +106,7 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+
         [HttpPost("ClearAppFiles")]
         public async Task<IActionResult> ClearAppFiles([FromQuery] string custPath, [FromQuery] string workOrderId)
         {
@@ -120,6 +121,32 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, new { message = "Clear failed", error = ex.Message });
             }
         }
+
+
+
+        [HttpPost("BackupDb")]
+        public async Task<IActionResult> BackupDb(CancellationToken ct)
+        {
+            try
+            {
+                var fileId = await _driveUploaderService.BackupDatabaseToGoogleDriveAsync(ct);
+
+                if (string.IsNullOrWhiteSpace(fileId))
+                    return StatusCode(500, new { message = "Backup failed (no fileId returned)" });
+
+                return Ok(new
+                {
+                    message = "Backup completed",
+                    fileId
+                });
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "❌ BackupDb failed.");
+                return StatusCode(500, new { message = "Backup failed", error = ex.Message });
+            }
+        }
+
 
         [HttpPost("PrepareDriveFolders")]
         public async Task<IActionResult> PrepareDriveFolders(
