@@ -85,8 +85,6 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VwRolesMin> VwRolesMins { get; set; }
 
-    public virtual DbSet<VwWorkOrdBriefDetail> VwWorkOrdBriefDetails { get; set; }
-
     public virtual DbSet<VwWorkOrderCard> VwWorkOrderCards { get; set; }
 
     public virtual DbSet<VwWorkOrderStatusWithType> VwWorkOrderStatusWithTypes { get; set; }
@@ -928,44 +926,6 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.PersonId).HasColumnName("PersonID");
             entity.Property(e => e.RolePermissionId).HasColumnName("RolePermissionID");
             entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
-        });
-
-        modelBuilder.Entity<VwWorkOrdBriefDetail>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("vw_WorkOrdBriefDetails");
-
-            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
-            entity.Property(e => e.CustomerName).HasMaxLength(255);
-            entity.Property(e => e.DateTimeCompleted).HasColumnType("datetime");
-            entity.Property(e => e.DateTimeCreated).HasColumnType("datetime");
-            entity.Property(e => e.DateTimeStarted).HasColumnType("datetime");
-            entity.Property(e => e.FullAddress).IsUnicode(false);
-            entity.Property(e => e.HexColor).HasMaxLength(7);
-            entity.Property(e => e.IconName).HasMaxLength(50);
-            entity.Property(e => e.ParentName).HasMaxLength(255);
-            entity.Property(e => e.Pono)
-                .HasMaxLength(15)
-                .IsUnicode(false)
-                .HasColumnName("PONo");
-            entity.Property(e => e.SheetId).HasColumnName("SheetID");
-            entity.Property(e => e.StatusId).HasColumnName("StatusID");
-            entity.Property(e => e.TypeHexColor).HasMaxLength(7);
-            entity.Property(e => e.TypeIconName).HasMaxLength(50);
-            entity.Property(e => e.TypeId).HasColumnName("TypeID");
-            entity.Property(e => e.VehicleName)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.WorkLocation)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.WorkOrderStatus)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.WorkOrderType)
-                .HasMaxLength(50)
-                .IsUnicode(false);
         });
 
         modelBuilder.Entity<VwWorkOrderCard>(entity =>

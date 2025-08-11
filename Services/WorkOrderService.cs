@@ -1004,36 +1004,36 @@ namespace RaymarEquipmentInventory.Services
             return workOrder?.WorkOrderNumber ?? 0; // or throw an error/log if not found
         }
 
-        public async Task<List<DTOs.WorkOrderBriefDetails>> GetWorkOrderBriefDetails()
-        {
+        //public async Task<List<DTOs.WorkOrderBriefDetails>> GetWorkOrderBriefDetails()
+        //{
 
-                var woBriefDetails = await _context.VwWorkOrdBriefDetails.ToListAsync();
-                var woBriefDetailDTOs = woBriefDetails.Select(briefdetail => new WorkOrderBriefDetails
-                {
-                    SheetID = briefdetail.SheetId,
-                    WorkOrderNumber = briefdetail.WorkOrderNumber,
-                    DateTimeCompleted = briefdetail.DateTimeCompleted,
-                    DateTimeCreated = briefdetail.DateTimeCreated,
-                    DateTimeStarted = briefdetail.DateTimeStarted,
-                    WorkLocation = briefdetail.WorkLocation,
-                    WorkOrderStatus = briefdetail.WorkOrderStatus,
-                    WorkOrderType = briefdetail.WorkOrderType,
-                    PONo = briefdetail.Pono,
-                    CustomerName = briefdetail.CustomerName,
-                    IconName = briefdetail.IconName,
-                    HexColor = briefdetail.HexColor,
-                    TypeHexColor = briefdetail.TypeHexColor, 
-                    TypeIconName = briefdetail.TypeIconName,
-                    ParentName = briefdetail.ParentName,
-                    FullAddress = briefdetail.FullAddress,
-                    VehicleName = briefdetail.VehicleName,
-                }).ToList();
+        //        var woBriefDetails = await _context.VwWorkOrdBriefDetails.ToListAsync();
+        //        var woBriefDetailDTOs = woBriefDetails.Select(briefdetail => new WorkOrderBriefDetails
+        //        {
+        //            SheetID = briefdetail.SheetId,
+        //            WorkOrderNumber = briefdetail.WorkOrderNumber,
+        //            DateTimeCompleted = briefdetail.DateTimeCompleted,
+        //            DateTimeCreated = briefdetail.DateTimeCreated,
+        //            DateTimeStarted = briefdetail.DateTimeStarted,
+        //            WorkLocation = briefdetail.WorkLocation,
+        //            WorkOrderStatus = briefdetail.WorkOrderStatus,
+        //            WorkOrderType = briefdetail.WorkOrderType,
+        //            PONo = briefdetail.Pono,
+        //            CustomerName = briefdetail.CustomerName,
+        //            IconName = briefdetail.IconName,
+        //            HexColor = briefdetail.HexColor,
+        //            TypeHexColor = briefdetail.TypeHexColor, 
+        //            TypeIconName = briefdetail.TypeIconName,
+        //            ParentName = briefdetail.ParentName,
+        //            FullAddress = briefdetail.FullAddress,
+        //            VehicleName = briefdetail.VehicleName,
+        //        }).ToList();
 
 
-                return woBriefDetailDTOs;
+        //        return woBriefDetailDTOs;
   
            
-        }
+        //}
 
                 public async Task<bool> RemovePartFromWorkOrder(int partUsedId, int sheetId)
         {

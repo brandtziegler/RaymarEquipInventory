@@ -188,10 +188,6 @@
          "ObjectType": 3
       },
       {
-         "Name": "[dbo].[vw_WorkOrdBriefDetails]",
-         "ObjectType": 3
-      },
-      {
          "Name": "[dbo].[vw_WorkOrderStatusWithType]",
          "ObjectType": 3
       },

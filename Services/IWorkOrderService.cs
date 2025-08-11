@@ -49,7 +49,7 @@ namespace RaymarEquipmentInventory.Services
 
         Task<DTOs.BillingMin?> GetBillingMin(int sheetID);
 
-        Task<List<DTOs.WorkOrderBriefDetails>> GetWorkOrderBriefDetails();
+        //Task<List<DTOs.WorkOrderBriefDetails>> GetWorkOrderBriefDetails();
         //Task<List<Tech>> GetAllParts();
         Task LogFailedSync(int sheetId, string reason);
     }

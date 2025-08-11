@@ -669,9 +669,9 @@ namespace RaymarEquipmentInventory.Services
         public async Task<string?> BackupDatabaseToGoogleDriveAsync(CancellationToken ct = default)
         {
             // 1) Target Drive folder (env var first, then appsettings fallback)
-            var driveFolderId =
-                Environment.GetEnvironmentVariable("GOOGLE_DBBackups")
+            var driveFolderId = Environment.GetEnvironmentVariable("GOOGLE_DBBackups")
                 ?? _config["GoogleDrive:DBBackupsFolderId"];
+
             if (string.IsNullOrWhiteSpace(driveFolderId))
                 throw new InvalidOperationException("Missing GOOGLE_DBBackups (or GoogleDrive:DBBackupsFolderId).");
 

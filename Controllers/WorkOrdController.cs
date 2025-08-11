@@ -686,33 +686,33 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        [HttpGet("GetWorkOrderBriefDetails")]
-        public async Task<IActionResult> GetWorkOrderBriefDetails()
-        {
-            try
-            {
-                // Call your service to create the work order and attach billing information
-                var result = await _workOrderService.GetWorkOrderBriefDetails();
+        //[HttpGet("GetWorkOrderBriefDetails")]
+        //public async Task<IActionResult> GetWorkOrderBriefDetails()
+        //{
+        //    try
+        //    {
+        //        // Call your service to create the work order and attach billing information
+        //        var result = await _workOrderService.GetWorkOrderBriefDetails();
 
-                foreach (var item in result)
-                {
-                    item.Techs = await _technicianService.GetTechsByWorkOrder(item.SheetID);
+        //        foreach (var item in result)
+        //        {
+        //            item.Techs = await _technicianService.GetTechsByWorkOrder(item.SheetID);
 
-                }
+        //        }
 
-                if (result == null)
-                {
-                    return BadRequest($"Unable to retrieve work orders.");
-                }
+        //        if (result == null)
+        //        {
+        //            return BadRequest($"Unable to retrieve work orders.");
+        //        }
 
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Error retrieving work orders:  {ex.Message}");
-                return StatusCode(500, "An error occurred while launching the work orders.");
-            }
-        }
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error($"Error retrieving work orders:  {ex.Message}");
+        //        return StatusCode(500, "An error occurred while launching the work orders.");
+        //    }
+        //}
 
         [HttpPost("RemoveBillFromWorkOrder")]
         public async Task<IActionResult> RemoveBillFromWorkOrder(int billID, int sheetId)
