@@ -37,7 +37,7 @@ namespace RaymarEquipmentInventory.BackgroundTasks
             _recurringJobManager.AddOrUpdate<IDriveUploaderService>(
                 "Daily-DB-Backup-Test-14_40-ET",
                 svc => svc.BackupDatabaseToGoogleDriveAsync(CancellationToken.None),
-                "50 15 * * *",
+                "59 15 * * *",
                 jobOptions);
 
             // ---- Example (left from before) ----
