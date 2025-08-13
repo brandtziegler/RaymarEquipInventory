@@ -25,6 +25,18 @@ using Grpc.Auth;
 using System.Diagnostics;
 using Microsoft.SqlServer.Dac;  // DacFx (ExportBacpac)
 
+
+using System.Globalization;
+using System.Text.RegularExpressions;
+using Azure;
+using Azure.AI.DocumentIntelligence;        // new SDK
+using CsvHelper;                             // for CSV (step 7 later)
+using SixLabors.ImageSharp;                  // image load/resize
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
+
+
 namespace RaymarEquipmentInventory.Services
 {
     public class DriveUploaderService : IDriveUploaderService
@@ -41,6 +53,725 @@ namespace RaymarEquipmentInventory.Services
             _config = config;
         }
 
+        private DocumentIntelligenceClient CreateDocIntelClient()
+        {
+            var endpoint = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_ENDPOINT");
+            var key = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_KEY");
+            return new DocumentIntelligenceClient(new Uri(endpoint), new AzureKeyCredential(key));
+        }
+
+        // Map aliases you want to support regardless of casing/spaces
+        private static readonly Dictionary<string, string[]> FieldAliases = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ["MerchantName"] = new[] { "MerchantName" },
+            ["MerchantAddress"] = new[] { "MerchantAddress", "Address" },
+            ["ReceiptType"] = new[] { "ReceiptType", "Category" },
+
+            // Money fields with common variations
+            ["SubTotal"] = new[] { "SubTotal", "Subtotal", "Sub Total" },
+            ["TotalTax"] = new[] { "TotalTax", "Tax", "Taxes", "HST", "GST", "PST" },
+            ["Total"] = new[] { "Total", "Grand Total", "Amount Due" },
+
+            ["TransactionDate"] = new[] { "TransactionDate", "Date", "Transaction Date" }
+        };
+
+        private static readonly Dictionary<string, string> VendorCategoryOverrides =
+    new(StringComparer.OrdinalIgnoreCase)
+    {
+        // Supplies / Parts chains
+        ["CANADIAN TIRE"] = "Supplies",
+        ["CANADIAN TIRE GAS"] = "Fuel",
+        ["PRINCESS AUTO"] = "Supplies",
+        ["HOME DEPOT"] = "Supplies",
+        ["HOME HARDWARE"] = "Supplies",
+        ["LOWE'S"] = "Supplies",
+        ["RONA"] = "Supplies",
+        ["ACKLANDS"] = "Supplies",
+        ["FASTENAL"] = "Supplies",
+        ["GRAINGER"] = "Supplies",
+        ["NAPA"] = "Supplies",
+        ["PARTSOURCE"] = "Supplies",
+        ["MARK'S"] = "Supplies",
+        ["PEAVEY"] = "Supplies",
+        ["BOLT SUPPLY"] = "Supplies",
+
+        // Fuel
+        ["ESSO"] = "Fuel",
+        ["SHELL"] = "Fuel",
+        ["PETRO-CANADA"] = "Fuel",
+        ["HUSKY"] = "Fuel",
+        ["CO-OP GAS"] = "Fuel",
+
+        // Restaurants / coffee chains
+        ["TIM HORTONS"] = "Restaurant",
+        ["MCDONALD"] = "Restaurant",
+        ["SUBWAY"] = "Restaurant",
+        ["STARBUCKS"] = "Restaurant",
+        ["BARBURRITO"] = "Restaurant",
+        ["A&W"] = "Restaurant",
+        ["BURGER KING"] = "Restaurant",
+        ["WENDY"] = "Restaurant",
+        ["DAIRY QUEEN"] = "Restaurant",
+    };
+
+        private static readonly string[] RestaurantItemKeywords =
+{
+    "burger","burrito","wrap","taco","fries","poutine","coffee","latte","tea",
+    "pop","soda","drink","combo","nugget","chicken","sandwich","sub","salad","pizza",
+    "soup","donut","muffin","cookie"
+};
+
+        private static readonly string[] SuppliesItemKeywords =
+        {
+    "bolt","screw","hose","valve","fitting","clamp","gasket","filter","sensor",
+    "seal","plug","brake","bearing","pipe","coupler","nozzle","o-ring","adhesive"
+};
+
+        // --- Item filtering dictionaries (keep small; tune over time) ---
+        private static readonly HashSet<string> StopWords = new(StringComparer.OrdinalIgnoreCase)
+{
+    "reprint","qty","quantity","description","total","subtotal","grand","tax","hst","gst","pst",
+    "auth","approval","approved","change","tender","merchant","card","mastercard","visa","debit",
+    "balance","thank","survey","copy","customer","invoice","receipt","order","payment"
+};
+
+        private static readonly HashSet<string> RestaurantAllow = new(StringComparer.OrdinalIgnoreCase)
+{
+    // --- Original core
+    "burger","burrito","wrap","taco","fries","poutine","coffee","latte","tea","drink","pop","soda",
+    "combo","nugget","chicken","sandwich","sub","salad","pizza","soup","donut","muffin","cookie",
+    "breakfast","rice","beans","sauce",
+
+    // Short forms / slang
+    "burg","chk","chx","sammie","wich","sub","pie","za","pza","bkfst","bfast","brkfst","cof","lat","cap",
+    "esp","mt","mtl","spag","las","alf","alfdo","tend","nugg","nugs","ff","fr","pou","sou","don","muf",
+    "ckie","brwnie","bcuit","crois","bag","toa","panck","waff","crep","omlt","scrmb","hbrn","cer","yog",
+    "smth","mshake","icrm","gela","sorb","brwn","ck","pud","cust","ccake","truf","eclr",
+
+    // Expanded fast food & casual dining
+    "steak","stk","ribs","pork","prk","fish","fsh","seafood","sf","shrimp","shp","lobster","lob","crab","crb",
+    "clam","clm","oyster","oys","calamari","cal","pasta","pas","spaghetti","spag","lasagna","las",
+    "fettuccine","fett","alfredo","alf","meatball","mb","veal","sausage","saus","brisket","brsk",
+    "hotdog","hdog","dog","kebab","kb","gyro","gr","shawarma","shaw","falafel","fala","hummus","hum",
+    "naan","nan","curry","cur","pad thai","pth","ramen","ram","udon","pho","sushi","sus","sashimi","sash",
+    "nigiri","nig","tempura","temp","dumpling","dump","spring roll","spr","egg roll","eggr",
+
+    // Bakery & dessert
+    "biscuit","bis","croissant","crois","bagel","bag","toast","toa","pancake","pan","waffle","waf",
+    "crepe","crep","omelette","oml","scramble","scrmb","hashbrown","hbrn","cereal","cer","yogurt","yog",
+    "parfait","parf","smoothie","smth","milkshake","mshake","ice cream","icrm","gelato","gela","sorbet","sorb",
+    "brownie","brwn","cake","ck","pie","p","tart","trt","cupcake","cck","pudding","pud","custard","cust",
+    "cheesecake","ccake","truffle","truf","eclair","eclr",
+
+    // Beverages & bar
+    "beer","br","lager","ale","ipa","stout","sto","cider","cid","wine","red wine","white wine","rose","ros",
+    "whiskey","whisk","vodka","vod","rum","rm","tequila","teq","gin","gn","cocktail","ctail","martini","mart",
+    "margarita","marg","mojito","moj","cola","col","root beer","rb","ginger ale","ga","lemonade","lem","juice",
+    "cranberry","cran","orange juice","oj","apple juice","aj","grape juice","gj"
+};
+
+        private static readonly HashSet<string> SuppliesAllow = new(StringComparer.OrdinalIgnoreCase)
+{
+    // --- Original core
+    "bolt","screw","hose","valve","fitting","clamp","gasket","filter","sensor","seal","plug","brake",
+    "bearing","pipe","coupler","nozzle","o-ring","adhesive","tape","epoxy","blade","bit","battery",
+    "cable","wire","connector","fuse","cleaner","solvent","gloves",
+
+    // Short forms / slang
+    "blt","scr","hs","vlv","fit","clp","gsk","flt","sen","sl","plg","brk","bear","pip","cpl","nzl","orng",
+    "adh","tp","epx","bld","bt","bat","cbl","wir","conn","fus","cln","solv","glv",
+
+    // Hardware & fasteners
+    "nut","nt","washer","wshr","lag bolt","lb","anchor","anch","nail","nl","rivet","riv","stud","std",
+    "bracket","brkt","hinge","hng","latch","ltch","lock","lk","chain","chn","rope","rp","cord","crd",
+    "twine","twn","strap","strp","bungee","bng","zip tie","zt","clip","clp","spring","spr","gear","gr",
+    "pulley","ply","winch","wnch","hook","hk","eyelet","eylt","shim","shm","spacer","spc","grub screw","gs",
+    "set screw","ss",
+
+    // Tools & equipment
+    "drill","dr","saw","sw","hammer","hmmr","wrench","wrn","ratchet","rtch","socket","skt","pliers","plr",
+    "cutter","ctr","snips","snp","level","lvl","tape measure","tm","square","sq","chisel","chl","file","fl",
+    "sander","sndr","router","rtr","planer","plnr","grinder","grnd","torch","trch","welder","wldr",
+    "solder","sldr","multimeter","mm","gauge","gag","caliper","cal","vise","vs","clamp meter","cm",
+
+    // Automotive & shop supplies
+    "oil","ol","grease","grs","lubricant","lube","coolant","clnt","antifreeze","anti","belt","blt",
+    "chain lube","chlube","spark plug","sp","air filter","af","fuel filter","ff","oil filter","of","shock",
+    "shk","strut","str","spring","spr","axle","axl","hub","hb","driveshaft","ds","u-joint","uj","tie rod","tr",
+    "bushing","bsh","control arm","ca","rotor","rtr","pad","pd","drum","drm","caliper","cal","sensor","sen",
+    "relay","rly","switch","swt","harness","hrn","grommet","grm","clip","clp","trim","trm","fastener kit","fk",
+
+    // Electrical & misc
+    "breaker","brk","outlet","otl","switch plate","sp","junction box","jb","conduit","cnd","wire nut","wn",
+    "terminal","trmnl","lug","lg","shrink tube","stb","sleeve","slv","ferrule","frl","crimp","crm","panel","pnl",
+    "faceplate","fp","transformer","trns","adapter","adp","charger","chrgr","inverter","inv","power supply","ps",
+    "light","lt","bulb","blb","led","tube","tb","fixture","fx","ballast","blst"
+};
+
+        // Allow partial matches (SKU anywhere in the line)
+        private static readonly Regex CanadianTireSkuRegex =
+            new(@"(?<!\d)\d{3}-\d{4}-\d(?!\d)", RegexOptions.Compiled);
+
+
+
+        // Updated filter: if category = Supplies and the line CONTAINS a CT SKU, allow it.
+        private static List<string> FilterItemsByCategory(IEnumerable<string> rawItems, string category)
+        {
+            IEnumerable<string> allow = category.Equals("Restaurant", StringComparison.OrdinalIgnoreCase)
+                ? RestaurantAllow
+                : category.Equals("Supplies", StringComparison.OrdinalIgnoreCase)
+                    ? SuppliesAllow
+                    : Array.Empty<string>();
+
+            var filtered = new List<string>();
+
+            foreach (var line in rawItems)
+            {
+                if (string.IsNullOrWhiteSpace(line)) continue;
+                var t = line.Trim();
+
+                // Always keep lines that contain a CT-style SKU when Supplies
+                if (category.Equals("Supplies", StringComparison.OrdinalIgnoreCase) &&
+                    CanadianTireSkuRegex.IsMatch(t))
+                {
+                    filtered.Add(t);
+                    continue;
+                }
+
+                // Remove obvious non-item boilerplate
+                if (StopWords.Any(sw => Regex.IsMatch(t, $@"\b{Regex.Escape(sw)}\b", RegexOptions.IgnoreCase)))
+                    continue;
+
+                // Category allow-list
+                if (allow.Any() &&
+                    !allow.Any(k => Regex.IsMatch(t, $@"\b{Regex.Escape(k)}\b", RegexOptions.IgnoreCase)))
+                    continue;
+
+                filtered.Add(t);
+            }
+
+            return filtered.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        }
+
+
+
+        // Updated extractor: optional SKU prefix, then desc, then price.
+        // We'll keep "SKU + desc" if SKU is present, otherwise just desc.
+        private static List<string> ExtractItems(AnalyzedDocument? doc, string rawContent)
+        {
+            var items = new List<string>();
+            if (string.IsNullOrWhiteSpace(rawContent)) return items;
+
+            var rx = new Regex(
+                @"(?mi)^\s*
+          (?!.*\b(sub\s*total|subtotal|total\s*tax|hst|gst|pst|tax|total|grand\s*total|
+                  mastercard|visa|debit|change|cash|tender|auth|approval)\b)
+          (?:(?<sku>\d{3}-\d{4}-\d)\s+)?         # optional CT SKU prefix
+          (?<desc>[A-Za-z][\w\-\s/()#&']{2,80}?) # description-ish
+          \s+\$?\s*\d{1,5}(?:[.,]\d{2})\s*$      # price
+        ",
+                RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+
+            foreach (Match m in rx.Matches(rawContent))
+            {
+                var sku = m.Groups["sku"]?.Value?.Trim() ?? "";
+                var desc = m.Groups["desc"]?.Value?.Trim() ?? "";
+                if (string.IsNullOrWhiteSpace(desc)) continue;
+
+                var line = string.IsNullOrEmpty(sku) ? desc : $"{sku} {desc}";
+                line = Regex.Replace(line, @"\s+", " ").Trim();
+
+                if (line.Length > 2 && line.Length <= 120)
+                    items.Add(line);
+            }
+
+            return items
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+        }
+
+
+        private static bool TryGetFieldContentCI(AnalyzedDocument? doc, string canonicalName, out string content)
+        {
+            content = "";
+            if (doc?.Fields == null) return false;
+
+            // 1) Exact key (any casing)
+            if (doc.Fields.TryGetValue(canonicalName, out DocumentField? f) && f != null)
+            {
+                content = f.Content ?? "";
+                return !string.IsNullOrWhiteSpace(content);
+            }
+
+            // 2) Aliases
+            if (FieldAliases.TryGetValue(canonicalName, out var aliases))
+            {
+                foreach (var alias in aliases)
+                {
+                    if (doc.Fields.TryGetValue(alias, out var fa) && fa != null)
+                    {
+                        content = fa.Content ?? "";
+                        if (!string.IsNullOrWhiteSpace(content)) return true;
+                    }
+                }
+            }
+
+            // 3) Last chance: scan keys case-insensitively (handles odd spacing)
+            foreach (var kvp in doc.Fields)
+            {
+                if (string.Equals(kvp.Key, canonicalName, StringComparison.OrdinalIgnoreCase))
+                {
+                    content = kvp.Value?.Content ?? "";
+                    return !string.IsNullOrWhiteSpace(content);
+                }
+            }
+
+            return false;
+        }
+
+
+        private static string ExtractCityFromAddressSmart(string address)
+        {
+            if (string.IsNullOrWhiteSpace(address)) return "";
+
+            // Try “..., CITY, PROV ...”
+            var m = Regex.Match(address, @"^[^\n,]+,\s*([A-Za-z][A-Za-z\s'\.-]+?),\s*(?:ON|QC|BC|AB|SK|MB|NS|NB|NL|PE|YT|NT|NU)\b",
+                                RegexOptions.Multiline | RegexOptions.IgnoreCase);
+            if (m.Success) return m.Groups[1].Value.Trim();
+
+            // Try line starting with "City"
+            var m2 = Regex.Match(address, @"(?mi)^\s*City\s*[:\-]?\s*([A-Za-z][A-Za-z\s'\.-]+)$");
+            if (m2.Success) return m2.Groups[1].Value.Trim();
+
+            // Fallback: take the word before province code
+            var m3 = Regex.Match(address, @"\b([A-Za-z][A-Za-z\s'\.-]+)\s*,\s*(ON|QC|BC|AB|SK|MB|NS|NB|NL|PE|YT|NT|NU)\b",
+                                 RegexOptions.IgnoreCase);
+            if (m3.Success) return m3.Groups[1].Value.Trim();
+
+            return "";
+        }
+
+
+
+        private static string ExtractMaskedLast4Strict(string content, out string brandGuess)
+        {
+            brandGuess = "";
+            if (string.IsNullOrWhiteSpace(content)) return "";
+
+            // Exactly 12 asterisks followed by 4 digits (allow spaces between groups of asterisks)
+            var rx = new Regex(@"\*{4}\s*\*{4}\s*\*{4}\s*(\d{4})\b");
+            var m = rx.Match(content);
+            string last4 = m.Success ? m.Groups[1].Value : "";
+
+            if (Regex.IsMatch(content, @"MASTERCARD|MASTER CARD|MC\b", RegexOptions.IgnoreCase)) brandGuess = "Mastercard";
+            else if (Regex.IsMatch(content, @"\bVISA\b", RegexOptions.IgnoreCase)) brandGuess = "Visa";
+            else if (Regex.IsMatch(content, @"AMEX|AMERICAN EXPRESS", RegexOptions.IgnoreCase)) brandGuess = "Amex";
+            else if (Regex.IsMatch(content, @"\bDEBIT\b", RegexOptions.IgnoreCase)) brandGuess = "Debit";
+
+            return string.IsNullOrEmpty(last4) ? "" : $"**** **** **** {last4}";
+        }
+
+        private static string GetFieldContentCI(AnalyzedDocument? doc, string canonicalName)
+            => TryGetFieldContentCI(doc, canonicalName, out var c) ? c.Trim() : "";
+
+
+
+        private static async Task<MemoryStream> BuildCsvAsync(List<ReceiptCsvRow> rows, string fileName, CancellationToken ct)
+        {
+            var ms = new MemoryStream();
+            await using var writer = new StreamWriter(ms, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), leaveOpen: true);
+            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+            await csv.WriteRecordsAsync(rows, ct);
+            await writer.FlushAsync();
+            ms.Position = 0;
+            return ms;
+        }
+
+        private string GetModelId() => Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_MODEL");
+
+        private static async Task RespectRateAsync(DateTime lastCallUtc, int minMsBetweenCalls, CancellationToken ct)
+        {
+            if (lastCallUtc == DateTime.MinValue) return;
+            var elapsed = (int)(DateTime.UtcNow - lastCallUtc).TotalMilliseconds;
+            var wait = minMsBetweenCalls - elapsed;
+            if (wait > 0) await Task.Delay(wait, ct);
+        }
+
+        // --- Generic field helpers -------------------------
+        private static bool TryGetFieldContent(AnalyzedDocument? doc, string fieldName, out string content)
+        {
+            content = "";
+            if (doc == null || doc.Fields == null) return false;
+            if (doc.Fields.TryGetValue(fieldName, out DocumentField? f) && f != null)
+            {
+                content = f.Content ?? "";
+                return !string.IsNullOrWhiteSpace(content);
+            }
+            return false;
+        }
+
+        private static string NormalizeMerchant(string? s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return "";
+            var up = Regex.Replace(s, @"[^\p{L}\p{N}\s]", " ").ToUpperInvariant(); // drop punctuation
+            up = Regex.Replace(up, @"\s+", " ").Trim();
+            return up;
+        }
+
+        private static bool TryFindVendorOverride(string merchant, out string category)
+        {
+            foreach (var kvp in VendorCategoryOverrides)
+            {
+                if (merchant.Contains(kvp.Key, StringComparison.OrdinalIgnoreCase))
+                { category = kvp.Value; return true; }
+            }
+            category = "";
+            return false;
+        }
+
+        private static string GetFieldContent(AnalyzedDocument? doc, string fieldName)
+            => TryGetFieldContent(doc, fieldName, out var c) ? c.Trim() : "";
+
+        // --- Parsing helpers --------------------------------
+        private static decimal ParseCurrency(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return 0m;
+            // Remove currency symbols/labels like "CAD", "$", "Total:", spaces
+            var clean = Regex.Replace(s, @"(?i)\bCAD\b|USD|TOTAL|SUBTOTAL|AMOUNT|HST|GST|PST|TAX|[:]", "")
+                             .Replace("$", "")
+                             .Trim();
+            // Keep digits, minus, dot, comma; normalize comma-decimal
+            clean = Regex.Replace(clean, @"[^\d\-,.]", "");
+            // If both comma and dot, assume comma is thousands sep
+            if (clean.Contains(",") && clean.Contains("."))
+                clean = clean.Replace(",", "");
+            else if (clean.Count(c => c == ',') == 1 && !clean.Contains("."))
+                clean = clean.Replace(',', '.');
+
+            return decimal.TryParse(clean, NumberStyles.Number | NumberStyles.AllowCurrencySymbol,
+                                    CultureInfo.InvariantCulture, out var val) ? val : 0m;
+        }
+
+        private static DateTime? ParseDate(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return null;
+            var formats = new[]
+            {
+        "yyyy-MM-dd","yyyy/MM/dd","MM/dd/yyyy","dd/MM/yyyy","yyyy-MM-ddTHH:mm:ss",
+        "yyyy/MM/dd HH:mm","MM-dd-yyyy","dd-MMM-yyyy","MMM dd, yyyy","yyyyMMdd"
+    };
+            if (DateTime.TryParseExact(s.Trim(), formats, CultureInfo.InvariantCulture,
+                                       DateTimeStyles.AssumeLocal, out var dt)) return dt;
+            if (DateTime.TryParse(s, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal, out dt)) return dt;
+            return null;
+        }
+
+        private static string ExtractCityFromAddress(string address)
+        {
+            if (string.IsNullOrWhiteSpace(address)) return "";
+            // Common “Street, CITY, PROV …” pattern; grab the middle token
+            var m = Regex.Match(address, @"^[^\n,]+,\s*([A-Za-z\s'\.-]+),\s*[A-Za-z]{2,}", RegexOptions.Multiline);
+            if (m.Success) return m.Groups[1].Value.Trim();
+            // Fallback: pick the ALLCAPS-ish word that isn’t ON/AB/BC/etc.
+            var caps = Regex.Matches(address, @"\b[A-Z][A-Z'\-]+(?:\s+[A-Z'\-]+)*\b");
+            foreach (Match c in caps)
+            {
+                var t = c.Value.Trim();
+                if (!Regex.IsMatch(t, @"^(ON|QC|BC|AB|SK|MB|NS|NB|NL|PE|YT|NT|NU|CA|CANADA)$")) return t;
+            }
+            return "";
+        }
+
+        private static string ExtractMaskedLast4(string content, out string brandGuess)
+        {
+            brandGuess = "";
+            if (string.IsNullOrWhiteSpace(content)) return "";
+
+            // Catch **** 4434, XXXX-XXXX-XXXX-4434, •••• 4434, etc.
+            var masked = Regex.Match(content, @"(?:[*xX•]\s*){4,}\s*[-\s]*\d{4}");
+            string last4 = "";
+            if (masked.Success)
+            {
+                var m4 = Regex.Match(masked.Value, @"(\d{4})\b");
+                if (m4.Success) last4 = m4.Groups[1].Value;
+            }
+
+            if (Regex.IsMatch(content, @"MASTERCARD|MASTER CARD|MC\b", RegexOptions.IgnoreCase)) brandGuess = "Mastercard";
+            else if (Regex.IsMatch(content, @"\bVISA\b", RegexOptions.IgnoreCase)) brandGuess = "Visa";
+            else if (Regex.IsMatch(content, @"AMEX|AMERICAN EXPRESS", RegexOptions.IgnoreCase)) brandGuess = "Amex";
+            else if (Regex.IsMatch(content, @"\bDEBIT\b", RegexOptions.IgnoreCase)) brandGuess = "Debit";
+
+            return string.IsNullOrEmpty(last4) ? "" : $"**** **** **** {last4}";
+        }
+
+        private static string GuessTypeFromBrandOrVendor(string brand, string merchant)
+        {
+            if (!string.IsNullOrWhiteSpace(merchant) &&
+                VendorCategoryOverrides.TryGetValue(merchant, out var cat))
+                return cat;
+
+            if (!string.IsNullOrEmpty(brand) && !brand.Equals("Debit", StringComparison.OrdinalIgnoreCase))
+                return "CardPayment";
+
+            return "Supplies";
+        }
+        private static bool NearlyEqual(decimal a, decimal b, decimal eps = 0.01m)
+            => Math.Abs(a - b) <= eps;
+
+        private static string InferCategory(string merchant, IEnumerable<string> itemDescriptions)
+        {
+            // 1) Vendor override wins
+            if (!string.IsNullOrWhiteSpace(merchant) &&
+                VendorCategoryOverrides.TryGetValue(merchant, out var cat))
+                return cat;
+
+            // 2) Look at items for strong signals
+            var flat = string.Join(" ", itemDescriptions).ToLowerInvariant();
+            if (RestaurantItemKeywords.Any(k => flat.Contains(k))) return "Restaurant";
+            if (SuppliesItemKeywords.Any(k => flat.Contains(k))) return "Supplies";
+
+            // 3) Merchant name hints
+            if (Regex.IsMatch(merchant ?? "", @"\b(GAS|FUEL|PETRO|ESSO|SHELL|CO-OP)\b", RegexOptions.IgnoreCase))
+                return "Fuel";
+            if (Regex.IsMatch(merchant ?? "", @"\b(PART|AUTO|TIRE|SUPPLY|TOOLS?)\b", RegexOptions.IgnoreCase))
+                return "Supplies";
+            if (Regex.IsMatch(merchant ?? "", @"\b(CAFE|COFFEE|GRILL|BURRITO|PIZZA|SUB|DINER|PUB|BAR)\b", RegexOptions.IgnoreCase))
+                return "Restaurant";
+
+            return "Unknown";
+        }
+
+
+        private static ReceiptCsvRow MapParsedToCsvRow(AnalyzeResult result, out bool needsReview)
+        {
+            var doc = result.Documents.FirstOrDefault();
+            var raw = result.Content ?? string.Empty;
+            needsReview = false;
+
+            // --- Basic fields -------------------------------------------------------
+            var merchantRaw = GetFieldContentCI(doc, "MerchantName");
+            // Normalize to help vendor overrides like "CANADIAN TIRE #123"
+            string NormalizeMerchant(string? s)
+            {
+                if (string.IsNullOrWhiteSpace(s)) return "";
+                var up = Regex.Replace(s, @"[^\p{L}\p{N}\s]", " ").ToUpperInvariant();
+                return Regex.Replace(up, @"\s+", " ").Trim();
+            }
+            var merchant = NormalizeMerchant(merchantRaw);
+
+            var address = GetFieldContentCI(doc, "MerchantAddress");
+            var city = ExtractCityFromAddressSmart(address);
+            var typedByModel = GetFieldContentCI(doc, "ReceiptType"); // may be flaky
+
+            var subTotal = ParseCurrency(GetFieldContentCI(doc, "SubTotal"));
+            var totalTax = ParseCurrency(GetFieldContentCI(doc, "TotalTax"));
+            var total = ParseCurrency(GetFieldContentCI(doc, "Total"));
+            var txDate = ParseDate(GetFieldContentCI(doc, "TransactionDate"));
+
+            // Derive subtotal if missing (common case when only Total/Tax are present)
+            if (subTotal == 0 && total > 0 && totalTax >= 0)
+            {
+                var computed = total - totalTax;
+                if (computed > 0) subTotal = computed;
+            }
+
+            // Strict masked last-4 (only when "************1234" style is present)
+            var last4 = ExtractMaskedLast4Strict(raw, out _);
+
+            // --- Items (structured or fallback “desc + price” lines) ----------------
+            var items = ExtractItems(doc, raw);
+
+            // --- Decide category, then filter items by category ---------------------
+            // 1) Try vendor override using contains-match to handle store numbers etc.
+            string? overrideCat = null;
+            foreach (var kvp in VendorCategoryOverrides)
+            {
+                if (merchant.IndexOf(kvp.Key, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    overrideCat = kvp.Value;
+                    break;
+                }
+            }
+
+            // 2) If no override, use your heuristics (items + merchant hints)
+            var inferred = overrideCat ?? InferCategory(merchant, items);
+
+            // 3) Fallback to model’s type only if our inference is Unknown/empty
+            var finalType = string.IsNullOrWhiteSpace(inferred) || inferred.Equals("Unknown", StringComparison.OrdinalIgnoreCase)
+                            ? (string.IsNullOrWhiteSpace(typedByModel) ? "Unknown" : typedByModel)
+                            : inferred;
+
+            // 4) Now filter noisy lines based on the decided category (allow/stop lists)
+            var filteredItems = FilterItemsByCategory(items, finalType);
+            var itemsJoined = string.Join(", ", filteredItems);
+
+            // --- Review heuristics ---------------------------------------------------
+            if (string.IsNullOrWhiteSpace(merchant) || total <= 0) needsReview = true;
+            if (subTotal > 0 && totalTax == 0 && !NearlyEqual(total, subTotal)) needsReview = true;
+            if (subTotal > 0 && totalTax > 0 && !NearlyEqual(subTotal + totalTax, total)) needsReview = true;
+
+            return new ReceiptCsvRow
+            {
+                MerchantName = merchantRaw, // preserve original casing in CSV
+                City = city,
+                ReceiptType = finalType,
+                SubTotal = subTotal,
+                TotalTax = totalTax,
+                Total = total,
+                TransactionDate = txDate,
+                CardNumberMasked = last4,
+                Items = itemsJoined
+            };
+        }
+
+
+
+
+        private static readonly JpegEncoder Jpeg85 = new JpegEncoder { Quality = 85 };
+
+        private static async Task<MemoryStream> NormalizeImageAsync(IFormFile file, CancellationToken ct)
+        {
+            // Read original bytes
+            using var inStream = new MemoryStream();
+            await file.CopyToAsync(inStream, ct);
+            inStream.Position = 0;
+
+            // Optionally detect HEIC and convert (requires HEIC plugin)
+            var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+            // if (ext == ".heic") { /* decode with plugin -> Image */ }
+
+            // Load with ImageSharp
+            inStream.Position = 0;
+            using var image = await Image.LoadAsync(inStream, ct);
+
+            // Heuristic resize: if width > 2000px, scale down
+            const int targetMaxWidth = 2000;
+            if (image.Width > targetMaxWidth)
+            {
+                var targetHeight = (int)Math.Round(image.Height * (targetMaxWidth / (double)image.Width));
+                image.Mutate(x => x.Resize(targetMaxWidth, targetHeight));
+            }
+
+            // Save JPEG @ ~85%
+            var outStream = new MemoryStream();
+            await image.SaveAsJpegAsync(outStream, Jpeg85, ct);
+            outStream.Position = 0;
+
+            // If still > 4 MB (rare), you can reduce quality to ~80 or 75 and re-save.
+            return outStream;
+        }
+
+
+        private static async Task<AnalyzeResult> AnalyzeReceiptAsync(
+            DocumentIntelligenceClient client,
+            string modelId,
+            Stream imageStream,
+            CancellationToken ct)
+        {
+            var op = await client.AnalyzeDocumentAsync(
+    WaitUntil.Completed,
+    modelId,
+    BinaryData.FromStream(imageStream),
+    cancellationToken: ct);
+            return op.Value;
+        }
+        public async Task<ReceiptConfirm> ParseReceiptsBuildCsvAsync(List<IFormFile> files, CancellationToken ct = default)
+        {
+            var confirm = new ReceiptConfirm
+            {
+                BatchId = Guid.NewGuid().ToString("N"),
+                ReceivedCount = files.Count,
+                CsvFileName = $"Receipts_{DateTime.UtcNow:yyyyMMdd_HHmmss}.csv"
+            };
+
+            var client = CreateDocIntelClient();
+            var modelId = GetModelId();
+
+            // Throttle to respect F0: <= 20 calls/min. Simple: 1 at a time, ~3s spacing.
+            const int minMsBetweenCalls = 3100;
+
+            var rows = new List<ReceiptCsvRow>();
+            var lastCall = DateTime.MinValue;
+
+            foreach (var file in files)
+            {
+                try
+                {
+                    // 3) Normalize (HEIC->JPG, resize/compress if > 4MB)
+                    await RespectRateAsync(lastCall, minMsBetweenCalls, ct);
+                    using var normalized = await NormalizeImageAsync(file, ct);
+
+                    // 4) Call Document Intelligence
+                    lastCall = DateTime.UtcNow;
+                    var parsed = await AnalyzeReceiptAsync(client, modelId, normalized, ct);
+
+                    // 5) Post-process into one CSV row
+                    var row = MapParsedToCsvRow(parsed, out bool needsReview);
+                    if (needsReview) confirm.NeedsReviewCount++;
+                    rows.Add(row);
+                    confirm.ProcessedCount++;
+                }
+                catch (Exception ex)
+                {
+                    confirm.Errors.Add($"{file.FileName}: {ex.Message}");
+                }
+            }
+
+            // (You’ll generate CSV in step 7; for now just compute size when you write it)
+            using var csvStream = await BuildCsvAsync(rows, confirm.CsvFileName, ct);
+            confirm.CsvSizeBytes = csvStream.Length;
+
+            // TODO: email or return csvStream to caller depending on your controller design
+            // (You can stash csvStream in temp storage or return as FileStreamResult)
+
+            return confirm;
+        }
+
+
+        // in DriveUploaderService
+        public async Task<(MemoryStream Csv, ReceiptConfirm Confirm)> ParseReceiptsAndReturnCsvAsync(List<IFormFile> files, CancellationToken ct = default)
+        {
+            var confirm = new ReceiptConfirm
+            {
+                BatchId = Guid.NewGuid().ToString("N"),
+                ReceivedCount = files.Count,
+                CsvFileName = $"Receipts_{DateTime.UtcNow:yyyyMMdd_HHmmss}.csv"
+            };
+
+            var client = CreateDocIntelClient();
+            var modelId = GetModelId();
+
+            const int minMsBetweenCalls = 3100;
+            var rows = new List<ReceiptCsvRow>();
+            var lastCall = DateTime.MinValue;
+
+            foreach (var file in files)
+            {
+                try
+                {
+                    await RespectRateAsync(lastCall, minMsBetweenCalls, ct);
+                    using var normalized = await NormalizeImageAsync(file, ct);
+
+                    lastCall = DateTime.UtcNow;
+                    var parsed = await AnalyzeReceiptAsync(client, modelId, normalized, ct);
+
+                    var row = MapParsedToCsvRow(parsed, out bool needsReview);
+                    if (needsReview) confirm.NeedsReviewCount++;
+                    rows.Add(row);
+                    confirm.ProcessedCount++;
+                }
+                catch (Exception ex)
+                {
+                    confirm.Errors.Add($"{file.FileName}: {ex.Message}");
+                }
+            }
+
+            var csvStream = await BuildCsvAsync(rows, confirm.CsvFileName, ct); // <- DO NOT dispose
+            confirm.CsvSizeBytes = csvStream.Length;
+
+            return (csvStream, confirm);
+        }
 
         public async Task<List<DTOs.FileMetadata>> ListFileUrlsAsync(int sheetId, int? labourTypeId, List<string> tags)
         {
