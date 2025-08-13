@@ -122,7 +122,39 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpPost("parse-csv")]
+        [Produces("text/csv")]
+        public async Task<IActionResult> ParseReceiptsCsv([FromForm] List<IFormFile> files, CancellationToken ct)
+        {
+            if (files == null || files.Count == 0)
+                return BadRequest("No files uploaded.");
 
+            var (csv, confirm) = await _driveUploaderService.ParseReceiptsAndReturnCsvAsync(files, ct);
+
+            // Optional: surface metadata in headers
+            Response.Headers["X-Receipt-BatchId"] = confirm.BatchId;
+            Response.Headers["X-ProcessedCount"] = confirm.ProcessedCount.ToString();
+            Response.Headers["X-NeedsReview"] = confirm.NeedsReviewCount.ToString();
+
+            // Return downloadable CSV
+            return File(csv, "text/csv", confirm.CsvFileName);
+        }
+
+        [HttpPost("parse-receipts")]
+        public async Task<IActionResult> ParseReceipts([FromForm] List<IFormFile> files, CancellationToken ct)
+        {
+            if (files == null || files.Count == 0)
+                return BadRequest("No files uploaded.");
+
+            var confirm = await _driveUploaderService.ParseReceiptsBuildCsvAsync(files, ct);
+
+            // Option A: JSON only
+            return Ok(confirm);
+
+            // Option B: return CSV directly
+            // var csvStream = await _driveUploaderService.ParseReceiptsAndReturnCsvAsync(files, ct);
+            // return File(csvStream, "text/csv", confirm.CsvFileName);
+        }
 
         [HttpPost("BackupDb")]
         public async Task<IActionResult> BackupDb(CancellationToken ct)
