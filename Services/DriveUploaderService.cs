@@ -1366,6 +1366,7 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<DTOs.GoogleDriveFolderDTO> PrepareGoogleDriveFoldersAsync(string custPath, string workOrderId)
         {
+            //Prepare Google Drive folders...
             var debugLog = new List<string>();
             try
             {
