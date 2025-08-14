@@ -1418,6 +1418,7 @@ namespace RaymarEquipmentInventory.Services
                     WorkOrderFolderId = workOrderFolderId,
                     PdfFolderId = pdfFolderId,
                     ImagesFolderId = imagesFolderId,
+                    ExpenseTrackingFolderId = expenseTrackingFolderId,
                     stupidLogErrors = debugLog
                 };
             }
