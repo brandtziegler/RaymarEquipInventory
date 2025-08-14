@@ -283,6 +283,77 @@ namespace RaymarEquipmentInventory.Controllers
                 FileResults = result
             });
         }
+
+        [HttpPost("UploadAppFilesToAzureBlob")]
+        public async Task<IActionResult> UploadAppFilesToAzureBlob(
+            List<IFormFile> files,
+            [FromQuery] string workOrderId,
+            [FromQuery] string workOrderFolderId,
+            [FromQuery] string pdfFolderId,
+            [FromQuery] string imagesFolderId,
+            CancellationToken ct)
+        {
+            if (files == null || files.Count == 0)
+                return BadRequest("No files received.");
+
+            if (string.IsNullOrWhiteSpace(workOrderId))
+                return BadRequest("workOrderId is required.");
+
+            // 1) Build the routing plan
+            var plan = _driveUploaderService.PlanBlobRouting(
+                files, workOrderId, workOrderFolderId, imagesFolderId, pdfFolderId);
+
+            // 2) Loop over planned files so we have blobPath
+            foreach (var p in plan.Files)
+            {
+                var ext = Path.GetExtension(p.FileName)?.ToLowerInvariant() ?? "";
+
+                if (ext is ".jpg" or ".jpeg" or ".png")
+                {
+                    await _driveUploaderService.UpdateFolderIdsInPartsDocumentAsync(
+                        fileName: p.FileName,
+                        extension: ext,
+                        workOrderId: workOrderId,
+                        workOrderFolderId: workOrderFolderId,
+                        imagesFolderId: imagesFolderId,
+                        blobPath: p.BlobPath,
+                        ct: ct);
+                }
+                else if (ext == ".pdf")
+                {
+                    await _driveUploaderService.UpdateFolderIdsInPDFDocumentAsync(
+                        fileName: p.FileName,
+                        extension: ext,
+                        workOrderId: workOrderId,
+                        workOrderFolderId: workOrderFolderId,
+                        pdfFolderId: pdfFolderId,
+                        blobPath: p.BlobPath,
+                        ct: ct);
+                }
+                else
+                {
+                    Log.Warning($"⚠️ Skipping unsupported file type '{p.FileName}' for folder ID stamping.");
+                }
+            }
+
+            foreach (var p in plan.Files)
+            {
+                var file = files.FirstOrDefault(f => f.FileName == p.FileName);
+                if (file != null)
+                {
+                    await _driveUploaderService.UploadFileToBlobAsync(
+                        p.Container, // container from plan
+                        p.BlobPath,  // blob path from plan
+                        file,
+                        ct);
+                }
+            }
+
+            // 3) Return the plan (later: upload to Blob + enqueue Hangfire)
+            return Ok(plan);
+        }
+
+
         [HttpPost("UploadAppFiles")]
         public async Task<IActionResult> UploadAppFiles(
             List<IFormFile> files,

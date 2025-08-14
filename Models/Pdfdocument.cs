@@ -23,5 +23,11 @@ public partial class Pdfdocument
 
     public string DriveFileId { get; set; }
 
+    public string WorkOrderFolderId { get; set; }
+
+    public string PdffolderId { get; set; }
+
+    public string AzureBlobPath { get; set; }
+
     public virtual WorkOrderSheet Sheet { get; set; }
 }

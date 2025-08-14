@@ -1,0 +1,1011 @@
+2025-08-13 19:53:04.603 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-13 19:53:04.628 -04:00 [INF] Hosting environment: Development
+2025-08-13 19:53:04.629 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2025-08-13 20:23:10.856 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-08-13 20:23:11.574 -04:00 [INF] Hangfire SQL objects installed.
+2025-08-13 20:23:12.058 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-08-13 20:23:12.322 -04:00 [INF] Now listening on: https://localhost:52212
+2025-08-13 20:23:12.324 -04:00 [INF] Now listening on: http://localhost:52213
+2025-08-13 20:23:12.325 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-08-13 20:23:12.325 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-08-13 20:23:12.326 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-08-13 20:23:12.326 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-08-13 20:23:12.363 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-08-13 20:23:12.364 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-08-13 20:23:12.365 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-08-13 20:23:12.376 -04:00 [DBG] Execution loop BackgroundServerProcess:1105bb7f has started in 6.0438 ms
+2025-08-13 20:23:12.424 -04:00 [INF] Server bz2024ad:36940:3cba3e22 successfully announced in 41.065 ms
+2025-08-13 20:23:12.429 -04:00 [DBG] Execution loop ServerHeartbeatProcess:c566aea1 has started in 3.4623 ms
+2025-08-13 20:23:12.429 -04:00 [INF] Server bz2024ad:36940:3cba3e22 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-08-13 20:23:12.433 -04:00 [DBG] Execution loop ServerWatchdog:a8bf0022 has started in 2.7634 ms
+2025-08-13 20:23:12.435 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:069e0c61 has started in 4.8578 ms
+2025-08-13 20:23:12.438 -04:00 [DBG] Execution loop ExpirationManager:f22c1e45 has started in 4.1303 ms
+2025-08-13 20:23:12.441 -04:00 [DBG] Execution loop CountersAggregator:5f26cffd has started in 4.8953 ms
+2025-08-13 20:23:12.443 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:b59cfc4f has started in 4.8752 ms
+2025-08-13 20:23:12.451 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-08-13 20:23:12.451 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-08-13 20:23:12.446 -04:00 [DBG] Execution loop Worker:6380f978 has started in 5.61 ms
+2025-08-13 20:23:12.449 -04:00 [DBG] Execution loop Worker:0fb93c95 has started in 8.5354 ms
+2025-08-13 20:23:12.452 -04:00 [DBG] Execution loop Worker:80c45ef2 has started in 11.1907 ms
+2025-08-13 20:23:12.455 -04:00 [DBG] Execution loop Worker:8843ebbc has started in 14.4507 ms
+2025-08-13 20:23:12.457 -04:00 [DBG] Execution loop Worker:39a6b85c has started in 16.16 ms
+2025-08-13 20:23:12.462 -04:00 [DBG] Execution loop Worker:21f1844a has started in 21.568 ms
+2025-08-13 20:23:12.460 -04:00 [DBG] Execution loop Worker:74414a1e has started in 18.8186 ms
+2025-08-13 20:23:12.465 -04:00 [DBG] Execution loop Worker:fe998144 has started in 24.4268 ms
+2025-08-13 20:23:12.468 -04:00 [DBG] Execution loop Worker:07eba588 has started in 27.3662 ms
+2025-08-13 20:23:12.471 -04:00 [DBG] Execution loop Worker:422c1089 has started in 29.9217 ms
+2025-08-13 20:23:12.474 -04:00 [DBG] Execution loop Worker:432e03a7 has started in 33.3034 ms
+2025-08-13 20:23:12.476 -04:00 [DBG] Execution loop Worker:cadaced5 has started in 34.9756 ms
+2025-08-13 20:23:12.479 -04:00 [DBG] Execution loop Worker:3bd9d303 has started in 38.1482 ms
+2025-08-13 20:23:12.484 -04:00 [DBG] Execution loop Worker:8a1a95ab has started in 42.9202 ms
+2025-08-13 20:23:12.487 -04:00 [DBG] Execution loop Worker:15e498a4 has started in 46.1307 ms
+2025-08-13 20:23:12.491 -04:00 [DBG] Execution loop Worker:4e8405f3 has started in 49.8549 ms
+2025-08-13 20:23:12.495 -04:00 [DBG] Execution loop Worker:72e273b6 has started in 53.5755 ms
+2025-08-13 20:23:12.507 -04:00 [INF] Server bz2024ad:36940:3cba3e22 all the dispatchers started
+2025-08-13 20:23:12.499 -04:00 [DBG] Execution loop Worker:dd3748bb has started in 57.9964 ms
+2025-08-13 20:23:12.502 -04:00 [DBG] Execution loop Worker:553659a4 has started in 61.0924 ms
+2025-08-13 20:23:12.504 -04:00 [DBG] Execution loop Worker:47bd9d1b has started in 63.0226 ms
+2025-08-13 20:23:12.507 -04:00 [DBG] Execution loop DelayedJobScheduler:117a8669 has started in 8.1977 ms
+2025-08-13 20:23:12.510 -04:00 [DBG] Execution loop RecurringJobScheduler:cbe5b7ce has started in 5.8857 ms
+2025-08-13 20:23:12.688 -04:00 [DBG] Connection id "0HNEQP30JSCI7" received FIN.
+2025-08-13 20:23:12.688 -04:00 [DBG] Connection id "0HNEQP30JSCI8" received FIN.
+2025-08-13 20:23:12.763 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-08-13 20:23:12.824 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-08-13 20:23:12.824 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-08-13 20:23:12.836 -04:00 [DBG] Connection id "0HNEQP30JSCI8" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-08-13 20:23:12.838 -04:00 [DBG] Connection id "0HNEQP30JSCI7" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-08-13 20:23:12.902 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-08-13 20:23:13.093 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-08-13 20:23:13.237 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-08-13 20:23:13.502 -04:00 [DBG] Connection 0HNEQP30JSCI9 established using the following protocol: "Tls13"
+2025-08-13 20:23:13.553 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/swagger/index.html - null null
+2025-08-13 20:23:13.650 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-08-13 20:23:13.675 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-08-13 20:23:13.676 -04:00 [DBG] Request did not match any endpoints
+2025-08-13 20:23:13.714 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-08-13 20:23:13.715 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-08-13 20:23:13.727 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-08-13 20:23:13.728 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-08-13 20:23:13.731 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/swagger/index.html - 200 null text/html;charset=utf-8 180.8963ms
+2025-08-13 20:23:13.762 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_vs/browserLink - null null
+2025-08-13 20:23:13.762 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - null null
+2025-08-13 20:23:13.772 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 11.3781ms
+2025-08-13 20:23:13.817 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_vs/browserLink - 200 null text/javascript; charset=UTF-8 55.6893ms
+2025-08-13 20:23:13.849 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/swagger/v1/swagger.json - null null
+2025-08-13 20:23:13.851 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-08-13 20:23:13.851 -04:00 [DBG] Request did not match any endpoints
+2025-08-13 20:23:13.932 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 83.5927ms
+2025-08-13 20:23:16.811 -04:00 [DBG] Connection id "0HNEQP30JSCI9" received FIN.
+2025-08-13 20:23:16.812 -04:00 [DBG] Connection id "0HNEQP30JSCI9" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-08-13 20:23:42.487 -04:00 [DBG] Server bz2024ad:36940:3cba3e22 heartbeat successfully sent
+2025-08-13 20:24:12.542 -04:00 [DBG] Server bz2024ad:36940:3cba3e22 heartbeat successfully sent
+2025-08-13 20:24:42.585 -04:00 [DBG] Server bz2024ad:36940:3cba3e22 heartbeat successfully sent
+2025-08-13 20:25:09.871 -04:00 [DBG] Connection 0HNEQP30JSCIA established using the following protocol: "Tls13"
+2025-08-13 20:25:09.875 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/api/WorkOrd/UploadAppFilesToAzureBlob?workOrderId=22947&workOrderFolderId=1ZGv3BCSZykgwpRazjYp-wD1FiILhyQRx&pdfFolderId=13UT2BxYEz1GCBX7OmPxYb0rcuTOt3DnY&imagesFolderId=156KlghFcpr_lcD_nOndiC-c3eIe1E63O - multipart/form-data; boundary=----WebKitFormBoundarytluwH7DM1TkXjfpU 21717624
+2025-08-13 20:25:09.891 -04:00 [DBG] 1 candidate(s) found for the request path '/api/WorkOrd/UploadAppFilesToAzureBlob'
+2025-08-13 20:25:09.896 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFilesToAzureBlob (RaymarEquipmentInventory)' with route pattern 'api/WorkOrd/UploadAppFilesToAzureBlob' is valid for the request path '/api/WorkOrd/UploadAppFilesToAzureBlob'
+2025-08-13 20:25:09.903 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFilesToAzureBlob (RaymarEquipmentInventory)'
+2025-08-13 20:25:09.905 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-08-13 20:25:09.906 -04:00 [INF] CORS policy execution successful.
+2025-08-13 20:25:09.909 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-08-13 20:25:09.914 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFilesToAzureBlob (RaymarEquipmentInventory)'
+2025-08-13 20:25:09.936 -04:00 [INF] Route matched with {action = "UploadAppFilesToAzureBlob", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAppFilesToAzureBlob(System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile], System.String, System.String, System.String, System.String, System.Threading.CancellationToken) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2025-08-13 20:25:09.939 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-08-13 20:25:09.940 -04:00 [DBG] Execution plan of resource filters (in the following order): ["Microsoft.AspNetCore.Mvc.ConsumesAttribute"]
+2025-08-13 20:25:09.941 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2025-08-13 20:25:09.942 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-08-13 20:25:09.944 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2025-08-13 20:25:09.946 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-08-13 20:25:10.031 -04:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-08-13 20:25:10.054 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-08-13 20:25:10.447 -04:00 [DBG] Attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' ...
+2025-08-13 20:25:10.450 -04:00 [DBG] Attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' using the name 'files' in request data ...
+2025-08-13 20:25:10.452 -04:00 [DBG] Done attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-08-13 20:25:10.453 -04:00 [DBG] Done attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-08-13 20:25:10.453 -04:00 [DBG] Attempting to validate the bound parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' ...
+2025-08-13 20:25:10.459 -04:00 [DBG] Done attempting to validate the bound parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-08-13 20:25:10.460 -04:00 [DBG] Attempting to bind parameter 'workOrderId' of type 'System.String' ...
+2025-08-13 20:25:10.462 -04:00 [DBG] Attempting to bind parameter 'workOrderId' of type 'System.String' using the name 'workOrderId' in request data ...
+2025-08-13 20:25:10.464 -04:00 [DBG] Done attempting to bind parameter 'workOrderId' of type 'System.String'.
+2025-08-13 20:25:10.465 -04:00 [DBG] Done attempting to bind parameter 'workOrderId' of type 'System.String'.
+2025-08-13 20:25:10.465 -04:00 [DBG] Attempting to validate the bound parameter 'workOrderId' of type 'System.String' ...
+2025-08-13 20:25:10.466 -04:00 [DBG] Done attempting to validate the bound parameter 'workOrderId' of type 'System.String'.
+2025-08-13 20:25:10.467 -04:00 [DBG] Attempting to bind parameter 'workOrderFolderId' of type 'System.String' ...
+2025-08-13 20:25:10.468 -04:00 [DBG] Attempting to bind parameter 'workOrderFolderId' of type 'System.String' using the name 'workOrderFolderId' in request data ...
+2025-08-13 20:25:10.469 -04:00 [DBG] Done attempting to bind parameter 'workOrderFolderId' of type 'System.String'.
+2025-08-13 20:25:10.469 -04:00 [DBG] Done attempting to bind parameter 'workOrderFolderId' of type 'System.String'.
+2025-08-13 20:25:10.470 -04:00 [DBG] Attempting to validate the bound parameter 'workOrderFolderId' of type 'System.String' ...
+2025-08-13 20:25:10.471 -04:00 [DBG] Done attempting to validate the bound parameter 'workOrderFolderId' of type 'System.String'.
+2025-08-13 20:25:10.472 -04:00 [DBG] Attempting to bind parameter 'pdfFolderId' of type 'System.String' ...
+2025-08-13 20:25:10.472 -04:00 [DBG] Attempting to bind parameter 'pdfFolderId' of type 'System.String' using the name 'pdfFolderId' in request data ...
+2025-08-13 20:25:10.473 -04:00 [DBG] Done attempting to bind parameter 'pdfFolderId' of type 'System.String'.
+2025-08-13 20:25:10.474 -04:00 [DBG] Done attempting to bind parameter 'pdfFolderId' of type 'System.String'.
+2025-08-13 20:25:10.474 -04:00 [DBG] Attempting to validate the bound parameter 'pdfFolderId' of type 'System.String' ...
+2025-08-13 20:25:10.475 -04:00 [DBG] Done attempting to validate the bound parameter 'pdfFolderId' of type 'System.String'.
+2025-08-13 20:25:10.476 -04:00 [DBG] Attempting to bind parameter 'imagesFolderId' of type 'System.String' ...
+2025-08-13 20:25:10.477 -04:00 [DBG] Attempting to bind parameter 'imagesFolderId' of type 'System.String' using the name 'imagesFolderId' in request data ...
+2025-08-13 20:25:10.478 -04:00 [DBG] Done attempting to bind parameter 'imagesFolderId' of type 'System.String'.
+2025-08-13 20:25:10.479 -04:00 [DBG] Done attempting to bind parameter 'imagesFolderId' of type 'System.String'.
+2025-08-13 20:25:10.480 -04:00 [DBG] Attempting to validate the bound parameter 'imagesFolderId' of type 'System.String' ...
+2025-08-13 20:25:10.481 -04:00 [DBG] Done attempting to validate the bound parameter 'imagesFolderId' of type 'System.String'.
+2025-08-13 20:25:10.482 -04:00 [DBG] Attempting to bind parameter 'ct' of type 'System.Threading.CancellationToken' ...
+2025-08-13 20:25:10.482 -04:00 [DBG] Done attempting to bind parameter 'ct' of type 'System.Threading.CancellationToken'.
+2025-08-13 20:25:10.483 -04:00 [DBG] Attempting to validate the bound parameter 'ct' of type 'System.Threading.CancellationToken' ...
+2025-08-13 20:25:10.484 -04:00 [DBG] Done attempting to validate the bound parameter 'ct' of type 'System.Threading.CancellationToken'.
+2025-08-13 20:25:27.748 -04:00 [DBG] Server bz2024ad:36940:3cba3e22 heartbeat successfully sent
+2025-08-13 20:25:27.886 -04:00 [DBG] No relationship from 'WorkOrderStatus' to 'WorkOrderType' has been configured by convention because there are multiple properties on one entity type - {'WorkOrdType', 'WorkOrdTypes'} that could be matched with the properties on the other entity type - {'Statuses', 'WorkOrderStatuses'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.892 -04:00 [DBG] No relationship from 'WorkOrderType' to 'WorkOrderStatus' has been configured by convention because there are multiple properties on one entity type - {'Statuses', 'WorkOrderStatuses'} that could be matched with the properties on the other entity type - {'WorkOrdType', 'WorkOrdTypes'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.901 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.908 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.909 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.911 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.912 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.913 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.914 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.916 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.917 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.918 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.919 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.921 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.946 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.951 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.953 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.954 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.956 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.962 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.964 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.965 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.966 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.967 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.968 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.969 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.970 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.971 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.972 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.972 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.973 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.974 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.975 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.977 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.978 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.979 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.980 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.982 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.983 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.984 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.986 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.990 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.991 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.994 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:27.998 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.013 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.015 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.016 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.033 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.034 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.035 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.037 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.038 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.039 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.040 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.041 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.044 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.046 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.048 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.049 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.050 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.051 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.053 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.057 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.058 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.059 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.060 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.062 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.063 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.064 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.065 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.066 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.067 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.068 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.069 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.070 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.071 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.071 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.072 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.073 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.074 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.075 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.077 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.078 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.079 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.097 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.104 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.107 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.117 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.118 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.119 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.121 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.122 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.123 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.129 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.173 -04:00 [DBG] No relationship from 'WorkOrderStatus' to 'WorkOrderType' has been configured by convention because there are multiple properties on one entity type - {'WorkOrdType', 'WorkOrdTypes'} that could be matched with the properties on the other entity type - {'Statuses', 'WorkOrderStatuses'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.175 -04:00 [DBG] No relationship from 'WorkOrderType' to 'WorkOrderStatus' has been configured by convention because there are multiple properties on one entity type - {'Statuses', 'WorkOrderStatuses'} that could be matched with the properties on the other entity type - {'WorkOrdType', 'WorkOrdTypes'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-13 20:25:28.236 -04:00 [DBG] The index {'SheetId'} was not created on entity type 'WorkOrderSyncLog' as the properties are already covered by the index {'SheetId', 'DeviceId'}.
+2025-08-13 20:25:28.237 -04:00 [DBG] The index {'WorkOrdTypeId'} was not created on entity type 'WorkOrderTypeStatus (Dictionary<string, object>)' as the properties are already covered by the index {'WorkOrdTypeId', 'StatusId'}.
+2025-08-13 20:25:28.450 -04:00 [DBG] Entity Framework Core 7.0.16 initialized 'RaymarInventoryDBContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:7.0.16' with options: None
+2025-08-13 20:25:28.484 -04:00 [DBG] Compiling query expression: 
+'DbSet<WorkOrderSheet>()
+    .Where(w => w.WorkOrderNumber == __woNumber_0)
+    .Select(w => (int?)w.SheetId)
+    .FirstOrDefault()'
+2025-08-13 20:25:28.582 -04:00 [DBG] Generated query execution expression: 
+'queryContext => ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync<int?>(
+    asyncEnumerable: new SingleQueryingEnumerable<int?>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache.QueryExpression(
+            Projection Mapping:
+                EmptyProjectionMember -> 0
+            SELECT TOP(1) w.SheetID
+            FROM WorkOrderSheet AS w
+            WHERE w.WorkOrderNumber == @__woNumber_0), 
+        null, 
+        Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, int?>, 
+        RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+        False, 
+        False, 
+        True
+    ), 
+    cancellationToken: queryContext.CancellationToken)'
+2025-08-13 20:25:28.607 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:28.609 -04:00 [DBG] Creating DbConnection.
+2025-08-13 20:25:28.613 -04:00 [DBG] Created DbConnection. (2ms).
+2025-08-13 20:25:28.618 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (8ms).
+2025-08-13 20:25:28.620 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (13ms).
+2025-08-13 20:25:28.623 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.626 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.633 -04:00 [DBG] Executing DbCommand [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:28.683 -04:00 [INF] Executed DbCommand (51ms) [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:28.692 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.696 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 8ms reading results.
+2025-08-13 20:25:28.699 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.701 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-08-13 20:25:28.704 -04:00 [DBG] Compiling query expression: 
+'DbSet<Pdfdocument>()
+    .Where(p => p.FileName == __8__locals1_fileName_0 && (int?)p.SheetId == __sheetId_1)
+    .OrderByDescending(p => p.PdfdocumentId)
+    .FirstOrDefault()'
+2025-08-13 20:25:28.730 -04:00 [DBG] Generated query execution expression: 
+'queryContext => ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync<Pdfdocument>(
+    asyncEnumerable: new SingleQueryingEnumerable<Pdfdocument>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache.QueryExpression(
+            Projection Mapping:
+                EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: Pdfdocument.PdfdocumentId (int) Required PK AfterSave:Throw ValueGenerated.OnAdd, 0], [Property: Pdfdocument.AzureBlobPath (string) MaxLength(500), 1], [Property: Pdfdocument.Description (string) MaxLength(500) Ansi, 2], [Property: Pdfdocument.DriveFileId (string) MaxLength(200) Ansi, 3], [Property: Pdfdocument.FileName (string) Required MaxLength(255) Ansi, 4], [Property: Pdfdocument.FileUrl (string) Required MaxLength(1000) Ansi, 5], [Property: Pdfdocument.PdffolderId (string) MaxLength(255), 6], [Property: Pdfdocument.SheetId (int) Required FK Index, 7], [Property: Pdfdocument.UploadDate (DateTime) Required ValueGenerated.OnAdd, 8], [Property: Pdfdocument.UploadedBy (string) Required ValueGenerated.OnAdd MaxLength(100) Ansi, 9], [Property: Pdfdocument.WorkOrderFolderId (string) MaxLength(255), 10] }
+            SELECT TOP(1) p.PDFDocumentID, p.AzureBlobPath, p.Description, p.DriveFileID, p.FileName, p.FileUrl, p.PDFFolderId, p.SheetID, p.UploadDate, p.UploadedBy, p.WorkOrderFolderId
+            FROM PDFDocument AS p
+            WHERE (p.FileName == @__8__locals1_fileName_0) && (p.SheetID == @__sheetId_1)
+            ORDER BY p.PDFDocumentID DESC), 
+        null, 
+        Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, Pdfdocument>, 
+        RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+        False, 
+        False, 
+        True
+    ), 
+    cancellationToken: queryContext.CancellationToken)'
+2025-08-13 20:25:28.735 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:28.736 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:28.737 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:28.738 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.738 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.739 -04:00 [DBG] Executing DbCommand [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString), @__sheetId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PDFDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[DriveFileID], [p].[FileName], [p].[FileUrl], [p].[PDFFolderId], [p].[SheetID], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PDFDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[SheetID] = @__sheetId_1
+ORDER BY [p].[PDFDocumentID] DESC
+2025-08-13 20:25:28.774 -04:00 [INF] Executed DbCommand (34ms) [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString), @__sheetId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PDFDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[DriveFileID], [p].[FileName], [p].[FileUrl], [p].[PDFFolderId], [p].[SheetID], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PDFDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[SheetID] = @__sheetId_1
+ORDER BY [p].[PDFDocumentID] DESC
+2025-08-13 20:25:28.798 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'Pdfdocument' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:28.816 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.817 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 40ms reading results.
+2025-08-13 20:25:28.818 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.819 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:28.823 -04:00 [DBG] SaveChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:28.825 -04:00 [DBG] DetectChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:28.833 -04:00 [DBG] The unchanged property 'Pdfdocument.AzureBlobPath' was detected as changed and will be marked as modified. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see property values.
+2025-08-13 20:25:28.839 -04:00 [DBG] An entity of type 'Pdfdocument' tracked by 'RaymarInventoryDBContext' changed state from '"Unchanged"' to '"Modified"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:28.845 -04:00 [DBG] DetectChanges completed for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:28.872 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.873 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.875 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:28.876 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:28.877 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:28.878 -04:00 [DBG] Executing DbCommand [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PDFDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PDFDocumentID] = @p1;
+2025-08-13 20:25:28.916 -04:00 [INF] Executed DbCommand (38ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PDFDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PDFDocumentID] = @p1;
+2025-08-13 20:25:28.920 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.921 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 3ms reading results.
+2025-08-13 20:25:28.922 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.923 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:28.926 -04:00 [DBG] An entity of type 'Pdfdocument' tracked by 'RaymarInventoryDBContext' changed state from '"Modified"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:28.929 -04:00 [DBG] SaveChanges completed for 'RaymarInventoryDBContext' with 1 entities written to the database.
+2025-08-13 20:25:28.930 -04:00 [INF] 📄 Stamped folder IDs and blobPath for PDF '3.3.3.Bottom_Load_Adapters.pdf' (WO#: 22947)
+2025-08-13 20:25:28.933 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:28.934 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:28.934 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:28.935 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.936 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.937 -04:00 [DBG] Executing DbCommand [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:28.969 -04:00 [INF] Executed DbCommand (32ms) [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:28.970 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.971 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 0ms reading results.
+2025-08-13 20:25:28.972 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.973 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:28.974 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:28.975 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:28.975 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:28.977 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.978 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:28.978 -04:00 [DBG] Executing DbCommand [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString), @__sheetId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PDFDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[DriveFileID], [p].[FileName], [p].[FileUrl], [p].[PDFFolderId], [p].[SheetID], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PDFDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[SheetID] = @__sheetId_1
+ORDER BY [p].[PDFDocumentID] DESC
+2025-08-13 20:25:29.012 -04:00 [INF] Executed DbCommand (33ms) [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString), @__sheetId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PDFDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[DriveFileID], [p].[FileName], [p].[FileUrl], [p].[PDFFolderId], [p].[SheetID], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PDFDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[SheetID] = @__sheetId_1
+ORDER BY [p].[PDFDocumentID] DESC
+2025-08-13 20:25:29.013 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'Pdfdocument' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.014 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.015 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-13 20:25:29.015 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.016 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.017 -04:00 [DBG] SaveChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.017 -04:00 [DBG] DetectChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.018 -04:00 [DBG] The unchanged property 'Pdfdocument.AzureBlobPath' was detected as changed and will be marked as modified. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see property values.
+2025-08-13 20:25:29.019 -04:00 [DBG] An entity of type 'Pdfdocument' tracked by 'RaymarInventoryDBContext' changed state from '"Unchanged"' to '"Modified"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.020 -04:00 [DBG] DetectChanges completed for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.020 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.021 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.022 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.022 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.023 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.023 -04:00 [DBG] Executing DbCommand [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PDFDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PDFDocumentID] = @p1;
+2025-08-13 20:25:29.058 -04:00 [INF] Executed DbCommand (35ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PDFDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PDFDocumentID] = @p1;
+2025-08-13 20:25:29.062 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.063 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-13 20:25:29.064 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.066 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-08-13 20:25:29.067 -04:00 [DBG] An entity of type 'Pdfdocument' tracked by 'RaymarInventoryDBContext' changed state from '"Modified"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.069 -04:00 [DBG] SaveChanges completed for 'RaymarInventoryDBContext' with 1 entities written to the database.
+2025-08-13 20:25:29.069 -04:00 [INF] 📄 Stamped folder IDs and blobPath for PDF 'TruckShop-AnnualInspectionReport-Truck.xlsx.pdf' (WO#: 22947)
+2025-08-13 20:25:29.072 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.073 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.073 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.074 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.075 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.076 -04:00 [DBG] Executing DbCommand [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:29.111 -04:00 [INF] Executed DbCommand (35ms) [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:29.122 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.123 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 9ms reading results.
+2025-08-13 20:25:29.124 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.125 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.129 -04:00 [DBG] Compiling query expression: 
+'DbSet<PartsUsed>()
+    .Where(p => p.SheetId == __sheetId_Value_0)
+    .Select(p => p.PartUsedId)'
+2025-08-13 20:25:29.133 -04:00 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<int>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            EmptyProjectionMember -> 0
+        SELECT p.PartUsedId
+        FROM PartsUsed AS p
+        WHERE p.SheetID == @__sheetId_Value_0), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, int>, 
+    RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+    False, 
+    False, 
+    True
+)'
+2025-08-13 20:25:29.135 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.136 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.137 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.138 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.138 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.139 -04:00 [DBG] Executing DbCommand [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:29.171 -04:00 [INF] Executed DbCommand (31ms) [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:29.174 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.175 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 2ms reading results.
+2025-08-13 20:25:29.176 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.178 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-08-13 20:25:29.180 -04:00 [DBG] Compiling query expression: 
+'DbSet<PartsDocument>()
+    .Where(p => p.FileName == __8__locals1_fileName_0 && __partUsedIds_1.Contains(p.PartUsedId))
+    .OrderByDescending(p => p.PartsDocumentId)
+    .FirstOrDefault()'
+2025-08-13 20:25:29.197 -04:00 [DBG] Generated query execution expression: 
+'queryContext => ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync<PartsDocument>(
+    asyncEnumerable: new SingleQueryingEnumerable<PartsDocument>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache.QueryExpression(
+            Projection Mapping:
+                EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: PartsDocument.PartsDocumentId (int) Required PK AfterSave:Throw ValueGenerated.OnAdd, 0], [Property: PartsDocument.AzureBlobPath (string) MaxLength(500), 1], [Property: PartsDocument.Description (string) MaxLength(255) Ansi, 2], [Property: PartsDocument.FileName (string) MaxLength(255) Ansi, 3], [Property: PartsDocument.FileUrl (string) MaxLength(500), 4], [Property: PartsDocument.ImagesFolderId (string) MaxLength(255), 5], [Property: PartsDocument.PartUsedId (int) Required FK Index, 6], [Property: PartsDocument.UploadDate (DateTime?), 7], [Property: PartsDocument.UploadedBy (string) MaxLength(100) Ansi, 8], [Property: PartsDocument.WorkOrderFolderId (string) MaxLength(255), 9] }
+            SELECT TOP(1) p.PartsDocumentID, p.AzureBlobPath, p.Description, p.FileName, p.FileUrl, p.ImagesFolderId, p.PartUsedId, p.UploadDate, p.UploadedBy, p.WorkOrderFolderId
+            FROM PartsDocument AS p
+            WHERE (p.FileName == @__8__locals1_fileName_0) && p.PartUsedId IN (@__partUsedIds_1)
+            ORDER BY p.PartsDocumentID DESC), 
+        null, 
+        Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, PartsDocument>, 
+        RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+        False, 
+        False, 
+        True
+    ), 
+    cancellationToken: queryContext.CancellationToken)'
+2025-08-13 20:25:29.202 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.202 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.203 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.204 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.204 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.205 -04:00 [DBG] Executing DbCommand [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:29.238 -04:00 [INF] Executed DbCommand (33ms) [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:29.242 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'PartsDocument' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.255 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.256 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 16ms reading results.
+2025-08-13 20:25:29.257 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.258 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.259 -04:00 [DBG] SaveChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.260 -04:00 [DBG] DetectChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.261 -04:00 [DBG] The unchanged property 'PartsDocument.AzureBlobPath' was detected as changed and will be marked as modified. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see property values.
+2025-08-13 20:25:29.262 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Unchanged"' to '"Modified"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.266 -04:00 [DBG] DetectChanges completed for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.267 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.268 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.268 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.269 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.269 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.270 -04:00 [DBG] Executing DbCommand [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:29.308 -04:00 [INF] Executed DbCommand (37ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:29.310 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.312 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-13 20:25:29.313 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.314 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.316 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Modified"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.317 -04:00 [DBG] SaveChanges completed for 'RaymarInventoryDBContext' with 1 entities written to the database.
+2025-08-13 20:25:29.318 -04:00 [INF] 📁 Stamped folder IDs and blobPath for '25_Canadian_tire_receipt_43.jpg' (WO#: 22947)
+2025-08-13 20:25:29.318 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.319 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.320 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.320 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.321 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.322 -04:00 [DBG] Executing DbCommand [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:29.354 -04:00 [INF] Executed DbCommand (33ms) [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:29.356 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.357 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 0ms reading results.
+2025-08-13 20:25:29.358 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.359 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.363 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.364 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.365 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.366 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.367 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.368 -04:00 [DBG] Executing DbCommand [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:29.400 -04:00 [INF] Executed DbCommand (32ms) [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:29.402 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.404 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-13 20:25:29.405 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.406 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-08-13 20:25:29.407 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.408 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.409 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.410 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.412 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.412 -04:00 [DBG] Executing DbCommand [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:29.446 -04:00 [INF] Executed DbCommand (33ms) [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:29.448 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'PartsDocument' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.450 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.452 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 3ms reading results.
+2025-08-13 20:25:29.454 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.455 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.456 -04:00 [DBG] SaveChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.457 -04:00 [DBG] DetectChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.458 -04:00 [DBG] The unchanged property 'PartsDocument.AzureBlobPath' was detected as changed and will be marked as modified. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see property values.
+2025-08-13 20:25:29.459 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Unchanged"' to '"Modified"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.461 -04:00 [DBG] DetectChanges completed for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.462 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.463 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.463 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.464 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.465 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.465 -04:00 [DBG] Executing DbCommand [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:29.502 -04:00 [INF] Executed DbCommand (36ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:29.503 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.504 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 0ms reading results.
+2025-08-13 20:25:29.505 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.506 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.506 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Modified"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.507 -04:00 [DBG] SaveChanges completed for 'RaymarInventoryDBContext' with 1 entities written to the database.
+2025-08-13 20:25:29.508 -04:00 [INF] 📁 Stamped folder IDs and blobPath for '25_Pazzo_receipt_42.jpg' (WO#: 22947)
+2025-08-13 20:25:29.509 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.509 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.511 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (2ms).
+2025-08-13 20:25:29.511 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.512 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.513 -04:00 [DBG] Executing DbCommand [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:29.544 -04:00 [INF] Executed DbCommand (31ms) [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:29.546 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.546 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 0ms reading results.
+2025-08-13 20:25:29.547 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.548 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.549 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.549 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.550 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.550 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.551 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.552 -04:00 [DBG] Executing DbCommand [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:29.585 -04:00 [INF] Executed DbCommand (34ms) [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:29.587 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.587 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 0ms reading results.
+2025-08-13 20:25:29.588 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.589 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.590 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.590 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.591 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.592 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.592 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.593 -04:00 [DBG] Executing DbCommand [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:29.624 -04:00 [INF] Executed DbCommand (31ms) [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:29.628 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'PartsDocument' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.629 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.630 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 2ms reading results.
+2025-08-13 20:25:29.631 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.632 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.633 -04:00 [DBG] SaveChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.633 -04:00 [DBG] DetectChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.634 -04:00 [DBG] The unchanged property 'PartsDocument.AzureBlobPath' was detected as changed and will be marked as modified. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see property values.
+2025-08-13 20:25:29.635 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Unchanged"' to '"Modified"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.636 -04:00 [DBG] DetectChanges completed for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.637 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.637 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.638 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.638 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.639 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.640 -04:00 [DBG] Executing DbCommand [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:29.678 -04:00 [INF] Executed DbCommand (38ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:29.680 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.680 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 0ms reading results.
+2025-08-13 20:25:29.681 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.682 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.682 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Modified"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.683 -04:00 [DBG] SaveChanges completed for 'RaymarInventoryDBContext' with 1 entities written to the database.
+2025-08-13 20:25:29.684 -04:00 [INF] 📁 Stamped folder IDs and blobPath for '25_Stacked_receipt_41.jpg' (WO#: 22947)
+2025-08-13 20:25:29.684 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.685 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.686 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.687 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.688 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.688 -04:00 [DBG] Executing DbCommand [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:29.722 -04:00 [INF] Executed DbCommand (33ms) [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:29.725 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.727 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 2ms reading results.
+2025-08-13 20:25:29.729 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.730 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-08-13 20:25:29.732 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.734 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (2ms).
+2025-08-13 20:25:29.737 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (4ms).
+2025-08-13 20:25:29.738 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.739 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.740 -04:00 [DBG] Executing DbCommand [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:29.771 -04:00 [INF] Executed DbCommand (31ms) [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:29.773 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.774 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-13 20:25:29.775 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.777 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-08-13 20:25:29.779 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.779 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.781 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.781 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.782 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.783 -04:00 [DBG] Executing DbCommand [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:29.814 -04:00 [INF] Executed DbCommand (31ms) [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:29.815 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'PartsDocument' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.816 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.817 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-13 20:25:29.817 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.818 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.819 -04:00 [DBG] SaveChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.819 -04:00 [DBG] DetectChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.820 -04:00 [DBG] The unchanged property 'PartsDocument.AzureBlobPath' was detected as changed and will be marked as modified. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see property values.
+2025-08-13 20:25:29.820 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Unchanged"' to '"Modified"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.822 -04:00 [DBG] DetectChanges completed for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:29.822 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.823 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.823 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.824 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.825 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.825 -04:00 [DBG] Executing DbCommand [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:29.865 -04:00 [INF] Executed DbCommand (39ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:29.866 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.867 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 0ms reading results.
+2025-08-13 20:25:29.868 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.869 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:29.870 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Modified"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.871 -04:00 [DBG] SaveChanges completed for 'RaymarInventoryDBContext' with 1 entities written to the database.
+2025-08-13 20:25:29.871 -04:00 [INF] 📁 Stamped folder IDs and blobPath for '25_Staples_receipt_44.jpg' (WO#: 22947)
+2025-08-13 20:25:29.872 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.873 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.873 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.874 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.875 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.875 -04:00 [DBG] Executing DbCommand [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:29.907 -04:00 [INF] Executed DbCommand (32ms) [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:29.910 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.911 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-13 20:25:29.913 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.914 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-08-13 20:25:29.915 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.916 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:29.917 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.918 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.919 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.919 -04:00 [DBG] Executing DbCommand [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:29.950 -04:00 [INF] Executed DbCommand (31ms) [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:29.953 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.955 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-13 20:25:29.956 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.958 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-08-13 20:25:29.960 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:29.961 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.962 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:29.963 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.963 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:29.964 -04:00 [DBG] Executing DbCommand [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:29.996 -04:00 [INF] Executed DbCommand (32ms) [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:29.997 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'PartsDocument' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:29.999 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.000 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 2ms reading results.
+2025-08-13 20:25:30.001 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.002 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:30.003 -04:00 [DBG] SaveChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:30.004 -04:00 [DBG] DetectChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:30.005 -04:00 [DBG] The unchanged property 'PartsDocument.AzureBlobPath' was detected as changed and will be marked as modified. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see property values.
+2025-08-13 20:25:30.006 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Unchanged"' to '"Modified"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:30.007 -04:00 [DBG] DetectChanges completed for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:30.007 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.008 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.009 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:30.011 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:30.011 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (2ms).
+2025-08-13 20:25:30.012 -04:00 [DBG] Executing DbCommand [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:30.049 -04:00 [INF] Executed DbCommand (37ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:30.051 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.051 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 0ms reading results.
+2025-08-13 20:25:30.052 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.053 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:30.054 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Modified"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:30.055 -04:00 [DBG] SaveChanges completed for 'RaymarInventoryDBContext' with 1 entities written to the database.
+2025-08-13 20:25:30.055 -04:00 [INF] 📁 Stamped folder IDs and blobPath for '26_Kleenex_box_39.jpg' (WO#: 22947)
+2025-08-13 20:25:30.056 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:30.057 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:30.057 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:30.058 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.058 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.059 -04:00 [DBG] Executing DbCommand [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:30.091 -04:00 [INF] Executed DbCommand (32ms) [Parameters=[@__woNumber_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[SheetID]
+FROM [WorkOrderSheet] AS [w]
+WHERE [w].[WorkOrderNumber] = @__woNumber_0
+2025-08-13 20:25:30.094 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.095 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-13 20:25:30.097 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.097 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:30.098 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:30.099 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:30.099 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:30.100 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.101 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.101 -04:00 [DBG] Executing DbCommand [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:30.134 -04:00 [INF] Executed DbCommand (32ms) [Parameters=[@__sheetId_Value_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PartUsedId]
+FROM [PartsUsed] AS [p]
+WHERE [p].[SheetID] = @__sheetId_Value_0
+2025-08-13 20:25:30.135 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.136 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 0ms reading results.
+2025-08-13 20:25:30.137 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.137 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:30.139 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:30.140 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:30.140 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:30.141 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.142 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.142 -04:00 [DBG] Executing DbCommand [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:30.175 -04:00 [INF] Executed DbCommand (33ms) [Parameters=[@__8__locals1_fileName_0='?' (Size = 255) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[PartsDocumentID], [p].[AzureBlobPath], [p].[Description], [p].[FileName], [p].[FileUrl], [p].[ImagesFolderId], [p].[PartUsedId], [p].[UploadDate], [p].[UploadedBy], [p].[WorkOrderFolderId]
+FROM [PartsDocument] AS [p]
+WHERE [p].[FileName] = @__8__locals1_fileName_0 AND [p].[PartUsedId] IN (604, 605, 606)
+ORDER BY [p].[PartsDocumentID] DESC
+2025-08-13 20:25:30.178 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'PartsDocument' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:30.180 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.180 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 2ms reading results.
+2025-08-13 20:25:30.181 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.182 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-13 20:25:30.183 -04:00 [DBG] SaveChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:30.183 -04:00 [DBG] DetectChanges starting for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:30.184 -04:00 [DBG] The unchanged property 'PartsDocument.AzureBlobPath' was detected as changed and will be marked as modified. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see property values.
+2025-08-13 20:25:30.185 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Unchanged"' to '"Modified"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:30.186 -04:00 [DBG] DetectChanges completed for 'RaymarInventoryDBContext'.
+2025-08-13 20:25:30.186 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.187 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.188 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-13 20:25:30.188 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-13 20:25:30.189 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-13 20:25:30.189 -04:00 [DBG] Executing DbCommand [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:30.225 -04:00 [INF] Executed DbCommand (36ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 500)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [PartsDocument] SET [AzureBlobPath] = @p0
+OUTPUT 1
+WHERE [PartsDocumentID] = @p1;
+2025-08-13 20:25:30.228 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.229 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-13 20:25:30.232 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:30.233 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-08-13 20:25:30.235 -04:00 [DBG] An entity of type 'PartsDocument' tracked by 'RaymarInventoryDBContext' changed state from '"Modified"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-13 20:25:30.237 -04:00 [DBG] SaveChanges completed for 'RaymarInventoryDBContext' with 1 entities written to the database.
+2025-08-13 20:25:30.238 -04:00 [INF] 📁 Stamped folder IDs and blobPath for '27_Pur_40.jpg' (WO#: 22947)
+2025-08-13 20:25:37.571 -04:00 [ERR] 🔥 Failed to upload '22947/20250814002510497-bc50185e28c24f6a85b92788906c5fd9/3.3.3.Bottom_Load_Adapters.pdf' to container 'images-parts'.
+System.ArgumentNullException: Value cannot be null. (Parameter 'connectionString')
+   at Azure.Storage.StorageConnectionString.Parse(String connectionString)
+   at Azure.Storage.Blobs.BlobContainerClient..ctor(String connectionString, String blobContainerName, BlobClientOptions options)
+   at Azure.Storage.Blobs.BlobContainerClient..ctor(String connectionString, String blobContainerName)
+   at RaymarEquipmentInventory.Services.DriveUploaderService.UploadFileToBlobAsync(String containerName, String blobPath, IFormFile file, CancellationToken ct) in D:\2024Work\RaymarEquipInventory\RaymarEquipInventory\Services\DriveUploaderService.cs:line 136
+2025-08-13 20:25:37.799 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFilesToAzureBlob (RaymarEquipmentInventory) in 27852.4637ms
+2025-08-13 20:25:37.853 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFilesToAzureBlob (RaymarEquipmentInventory)'
+2025-08-13 20:25:38.018 -04:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentNullException: Value cannot be null. (Parameter 'connectionString')
+   at Azure.Storage.StorageConnectionString.Parse(String connectionString)
+   at Azure.Storage.Blobs.BlobContainerClient..ctor(String connectionString, String blobContainerName, BlobClientOptions options)
+   at Azure.Storage.Blobs.BlobContainerClient..ctor(String connectionString, String blobContainerName)
+   at RaymarEquipmentInventory.Services.DriveUploaderService.UploadFileToBlobAsync(String containerName, String blobPath, IFormFile file, CancellationToken ct) in D:\2024Work\RaymarEquipInventory\RaymarEquipInventory\Services\DriveUploaderService.cs:line 136
+   at RaymarEquipmentInventory.Controllers.WorkOrdController.UploadAppFilesToAzureBlob(List`1 files, String workOrderId, String workOrderFolderId, String pdfFolderId, String imagesFolderId, CancellationToken ct) in D:\2024Work\RaymarEquipInventory\RaymarEquipInventory\Controllers\WorkOrdController.cs:line 344
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-08-13 20:25:38.039 -04:00 [DBG] 'RaymarInventoryDBContext' disposed.
+2025-08-13 20:25:38.043 -04:00 [DBG] Disposing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-13 20:25:38.045 -04:00 [DBG] Disposed connection to database '' on server '' (1ms).
+2025-08-13 20:25:38.046 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/api/WorkOrd/UploadAppFilesToAzureBlob?workOrderId=22947&workOrderFolderId=1ZGv3BCSZykgwpRazjYp-wD1FiILhyQRx&pdfFolderId=13UT2BxYEz1GCBX7OmPxYb0rcuTOt3DnY&imagesFolderId=156KlghFcpr_lcD_nOndiC-c3eIe1E63O - 500 null text/plain; charset=utf-8 28171.2675ms
+2025-08-13 20:25:57.796 -04:00 [DBG] Server bz2024ad:36940:3cba3e22 heartbeat successfully sent
+2025-08-13 20:26:27.843 -04:00 [DBG] Server bz2024ad:36940:3cba3e22 heartbeat successfully sent

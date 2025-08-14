@@ -1,4 +1,5 @@
 ﻿using RaymarEquipmentInventory.DTOs;
+using static RaymarEquipmentInventory.Services.DriveUploaderService;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -19,5 +20,38 @@ namespace RaymarEquipmentInventory.Services
         Task<ReceiptConfirm> ParseReceiptsBuildCsvAsync(List<IFormFile> files, CancellationToken ct = default);
 
         Task<(MemoryStream Csv, ReceiptConfirm Confirm)> ParseReceiptsAndReturnCsvAsync(List<IFormFile> files, CancellationToken ct = default);
+
+        UploadPlan PlanBlobRouting(
+             List<IFormFile> files,
+             string workOrderId,
+             string workOrderFolderId,
+             string imagesFolderId,
+             string pdfFolderId,
+             string? batchId = null);
+
+
+        Task UpdateFolderIdsInPartsDocumentAsync(
+        string fileName,
+        string extension,
+        string workOrderId,
+        string workOrderFolderId,
+        string imagesFolderId,
+        string blobPath,
+        CancellationToken ct = default);
+
+        Task UpdateFolderIdsInPDFDocumentAsync(
+            string fileName,
+            string extension,
+            string workOrderId,
+            string workOrderFolderId,
+            string pdfFolderId,
+            string blobPath,
+            CancellationToken ct = default);
+
+        Task UploadFileToBlobAsync(
+    string containerName,
+    string blobPath,
+    IFormFile file,
+    CancellationToken ct = default);
     }
 }

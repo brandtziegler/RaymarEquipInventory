@@ -464,6 +464,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.ToTable("PartsDocument");
 
             entity.Property(e => e.PartsDocumentId).HasColumnName("PartsDocumentID");
+            entity.Property(e => e.AzureBlobPath).HasMaxLength(500);
             entity.Property(e => e.Description)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -471,10 +472,12 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.FileUrl).HasMaxLength(500);
+            entity.Property(e => e.ImagesFolderId).HasMaxLength(255);
             entity.Property(e => e.UploadDate).HasColumnType("datetime");
             entity.Property(e => e.UploadedBy)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.WorkOrderFolderId).HasMaxLength(255);
 
             entity.HasOne(d => d.PartUsed).WithMany(p => p.PartsDocuments)
                 .HasForeignKey(d => d.PartUsedId)
@@ -520,6 +523,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.ToTable("PDFDocument");
 
             entity.Property(e => e.PdfdocumentId).HasColumnName("PDFDocumentID");
+            entity.Property(e => e.AzureBlobPath).HasMaxLength(500);
             entity.Property(e => e.Description)
                 .HasMaxLength(500)
                 .IsUnicode(false);
@@ -535,6 +539,9 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsRequired()
                 .HasMaxLength(1000)
                 .IsUnicode(false);
+            entity.Property(e => e.PdffolderId)
+                .HasMaxLength(255)
+                .HasColumnName("PDFFolderId");
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
             entity.Property(e => e.UploadDate)
                 .HasDefaultValueSql("(getutcdate())")
@@ -544,6 +551,7 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasDefaultValueSql("('iPad App')");
+            entity.Property(e => e.WorkOrderFolderId).HasMaxLength(255);
 
             entity.HasOne(d => d.Sheet).WithMany(p => p.Pdfdocuments)
                 .HasForeignKey(d => d.SheetId)

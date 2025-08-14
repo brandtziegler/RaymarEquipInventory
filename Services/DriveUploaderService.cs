@@ -35,6 +35,8 @@ using SixLabors.ImageSharp;                  // image load/resize
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
 
 namespace RaymarEquipmentInventory.Services
@@ -53,12 +55,145 @@ namespace RaymarEquipmentInventory.Services
             _config = config;
         }
 
+
+
+        ///START OF BLOB SUBMISSION CODE.
+
+        public string GenerateBatchId()
+        {
+            // compact, sortable-ish, globally unique
+            return $"{DateTime.UtcNow:yyyyMMddHHmmssfff}-{Guid.NewGuid():N}";
+        }
+
+        // Image/receipt helpers
+        private static bool IsImage(IFormFile file)
+        {
+            var ct = file.ContentType?.ToLowerInvariant() ?? "";
+            if (ct.StartsWith("image/")) return true;
+
+            var ext = Path.GetExtension(file.FileName)?.ToLowerInvariant();
+            return ext is ".jpg" or ".jpeg" or ".png" or ".heic" or ".webp";
+        }
+
+        // Your rule: receipt images are prefixed with 25_
+        private static bool IsReceiptImage(string fileName) =>
+            fileName.StartsWith("25_", StringComparison.OrdinalIgnoreCase);
+
+        // PDF helper
+        private static bool IsPdf(IFormFile file)
+        {
+            var ct = file.ContentType?.ToLowerInvariant() ?? "";
+            if (ct == "application/pdf" || ct.Contains("pdf")) return true;
+
+            var ext = Path.GetExtension(file.FileName)?.ToLowerInvariant();
+            return ext == ".pdf";
+        }
+
+        private (string container, string blobPrefix) DecideBlobRoutingCore(
+            IFormFile file,
+            string workOrderId,
+            string batchId)
+        {
+            var fileName = file.FileName ?? string.Empty;
+
+            // Containers from config, with safe fallbacks
+            var receiptContainer = Environment.GetEnvironmentVariable("BlobContainer_Receipts");
+            var partsContainer = Environment.GetEnvironmentVariable("BlobContainer_Parts");
+            var pdfContainer = Environment.GetEnvironmentVariable("BlobContainer_ExpenseLogs");
+
+            string container;
+
+            if (IsPdf(file))
+            {
+                container = pdfContainer;
+            }
+            else if (IsImage(file) && IsReceiptImage(fileName))
+            {
+                container = receiptContainer;
+            }
+            else
+            {
+                container = partsContainer;
+            }
+
+            // <container>/<workOrderId>/<batchId>/<originalFileName>
+            // (container is passed separately to the SDK; blob name is the prefix below)
+            var blobPrefix = $"{workOrderId}/{batchId}/{fileName}";
+
+            return (container, blobPrefix);
+        }
+
+        // DTOs used only for planning/preview
+        public record PlannedBlob(string FileName, string Container, string BlobPath);
+        public record UploadPlan(
+    string BatchId,
+    string WorkOrderId,
+    string WorkOrderFolderId,
+    string ImagesFolderId,
+    string PdfFolderId,
+    List<PlannedBlob> Files);
+
+
+        public UploadPlan PlanBlobRouting(
+            List<IFormFile> files,
+            string workOrderId,
+            string workOrderFolderId,
+            string imagesFolderId,
+            string pdfFolderId,
+            string? batchId = null)
+        {
+            var id = string.IsNullOrWhiteSpace(batchId) ? GenerateBatchId() : batchId;
+            var results = new List<PlannedBlob>(files?.Count ?? 0);
+
+            foreach (var f in files ?? Enumerable.Empty<IFormFile>())
+            {
+                var (container, blobPath) = DecideBlobRoutingCore(f, workOrderId, id);
+                results.Add(new PlannedBlob(f.FileName, container, blobPath));
+            }
+
+            return new UploadPlan(id, workOrderId, workOrderFolderId, imagesFolderId, pdfFolderId, results);
+        }
+
+        public async Task UploadFileToBlobAsync(
+    string containerName,
+    string blobPath,
+    IFormFile file,
+    CancellationToken ct = default)
+        {
+            try
+            {
+                var connStr = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
+                var containerClient = new BlobContainerClient(connStr, containerName);
+
+                await containerClient.CreateIfNotExistsAsync(PublicAccessType.None, cancellationToken: ct);
+
+                var blobClient = containerClient.GetBlobClient(blobPath);
+
+                using var stream = file.OpenReadStream();
+                await blobClient.UploadAsync(stream, new BlobHttpHeaders
+                {
+                    ContentType = file.ContentType
+                }, cancellationToken: ct);
+
+                Log.Information($"✅ Uploaded '{blobPath}' to container '{containerName}'.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"🔥 Failed to upload '{blobPath}' to container '{containerName}'.");
+                throw;
+            }
+        }
+        ///END OF BLOB SUBMISSION CODE.
+        ///START OF DOCUMENT INTELLIGENCE CODE
         private DocumentIntelligenceClient CreateDocIntelClient()
         {
             var endpoint = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_ENDPOINT");
             var key = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_KEY");
             return new DocumentIntelligenceClient(new Uri(endpoint), new AzureKeyCredential(key));
         }
+
+
+        ///START OF DOCUMENT INTELLIGENCE CODE
 
         // Map aliases you want to support regardless of casing/spaces
         private static readonly Dictionary<string, string[]> FieldAliases = new(StringComparer.OrdinalIgnoreCase)
@@ -773,6 +908,8 @@ namespace RaymarEquipmentInventory.Services
             return (csvStream, confirm);
         }
 
+
+        ///END  OF DOCUMENT INTELLIGENCE CODE
         public async Task<List<DTOs.FileMetadata>> ListFileUrlsAsync(int sheetId, int? labourTypeId, List<string> tags)
         {
             try
@@ -888,6 +1025,71 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task UpdateFolderIdsInPDFDocumentAsync(
+            string fileName,
+            string extension,
+            string workOrderId,
+            string workOrderFolderId,
+            string pdfFolderId,
+            string blobPath,
+            CancellationToken ct = default)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    Log.Warning("⚠️ Skipping PDF folder-id update — fileName is empty.");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(workOrderId))
+                {
+                    Log.Warning("⚠️ Skipping PDF folder-id update — workOrderId is empty.");
+                    return;
+                }
+
+                if (!int.TryParse(workOrderId, out var woNumber))
+                {
+                    Log.Warning($"⚠️ workOrderId '{workOrderId}' is not a valid integer WorkOrderNumber.");
+                    return;
+                }
+
+                var sheetId = await _context.WorkOrderSheets
+                    .Where(w => w.WorkOrderNumber == woNumber)
+                    .Select(w => (int?)w.SheetId)
+                    .FirstOrDefaultAsync(ct);
+
+                if (sheetId is null)
+                {
+                    Log.Warning($"⚠️ No SheetID found for WorkOrderNumber: {workOrderId}. Skipping '{fileName}'.");
+                    return;
+                }
+
+                var doc = await _context.Pdfdocuments
+                    .Where(p => p.FileName == fileName && p.SheetId == sheetId)
+                    .OrderByDescending(p => p.PdfdocumentId)
+                    .FirstOrDefaultAsync(ct);
+
+                if (doc is null)
+                {
+                    Log.Warning($"⚠️ No PDFDocument found for '{fileName}' tied to SheetID: {sheetId}.");
+                    return;
+                }
+
+                doc.WorkOrderFolderId = workOrderFolderId;
+                doc.PdffolderId = pdfFolderId;
+                doc.AzureBlobPath = blobPath;
+
+                await _context.SaveChangesAsync(ct);
+
+                Log.Information($"📄 Stamped folder IDs and blobPath for PDF '{fileName}' (WO#: {workOrderId})");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"🔥 Exception while updating PDF folder IDs for '{fileName}' (WO#: {workOrderId})");
+            }
+        }
+
 
 
         public async Task UpdateFileUrlInPDFDocumentAsync(PDFUploadRequest request)
@@ -949,6 +1151,84 @@ namespace RaymarEquipmentInventory.Services
                 Log.Error(ex, $"🔥 Exception while updating PDFDocument for '{request.FileName}' (WO#: {request.WorkOrderId})");
             }
         }
+
+        public async Task UpdateFolderIdsInPartsDocumentAsync(
+            string fileName,
+            string extension,
+            string workOrderId,
+            string workOrderFolderId,
+            string imagesFolderId,
+            string blobPath,
+            CancellationToken ct = default)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    Log.Warning("⚠️ Skipping folder-id update — fileName is empty.");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(workOrderId))
+                {
+                    Log.Warning("⚠️ Skipping folder-id update — workOrderId is empty.");
+                    return;
+                }
+
+                if (!int.TryParse(workOrderId, out var woNumber))
+                {
+                    Log.Warning($"⚠️ workOrderId '{workOrderId}' is not a valid integer WorkOrderNumber.");
+                    return;
+                }
+
+                var sheetId = await _context.WorkOrderSheets
+                    .Where(w => w.WorkOrderNumber == woNumber)
+                    .Select(w => (int?)w.SheetId)
+                    .FirstOrDefaultAsync(ct);
+
+                if (sheetId is null)
+                {
+                    Log.Warning($"⚠️ No SheetID found for WorkOrderNumber: {workOrderId}. Skipping '{fileName}'.");
+                    return;
+                }
+
+                var partUsedIds = await _context.PartsUseds
+                    .Where(p => p.SheetId == sheetId.Value)
+                    .Select(p => p.PartUsedId)
+                    .ToListAsync(ct);
+
+                if (partUsedIds.Count == 0)
+                {
+                    Log.Warning($"⚠️ No PartsUseds found for SheetID: {sheetId}. Skipping '{fileName}'.");
+                    return;
+                }
+
+                var doc = await _context.PartsDocuments
+                    .Where(p => p.FileName == fileName && partUsedIds.Contains(p.PartUsedId))
+                    .OrderByDescending(p => p.PartsDocumentId)
+                    .FirstOrDefaultAsync(ct);
+
+                if (doc is null)
+                {
+                    Log.Warning($"⚠️ No PartsDocument found for '{fileName}' tied to SheetID: {sheetId}.");
+                    return;
+                }
+
+                doc.WorkOrderFolderId = workOrderFolderId;
+                if (extension is ".jpg" or ".jpeg" or ".png")
+                    doc.ImagesFolderId = imagesFolderId;
+                doc.AzureBlobPath = blobPath;
+
+                await _context.SaveChangesAsync(ct);
+
+                Log.Information($"📁 Stamped folder IDs and blobPath for '{fileName}' (WO#: {workOrderId})");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"🔥 Exception while updating folder IDs for '{fileName}' (WO#: {workOrderId})");
+            }
+        }
+
 
 
         public async Task UpdateFileUrlInPartsDocumentAsync(string fileName, string fileId, string extension, string workOrderId)
@@ -1128,6 +1408,10 @@ namespace RaymarEquipmentInventory.Services
                 string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId, driveService);
                 debugLog.Add($"📁 Images folder created: {imagesFolderId}");
 
+
+                string expenseTrackingFolderId = await EnsureFolderExistsAsync("Expense Tracking", workOrderFolderId, driveService);
+                debugLog.Add($"📁 Expense Tracking folder created: {expenseTrackingFolderId}");
+
                 return new GoogleDriveFolderDTO
                 {
                     WorkOrderFolderId = workOrderFolderId,
@@ -1147,6 +1431,7 @@ namespace RaymarEquipmentInventory.Services
                     WorkOrderFolderId = "",
                     PdfFolderId = "",
                     ImagesFolderId = "",
+                    ExpenseTrackingFolderId = "",
                     stupidLogErrors = debugLog,
                     HasCriticalError = true
                 };

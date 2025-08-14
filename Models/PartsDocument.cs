@@ -21,5 +21,11 @@ public partial class PartsDocument
 
     public string FileUrl { get; set; }
 
+    public string WorkOrderFolderId { get; set; }
+
+    public string ImagesFolderId { get; set; }
+
+    public string AzureBlobPath { get; set; }
+
     public virtual PartsUsed PartUsed { get; set; }
 }
