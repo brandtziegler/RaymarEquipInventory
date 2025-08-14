@@ -1157,6 +1157,7 @@ namespace RaymarEquipmentInventory.Services
             string extension,
             string workOrderId,
             string workOrderFolderId,
+            string expenseFolderId,
             string imagesFolderId,
             string blobPath,
             CancellationToken ct = default)
@@ -1217,6 +1218,7 @@ namespace RaymarEquipmentInventory.Services
                 doc.WorkOrderFolderId = workOrderFolderId;
                 if (extension is ".jpg" or ".jpeg" or ".png")
                     doc.ImagesFolderId = imagesFolderId;
+                doc.ExpensesFolderId = expenseFolderId;
                 doc.AzureBlobPath = blobPath;
 
                 await _context.SaveChangesAsync(ct);

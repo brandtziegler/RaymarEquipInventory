@@ -27,5 +27,7 @@ public partial class PartsDocument
 
     public string AzureBlobPath { get; set; }
 
+    public string ExpensesFolderId { get; set; }
+
     public virtual PartsUsed PartUsed { get; set; }
 }

@@ -290,6 +290,7 @@ namespace RaymarEquipmentInventory.Controllers
             [FromQuery] string workOrderId,
             [FromQuery] string workOrderFolderId,
             [FromQuery] string pdfFolderId,
+            [FromQuery] string expensesFolderId,
             [FromQuery] string imagesFolderId,
             CancellationToken ct)
         {
@@ -315,6 +316,7 @@ namespace RaymarEquipmentInventory.Controllers
                         extension: ext,
                         workOrderId: workOrderId,
                         workOrderFolderId: workOrderFolderId,
+                        expenseFolderId: expensesFolderId,
                         imagesFolderId: imagesFolderId,
                         blobPath: p.BlobPath,
                         ct: ct);

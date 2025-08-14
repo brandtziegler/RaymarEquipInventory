@@ -468,6 +468,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.ExpensesFolderId).HasMaxLength(255);
             entity.Property(e => e.FileName)
                 .HasMaxLength(255)
                 .IsUnicode(false);

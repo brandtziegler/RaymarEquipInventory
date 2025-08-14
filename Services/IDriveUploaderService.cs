@@ -35,6 +35,7 @@ namespace RaymarEquipmentInventory.Services
         string extension,
         string workOrderId,
         string workOrderFolderId,
+        string expenseFolderId,
         string imagesFolderId,
         string blobPath,
         CancellationToken ct = default);
