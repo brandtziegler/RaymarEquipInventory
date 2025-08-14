@@ -99,7 +99,7 @@ namespace RaymarEquipmentInventory.Services
             // Containers from config, with safe fallbacks
             var receiptContainer = Environment.GetEnvironmentVariable("BlobContainer_Receipts");
             var partsContainer = Environment.GetEnvironmentVariable("BlobContainer_Parts");
-            var pdfContainer = Environment.GetEnvironmentVariable("BlobContainer_ExpenseLogs");
+            var pdfContainer = Environment.GetEnvironmentVariable("BlobContainer_PDFs");
 
             string container;
 
@@ -1216,9 +1216,10 @@ namespace RaymarEquipmentInventory.Services
                 }
 
                 doc.WorkOrderFolderId = workOrderFolderId;
-                if (extension is ".jpg" or ".jpeg" or ".png")
-                    doc.ImagesFolderId = imagesFolderId;
                 doc.ExpensesFolderId = expenseFolderId;
+                if (extension is ".jpg" or ".jpeg" or ".png")
+                doc.ImagesFolderId = imagesFolderId;
+            
                 doc.AzureBlobPath = blobPath;
 
                 await _context.SaveChangesAsync(ct);
