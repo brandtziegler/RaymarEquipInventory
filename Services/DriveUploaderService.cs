@@ -42,7 +42,7 @@ using Google.Apis.Http;
 
 namespace RaymarEquipmentInventory.Services
 {
-    public class DriveUploaderService : IDriveUploaderService
+    public partial class DriveUploaderService : IDriveUploaderService
     {
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly RaymarInventoryDBContext _context;
@@ -217,186 +217,6 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-        ///END OF BLOB SUBMISSION CODE.
-        ///START OF DOCUMENT INTELLIGENCE CODE
-        private DocumentIntelligenceClient CreateDocIntelClient()
-        {
-            var endpoint = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_ENDPOINT") ?? "";
-            var key = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_KEY") ?? "";
-            return new DocumentIntelligenceClient(new Uri(endpoint), new AzureKeyCredential(key));
-        }
-
-
-
-
-
-        // Updated filter: if category = Supplies and the line CONTAINS a CT SKU, allow it.
-        private List<string> FilterItemsByCategory(IEnumerable<string> rawItems, string category)
-        {
-            IEnumerable<string> allow =
-                category.Equals("Restaurant", StringComparison.OrdinalIgnoreCase)
-                    ? _lex.RestaurantAllow
-                    : category.Equals("Supplies", StringComparison.OrdinalIgnoreCase)
-                        ? _lex.SuppliesAllow
-                        : Array.Empty<string>();
-
-            var filtered = new List<string>();
-
-            foreach (var line in rawItems)
-            {
-                if (string.IsNullOrWhiteSpace(line)) continue;
-                var t = line.Trim();
-
-                // Always keep lines that contain a CT-style SKU when Supplies
-                if (category.Equals("Supplies", StringComparison.OrdinalIgnoreCase) &&
-                    _lex.CanadianTireSkuRegex.IsMatch(t))
-                {
-                    filtered.Add(t);
-                    continue;
-                }
-
-                // Remove obvious non-item boilerplate
-                if (_lex.StopWords.Any(sw => Regex.IsMatch(t, $@"\b{Regex.Escape(sw)}\b", RegexOptions.IgnoreCase)))
-                    continue;
-
-                // Category allow-list
-                if (allow.Any() &&
-                    !allow.Any(k => Regex.IsMatch(t, $@"\b{Regex.Escape(k)}\b", RegexOptions.IgnoreCase)))
-                    continue;
-
-                filtered.Add(t);
-            }
-
-            return filtered.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
-        }
-
-
-
-
-        // Updated extractor: optional SKU prefix, then desc, then price.
-        // We'll keep "SKU + desc" if SKU is present, otherwise just desc.
-        private static List<string> ExtractItems(AnalyzedDocument? doc, string rawContent)
-        {
-            var items = new List<string>();
-            if (string.IsNullOrWhiteSpace(rawContent)) return items;
-
-            var rx = new Regex(
-                @"(?mi)^\s*
-          (?!.*\b(sub\s*total|subtotal|total\s*tax|hst|gst|pst|tax|total|grand\s*total|
-                  mastercard|visa|debit|change|cash|tender|auth|approval)\b)
-          (?:(?<sku>\d{3}-\d{4}-\d)\s+)?         # optional CT SKU prefix
-          (?<desc>[A-Za-z][\w\-\s/()#&']{2,80}?) # description-ish
-          \s+\$?\s*\d{1,5}(?:[.,]\d{2})\s*$      # price
-        ",
-                RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
-
-            foreach (Match m in rx.Matches(rawContent))
-            {
-                var sku = m.Groups["sku"]?.Value?.Trim() ?? "";
-                var desc = m.Groups["desc"]?.Value?.Trim() ?? "";
-                if (string.IsNullOrWhiteSpace(desc)) continue;
-
-                var line = string.IsNullOrEmpty(sku) ? desc : $"{sku} {desc}";
-                line = Regex.Replace(line, @"\s+", " ").Trim();
-
-                if (line.Length > 2 && line.Length <= 120)
-                    items.Add(line);
-            }
-
-            return items
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToList();
-        }
-
-
-        private bool TryGetFieldContentCI(AnalyzedDocument? doc, string canonicalName, out string content)
-        {
-            content = "";
-            if (doc?.Fields == null) return false;
-
-            // 1) Exact key (any casing) — short-circuit on first non-empty content
-            if (doc.Fields.TryGetValue(canonicalName, out DocumentField? f) && f != null)
-            {
-                content = f.Content ?? "";
-                if (!string.IsNullOrWhiteSpace(content)) return true;
-            }
-
-            // 2) Aliases from the lexicon
-            if (_lex.FieldAliases.TryGetValue(canonicalName, out var aliases))
-            {
-                foreach (var alias in aliases)
-                {
-                    if (doc.Fields.TryGetValue(alias, out DocumentField? fa) && fa != null)
-                    {
-                        content = fa.Content ?? "";
-                        if (!string.IsNullOrWhiteSpace(content)) return true;
-                    }
-                }
-            }
-
-            // 3) Last chance: scan keys case-insensitively (handles odd spacing/casing)
-            foreach (var kvp in doc.Fields)
-            {
-                if (string.Equals(kvp.Key, canonicalName, StringComparison.OrdinalIgnoreCase))
-                {
-                    content = kvp.Value?.Content ?? "";
-                    return !string.IsNullOrWhiteSpace(content);
-                }
-            }
-
-            return false;
-        }
-
-
-
-        private static string ExtractCityFromAddressSmart(string address)
-        {
-            if (string.IsNullOrWhiteSpace(address)) return "";
-
-            // Try “..., CITY, PROV ...”
-            var m = Regex.Match(address, @"^[^\n,]+,\s*([A-Za-z][A-Za-z\s'\.-]+?),\s*(?:ON|QC|BC|AB|SK|MB|NS|NB|NL|PE|YT|NT|NU)\b",
-                                RegexOptions.Multiline | RegexOptions.IgnoreCase);
-            if (m.Success) return m.Groups[1].Value.Trim();
-
-            // Try line starting with "City"
-            var m2 = Regex.Match(address, @"(?mi)^\s*City\s*[:\-]?\s*([A-Za-z][A-Za-z\s'\.-]+)$");
-            if (m2.Success) return m2.Groups[1].Value.Trim();
-
-            // Fallback: take the word before province code
-            var m3 = Regex.Match(address, @"\b([A-Za-z][A-Za-z\s'\.-]+)\s*,\s*(ON|QC|BC|AB|SK|MB|NS|NB|NL|PE|YT|NT|NU)\b",
-                                 RegexOptions.IgnoreCase);
-            if (m3.Success) return m3.Groups[1].Value.Trim();
-
-            return "";
-        }
-
-
-
-        private static string ExtractMaskedLast4Strict(string content, out string brandGuess)
-        {
-            brandGuess = "";
-            if (string.IsNullOrWhiteSpace(content)) return "";
-
-            // Exactly 12 asterisks followed by 4 digits (allow spaces between groups of asterisks)
-            var rx = new Regex(@"\*{4}\s*\*{4}\s*\*{4}\s*(\d{4})\b");
-            var m = rx.Match(content);
-            string last4 = m.Success ? m.Groups[1].Value : "";
-
-            if (Regex.IsMatch(content, @"MASTERCARD|MASTER CARD|MC\b", RegexOptions.IgnoreCase)) brandGuess = "Mastercard";
-            else if (Regex.IsMatch(content, @"\bVISA\b", RegexOptions.IgnoreCase)) brandGuess = "Visa";
-            else if (Regex.IsMatch(content, @"AMEX|AMERICAN EXPRESS", RegexOptions.IgnoreCase)) brandGuess = "Amex";
-            else if (Regex.IsMatch(content, @"\bDEBIT\b", RegexOptions.IgnoreCase)) brandGuess = "Debit";
-
-            return string.IsNullOrEmpty(last4) ? "" : $"**** **** **** {last4}";
-        }
-
-        private string GetFieldContentCI(AnalyzedDocument? doc, string canonicalName)
-        {
-            return TryGetFieldContentCI(doc, canonicalName, out var c) ? c.Trim() : "";
-        }
-
-
 
         private static async Task<MemoryStream> BuildCsvAsync(List<ReceiptCsvRow> rows, string fileName, CancellationToken ct)
         {
@@ -409,35 +229,12 @@ namespace RaymarEquipmentInventory.Services
             return ms;
         }
 
-        private string GetModelId() => Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_MODEL") ?? "";
-
         private static async Task RespectRateAsync(DateTime lastCallUtc, int minMsBetweenCalls, CancellationToken ct)
         {
             if (lastCallUtc == DateTime.MinValue) return;
             var elapsed = (int)(DateTime.UtcNow - lastCallUtc).TotalMilliseconds;
             var wait = minMsBetweenCalls - elapsed;
             if (wait > 0) await Task.Delay(wait, ct);
-        }
-
-        // --- Generic field helpers -------------------------
-        private static bool TryGetFieldContent(AnalyzedDocument? doc, string fieldName, out string content)
-        {
-            content = "";
-            if (doc == null || doc.Fields == null) return false;
-            if (doc.Fields.TryGetValue(fieldName, out DocumentField? f) && f != null)
-            {
-                content = f.Content ?? "";
-                return !string.IsNullOrWhiteSpace(content);
-            }
-            return false;
-        }
-
-        private static string NormalizeMerchant(string? s)
-        {
-            if (string.IsNullOrWhiteSpace(s)) return "";
-            var up = Regex.Replace(s, @"[^\p{L}\p{N}\s]", " ").ToUpperInvariant(); // drop punctuation
-            up = Regex.Replace(up, @"\s+", " ").Trim();
-            return up;
         }
 
         private bool TryFindVendorOverride(string merchant, out string category)
@@ -451,80 +248,7 @@ namespace RaymarEquipmentInventory.Services
             return false;
         }
 
-        private static string GetFieldContent(AnalyzedDocument? doc, string fieldName)
-            => TryGetFieldContent(doc, fieldName, out var c) ? c.Trim() : "";
-
         // --- Parsing helpers --------------------------------
-        private static decimal ParseCurrency(string s)
-        {
-            if (string.IsNullOrWhiteSpace(s)) return 0m;
-            // Remove currency symbols/labels like "CAD", "$", "Total:", spaces
-            var clean = Regex.Replace(s, @"(?i)\bCAD\b|USD|TOTAL|SUBTOTAL|AMOUNT|HST|GST|PST|TAX|[:]", "")
-                             .Replace("$", "")
-                             .Trim();
-            // Keep digits, minus, dot, comma; normalize comma-decimal
-            clean = Regex.Replace(clean, @"[^\d\-,.]", "");
-            // If both comma and dot, assume comma is thousands sep
-            if (clean.Contains(",") && clean.Contains("."))
-                clean = clean.Replace(",", "");
-            else if (clean.Count(c => c == ',') == 1 && !clean.Contains("."))
-                clean = clean.Replace(',', '.');
-
-            return decimal.TryParse(clean, NumberStyles.Number | NumberStyles.AllowCurrencySymbol,
-                                    CultureInfo.InvariantCulture, out var val) ? val : 0m;
-        }
-
-        private static DateTime? ParseDate(string s)
-        {
-            if (string.IsNullOrWhiteSpace(s)) return null;
-            var formats = new[]
-            {
-        "yyyy-MM-dd","yyyy/MM/dd","MM/dd/yyyy","dd/MM/yyyy","yyyy-MM-ddTHH:mm:ss",
-        "yyyy/MM/dd HH:mm","MM-dd-yyyy","dd-MMM-yyyy","MMM dd, yyyy","yyyyMMdd"
-    };
-            if (DateTime.TryParseExact(s.Trim(), formats, CultureInfo.InvariantCulture,
-                                       DateTimeStyles.AssumeLocal, out var dt)) return dt;
-            if (DateTime.TryParse(s, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal, out dt)) return dt;
-            return null;
-        }
-
-        private static string ExtractCityFromAddress(string address)
-        {
-            if (string.IsNullOrWhiteSpace(address)) return "";
-            // Common “Street, CITY, PROV …” pattern; grab the middle token
-            var m = Regex.Match(address, @"^[^\n,]+,\s*([A-Za-z\s'\.-]+),\s*[A-Za-z]{2,}", RegexOptions.Multiline);
-            if (m.Success) return m.Groups[1].Value.Trim();
-            // Fallback: pick the ALLCAPS-ish word that isn’t ON/AB/BC/etc.
-            var caps = Regex.Matches(address, @"\b[A-Z][A-Z'\-]+(?:\s+[A-Z'\-]+)*\b");
-            foreach (Match c in caps)
-            {
-                var t = c.Value.Trim();
-                if (!Regex.IsMatch(t, @"^(ON|QC|BC|AB|SK|MB|NS|NB|NL|PE|YT|NT|NU|CA|CANADA)$")) return t;
-            }
-            return "";
-        }
-
-        private static string ExtractMaskedLast4(string content, out string brandGuess)
-        {
-            brandGuess = "";
-            if (string.IsNullOrWhiteSpace(content)) return "";
-
-            // Catch **** 4434, XXXX-XXXX-XXXX-4434, •••• 4434, etc.
-            var masked = Regex.Match(content, @"(?:[*xX•]\s*){4,}\s*[-\s]*\d{4}");
-            string last4 = "";
-            if (masked.Success)
-            {
-                var m4 = Regex.Match(masked.Value, @"(\d{4})\b");
-                if (m4.Success) last4 = m4.Groups[1].Value;
-            }
-
-            if (Regex.IsMatch(content, @"MASTERCARD|MASTER CARD|MC\b", RegexOptions.IgnoreCase)) brandGuess = "Mastercard";
-            else if (Regex.IsMatch(content, @"\bVISA\b", RegexOptions.IgnoreCase)) brandGuess = "Visa";
-            else if (Regex.IsMatch(content, @"AMEX|AMERICAN EXPRESS", RegexOptions.IgnoreCase)) brandGuess = "Amex";
-            else if (Regex.IsMatch(content, @"\bDEBIT\b", RegexOptions.IgnoreCase)) brandGuess = "Debit";
-
-            return string.IsNullOrEmpty(last4) ? "" : $"**** **** **** {last4}";
-        }
 
         private string GuessTypeFromBrandOrVendor(string brand, string merchant)
         {
@@ -573,12 +297,7 @@ namespace RaymarEquipmentInventory.Services
             // --- Basic fields -------------------------------------------------------
             var merchantRaw = GetFieldContentCI(doc, "MerchantName");
             // Normalize to help vendor overrides like "CANADIAN TIRE #123"
-            string NormalizeMerchant(string? s)
-            {
-                if (string.IsNullOrWhiteSpace(s)) return "";
-                var up = Regex.Replace(s, @"[^\p{L}\p{N}\s]", " ").ToUpperInvariant();
-                return Regex.Replace(up, @"\s+", " ").Trim();
-            }
+
             var merchant = NormalizeMerchant(merchantRaw);
 
             var address = GetFieldContentCI(doc, "MerchantAddress");
@@ -683,20 +402,6 @@ namespace RaymarEquipmentInventory.Services
             return outStream;
         }
 
-
-        private static async Task<AnalyzeResult> AnalyzeReceiptAsync(
-            DocumentIntelligenceClient client,
-            string modelId,
-            Stream imageStream,
-            CancellationToken ct)
-        {
-            var op = await client.AnalyzeDocumentAsync(
-    WaitUntil.Completed,
-    modelId,
-    BinaryData.FromStream(imageStream),
-    cancellationToken: ct);
-            return op.Value;
-        }
         public async Task<ReceiptConfirm> ParseReceiptsBuildCsvAsync(List<IFormFile> files, CancellationToken ct = default)
         {
             var confirm = new ReceiptConfirm

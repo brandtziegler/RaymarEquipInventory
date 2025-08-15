@@ -1,3 +1,1104 @@
 2025-08-15 13:34:15.091 -04:00 [INF] Application started. Press Ctrl+C to shut down.
 2025-08-15 13:34:15.122 -04:00 [INF] Hosting environment: Development
 2025-08-15 13:34:15.123 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2025-08-15 13:52:50.455 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-08-15 13:52:51.308 -04:00 [INF] Hangfire SQL objects installed.
+2025-08-15 13:52:51.729 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-08-15 13:52:53.074 -04:00 [INF] Now listening on: https://localhost:52212
+2025-08-15 13:52:53.076 -04:00 [INF] Now listening on: http://localhost:52213
+2025-08-15 13:52:53.076 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-08-15 13:52:53.077 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-08-15 13:52:53.078 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-08-15 13:52:53.078 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-08-15 13:52:53.115 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-08-15 13:52:53.117 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-08-15 13:52:53.118 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-08-15 13:52:53.128 -04:00 [DBG] Execution loop BackgroundServerProcess:fbdf77f1 has started in 4.9711 ms
+2025-08-15 13:52:53.168 -04:00 [INF] Server bz2024ad:13624:d4dd4094 successfully announced in 32.6224 ms
+2025-08-15 13:52:53.175 -04:00 [DBG] Execution loop ServerHeartbeatProcess:5687a098 has started in 4.7094 ms
+2025-08-15 13:52:53.175 -04:00 [INF] Server bz2024ad:13624:d4dd4094 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-08-15 13:52:53.179 -04:00 [DBG] Execution loop ServerWatchdog:5178cd0b has started in 2.9585 ms
+2025-08-15 13:52:53.182 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:d95f6b2b has started in 4.9841 ms
+2025-08-15 13:52:53.187 -04:00 [DBG] Execution loop ExpirationManager:694a05e2 has started in 6.6137 ms
+2025-08-15 13:52:53.189 -04:00 [DBG] Execution loop CountersAggregator:0943c9d4 has started in 7.1302 ms
+2025-08-15 13:52:53.193 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:a3fb7a8d has started in 6.906 ms
+2025-08-15 13:52:53.198 -04:00 [DBG] Execution loop Worker:ebde01d5 has started in 9.0476 ms
+2025-08-15 13:52:53.208 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-08-15 13:52:53.208 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-08-15 13:52:53.202 -04:00 [DBG] Execution loop Worker:c04b313f has started in 13.1045 ms
+2025-08-15 13:52:53.205 -04:00 [DBG] Execution loop Worker:4c1be1d9 has started in 15.1628 ms
+2025-08-15 13:52:53.207 -04:00 [DBG] Execution loop Worker:68d92134 has started in 17.856 ms
+2025-08-15 13:52:53.209 -04:00 [DBG] Execution loop Worker:5f0ba38e has started in 20.42 ms
+2025-08-15 13:52:53.221 -04:00 [DBG] Execution loop Worker:ef41b080 has started in 32.1988 ms
+2025-08-15 13:52:53.225 -04:00 [DBG] Execution loop Worker:16456548 has started in 35.8864 ms
+2025-08-15 13:52:53.229 -04:00 [DBG] Execution loop Worker:08efa20e has started in 40.125 ms
+2025-08-15 13:52:53.236 -04:00 [DBG] Execution loop Worker:462c324a has started in 46.4802 ms
+2025-08-15 13:52:53.239 -04:00 [DBG] Execution loop Worker:e036313f has started in 50.2613 ms
+2025-08-15 13:52:53.242 -04:00 [DBG] Execution loop Worker:ec744b45 has started in 52.9731 ms
+2025-08-15 13:52:53.245 -04:00 [DBG] Execution loop Worker:a5364b6e has started in 55.8582 ms
+2025-08-15 13:52:53.248 -04:00 [DBG] Execution loop Worker:4e03e185 has started in 58.7392 ms
+2025-08-15 13:52:53.254 -04:00 [DBG] Execution loop Worker:3e15d1f5 has started in 65.232 ms
+2025-08-15 13:52:53.260 -04:00 [DBG] Execution loop Worker:3a9e496b has started in 71.387 ms
+2025-08-15 13:52:53.266 -04:00 [DBG] Execution loop Worker:4c694cc1 has started in 76.7739 ms
+2025-08-15 13:52:53.275 -04:00 [DBG] Execution loop Worker:335bc924 has started in 84.959 ms
+2025-08-15 13:52:53.279 -04:00 [DBG] Execution loop Worker:f7684c3f has started in 89.8485 ms
+2025-08-15 13:52:53.281 -04:00 [DBG] Execution loop Worker:1264b9ab has started in 92.283 ms
+2025-08-15 13:52:53.287 -04:00 [DBG] Execution loop Worker:a0fff4f8 has started in 98.3577 ms
+2025-08-15 13:52:53.292 -04:00 [INF] Server bz2024ad:13624:d4dd4094 all the dispatchers started
+2025-08-15 13:52:53.292 -04:00 [DBG] Execution loop DelayedJobScheduler:16b6e1e0 has started in 4.6444 ms
+2025-08-15 13:52:53.296 -04:00 [DBG] Execution loop RecurringJobScheduler:637fe775 has started in 7.6561 ms
+2025-08-15 13:52:53.299 -04:00 [DBG] Connection id "0HNES4I7GD9JV" received FIN.
+2025-08-15 13:52:53.379 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-08-15 13:52:53.390 -04:00 [DBG] Connection id "0HNES4I7GD9JV" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-08-15 13:52:53.411 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-08-15 13:52:53.751 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-08-15 13:52:53.805 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-08-15 13:52:53.862 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-08-15 13:52:53.902 -04:00 [DBG] Connection 0HNES4I7GD9K0 established using the following protocol: "Tls13"
+2025-08-15 13:52:53.954 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/swagger/index.html - null null
+2025-08-15 13:52:54.045 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-08-15 13:52:54.063 -04:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-08-15 13:52:54.064 -04:00 [DBG] Request did not match any endpoints
+2025-08-15 13:52:54.112 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-08-15 13:52:54.114 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-08-15 13:52:54.126 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-08-15 13:52:54.127 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-08-15 13:52:54.129 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/swagger/index.html - 200 null text/html;charset=utf-8 180.1542ms
+2025-08-15 13:52:54.157 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - null null
+2025-08-15 13:52:54.157 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_vs/browserLink - null null
+2025-08-15 13:52:54.169 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 12.6305ms
+2025-08-15 13:52:54.222 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_vs/browserLink - 200 null text/javascript; charset=UTF-8 65.0412ms
+2025-08-15 13:52:54.243 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/swagger/v1/swagger.json - null null
+2025-08-15 13:52:54.245 -04:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-08-15 13:52:54.245 -04:00 [DBG] Request did not match any endpoints
+2025-08-15 13:52:54.321 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 77.9662ms
+2025-08-15 13:52:56.972 -04:00 [DBG] Connection id "0HNES4I7GD9K0" received FIN.
+2025-08-15 13:52:56.973 -04:00 [DBG] Connection id "0HNES4I7GD9K0" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-08-15 13:53:23.226 -04:00 [DBG] Server bz2024ad:13624:d4dd4094 heartbeat successfully sent
+2025-08-15 13:53:53.283 -04:00 [DBG] Server bz2024ad:13624:d4dd4094 heartbeat successfully sent
+2025-08-15 13:53:57.906 -04:00 [DBG] Connection 0HNES4I7GD9K1 established using the following protocol: "Tls13"
+2025-08-15 13:53:57.912 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/api/WorkOrd/parse-csv - multipart/form-data; boundary=----WebKitFormBoundarylRlkOogWABiMQABD 14163087
+2025-08-15 13:53:57.918 -04:00 [DBG] 1 candidate(s) found for the request path '/api/WorkOrd/parse-csv'
+2025-08-15 13:53:57.922 -04:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.ParseReceiptsCsv (RaymarEquipmentInventory)' with route pattern 'api/WorkOrd/parse-csv' is valid for the request path '/api/WorkOrd/parse-csv'
+2025-08-15 13:53:57.927 -04:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.ParseReceiptsCsv (RaymarEquipmentInventory)'
+2025-08-15 13:53:57.929 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-08-15 13:53:57.930 -04:00 [INF] CORS policy execution successful.
+2025-08-15 13:53:57.931 -04:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-08-15 13:53:57.934 -04:00 [INF] Executing endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.ParseReceiptsCsv (RaymarEquipmentInventory)'
+2025-08-15 13:53:57.960 -04:00 [INF] Route matched with {action = "ParseReceiptsCsv", controller = "WorkOrd"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ParseReceiptsCsv(System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile], System.Threading.CancellationToken) on controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory).
+2025-08-15 13:53:57.962 -04:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-08-15 13:53:57.963 -04:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-08-15 13:53:57.964 -04:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2025-08-15 13:53:57.965 -04:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-08-15 13:53:57.966 -04:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)","Microsoft.AspNetCore.Mvc.ProducesAttribute (Order: 0)"]
+2025-08-15 13:53:57.968 -04:00 [DBG] Executing controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-08-15 13:53:58.411 -04:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-08-15 13:53:58.628 -04:00 [DBG] No relationship from 'WorkOrderStatus' to 'WorkOrderType' has been configured by convention because there are multiple properties on one entity type - {'WorkOrdType', 'WorkOrdTypes'} that could be matched with the properties on the other entity type - {'Statuses', 'WorkOrderStatuses'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.641 -04:00 [DBG] No relationship from 'WorkOrderType' to 'WorkOrderStatus' has been configured by convention because there are multiple properties on one entity type - {'Statuses', 'WorkOrderStatuses'} that could be matched with the properties on the other entity type - {'WorkOrdType', 'WorkOrdTypes'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.653 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.662 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.664 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.665 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.667 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.669 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.671 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.672 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.673 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.674 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.675 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.676 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.696 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.700 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.702 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.703 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.706 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.711 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.712 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.713 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.714 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.715 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.717 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.719 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.720 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.721 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.722 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.724 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.725 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.726 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.727 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.728 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.729 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.730 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.731 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.732 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.734 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.736 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.737 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.741 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.743 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.745 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.747 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.765 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.768 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.770 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.789 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.791 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.793 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.795 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.796 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.797 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.798 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.800 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.802 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.803 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.805 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.806 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.807 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.809 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.810 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.814 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.815 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.818 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.819 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.821 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.822 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.824 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.825 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.826 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.828 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.829 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.830 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.831 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.832 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.833 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.835 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.836 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.838 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.839 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.841 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.842 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.844 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.862 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.868 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.870 -04:00 [DBG] For the relationship between dependent 'BillingInformation.Customer' and principal 'Customer.BillingInformations', the foreign key properties haven't been configured by convention because the best match {'CustomerId' : int?} are incompatible with the current principal key {'Id' : string}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.879 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.881 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.882 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.883 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.884 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.886 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.891 -04:00 [DBG] For the relationship between dependent 'Customer.Parent' and principal 'Customer.InverseParent', the foreign key properties haven't been configured by convention because the best match {'ParentId' : string} are incompatible with the current principal key {'CustomerId' : int}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.952 -04:00 [DBG] No relationship from 'WorkOrderStatus' to 'WorkOrderType' has been configured by convention because there are multiple properties on one entity type - {'WorkOrdType', 'WorkOrdTypes'} that could be matched with the properties on the other entity type - {'Statuses', 'WorkOrderStatuses'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:58.954 -04:00 [DBG] No relationship from 'WorkOrderType' to 'WorkOrderStatus' has been configured by convention because there are multiple properties on one entity type - {'Statuses', 'WorkOrderStatuses'} that could be matched with the properties on the other entity type - {'WorkOrdType', 'WorkOrdTypes'}. This message can be disregarded if explicit configuration has been specified in 'OnModelCreating'.
+2025-08-15 13:53:59.005 -04:00 [DBG] The index {'CategoryId'} was not created on entity type 'DiAllowedKeyword' as the properties are already covered by the index {'CategoryId', 'Keyword'}.
+2025-08-15 13:53:59.006 -04:00 [DBG] The index {'CategoryId'} was not created on entity type 'DiCandidateKeyword' as the properties are already covered by the index {'CategoryId', 'Keyword'}.
+2025-08-15 13:53:59.007 -04:00 [DBG] The index {'CategoryId'} was not created on entity type 'DiItemKeyword' as the properties are already covered by the index {'CategoryId', 'Keyword'}.
+2025-08-15 13:53:59.008 -04:00 [DBG] The index {'CategoryId'} was not created on entity type 'DiPlace' as the properties are already covered by the index {'CategoryId', 'PlaceName'}.
+2025-08-15 13:53:59.009 -04:00 [DBG] The index {'PlaceId'} was not created on entity type 'DiPlaceAlias' as the properties are already covered by the index {'PlaceId', 'Alias'}.
+2025-08-15 13:53:59.010 -04:00 [DBG] The index {'SheetId'} was not created on entity type 'WorkOrderSyncLog' as the properties are already covered by the index {'SheetId', 'DeviceId'}.
+2025-08-15 13:53:59.011 -04:00 [DBG] The index {'WorkOrdTypeId'} was not created on entity type 'WorkOrderTypeStatus (Dictionary<string, object>)' as the properties are already covered by the index {'WorkOrdTypeId', 'StatusId'}.
+2025-08-15 13:53:59.244 -04:00 [DBG] Entity Framework Core 7.0.16 initialized 'RaymarInventoryDBContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:7.0.16' with options: None
+2025-08-15 13:53:59.274 -04:00 [DBG] Compiling query expression: 
+'DbSet<DiCategory>()
+    .Where(c => c.IsActive == (bool?)True)
+    .Select(c => new { 
+        CategoryId = c.CategoryId, 
+        CategoryName = c.CategoryName
+     })'
+2025-08-15 13:53:59.358 -04:00 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<<>f__AnonymousType8<int, string>>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            CategoryId -> 0
+            CategoryName -> 1
+        SELECT d.CategoryID AS CategoryId, d.CategoryName
+        FROM DI_Categories AS d
+        WHERE d.IsActive == CAST(1 AS bit)), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, <>f__AnonymousType8<int, string>>, 
+    RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+    False, 
+    False, 
+    True
+)'
+2025-08-15 13:53:59.374 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-15 13:53:59.375 -04:00 [DBG] Creating DbConnection.
+2025-08-15 13:53:59.378 -04:00 [DBG] Created DbConnection. (1ms).
+2025-08-15 13:53:59.380 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (5ms).
+2025-08-15 13:53:59.382 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (8ms).
+2025-08-15 13:53:59.384 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.386 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.390 -04:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[CategoryID] AS [CategoryId], [d].[CategoryName]
+FROM [DI_Categories] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit)
+2025-08-15 13:53:59.423 -04:00 [INF] Executed DbCommand (32ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[CategoryID] AS [CategoryId], [d].[CategoryName]
+FROM [DI_Categories] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit)
+2025-08-15 13:53:59.427 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.430 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 3ms reading results.
+2025-08-15 13:53:59.431 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.433 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (1ms).
+2025-08-15 13:53:59.435 -04:00 [DBG] Compiling query expression: 
+'DbSet<DiPlace>()
+    .Where(p => p.IsActive == (bool?)True)
+    .Select(p => new { 
+        PlaceId = p.PlaceId, 
+        PlaceName = p.PlaceName, 
+        CategoryId = p.CategoryId
+     })'
+2025-08-15 13:53:59.437 -04:00 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<<>f__AnonymousType9<int, string, int>>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            PlaceId -> 0
+            PlaceName -> 1
+            CategoryId -> 2
+        SELECT d.PlaceID AS PlaceId, d.PlaceName, d.CategoryID AS CategoryId
+        FROM DI_Places AS d
+        WHERE d.IsActive == CAST(1 AS bit)), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, <>f__AnonymousType9<int, string, int>>, 
+    RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+    False, 
+    False, 
+    True
+)'
+2025-08-15 13:53:59.439 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-15 13:53:59.439 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-15 13:53:59.440 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-15 13:53:59.441 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.441 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.442 -04:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[PlaceID] AS [PlaceId], [d].[PlaceName], [d].[CategoryID] AS [CategoryId]
+FROM [DI_Places] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit)
+2025-08-15 13:53:59.469 -04:00 [INF] Executed DbCommand (27ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[PlaceID] AS [PlaceId], [d].[PlaceName], [d].[CategoryID] AS [CategoryId]
+FROM [DI_Places] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit)
+2025-08-15 13:53:59.470 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.471 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-15 13:53:59.472 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.473 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-15 13:53:59.474 -04:00 [DBG] Compiling query expression: 
+'DbSet<DiPlaceAlias>()
+    .Where(a => a.IsActive == (bool?)True)
+    .Select(a => new { 
+        PlaceId = a.PlaceId, 
+        Alias = a.Alias
+     })'
+2025-08-15 13:53:59.476 -04:00 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<<>f__AnonymousType10<int, string>>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            PlaceId -> 0
+            Alias -> 1
+        SELECT d.PlaceID AS PlaceId, d.Alias
+        FROM DI_PlaceAliases AS d
+        WHERE d.IsActive == CAST(1 AS bit)), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, <>f__AnonymousType10<int, string>>, 
+    RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+    False, 
+    False, 
+    True
+)'
+2025-08-15 13:53:59.477 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-15 13:53:59.478 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-15 13:53:59.478 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-15 13:53:59.479 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.480 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.480 -04:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[PlaceID] AS [PlaceId], [d].[Alias]
+FROM [DI_PlaceAliases] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit)
+2025-08-15 13:53:59.507 -04:00 [INF] Executed DbCommand (27ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[PlaceID] AS [PlaceId], [d].[Alias]
+FROM [DI_PlaceAliases] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit)
+2025-08-15 13:53:59.509 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.509 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-15 13:53:59.510 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.511 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-15 13:53:59.513 -04:00 [DBG] Compiling query expression: 
+'DbSet<DiStopword>()
+    .Where(s => s.IsActive == (bool?)True)
+    .Select(s => s.Word)'
+2025-08-15 13:53:59.515 -04:00 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<string>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            EmptyProjectionMember -> 0
+        SELECT d.Word
+        FROM DI_Stopwords AS d
+        WHERE d.IsActive == CAST(1 AS bit)), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, string>, 
+    RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+    False, 
+    False, 
+    True
+)'
+2025-08-15 13:53:59.517 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-15 13:53:59.518 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-15 13:53:59.518 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-15 13:53:59.519 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.520 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.520 -04:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[Word]
+FROM [DI_Stopwords] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit)
+2025-08-15 13:53:59.545 -04:00 [INF] Executed DbCommand (24ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[Word]
+FROM [DI_Stopwords] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit)
+2025-08-15 13:53:59.546 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.547 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 1ms reading results.
+2025-08-15 13:53:59.548 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.548 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-15 13:53:59.551 -04:00 [DBG] Compiling query expression: 
+'DbSet<DiAllowedKeyword>()
+    .Where(k => k.IsActive == (bool?)True && (int?)k.CategoryId == __restaurantId_0)'
+2025-08-15 13:53:59.572 -04:00 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<DiAllowedKeyword>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: DiAllowedKeyword.AllowedKeywordId (int) Required PK AfterSave:Throw ValueGenerated.OnAdd, 0], [Property: DiAllowedKeyword.CategoryId (int) Required FK Index, 1], [Property: DiAllowedKeyword.CreatedAtUtc (DateTime) Required ValueGenerated.OnAdd, 2], [Property: DiAllowedKeyword.IsActive (bool?) Required ValueGenerated.OnAdd, 3], [Property: DiAllowedKeyword.Keyword (string) Required Index MaxLength(100), 4], [Property: DiAllowedKeyword.Notes (string) MaxLength(400), 5], [Property: DiAllowedKeyword.UpdatedAtUtc (DateTime) Required ValueGenerated.OnAdd, 6] }
+        SELECT d.AllowedKeywordID, d.CategoryID, d.CreatedAtUtc, d.IsActive, d.Keyword, d.Notes, d.UpdatedAtUtc
+        FROM DI_AllowedKeywords AS d
+        WHERE (d.IsActive == CAST(1 AS bit)) && (d.CategoryID == @__restaurantId_0)), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, DiAllowedKeyword>, 
+    RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+    False, 
+    False, 
+    True
+)'
+2025-08-15 13:53:59.575 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-15 13:53:59.575 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-15 13:53:59.576 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-15 13:53:59.577 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.578 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.579 -04:00 [DBG] Executing DbCommand [Parameters=[@__restaurantId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[AllowedKeywordID], [d].[CategoryID], [d].[CreatedAtUtc], [d].[IsActive], [d].[Keyword], [d].[Notes], [d].[UpdatedAtUtc]
+FROM [DI_AllowedKeywords] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit) AND [d].[CategoryID] = @__restaurantId_0
+2025-08-15 13:53:59.611 -04:00 [INF] Executed DbCommand (33ms) [Parameters=[@__restaurantId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[AllowedKeywordID], [d].[CategoryID], [d].[CreatedAtUtc], [d].[IsActive], [d].[Keyword], [d].[Notes], [d].[UpdatedAtUtc]
+FROM [DI_AllowedKeywords] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit) AND [d].[CategoryID] = @__restaurantId_0
+2025-08-15 13:53:59.627 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.684 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.685 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.686 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.686 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.687 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.688 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.689 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.689 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.690 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.691 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.692 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.692 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.693 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.694 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.694 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.695 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.696 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.697 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.697 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.698 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.700 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.700 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.701 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.702 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.703 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.704 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.704 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.705 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.706 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.707 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.707 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.708 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.709 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.709 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.710 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.711 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.711 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.712 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.713 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.714 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.715 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.715 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.717 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.718 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.719 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.719 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.720 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.721 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.722 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.722 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.723 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.723 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.724 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.725 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.725 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.726 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.727 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.727 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.728 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.729 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.730 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.730 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.731 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.731 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.733 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.734 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.736 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.737 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.738 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.739 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.739 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.740 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.741 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.742 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.742 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.743 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.743 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.744 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.745 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.745 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.746 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.747 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.747 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.748 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.749 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.750 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.752 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.753 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.753 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.754 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.755 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.756 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.756 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.757 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.758 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.759 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.759 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.760 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.761 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.761 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.762 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.763 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.763 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.764 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.765 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.765 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.767 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.768 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.769 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.769 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.770 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.771 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.771 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.772 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.773 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.773 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.774 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.775 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.776 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.776 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.777 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.778 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.778 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.779 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.780 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.780 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.781 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.782 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.783 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.784 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.784 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.785 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.786 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.786 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.787 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.788 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.788 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.789 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.790 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.790 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.797 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.801 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.802 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.803 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.803 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.804 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.805 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.806 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.807 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.808 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.809 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.809 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.810 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.811 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.812 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.813 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.814 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.815 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.818 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.819 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.820 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.821 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.821 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.822 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.823 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.824 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.824 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.825 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.826 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.826 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.827 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.828 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.829 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.830 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.830 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.831 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.832 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.833 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.834 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.835 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.836 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.836 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.837 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.838 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.838 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.839 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.840 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.840 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.841 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.842 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.842 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.843 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.844 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.844 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.845 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.846 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.846 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.847 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.848 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.849 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.851 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.852 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.853 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.854 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.854 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.855 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.856 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.857 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.857 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.858 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.859 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.859 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.860 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.861 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.861 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.862 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.863 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.864 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.865 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.869 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.871 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.872 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.872 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.873 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.874 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.875 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.875 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.876 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.877 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.877 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.878 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.879 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.879 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.880 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.881 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.881 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.883 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.884 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.885 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.886 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 272ms reading results.
+2025-08-15 13:53:59.886 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.887 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-15 13:53:59.888 -04:00 [DBG] Compiling query expression: 
+'DbSet<DiAllowedKeyword>()
+    .Where(k => k.IsActive == (bool?)True && (int?)k.CategoryId == __suppliesId_0)'
+2025-08-15 13:53:59.891 -04:00 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<DiAllowedKeyword>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: DiAllowedKeyword.AllowedKeywordId (int) Required PK AfterSave:Throw ValueGenerated.OnAdd, 0], [Property: DiAllowedKeyword.CategoryId (int) Required FK Index, 1], [Property: DiAllowedKeyword.CreatedAtUtc (DateTime) Required ValueGenerated.OnAdd, 2], [Property: DiAllowedKeyword.IsActive (bool?) Required ValueGenerated.OnAdd, 3], [Property: DiAllowedKeyword.Keyword (string) Required Index MaxLength(100), 4], [Property: DiAllowedKeyword.Notes (string) MaxLength(400), 5], [Property: DiAllowedKeyword.UpdatedAtUtc (DateTime) Required ValueGenerated.OnAdd, 6] }
+        SELECT d.AllowedKeywordID, d.CategoryID, d.CreatedAtUtc, d.IsActive, d.Keyword, d.Notes, d.UpdatedAtUtc
+        FROM DI_AllowedKeywords AS d
+        WHERE (d.IsActive == CAST(1 AS bit)) && (d.CategoryID == @__suppliesId_0)), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, DiAllowedKeyword>, 
+    RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+    False, 
+    False, 
+    True
+)'
+2025-08-15 13:53:59.892 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-15 13:53:59.893 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-15 13:53:59.893 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-15 13:53:59.894 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.895 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:53:59.895 -04:00 [DBG] Executing DbCommand [Parameters=[@__suppliesId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[AllowedKeywordID], [d].[CategoryID], [d].[CreatedAtUtc], [d].[IsActive], [d].[Keyword], [d].[Notes], [d].[UpdatedAtUtc]
+FROM [DI_AllowedKeywords] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit) AND [d].[CategoryID] = @__suppliesId_0
+2025-08-15 13:53:59.916 -04:00 [INF] Executed DbCommand (20ms) [Parameters=[@__suppliesId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[AllowedKeywordID], [d].[CategoryID], [d].[CreatedAtUtc], [d].[IsActive], [d].[Keyword], [d].[Notes], [d].[UpdatedAtUtc]
+FROM [DI_AllowedKeywords] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit) AND [d].[CategoryID] = @__suppliesId_0
+2025-08-15 13:53:59.920 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.923 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.924 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.926 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.928 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.930 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.932 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.933 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.935 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.937 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.938 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.939 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.940 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.940 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.941 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.942 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.942 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.943 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.944 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.944 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.945 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.946 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.946 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.947 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.947 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.948 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.949 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.950 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.951 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.952 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.953 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.954 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.954 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.955 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.956 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.956 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.957 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.957 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.958 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.959 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.959 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.960 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.961 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.961 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.962 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.963 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.963 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.964 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.965 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.965 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.967 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.968 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.968 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.969 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.970 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.970 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.971 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.971 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.972 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.973 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.973 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.974 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.975 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.975 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.976 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.977 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.977 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.978 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.978 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.979 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.980 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.980 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.981 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.982 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.983 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.984 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.985 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.986 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.987 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.987 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.988 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.989 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.990 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.990 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.991 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.992 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.992 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.993 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.994 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.995 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.995 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.996 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.997 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.997 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.998 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:53:59.999 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.000 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.001 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.002 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.003 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.003 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.004 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.005 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.005 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.006 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.007 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.007 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.008 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.009 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.010 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.011 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.011 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.012 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.013 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.014 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.014 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.015 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.016 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.017 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.018 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.019 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.019 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.020 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.021 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.021 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.022 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.023 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.023 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.024 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.025 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.025 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.026 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.026 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.027 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.028 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.028 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.029 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.030 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.030 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.031 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.032 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.033 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.034 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.035 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.035 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.036 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.037 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.037 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.038 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.039 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.039 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.040 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.040 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.041 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.042 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.042 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.043 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.043 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.044 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.045 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.045 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.046 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.046 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.047 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.048 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.048 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.050 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.051 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.052 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.053 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.054 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.055 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.055 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.056 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.057 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.057 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.058 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.059 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.060 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.060 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.061 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.062 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.062 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.063 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.064 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.064 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.065 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.066 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.067 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.068 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.069 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.069 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.070 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.071 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.071 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.072 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.072 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.073 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.074 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.074 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.075 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.076 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.077 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.077 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.078 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.078 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.079 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.080 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.080 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.081 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.082 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.082 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.083 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.085 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.085 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.086 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.087 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.087 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.088 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.089 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.089 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.090 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.091 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.091 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.092 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.092 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.093 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.094 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.094 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.095 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.096 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.096 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.097 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.097 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.098 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.099 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.100 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.101 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.102 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.103 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.104 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.104 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.105 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.106 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.106 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.107 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.108 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.108 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.109 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.110 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.110 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.111 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.112 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.112 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.113 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.114 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.114 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.115 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.116 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.117 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.119 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.120 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.120 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.121 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.122 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.123 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.124 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.125 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.126 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.126 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.127 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.128 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiAllowedKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.128 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:54:00.129 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 209ms reading results.
+2025-08-15 13:54:00.130 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:54:00.131 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-15 13:54:00.133 -04:00 [DBG] Compiling query expression: 
+'DbSet<DiItemKeyword>()
+    .Where(k => k.IsActive == (bool?)True && (int?)k.CategoryId == __restaurantId_0)'
+2025-08-15 13:54:00.136 -04:00 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<DiItemKeyword>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: DiItemKeyword.ItemKeywordId (int) Required PK AfterSave:Throw ValueGenerated.OnAdd, 0], [Property: DiItemKeyword.CategoryId (int) Required FK Index, 1], [Property: DiItemKeyword.CreatedAtUtc (DateTime) Required ValueGenerated.OnAdd, 2], [Property: DiItemKeyword.IsActive (bool?) Required ValueGenerated.OnAdd, 3], [Property: DiItemKeyword.Keyword (string) Required Index MaxLength(100), 4], [Property: DiItemKeyword.Notes (string) MaxLength(400), 5], [Property: DiItemKeyword.UpdatedAtUtc (DateTime) Required ValueGenerated.OnAdd, 6] }
+        SELECT d.ItemKeywordID, d.CategoryID, d.CreatedAtUtc, d.IsActive, d.Keyword, d.Notes, d.UpdatedAtUtc
+        FROM DI_ItemKeywords AS d
+        WHERE (d.IsActive == CAST(1 AS bit)) && (d.CategoryID == @__restaurantId_0)), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, DiItemKeyword>, 
+    RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+    False, 
+    False, 
+    True
+)'
+2025-08-15 13:54:00.138 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-15 13:54:00.139 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-15 13:54:00.139 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-15 13:54:00.140 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:54:00.141 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:54:00.142 -04:00 [DBG] Executing DbCommand [Parameters=[@__restaurantId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[ItemKeywordID], [d].[CategoryID], [d].[CreatedAtUtc], [d].[IsActive], [d].[Keyword], [d].[Notes], [d].[UpdatedAtUtc]
+FROM [DI_ItemKeywords] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit) AND [d].[CategoryID] = @__restaurantId_0
+2025-08-15 13:54:00.169 -04:00 [INF] Executed DbCommand (27ms) [Parameters=[@__restaurantId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[ItemKeywordID], [d].[CategoryID], [d].[CreatedAtUtc], [d].[IsActive], [d].[Keyword], [d].[Notes], [d].[UpdatedAtUtc]
+FROM [DI_ItemKeywords] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit) AND [d].[CategoryID] = @__restaurantId_0
+2025-08-15 13:54:00.172 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.184 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.186 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.187 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.188 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.188 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.189 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.190 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.190 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.191 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.192 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.193 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.194 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.195 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.196 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.196 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.197 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.198 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.199 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.200 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.202 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.203 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.204 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.205 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:54:00.205 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 35ms reading results.
+2025-08-15 13:54:00.206 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:54:00.207 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-15 13:54:00.208 -04:00 [DBG] Compiling query expression: 
+'DbSet<DiItemKeyword>()
+    .Where(k => k.IsActive == (bool?)True && (int?)k.CategoryId == __suppliesId_0)'
+2025-08-15 13:54:00.211 -04:00 [DBG] Generated query execution expression: 
+'queryContext => new SingleQueryingEnumerable<DiItemKeyword>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: DiItemKeyword.ItemKeywordId (int) Required PK AfterSave:Throw ValueGenerated.OnAdd, 0], [Property: DiItemKeyword.CategoryId (int) Required FK Index, 1], [Property: DiItemKeyword.CreatedAtUtc (DateTime) Required ValueGenerated.OnAdd, 2], [Property: DiItemKeyword.IsActive (bool?) Required ValueGenerated.OnAdd, 3], [Property: DiItemKeyword.Keyword (string) Required Index MaxLength(100), 4], [Property: DiItemKeyword.Notes (string) MaxLength(400), 5], [Property: DiItemKeyword.UpdatedAtUtc (DateTime) Required ValueGenerated.OnAdd, 6] }
+        SELECT d.ItemKeywordID, d.CategoryID, d.CreatedAtUtc, d.IsActive, d.Keyword, d.Notes, d.UpdatedAtUtc
+        FROM DI_ItemKeywords AS d
+        WHERE (d.IsActive == CAST(1 AS bit)) && (d.CategoryID == @__suppliesId_0)), 
+    null, 
+    Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, DiItemKeyword>, 
+    RaymarEquipmentInventory.Models.RaymarInventoryDBContext, 
+    False, 
+    False, 
+    True
+)'
+2025-08-15 13:54:00.212 -04:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-08-15 13:54:00.212 -04:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-08-15 13:54:00.213 -04:00 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-08-15 13:54:00.214 -04:00 [DBG] Opening connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:54:00.214 -04:00 [DBG] Opened connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:54:00.215 -04:00 [DBG] Executing DbCommand [Parameters=[@__suppliesId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[ItemKeywordID], [d].[CategoryID], [d].[CreatedAtUtc], [d].[IsActive], [d].[Keyword], [d].[Notes], [d].[UpdatedAtUtc]
+FROM [DI_ItemKeywords] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit) AND [d].[CategoryID] = @__suppliesId_0
+2025-08-15 13:54:00.235 -04:00 [INF] Executed DbCommand (20ms) [Parameters=[@__suppliesId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[ItemKeywordID], [d].[CategoryID], [d].[CreatedAtUtc], [d].[IsActive], [d].[Keyword], [d].[Notes], [d].[UpdatedAtUtc]
+FROM [DI_ItemKeywords] AS [d]
+WHERE [d].[IsActive] = CAST(1 AS bit) AND [d].[CategoryID] = @__suppliesId_0
+2025-08-15 13:54:00.236 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.238 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.238 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.239 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.240 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.241 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.241 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.242 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.243 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.243 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.244 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.245 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.245 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.246 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.247 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.247 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.248 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.249 -04:00 [DBG] Context 'RaymarInventoryDBContext' started tracking 'DiItemKeyword' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-08-15 13:54:00.251 -04:00 [DBG] Closing data reader to 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:54:00.252 -04:00 [DBG] A data reader for 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' is being disposed after spending 15ms reading results.
+2025-08-15 13:54:00.253 -04:00 [DBG] Closing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:54:00.253 -04:00 [DBG] Closed connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433' (0ms).
+2025-08-15 13:54:00.255 -04:00 [DBG] Executed controller factory for controller RaymarEquipmentInventory.Controllers.WorkOrdController (RaymarEquipmentInventory)
+2025-08-15 13:54:00.607 -04:00 [DBG] Attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' ...
+2025-08-15 13:54:00.609 -04:00 [DBG] Attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' using the name '' in request data ...
+2025-08-15 13:54:00.611 -04:00 [DBG] Done attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-08-15 13:54:00.612 -04:00 [DBG] Done attempting to bind parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-08-15 13:54:00.612 -04:00 [DBG] Attempting to validate the bound parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]' ...
+2025-08-15 13:54:00.619 -04:00 [DBG] Done attempting to validate the bound parameter 'files' of type 'System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]'.
+2025-08-15 13:54:00.621 -04:00 [DBG] Attempting to bind parameter 'ct' of type 'System.Threading.CancellationToken' ...
+2025-08-15 13:54:00.622 -04:00 [DBG] Done attempting to bind parameter 'ct' of type 'System.Threading.CancellationToken'.
+2025-08-15 13:54:00.622 -04:00 [DBG] Attempting to validate the bound parameter 'ct' of type 'System.Threading.CancellationToken' ...
+2025-08-15 13:54:00.623 -04:00 [DBG] Done attempting to validate the bound parameter 'ct' of type 'System.Threading.CancellationToken'.
+2025-08-15 13:54:23.326 -04:00 [DBG] Server bz2024ad:13624:d4dd4094 heartbeat successfully sent
+2025-08-15 13:54:53.356 -04:00 [DBG] Server bz2024ad:13624:d4dd4094 heartbeat successfully sent
+2025-08-15 13:55:09.716 -04:00 [DBG] 1 recurring job(s) processed by scheduler.
+2025-08-15 13:55:19.789 -04:00 [INF] Executing FileStreamResult, sending file with download name 'Receipts_20250815_175400.csv' ...
+2025-08-15 13:55:19.792 -04:00 [DBG] The file result has not been enabled for processing range requests. To enable it, set the EnableRangeProcessing property on the result to 'true'.
+2025-08-15 13:55:19.795 -04:00 [INF] Executed action RaymarEquipmentInventory.Controllers.WorkOrdController.ParseReceiptsCsv (RaymarEquipmentInventory) in 81826.199ms
+2025-08-15 13:55:19.796 -04:00 [INF] Executed endpoint 'RaymarEquipmentInventory.Controllers.WorkOrdController.ParseReceiptsCsv (RaymarEquipmentInventory)'
+2025-08-15 13:55:19.804 -04:00 [DBG] 'RaymarInventoryDBContext' disposed.
+2025-08-15 13:55:19.820 -04:00 [DBG] Disposing connection to database 'RaymarInventoryDB' on server 'tcp:greatfurnituresql.database.windows.net,1433'.
+2025-08-15 13:55:19.822 -04:00 [DBG] Disposed connection to database '' on server '' (2ms).
+2025-08-15 13:55:19.823 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/api/WorkOrd/parse-csv - 200 476 text/csv 81911.4634ms
+2025-08-15 13:55:23.390 -04:00 [DBG] Server bz2024ad:13624:d4dd4094 heartbeat successfully sent
+2025-08-15 13:55:53.421 -04:00 [DBG] Server bz2024ad:13624:d4dd4094 heartbeat successfully sent
+2025-08-15 13:55:58.454 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client 'ISamsaraApiService'
+2025-08-15 13:55:58.454 -04:00 [DBG] HttpMessageHandler expired after 120000ms for client ''
+2025-08-15 13:56:08.465 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-08-15 13:56:08.469 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0637ms - processed: 0 items - remaining: 2 items
+2025-08-15 13:56:18.482 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-08-15 13:56:18.483 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0115ms - processed: 0 items - remaining: 2 items
+2025-08-15 13:56:23.449 -04:00 [DBG] Server bz2024ad:13624:d4dd4094 heartbeat successfully sent
+2025-08-15 13:56:28.498 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-08-15 13:56:28.500 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0026ms - processed: 0 items - remaining: 2 items
+2025-08-15 13:56:38.513 -04:00 [DBG] Starting HttpMessageHandler cleanup cycle with 2 items
+2025-08-15 13:56:38.516 -04:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0036ms - processed: 0 items - remaining: 2 items

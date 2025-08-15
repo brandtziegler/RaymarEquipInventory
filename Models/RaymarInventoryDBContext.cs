@@ -17,6 +17,20 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<Customer> Customers { get; set; }
 
+    public virtual DbSet<DiAllowedKeyword> DiAllowedKeywords { get; set; }
+
+    public virtual DbSet<DiCandidateKeyword> DiCandidateKeywords { get; set; }
+
+    public virtual DbSet<DiCategory> DiCategories { get; set; }
+
+    public virtual DbSet<DiItemKeyword> DiItemKeywords { get; set; }
+
+    public virtual DbSet<DiPlace> DiPlaces { get; set; }
+
+    public virtual DbSet<DiPlaceAlias> DiPlaceAliases { get; set; }
+
+    public virtual DbSet<DiStopword> DiStopwords { get; set; }
+
     public virtual DbSet<Document> Documents { get; set; }
 
     public virtual DbSet<DocumentType> DocumentTypes { get; set; }
@@ -187,6 +201,230 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasPrincipalKey(p => p.Id)
                 .HasForeignKey(d => d.ParentId)
                 .HasConstraintName("FK_ParentCustomer");
+        });
+
+        modelBuilder.Entity<DiAllowedKeyword>(entity =>
+        {
+            entity.HasKey(e => e.AllowedKeywordId).HasName("PK__DI_Allow__978020BFA19A871E");
+
+            entity.ToTable("DI_AllowedKeywords");
+
+            entity.HasIndex(e => e.CategoryId, "IX_DI_AllowedKeywords_CategoryID");
+
+            entity.HasIndex(e => new { e.CategoryId, e.Keyword }, "UX_DI_AllowedKeywords_Category_Keyword").IsUnique();
+
+            entity.Property(e => e.AllowedKeywordId).HasColumnName("AllowedKeywordID");
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CreatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Keyword)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.Notes).HasMaxLength(400);
+            entity.Property(e => e.UpdatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.DiAllowedKeywords)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DI_AllowedKeywords_Categories");
+        });
+
+        modelBuilder.Entity<DiCandidateKeyword>(entity =>
+        {
+            entity.HasKey(e => e.CandidateKeywordId).HasName("PK__DI_Candi__81EE7DEB5C31A464");
+
+            entity.ToTable("DI_CandidateKeywords", tb => tb.HasTrigger("TR_DI_CandidateKeywords_SetUpdatedAt"));
+
+            entity.HasIndex(e => e.SeenCount, "IX_DI_CandidateKeywords_SeenCount").IsDescending();
+
+            entity.HasIndex(e => new { e.Status, e.LastSeenAtUtc }, "IX_DI_CandidateKeywords_Status_LastSeen").IsDescending(false, true);
+
+            entity.HasIndex(e => new { e.CategoryId, e.Keyword }, "UX_DI_CandidateKeywords_Category_Keyword").IsUnique();
+
+            entity.Property(e => e.CandidateKeywordId).HasColumnName("CandidateKeywordID");
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.Confidence)
+                .HasDefaultValueSql("((0.5000))")
+                .HasColumnType("decimal(5, 4)");
+            entity.Property(e => e.CreatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.FirstSeenAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Keyword)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.LastSeenAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.Notes).HasMaxLength(400);
+            entity.Property(e => e.SeenCount).HasDefaultValueSql("((1))");
+            entity.Property(e => e.SourcePlaceId).HasColumnName("SourcePlaceID");
+            entity.Property(e => e.UpdatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.DiCandidateKeywords)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DI_CandidateKeywords_Categories");
+
+            entity.HasOne(d => d.SourcePlace).WithMany(p => p.DiCandidateKeywords)
+                .HasForeignKey(d => d.SourcePlaceId)
+                .HasConstraintName("FK_DI_CandidateKeywords_Places");
+        });
+
+        modelBuilder.Entity<DiCategory>(entity =>
+        {
+            entity.HasKey(e => e.CategoryId).HasName("PK__DI_Categ__19093A2BF07802CD");
+
+            entity.ToTable("DI_Categories", tb => tb.HasTrigger("TR_DI_Categories_SetUpdatedAt"));
+
+            entity.HasIndex(e => e.CategoryName, "UX_DI_Categories_CategoryName").IsUnique();
+
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CategoryName)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.CreatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.Description).HasMaxLength(400);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.UpdatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+        });
+
+        modelBuilder.Entity<DiItemKeyword>(entity =>
+        {
+            entity.HasKey(e => e.ItemKeywordId).HasName("PK__DI_ItemK__F118A7DAD7615848");
+
+            entity.ToTable("DI_ItemKeywords");
+
+            entity.HasIndex(e => e.CategoryId, "IX_DI_ItemKeywords_CategoryID");
+
+            entity.HasIndex(e => new { e.CategoryId, e.Keyword }, "UX_DI_ItemKeywords_Category_Keyword").IsUnique();
+
+            entity.Property(e => e.ItemKeywordId).HasColumnName("ItemKeywordID");
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CreatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Keyword)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.Notes).HasMaxLength(400);
+            entity.Property(e => e.UpdatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.DiItemKeywords)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DI_ItemKeywords_Categories");
+        });
+
+        modelBuilder.Entity<DiPlace>(entity =>
+        {
+            entity.HasKey(e => e.PlaceId).HasName("PK__DI_Place__D5222B4E48F3BE3B");
+
+            entity.ToTable("DI_Places");
+
+            entity.HasIndex(e => e.CategoryId, "IX_DI_Places_CategoryID");
+
+            entity.HasIndex(e => new { e.CategoryId, e.PlaceName }, "UX_DI_Places_Category_PlaceName").IsUnique();
+
+            entity.Property(e => e.PlaceId).HasColumnName("PlaceID");
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CreatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Notes).HasMaxLength(400);
+            entity.Property(e => e.PlaceName)
+                .IsRequired()
+                .HasMaxLength(200);
+            entity.Property(e => e.UpdatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.DiPlaces)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DI_Places_Categories");
+        });
+
+        modelBuilder.Entity<DiPlaceAlias>(entity =>
+        {
+            entity.HasKey(e => e.PlaceAliasId).HasName("PK__DI_Place__F0FC9FF96DE77F62");
+
+            entity.ToTable("DI_PlaceAliases", tb => tb.HasTrigger("TR_DI_PlaceAliases_SetUpdatedAt"));
+
+            entity.HasIndex(e => e.Alias, "IX_DI_PlaceAliases_Alias");
+
+            entity.HasIndex(e => new { e.PlaceId, e.Alias }, "UX_DI_PlaceAliases_Place_Alias").IsUnique();
+
+            entity.Property(e => e.PlaceAliasId).HasColumnName("PlaceAliasID");
+            entity.Property(e => e.Alias)
+                .IsRequired()
+                .HasMaxLength(200);
+            entity.Property(e => e.CreatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Notes).HasMaxLength(400);
+            entity.Property(e => e.PlaceId).HasColumnName("PlaceID");
+            entity.Property(e => e.UpdatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+
+            entity.HasOne(d => d.Place).WithMany(p => p.DiPlaceAliases)
+                .HasForeignKey(d => d.PlaceId)
+                .HasConstraintName("FK_DI_PlaceAliases_Places");
+        });
+
+        modelBuilder.Entity<DiStopword>(entity =>
+        {
+            entity.HasKey(e => e.StopwordId).HasName("PK__DI_Stopw__6A42C9DEE8B385F6");
+
+            entity.ToTable("DI_Stopwords");
+
+            entity.HasIndex(e => e.Word, "UX_DI_Stopwords_Word").IsUnique();
+
+            entity.Property(e => e.StopwordId).HasColumnName("StopwordID");
+            entity.Property(e => e.CreatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Notes).HasMaxLength(400);
+            entity.Property(e => e.UpdatedAtUtc)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.Word)
+                .IsRequired()
+                .HasMaxLength(100);
         });
 
         modelBuilder.Entity<Document>(entity =>

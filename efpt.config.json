@@ -24,6 +24,34 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[DI_AllowedKeywords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DI_CandidateKeywords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DI_Categories]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DI_ItemKeywords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DI_PlaceAliases]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DI_Places]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DI_Stopwords]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Documents]",
          "ObjectType": 0
       },
