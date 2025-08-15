@@ -403,27 +403,33 @@ namespace RaymarEquipmentInventory.Controllers
                 })
                 .ToList();
 
+            var uploadId = _jobs.Enqueue(() =>
+                _driveUploaderService.ClearAndUploadBatchFromBlobAsync(args, CancellationToken.None));
+
+            string deleteParentId;
+
             if (receiptFiles.Count > 0)
             {
-                var parseId = _jobs.Enqueue(() =>
+                // Parse only after a successful upload
+                var parseId = _jobs.ContinueJobWith(uploadId, () =>
                     _driveUploaderService.ParseReceiptBatchFromBlobAndEmailAsync(
-                        args, "brandt@brandtziegler.com", CancellationToken.None));
+                        args, "brandt@brandtziegler.com", CancellationToken.None),
+                    JobContinuationOptions.OnlyOnSucceededState);
 
-                //Log.Information("🧾 Enqueued parse/email job {JobId} for Batch {BatchId}", parseId, plan.BatchId);
-
-                //var uploadId = _jobs.ContinueJobWith(parseId, () =>
-                //    _driveUploaderService.ClearAndUploadBatchFromBlobAsync(args, CancellationToken.None));
-
-                //Log.Information("☁️ Enqueued follow-up Drive upload job {JobId} for Batch {BatchId}", uploadId, plan.BatchId);
+                // When there ARE receipts, delete only after a successful parse
+                deleteParentId = parseId;
             }
             else
             {
-                // No receipts → just do the Drive upload job
-                //var uploadId = _jobs.Enqueue(() =>
-                //    _driveUploaderService.ClearAndUploadBatchFromBlobAsync(args, CancellationToken.None));
-
-                Log.Information("☁️ Enqueued Drive upload job {JobId} (no receipts to parse) for Batch {BatchId}", plan.BatchId);
+                // When there are NO receipts, delete right after a successful upload
+                deleteParentId = uploadId;
             }
+
+            // Delete blobs last, only if the prior step succeeded
+            var deleteId = _jobs.ContinueJobWith(deleteParentId, () =>
+                _driveUploaderService.DeleteBatchBlobsAsync(
+                    args.Files, args.WorkOrderId, args.BatchId, CancellationToken.None),
+                JobContinuationOptions.OnlyOnSucceededState);
 
             // 202 Accepted (async processing in background)
             return Accepted(new { plan.BatchId, plan.WorkOrderId, fileCount = plan.Files.Count });

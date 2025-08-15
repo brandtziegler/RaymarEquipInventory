@@ -1189,9 +1189,6 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-
-
-
         private async Task<string?> TryResolveFolderAsync(string folderName, string parentId, DriveService driveService)
         {
             var listRequest = driveService.Files.List();
@@ -1297,34 +1294,45 @@ namespace RaymarEquipmentInventory.Services
         //}
 
         public async Task DeleteBatchBlobsAsync(
-    IEnumerable<PlannedFileInfo> files, // args.Files
-    string workOrderId,
-    string batchId,
-    CancellationToken ct)
+            IEnumerable<PlannedFileInfo> files,
+            string workOrderId,
+            string batchId,
+            CancellationToken ct)
         {
             var conn = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING") ?? "";
+            var blobService = new Azure.Storage.Blobs.BlobServiceClient(conn);
 
-            //var conn = _config["AzureStorage:ConnectionString"]
-            //            ?? throw new InvalidOperationException("AzureStorage:ConnectionString missing");
-            var blobService = new Azure.Storage.Blobs.BlobServiceClient(conn); 
             var prefix = $"{workOrderId}/{batchId}/";
             var containers = files.Select(f => f.Container).Distinct(StringComparer.OrdinalIgnoreCase);
 
             foreach (var containerName in containers)
             {
-                var container = blobService.GetBlobContainerClient(containerName);
-
-                await foreach (var blob in container.GetBlobsAsync(prefix: prefix, cancellationToken: ct))
+                try
                 {
-                    // delete blob + any snapshots; ignore-not-found for idempotency
-                    await container.DeleteBlobIfExistsAsync(
-                        blob.Name,
-                        Azure.Storage.Blobs.Models.DeleteSnapshotsOption.IncludeSnapshots,
-                        conditions: null,
-                        cancellationToken: ct);
+                    var container = blobService.GetBlobContainerClient(containerName);
+                    int delCount = 0;
+
+                    await foreach (var blob in container.GetBlobsAsync(prefix: prefix, cancellationToken: ct))
+                    {
+                        await container.DeleteBlobIfExistsAsync(
+                            blob.Name,
+                            Azure.Storage.Blobs.Models.DeleteSnapshotsOption.IncludeSnapshots,
+                            cancellationToken: ct);
+                        delCount++;
+                    }
+
+                    Log.Information("🧹 Deleted {Count} blobs from {Container} with prefix {Prefix}",
+                        delCount, containerName, prefix);
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, "⚠️ DeleteBatchBlobsAsync: failed on container {Container}", containerName);
                 }
             }
+
+            Log.Information("🧹 Finished deleting batch {BatchId} under WO {WO}", batchId, workOrderId);
         }
+
 
         public async Task ClearAndUploadBatchFromBlobAsync(ProcessBatchArgs args, CancellationToken ct = default)
         {
