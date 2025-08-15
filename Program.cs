@@ -20,6 +20,8 @@ using System.IO;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 
+using RaymarEquipmentInventory.Helpers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog for logging
@@ -166,6 +168,7 @@ builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IHourlyLabourService, HourlyLabourService>(); // Registering our new service
 builder.Services.AddScoped<IMileageAndTravelService, MileageAndTravelService>(); // Registering our new service
 builder.Services.AddScoped<IDriveUploaderService, DriveUploaderService>();
+builder.Services.AddScoped<IReceiptLexicon, ReceiptLexicon>();
 builder.Services.AddScoped<IDriveAuthService, DriveAuthService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>(); // Registering our new service

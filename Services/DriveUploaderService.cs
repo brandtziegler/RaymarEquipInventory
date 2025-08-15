@@ -49,13 +49,17 @@ namespace RaymarEquipmentInventory.Services
         private readonly IDriveAuthService _authService;
         private readonly IConfiguration _config;
         private readonly System.Net.Http.IHttpClientFactory _httpClientFactory;
-        public DriveUploaderService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context, IDriveAuthService authService, IConfiguration config, System.Net.Http.IHttpClientFactory httpClientFactory)
+        private readonly IReceiptLexicon _lex;
+
+        public DriveUploaderService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context, IDriveAuthService authService, 
+            IConfiguration config, System.Net.Http.IHttpClientFactory httpClientFactory, IReceiptLexicon lexicon)
         {
             _quickBooksConnectionService = quickBooksConnectionService;
             _context = context;
             _authService = authService;
             _config = config;
             _httpClientFactory = httpClientFactory;
+            _lex = lexicon; // <— store it
         }
 
 
@@ -223,170 +227,18 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        ///START OF DOCUMENT INTELLIGENCE CODE
-
-        // Map aliases you want to support regardless of casing/spaces
-        private static readonly Dictionary<string, string[]> FieldAliases = new(StringComparer.OrdinalIgnoreCase)
-        {
-            ["MerchantName"] = new[] { "MerchantName" },
-            ["MerchantAddress"] = new[] { "MerchantAddress", "Address" },
-            ["ReceiptType"] = new[] { "ReceiptType", "Category" },
-
-            // Money fields with common variations
-            ["SubTotal"] = new[] { "SubTotal", "Subtotal", "Sub Total" },
-            ["TotalTax"] = new[] { "TotalTax", "Tax", "Taxes", "HST", "GST", "PST" },
-            ["Total"] = new[] { "Total", "Grand Total", "Amount Due" },
-
-            ["TransactionDate"] = new[] { "TransactionDate", "Date", "Transaction Date" }
-        };
-
-        private static readonly Dictionary<string, string> VendorCategoryOverrides =
-    new(StringComparer.OrdinalIgnoreCase)
-    {
-        // Supplies / Parts chains
-        ["CANADIAN TIRE"] = "Supplies",
-        ["CANADIAN TIRE GAS"] = "Fuel",
-        ["PRINCESS AUTO"] = "Supplies",
-        ["HOME DEPOT"] = "Supplies",
-        ["HOME HARDWARE"] = "Supplies",
-        ["LOWE'S"] = "Supplies",
-        ["RONA"] = "Supplies",
-        ["ACKLANDS"] = "Supplies",
-        ["FASTENAL"] = "Supplies",
-        ["GRAINGER"] = "Supplies",
-        ["NAPA"] = "Supplies",
-        ["PARTSOURCE"] = "Supplies",
-        ["MARK'S"] = "Supplies",
-        ["PEAVEY"] = "Supplies",
-        ["BOLT SUPPLY"] = "Supplies",
-
-        // Fuel
-        ["ESSO"] = "Fuel",
-        ["SHELL"] = "Fuel",
-        ["PETRO-CANADA"] = "Fuel",
-        ["HUSKY"] = "Fuel",
-        ["CO-OP GAS"] = "Fuel",
-
-        // Restaurants / coffee chains
-        ["TIM HORTONS"] = "Restaurant",
-        ["MCDONALD"] = "Restaurant",
-        ["SUBWAY"] = "Restaurant",
-        ["STARBUCKS"] = "Restaurant",
-        ["BARBURRITO"] = "Restaurant",
-        ["A&W"] = "Restaurant",
-        ["BURGER KING"] = "Restaurant",
-        ["WENDY"] = "Restaurant",
-        ["DAIRY QUEEN"] = "Restaurant",
-    };
-
-        private static readonly string[] RestaurantItemKeywords =
-{
-    "burger","burrito","wrap","taco","fries","poutine","coffee","latte","tea",
-    "pop","soda","drink","combo","nugget","chicken","sandwich","sub","salad","pizza",
-    "soup","donut","muffin","cookie"
-};
-
-        private static readonly string[] SuppliesItemKeywords =
-        {
-    "bolt","screw","hose","valve","fitting","clamp","gasket","filter","sensor",
-    "seal","plug","brake","bearing","pipe","coupler","nozzle","o-ring","adhesive"
-};
-
-        // --- Item filtering dictionaries (keep small; tune over time) ---
-        private static readonly HashSet<string> StopWords = new(StringComparer.OrdinalIgnoreCase)
-{
-    "reprint","qty","quantity","description","total","subtotal","grand","tax","hst","gst","pst",
-    "auth","approval","approved","change","tender","merchant","card","mastercard","visa","debit",
-    "balance","thank","survey","copy","customer","invoice","receipt","order","payment"
-};
-
-        private static readonly HashSet<string> RestaurantAllow = new(StringComparer.OrdinalIgnoreCase)
-{
-    // --- Original core
-    "burger","burrito","wrap","taco","fries","poutine","coffee","latte","tea","drink","pop","soda",
-    "combo","nugget","chicken","sandwich","sub","salad","pizza","soup","donut","muffin","cookie",
-    "breakfast","rice","beans","sauce",
-
-    // Short forms / slang
-    "burg","chk","chx","sammie","wich","sub","pie","za","pza","bkfst","bfast","brkfst","cof","lat","cap",
-    "esp","mt","mtl","spag","las","alf","alfdo","tend","nugg","nugs","ff","fr","pou","sou","don","muf",
-    "ckie","brwnie","bcuit","crois","bag","toa","panck","waff","crep","omlt","scrmb","hbrn","cer","yog",
-    "smth","mshake","icrm","gela","sorb","brwn","ck","pud","cust","ccake","truf","eclr",
-
-    // Expanded fast food & casual dining
-    "steak","stk","ribs","pork","prk","fish","fsh","seafood","sf","shrimp","shp","lobster","lob","crab","crb",
-    "clam","clm","oyster","oys","calamari","cal","pasta","pas","spaghetti","spag","lasagna","las",
-    "fettuccine","fett","alfredo","alf","meatball","mb","veal","sausage","saus","brisket","brsk",
-    "hotdog","hdog","dog","kebab","kb","gyro","gr","shawarma","shaw","falafel","fala","hummus","hum",
-    "naan","nan","curry","cur","pad thai","pth","ramen","ram","udon","pho","sushi","sus","sashimi","sash",
-    "nigiri","nig","tempura","temp","dumpling","dump","spring roll","spr","egg roll","eggr",
-
-    // Bakery & dessert
-    "biscuit","bis","croissant","crois","bagel","bag","toast","toa","pancake","pan","waffle","waf",
-    "crepe","crep","omelette","oml","scramble","scrmb","hashbrown","hbrn","cereal","cer","yogurt","yog",
-    "parfait","parf","smoothie","smth","milkshake","mshake","ice cream","icrm","gelato","gela","sorbet","sorb",
-    "brownie","brwn","cake","ck","pie","p","tart","trt","cupcake","cck","pudding","pud","custard","cust",
-    "cheesecake","ccake","truffle","truf","eclair","eclr",
-
-    // Beverages & bar
-    "beer","br","lager","ale","ipa","stout","sto","cider","cid","wine","red wine","white wine","rose","ros",
-    "whiskey","whisk","vodka","vod","rum","rm","tequila","teq","gin","gn","cocktail","ctail","martini","mart",
-    "margarita","marg","mojito","moj","cola","col","root beer","rb","ginger ale","ga","lemonade","lem","juice",
-    "cranberry","cran","orange juice","oj","apple juice","aj","grape juice","gj"
-};
-
-        private static readonly HashSet<string> SuppliesAllow = new(StringComparer.OrdinalIgnoreCase)
-{
-    // --- Original core
-    "bolt","screw","hose","valve","fitting","clamp","gasket","filter","sensor","seal","plug","brake",
-    "bearing","pipe","coupler","nozzle","o-ring","adhesive","tape","epoxy","blade","bit","battery",
-    "cable","wire","connector","fuse","cleaner","solvent","gloves",
-
-    // Short forms / slang
-    "blt","scr","hs","vlv","fit","clp","gsk","flt","sen","sl","plg","brk","bear","pip","cpl","nzl","orng",
-    "adh","tp","epx","bld","bt","bat","cbl","wir","conn","fus","cln","solv","glv",
-
-    // Hardware & fasteners
-    "nut","nt","washer","wshr","lag bolt","lb","anchor","anch","nail","nl","rivet","riv","stud","std",
-    "bracket","brkt","hinge","hng","latch","ltch","lock","lk","chain","chn","rope","rp","cord","crd",
-    "twine","twn","strap","strp","bungee","bng","zip tie","zt","clip","clp","spring","spr","gear","gr",
-    "pulley","ply","winch","wnch","hook","hk","eyelet","eylt","shim","shm","spacer","spc","grub screw","gs",
-    "set screw","ss",
-
-    // Tools & equipment
-    "drill","dr","saw","sw","hammer","hmmr","wrench","wrn","ratchet","rtch","socket","skt","pliers","plr",
-    "cutter","ctr","snips","snp","level","lvl","tape measure","tm","square","sq","chisel","chl","file","fl",
-    "sander","sndr","router","rtr","planer","plnr","grinder","grnd","torch","trch","welder","wldr",
-    "solder","sldr","multimeter","mm","gauge","gag","caliper","cal","vise","vs","clamp meter","cm",
-
-    // Automotive & shop supplies
-    "oil","ol","grease","grs","lubricant","lube","coolant","clnt","antifreeze","anti","belt","blt",
-    "chain lube","chlube","spark plug","sp","air filter","af","fuel filter","ff","oil filter","of","shock",
-    "shk","strut","str","spring","spr","axle","axl","hub","hb","driveshaft","ds","u-joint","uj","tie rod","tr",
-    "bushing","bsh","control arm","ca","rotor","rtr","pad","pd","drum","drm","caliper","cal","sensor","sen",
-    "relay","rly","switch","swt","harness","hrn","grommet","grm","clip","clp","trim","trm","fastener kit","fk",
-
-    // Electrical & misc
-    "breaker","brk","outlet","otl","switch plate","sp","junction box","jb","conduit","cnd","wire nut","wn",
-    "terminal","trmnl","lug","lg","shrink tube","stb","sleeve","slv","ferrule","frl","crimp","crm","panel","pnl",
-    "faceplate","fp","transformer","trns","adapter","adp","charger","chrgr","inverter","inv","power supply","ps",
-    "light","lt","bulb","blb","led","tube","tb","fixture","fx","ballast","blst"
-};
-
-        // Allow partial matches (SKU anywhere in the line)
-        private static readonly Regex CanadianTireSkuRegex =
-            new(@"(?<!\d)\d{3}-\d{4}-\d(?!\d)", RegexOptions.Compiled);
 
 
 
         // Updated filter: if category = Supplies and the line CONTAINS a CT SKU, allow it.
-        private static List<string> FilterItemsByCategory(IEnumerable<string> rawItems, string category)
+        private List<string> FilterItemsByCategory(IEnumerable<string> rawItems, string category)
         {
-            IEnumerable<string> allow = category.Equals("Restaurant", StringComparison.OrdinalIgnoreCase)
-                ? RestaurantAllow
-                : category.Equals("Supplies", StringComparison.OrdinalIgnoreCase)
-                    ? SuppliesAllow
-                    : Array.Empty<string>();
+            IEnumerable<string> allow =
+                category.Equals("Restaurant", StringComparison.OrdinalIgnoreCase)
+                    ? _lex.RestaurantAllow
+                    : category.Equals("Supplies", StringComparison.OrdinalIgnoreCase)
+                        ? _lex.SuppliesAllow
+                        : Array.Empty<string>();
 
             var filtered = new List<string>();
 
@@ -397,14 +249,14 @@ namespace RaymarEquipmentInventory.Services
 
                 // Always keep lines that contain a CT-style SKU when Supplies
                 if (category.Equals("Supplies", StringComparison.OrdinalIgnoreCase) &&
-                    CanadianTireSkuRegex.IsMatch(t))
+                    _lex.CanadianTireSkuRegex.IsMatch(t))
                 {
                     filtered.Add(t);
                     continue;
                 }
 
                 // Remove obvious non-item boilerplate
-                if (StopWords.Any(sw => Regex.IsMatch(t, $@"\b{Regex.Escape(sw)}\b", RegexOptions.IgnoreCase)))
+                if (_lex.StopWords.Any(sw => Regex.IsMatch(t, $@"\b{Regex.Escape(sw)}\b", RegexOptions.IgnoreCase)))
                     continue;
 
                 // Category allow-list
@@ -417,6 +269,7 @@ namespace RaymarEquipmentInventory.Services
 
             return filtered.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         }
+
 
 
 
@@ -457,24 +310,24 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        private static bool TryGetFieldContentCI(AnalyzedDocument? doc, string canonicalName, out string content)
+        private bool TryGetFieldContentCI(AnalyzedDocument? doc, string canonicalName, out string content)
         {
             content = "";
             if (doc?.Fields == null) return false;
 
-            // 1) Exact key (any casing)
+            // 1) Exact key (any casing) — short-circuit on first non-empty content
             if (doc.Fields.TryGetValue(canonicalName, out DocumentField? f) && f != null)
             {
                 content = f.Content ?? "";
-                return !string.IsNullOrWhiteSpace(content);
+                if (!string.IsNullOrWhiteSpace(content)) return true;
             }
 
-            // 2) Aliases
-            if (FieldAliases.TryGetValue(canonicalName, out var aliases))
+            // 2) Aliases from the lexicon
+            if (_lex.FieldAliases.TryGetValue(canonicalName, out var aliases))
             {
                 foreach (var alias in aliases)
                 {
-                    if (doc.Fields.TryGetValue(alias, out var fa) && fa != null)
+                    if (doc.Fields.TryGetValue(alias, out DocumentField? fa) && fa != null)
                     {
                         content = fa.Content ?? "";
                         if (!string.IsNullOrWhiteSpace(content)) return true;
@@ -482,7 +335,7 @@ namespace RaymarEquipmentInventory.Services
                 }
             }
 
-            // 3) Last chance: scan keys case-insensitively (handles odd spacing)
+            // 3) Last chance: scan keys case-insensitively (handles odd spacing/casing)
             foreach (var kvp in doc.Fields)
             {
                 if (string.Equals(kvp.Key, canonicalName, StringComparison.OrdinalIgnoreCase))
@@ -494,6 +347,7 @@ namespace RaymarEquipmentInventory.Services
 
             return false;
         }
+
 
 
         private static string ExtractCityFromAddressSmart(string address)
@@ -537,8 +391,10 @@ namespace RaymarEquipmentInventory.Services
             return string.IsNullOrEmpty(last4) ? "" : $"**** **** **** {last4}";
         }
 
-        private static string GetFieldContentCI(AnalyzedDocument? doc, string canonicalName)
-            => TryGetFieldContentCI(doc, canonicalName, out var c) ? c.Trim() : "";
+        private string GetFieldContentCI(AnalyzedDocument? doc, string canonicalName)
+        {
+            return TryGetFieldContentCI(doc, canonicalName, out var c) ? c.Trim() : "";
+        }
 
 
 
@@ -584,9 +440,9 @@ namespace RaymarEquipmentInventory.Services
             return up;
         }
 
-        private static bool TryFindVendorOverride(string merchant, out string category)
+        private bool TryFindVendorOverride(string merchant, out string category)
         {
-            foreach (var kvp in VendorCategoryOverrides)
+            foreach (var kvp in _lex.VendorCategoryOverrides)
             {
                 if (merchant.Contains(kvp.Key, StringComparison.OrdinalIgnoreCase))
                 { category = kvp.Value; return true; }
@@ -670,10 +526,10 @@ namespace RaymarEquipmentInventory.Services
             return string.IsNullOrEmpty(last4) ? "" : $"**** **** **** {last4}";
         }
 
-        private static string GuessTypeFromBrandOrVendor(string brand, string merchant)
+        private string GuessTypeFromBrandOrVendor(string brand, string merchant)
         {
             if (!string.IsNullOrWhiteSpace(merchant) &&
-                VendorCategoryOverrides.TryGetValue(merchant, out var cat))
+                _lex.VendorCategoryOverrides.TryGetValue(merchant, out var cat))
                 return cat;
 
             if (!string.IsNullOrEmpty(brand) && !brand.Equals("Debit", StringComparison.OrdinalIgnoreCase))
@@ -684,17 +540,17 @@ namespace RaymarEquipmentInventory.Services
         private static bool NearlyEqual(decimal a, decimal b, decimal eps = 0.01m)
             => Math.Abs(a - b) <= eps;
 
-        private static string InferCategory(string merchant, IEnumerable<string> itemDescriptions)
+        private string InferCategory(string merchant, IEnumerable<string> itemDescriptions)
         {
             // 1) Vendor override wins
             if (!string.IsNullOrWhiteSpace(merchant) &&
-                VendorCategoryOverrides.TryGetValue(merchant, out var cat))
+                _lex.VendorCategoryOverrides.TryGetValue(merchant, out var cat))
                 return cat;
 
             // 2) Look at items for strong signals
             var flat = string.Join(" ", itemDescriptions).ToLowerInvariant();
-            if (RestaurantItemKeywords.Any(k => flat.Contains(k))) return "Restaurant";
-            if (SuppliesItemKeywords.Any(k => flat.Contains(k))) return "Supplies";
+            if (_lex.RestaurantItemKeywords.Any(k => flat.Contains(k))) return "Restaurant";
+            if (_lex.SuppliesItemKeywords.Any(k => flat.Contains(k))) return "Supplies";
 
             // 3) Merchant name hints
             if (Regex.IsMatch(merchant ?? "", @"\b(GAS|FUEL|PETRO|ESSO|SHELL|CO-OP)\b", RegexOptions.IgnoreCase))
@@ -708,7 +564,7 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        private static ReceiptCsvRow MapParsedToCsvRow(AnalyzeResult result, out bool needsReview)
+        private ReceiptCsvRow MapParsedToCsvRow(AnalyzeResult result, out bool needsReview)
         {
             var doc = result.Documents.FirstOrDefault();
             var raw = result.Content ?? string.Empty;
@@ -750,7 +606,7 @@ namespace RaymarEquipmentInventory.Services
             // --- Decide category, then filter items by category ---------------------
             // 1) Try vendor override using contains-match to handle store numbers etc.
             string? overrideCat = null;
-            foreach (var kvp in VendorCategoryOverrides)
+            foreach (var kvp in _lex.VendorCategoryOverrides)
             {
                 if (merchant.IndexOf(kvp.Key, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
