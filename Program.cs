@@ -77,7 +77,10 @@ if (builder.Environment.IsDevelopment())
         "BlobStorage_ConnectionString",
         "GoogleOAuth__ClientId",
         "GoogleOAuth__ClientSecret",
-        "GoogleOAuth__TokenPassword"
+        "GoogleOAuth__TokenPassword",
+        "GoogleDrive__RootFolderId",
+        "GoogleDrive__SharedEmail",
+        "GoogleDrive__TemplatesFolderId"
     })
         SetIfPresent(k, builder.Configuration[k]);
 

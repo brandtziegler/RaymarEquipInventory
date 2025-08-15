@@ -505,7 +505,7 @@ namespace RaymarEquipmentInventory.Services
                 var driveService = await _authService.GetDriveServiceFromUserTokenAsync();
 
                 var listRequest = driveService.Files.List();
-                var templatesFolderId = _config["GoogleDrive:TemplatesFolderId"]
+                var templatesFolderId = Environment.GetEnvironmentVariable("GoogleDrive__TemplatesFolderId") ?? _config["GoogleDrive:TemplatesFolderId"] 
                     ?? throw new InvalidOperationException("Missing config: GoogleDrive:TemplatesFolderId");
 
                 listRequest.Q = $"'{templatesFolderId}' in parents and trashed=false and mimeType != 'application/vnd.google-apps.folder'";
@@ -918,7 +918,7 @@ namespace RaymarEquipmentInventory.Services
 
             Log.Information("🧭 Resolving folder path for image cleanup...");
 
-            string rootFolderId = _config["GoogleDrive:RootFolderId"]
+            string rootFolderId = Environment.GetEnvironmentVariable("GoogleDrive__RootFolderId") ?? _config["GoogleDrive:RootFolderId"]
             ?? throw new InvalidOperationException("Missing required config: GoogleDrive:RootFolderId");
 
             string[] pathSegments = custPath.Split('>');
@@ -994,7 +994,7 @@ namespace RaymarEquipmentInventory.Services
 
                 debugLog.Add("🚀 DriveService initialized");
 
-                string rootFolderId = _config["GoogleDrive:RootFolderId"]
+                string rootFolderId = Environment.GetEnvironmentVariable("GoogleDrive__RootFolderId") ?? ""
                  ?? throw new InvalidOperationException("Missing required config: GoogleDrive:RootFolderId");
                 string[] pathSegments = custPath.Split('>');
                 string currentParentId = rootFolderId;
@@ -1009,7 +1009,7 @@ namespace RaymarEquipmentInventory.Services
                 {
                     Type = "user",
                     Role = "writer",
-                    EmailAddress = _config["GoogleDrive:SharedEmail"]
+                    EmailAddress = Environment.GetEnvironmentVariable("GoogleDrive__SharedEmail") ?? ""
                 }, currentParentId).ExecuteAsync();
 
                 debugLog.Add($"👥 Granted 'writer' to email.");

@@ -25,13 +25,13 @@ namespace RaymarEquipmentInventory.Services
                 // 🔐 Production-safe: uses injected config values
                 var encPath = Path.Combine(AppContext.BaseDirectory, "drive-user-token.json.enc");
 
-                var password = _config["GoogleOAuth:TokenPassword"]
+                var password = Environment.GetEnvironmentVariable("GoogleOAuth__TokenPassword") ?? ""
                     ?? throw new InvalidOperationException("Missing config: GoogleOAuth:TokenPassword");
 
-                var clientId = _config["GoogleOAuth:ClientId"]
+                var clientId = Environment.GetEnvironmentVariable("GoogleOAuth__ClientId") 
                     ?? throw new InvalidOperationException("Missing config: GoogleOAuth:ClientId");
 
-                var clientSecret = _config["GoogleOAuth:ClientSecret"]
+                var clientSecret = Environment.GetEnvironmentVariable("GoogleOAuth__ClientSecret")
                     ?? throw new InvalidOperationException("Missing config: GoogleOAuth:ClientSecret");
 
                 using var encryptedStream = new FileStream(encPath, FileMode.Open, FileAccess.Read);
