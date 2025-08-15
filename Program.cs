@@ -88,6 +88,24 @@ if (builder.Environment.IsDevelopment())
 
     // (Optional) quick sanity peek — redact secrets if you log these
     // Console.WriteLine($"BlobContainer_Receipts={Environment.GetEnvironmentVariable("BlobContainer_Receipts")}");
+
+    // OCD confirmation pass — retrieve and store in vars
+    var azureClientID = Environment.GetEnvironmentVariable("AZURE_CLIENT_ID");
+    var azureFormRecognizerEndpoint = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_ENDPOINT");
+    var azureFormRecognizerKey = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_KEY");
+    var azureFormRecognizerModel = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_MODEL");
+    var azureStorageConnectionString = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
+    var azureTenantID = Environment.GetEnvironmentVariable("AZURE_TENANT_ID");
+
+    var blobContainerExpenseLogs = Environment.GetEnvironmentVariable("BlobContainer_ExpenseLogs");
+    var blobContainerParts = Environment.GetEnvironmentVariable("BlobContainer_Parts");
+    var blobContainerPDFs = Environment.GetEnvironmentVariable("BlobContainer_PDFs");
+    var blobContainerReceipts = Environment.GetEnvironmentVariable("BlobContainer_Receipts");
+    var blobStorageConnectionString = Environment.GetEnvironmentVariable("BlobStorage_ConnectionString");
+
+    var googleOAuthClientId = Environment.GetEnvironmentVariable("GoogleOAuth__ClientId");
+    var googleOAuthClientSecret = Environment.GetEnvironmentVariable("GoogleOAuth__ClientSecret");
+    var googleOAuthTokenPassword = Environment.GetEnvironmentVariable("GoogleOAuth__TokenPassword");
 }
 
 
