@@ -1023,7 +1023,6 @@ namespace RaymarEquipmentInventory.Services
                 string imagesFolderId = await EnsureFolderExistsAsync("Images", workOrderFolderId, driveService);
                 debugLog.Add($"📁 Images folder created: {imagesFolderId}");
 
-
                 string expenseTrackingFolderId = await EnsureFolderExistsAsync("Expense Tracking", workOrderFolderId, driveService);
                 debugLog.Add($"📁 Expense Tracking folder created: {expenseTrackingFolderId}");
 
