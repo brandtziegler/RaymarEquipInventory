@@ -37,6 +37,7 @@ using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Google.Apis.Http;
 
 
 namespace RaymarEquipmentInventory.Services
@@ -47,12 +48,14 @@ namespace RaymarEquipmentInventory.Services
         private readonly RaymarInventoryDBContext _context;
         private readonly IDriveAuthService _authService;
         private readonly IConfiguration _config;
-        public DriveUploaderService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context, IDriveAuthService authService, IConfiguration config)
+        private readonly System.Net.Http.IHttpClientFactory _httpClientFactory;
+        public DriveUploaderService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context, IDriveAuthService authService, IConfiguration config, System.Net.Http.IHttpClientFactory httpClientFactory)
         {
             _quickBooksConnectionService = quickBooksConnectionService;
             _context = context;
             _authService = authService;
             _config = config;
+            _httpClientFactory = httpClientFactory;
         }
 
 
@@ -97,9 +100,9 @@ namespace RaymarEquipmentInventory.Services
             var fileName = file.FileName ?? string.Empty;
 
             // Containers from config, with safe fallbacks
-            var receiptContainer = Environment.GetEnvironmentVariable("BlobContainer_Receipts");
-            var partsContainer = Environment.GetEnvironmentVariable("BlobContainer_Parts");
-            var pdfContainer = Environment.GetEnvironmentVariable("BlobContainer_PDFs");
+            var receiptContainer = Environment.GetEnvironmentVariable("BlobContainer_Receipts") ?? "";
+            var partsContainer = Environment.GetEnvironmentVariable("BlobContainer_Parts") ?? "";
+            var pdfContainer = Environment.GetEnvironmentVariable("BlobContainer_PDFs") ?? "";
 
             string container;
 
@@ -124,14 +127,14 @@ namespace RaymarEquipmentInventory.Services
         }
 
         // DTOs used only for planning/preview
-        public record PlannedBlob(string FileName, string Container, string BlobPath);
+
         public record UploadPlan(
     string BatchId,
     string WorkOrderId,
     string WorkOrderFolderId,
     string ImagesFolderId,
     string PdfFolderId,
-    List<PlannedBlob> Files);
+    List<PlannedFileInfo> Files);
 
 
         public UploadPlan PlanBlobRouting(
@@ -143,52 +146,79 @@ namespace RaymarEquipmentInventory.Services
             string? batchId = null)
         {
             var id = string.IsNullOrWhiteSpace(batchId) ? GenerateBatchId() : batchId;
-            var results = new List<PlannedBlob>(files?.Count ?? 0);
+            var results = new List<PlannedFileInfo>(files?.Count ?? 0);
 
             foreach (var f in files ?? Enumerable.Empty<IFormFile>())
             {
                 var (container, blobPath) = DecideBlobRoutingCore(f, workOrderId, id);
-                results.Add(new PlannedBlob(f.FileName, container, blobPath));
+                results.Add(new PlannedFileInfo(f.FileName, container, blobPath));
             }
 
             return new UploadPlan(id, workOrderId, workOrderFolderId, imagesFolderId, pdfFolderId, results);
         }
 
         public async Task UploadFileToBlobAsync(
-    string containerName,
-    string blobPath,
-    IFormFile file,
-    CancellationToken ct = default)
+            string containerName,
+            string blobPath,
+            IFormFile file,
+            CancellationToken ct = default)
         {
             try
             {
-                var connStr = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
-                var containerClient = new BlobContainerClient(connStr, containerName);
+                // DEV-only conn string (swap back to config/env for prod)
+                var connStr =Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING") ?? "";
 
+                var containerClient = new BlobContainerClient(connStr, containerName);
                 await containerClient.CreateIfNotExistsAsync(PublicAccessType.None, cancellationToken: ct);
 
                 var blobClient = containerClient.GetBlobClient(blobPath);
 
-                using var stream = file.OpenReadStream();
-                await blobClient.UploadAsync(stream, new BlobHttpHeaders
-                {
-                    ContentType = file.ContentType
-                }, cancellationToken: ct);
+                // --- Optional normalization for large JPEGs ---
+                var ext = Path.GetExtension(file.FileName)?.ToLowerInvariant();
+                var isJpeg = ext is ".jpg" or ".jpeg";
+                var shouldNormalize = isJpeg && file.Length >= 1_500_000; // ~1.5 MB threshold (tune as you like)
 
-                Log.Information($"✅ Uploaded '{blobPath}' to container '{containerName}'.");
+                Stream contentStream;
+                string contentType;
+
+                if (shouldNormalize)
+                {
+                    // your existing helper (resizes >2000px wide, ~85% jpeg)
+                    contentStream = await NormalizeImageAsync(file, ct);
+                    contentType = "image/jpeg";
+                    Log.Information("🗜️ Normalized JPEG '{File}' from ~{KB} KB before upload.", file.FileName, file.Length / 1024);
+                }
+                else
+                {
+                    contentStream = file.OpenReadStream();
+                    contentType = string.IsNullOrWhiteSpace(file.ContentType)
+                        ? "application/octet-stream"
+                        : file.ContentType;
+                }
+
+                await using (contentStream) // disposes either the normalized MemoryStream or the file stream
+                {
+                    await blobClient.UploadAsync(
+                        contentStream,
+                        new BlobHttpHeaders { ContentType = contentType },
+                        cancellationToken: ct);
+                }
+
+                Log.Information("✅ Uploaded '{Path}' to container '{Container}'.", blobPath, containerName);
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"🔥 Failed to upload '{blobPath}' to container '{containerName}'.");
+                Log.Error(ex, "🔥 Failed to upload '{Path}' to container '{Container}'.", blobPath, containerName);
                 throw;
             }
         }
+
         ///END OF BLOB SUBMISSION CODE.
         ///START OF DOCUMENT INTELLIGENCE CODE
         private DocumentIntelligenceClient CreateDocIntelClient()
         {
-            var endpoint = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_ENDPOINT");
-            var key = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_KEY");
+            var endpoint = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_ENDPOINT") ?? "";
+            var key = Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_KEY") ?? "";
             return new DocumentIntelligenceClient(new Uri(endpoint), new AzureKeyCredential(key));
         }
 
@@ -523,7 +553,7 @@ namespace RaymarEquipmentInventory.Services
             return ms;
         }
 
-        private string GetModelId() => Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_MODEL");
+        private string GetModelId() => Environment.GetEnvironmentVariable("AZURE_FORMRECOGNIZER_MODEL") ?? "";
 
         private static async Task RespectRateAsync(DateTime lastCallUtc, int minMsBetweenCalls, CancellationToken ct)
         {
@@ -861,6 +891,154 @@ namespace RaymarEquipmentInventory.Services
             // (You can stash csvStream in temp storage or return as FileStreamResult)
 
             return confirm;
+        }
+
+
+        public async Task ParseReceiptBatchFromBlobAndEmailAsync(
+    ProcessBatchArgs args,
+    string toEmail,
+    CancellationToken ct = default)
+        {
+            if (args is null) throw new ArgumentNullException(nameof(args));
+            // Blob client
+            var connStr = _config["AzureStorage:ConnectionString"]
+                          ?? Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING")
+                          ?? throw new InvalidOperationException("AzureStorage:ConnectionString missing");
+            var blobService = new Azure.Storage.Blobs.BlobServiceClient(connStr);
+
+            // Doc Intelligence
+            var client = CreateDocIntelClient();
+            var modelId = GetModelId();
+
+            var rows = new List<ReceiptCsvRow>();
+            var confirm = new ReceiptConfirm
+            {
+                BatchId = args.BatchId,
+                ReceivedCount = args.Files?.Count ?? 0,
+                CsvFileName = $"Receipts_{DateTime.UtcNow:yyyyMMdd_HHmmss}.csv"
+            };
+
+            // Respect free-tier rate limits
+            const int minMsBetweenCalls = 3100;
+            var lastCall = DateTime.MinValue;
+
+            // Pull only receipt images from args.Files (controller already filtered, this is a safety net)
+            var receiptFiles = (args.Files ?? Enumerable.Empty<PlannedFileInfo>())
+                .Where(f => f.Container.Equals(Environment.GetEnvironmentVariable("BlobContainer_Receipts"), StringComparison.OrdinalIgnoreCase))
+                .Where(f => new[] { ".jpg", ".jpeg", ".png" }.Contains(Path.GetExtension(f.FileName).ToLowerInvariant()))
+                .ToList();
+
+            foreach (var pf in receiptFiles)
+            {
+                ct.ThrowIfCancellationRequested();
+                try
+                {
+                    var container = blobService.GetBlobContainerClient(pf.Container);
+                    var blob = container.GetBlobClient(pf.BlobPath);
+
+                    if (!await blob.ExistsAsync(ct))
+                    {
+                        confirm.Errors.Add($"Missing blob: {pf.Container}/{pf.BlobPath}");
+                        continue;
+                    }
+
+                    await using var src = await blob.OpenReadAsync(cancellationToken: ct);
+
+                    // optional: normalize JPEGs before sending to DI to save DI bandwidth/time
+                    Stream diStream;
+                    var ext = Path.GetExtension(pf.FileName).ToLowerInvariant();
+                    if (ext is ".jpg" or ".jpeg")
+                    {
+                        // reuse your helper
+                        // Create a faux IFormFile wrapper around blob stream if needed,
+                        // or just pass through src; DI handles large images fine.
+                        diStream = src;
+                    }
+                    else
+                    {
+                        diStream = src;
+                    }
+
+                    await RespectRateAsync(lastCall, minMsBetweenCalls, ct);
+                    lastCall = DateTime.UtcNow;
+
+                    var parsed = await AnalyzeReceiptAsync(client, modelId, diStream, ct);
+
+                    var row = MapParsedToCsvRow(parsed, out bool needsReview);
+                    if (needsReview) confirm.NeedsReviewCount++;
+                    rows.Add(row);
+                    confirm.ProcessedCount++;
+                }
+                catch (Exception ex)
+                {
+                    confirm.Errors.Add($"{pf.FileName}: {ex.Message}");
+                }
+            }
+
+            // Build CSV in-memory
+            var csvStream = await BuildCsvAsync(rows, confirm.CsvFileName, ct);
+            confirm.CsvSizeBytes = csvStream.Length;
+            csvStream.Position = 0;
+
+            // Email it
+            await SendCsvEmailViaResendAsync(
+                toEmail: toEmail,
+                subject: $"WO #{args.WorkOrderId} — Receipts CSV (Batch {args.BatchId})",
+                htmlBody: $"<p>Attached are parsed receipts for Work Order <strong>#{args.WorkOrderId}</strong>, batch <code>{args.BatchId}</code>.</p>" +
+                          $"<p>Processed: {confirm.ProcessedCount}, Needs review: {confirm.NeedsReviewCount}.</p>",
+                attachmentName: confirm.CsvFileName,
+                csvStream: csvStream,
+                ct: ct);
+
+            Log.Information("📨 Sent receipts CSV email for WO {WO}, batch {Batch}. Rows={Rows}, Review={Review}",
+                args.WorkOrderId, args.BatchId, rows.Count, confirm.NeedsReviewCount);
+        }
+
+
+        private async Task SendCsvEmailViaResendAsync(
+    string toEmail,
+    string subject,
+    string htmlBody,
+    string attachmentName,
+    Stream csvStream,
+    CancellationToken ct = default)
+        {
+            // read CSV to base64
+            using var ms = new MemoryStream();
+            await csvStream.CopyToAsync(ms, ct);
+            var base64 = Convert.ToBase64String(ms.ToArray());
+
+            var resendKey = Environment.GetEnvironmentVariable("Resend_Key"); // keep your dev key where it is for local testing
+            if (string.IsNullOrWhiteSpace(resendKey))
+                throw new InvalidOperationException("Resend API key missing");
+
+            var emailPayload = new
+            {
+                from = "service@taskfuel.app",
+                to = toEmail,
+                subject = subject,
+                html = htmlBody,
+                attachments = new[]
+                {
+            new { filename = attachmentName, content = base64 }
+        }
+            };
+
+            var client = _httpClientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", resendKey);
+
+            var response = await client.PostAsJsonAsync("https://api.resend.com/emails", emailPayload, ct);
+            if (!response.IsSuccessStatusCode)
+            {
+                var body = await response.Content.ReadAsStringAsync(ct);
+                Log.Warning("❌ Resend failed: {Status} {Body}", response.StatusCode, body);
+                // don’t throw—job can be retried or you can log & move on
+            }
+            else
+            {
+                Log.Information("✅ Resend email sent to {Email} ({Subject})", toEmail, subject);
+            }
         }
 
 
@@ -1291,6 +1469,42 @@ namespace RaymarEquipmentInventory.Services
                 Log.Error(ex, $"🔥 Exception occurred while updating FileUrl for '{fileName}' (WO#: {workOrderId})");
             }
         }
+
+
+        public async Task ClearImageFolderNewAsync(string imagesFolderId)
+        {
+            var driveService = await _authService.GetDriveServiceFromUserTokenAsync();
+
+            Log.Information("🧼 Fetching files in 'Images' folder for deletion...");
+
+            var listRequest = driveService.Files.List();
+            listRequest.Q = $"'{imagesFolderId}' in parents and trashed = false";
+            listRequest.Fields = "files(id, name)";
+            var fileList = await listRequest.ExecuteAsync();
+
+            if (fileList.Files.Count == 0)
+            {
+                Log.Information("📭 No files found to delete in 'Images' folder.");
+                return;
+            }
+
+            foreach (var file in fileList.Files)
+            {
+                try
+                {
+                    await driveService.Files.Delete(file.Id).ExecuteAsync();
+                    Log.Information($"🗑️ Deleted image file: {file.Name} (ID: {file.Id})");
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, $"⚠️ Failed to delete image file: {file.Name}");
+                }
+            }
+
+            Log.Information($"✅ Image folder cleanup complete. {fileList.Files.Count} file(s) processed.");
+        }
+
+
         public async Task ClearImageFolderAsync(string custPath, string workOrderId)
         {
             var driveService = await _authService.GetDriveServiceFromUserTokenAsync();
@@ -1344,16 +1558,6 @@ namespace RaymarEquipmentInventory.Services
             {
                 try
                 {
-                    var ownerEmail = file.Owners?.FirstOrDefault()?.EmailAddress ?? "unknown";
-
-                    // ⚠️ With OAuth, you may not need to check this anymore.
-                    // But if you're still enforcing only-your-files deletion:
-                    //if (!ownerEmail.Contains("raymarequip@gmail.com"))
-                    //{
-                    //    Log.Warning($"🚫 Skipping file not owned by authorized user: {file.Name} (Owner: {ownerEmail})");
-                    //    continue;
-                    //}
-
                     await driveService.Files.Delete(file.Id).ExecuteAsync();
                     Log.Information($"🗑️ Deleted image file: {file.Name} (ID: {file.Id})");
                 }
@@ -1685,6 +1889,159 @@ namespace RaymarEquipmentInventory.Services
         //    }
         //}
 
+        public async Task DeleteBatchBlobsAsync(
+    IEnumerable<PlannedFileInfo> files, // args.Files
+    string workOrderId,
+    string batchId,
+    CancellationToken ct)
+        {
+            var conn = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING") ?? "";
+
+            //var conn = _config["AzureStorage:ConnectionString"]
+            //            ?? throw new InvalidOperationException("AzureStorage:ConnectionString missing");
+            var blobService = new Azure.Storage.Blobs.BlobServiceClient(conn); 
+            var prefix = $"{workOrderId}/{batchId}/";
+            var containers = files.Select(f => f.Container).Distinct(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var containerName in containers)
+            {
+                var container = blobService.GetBlobContainerClient(containerName);
+
+                await foreach (var blob in container.GetBlobsAsync(prefix: prefix, cancellationToken: ct))
+                {
+                    // delete blob + any snapshots; ignore-not-found for idempotency
+                    await container.DeleteBlobIfExistsAsync(
+                        blob.Name,
+                        Azure.Storage.Blobs.Models.DeleteSnapshotsOption.IncludeSnapshots,
+                        conditions: null,
+                        cancellationToken: ct);
+                }
+            }
+        }
+
+        public async Task ClearAndUploadBatchFromBlobAsync(ProcessBatchArgs args, CancellationToken ct = default)
+        {
+            if (args is null) throw new ArgumentNullException(nameof(args));
+            if (args.Files is null || args.Files.Count == 0)
+            {
+                Log.Information("ClearAndUploadBatchFromBlobAsync: no files in batch {BatchId}.", args.BatchId);
+                return;
+            }
+
+            Log.Information("🚚 Begin batch {BatchId} for WO {WO} (files: {Count})",
+                args.BatchId, args.WorkOrderId, args.Files.Count);
+
+            // 1) Always clear Drive Images folder first (if provided)
+            if (!string.IsNullOrWhiteSpace(args.ImagesFolderId))
+            {
+                try
+                {
+                    Log.Information("🧼 Clearing Images folder for WO {WO}…", args.WorkOrderId);
+                    await ClearImageFolderNewAsync(args.ImagesFolderId);
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, "⚠️ Failed to clear Images folder; continuing with uploads.");
+                }
+            }
+
+            // 2) Clients
+            var drive = await _authService.GetDriveServiceFromUserTokenAsync();
+
+
+            var conn = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
+            var blobService = new Azure.Storage.Blobs.BlobServiceClient(conn);
+
+            // 3) Move each file: Blob → Drive → DB
+            foreach (var pf in args.Files)
+            {
+                ct.ThrowIfCancellationRequested();
+
+                try
+                {
+                    var container = blobService.GetBlobContainerClient(pf.Container);
+                    var blob = container.GetBlobClient(pf.BlobPath);
+
+                    if (!await blob.ExistsAsync(ct))
+                    {
+                        Log.Warning("🫥 Blob missing: {Container}/{Path}", pf.Container, pf.BlobPath);
+                        continue;
+                    }
+
+                    using var mem = new MemoryStream();
+
+                    await using (var src = await blob.OpenReadAsync(cancellationToken: ct))
+                    {
+                        await src.CopyToAsync(mem, ct);
+                    }
+                    mem.Position = 0;
+
+                    var ext = Path.GetExtension(pf.FileName).ToLowerInvariant();
+                    var targetFolderId = ext switch
+                    {
+                        ".jpg" or ".jpeg" or ".png" => args.ImagesFolderId,
+                        ".pdf" => args.PdfFolderId,        // or args.ExpensesFolderId if that’s your policy
+                        _ => args.WorkOrderFolderId,
+                    };
+
+                    if (string.IsNullOrWhiteSpace(targetFolderId))
+                    {
+                        Log.Warning("⚠️ No Drive folder ID for {File}. Skipping.", pf.FileName);
+                        continue;
+                    }
+
+                    var meta = new Google.Apis.Drive.v3.Data.File
+                    {
+                        Name = pf.FileName,
+                        Parents = new List<string> { targetFolderId }
+                    };
+
+                    var contentType = GetMimeTypeFromExtension(pf.FileName) ?? "application/octet-stream";
+
+                    mem.Position = 0;
+                    var req = drive.Files.Create(meta, mem, contentType);
+                    req.Fields = "id, webViewLink";
+                    var prog = await req.UploadAsync(ct);
+
+                    var driveFileId = req.ResponseBody?.Id;
+                    Log.Information("⬆️  Drive upload {Status} for {File} → Folder {Folder}, Id {Id}",
+                        prog.Status, pf.FileName, targetFolderId, driveFileId ?? "(null)");
+                
+                    // DB updates
+                    if (!string.IsNullOrEmpty(driveFileId))
+                    {
+                        if (ext is ".jpg" or ".jpeg" or ".png")
+                        {
+                            await UpdateFileUrlInPartsDocumentAsync(
+                                pf.FileName, driveFileId, ext, args.WorkOrderId);
+                        }
+                        else if (ext == ".pdf")
+                        {
+                            await UpdateFileUrlInPDFDocumentAsync(new PDFUploadRequest
+                            {
+                                FileName = pf.FileName,
+                                FileId = driveFileId,
+                                WorkOrderId = args.WorkOrderId,
+                                UploadedBy = "Hangfire Job",
+                                Description = ""
+                            });
+                        }
+                    }
+
+                
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "🔥 Failed moving {File} from Blob to Drive", pf.FileName);
+                }
+            }
+
+
+            //await DeleteBatchBlobsAsync(blobService, args.Files, args.WorkOrderId, args.BatchId, ct);
+
+            Log.Information("🧹 Deleted blobs for batch {BatchId} under {WO}/", args.BatchId, args.WorkOrderId);
+            Log.Information("✅ Batch {BatchId} (WO {WO}) clear+upload complete.", args.BatchId, args.WorkOrderId);
+        }
 
         // inside class DriveUploaderService …
         public async Task<string?> BackupDatabaseToGoogleDriveAsync(CancellationToken ct = default)

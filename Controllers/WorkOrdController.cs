@@ -10,6 +10,7 @@ using Serilog;
 using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Net.Mail;
+using Hangfire;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -28,11 +29,12 @@ namespace RaymarEquipmentInventory.Controllers
         private readonly IDriveAuthService _driveAuthService;
         private readonly IConfiguration _configuration;
         private static readonly ConcurrentDictionary<string, SemaphoreSlim> FolderLocks = new();
+        private readonly IBackgroundJobClient _jobs;
 
         public WorkOrdController(IWorkOrderService workOrderService, 
             IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, 
             ISamsaraApiService samsaraApiService, 
-            IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService, IDriveAuthService driveAuthService)
+            IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService, IDriveAuthService driveAuthService, IBackgroundJobClient jobs)
         {
             _workOrderService = workOrderService;
             _quickBooksConnectionService = quickBooksConnectionService;
@@ -40,6 +42,7 @@ namespace RaymarEquipmentInventory.Controllers
             _technicianService = technicianService;
             _httpClientFactory = httpClientFactory;
             _driveUploaderService = driveUploaderService;
+            _jobs = jobs;
            
             _driveAuthService = driveAuthService;
             //_federatedTokenService = federatedTokenService;
@@ -103,6 +106,25 @@ namespace RaymarEquipmentInventory.Controllers
             {
                 Log.Error(ex, "InsertWorkOrder failed");
                 return BadRequest(ex.ToString());
+            }
+        }
+
+
+        [HttpPost("ClearImagesFolder")]
+        public async Task<IActionResult> ClearImagesFolder([FromQuery] string imagesFolderId)
+        {
+            if (string.IsNullOrWhiteSpace(imagesFolderId))
+                return BadRequest("imagesFolderId is required.");
+
+            try
+            {
+                await _driveUploaderService.ClearImageFolderNewAsync(imagesFolderId);
+                return Ok(new { message = "Images folder cleared." });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "❌ Failed to clear images folder.");
+                return StatusCode(500, new { message = "Clear failed", error = ex.Message });
             }
         }
 
@@ -300,11 +322,11 @@ namespace RaymarEquipmentInventory.Controllers
             if (string.IsNullOrWhiteSpace(workOrderId))
                 return BadRequest("workOrderId is required.");
 
-            // 1) Build the routing plan
+            // 1) Build the routing plan (has BatchId + container/blob paths)
             var plan = _driveUploaderService.PlanBlobRouting(
                 files, workOrderId, workOrderFolderId, imagesFolderId, pdfFolderId);
 
-            // 2) Loop over planned files so we have blobPath
+            // 2) Stamp folder IDs for matching docs (Parts or PDF), including blobPath
             foreach (var p in plan.Files)
             {
                 var ext = Path.GetExtension(p.FileName)?.ToLowerInvariant() ?? "";
@@ -334,25 +356,103 @@ namespace RaymarEquipmentInventory.Controllers
                 }
                 else
                 {
-                    Log.Warning($"⚠️ Skipping unsupported file type '{p.FileName}' for folder ID stamping.");
+                    Log.Warning("⚠️ Skipping unsupported file type '{File}' for folder ID stamping.", p.FileName);
                 }
             }
+
+            // 3) Parallel uploads to Blob with bounded concurrency
+            var map = files.ToDictionary(f => f.FileName, StringComparer.OrdinalIgnoreCase);
+
+            var maxConcurrency = 6; // hardcoded for dev; make configurable later if you like
+            var gate = new SemaphoreSlim(maxConcurrency);
+            var tasks = new List<Task>(plan.Files.Count);
 
             foreach (var p in plan.Files)
             {
-                var file = files.FirstOrDefault(f => f.FileName == p.FileName);
-                if (file != null)
+                if (!map.TryGetValue(p.FileName, out var file))
                 {
-                    await _driveUploaderService.UploadFileToBlobAsync(
-                        p.Container, // container from plan
-                        p.BlobPath,  // blob path from plan
-                        file,
-                        ct);
+                    Log.Warning("⚠️ Planned file '{File}' not found in payload. Skipping.", p.FileName);
+                    continue;
                 }
+
+                tasks.Add(UploadWithGateAsync(gate, p, file, ct));
             }
 
-            // 3) Return the plan (later: upload to Blob + enqueue Hangfire)
-            return Ok(plan);
+            await Task.WhenAll(tasks);
+
+            // 4) Enqueue background work
+            var args = new ProcessBatchArgs(
+                workOrderId,
+                plan.BatchId,
+                workOrderFolderId,
+                imagesFolderId,
+                pdfFolderId,
+                expensesFolderId,
+                plan.Files.Select(f => new PlannedFileInfo(f.FileName, f.Container, f.BlobPath)).ToList()
+            );
+
+            // Identify receipt images (only then run the parse/email job)
+            var receiptFiles = plan.Files
+                .Where(f => f.Container.Equals("images-receipts", StringComparison.OrdinalIgnoreCase))
+                .Where(f =>
+                {
+                    var ext = Path.GetExtension(f.FileName);
+                    return ext.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
+                        || ext.Equals(".jpeg", StringComparison.OrdinalIgnoreCase)
+                        || ext.Equals(".png", StringComparison.OrdinalIgnoreCase);
+                })
+                .ToList();
+
+            if (receiptFiles.Count > 0)
+            {
+                var parseId = _jobs.Enqueue(() =>
+                    _driveUploaderService.ParseReceiptBatchFromBlobAndEmailAsync(
+                        args, "brandt@brandtziegler.com", CancellationToken.None));
+
+                //Log.Information("🧾 Enqueued parse/email job {JobId} for Batch {BatchId}", parseId, plan.BatchId);
+
+                //var uploadId = _jobs.ContinueJobWith(parseId, () =>
+                //    _driveUploaderService.ClearAndUploadBatchFromBlobAsync(args, CancellationToken.None));
+
+                //Log.Information("☁️ Enqueued follow-up Drive upload job {JobId} for Batch {BatchId}", uploadId, plan.BatchId);
+            }
+            else
+            {
+                // No receipts → just do the Drive upload job
+                //var uploadId = _jobs.Enqueue(() =>
+                //    _driveUploaderService.ClearAndUploadBatchFromBlobAsync(args, CancellationToken.None));
+
+                Log.Information("☁️ Enqueued Drive upload job {JobId} (no receipts to parse) for Batch {BatchId}", plan.BatchId);
+            }
+
+            // 202 Accepted (async processing in background)
+            return Accepted(new { plan.BatchId, plan.WorkOrderId, fileCount = plan.Files.Count });
+
+            // Local helper keeps the action clean and ensures the gate is always released
+            async Task UploadWithGateAsync(SemaphoreSlim s, PlannedFileInfo pfi, IFormFile f, CancellationToken token)
+            {
+                await s.WaitAsync(token);
+                try
+                {
+                    await _driveUploaderService.UploadFileToBlobAsync(
+                        pfi.Container,
+                        pfi.BlobPath,
+                        f,
+                        token);
+                }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "🔥 Upload failed for {Container}/{Path}", pfi.Container, pfi.BlobPath);
+                }
+                finally
+                {
+                    s.Release();
+                }
+            }
         }
 
 

@@ -21,6 +21,7 @@ namespace RaymarEquipmentInventory.Services
 
         Task<(MemoryStream Csv, ReceiptConfirm Confirm)> ParseReceiptsAndReturnCsvAsync(List<IFormFile> files, CancellationToken ct = default);
 
+
         UploadPlan PlanBlobRouting(
              List<IFormFile> files,
              string workOrderId,
@@ -29,6 +30,7 @@ namespace RaymarEquipmentInventory.Services
              string pdfFolderId,
              string? batchId = null);
 
+        Task ClearAndUploadBatchFromBlobAsync(ProcessBatchArgs args, CancellationToken ct = default);
 
         Task UpdateFolderIdsInPartsDocumentAsync(
         string fileName,
@@ -40,6 +42,18 @@ namespace RaymarEquipmentInventory.Services
         string blobPath,
         CancellationToken ct = default);
 
+        Task ClearImageFolderNewAsync(string imagesFolderId);
+
+        Task DeleteBatchBlobsAsync(
+   IEnumerable<PlannedFileInfo> files, // args.Files
+   string workOrderId,
+   string batchId,
+   CancellationToken ct);
+
+        Task ParseReceiptBatchFromBlobAndEmailAsync(
+    ProcessBatchArgs args,
+    string toEmail,
+    CancellationToken ct = default);
         Task UpdateFolderIdsInPDFDocumentAsync(
             string fileName,
             string extension,
@@ -54,5 +68,10 @@ namespace RaymarEquipmentInventory.Services
     string blobPath,
     IFormFile file,
     CancellationToken ct = default);
-    }
+    };
+
+
+
+
+
 }

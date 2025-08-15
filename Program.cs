@@ -49,6 +49,47 @@ var samsaraApiConfig = builder.Configuration.GetSection("SamsaraApi").Get<Samsar
 
 builder.Services.AddSingleton(samsaraApiConfig);
 
+// Only hydrate environment variables from config in Development
+if (builder.Environment.IsDevelopment())
+{
+    // helper
+    void SetIfPresent(string key, string? value)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+            Environment.SetEnvironmentVariable(key, value);
+    }
+
+    // Flat keys (exact names from your appsettings.Development.json)
+    foreach (var k in new[]
+    {
+        "AZURE_CLIENT_ID",
+        "AZURE_FORMRECOGNIZER_ENDPOINT",
+        "AZURE_FORMRECOGNIZER_KEY",
+        "AZURE_FORMRECOGNIZER_MODEL",
+        "AZURE_STORAGE_CONNECTION_STRING",
+        "AZURE_TENANT_ID",
+        "BlobContainer_ExpenseLogs",
+        "BlobContainer_Parts",
+        "BlobContainer_PDFs",
+        "BlobContainer_Receipts",
+        "BlobStorage_ConnectionString",
+        "GoogleOAuth__ClientId",
+        "GoogleOAuth__ClientSecret",
+        "GoogleOAuth__TokenPassword"
+    })
+        SetIfPresent(k, builder.Configuration[k]);
+
+    // Google SDK vars (come from your "Google" section)
+    SetIfPresent("GOOGLE_APPLICATION_CREDENTIALS", builder.Configuration["Google:ApplicationCredentials"]);
+    SetIfPresent("GOOGLE_CLOUD_PROJECT", builder.Configuration["Google:Project"]);
+    SetIfPresent("GOOGLE_WORKLOAD_IDENTITY_POOL", builder.Configuration["Google:WorkloadIdentityPool"]);
+    SetIfPresent("GOOGLE_WORKLOAD_IDENTITY_PROVIDER", builder.Configuration["Google:WorkloadIdentityProvider"]);
+    SetIfPresent("GOOGLE_IMPERSONATE_SERVICE_ACCOUNT", builder.Configuration["Google:ImpersonateServiceAccount"]);
+
+    // (Optional) quick sanity peek — redact secrets if you log these
+    // Console.WriteLine($"BlobContainer_Receipts={Environment.GetEnvironmentVariable("BlobContainer_Receipts")}");
+}
+
 
 // Add Hangfire server
 builder.Services.AddHangfireServer();
