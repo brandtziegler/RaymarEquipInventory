@@ -218,75 +218,7 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        private static async Task<MemoryStream> BuildCsvAsync(List<ReceiptCsvRow> rows, string fileName, CancellationToken ct)
-        {
-            var ms = new MemoryStream();
-            await using var writer = new StreamWriter(ms, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), leaveOpen: true);
-            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-            await csv.WriteRecordsAsync(rows, ct);
-            await writer.FlushAsync();
-            ms.Position = 0;
-            return ms;
-        }
-
-        private static async Task RespectRateAsync(DateTime lastCallUtc, int minMsBetweenCalls, CancellationToken ct)
-        {
-            if (lastCallUtc == DateTime.MinValue) return;
-            var elapsed = (int)(DateTime.UtcNow - lastCallUtc).TotalMilliseconds;
-            var wait = minMsBetweenCalls - elapsed;
-            if (wait > 0) await Task.Delay(wait, ct);
-        }
-
-        private bool TryFindVendorOverride(string merchant, out string category)
-        {
-            foreach (var kvp in _lex.VendorCategoryOverrides)
-            {
-                if (merchant.Contains(kvp.Key, StringComparison.OrdinalIgnoreCase))
-                { category = kvp.Value; return true; }
-            }
-            category = "";
-            return false;
-        }
-
         // --- Parsing helpers --------------------------------
-
-        private string GuessTypeFromBrandOrVendor(string brand, string merchant)
-        {
-            if (!string.IsNullOrWhiteSpace(merchant) &&
-                _lex.VendorCategoryOverrides.TryGetValue(merchant, out var cat))
-                return cat;
-
-            if (!string.IsNullOrEmpty(brand) && !brand.Equals("Debit", StringComparison.OrdinalIgnoreCase))
-                return "CardPayment";
-
-            return "Supplies";
-        }
-        private static bool NearlyEqual(decimal a, decimal b, decimal eps = 0.01m)
-            => Math.Abs(a - b) <= eps;
-
-        private string InferCategory(string merchant, IEnumerable<string> itemDescriptions)
-        {
-            // 1) Vendor override wins
-            if (!string.IsNullOrWhiteSpace(merchant) &&
-                _lex.VendorCategoryOverrides.TryGetValue(merchant, out var cat))
-                return cat;
-
-            // 2) Look at items for strong signals
-            var flat = string.Join(" ", itemDescriptions).ToLowerInvariant();
-            if (_lex.RestaurantItemKeywords.Any(k => flat.Contains(k))) return "Restaurant";
-            if (_lex.SuppliesItemKeywords.Any(k => flat.Contains(k))) return "Supplies";
-
-            // 3) Merchant name hints
-            if (Regex.IsMatch(merchant ?? "", @"\b(GAS|FUEL|PETRO|ESSO|SHELL|CO-OP)\b", RegexOptions.IgnoreCase))
-                return "Fuel";
-            if (Regex.IsMatch(merchant ?? "", @"\b(PART|AUTO|TIRE|SUPPLY|TOOLS?)\b", RegexOptions.IgnoreCase))
-                return "Supplies";
-            if (Regex.IsMatch(merchant ?? "", @"\b(CAFE|COFFEE|GRILL|BURRITO|PIZZA|SUB|DINER|PUB|BAR)\b", RegexOptions.IgnoreCase))
-                return "Restaurant";
-
-            return "Unknown";
-        }
-
 
         private ReceiptCsvRow MapParsedToCsvRow(AnalyzeResult result, out bool needsReview)
         {
@@ -364,44 +296,6 @@ namespace RaymarEquipmentInventory.Services
                 Items = itemsJoined
             };
         }
-
-
-
-
-        private static readonly JpegEncoder Jpeg85 = new JpegEncoder { Quality = 85 };
-
-        private static async Task<MemoryStream> NormalizeImageAsync(IFormFile file, CancellationToken ct)
-        {
-            // Read original bytes
-            using var inStream = new MemoryStream();
-            await file.CopyToAsync(inStream, ct);
-            inStream.Position = 0;
-
-            // Optionally detect HEIC and convert (requires HEIC plugin)
-            var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
-            // if (ext == ".heic") { /* decode with plugin -> Image */ }
-
-            // Load with ImageSharp
-            inStream.Position = 0;
-            using var image = await Image.LoadAsync(inStream, ct);
-
-            // Heuristic resize: if width > 2000px, scale down
-            const int targetMaxWidth = 2000;
-            if (image.Width > targetMaxWidth)
-            {
-                var targetHeight = (int)Math.Round(image.Height * (targetMaxWidth / (double)image.Width));
-                image.Mutate(x => x.Resize(targetMaxWidth, targetHeight));
-            }
-
-            // Save JPEG @ ~85%
-            var outStream = new MemoryStream();
-            await image.SaveAsJpegAsync(outStream, Jpeg85, ct);
-            outStream.Position = 0;
-
-            // If still > 4 MB (rare), you can reduce quality to ~80 or 75 and re-save.
-            return outStream;
-        }
-
         public async Task<ReceiptConfirm> ParseReceiptsBuildCsvAsync(List<IFormFile> files, CancellationToken ct = default)
         {
             var confirm = new ReceiptConfirm
@@ -554,54 +448,6 @@ namespace RaymarEquipmentInventory.Services
             Log.Information("📨 Sent receipts CSV email for WO {WO}, batch {Batch}. Rows={Rows}, Review={Review}",
                 args.WorkOrderId, args.BatchId, rows.Count, confirm.NeedsReviewCount);
         }
-
-
-        private async Task SendCsvEmailViaResendAsync(
-    string toEmail,
-    string subject,
-    string htmlBody,
-    string attachmentName,
-    Stream csvStream,
-    CancellationToken ct = default)
-        {
-            // read CSV to base64
-            using var ms = new MemoryStream();
-            await csvStream.CopyToAsync(ms, ct);
-            var base64 = Convert.ToBase64String(ms.ToArray());
-
-            var resendKey = Environment.GetEnvironmentVariable("Resend_Key"); // keep your dev key where it is for local testing
-            if (string.IsNullOrWhiteSpace(resendKey))
-                throw new InvalidOperationException("Resend API key missing");
-
-            var emailPayload = new
-            {
-                from = "service@taskfuel.app",
-                to = toEmail,
-                subject = subject,
-                html = htmlBody,
-                attachments = new[]
-                {
-            new { filename = attachmentName, content = base64 }
-        }
-            };
-
-            var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", resendKey);
-
-            var response = await client.PostAsJsonAsync("https://api.resend.com/emails", emailPayload, ct);
-            if (!response.IsSuccessStatusCode)
-            {
-                var body = await response.Content.ReadAsStringAsync(ct);
-                Log.Warning("❌ Resend failed: {Status} {Body}", response.StatusCode, body);
-                // don’t throw—job can be retried or you can log & move on
-            }
-            else
-            {
-                Log.Information("✅ Resend email sent to {Email} ({Subject})", toEmail, subject);
-            }
-        }
-
 
         // in DriveUploaderService
         public async Task<(MemoryStream Csv, ReceiptConfirm Confirm)> ParseReceiptsAndReturnCsvAsync(List<IFormFile> files, CancellationToken ct = default)
