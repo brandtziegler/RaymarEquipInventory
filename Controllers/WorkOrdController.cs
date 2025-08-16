@@ -488,7 +488,7 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
-        //FINALIZE BATCH - START
+        //FINALIZE BATCH - START--add a comment.
         // ===== 2) FINALIZE — discover all blobs for batch, enqueue jobs =====
         // ========= FINALIZE (tolerant of both prefix layouts) =========
         [HttpPost("FinalizeWorkOrderBatch")]
