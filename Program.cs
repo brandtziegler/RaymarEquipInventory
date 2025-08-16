@@ -80,7 +80,11 @@ if (builder.Environment.IsDevelopment())
         "GoogleOAuth__TokenPassword",
         "GoogleDrive__RootFolderId",
         "GoogleDrive__SharedEmail",
-        "GoogleDrive__TemplatesFolderId"
+        "GoogleDrive__TemplatesFolderId",
+        "Resend_Key",
+        "Receipt_Receiver_1",
+        "Receipt_Receiver_2",
+        "Receipt_Receiver_3"
     })
         SetIfPresent(k, builder.Configuration[k]);
 

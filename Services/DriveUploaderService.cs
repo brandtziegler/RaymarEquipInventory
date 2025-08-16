@@ -356,8 +356,7 @@ namespace RaymarEquipmentInventory.Services
         {
             if (args is null) throw new ArgumentNullException(nameof(args));
             // Blob client
-            var connStr = _config["AzureStorage:ConnectionString"]
-                          ?? Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING")
+            var connStr = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING")
                           ?? throw new InvalidOperationException("AzureStorage:ConnectionString missing");
             var blobService = new Azure.Storage.Blobs.BlobServiceClient(connStr);
 
@@ -437,7 +436,6 @@ namespace RaymarEquipmentInventory.Services
 
             // Email it
             await SendCsvEmailViaResendAsync(
-                toEmail: toEmail,
                 subject: $"WO #{args.WorkOrderId} — Receipts CSV (Batch {args.BatchId})",
                 htmlBody: $"<p>Attached are parsed receipts for Work Order <strong>#{args.WorkOrderId}</strong>, batch <code>{args.BatchId}</code>.</p>" +
                           $"<p>Processed: {confirm.ProcessedCount}, Needs review: {confirm.NeedsReviewCount}.</p>",

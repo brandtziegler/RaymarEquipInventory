@@ -11,6 +11,7 @@ using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Net.Mail;
 using Hangfire;
+using System.Diagnostics;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -306,31 +307,52 @@ namespace RaymarEquipmentInventory.Controllers
             });
         }
 
-        [HttpPost("UploadAppFilesToAzureBlob")]
-        public async Task<IActionResult> UploadAppFilesToAzureBlob(
+        [HttpPost("UploadAppFilesToAzureBlob_Test")]
+        public async Task<IActionResult> UploadAppFilesToAzureBlob_Test(
             List<IFormFile> files,
             [FromQuery] string workOrderId,
             [FromQuery] string workOrderFolderId,
             [FromQuery] string pdfFolderId,
             [FromQuery] string expensesFolderId,
             [FromQuery] string imagesFolderId,
-            CancellationToken ct)
+            [FromQuery] int? maxConcurrency,          // optional; default 6
+            CancellationToken ct,
+            [FromQuery] bool failFast = true,         // skip enqueue if uploads fail
+            [FromQuery] string? testPrefix = null,     // e.g. "tests/dev"
+            [FromQuery] bool finalizeBatches = false
+        )
         {
-            if (files == null || files.Count == 0)
-                return BadRequest("No files received.");
+            if (files is null || files.Count == 0) return BadRequest("No files received.");
+            if (string.IsNullOrWhiteSpace(workOrderId)) return BadRequest("workOrderId is required.");
 
-            if (string.IsNullOrWhiteSpace(workOrderId))
-                return BadRequest("workOrderId is required.");
+            var swTotal = Stopwatch.StartNew();
 
-            // 1) Build the routing plan (has BatchId + container/blob paths)
+            // -------------------------
+            // 1) PLAN THE ROUTE
+            // -------------------------
+            var swPlan = Stopwatch.StartNew();
             var plan = _driveUploaderService.PlanBlobRouting(
                 files, workOrderId, workOrderFolderId, imagesFolderId, pdfFolderId);
+            swPlan.Stop();
 
-            // 2) Stamp folder IDs for matching docs (Parts or PDF), including blobPath
+            // Optional hermetic isolation: prefix blob paths with testPrefix + batch
+            string? prefix = string.IsNullOrWhiteSpace(testPrefix) ? null
+                            : $"{testPrefix.Trim().Trim('/')}/{plan.BatchId}";
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                foreach (var pf in plan.Files)
+                {
+                    pf.BlobPath = $"{prefix}/{pf.BlobPath}".Replace("//", "/");
+                }
+            }
+
+            // -------------------------
+            // 2 & 3) STAMP FOLDER IDs
+            // -------------------------
+            var swStamp = Stopwatch.StartNew();
             foreach (var p in plan.Files)
             {
-                var ext = Path.GetExtension(p.FileName)?.ToLowerInvariant() ?? "";
-
+                var ext = Path.GetExtension(p.FileName)?.ToLowerInvariant() ?? string.Empty;
                 if (ext is ".jpg" or ".jpeg" or ".png")
                 {
                     await _driveUploaderService.UpdateFolderIdsInPartsDocumentAsync(
@@ -356,31 +378,69 @@ namespace RaymarEquipmentInventory.Controllers
                 }
                 else
                 {
-                    Log.Warning("⚠️ Skipping unsupported file type '{File}' for folder ID stamping.", p.FileName);
+                    Log.Warning("Skipping unsupported file type for folder stamping: {File}", p.FileName);
                 }
             }
+            swStamp.Stop();
 
-            // 3) Parallel uploads to Blob with bounded concurrency
-            var map = files.ToDictionary(f => f.FileName, StringComparer.OrdinalIgnoreCase);
+            // -------------------------
+            // 4) UPLOADS with bounded parallelism (duplicate-safe)
+            // -------------------------
+            var swUpload = Stopwatch.StartNew();
+            var degree = Math.Max(1, Math.Min(maxConcurrency ?? 6, 16)); // clamp 1..16
+            var gate = new SemaphoreSlim(degree);
 
-            var maxConcurrency = 6; // hardcoded for dev; make configurable later if you like
-            var gate = new SemaphoreSlim(maxConcurrency);
+            // Map filename -> queue of IFormFile (handles duplicates deterministically)
+            var nameQueues = files
+                .GroupBy(f => f.FileName, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(g => g.Key, g => new Queue<IFormFile>(g), StringComparer.OrdinalIgnoreCase);
+
+            var uploadResults = new List<(string file, bool ok, string? err, long ms)>(plan.Files.Count);
             var tasks = new List<Task>(plan.Files.Count);
 
             foreach (var p in plan.Files)
             {
-                if (!map.TryGetValue(p.FileName, out var file))
+                if (!nameQueues.TryGetValue(p.FileName, out var q) || q.Count == 0)
                 {
-                    Log.Warning("⚠️ Planned file '{File}' not found in payload. Skipping.", p.FileName);
+                    uploadResults.Add((p.FileName, false, "File not in request payload (or duplicate underflow)", 0));
                     continue;
                 }
-
-                tasks.Add(UploadWithGateAsync(gate, p, file, ct));
+                var formFile = q.Dequeue();
+                tasks.Add(UploadWithGateAsync(gate, p, formFile, uploadResults, ct));
             }
 
             await Task.WhenAll(tasks);
+            swUpload.Stop();
 
-            // 4) Enqueue background work
+            var anyUploadFail = uploadResults.Any(r => !r.ok);
+
+            if (failFast && anyUploadFail)
+            {
+                swTotal.Stop();
+                return StatusCode(StatusCodes.Status409Conflict, new
+                {
+                    plan.WorkOrderId,
+                    plan.BatchId,
+                    plannedCount = plan.Files.Count,
+                    uploadedOk = uploadResults.Count(r => r.ok),
+                    uploadedFailed = uploadResults.Where(r => !r.ok).Select(r => new { r.file, r.err, r.ms }),
+                    enqueued = false,
+                    skippedPostBatch = true,
+                    timingsMs = new
+                    {
+                        plan = swPlan.ElapsedMilliseconds,
+                        stamp = swStamp.ElapsedMilliseconds,
+                        upload = swUpload.ElapsedMilliseconds,
+                        total = swTotal.ElapsedMilliseconds
+                    },
+                    maxConcurrencyUsed = degree,
+                    testPrefixApplied = prefix
+                });
+            }
+
+            // -------------------------
+            // 5) Build args, detect receipts, enqueue jobs
+            // -------------------------
             var args = new ProcessBatchArgs(
                 workOrderId,
                 plan.BatchId,
@@ -388,10 +448,15 @@ namespace RaymarEquipmentInventory.Controllers
                 imagesFolderId,
                 pdfFolderId,
                 expensesFolderId,
-                plan.Files.Select(f => new PlannedFileInfo(f.FileName, f.Container, f.BlobPath)).ToList()
+                plan.Files.Select(f =>
+                    new PlannedFileInfo(
+                        f.FileName,
+                        (f.Container ?? "").Trim().ToLowerInvariant(),
+                        (f.BlobPath ?? "").Replace('\\', '/').TrimStart('/'))
+                ).ToList()
             );
 
-            // Identify receipt images (only then run the parse/email job)
+            // Identify receipt images (then chain parse after upload)
             var receiptFiles = plan.Files
                 .Where(f => f.Container.Equals("images-receipts", StringComparison.OrdinalIgnoreCase))
                 .Where(f =>
@@ -403,59 +468,87 @@ namespace RaymarEquipmentInventory.Controllers
                 })
                 .ToList();
 
-            var uploadId = _jobs.Enqueue(() =>
-                _driveUploaderService.ClearAndUploadBatchFromBlobAsync(args, CancellationToken.None));
 
-            string deleteParentId;
+            string uploadJobId;
+            string? parseJobId = null;
+
+
+            // Always enqueue ClearAndUpload first
+            uploadJobId = _jobs.Enqueue(() =>
+                _driveUploaderService.ClearAndUploadBatchFromBlobAsync(args, CancellationToken.None));
 
             if (receiptFiles.Count > 0)
             {
-                // Parse only after a successful upload
-                var parseId = _jobs.ContinueJobWith(uploadId, () =>
+                // Chain parse/email AFTER upload finishes
+                parseJobId = _jobs.ContinueJobWith(uploadJobId, () =>
                     _driveUploaderService.ParseReceiptBatchFromBlobAndEmailAsync(
-                        args, "brandt@brandtziegler.com", CancellationToken.None),
-                    JobContinuationOptions.OnlyOnSucceededState);
+                        args, "carrieziegler1973@gmail.com", CancellationToken.None));
 
-                // When there ARE receipts, delete only after a successful parse
-                deleteParentId = parseId;
+                Log.Information("☁️ Enqueued upload job {UploadJobId} then 🧾 parse/email job {ParseJobId} for Batch {BatchId}",
+                    uploadJobId, parseJobId, plan.BatchId);
             }
             else
             {
-                // When there are NO receipts, delete right after a successful upload
-                deleteParentId = uploadId;
+                Log.Information("☁️ Enqueued upload job {UploadJobId} (no receipts) for Batch {BatchId}",
+                    uploadJobId, plan.BatchId);
             }
 
-            // Delete blobs last, only if the prior step succeeded
-            var deleteId = _jobs.ContinueJobWith(deleteParentId, () =>
-                _driveUploaderService.DeleteBatchBlobsAsync(
-                    args.Files, args.WorkOrderId, args.BatchId, CancellationToken.None),
-                JobContinuationOptions.OnlyOnSucceededState);
+            swTotal.Stop();
 
-            // 202 Accepted (async processing in background)
-            return Accepted(new { plan.BatchId, plan.WorkOrderId, fileCount = plan.Files.Count });
+            // Background work queued → 202 Accepted
+            return Accepted(new
+            {
+                plan.WorkOrderId,
+                plan.BatchId,
+                plannedCount = plan.Files.Count,
+                uploadedOk = uploadResults.Count(r => r.ok),
+                uploadedFailed = uploadResults.Where(r => !r.ok).Select(r => new { r.file, r.err, r.ms }),
+                enqueued = true,
+                uploadJobId,
+                parseJobId,
+                willParseReceipts = receiptFiles.Count > 0,
+                timingsMs = new
+                {
+                    plan = swPlan.ElapsedMilliseconds,
+                    stamp = swStamp.ElapsedMilliseconds,
+                    upload = swUpload.ElapsedMilliseconds,
+                    total = swTotal.ElapsedMilliseconds
+                },
+                maxConcurrencyUsed = degree,
+                testPrefixApplied = prefix
+            });
 
-            // Local helper keeps the action clean and ensures the gate is always released
-            async Task UploadWithGateAsync(SemaphoreSlim s, PlannedFileInfo pfi, IFormFile f, CancellationToken token)
+            // -------------------------
+            // local helper
+            // -------------------------
+            async Task UploadWithGateAsync(
+                SemaphoreSlim s,
+                PlannedFileInfo planned,
+                IFormFile formFile,
+                List<(string file, bool ok, string? err, long ms)> results,
+                CancellationToken token)
             {
                 await s.WaitAsync(token);
+                var sw = Stopwatch.StartNew();
                 try
                 {
                     await _driveUploaderService.UploadFileToBlobAsync(
-                        pfi.Container,
-                        pfi.BlobPath,
-                        f,
+                        planned.Container,
+                        planned.BlobPath,
+                        formFile,
                         token);
+
+                    lock (results) results.Add((planned.FileName, true, null, sw.ElapsedMilliseconds));
                 }
-                catch (OperationCanceledException)
-                {
-                    throw;
-                }
+                catch (OperationCanceledException) { throw; }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "🔥 Upload failed for {Container}/{Path}", pfi.Container, pfi.BlobPath);
+                    Log.Error(ex, "Upload failed for {Container}/{Path}", planned.Container, planned.BlobPath);
+                    lock (results) results.Add((planned.FileName, false, ex.Message, sw.ElapsedMilliseconds));
                 }
                 finally
                 {
+                    sw.Stop();
                     s.Release();
                 }
             }
