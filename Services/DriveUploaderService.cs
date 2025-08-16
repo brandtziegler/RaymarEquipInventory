@@ -25,7 +25,7 @@ using Grpc.Auth;
 using System.Diagnostics;
 using Microsoft.SqlServer.Dac;  // DacFx (ExportBacpac)
 
-
+using Azure.Core;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Azure;
@@ -38,6 +38,8 @@ using SixLabors.ImageSharp.Processing;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Google.Apis.Http;
+using Azure.Storage;
+using System.Collections.Concurrent;
 
 
 namespace RaymarEquipmentInventory.Services
@@ -167,60 +169,81 @@ namespace RaymarEquipmentInventory.Services
 
 
         public async Task UploadFileToBlobAsync(
-            string containerName,
-            string blobPath,
-            IFormFile file,
-            CancellationToken ct = default)
+                 string containerName,
+                 string blobPath,
+                 IFormFile file,
+                 CancellationToken ct = default)
         {
-            try
+            // ---- Stopwatch for perf telemetry
+            var sw = Stopwatch.StartNew();
+
+            // ---- Clients (container cached for perf)
+            var connStr = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING")
+                         ?? throw new InvalidOperationException("AZURE_STORAGE_CONNECTION_STRING missing.");
+
+            containerName = (containerName ?? "").Trim().ToLowerInvariant();
+            blobPath = (blobPath ?? "").Replace('\\', '/').TrimStart('/');
+
+            var containerClient = _containerCache.GetOrAdd(containerName, name =>
             {
-                // DEV-only conn string (swap back to config/env for prod)
-                var connStr =Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING") ?? "";
-
-                var containerClient = new BlobContainerClient(connStr, containerName);
-                await containerClient.CreateIfNotExistsAsync(PublicAccessType.None, cancellationToken: ct);
-
-                var blobClient = containerClient.GetBlobClient(blobPath);
-
-                // --- Optional normalization for large JPEGs ---
-                var ext = Path.GetExtension(file.FileName)?.ToLowerInvariant();
-                var isJpeg = ext is ".jpg" or ".jpeg";
-                var shouldNormalize = isJpeg && file.Length >= 1_500_000; // ~1.5 MB threshold (tune as you like)
-
-                Stream contentStream;
-                string contentType;
-
-                if (shouldNormalize)
+                var svc = new BlobServiceClient(connStr, new BlobClientOptions
                 {
-                    // your existing helper (resizes >2000px wide, ~85% jpeg)
-                    contentStream = await NormalizeImageAsync(file, ct);
-                    contentType = "image/jpeg";
-                    Log.Information("🗜️ Normalized JPEG '{File}' from ~{KB} KB before upload.", file.FileName, file.Length / 1024);
-                }
-                else
-                {
-                    contentStream = file.OpenReadStream();
-                    contentType = string.IsNullOrWhiteSpace(file.ContentType)
-                        ? "application/octet-stream"
-                        : file.ContentType;
-                }
-
-                await using (contentStream) // disposes either the normalized MemoryStream or the file stream
-                {
-                    await blobClient.UploadAsync(
-                        contentStream,
-                        new BlobHttpHeaders { ContentType = contentType },
-                        cancellationToken: ct);
-                }
-
-                Log.Information("✅ Uploaded '{Path}' to container '{Container}'.", blobPath, containerName);
-            }
-            catch (Exception ex)
+                    Retry =
             {
-                Log.Error(ex, "🔥 Failed to upload '{Path}' to container '{Container}'.", blobPath, containerName);
-                throw;
+                Mode = RetryMode.Exponential,
+                MaxRetries = 5,
+                Delay = TimeSpan.FromMilliseconds(300),
+                MaxDelay = TimeSpan.FromSeconds(5)
             }
+                });
+                var c = svc.GetBlobContainerClient(name);
+                c.CreateIfNotExists(PublicAccessType.None, cancellationToken: ct);
+                return c;
+            });
+
+            var blobClient = containerClient.GetBlobClient(blobPath);
+
+            // ---- Content headers
+            string contentType = !string.IsNullOrWhiteSpace(file.ContentType)
+                ? file.ContentType
+                : GetMimeTypeFromExtension(file.FileName) ?? "application/octet-stream";
+
+            // ---- Stream upload (no server-side image compression)
+            await using var contentStream = file.OpenReadStream();
+
+            // If you rerun tests often, overwrite avoids 409 conflicts.
+            // Easiest way while still using TransferOptions: delete if exists, then upload with options.
+            await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots, cancellationToken: ct);
+
+            var options = new BlobUploadOptions
+            {
+                HttpHeaders = new BlobHttpHeaders { ContentType = contentType },
+                TransferOptions = new StorageTransferOptions
+                {
+                    // Tune these; 4–8 concurrency and 4 MiB chunks are good starters for App Service.
+                    MaximumConcurrency = 4,
+                    InitialTransferSize = 4 * 1024 * 1024,
+                    MaximumTransferSize = 4 * 1024 * 1024
+                }
+            };
+
+            Response<BlobContentInfo> resp = await blobClient.UploadAsync(contentStream, options, ct);
+
+            sw.Stop();
+
+            // ---- Nice telemetry: MB, MB/s, and Azure request id
+            double mb = file.Length / (1024.0 * 1024.0);
+            double mbps = mb / Math.Max(sw.Elapsed.TotalSeconds, 0.001);
+            string reqId = resp.GetRawResponse()?.Headers.TryGetValue("x-ms-request-id", out var v) == true ? v : "?";
+
+            Log.Information("✅ Uploaded {Container}/{Path} ({SizeMB:n2} MB) in {Ms} ms ({MBps:n2} MB/s) [req {ReqId}]",
+                containerName, blobPath, mb, sw.ElapsedMilliseconds, mbps, reqId);
         }
+
+        // Cache container clients so we don’t CreateIfNotExists on every file
+        private static readonly ConcurrentDictionary<string, BlobContainerClient> _containerCache
+            = new(StringComparer.OrdinalIgnoreCase);
+
 
 
         // --- Parsing helpers --------------------------------
