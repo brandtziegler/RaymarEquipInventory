@@ -149,17 +149,22 @@ namespace RaymarEquipmentInventory.Services
             string pdfFolderId,
             string? batchId = null)
         {
-            var id = string.IsNullOrWhiteSpace(batchId) ? GenerateBatchId() : batchId;
+            var id = string.IsNullOrWhiteSpace(batchId) ? GenerateBatchId() : batchId.Trim();
             var results = new List<PlannedFileInfo>(files?.Count ?? 0);
 
             foreach (var f in files ?? Enumerable.Empty<IFormFile>())
             {
                 var (container, blobPath) = DecideBlobRoutingCore(f, workOrderId, id);
-                results.Add(new PlannedFileInfo(f.FileName, container, blobPath));
+                results.Add(new PlannedFileInfo(
+                    f.FileName,
+                    (container ?? "").Trim().ToLowerInvariant(),
+                    (blobPath ?? "").Replace('\\', '/').TrimStart('/').Replace("//", "/")
+                ));
             }
 
             return new UploadPlan(id, workOrderId, workOrderFolderId, imagesFolderId, pdfFolderId, results);
         }
+
 
         public async Task UploadFileToBlobAsync(
             string containerName,

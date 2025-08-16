@@ -7,11 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
+using System.Collections;
+using System.Diagnostics;
+using System.Linq;
 using System.Collections.Concurrent;
+using Azure.Storage.Blobs;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using System.Net.Mail;
 using Hangfire;
-using System.Diagnostics;
+
+
+
+
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -307,8 +316,387 @@ namespace RaymarEquipmentInventory.Controllers
             });
         }
 
-        [HttpPost("UploadAppFilesToAzureBlob_Test")]
-        public async Task<IActionResult> UploadAppFilesToAzureBlob_Test(
+
+        //SENDING TO BLOB ONLY - START
+        // ===== 1) UPLOAD — micro-batches, no enqueue =====
+        [RequestSizeLimit(200 * 1024 * 1024)]
+        [RequestFormLimits(MultipartBodyLengthLimit = 200 * 1024 * 1024)]
+        [Consumes("multipart/form-data")]
+        [HttpPost("UploadAppFilesToAzureBlob")]
+        public async Task<IActionResult> UploadAppFilesToAzureBlob(
+            List<IFormFile> files,
+            [FromQuery] string workOrderId,
+            [FromQuery] string workOrderFolderId,
+            [FromQuery] string pdfFolderId,
+            [FromQuery] string expensesFolderId,
+            [FromQuery] string imagesFolderId,
+            [FromQuery] int? maxConcurrency,          // optional; default 6
+            CancellationToken ct,
+            [FromQuery] bool failFast = true,         // skip rest if uploads fail
+            [FromQuery] string? testPrefix = null,    // e.g. "tests/dev"
+            [FromQuery] string? batchId = null        // client keeps this constant across micro-batches
+        )
+        {
+            if (files is null || files.Count == 0) return BadRequest("No files received.");
+            if (string.IsNullOrWhiteSpace(workOrderId)) return BadRequest("workOrderId is required.");
+
+            var swTotal = Stopwatch.StartNew();
+
+            // 1) Plan (force plan to use client-supplied batchId, if provided)
+            var swPlan = Stopwatch.StartNew();
+            var plan = _driveUploaderService.PlanBlobRouting(
+                files, workOrderId, workOrderFolderId, imagesFolderId, pdfFolderId, batchId);
+
+            swPlan.Stop();
+
+            // Apply optional testPrefix
+            string? prefix = string.IsNullOrWhiteSpace(testPrefix) ? null
+                            : $"{testPrefix.Trim().Trim('/')}/{plan.BatchId}";
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                foreach (var pf in plan.Files)
+                    pf.BlobPath = $"{prefix}/{pf.BlobPath}".Replace("//", "/");
+            }
+
+            // 2 & 3) Stamp folder IDs
+            var swStamp = Stopwatch.StartNew();
+            foreach (var p in plan.Files)
+            {
+                var ext = Path.GetExtension(p.FileName)?.ToLowerInvariant() ?? string.Empty;
+                if (ext is ".jpg" or ".jpeg" or ".png")
+                {
+                    await _driveUploaderService.UpdateFolderIdsInPartsDocumentAsync(
+                        p.FileName, ext, workOrderId, workOrderFolderId, expensesFolderId, imagesFolderId, p.BlobPath, ct);
+                }
+                else if (ext == ".pdf")
+                {
+                    await _driveUploaderService.UpdateFolderIdsInPDFDocumentAsync(
+                        p.FileName, ext, workOrderId, workOrderFolderId, pdfFolderId, p.BlobPath, ct);
+                }
+                else
+                {
+                    Log.Warning("Skipping unsupported file type for folder stamping: {File}", p.FileName);
+                }
+            }
+            swStamp.Stop();
+
+            // 4) Upload with bounded parallelism
+            var swUpload = Stopwatch.StartNew();
+            var degree = Math.Max(1, Math.Min(maxConcurrency ?? 6, 16));
+            var gate = new SemaphoreSlim(degree);
+
+            var nameQueues = files
+                .GroupBy(f => f.FileName, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(g => g.Key, g => new Queue<IFormFile>(g), StringComparer.OrdinalIgnoreCase);
+
+            var uploadResults = new List<(string file, bool ok, string? err, long ms)>(plan.Files.Count);
+            var tasks = new List<Task>(plan.Files.Count);
+
+            foreach (var p in plan.Files)
+            {
+                if (!nameQueues.TryGetValue(p.FileName, out var q) || q.Count == 0)
+                {
+                    uploadResults.Add((p.FileName, false, "File not in request payload (or duplicate underflow)", 0));
+                    continue;
+                }
+                var formFile = q.Dequeue();
+                tasks.Add(UploadWithGateAsync(gate, p, formFile, uploadResults, ct));
+            }
+
+            await Task.WhenAll(tasks);
+            swUpload.Stop();
+
+            var anyUploadFail = uploadResults.Any(r => !r.ok);
+            if (failFast && anyUploadFail)
+            {
+                swTotal.Stop();
+                return StatusCode(StatusCodes.Status409Conflict, new
+                {
+                    plan.WorkOrderId,
+                    plan.BatchId,
+                    plannedCount = plan.Files.Count,
+                    uploadedOk = uploadResults.Count(r => r.ok),
+                    uploadedFailed = uploadResults.Where(r => !r.ok).Select(r => new { r.file, r.err, r.ms }),
+                    enqueued = false,
+                    finalizeAvailable = true, // client can still call finalize afterwards
+                    timingsMs = new
+                    {
+                        plan = swPlan.ElapsedMilliseconds,
+                        stamp = swStamp.ElapsedMilliseconds,
+                        upload = swUpload.ElapsedMilliseconds,
+                        total = swTotal.ElapsedMilliseconds
+                    },
+                    maxConcurrencyUsed = degree,
+                    testPrefixApplied = prefix
+                });
+            }
+
+            swTotal.Stop();
+
+            return Accepted(new
+            {
+                plan.WorkOrderId,
+                plan.BatchId,
+                plannedCount = plan.Files.Count,
+                uploadedOk = uploadResults.Count(r => r.ok),
+                uploadedFailed = uploadResults.Where(r => !r.ok).Select(r => new { r.file, r.err, r.ms }),
+                enqueued = false,
+                finalizeAvailable = true,
+                timingsMs = new
+                {
+                    plan = swPlan.ElapsedMilliseconds,
+                    stamp = swStamp.ElapsedMilliseconds,
+                    upload = swUpload.ElapsedMilliseconds,
+                    total = swTotal.ElapsedMilliseconds
+                },
+                maxConcurrencyUsed = degree,
+                testPrefixApplied = prefix
+            });
+
+            // helper
+            async Task UploadWithGateAsync(
+                SemaphoreSlim s,
+                PlannedFileInfo planned,
+                IFormFile formFile,
+                List<(string file, bool ok, string? err, long ms)> results,
+                CancellationToken token)
+            {
+                await s.WaitAsync(token);
+                var sw = Stopwatch.StartNew();
+                try
+                {
+                    await _driveUploaderService.UploadFileToBlobAsync(
+                        (planned.Container ?? "").Trim().ToLowerInvariant(),
+                        (planned.BlobPath ?? "").Replace('\\', '/').TrimStart('/'),
+                        formFile,
+                        token);
+
+                    lock (results) results.Add((planned.FileName, true, null, sw.ElapsedMilliseconds));
+                }
+                catch (OperationCanceledException) { throw; }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Upload failed for {Container}/{Path}", planned.Container, planned.BlobPath);
+                    lock (results) results.Add((planned.FileName, false, ex.Message, sw.ElapsedMilliseconds));
+                }
+                finally
+                {
+                    sw.Stop();
+                    s.Release();
+                }
+            }
+        }
+
+
+        //FINALIZE BATCH - START
+        // ===== 2) FINALIZE — discover all blobs for batch, enqueue jobs =====
+        // ========= FINALIZE (tolerant of both prefix layouts) =========
+        [HttpPost("FinalizeWorkOrderBatch")]
+        public async Task<IActionResult> FinalizeWorkOrderBatch(
+            [FromQuery] string workOrderId,
+            [FromQuery] string batchId,                // same value RN used during uploads
+            [FromQuery] string workOrderFolderId,
+            [FromQuery] string pdfFolderId,
+            [FromQuery] string expensesFolderId,
+            [FromQuery] string imagesFolderId,
+            [FromQuery] string? testPrefix,
+            CancellationToken ct)
+        {
+            if (string.IsNullOrWhiteSpace(workOrderId)) return BadRequest("workOrderId is required.");
+            if (string.IsNullOrWhiteSpace(batchId)) return BadRequest("batchId is required.");
+
+            var key = $"{workOrderId}:{batchId}".ToLowerInvariant();
+
+            // Simple idempotency (single instance)
+            if (FinalizeGate.IsFinalized(key))
+                return Conflict(new { message = "Batch already finalized.", workOrderId, batchId });
+
+            if (!FinalizeGate.TryBegin(key))
+                return Conflict(new { message = "Finalize already in progress for this batch. Try again shortly.", workOrderId, batchId });
+
+            try
+            {
+                var sw = Stopwatch.StartNew();
+
+                var containers = GetConfiguredContainers(HttpContext.RequestServices);
+                if (containers.Count == 0)
+                    return Problem("No blob containers configured. Define BlobContainer_* or AzureStorage:Containers.*");
+
+                var tp = string.IsNullOrWhiteSpace(testPrefix) ? null : testPrefix!.Trim().Trim('/');
+                var prefixes = BuildCandidatePrefixes(workOrderId, batchId, tp);
+
+                var discovered = await DiscoverBatchFilesAsync(workOrderId, batchId, containers, prefixes, ct);
+
+                discovered = discovered
+                    .GroupBy(f => $"{f.Container}|{f.BlobPath}", StringComparer.OrdinalIgnoreCase)
+                    .Select(g => g.First())
+                    .OrderBy(f => f.Container).ThenBy(f => f.BlobPath, StringComparer.Ordinal)
+                    .ToList();
+
+                if (discovered.Count == 0)
+                {
+                    return NotFound(new
+                    {
+                        message = "No blobs found for this workOrderId/batchId.",
+                        workOrderId,
+                        batchId,
+                        prefixesTried = prefixes
+                    });
+                }
+
+                var args = new ProcessBatchArgs(
+                    workOrderId,
+                    batchId,
+                    workOrderFolderId,
+                    imagesFolderId,
+                    pdfFolderId,
+                    expensesFolderId,
+                    discovered);
+
+                var receiptFiles = discovered
+                    .Where(f => f.Container.Equals("images-receipts", StringComparison.OrdinalIgnoreCase))
+                    .Where(f =>
+                    {
+                        var ext = Path.GetExtension(f.FileName);
+                        return ext.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
+                            || ext.Equals(".jpeg", StringComparison.OrdinalIgnoreCase)
+                            || ext.Equals(".png", StringComparison.OrdinalIgnoreCase);
+                    })
+                    .ToList();
+
+                var uploadJobId = _jobs.Enqueue(() =>
+                    _driveUploaderService.ClearAndUploadBatchFromBlobAsync(args, CancellationToken.None));
+
+                string? parseJobId = null;
+                if (receiptFiles.Count > 0)
+                {
+                    var defaultTo = Environment.GetEnvironmentVariable("Receipt_Receiver_1") ?? "brandt@brandtziegler.com";
+                    parseJobId = _jobs.ContinueJobWith(uploadJobId, () =>
+                        _driveUploaderService.ParseReceiptBatchFromBlobAndEmailAsync(
+                            args, defaultTo, CancellationToken.None));
+                }
+
+                FinalizeGate.TryMarkFinalized(key);
+                sw.Stop();
+
+                HttpContext.Response.Headers["x-workorder-id"] = workOrderId;
+                HttpContext.Response.Headers["x-batch-id"] = batchId;
+                HttpContext.Response.Headers["x-discovered-count"] = discovered.Count.ToString();
+                HttpContext.Response.Headers["x-finalize-ms"] = sw.ElapsedMilliseconds.ToString();
+
+                return Accepted(new
+                {
+                    workOrderId,
+                    batchId,
+                    discoveredCount = discovered.Count,
+                    willParseReceipts = receiptFiles.Count > 0,
+                    uploadJobId,
+                    parseJobId,
+                    prefixesUsed = prefixes
+                });
+            }
+            finally
+            {
+                FinalizeGate.End(key);
+            }
+        }
+
+        // ===== Helpers =====
+
+        static class FinalizeGate
+        {
+            private static readonly ConcurrentDictionary<string, byte> InProgress = new(StringComparer.OrdinalIgnoreCase);
+            private static readonly ConcurrentDictionary<string, byte> Finalized = new(StringComparer.OrdinalIgnoreCase);
+
+            public static bool TryBegin(string key) => InProgress.TryAdd(key, 0);
+            public static void End(string key) => InProgress.TryRemove(key, out _);
+            public static bool IsFinalized(string key) => Finalized.ContainsKey(key);
+            public static bool TryMarkFinalized(string key) => Finalized.TryAdd(key, 0);
+        }
+
+        // Reads containers from env/appsettings (BlobContainer_* or AzureStorage:Containers)
+        private static IReadOnlyList<string> GetConfiguredContainers(IServiceProvider services)
+        {
+            var cfg = services.GetRequiredService<IConfiguration>();
+            var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            static void Add(HashSet<string> s, string? v)
+            {
+                if (string.IsNullOrWhiteSpace(v)) return;
+                v = v.Trim().ToLowerInvariant();
+                if (!v.Any(char.IsWhiteSpace)) s.Add(v);
+            }
+
+            foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
+                if (de.Key is string k && de.Value is string v &&
+                    k.StartsWith("BlobContainer_", StringComparison.OrdinalIgnoreCase)) Add(set, v);
+
+            foreach (var kv in cfg.AsEnumerable())
+                if (kv.Key.StartsWith("BlobContainer_", StringComparison.OrdinalIgnoreCase)) Add(set, kv.Value);
+
+            foreach (var child in cfg.GetSection("AzureStorage:Containers").GetChildren())
+                Add(set, child.Value);
+
+            return set.ToList();
+        }
+
+        // Build both possible prefix shapes so discovery works either way
+        private static List<string> BuildCandidatePrefixes(string workOrderId, string batchId, string? testPrefix)
+        {
+            var list = new List<string>();
+            if (string.IsNullOrWhiteSpace(testPrefix))
+            {
+                // No testPrefix
+                list.Add($"{workOrderId}/{batchId}/");
+            }
+            else
+            {
+                var tp = testPrefix.Trim().Trim('/');
+                // Preferred (after fixing upload)
+                list.Add($"{tp}/{workOrderId}/{batchId}/");
+                // Legacy shape you currently have (testPrefix already had batchId appended)
+                list.Add($"{tp}/{batchId}/{workOrderId}/{batchId}/");
+            }
+            return list;
+        }
+
+        private async Task<List<PlannedFileInfo>> DiscoverBatchFilesAsync(
+            string workOrderId,
+            string batchId,
+            IEnumerable<string> containers,
+            IEnumerable<string> prefixes,
+            CancellationToken ct)
+        {
+            var conn = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
+            var svc = new BlobServiceClient(conn);
+
+            var results = new List<PlannedFileInfo>();
+
+            foreach (var c in containers.Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                var containerName = (c ?? "").Trim().ToLowerInvariant();
+                if (string.IsNullOrWhiteSpace(containerName)) continue;
+
+                var cont = svc.GetBlobContainerClient(containerName);
+
+                foreach (var pfx in prefixes)
+                {
+                    Log.Debug("🔎 Scanning [{Container}] with prefix [{Prefix}]", containerName, pfx);
+
+                    await foreach (var item in cont.GetBlobsAsync(prefix: pfx, cancellationToken: ct))
+                    {
+                        var blobName = item.Name;
+                        var fileName = Path.GetFileName(blobName);
+                        results.Add(new PlannedFileInfo(fileName, containerName, blobName));
+                    }
+                }
+            }
+
+            return results;
+        }    //FINALIZE BATCH - END
+        //SENDING TO BLOB ONLY - END
+        [HttpPost("UploadAppFilesToAzureBlob_Full")]
+        public async Task<IActionResult> UploadAppFilesToAzureBlob_Full(
             List<IFormFile> files,
             [FromQuery] string workOrderId,
             [FromQuery] string workOrderFolderId,
