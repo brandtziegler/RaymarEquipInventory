@@ -84,7 +84,7 @@ namespace RaymarEquipmentInventory.Services
             return ext is ".jpg" or ".jpeg" or ".png" or ".heic" or ".webp";
         }
 
-        // Your rule: receipt images are those with "TRAVEL" in the file name.
+        // Your rule: receipt images are prefixed with 25_
         private static bool IsReceiptImage(string fileName) =>
             fileName.Contains("TRAVEL", StringComparison.OrdinalIgnoreCase);
 
@@ -142,7 +142,36 @@ namespace RaymarEquipmentInventory.Services
     string PdfFolderId,
     List<PlannedFileInfo> Files);
 
+        public UploadPlan PlanBlobRoutingFromClient(
+            IEnumerable<(string FileName, string? Kind)> files,
+            string workOrderId,
+            string? workOrderFolderId,
+            string? imagesFolderId,
+            string? pdfFolderId,
+            string? batchId)
+        {
+            var fakeFormFiles = files
+                .Select(f => (IFormFile)new FakeLightFormFile(f.FileName))
+                .ToList(); // <-- List<IFormFile>
 
+            return PlanBlobRouting(fakeFormFiles, workOrderId, workOrderFolderId, imagesFolderId, pdfFolderId, batchId);
+        }
+
+
+        private sealed class FakeLightFormFile : IFormFile
+        {
+            public FakeLightFormFile(string fileName) { FileName = fileName; }
+            public string FileName { get; }
+            // The rest are unused; provide minimal stubs
+            public string ContentType => "application/octet-stream";
+            public string ContentDisposition => string.Empty;
+            public IHeaderDictionary Headers => new HeaderDictionary();
+            public long Length => 0;
+            public string Name => FileName;
+            public void CopyTo(Stream target) => throw new NotSupportedException();
+            public Task CopyToAsync(Stream target, CancellationToken cancellationToken = default) => throw new NotSupportedException();
+            public Stream OpenReadStream() => Stream.Null;
+        }
         public UploadPlan PlanBlobRouting(
             List<IFormFile> files,
             string workOrderId,
