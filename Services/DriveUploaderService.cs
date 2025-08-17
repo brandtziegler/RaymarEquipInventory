@@ -84,9 +84,9 @@ namespace RaymarEquipmentInventory.Services
             return ext is ".jpg" or ".jpeg" or ".png" or ".heic" or ".webp";
         }
 
-        // Your rule: receipt images are prefixed with 25_
+        // Your rule: receipt images are those with "TRAVEL" in the file name.
         private static bool IsReceiptImage(string fileName) =>
-            fileName.StartsWith("25_", StringComparison.OrdinalIgnoreCase);
+            fileName.Contains("TRAVEL", StringComparison.OrdinalIgnoreCase);
 
         // PDF helper
         private static bool IsPdf(IFormFile file)
