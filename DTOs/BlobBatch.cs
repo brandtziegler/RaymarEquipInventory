@@ -13,6 +13,9 @@
         string? CustPath,
         List<ClientFileDto> Files);
 
+    /// <summary>Per-file plan returned by StartBlobBatch, including SAS for direct PUT.</summary>
+
+
     public record StartBlobFile(string Name, string Container, string BlobPath, string? ContentType, string SasUrl);
     public record StartBlobBatchResponse(
         string WorkOrderId, string BatchId, string? TestPrefixApplied, int RecommendedParallelism, IReadOnlyList<StartBlobFile> Files);

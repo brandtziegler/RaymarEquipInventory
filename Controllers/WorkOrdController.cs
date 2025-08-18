@@ -7,10 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Collections;
 using System.Diagnostics;
 using System.Linq;
 using System.Collections.Concurrent;
+using Azure;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +24,7 @@ using System.Net.Http;
 using System.Net.Mail;
 using Hangfire;
 using Azure.Storage.Sas;
-
+using RaymarEquipmentInventory.Helpers;
 
 
 
@@ -317,7 +323,153 @@ namespace RaymarEquipmentInventory.Controllers
             });
         }
 
+        //SEND DIRECTLY TO SAS
+        [HttpPost("StartBlobBatch")]
+        public async Task<ActionResult<StartBlobBatchResponse>> StartBlobBatch(
+    [FromBody] StartBlobBatchRequest req,
+    CancellationToken ct)
+        {
+            if (req is null || string.IsNullOrWhiteSpace(req.WorkOrderId))
+                return BadRequest("workOrderId is required.");
+            if (req.Files is null || req.Files.Count == 0)
+                return BadRequest("No files provided.");
 
+            // 1) Plan by filename (no bytes involved)
+            var plan = _driveUploaderService.PlanBlobRoutingFromClient(
+                req.Files.Select(f => (f.Name, f.Type)),
+                req.WorkOrderId,
+                req.WorkOrderFolderId,
+                req.ImagesFolderId,
+                req.PdfFolderId,
+                req.BatchId
+            );
+
+            // 2) Optional test prefix
+            string? prefix = string.IsNullOrWhiteSpace(req.TestPrefix) ? null
+                            : $"{req.TestPrefix.Trim().Trim('/')}/{plan.BatchId}";
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                foreach (var pf in plan.Files)
+                    pf.BlobPath = $"{prefix}/{pf.BlobPath}".Replace("//", "/");
+            }
+
+            // 3) Stamp folder IDs (fast; still no file bytes needed)
+            foreach (var p in plan.Files)
+            {
+                var ext = (Path.GetExtension(p.FileName)?.ToLowerInvariant()) ?? string.Empty;
+                if (ext is ".jpg" or ".jpeg" or ".png")
+                {
+                    await _driveUploaderService.UpdateFolderIdsInPartsDocumentAsync(
+                        p.FileName, ext, plan.WorkOrderId, plan.WorkOrderFolderId,
+                        req.ExpensesFolderId, plan.ImagesFolderId, p.BlobPath, ct);
+                }
+                else if (ext == ".pdf")
+                {
+                    await _driveUploaderService.UpdateFolderIdsInPDFDocumentAsync(
+                        p.FileName, ext, plan.WorkOrderId, plan.WorkOrderFolderId,
+                        plan.PdfFolderId, p.BlobPath, ct);
+                }
+                else
+                {
+                    // Optional: ignore unsupported for stamping
+                    // Log.Warning("Skipping unsupported type for stamping: {File}", p.FileName);
+                }
+            }
+
+            // 4) Build SAS per file (Create + Write; 15 min TTL)
+            var files = plan.Files.Select(p =>
+            {
+                var ctHint = req.Files.FirstOrDefault(f =>
+                    string.Equals(f.Name, p.FileName, StringComparison.OrdinalIgnoreCase))?.ContentType
+                    ?? "application/octet-stream";
+
+                var sas = SASHelper.GenerateBlobPutSasUri(p.Container!, p.BlobPath!, TimeSpan.FromMinutes(15));
+                return new StartBlobFile(p.FileName, p.Container!, p.BlobPath!, ctHint, sas.ToString());
+            }).ToList();
+
+            // 5) Return plan + SAS
+            var resp = new StartBlobBatchResponse(
+                plan.WorkOrderId,
+                plan.BatchId,
+                prefix,
+                RecommendedParallelism: 5,
+                files
+            );
+
+            return Ok(resp);
+        }
+
+
+        //FINALIZE BLOB BATCH
+        [HttpPost("FinalizeBlobBatch")]
+        public async Task<ActionResult<FinalizeBlobBatchResponse>> FinalizeBlobBatch(
+    [FromBody] FinalizeBlobBatchRequest req,
+    CancellationToken ct)
+        {
+            if (req.Files is null || req.Files.Count == 0)
+                return BadRequest("No files provided.");
+
+            var connStr = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING")
+                         ?? throw new InvalidOperationException("AZURE_STORAGE_CONNECTION_STRING missing.");
+            var svc = new BlobServiceClient(connStr);
+
+            var ok = 0;
+            var failed = new List<object>();
+
+            // small parallelism helps when verifying 30–50 blobs
+            var degree = Math.Min(8, Math.Max(1, req.Files.Count));
+            using var gate = new SemaphoreSlim(degree);
+            var tasks = req.Files.Select(async f =>
+            {
+                await gate.WaitAsync(ct);
+                try
+                {
+                    var container = (f.Container ?? "").Trim().ToLowerInvariant();
+                    var path = (f.BlobPath ?? "").Replace('\\', '/').TrimStart('/');
+
+                    var bc = svc.GetBlobContainerClient(container).GetBlobClient(path);
+
+                    // HEAD the blob
+                    var props = await bc.GetPropertiesAsync(cancellationToken: ct);
+
+                    // cheap guard: ensure > 0 bytes
+                    if (props.Value.ContentLength <= 0)
+                        throw new RequestFailedException(409, "zero-length");
+
+                    Interlocked.Increment(ref ok);
+                }
+                catch (RequestFailedException ex) when (ex.Status == 404)
+                {
+                    lock (failed) failed.Add(new { f.Name, reason = "not found" });
+                }
+                catch (RequestFailedException ex)
+                {
+                    lock (failed) failed.Add(new { f.Name, reason = $"storage error {ex.Status}" });
+                }
+                catch (Exception ex)
+                {
+                    lock (failed) failed.Add(new { f.Name, reason = ex.Message });
+                }
+                finally
+                {
+                    gate.Release();
+                }
+            }).ToArray();
+
+            await Task.WhenAll(tasks);
+
+            // Optional: if failed.Count == 0, mark DB state "uploaded/ready" here
+
+            return Ok(new FinalizeBlobBatchResponse(
+                WorkOrderId: req.WorkOrderId,
+                BatchId: req.BatchId,
+                PlannedCount: req.Files.Count,
+                UploadedOk: ok,
+                UploadedFailed: failed,
+                FinalizeOk: failed.Count == 0
+            ));
+        }
+        //
         //SENDING TO BLOB ONLY - START
         // ===== 1) UPLOAD — micro-batches, no enqueue =====
         [RequestSizeLimit(200 * 1024 * 1024)]
