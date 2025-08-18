@@ -11,7 +11,9 @@
         string? TestPrefix,
         string? BatchId,
         string? CustPath,
-        List<ClientFileDto> Files);
+        List<ClientFileDto> Files,
+        int? ClientParallelism // <— new (optional)
+    );
 
     /// <summary>Per-file plan returned by StartBlobBatch, including SAS for direct PUT.</summary>
 

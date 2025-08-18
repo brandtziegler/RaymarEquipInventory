@@ -323,11 +323,11 @@ namespace RaymarEquipmentInventory.Controllers
             });
         }
 
-        //SEND DIRECTLY TO SAS
+        // SEND DIRECTLY TO SAS
         [HttpPost("StartBlobBatch")]
         public async Task<ActionResult<StartBlobBatchResponse>> StartBlobBatch(
-    [FromBody] StartBlobBatchRequest req,
-    CancellationToken ct)
+            [FromBody] StartBlobBatchRequest req,
+            CancellationToken ct)
         {
             if (req is null || string.IsNullOrWhiteSpace(req.WorkOrderId))
                 return BadRequest("workOrderId is required.");
@@ -345,8 +345,9 @@ namespace RaymarEquipmentInventory.Controllers
             );
 
             // 2) Optional test prefix
-            string? prefix = string.IsNullOrWhiteSpace(req.TestPrefix) ? null
-                            : $"{req.TestPrefix.Trim().Trim('/')}/{plan.BatchId}";
+            string? prefix = string.IsNullOrWhiteSpace(req.TestPrefix)
+                ? null
+                : $"{req.TestPrefix.Trim().Trim('/')}/{plan.BatchId}";
             if (!string.IsNullOrEmpty(prefix))
             {
                 foreach (var pf in plan.Files)
@@ -357,6 +358,7 @@ namespace RaymarEquipmentInventory.Controllers
             foreach (var p in plan.Files)
             {
                 var ext = (Path.GetExtension(p.FileName)?.ToLowerInvariant()) ?? string.Empty;
+
                 if (ext is ".jpg" or ".jpeg" or ".png")
                 {
                     await _driveUploaderService.UpdateFolderIdsInPartsDocumentAsync(
@@ -369,35 +371,40 @@ namespace RaymarEquipmentInventory.Controllers
                         p.FileName, ext, plan.WorkOrderId, plan.WorkOrderFolderId,
                         plan.PdfFolderId, p.BlobPath, ct);
                 }
-                else
-                {
-                    // Optional: ignore unsupported for stamping
-                    // Log.Warning("Skipping unsupported type for stamping: {File}", p.FileName);
-                }
+                // else: unsupported for stamping — skip
             }
 
-            // 4) Build SAS per file (Create + Write; 15 min TTL)
+            // 4) Build SAS per file (Create + Write; 15-min TTL)
             var files = plan.Files.Select(p =>
             {
                 var ctHint = req.Files.FirstOrDefault(f =>
                     string.Equals(f.Name, p.FileName, StringComparison.OrdinalIgnoreCase))?.ContentType
                     ?? "application/octet-stream";
 
-                var sas = SASHelper.GenerateBlobPutSasUri(p.Container!, p.BlobPath!, TimeSpan.FromMinutes(15));
-                return new StartBlobFile(p.FileName, p.Container!, p.BlobPath!, ctHint, sas.ToString());
+                var sas = SASHelper.GenerateBlobPutSasUri(
+                    p.Container!, p.BlobPath!, TimeSpan.FromMinutes(15));
+
+                return new StartBlobFile(
+                    p.FileName, p.Container!, p.BlobPath!, ctHint, sas.ToString());
             }).ToList();
 
-            // 5) Return plan + SAS
+            // 5) Recommended parallelism (clamp client hint to safe range)
+            //    Keep server in control; fallback to a sane default (5).
+            var raw = req.ClientParallelism ?? 5;
+            var recommended = Math.Clamp(raw, 1, 16);
+
+            // 6) Return plan + SAS
             var resp = new StartBlobBatchResponse(
                 plan.WorkOrderId,
                 plan.BatchId,
                 prefix,
-                RecommendedParallelism: 5,
+                RecommendedParallelism: recommended,
                 files
             );
 
             return Ok(resp);
         }
+
 
 
         //FINALIZE BLOB BATCH
