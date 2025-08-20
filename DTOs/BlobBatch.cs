@@ -25,4 +25,24 @@
     public record FinalizeBlobFileDto(string Name, string Container, string BlobPath);
     public record FinalizeBlobBatchRequest(string WorkOrderId, string BatchId, List<FinalizeBlobFileDto> Files);
     public record FinalizeBlobBatchResponse(string WorkOrderId, string BatchId, int PlannedCount, int UploadedOk, IReadOnlyList<object> UploadedFailed, bool FinalizeOk);
+
+    public sealed class ProcessBatchRequest
+    {
+        public string WorkOrderId { get; set; } = default!;
+        public string BatchId { get; set; } = default!;
+        public string? WorkOrderFolderId { get; set; }
+        public string? PdfFolderId { get; set; }
+        public string? ExpensesFolderId { get; set; }
+        public string? ImagesFolderId { get; set; }
+        public string? TestPrefix { get; set; }
+        public List<ProcessFileDto> Files { get; set; } = new();
+    }
+
+    public sealed class ProcessFileDto
+    {
+        public string Name { get; set; } = default!;
+        public string? Container { get; set; }
+        public string? BlobPath { get; set; }
+        public string? ContentType { get; set; }
+    }
 }

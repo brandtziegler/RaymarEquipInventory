@@ -854,6 +854,119 @@ namespace RaymarEquipmentInventory.Controllers
 
             return results;
         }    //FINALIZE BATCH - END
+
+        // POST-BLOB POST-PROCESSING — JUST THE NEXT STEP
+        [HttpPost("EnqueueBlobPostProcessing")]
+        public async Task<ActionResult<object>> EnqueueBlobPostProcessing(
+            [FromBody] ProcessBatchRequest req,
+            CancellationToken ct)
+        {
+            // -------------------------
+            // STEP 0: Sanity check — don’t let no junk slip through
+            // -------------------------
+            if (req is null)
+                return BadRequest("Well dang, request body is empty.");
+            if (string.IsNullOrWhiteSpace(req.WorkOrderId))
+                return BadRequest("Need a WorkOrderId, bud.");
+            if (string.IsNullOrWhiteSpace(req.BatchId))
+                return BadRequest("BatchId required — don’t half-ass it.");
+            if (req.Files is null || req.Files.Count == 0)
+                return BadRequest("Ain’t no files in here. What’re we processing?");
+
+            try
+            {
+                // -------------------------
+                // STEP 1: Build args for downstream jobs
+                // -------------------------
+                var args = new ProcessBatchArgs(
+                    req.WorkOrderId,
+                    req.BatchId,
+                    req.WorkOrderFolderId,
+                    req.ImagesFolderId,
+                    req.PdfFolderId,
+                    req.ExpensesFolderId,
+                    req.Files.Select(f =>
+                        new PlannedFileInfo(
+                            f.Name,
+                            (f.Container ?? "").Trim().ToLowerInvariant(),
+                            (f.BlobPath ?? "").Replace('\\', '/').TrimStart('/')
+                        )
+                    ).ToList()
+                );
+
+                // -------------------------
+                // STEP 2: Identify receipts
+                // -------------------------
+                var receiptFiles = args.Files
+                    .Where(f => f.Container.Equals("images-receipts", StringComparison.OrdinalIgnoreCase))
+                    .Where(f =>
+                    {
+                        var ext = Path.GetExtension(f.FileName) ?? "";
+                        return ext.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
+                            || ext.Equals(".jpeg", StringComparison.OrdinalIgnoreCase)
+                            || ext.Equals(".png", StringComparison.OrdinalIgnoreCase);
+                    })
+                    .ToList();
+
+                // -------------------------
+                // STEP 3: Enqueue main job (Google Drive sync)
+                // -------------------------
+                // Always do the heavy haul to Drive, come hell or high water.
+                var uploadJobId = _jobs.Enqueue(() =>
+                    _driveUploaderService.ClearAndUploadBatchFromBlobAsync(args, CancellationToken.None));
+
+                string? parseJobId = null;
+
+                // -------------------------
+                // STEP 4: Chain receipts parse if needed
+                // -------------------------
+                //if (receiptFiles.Any())
+                //{
+                //    // If receipts are sittin’ in there, line up another job
+                //    parseJobId = _jobs.ContinueJobWith(uploadJobId, () =>
+                //        _driveUploaderService.ParseReceiptBatchFromBlobAndEmailAsync(
+                //            args,
+                //            "carrieziegler1973@gmail.com", // <- or inject config later
+                //            CancellationToken.None));
+
+                //    Log.Information("☁️ Enqueued upload job {UploadJobId} then 🧾 parse/email job {ParseJobId} for Batch {BatchId}",
+                //        uploadJobId, parseJobId, args.BatchId);
+                //}
+                //else
+                //{
+                //    Log.Information("☁️ Enqueued upload job {UploadJobId} (no receipts) for Batch {BatchId}",
+                //        uploadJobId, args.BatchId);
+                //}
+
+                // -------------------------
+                // STEP 5: Return Accepted with job info
+                // -------------------------
+                return Accepted(new
+                {
+                    args.WorkOrderId,
+                    args.BatchId,
+                    plannedCount = args.Files.Count,
+                    enqueued = true,
+                    uploadJobId,
+                    parseJobId,
+                    willParseReceipts = receiptFiles.Any()
+                });
+            }
+            catch (Exception ex)
+            {
+                // Catch-all — don’t crash the tractor if a wheel comes off
+                Log.Error(ex, "Dang! Failed to enqueue post-processing for Batch {BatchId}", req.BatchId);
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    error = "Well butter my biscuit, something blew up in post-processing.",
+                    details = ex.Message
+                });
+            }
+        }
+
+        //END
+
+
         //SENDING TO BLOB ONLY - END
         [HttpPost("UploadAppFilesToAzureBlob_Full")]
         public async Task<IActionResult> UploadAppFilesToAzureBlob_Full(
