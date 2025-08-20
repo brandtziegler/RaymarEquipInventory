@@ -4,6 +4,7 @@ using RaymarEquipmentInventory.Models;
 using RaymarEquipmentInventory.Services;
 using System.Data.Odbc;
 using Hangfire;
+using Hangfire.Dashboard;
 using Hangfire.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Data.SqlClient;
@@ -244,8 +245,7 @@ var hangfireConfig = new HangfireConfiguration(
 
 hangfireConfig.InitializeJobs();
 
-app.UseHangfireDashboard();
-//app.UseHangfireServer();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
@@ -260,4 +260,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    Authorization = new[] { new AllowAllDashboardAuthorizationFilter() }
+});
+
+
 app.Run();
+
+public sealed class AllowAllDashboardAuthorizationFilter : IDashboardAuthorizationFilter
+{
+    public bool Authorize(DashboardContext context) => true; // let everybody in
+}
