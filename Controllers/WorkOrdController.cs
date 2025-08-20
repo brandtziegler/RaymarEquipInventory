@@ -347,7 +347,7 @@ namespace RaymarEquipmentInventory.Controllers
             // 2) Optional test prefix
             string? prefix = string.IsNullOrWhiteSpace(req.TestPrefix)
                 ? null
-                : $"{req.TestPrefix.Trim().Trim('/')}/{plan.BatchId}";
+                : req.TestPrefix.Trim().Trim('/');
             if (!string.IsNullOrEmpty(prefix))
             {
                 foreach (var pf in plan.Files)
