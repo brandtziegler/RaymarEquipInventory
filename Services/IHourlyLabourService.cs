@@ -7,7 +7,9 @@ namespace RaymarEquipmentInventory.Services
 
         Task<List<DTOs.HourlyLabourType>> GetAllHourlyLabourTypes();
         Task<DTOs.HourlyLabourType> GetHourlyLabourById(int labourID);
-        Task<bool> DeleteRegularLabourAsync(int technicianWorkOrderId);
+        Task<int> DeleteRegularLabourAsync(int sheetId, CancellationToken ct = default);
         Task<bool> InsertRegularLabourAsync(RegularLabourLine labour);
+        Task<int> InsertRegularLabourBulkAsync(
+            IEnumerable<RegularLabourLine> lines, CancellationToken ct = default);
     }
 }

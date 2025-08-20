@@ -2,6 +2,7 @@
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
+using Hangfire;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -13,12 +14,15 @@ namespace RaymarEquipmentInventory.Controllers
 
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly ISamsaraApiService _samsaraApiService;
+        private readonly IBackgroundJobClient _jobs;
 
-        public HourlyLabourController(IHourlyLabourService hourlyLabourService, IQuickBooksConnectionService quickBooksConnectionService, ISamsaraApiService samsaraApiService)
+        public HourlyLabourController(IHourlyLabourService hourlyLabourService, 
+            IQuickBooksConnectionService quickBooksConnectionService, ISamsaraApiService samsaraApiService, IBackgroundJobClient jobs)
         {
             _hourlylabourService = hourlyLabourService;
             _quickBooksConnectionService = quickBooksConnectionService;
             _samsaraApiService = samsaraApiService;
+            _jobs = jobs;
         }
 
         [HttpGet("GetHourlyLabourTypes")]
@@ -45,23 +49,69 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
-        [HttpPost("ClearRegularLabour")]
-        public async Task<IActionResult> ClearRegularLabour([FromQuery] int technicianWorkOrderId)
+        [HttpPost("ClearAndUpsertRegularLabour")]
+        public async Task<IActionResult> ClearAndUpsertRegularLabour([FromBody] RegularLabourLineGroup labourGroup, [FromQuery] int sheetId, CancellationToken ct)
         {
             try
             {
-                var result = await _hourlylabourService.DeleteRegularLabourAsync(technicianWorkOrderId);
-                if (!result)
-                    return BadRequest("Failed to clear regular labour entries.");
+                var deleted = await _hourlylabourService.DeleteRegularLabourAsync(sheetId, ct);
 
-                return Ok("Regular labour entries cleared successfully.");
+                return Ok(new
+                {
+                    sheetId,
+                    deleted,
+                    message = deleted == 0
+                        ? "No regular labour entries found for this sheet."
+                        : $"Deleted {deleted} RegularLabour entries."
+                });
             }
             catch (Exception ex)
             {
-                Log.Error($"🔥 Error clearing regular labour for TechWO ID {technicianWorkOrderId}: {ex.Message}");
+                Log.Error(ex, "🔥 Error clearing regular labour for SheetID {SheetId}", sheetId);
                 return StatusCode(500, "An error occurred during regular labour clearing.");
             }
         }
+
+
+
+        // POST /api/WorkOrd/SyncRegularLabourForSheet?sheetId=123
+        [HttpPost("SyncRegularLabourForSheet")]
+        public IActionResult SyncRegularLabourForSheet(
+            [FromBody] RegularLabourLineGroup labourGroup,
+            [FromQuery] int sheetId,
+            CancellationToken ct)
+        {
+            // STEP 0: sanity (don’t send me an empty cooler)
+            if (sheetId <= 0) return BadRequest("sheetId is required.");
+
+            var lines = labourGroup?.RegLabourLineList ?? new List<RegularLabourLine>();
+            var intendedInsert = lines.Count;
+
+
+
+            // STEP 2: kick the jobs — delete first, then insert (let Hangfire do the hauling)
+            var deleteJobId = _jobs.Enqueue(() =>
+                _hourlylabourService.DeleteRegularLabourAsync(sheetId, CancellationToken.None));
+
+            string? insertJobId = null;
+            if (intendedInsert > 0)
+            {
+                // use bulk wrapper that calls your existing InsertRegularLabourAsync per line
+                var payload = lines; // Hangfire will serialize this DTO
+                insertJobId = _jobs.ContinueJobWith(deleteJobId, () =>
+                    _hourlylabourService.InsertRegularLabourBulkAsync(payload, CancellationToken.None));
+            }
+
+            // STEP 3: get out quick (202 Accepted)
+            return Accepted(new
+            {
+                sheetId,
+                intendedInsert,
+                deleteJobId,
+                insertJobId
+            });
+        }
+
 
         [HttpPost("AddRegularLabourBatch")]
         public async Task<IActionResult> AddRegularLabourBatch([FromBody] RegularLabourLineGroup labourGroup)

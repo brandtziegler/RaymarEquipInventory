@@ -9,6 +9,7 @@ using System.Reflection.PortableExecutable;
 using RaymarEquipmentInventory.Helpers;
 using Serilog;
 using Microsoft.AspNetCore.Server.IISIntegration;
+using System.Linq;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -60,37 +61,60 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<bool> DeleteRegularLabourAsync(int technicianWorkOrderId)
+        public async Task<int> DeleteRegularLabourAsync(int sheetId, CancellationToken ct = default)
         {
-            try
+            if (sheetId <= 0) return 0;
+
+            var techWoIds = await _context.TechnicianWorkOrders
+                .Where(t => t.SheetId == sheetId)
+                .Select(t => t.TechnicianWorkOrderId)
+                .ToListAsync(ct);
+
+            if (techWoIds.Count == 0) return 0;
+
+            var entries = await _context.RegularLabours
+                .Where(r => r.TechnicianWorkOrderId.HasValue &&
+                            techWoIds.Contains(r.TechnicianWorkOrderId.Value))
+                .ToListAsync(ct);
+
+            var deletedCount = entries.Count;   // property on List<T>
+            _context.RegularLabours.RemoveRange(entries);
+            await _context.SaveChangesAsync(ct);
+            return deletedCount;
+        }
+
+
+
+        public async Task<int> InsertRegularLabourBulkAsync(
+            IEnumerable<RegularLabourLine> lines, CancellationToken ct = default)
+        {
+            var entities = new List<RegularLabour>();
+
+            foreach (var labour in lines)
             {
-                if (technicianWorkOrderId <= 0)
+                if (labour.TechnicianWorkOrderID <= 0 || labour.LabourTypeID <= 0 || labour.DateOfLabor == DateTime.MinValue)
+                    continue; // skip bad rows, or collect and report
+
+                entities.Add(new RegularLabour
                 {
-                    Log.Warning("TechnicianWorkOrderID is required for labour deletion.");
-                    return false;
-                }
-
-                var entriesToDelete = await _context.RegularLabours
-                    .Where(r => r.TechnicianWorkOrderId == technicianWorkOrderId)
-                    .ToListAsync();
-
-                if (!entriesToDelete.Any())
-                {
-                    Log.Information($"🟡 No regular labour entries found for TechnicianWorkOrderID {technicianWorkOrderId}. Nothing to delete.");
-                    return true;
-                }
-
-                _context.RegularLabours.RemoveRange(entriesToDelete);
-                await _context.SaveChangesAsync();
-
-                Log.Information($"🗑️ Deleted {entriesToDelete.Count} RegularLabour entries for TechnicianWorkOrderID {technicianWorkOrderId}");
-                return true;
+                    TechnicianWorkOrderId = labour.TechnicianWorkOrderID,
+                    DateOfLabor = labour.DateOfLabor,
+                    StartLabor = labour.StartLabor,
+                    FinishLabor = labour.FinishLabor,
+                    WorkDescription = (labour.WorkDescription ?? "").Trim(),
+                    TotalHours = Math.Max(0, labour.TotalHours),
+                    TotalMinutes = Math.Max(0, labour.TotalMinutes),
+                    TotalOthours = Math.Max(0, labour.TotalOTHours),
+                    TotalOtminutes = Math.Max(0, labour.TotalOTMinutes),
+                    LabourTypeId = labour.LabourTypeID
+                });
             }
-            catch (Exception ex)
-            {
-                Log.Error($"❌ Failed to delete RegularLabour entries for TechnicianWorkOrderID {technicianWorkOrderId}: {ex.Message}");
-                return false;
-            }
+
+            if (entities.Count == 0) return 0;
+
+            await _context.RegularLabours.AddRangeAsync(entities, ct);
+            await _context.SaveChangesAsync(ct);
+            return entities.Count;
         }
 
 
