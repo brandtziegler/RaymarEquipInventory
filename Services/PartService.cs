@@ -99,7 +99,7 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-        public async Task<bool> ClearPartsUsedAsync(int sheetId)
+        public async Task<bool> ClearPartsUsedAsync(int sheetId, CancellationToken ct = default)
         {
             try
             {
@@ -138,7 +138,83 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-        public async Task<bool> InsertPartsUsedAsync(DTOs.PartsUsed dto)
+
+
+        public async Task<int> InsertPartsUsedBulkAsync(
+    IEnumerable<DTOs.PartsUsed> items,
+    CancellationToken ct = default)
+        {
+            var list = items?.ToList() ?? new List<DTOs.PartsUsed>();
+            if (list.Count == 0) return 0;
+
+            // Keep dto<->entity pairing so we can attach docs after IDs are generated
+            var pairs = new List<(DTOs.PartsUsed dto, Models.PartsUsed entity)>(list.Count);
+
+            foreach (var dto in list)
+            {
+                if (!(dto.SheetId.HasValue && dto.SheetId.Value > 0)) continue;
+
+                var entity = new Models.PartsUsed
+                {
+                    QtyUsed = dto.QtyUsed ?? 0,
+                    Notes = dto.Notes?.Trim() ?? "",
+                    SheetId = dto.SheetId.Value,
+                    InventoryId = dto.InventoryID ?? 7,
+                    PartNumber = dto.PartNumber,
+                    Description = dto.Description,
+                    UploadDate = DateTime.Now,
+                    UploadedBy = "iPad App",
+                    Deleted = false
+                };
+
+                pairs.Add((dto, entity));
+            }
+
+            if (pairs.Count == 0) return 0;
+
+            // Insert all PartsUsed in one shot
+            var prev = _context.ChangeTracker.AutoDetectChangesEnabled;
+            try
+            {
+                _context.ChangeTracker.AutoDetectChangesEnabled = false;
+                _context.PartsUseds.AddRange(pairs.Select(p => p.entity));
+                await _context.SaveChangesAsync(ct); // IDs generated here
+            }
+            finally
+            {
+                _context.ChangeTracker.AutoDetectChangesEnabled = prev;
+            }
+
+            // Build all PartsDocuments now that PartUsedId is known
+            var docEntities = new List<Models.PartsDocument>();
+            foreach (var (dto, entity) in pairs)
+            {
+                if (dto.PartsDocs == null || dto.PartsDocs.Count == 0) continue;
+
+                foreach (var doc in dto.PartsDocs)
+                {
+                    docEntities.Add(new Models.PartsDocument
+                    {
+                        PartUsedId = entity.PartUsedId,
+                        FileName = doc.FileName,
+                        Description = doc.Description ?? "UNKNOWN",
+                        UploadedBy = "iPad App",
+                        UploadDate = DateTime.Now
+                    });
+                }
+            }
+
+            if (docEntities.Count > 0)
+            {
+                _context.PartsDocuments.AddRange(docEntities);
+                await _context.SaveChangesAsync(ct);
+            }
+
+            Log.Information("✅ Bulk inserted {Count} PartsUsed and {Docs} PartsDocuments.", pairs.Count, docEntities.Count);
+            return pairs.Count;
+        }
+
+        public async Task<bool> InsertPartsUsedAsync(DTOs.PartsUsed dto, CancellationToken ct = default)
         {
             try
             {

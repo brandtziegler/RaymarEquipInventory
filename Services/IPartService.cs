@@ -17,10 +17,13 @@ namespace RaymarEquipmentInventory.Services
 
         Task<bool> UpdatePart(DTOs.PartsUsed partsUsedDto);
 
-        Task<bool> InsertPartsUsedAsync(DTOs.PartsUsed partsUsedDto);
+        Task<bool> InsertPartsUsedAsync(DTOs.PartsUsed partsUsedDto, CancellationToken ct = default);
 
-        Task<bool> ClearPartsUsedAsync(int sheetId);
+        Task<bool> ClearPartsUsedAsync(int sheetId, CancellationToken ct = default);
         //Task<List<Tech>> GetAllParts();
+
+        Task<int> InsertPartsUsedBulkAsync(IEnumerable<PartsUsed> items, CancellationToken ct = default);
+
 
     }
 }

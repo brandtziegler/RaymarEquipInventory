@@ -2,6 +2,7 @@
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
+using Hangfire;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -11,11 +12,13 @@ namespace RaymarEquipmentInventory.Controllers
     {
         private readonly IPartService _partService;
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
+        private readonly IBackgroundJobClient _jobs;
 
-        public PartsController(IPartService partService, IQuickBooksConnectionService quickBooksConnectionService)
+        public PartsController(IPartService partService, IQuickBooksConnectionService quickBooksConnectionService, IBackgroundJobClient jobs)
         {
             _partService = partService;
             _quickBooksConnectionService = quickBooksConnectionService; 
+            _jobs = jobs;
         }
 
 
@@ -61,6 +64,59 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, "An error occurred while launching the work order.");
             }
         }
+
+
+        // POST /api/Parts/InsertPartsUsedBatchForSheet?sheetId=123
+        // Always enqueue: clear existing PartsUsed for the sheet, then bulk-insert the provided list.
+        [HttpPost("InsertPartsUsedBatchForSheet")]
+        public IActionResult InsertPartsUsedBatchForSheet(
+            [FromQuery] int sheetId,
+            [FromBody] PartsUsedGroup groupEntry)
+        {
+            if (sheetId <= 0)
+                return BadRequest("sheetId is required.");
+            if (groupEntry is null)
+                return BadRequest("Payload is required.");
+
+            var items = groupEntry.PartsUsedList ?? new List<PartsUsed>();
+            var intendedInsert = items.Count;
+
+            // Normalize: server is source of truth for SheetId
+            if (intendedInsert > 0)
+            {
+                foreach (var p in items)
+                {
+                    if (p.SheetId is null || p.SheetId == 0 || p.SheetId != sheetId)
+                        p.SheetId = sheetId;
+                }
+            }
+
+            // 1) Enqueue clear
+            var clearJobId = _jobs.Enqueue(() =>
+                _partService.ClearPartsUsedAsync(sheetId, CancellationToken.None));
+
+            // 2) Chain bulk insert (if any)
+            string? insertJobId = null;
+            if (intendedInsert > 0)
+            {
+                var payload = items; // Hangfire will serialize the DTO list
+                insertJobId = _jobs.ContinueJobWith(clearJobId, () =>
+                    _partService.InsertPartsUsedBulkAsync(payload, CancellationToken.None));
+            }
+
+            // 3) Return fast
+            return Accepted(new
+            {
+                sheetId,
+                intendedInsert,
+                clearJobId,
+                insertJobId,
+                message = intendedInsert == 0
+                    ? "Queued clear only (no parts in payload)."
+                    : $"Queued clear + insert of {intendedInsert} PartsUsed row(s)."
+            });
+        }
+
 
         [HttpPost("ClearPartsUsedAsync")]
         public async Task<IActionResult> ClearPartsUsedAsync([FromQuery] int sheetId)
