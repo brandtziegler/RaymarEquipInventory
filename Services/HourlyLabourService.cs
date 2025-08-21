@@ -88,12 +88,14 @@ namespace RaymarEquipmentInventory.Services
         public async Task<int> InsertRegularLabourBulkAsync(
             IEnumerable<RegularLabourLine> lines, CancellationToken ct = default)
         {
-            var entities = new List<RegularLabour>();
+            var src = lines?.ToList() ?? new List<RegularLabourLine>();
+            if (src.Count == 0) return 0;
 
-            foreach (var labour in lines)
+            var entities = new List<RegularLabour>(src.Count);
+            foreach (var labour in src)
             {
                 if (labour.TechnicianWorkOrderID <= 0 || labour.LabourTypeID <= 0 || labour.DateOfLabor == DateTime.MinValue)
-                    continue; // skip bad rows, or collect and report
+                    continue;
 
                 entities.Add(new RegularLabour
                 {
@@ -109,13 +111,23 @@ namespace RaymarEquipmentInventory.Services
                     LabourTypeId = labour.LabourTypeID
                 });
             }
-
             if (entities.Count == 0) return 0;
 
-            await _context.RegularLabours.AddRangeAsync(entities, ct);
-            await _context.SaveChangesAsync(ct);
+            var prev = _context.ChangeTracker.AutoDetectChangesEnabled;
+            try
+            {
+                _context.ChangeTracker.AutoDetectChangesEnabled = false;   // ← big win
+                _context.RegularLabours.AddRange(entities);                // ← AddRange (not Async)
+                await _context.SaveChangesAsync(ct);                       // ← single save
+            }
+            finally
+            {
+                _context.ChangeTracker.AutoDetectChangesEnabled = prev;
+            }
+
             return entities.Count;
         }
+
 
 
         public async Task<bool> InsertRegularLabourAsync(RegularLabourLine labour)

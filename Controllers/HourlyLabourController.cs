@@ -75,40 +75,63 @@ namespace RaymarEquipmentInventory.Controllers
 
 
         // POST /api/WorkOrd/SyncRegularLabourForSheet?sheetId=123//mewcomment
-        [HttpPost("SyncRegularLabourForSheet")]
-        public IActionResult SyncRegularLabourForSheet(
-            [FromBody] RegularLabourLineGroup labourGroup,
-            [FromQuery] int sheetId,
-            CancellationToken ct)
+        // POST /api/HourlyLabour/ClearRegularLabourForSheet?sheetId=123
+        [HttpPost("ClearRegularLabourForSheet")]
+        public async Task<IActionResult> ClearRegularLabourForSheet([FromQuery] int sheetId, CancellationToken ct)
         {
-            // STEP 0: sanity (don’t send me an empty cooler)
             if (sheetId <= 0) return BadRequest("sheetId is required.");
 
+            var deleted = await _hourlylabourService.DeleteRegularLabourAsync(sheetId, ct);
+
+            return Ok(new
+            {
+                sheetId,
+                deleted,
+                message = deleted == 0
+                    ? "No regular labour entries found for this sheet."
+                    : $"Deleted {deleted} RegularLabour entries."
+            });
+        }
+
+        // POST /api/HourlyLabour/InsertRegularLabourBatchForSheet?sheetId=123
+        // Sends the lines you want inserted AFTER you've cleared. Default: synchronous insert.
+        // If you still want background mode sometimes, set enqueue=true.
+        [HttpPost("InsertRegularLabourBatchForSheet")]
+        public async Task<IActionResult> InsertRegularLabourBatchForSheet(
+            [FromBody] RegularLabourLineGroup labourGroup,
+            [FromQuery] int sheetId,
+            [FromQuery] bool enqueue = false,                 // default sync for atomic testing
+            CancellationToken ct = default)
+        {
+            if (sheetId <= 0) return BadRequest("sheetId is required.");
             var lines = labourGroup?.RegLabourLineList ?? new List<RegularLabourLine>();
             var intendedInsert = lines.Count;
+            var deleted = await _hourlylabourService.DeleteRegularLabourAsync(sheetId, ct);
+            // (Optional) If you want to hard-enforce sheet ownership, validate here.
+            // You said these are pre-verified, so we skip extra checks.
 
-
-
-            // STEP 2: kick the jobs — delete first, then insert (let Hangfire do the hauling)
-            var deleteJobId = _jobs.Enqueue(() =>
-                _hourlylabourService.DeleteRegularLabourAsync(sheetId, CancellationToken.None));
-
-            string? insertJobId = null;
-            if (intendedInsert > 0)
+            if (!enqueue)
             {
-                // use bulk wrapper that calls your existing InsertRegularLabourAsync per line
-                var payload = lines; // Hangfire will serialize this DTO
-                insertJobId = _jobs.ContinueJobWith(deleteJobId, () =>
-                    _hourlylabourService.InsertRegularLabourBulkAsync(payload, CancellationToken.None));
+                var inserted = await _hourlylabourService.InsertRegularLabourBulkAsync(lines, ct);
+                return Ok(new
+                {
+                    sheetId,
+                    intendedInsert,
+                    inserted,
+                    message = $"Inserted {inserted} RegularLabour entries."
+                });
             }
 
-            // STEP 3: get out quick (202 Accepted)
+            // Background path (if you flip enqueue=true)
+            var jobId = _jobs.Enqueue(() =>
+                _hourlylabourService.InsertRegularLabourBulkAsync(lines, CancellationToken.None));
+
             return Accepted(new
             {
                 sheetId,
                 intendedInsert,
-                deleteJobId,
-                insertJobId
+                jobId,
+                message = $"Queued insert of {intendedInsert} RegularLabour entries."
             });
         }
 
