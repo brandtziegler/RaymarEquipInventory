@@ -40,14 +40,24 @@ namespace RaymarEquipmentInventory.Services
             client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", _resendKey);
 
-            var succeeded = 0;                 // local counter for thread-safe increments
-            var gate = new SemaphoreSlim(3);   // modest parallelism to be polite
+            // Resend: 2 req/sec -> ~500ms interval. Give cushion.
+            var minInterval = TimeSpan.FromMilliseconds(600);
+            var lastSend = DateTimeOffset.MinValue;
 
-            var tasks = dto.EmailAddresses.Select(async to =>
+            var succeeded = 0;
+
+            // Send SEQUENTIALLY with throttle + retry
+            foreach (var to in dto.EmailAddresses)
             {
-                await gate.WaitAsync(ct);
+                // Throttle to provider limit
+                var now = DateTimeOffset.UtcNow;
+                var wait = lastSend + minInterval - now;
+                if (wait > TimeSpan.Zero)
+                    await Task.Delay(wait, ct);
+
                 try
                 {
+                    // Build email (your exact content)
                     var email = new
                     {
                         from = "service@taskfuel.app",
@@ -60,44 +70,68 @@ namespace RaymarEquipmentInventory.Services
                     <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Google Drive &amp; Azure SQL.</p>
                     <p>You can view the uploaded files at this address:<br>
                       <a href='https://drive.google.com/drive/folders/{dto.WorkOrderFolderId}'>
-                        View WO#{dto.WorkOrderNumber} Files on Google Drive for {dto.CustPath}>{dto.WorkOrderNumber}
+                        View WO#{dto.WorkOrderNumber} Files on Google Drive for {dto.CustPath}
                       </a>
                     </p>
                     <p><em>Need access? Use the Raymar Google account already shared with this folder.</em></p>
                     <p><em>If you're not sure of the password, call me directly.</em></p>"
                     };
 
-                    var resp = await client.PostAsJsonAsync("https://api.resend.com/emails", email, ct);
-                    if (resp.IsSuccessStatusCode)
+                    // Retry on 429/5xx with exponential backoff
+                    var attempts = 0;
+                    HttpResponseMessage? resp = null;
+
+                    while (attempts < 3)
                     {
-                        Interlocked.Increment(ref succeeded);
+                        attempts++;
+                        resp = await client.PostAsJsonAsync("https://api.resend.com/emails", email, ct);
+
+                        if (resp.IsSuccessStatusCode) break;
+
+                        // 429 handling – honor Retry-After when present
+                        if ((int)resp.StatusCode == 429)
+                        {
+                            var retryAfter = resp.Headers.RetryAfter?.Delta ?? TimeSpan.FromMilliseconds(800);
+                            await Task.Delay(retryAfter, ct);
+                        }
+                        else if ((int)resp.StatusCode >= 500)
+                        {
+                            // backoff 700ms, 1400ms on retries
+                            var backoff = TimeSpan.FromMilliseconds(700 * attempts);
+                            await Task.Delay(backoff, ct);
+                        }
+                        else
+                        {
+                            break; // 4xx other than 429 – don’t spin
+                        }
+                    }
+
+                    lastSend = DateTimeOffset.UtcNow;
+
+                    if (resp is not null && resp.IsSuccessStatusCode)
+                    {
+                        succeeded++;
                         _log.LogInformation("✅ Email sent to {Email} for WO {WO}", to, dto.WorkOrderNumber);
                     }
                     else
                     {
-                        var body = await resp.Content.ReadAsStringAsync(ct);
+                        var body = resp is null ? "no response" : await resp.Content.ReadAsStringAsync(ct);
                         lock (result.Failed) result.Failed.Add((to, body));
                         _log.LogWarning("❌ Email failed to {Email}: {Body}", to, body);
                     }
                 }
                 catch (Exception ex)
                 {
+                    lastSend = DateTimeOffset.UtcNow;
                     lock (result.Failed) result.Failed.Add((to, ex.Message));
                     _log.LogError(ex, "❌ Exception sending email to {Email}", to);
                 }
-                finally
-                {
-                    gate.Release();
-                }
-            }).ToArray();
-
-            await Task.WhenAll(tasks);
+            }
 
             result.Succeeded = succeeded;
             _log.LogInformation("📬 Mail batch complete: {Ok}/{Total}", result.Succeeded, result.Attempted);
             return result;
         }
-
 
 
 
