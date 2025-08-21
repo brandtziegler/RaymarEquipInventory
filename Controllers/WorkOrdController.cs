@@ -44,13 +44,13 @@ namespace RaymarEquipmentInventory.Controllers
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IDriveUploaderService _driveUploaderService;
         private readonly IDriveAuthService _driveAuthService;
-        private readonly IConfiguration _configuration;
+        private readonly IMailService _mailService;
         private static readonly ConcurrentDictionary<string, SemaphoreSlim> FolderLocks = new();
         private readonly IBackgroundJobClient _jobs;
 
         public WorkOrdController(IWorkOrderService workOrderService, 
             IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, 
-            ISamsaraApiService samsaraApiService, 
+            ISamsaraApiService samsaraApiService, IMailService mailService,
             IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService, IDriveAuthService driveAuthService, IBackgroundJobClient jobs)
         {
             _workOrderService = workOrderService;
@@ -59,12 +59,14 @@ namespace RaymarEquipmentInventory.Controllers
             _technicianService = technicianService;
             _httpClientFactory = httpClientFactory;
             _driveUploaderService = driveUploaderService;
+            _mailService = mailService;
             _jobs = jobs;
            
             _driveAuthService = driveAuthService;
             //_federatedTokenService = federatedTokenService;
 
         }
+
 
 
         [HttpPost("LaunchWorkOrder")]
@@ -125,6 +127,74 @@ namespace RaymarEquipmentInventory.Controllers
                 return BadRequest(ex.ToString());
             }
         }
+
+
+        [HttpPost("SendWorkOrderEmails")]
+        public IActionResult SendWorkOrderEmails([FromBody] DTOs.WorkOrdMailContentBatch dto)
+        {
+            if (dto is null) return BadRequest("Payload required.");
+            if (dto.SheetId <= 0 || dto.WorkOrderNumber <= 0)
+                return BadRequest("SheetId and WorkOrderNumber are required.");
+
+            // 1) Load recipients from environment: any key starting with "WO_Receiver"
+            var env = Environment.GetEnvironmentVariables();
+            var envRecipients = new List<string>();
+
+            foreach (DictionaryEntry de in env)
+            {
+                if (de.Key is string key &&
+                    key.StartsWith("WO_Receiver", StringComparison.OrdinalIgnoreCase) &&
+                    de.Value is string val &&
+                    !string.IsNullOrWhiteSpace(val))
+                {
+                    // allow comma-separated values in a single env var
+                    var split = val.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                    envRecipients.AddRange(split);
+                }
+            }
+
+            // 2) Merge with optional extras from the payload (if any)
+            var extras = dto.EmailAddresses ?? new List<string>();
+            var merged = envRecipients
+                .Concat(extras)
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Select(s => s.Trim())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            if (merged.Count == 0)
+                return BadRequest("No recipients configured. Set WO_Receiver* env vars or include EmailAddresses.");
+
+            // 3) Validate email formats
+            var invalid = new List<string>();
+            foreach (var e in merged)
+            {
+                try { _ = new MailAddress(e); }
+                catch { invalid.Add(e); }
+            }
+            if (invalid.Count > 0)
+                return BadRequest(new { message = "Invalid emails.", invalid });
+
+            // 4) Enqueue fan-out send; return fast
+            var jobId = _jobs.Enqueue(() =>
+                _mailService.SendWorkOrderEmailsAsync(new DTOs.WorkOrdMailContentBatch
+                {
+                    SheetId = dto.SheetId,
+                    WorkOrderNumber = dto.WorkOrderNumber,
+                    WorkOrderFolderId = dto.WorkOrderFolderId,
+                    CustPath = dto.CustPath,
+                    WorkDescription = dto.WorkDescription,
+                    EmailAddresses = merged, // final merged list
+                }, CancellationToken.None));
+
+            return Accepted(new
+            {
+                jobId,
+                recipients = merged.Count,
+                message = $"Queued email to {merged.Count} recipient(s) for WO #{dto.WorkOrderNumber}."
+            });
+        }
+
 
 
         [HttpPost("ClearImagesFolder")]

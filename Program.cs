@@ -85,7 +85,10 @@ if (builder.Environment.IsDevelopment())
         "Resend_Key",
         "Receipt_Receiver_1",
         "Receipt_Receiver_2",
-        "Receipt_Receiver_3"
+        "Receipt_Receiver_3",
+        "WO_Receiver1",
+        "WO_Receiver2",
+        "WO_Receiver3"
     })
         SetIfPresent(k, builder.Configuration[k]);
 
@@ -167,7 +170,7 @@ var connectionString = builder.Configuration.GetConnectionString("RaymarAzureCon
 builder.Services.AddDbContext<RaymarInventoryDBContext>(options =>
     options.UseSqlServer(connectionString));
 
-
+builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IPermissionsService, PermissionsService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>(); // Registering our new service
