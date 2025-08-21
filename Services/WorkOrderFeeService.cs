@@ -24,7 +24,7 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<bool> DeleteWorkOrderFees(int technicianWorkOrderId)
+        public async Task<bool> DeleteWorkOrderFees(int technicianWorkOrderId, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -58,7 +58,54 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<bool> InsertWorkOrderFee(DTOs.WorkOrderFee workOrdFee)
+        public async Task<int> InsertWorkOrderFeeBulkAsync(
+    IEnumerable<RaymarEquipmentInventory.DTOs.WorkOrderFee> items,
+    CancellationToken cancellationToken = default)
+        {
+            var src = items?.ToList() ?? new List<RaymarEquipmentInventory.DTOs.WorkOrderFee>();
+            if (src.Count == 0) return 0;
+
+            var entities = new List<RaymarEquipmentInventory.Models.WorkOrderFee>(src.Count);
+
+            foreach (var fee in src)
+            {
+                // Basic validation (keep zeros if that’s your pattern; just clamp negatives)
+                if (fee.TechnicianWorkOrderID <= 0 || fee.FlatLabourID <= 0 || fee.LabourTypeID <= 0)
+                    continue;
+
+                if (fee.Qty < 0) fee.Qty = 0;
+
+                entities.Add(new RaymarEquipmentInventory.Models.WorkOrderFee
+                {
+                    TechnicianWorkOrderId = fee.TechnicianWorkOrderID,
+                    FlatLabourId = fee.FlatLabourID,
+                    LabourTypeId = fee.LabourTypeID,
+                    Qty = fee.Qty,
+                    WorkDescription = fee.WorkDescription?.Trim() ?? string.Empty
+                });
+            }
+
+            if (entities.Count == 0) return 0;
+
+            var prev = _context.ChangeTracker.AutoDetectChangesEnabled;
+            try
+            {
+                _context.ChangeTracker.AutoDetectChangesEnabled = false; // same optimization as labour
+                _context.WorkOrderFees.AddRange(entities);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            finally
+            {
+                _context.ChangeTracker.AutoDetectChangesEnabled = prev;
+            }
+
+            Log.Information("✅ Bulk inserted {Count} WorkOrderFee rows.", entities.Count);
+            return entities.Count;
+        }
+
+
+
+        public async Task<bool> InsertWorkOrderFee(DTOs.WorkOrderFee workOrdFee, CancellationToken cancellationToken = default)
         {
             try
             {

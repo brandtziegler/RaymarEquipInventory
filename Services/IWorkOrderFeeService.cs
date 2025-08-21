@@ -7,7 +7,11 @@ namespace RaymarEquipmentInventory.Services
 
 
         //Task<DTOs.TravelLog> GetTravelByID(int mileageTimeID);
-        Task<bool> DeleteWorkOrderFees(int technicianWorkOrderId);
-        Task<bool> InsertWorkOrderFee(WorkOrderFee workOrderFee);
+        Task<bool> DeleteWorkOrderFees(int technicianWorkOrderId, CancellationToken cancellationToken = default);
+        Task<bool> InsertWorkOrderFee(WorkOrderFee workOrderFee, CancellationToken cancellationToken = default);
+
+        Task<int> InsertWorkOrderFeeBulkAsync(
+    IEnumerable<RaymarEquipmentInventory.DTOs.WorkOrderFee> items,
+    CancellationToken cancellationToken = default);
     }
 }
