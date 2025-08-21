@@ -40,7 +40,7 @@ namespace RaymarEquipmentInventory.Services
 
         }
 
-        public async Task<DTOs.TravelLog> GetTravelByID(int mileageTimeID)
+        public async Task<DTOs.TravelLog> GetTravelByID(int mileageTimeID, CancellationToken ct = default)
         {
             var travel = await _context.MileageAndTimes.Where(t => t.MilageTimeId == mileageTimeID).FirstOrDefaultAsync();
 
@@ -68,7 +68,7 @@ namespace RaymarEquipmentInventory.Services
             return travelDTO;
         }
 
-        public async Task<bool> DeleteTravelLogAsync(int sheetId)
+        public async Task<bool> DeleteTravelLogAsync(int sheetId, CancellationToken ct = default)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<bool> InsertTravelLogAsync(TravelLog travel)
+        public async Task<bool> InsertTravelLogAsync(TravelLog travel, CancellationToken ct = default)
         {
             try
             {
@@ -162,7 +162,7 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-        public async Task EnsureThreeSegmentsAsync(int sheetId)
+        public async Task EnsureThreeSegmentsAsync(int sheetId, CancellationToken ct = default)
         {
             var existingSegments = await _context.MileageAndTimes
                 .Where(m => m.SheetId == sheetId)
@@ -196,6 +196,63 @@ namespace RaymarEquipmentInventory.Services
 
             await _context.SaveChangesAsync();
         }
+
+
+
+        public async Task<int> InsertTravelLogBulkAsync(
+    IEnumerable<TravelLog> entries,
+    CancellationToken ct = default)
+        {
+            var list = entries?.ToList() ?? new List<TravelLog>();
+            if (list.Count == 0) return 0;
+
+            // Build entities (apply same sanitization you use in single insert)
+            static int clamp(int v) => v < 0 ? 0 : v;
+
+            var entities = new List<MileageAndTime>(list.Count);
+            foreach (var t in list)
+            {
+                if (t.SheetId <= 0 || t.DateOfTravel == DateTime.MinValue)
+                    continue;
+
+                entities.Add(new MileageAndTime
+                {
+                    SheetId = t.SheetId,
+                    DateOfMileageTime = t.DateOfTravel,
+                    StartTravel = t.StartTravel,
+                    FinishTravel = t.FinishTravel,
+                    StartOdometerKm = clamp(t.StartOdometerKm),
+                    FinishOdometerKm = clamp(t.FinishOdometerKm),
+                    TotalDistance = clamp(t.TotalDistance),
+                    TimeTotalHrs = clamp(t.TotalHours),
+                    TimeTotalMin = clamp(t.TotalMinutes),
+                    TotalOthours = clamp(t.TotalOTHours),
+                    TotalOtminutes = clamp(t.TotalOTMinutes),
+                    SegmentNumber = t.SegmentNumber ?? 1,
+                    IsOvertime = t.IsOvertime
+                });
+            }
+
+            if (entities.Count == 0) return 0;
+
+            var prev = _context.ChangeTracker.AutoDetectChangesEnabled;
+            try
+            {
+                _context.ChangeTracker.AutoDetectChangesEnabled = false;
+                _context.MileageAndTimes.AddRange(entities);
+                await _context.SaveChangesAsync(ct); // single commit
+            }
+            finally
+            {
+                _context.ChangeTracker.AutoDetectChangesEnabled = prev;
+            }
+
+            Log.Information("✅ Bulk inserted {Count} mileage rows for SheetID {SheetId}",
+                entities.Count, entities.First().SheetId);
+
+            return entities.Count;
+        }
+
 
     }
 

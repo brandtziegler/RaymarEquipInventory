@@ -6,10 +6,15 @@ namespace RaymarEquipmentInventory.Services
     {
 
 
-        Task<DTOs.TravelLog> GetTravelByID(int mileageTimeID);
-        Task EnsureThreeSegmentsAsync(int sheetId);
-        Task<bool> InsertTravelLogAsync(TravelLog travelLog);
+        Task<DTOs.TravelLog> GetTravelByID(int mileageTimeID, CancellationToken ct = default);
+        Task EnsureThreeSegmentsAsync(int sheetId, CancellationToken ct = default);
+        Task<bool> InsertTravelLogAsync(TravelLog travelLog, CancellationToken ct = default);
 
-        Task<bool> DeleteTravelLogAsync(int sheetId);
+        Task<bool> DeleteTravelLogAsync(int sheetId, CancellationToken ct = default);
+
+        Task<int> InsertTravelLogBulkAsync(
+    IEnumerable<TravelLog> entries,
+    CancellationToken ct = default);
+
     }
 }

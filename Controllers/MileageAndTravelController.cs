@@ -2,6 +2,7 @@
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
+using Hangfire;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -13,12 +14,15 @@ namespace RaymarEquipmentInventory.Controllers
 
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly ISamsaraApiService _samsaraApiService;
+        private readonly IBackgroundJobClient _jobs;
 
-        public MileageAndTravelController(IMileageAndTravelService mileageTravelService, IQuickBooksConnectionService quickBooksConnectionService, ISamsaraApiService samsaraApiService)
+        public MileageAndTravelController(IMileageAndTravelService mileageTravelService, IQuickBooksConnectionService quickBooksConnectionService,
+            IBackgroundJobClient jobs, ISamsaraApiService samsaraApiService)
         {
             _mileageTravelService = mileageTravelService;
             _quickBooksConnectionService = quickBooksConnectionService;
             _samsaraApiService = samsaraApiService;
+            _jobs = jobs;
         }
 
         [HttpPost("ClearMileageEntries")]
@@ -78,6 +82,65 @@ namespace RaymarEquipmentInventory.Controllers
 
             }
         }
+
+
+        // POST /api/MileageAndTravel/InsertTravelLogBatchForSheet?sheetId=123
+        // Always enqueue: clear -> bulk insert -> ensure segments
+        // POST /api/MileageAndTravel/InsertTravelLogBatchForSheet?sheetId=123
+        // Always enqueue: clear -> (insert if any) -> ensure segments
+        [HttpPost("InsertTravelLogBatchForSheet")]
+        public IActionResult InsertTravelLogBatchForSheet(
+            [FromQuery] int sheetId,
+            [FromBody] List<TravelLog> entries)
+        {
+            if (sheetId <= 0) return BadRequest("sheetId is required.");
+            entries ??= new List<TravelLog>();
+            var intendedInsert = entries.Count;
+
+            // Normalize: server is source of truth for SheetId
+            if (intendedInsert > 0)
+            {
+                foreach (var e in entries)
+                    if (e.SheetId <= 0 || e.SheetId != sheetId) e.SheetId = sheetId;
+            }
+
+            // 1) Clear
+            var clearJobId = _jobs.Enqueue(() =>
+                _mileageTravelService.DeleteTravelLogAsync(sheetId, CancellationToken.None));
+
+            // 2) Insert (only if any), continue only if clear succeeded
+            string? insertJobId = null;
+            if (intendedInsert > 0)
+            {
+                var payload = entries; // serialized by Hangfire
+                insertJobId = _jobs.ContinueJobWith(
+                    clearJobId,
+                    () => _mileageTravelService.InsertTravelLogBulkAsync(payload, CancellationToken.None),
+                    JobContinuationOptions.OnlyOnSucceededState);
+            }
+
+            // 3) Ensure segments, after whichever job ran last — only if prior succeeded
+            var tailJob = insertJobId ?? clearJobId;
+            var ensureJobId = _jobs.ContinueJobWith(
+                tailJob,
+                () => _mileageTravelService.EnsureThreeSegmentsAsync(sheetId, CancellationToken.None),
+                JobContinuationOptions.OnlyOnSucceededState);
+
+            // 4) Return fast
+            return Accepted(new
+            {
+                sheetId,
+                intendedInsert,
+                clearJobId,
+                insertJobId,
+                ensureJobId,
+                message = intendedInsert == 0
+                    ? "Queued clear + ensure (no entries)."
+                    : $"Queued clear + insert ({intendedInsert}) + ensure."
+            });
+        }
+
+
     }
-       
+
 }
