@@ -2,6 +2,7 @@
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
+using Hangfire;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -11,11 +12,12 @@ namespace RaymarEquipmentInventory.Controllers
     {
         private readonly IWorkOrderFeeService _workOrderFeeService;
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
-
-        public WorkOrderFeeController(IWorkOrderFeeService workOrderFeeService, IQuickBooksConnectionService quickBooksConnectionService)
+        private readonly IBackgroundJobClient _jobs;
+        public WorkOrderFeeController(IWorkOrderFeeService workOrderFeeService, IQuickBooksConnectionService quickBooksConnectionService, IBackgroundJobClient jobs)
         {
             _workOrderFeeService = workOrderFeeService;
             _quickBooksConnectionService = quickBooksConnectionService; 
+            _jobs = jobs;
         }
 
 
@@ -59,38 +61,57 @@ namespace RaymarEquipmentInventory.Controllers
             return success ? Ok("Batch insert successful.") : BadRequest("One or more inserts failed.");
         }
 
+        // POST /api/WorkOrd/InsertWorkOrderFeeBatchForTechWO?technicianWorkOrderId=123
+        // Always enqueue: clear fees for the TechWO, then bulk-insert the provided batch.
         [HttpPost("InsertWorkOrderFeeBatchForTechWO")]
-        public async Task<IActionResult> InsertWorkOrderFeeBatchForTechWO(
+        public IActionResult InsertWorkOrderFeeBatchForTechWO(
             [FromQuery] int technicianWorkOrderId,
-            [FromBody] WorkOrderFeesGroup feeGroup,
-            CancellationToken ct = default)
+            [FromBody] WorkOrderFeesGroup feeGroup)
         {
-            if (technicianWorkOrderId <= 0) return BadRequest("technicianWorkOrderId is required.");
-            if (feeGroup is null) return BadRequest("Payload is required.");
+            if (technicianWorkOrderId <= 0)
+                return BadRequest("technicianWorkOrderId is required.");
+            if (feeGroup is null)
+                return BadRequest("Payload is required.");
 
             var items = feeGroup.WorkOrderFeesList ?? new List<WorkOrderFee>();
-            // Normalize TechWO on each inbound row
-            foreach (var f in items)
-                if (f.TechnicianWorkOrderID <= 0) f.TechnicianWorkOrderID = technicianWorkOrderId;
+            var intendedInsert = items.Count;
 
-            // Clear first (sync)
-            var cleared = await _workOrderFeeService.DeleteWorkOrderFees(technicianWorkOrderId, ct);
-            if (!cleared) return StatusCode(500, new { technicianWorkOrderId, message = "Failed to clear existing fees." });
+            // Normalize: server is source of truth for TechWO id
+            if (intendedInsert > 0)
+            {
+                foreach (var f in items)
+                {
+                    if (f.TechnicianWorkOrderID <= 0)
+                        f.TechnicianWorkOrderID = technicianWorkOrderId;
+                }
+            }
 
-            // One-shot bulk insert (sync)
-            var inserted = await _workOrderFeeService.InsertWorkOrderFeeBulkAsync(items, ct);
+            // 1) Enqueue clear
+            var clearJobId = _jobs.Enqueue(() =>
+                _workOrderFeeService.DeleteWorkOrderFees(technicianWorkOrderId, CancellationToken.None));
 
-            return Ok(new
+            // 2) Chain insert (only if we have items)
+            string? insertJobId = null;
+            if (intendedInsert > 0)
+            {
+                var payload = items; // Hangfire will serialize DTOs
+                insertJobId = _jobs.ContinueJobWith(clearJobId, () =>
+                    _workOrderFeeService.InsertWorkOrderFeeBulkAsync(payload, CancellationToken.None));
+            }
+
+            // 3) Return fast
+            return Accepted(new
             {
                 technicianWorkOrderId,
-                cleared,
-                intendedInsert = items.Count,
-                inserted,
-                message = items.Count == 0
-                    ? "Cleared fees; no new rows provided."
-                    : $"Cleared fees; inserted {inserted} WorkOrderFee row(s)."
+                intendedInsert,
+                clearJobId,
+                insertJobId,
+                message = intendedInsert == 0
+                    ? "Queued clear only (no fees in payload)."
+                    : $"Queued clear + insert of {intendedInsert} WorkOrderFee row(s)."
             });
         }
+
 
 
     }
