@@ -2,6 +2,7 @@
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
+using Hangfire;
 
 namespace RaymarEquipmentInventory.Controllers
 {
@@ -13,44 +14,51 @@ namespace RaymarEquipmentInventory.Controllers
 
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly ISamsaraApiService _samsaraApiService;
-
-        public BillingController(IBillingService billingService, IQuickBooksConnectionService quickBooksConnectionService, ISamsaraApiService samsaraApiService)
+        private readonly IBackgroundJobClient _jobs;
+        public BillingController(IBillingService billingService, IQuickBooksConnectionService quickBooksConnectionService, IBackgroundJobClient jobs,
+            ISamsaraApiService samsaraApiService)
         {
             _billingService = billingService;
             _quickBooksConnectionService = quickBooksConnectionService;
             _samsaraApiService = samsaraApiService;
+            _jobs = jobs;
         }
 
 
 
 
         [HttpPost("UpsertBilling")]
-        public async Task<IActionResult> UpsertBilling([FromBody] Billing billingDTO)
+        public IActionResult UpsertBilling([FromBody] Billing billingDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-                bool result;
+                // 1) Enqueue the insert-if-needed
+                var insertJobId = _jobs.Enqueue(() =>
+                    _billingService.TryInsertBillingInformationAsync(billingDTO, CancellationToken.None));
 
-                    result = await _billingService.TryInsertBillingInformationAsync(billingDTO);
-                    if (!result)
-                        return BadRequest("Unable to insert billing.");
+                // 2) Chain the update after insert completes
+                var updateJobId = _jobs.ContinueJobWith(insertJobId, () =>
+                    _billingService.UpdateBillingInformationAsync(billingDTO, CancellationToken.None));
 
-                    result = await _billingService.UpdateBillingInformationAsync(billingDTO);
-                    if (!result)
-                        return BadRequest("Unable to update billing.");
-              
-
-                return Ok("Work Order Fee processed successfully.");
+                // 3) Return immediately with the job IDs
+                return Accepted(new
+                {
+                    insertJobId,
+                    updateJobId,
+                    message = "Queued billing upsert (insert then update)."
+                });
             }
             catch (Exception ex)
             {
-                Log.Error($"🔥 Billing operation failed for CustPath {billingDTO.CustPath}: {ex.Message}");
-                return StatusCode(500, "An error occurred while processing billing information.");
+                Log.Error(ex, "🔥 Billing enqueue failed for CustPath {CustPath}", billingDTO.CustPath);
+                return StatusCode(500, "An error occurred while enqueuing billing.");
             }
         }
+
+
 
 
 

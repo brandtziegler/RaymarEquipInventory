@@ -58,16 +58,16 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
-        public async Task<bool> UpdateBillingInformationAsync(DTOs.Billing billingDto)
+        public async Task<bool> UpdateBillingInformationAsync(
+       DTOs.Billing billingDto, CancellationToken ct = default)
         {
             try
             {
                 var existing = await _context.BillingInformations
-                    .FirstOrDefaultAsync(b => b.SheetId == billingDto.SheetId);
-
+                    .FirstOrDefaultAsync(b => b.SheetId == billingDto.SheetId, ct);
                 if (existing == null)
                 {
-                    Log.Warning($"⚠️ No billing record found for SheetID {billingDto.SheetId}");
+                    Log.Warning("⚠️ No billing record found for SheetID {SheetId}", billingDto.SheetId);
                     return false;
                 }
 
@@ -81,20 +81,19 @@ namespace RaymarEquipmentInventory.Services
                 existing.WorkDescription = billingDto.WorkDescription?.Trim() ?? existing.WorkDescription;
                 existing.CustPath = billingDto.CustPath?.Trim() ?? existing.CustPath;
 
-                await _context.SaveChangesAsync();
-
-                Log.Information($"✅ Updated BillingInfo for SheetID {billingDto.SheetId}");
+                await _context.SaveChangesAsync(ct);
+                Log.Information("✅ Updated BillingInfo for SheetID {SheetId}", billingDto.SheetId);
                 return true;
             }
             catch (Exception ex)
             {
-                var inner = ex.InnerException?.Message ?? "No inner exception";
-                Log.Error($"❌ Failed to update BillingInfo: {ex.Message} | Inner: {inner}");
+                Log.Error(ex, "❌ Failed to update BillingInfo for SheetID {SheetId}", billingDto.SheetId);
                 return false;
             }
         }
 
-        public async Task<bool> TryInsertBillingInformationAsync(DTOs.Billing billingDto)
+
+        public async Task<bool> TryInsertBillingInformationAsync(DTOs.Billing billingDto, CancellationToken cancellationToken = default)
         {
             try
             {
