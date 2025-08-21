@@ -25,6 +25,9 @@ using System.Net.Mail;
 using Hangfire;
 using Azure.Storage.Sas;
 using RaymarEquipmentInventory.Helpers;
+using Microsoft.AspNetCore.Authorization;
+using RaymarEquipmentInventory.Models;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 
 
@@ -1399,7 +1402,13 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
-
+        [HttpPost("EnqueueTemplatePdfSync")]
+        [AllowAnonymous]   // TEMP while testing
+        public ActionResult EnqueueTemplatePdfSync()
+        {
+            var jobId = _jobs.Enqueue<IDriveUploaderService>(svc => svc.SyncTemplatesToSqlJob());
+            return Accepted(new { jobId });
+        }
 
         [HttpPost("SendWorkOrderEmail")]
         public async Task<IActionResult> SendWorkOrderEmail([FromBody] DTOs.WorkOrdMailContent dto)
@@ -1821,7 +1830,7 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
         [HttpPost("AddPartToWorkorder")]
-        public async Task<IActionResult> AddPartToWorkorder([FromBody] PartsUsed partDTO)
+        public async Task<IActionResult> AddPartToWorkorder([FromBody] DTOs.PartsUsed partDTO)
         {
             try
             {

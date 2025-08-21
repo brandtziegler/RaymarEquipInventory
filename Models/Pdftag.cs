@@ -17,5 +17,7 @@ public partial class Pdftag
 
     public string Notes { get; set; }
 
+    public virtual ICollection<DriveFileMetadatum> DriveFileMetadata { get; set; } = new List<DriveFileMetadatum>();
+
     public virtual LabourType LabourType { get; set; }
 }

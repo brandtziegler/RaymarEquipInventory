@@ -35,6 +35,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<DocumentType> DocumentTypes { get; set; }
 
+    public virtual DbSet<DriveFileMetadatum> DriveFileMetadata { get; set; }
+
     public virtual DbSet<FailedSyncLog> FailedSyncLogs { get; set; }
 
     public virtual DbSet<FlatLabour> FlatLabours { get; set; }
@@ -474,6 +476,42 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.MimeType)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<DriveFileMetadatum>(entity =>
+        {
+            entity.HasKey(e => e.MetadataId).HasName("PK__DriveFil__66106FD9C917F7A0");
+
+            entity.HasIndex(e => e.PdfTagId, "IX_DriveFileMetadata_PdfTagId");
+
+            entity.HasIndex(e => e.DriveFileId, "UQ_DriveFile").IsUnique();
+
+            entity.Property(e => e.DriveFileId)
+                .IsRequired()
+                .HasMaxLength(128);
+            entity.Property(e => e.FolderId).HasMaxLength(128);
+            entity.Property(e => e.IsTemplateFile)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.LastModUser).HasMaxLength(200);
+            entity.Property(e => e.LastSeenAt)
+                .HasPrecision(2)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.Md5Checksum)
+                .HasMaxLength(32)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.MimeType).HasMaxLength(200);
+            entity.Property(e => e.ModifiedTime).HasPrecision(2);
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(400);
+            entity.Property(e => e.WebContentLink).HasMaxLength(1000);
+            entity.Property(e => e.WebViewLink).HasMaxLength(1000);
+
+            entity.HasOne(d => d.PdfTag).WithMany(p => p.DriveFileMetadata)
+                .HasForeignKey(d => d.PdfTagId)
+                .HasConstraintName("FK_DFM_PDFTags");
         });
 
         modelBuilder.Entity<FailedSyncLog>(entity =>

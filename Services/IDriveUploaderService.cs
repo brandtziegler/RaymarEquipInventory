@@ -1,4 +1,5 @@
 ﻿using RaymarEquipmentInventory.DTOs;
+using System;
 using static RaymarEquipmentInventory.Services.DriveUploaderService;
 
 namespace RaymarEquipmentInventory.Services
@@ -56,6 +57,12 @@ namespace RaymarEquipmentInventory.Services
    string workOrderId,
    string batchId,
    CancellationToken ct);
+
+
+        Task<PDFSyncResult> SyncTemplatesToSqlAsync(CancellationToken ct = default);
+
+        // NEW: Hangfire-safe wrapper (no params, no CancellationToken)
+        Task<PDFSyncResult> SyncTemplatesToSqlJob();
 
         Task ParseReceiptBatchFromBlobAndEmailAsync(
     ProcessBatchArgs args,

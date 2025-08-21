@@ -40,6 +40,7 @@ using Azure.Storage.Blobs.Models;
 using Google.Apis.Http;
 using Azure.Storage;
 using System.Collections.Concurrent;
+using Hangfire;
 
 
 namespace RaymarEquipmentInventory.Services
@@ -549,7 +550,149 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
+
+
+
         ///END  OF DOCUMENT INTELLIGENCE CODE
+
+        //BRING OVER ALL FILES FROM TEMPLATES FOLDER START
+        public async Task<PDFSyncResult> SyncTemplatesToSqlAsync(CancellationToken ct = default)
+        {
+            var drive = await _authService.GetDriveServiceFromUserTokenAsync();
+
+            var folderId =
+                Environment.GetEnvironmentVariable("GoogleDrive__TemplatesFolderId")
+                ?? _config["GoogleDrive:TemplatesFolderId"]
+                ?? throw new InvalidOperationException("Missing config: GoogleDrive:TemplatesFolderId");
+
+            // ---- 1) Pull all files in the folder (paged) ----
+            var files = new List<Google.Apis.Drive.v3.Data.File>();
+            string? pageToken = null;
+
+            do
+            {
+                var req = drive.Files.List();
+                req.Q = $"'{folderId}' in parents and trashed=false and mimeType != 'application/vnd.google-apps.folder'";
+                req.Fields = "nextPageToken, files(id,name,description,modifiedTime,md5Checksum,size,mimeType,webContentLink,webViewLink,lastModifyingUser/displayName,parents)";
+                req.PageSize = 1000;
+                req.PageToken = pageToken;
+
+                var resp = await req.ExecuteAsync(ct);
+                if (resp.Files != null) files.AddRange(resp.Files);
+                pageToken = resp.NextPageToken;
+            }
+            while (!string.IsNullOrEmpty(pageToken));
+
+            var nowUtc = DateTimeOffset.UtcNow;
+
+            // ---- 2) Local lookups ----
+            var existing = await _context.DriveFileMetadata
+                .Where(d => d.FolderId == folderId)
+                .ToListAsync(ct);
+
+            var byId = existing.ToDictionary(d => d.DriveFileId, d => d, StringComparer.Ordinal);
+
+            static string Norm(string? s) => (s ?? string.Empty).Trim().ToLowerInvariant();
+
+            var tagByName = await _context.Pdftags
+                .ToDictionaryAsync(t => Norm(t.FileName), t => t.Id, ct);
+
+            static DateTimeOffset? ToDto(DateTime? dt)
+                => dt.HasValue ? new DateTimeOffset(DateTime.SpecifyKind(dt.Value, DateTimeKind.Utc)) : (DateTimeOffset?)null;
+
+            int ins = 0, upd = 0;
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+
+            // ---- 3) Upserts ----
+            foreach (var f in files)
+            {
+                if (string.IsNullOrEmpty(f.Id)) continue;
+                seen.Add(f.Id);
+
+                if (byId.TryGetValue(f.Id, out var row))
+                {
+                    // update
+                    if (!string.IsNullOrEmpty(f.Name)) row.Name = f.Name;
+                    if (!string.IsNullOrEmpty(f.MimeType)) row.MimeType = f.MimeType;
+                    if (!string.IsNullOrEmpty(f.Description)) row.Description = f.Description;
+
+                    var mod = ToDto(f.ModifiedTime);
+                    if (mod.HasValue) row.ModifiedTime = mod;
+
+                    if (f.Size.HasValue) row.SizeBytes = f.Size;
+                    if (!string.IsNullOrEmpty(f.Md5Checksum)) row.Md5Checksum = f.Md5Checksum;
+                    if (!string.IsNullOrEmpty(f.WebViewLink)) row.WebViewLink = f.WebViewLink;
+                    if (!string.IsNullOrEmpty(f.WebContentLink)) row.WebContentLink = f.WebContentLink;
+                    if (!string.IsNullOrEmpty(f.LastModifyingUser?.DisplayName))
+                        row.LastModUser = f.LastModifyingUser.DisplayName;
+
+                    row.IsTemplateFile = true;
+                    row.IsTrashed = false;
+                    row.LastSeenAt = nowUtc;
+
+                    if (row.PdfTagId == null && tagByName.TryGetValue(Norm(row.Name), out var tagId))
+                        row.PdfTagId = tagId;
+
+                    upd++;
+                }
+                else
+                {
+                    var newRow = new DriveFileMetadatum
+                    {
+                        DriveFileId = f.Id,
+                        Name = f.Name ?? string.Empty,
+                        MimeType = f.MimeType ?? string.Empty,
+                        FolderId = folderId,
+                        Description = f.Description,
+                        ModifiedTime = ToDto(f.ModifiedTime),
+                        SizeBytes = f.Size,
+                        Md5Checksum = f.Md5Checksum,
+                        WebViewLink = f.WebViewLink,
+                        WebContentLink = f.WebContentLink,
+                        LastModUser = f.LastModifyingUser?.DisplayName,
+                        IsTemplateFile = true,
+                        IsTrashed = false,
+                        LastSeenAt = nowUtc,
+                        PdfTagId = tagByName.TryGetValue(Norm(f.Name), out var tagId) ? tagId : (int?)null
+                    };
+
+                    _context.DriveFileMetadata.Add(newRow);
+                    ins++;
+                }
+            }
+
+            // ---- 4) Soft-delete anything not seen this run ----
+            int trashed = 0;
+            foreach (var row in existing)
+            {
+                if (!seen.Contains(row.DriveFileId) && row.IsTrashed == false)
+                {
+                    row.IsTrashed = true;
+                    row.LastSeenAt = nowUtc;
+                    trashed++;
+                }
+            }
+
+            await _context.SaveChangesAsync(ct);
+
+            Log.Information("Templates sync: {ins} inserted, {upd} updated, {trashed} trashed", ins, upd, trashed);
+
+            return new PDFSyncResult
+            {
+                Inserted = ins,
+                Updated = upd,
+                Trashed = trashed.ToString(),   // matches your current DTO
+                RanAtUtc = nowUtc
+            };
+        }
+
+
+        [AutomaticRetry(Attempts = 0)]
+        [DisableConcurrentExecution(timeoutInSeconds: 1800)]
+        public Task<PDFSyncResult> SyncTemplatesToSqlJob()
+    => SyncTemplatesToSqlAsync(CancellationToken.None);
+        //BRING OVER ALL FILES FROM TEMPLATES FOLDER END
+
         public async Task<List<DTOs.FileMetadata>> ListFileUrlsAsync(int sheetId, int? labourTypeId, List<string> tags)
         {
             try
