@@ -1771,21 +1771,32 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        // POST /api/WorkOrd/UpdateWOStatus?sheetId=123&workOrderStatus=COMPLETE&deviceId=iPad-7
         [HttpPost("UpdateWOStatus")]
-        public async Task<IActionResult> UpdateWOStatus(int sheetId, string workOrderStatus, string deviceId)
+        public IActionResult UpdateWOStatus(
+            [FromQuery] int sheetId,
+            [FromQuery] string workOrderStatus,
+            [FromQuery] string deviceId)
         {
-            try
-            {
-                await _workOrderService.UpdateWOStatus(sheetId, workOrderStatus, deviceId);
+            if (sheetId <= 0) return BadRequest("sheetId is required.");
+            workOrderStatus = (workOrderStatus ?? string.Empty).Trim();
+            deviceId = (deviceId ?? string.Empty).Trim();
+            if (string.IsNullOrEmpty(workOrderStatus)) return BadRequest("workOrderStatus is required.");
 
-                return Ok("Work order status updated.");
-            }
-            catch (Exception ex)
+            // enqueue and return immediately
+            var jobId = _jobs.Enqueue(() =>
+                _workOrderService.UpdateWOStatus(sheetId, workOrderStatus, deviceId));
+
+            return Accepted(new
             {
-                Log.Error($"Error updating WO status to {workOrderStatus} for SheetID {sheetId}: {ex.Message}");
-                return StatusCode(500, "An error occurred while updating the work order status.");
-            }
+                jobId,
+                sheetId,
+                workOrderStatus,
+                deviceId,
+                message = "Queued work order status update."
+            });
         }
+
 
         [HttpPost("RemoveLbrFromWorkOrder")]
         public async Task<IActionResult> RemoveLbrFromWorkOrder(int lbrID)
