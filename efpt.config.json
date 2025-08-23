@@ -20,6 +20,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[ChargeItemRateHistory]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ChargeItems]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Customer]",
          "ObjectType": 0
       },
@@ -160,6 +168,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[TechnicianTypes]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[TechnicianWorkOrder]",
          "ObjectType": 0
       },
@@ -185,6 +197,10 @@
       },
       {
          "Name": "[dbo].[WorkOrderFees]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[WorkOrderLine]",
          "ObjectType": 0
       },
       {
@@ -216,7 +232,43 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[vw_Billing_MileageAndTravel]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_Billing_MileageAndTravelSummed]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_Billing_PartsUsed]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_Billing_RegularLabour]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_Billing_RegularLabourSummed]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_Billing_WorkOrderFees]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_InvoicePreview]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_InvoicePreviewSummed]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[vw_PartsUsedWithInventory]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_TechnicianTypeRates]",
          "ObjectType": 3
       },
       {

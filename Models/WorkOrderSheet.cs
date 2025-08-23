@@ -43,5 +43,7 @@ public partial class WorkOrderSheet
 
     public virtual ICollection<VehicleWorkOrder> VehicleWorkOrders { get; set; } = new List<VehicleWorkOrder>();
 
+    public virtual ICollection<WorkOrderLine> WorkOrderLines { get; set; } = new List<WorkOrderLine>();
+
     public virtual ICollection<WorkOrderSyncLog> WorkOrderSyncLogs { get; set; } = new List<WorkOrderSyncLog>();
 }

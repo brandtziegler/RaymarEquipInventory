@@ -283,7 +283,7 @@ namespace RaymarEquipmentInventory.Services
             var doc = result.Documents.FirstOrDefault();
             var raw = result.Content ?? string.Empty;
             needsReview = false;
-
+           
             // --- Basic fields -------------------------------------------------------
             var merchantRaw = GetFieldContentCI(doc, "MerchantName");
             // Normalize to help vendor overrides like "CANADIAN TIRE #123"

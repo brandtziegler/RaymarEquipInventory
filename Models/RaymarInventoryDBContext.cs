@@ -15,6 +15,10 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<BillingInformation> BillingInformations { get; set; }
 
+    public virtual DbSet<ChargeItem> ChargeItems { get; set; }
+
+    public virtual DbSet<ChargeItemRateHistory> ChargeItemRateHistories { get; set; }
+
     public virtual DbSet<Customer> Customers { get; set; }
 
     public virtual DbSet<DiAllowedKeyword> DiAllowedKeywords { get; set; }
@@ -85,6 +89,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<TechnicianLicence> TechnicianLicences { get; set; }
 
+    public virtual DbSet<TechnicianType> TechnicianTypes { get; set; }
+
     public virtual DbSet<TechnicianWorkOrder> TechnicianWorkOrders { get; set; }
 
     public virtual DbSet<VehicleDatum> VehicleData { get; set; }
@@ -95,11 +101,29 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VehicleWorkOrder> VehicleWorkOrders { get; set; }
 
+    public virtual DbSet<VwBillingMileageAndTravel> VwBillingMileageAndTravels { get; set; }
+
+    public virtual DbSet<VwBillingMileageAndTravelSummed> VwBillingMileageAndTravelSummeds { get; set; }
+
+    public virtual DbSet<VwBillingPartsUsed> VwBillingPartsUseds { get; set; }
+
+    public virtual DbSet<VwBillingRegularLabour> VwBillingRegularLabours { get; set; }
+
+    public virtual DbSet<VwBillingRegularLabourSummed> VwBillingRegularLabourSummeds { get; set; }
+
+    public virtual DbSet<VwBillingWorkOrderFee> VwBillingWorkOrderFees { get; set; }
+
+    public virtual DbSet<VwInvoicePreview> VwInvoicePreviews { get; set; }
+
+    public virtual DbSet<VwInvoicePreviewSummed> VwInvoicePreviewSummeds { get; set; }
+
     public virtual DbSet<VwPartsUsedWithInventory> VwPartsUsedWithInventories { get; set; }
 
     public virtual DbSet<VwRole> VwRoles { get; set; }
 
     public virtual DbSet<VwRolesMin> VwRolesMins { get; set; }
+
+    public virtual DbSet<VwTechnicianTypeRate> VwTechnicianTypeRates { get; set; }
 
     public virtual DbSet<VwWorkOrderCard> VwWorkOrderCards { get; set; }
 
@@ -110,6 +134,8 @@ public partial class RaymarInventoryDBContext : DbContext
     public virtual DbSet<WorkOrderCounter> WorkOrderCounters { get; set; }
 
     public virtual DbSet<WorkOrderFee> WorkOrderFees { get; set; }
+
+    public virtual DbSet<WorkOrderLine> WorkOrderLines { get; set; }
 
     public virtual DbSet<WorkOrderSheet> WorkOrderSheets { get; set; }
 
@@ -163,6 +189,60 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.SheetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_BillingInformation_WorkOrderSheet");
+        });
+
+        modelBuilder.Entity<ChargeItem>(entity =>
+        {
+            entity.HasKey(e => e.ItemId).HasName("PK__ChargeIt__727E83EB600D78D9");
+
+            entity.HasIndex(e => e.QbFullName, "UQ__ChargeIt__6B17E30B2248A89E").IsUnique();
+
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
+            entity.Property(e => e.Category)
+                .IsRequired()
+                .HasMaxLength(40)
+                .IsUnicode(false);
+            entity.Property(e => e.ClassName).HasMaxLength(100);
+            entity.Property(e => e.DefaultRate).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.DisplayName)
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.PricingModel)
+                .IsRequired()
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.QbFullName)
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.TaxCode)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.UoM)
+                .IsRequired()
+                .HasMaxLength(10)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<ChargeItemRateHistory>(entity =>
+        {
+            entity.HasKey(e => e.RateHistoryId).HasName("PK__ChargeIt__42592C3DF6639001");
+
+            entity.ToTable("ChargeItemRateHistory");
+
+            entity.Property(e => e.RateHistoryId).HasColumnName("RateHistoryID");
+            entity.Property(e => e.EffectiveFrom).HasColumnType("date");
+            entity.Property(e => e.EffectiveTo).HasColumnType("date");
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
+            entity.Property(e => e.Rate).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.SourceTag).HasMaxLength(100);
+
+            entity.HasOne(d => d.Item).WithMany(p => p.ChargeItemRateHistories)
+                .HasForeignKey(d => d.ItemId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ChargeIte__ItemI__3AA1AEB8");
         });
 
         modelBuilder.Entity<Customer>(entity =>
@@ -710,6 +790,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
             entity.ToTable("MileageAndTime");
 
+            entity.HasIndex(e => e.SheetId, "IX_MileageAndTime_SheetID");
+
             entity.Property(e => e.MilageTimeId).HasColumnName("MilageTimeID");
             entity.Property(e => e.DateOfMileageTime).HasColumnType("date");
             entity.Property(e => e.FinishTravel).HasColumnType("datetime");
@@ -914,6 +996,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
             entity.ToTable("RegularLabour");
 
+            entity.HasIndex(e => e.TechnicianWorkOrderId, "IX_RegularLabour_Two");
+
             entity.Property(e => e.LabourId).HasColumnName("LabourID");
             entity.Property(e => e.DateLabourFinished).HasColumnType("datetime");
             entity.Property(e => e.DateLabourStarted).HasColumnType("datetime");
@@ -1048,11 +1132,29 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasConstraintName("FK__Technicia__Techn__5224328E");
         });
 
+        modelBuilder.Entity<TechnicianType>(entity =>
+        {
+            entity.HasKey(e => e.TechTypeId).HasName("PK__Technici__BEBB80C24EB579F9");
+
+            entity.HasIndex(e => e.TypeName, "UQ__Technici__D4E7DFA8C61E3D5E").IsUnique();
+
+            entity.Property(e => e.TechTypeId).HasColumnName("TechTypeID");
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.TypeName)
+                .IsRequired()
+                .HasMaxLength(100);
+        });
+
         modelBuilder.Entity<TechnicianWorkOrder>(entity =>
         {
             entity.HasKey(e => e.TechnicianWorkOrderId).HasName("PK__Technici__7529718EADC1A1AC");
 
             entity.ToTable("TechnicianWorkOrder");
+
+            entity.HasIndex(e => e.SheetId, "IX_TechnicianWorkOrder_SheetID");
 
             entity.Property(e => e.TechnicianWorkOrderId).HasColumnName("TechnicianWorkOrderID");
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
@@ -1155,6 +1257,174 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasConstraintName("FK_VehicleWorkOrder_VehicleID");
         });
 
+        modelBuilder.Entity<VwBillingMileageAndTravel>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_Billing_MileageAndTravel");
+
+            entity.Property(e => e.Category)
+                .IsRequired()
+                .HasMaxLength(16)
+                .IsUnicode(false);
+            entity.Property(e => e.ItemName)
+                .IsRequired()
+                .HasMaxLength(25)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TechnicianName).HasMaxLength(100);
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(30, 8)");
+            entity.Property(e => e.TotalQty).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<VwBillingMileageAndTravelSummed>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_Billing_MileageAndTravelSummed");
+
+            entity.Property(e => e.Category)
+                .IsRequired()
+                .HasMaxLength(16)
+                .IsUnicode(false);
+            entity.Property(e => e.ItemName)
+                .IsRequired()
+                .HasMaxLength(25)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TechnicianName).HasMaxLength(100);
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(38, 8)");
+            entity.Property(e => e.TotalQty).HasColumnType("decimal(38, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<VwBillingPartsUsed>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_Billing_PartsUsed");
+
+            entity.Property(e => e.Category)
+                .IsRequired()
+                .HasMaxLength(9)
+                .IsUnicode(false);
+            entity.Property(e => e.ItemName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TechnicianName).HasMaxLength(100);
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(21, 2)");
+            entity.Property(e => e.TotalQty).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<VwBillingRegularLabour>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_Billing_RegularLabour");
+
+            entity.Property(e => e.Category)
+                .IsRequired()
+                .HasMaxLength(13)
+                .IsUnicode(false);
+            entity.Property(e => e.ItemName)
+                .HasMaxLength(120)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TechnicianName).IsUnicode(false);
+            entity.Property(e => e.TotalAmount).HasColumnType("numeric(29, 8)");
+            entity.Property(e => e.TotalQty).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<VwBillingRegularLabourSummed>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_Billing_RegularLabourSummed");
+
+            entity.Property(e => e.Category)
+                .IsRequired()
+                .HasMaxLength(13)
+                .IsUnicode(false);
+            entity.Property(e => e.ItemName)
+                .HasMaxLength(120)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TechnicianName).IsUnicode(false);
+            entity.Property(e => e.TotalAmount).HasColumnType("numeric(38, 6)");
+            entity.Property(e => e.TotalQty).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<VwBillingWorkOrderFee>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_Billing_WorkOrderFees");
+
+            entity.Property(e => e.Category)
+                .IsRequired()
+                .HasMaxLength(13)
+                .IsUnicode(false);
+            entity.Property(e => e.ItemName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TechnicianName).IsUnicode(false);
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(21, 2)");
+            entity.Property(e => e.TotalQty).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<VwInvoicePreview>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_InvoicePreview");
+
+            entity.Property(e => e.Category)
+                .IsRequired()
+                .HasMaxLength(16)
+                .IsUnicode(false);
+            entity.Property(e => e.ItemName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(38, 6)");
+            entity.Property(e => e.TotalQty).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<VwInvoicePreviewSummed>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_InvoicePreviewSummed");
+
+            entity.Property(e => e.Category)
+                .IsRequired()
+                .HasMaxLength(16)
+                .IsUnicode(false);
+            entity.Property(e => e.ItemName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(38, 6)");
+            entity.Property(e => e.TotalQty).HasColumnType("decimal(38, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+        });
+
         modelBuilder.Entity<VwPartsUsedWithInventory>(entity =>
         {
             entity
@@ -1211,6 +1481,33 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.PersonId).HasColumnName("PersonID");
             entity.Property(e => e.RolePermissionId).HasColumnName("RolePermissionID");
             entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+        });
+
+        modelBuilder.Entity<VwTechnicianTypeRate>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_TechnicianTypeRates");
+
+            entity.Property(e => e.BaseRate).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.EffectiveFrom).HasColumnType("date");
+            entity.Property(e => e.EffectiveRate).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.EffectiveTo).HasColumnType("date");
+            entity.Property(e => e.FlatLabourId).HasColumnName("FlatLabourID");
+            entity.Property(e => e.LabourDescription)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.LabourName)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.RateOverride).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.TechTypeAssignId).HasColumnName("TechTypeAssignID");
+            entity.Property(e => e.TechTypeId).HasColumnName("TechTypeID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TypeName)
+                .IsRequired()
+                .HasMaxLength(100);
         });
 
         modelBuilder.Entity<VwWorkOrderCard>(entity =>
@@ -1293,8 +1590,11 @@ public partial class RaymarInventoryDBContext : DbContext
         {
             entity.HasKey(e => e.WorkOrderFeeId).HasName("PK__WorkOrde__0A62BD89EEAB0375");
 
+            entity.HasIndex(e => new { e.TechnicianWorkOrderId, e.FlatLabourId }, "IX_WorkOrderFees_Two_SheetID");
+
             entity.Property(e => e.WorkOrderFeeId).HasColumnName("WorkOrderFeeID");
             entity.Property(e => e.FlatLabourId).HasColumnName("FlatLabourID");
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
             entity.Property(e => e.LabourTypeId).HasColumnName("LabourTypeID");
             entity.Property(e => e.TechnicianWorkOrderId).HasColumnName("TechnicianWorkOrderID");
             entity.Property(e => e.WorkDescription).IsUnicode(false);
@@ -1303,6 +1603,10 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.FlatLabourId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__WorkOrder__FlatL__019E3B86");
+
+            entity.HasOne(d => d.Item).WithMany(p => p.WorkOrderFees)
+                .HasForeignKey(d => d.ItemId)
+                .HasConstraintName("FK_WorkOrderFees_ChargeItems");
 
             entity.HasOne(d => d.LabourType).WithMany(p => p.WorkOrderFees)
                 .HasForeignKey(d => d.LabourTypeId)
@@ -1313,6 +1617,37 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.TechnicianWorkOrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__WorkOrder__Techn__038683F8");
+        });
+
+        modelBuilder.Entity<WorkOrderLine>(entity =>
+        {
+            entity.HasKey(e => e.LineId).HasName("PK__WorkOrde__2EAE64C9D189CAFF");
+
+            entity.ToTable("WorkOrderLine", tb => tb.HasTrigger("tr_WorkOrderLine_DefaultRate"));
+
+            entity.HasIndex(e => e.ItemId, "IX_WorkOrderLine_ItemID");
+
+            entity.HasIndex(e => e.SheetId, "IX_WorkOrderLine_SheetID");
+
+            entity.Property(e => e.LineId).HasColumnName("LineID");
+            entity.Property(e => e.Amount)
+                .HasComputedColumnSql("([Qty]*isnull([UnitRate],(0)))", true)
+                .HasColumnType("decimal(21, 4)");
+            entity.Property(e => e.DescriptionOverride).HasMaxLength(255);
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
+            entity.Property(e => e.Qty).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.UnitRate).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.Item).WithMany(p => p.WorkOrderLines)
+                .HasForeignKey(d => d.ItemId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__WorkOrder__ItemI__3E723F9C");
+
+            entity.HasOne(d => d.Sheet).WithMany(p => p.WorkOrderLines)
+                .HasForeignKey(d => d.SheetId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__WorkOrder__Sheet__3D7E1B63");
         });
 
         modelBuilder.Entity<WorkOrderSheet>(entity =>

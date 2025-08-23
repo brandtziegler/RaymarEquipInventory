@@ -19,7 +19,11 @@ public partial class WorkOrderFee
 
     public string WorkDescription { get; set; }
 
+    public int? ItemId { get; set; }
+
     public virtual FlatLabour FlatLabour { get; set; }
+
+    public virtual ChargeItem Item { get; set; }
 
     public virtual LabourType LabourType { get; set; }
 

@@ -171,6 +171,7 @@ builder.Services.AddDbContext<RaymarInventoryDBContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IMailService, MailService>();
+builder.Services.AddScoped<IReportingService, ReportingService>();
 builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IPermissionsService, PermissionsService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>(); // Registering our new service
