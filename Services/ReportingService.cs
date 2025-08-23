@@ -249,7 +249,7 @@ namespace RaymarEquipmentInventory.Services
 
             var payload = new
             {
-                from = Environment.GetEnvironmentVariable("RESEND_FROM") ?? "invoices@yourdomain.com",
+                from = "service@taskfuel.app",
                 to = new[] { to },
                 bcc = bccList.Count > 0 ? bccList : null,
                 subject = $"Invoice for Work Order",
