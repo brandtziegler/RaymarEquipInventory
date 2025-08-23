@@ -223,9 +223,9 @@ namespace RaymarEquipmentInventory.Services
         {
             var (fileName, xlsx) = await GetInvoiceXlsxPackageAsync(sheetId, summed, ct);
 
-            var apiKey = Environment.GetEnvironmentVariable("RESEND_API_KEY");
+            var apiKey = Environment.GetEnvironmentVariable("Resend_Key");
             if (string.IsNullOrWhiteSpace(apiKey))
-                throw new InvalidOperationException("RESEND_API_KEY not set.");
+                throw new InvalidOperationException("Resend_Key not set.");
 
             // To + BCC discovery
             string? to = Environment.GetEnvironmentVariable("Invoice_Receiver1");
