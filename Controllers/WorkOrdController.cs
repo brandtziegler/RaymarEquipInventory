@@ -1633,13 +1633,12 @@ namespace RaymarEquipmentInventory.Controllers
 
         [HttpGet("DownloadWorkOrderHours")]
         public async Task<IActionResult> DownloadWorkOrderHours(
-        [FromQuery] int sheetId,
-        [FromQuery] int? technicianId = null,
-        [FromQuery] int? labourTypeId = null)
+            [FromQuery] int sheetId,
+            [FromQuery] bool includeBlanks = true)
         {
             try
             {
-                var result = await _workOrderService.GetLabourLines(sheetId);
+                var result = await _workOrderService.GetLabourLinesBySheet(sheetId, includeBlanks);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -1648,6 +1647,7 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, "Could not download work order.");
             }
         }
+
 
         [HttpGet("DownloadWorkOrder/{sheetId}")]
         public async Task<IActionResult> DownloadWorkOrder(int sheetId)

@@ -41,6 +41,8 @@ namespace RaymarEquipmentInventory.Services
 
         Task<List<DTOs.PartsUsed>> GetPartsUsed(int sheetID);
         Task<List<DTOs.HourlyLbrSummary>> GetLabourLines(int sheetID);
+
+        Task<List<HourlyLbrSummary>> GetLabourLinesBySheet(int sheetID, bool includeBlanks);
         Task<List<DTOs.WorkOrderFee>> GetFees(int sheetID);
 
         Task<List<DTOs.TravelLog>> GetMileage(int sheetID);
