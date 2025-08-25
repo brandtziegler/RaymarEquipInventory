@@ -661,65 +661,66 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<List<HourlyLbrSummary>> GetLabourLines(int sheetID, int? technicianId = null, int? labourTypeId = null)
+        public async Task<List<HourlyLbrSummary>> GetLabourLines(
+            int sheetID)
         {
             try
             {
-                var techWorkOrdersQuery = _context.TechnicianWorkOrders
+                // TechnicianWorkOrders for this sheet (optionally narrowed to one tech)
+                var techWorkOrders = _context.TechnicianWorkOrders
+                    .AsNoTracking()
                     .Where(t => t.SheetId == sheetID);
 
-                if (technicianId.HasValue)
-                    techWorkOrdersQuery = techWorkOrdersQuery.Where(t => t.TechnicianId == technicianId.Value);
+                // Join to RegularLabour and keep only FINISHED, non-zero entries
+                // Treat 1969 sentinel as "not finished"
+                var q = from two in techWorkOrders
+                        join l in _context.RegularLabours.AsNoTracking()
+                          on two.TechnicianWorkOrderId equals l.TechnicianWorkOrderId
+                        where l.LabourTypeId != null
+                          && l.FinishLabor != null
+                          && l.FinishLabor.Value.Year != 1969
+                          // also guard against bogus order:
+                          && (l.StartLabor == null || l.StartLabor < l.FinishLabor)
+                          // require some time booked (regular or OT)
+                          && (((l.TotalHours ?? 0) * 60 + (l.TotalMinutes ?? 0))
+                              + ((l.TotalOthours ?? 0) * 60 + (l.TotalOtminutes ?? 0)) > 0)
+                        select new
+                        {
+                            two.TechnicianId,
+                            l.LabourTypeId,
+                            Labour = l
+                        };
 
-                var techWorkOrders = await techWorkOrdersQuery.ToListAsync();
-
-                if (!techWorkOrders.Any())
-                {
-                    Log.Warning($"No TechnicianWorkOrders found for SheetID {sheetID}.");
-                    return new List<HourlyLbrSummary>();
-                }
-
-                var techWOIds = techWorkOrders.Select(t => t.TechnicianWorkOrderId).ToList();
-
-                var regularLabourQuery = _context.RegularLabours
-                    .Where(l => l.TechnicianWorkOrderId.HasValue && techWOIds.Contains(l.TechnicianWorkOrderId.Value));
-
-                if (labourTypeId.HasValue)
-                    regularLabourQuery = regularLabourQuery.Where(l => l.LabourTypeId == labourTypeId.Value);
-
-                var regularLabourLines = await regularLabourQuery.ToListAsync();
-
-                var grouped = regularLabourLines
-                    .GroupBy(l => new { l.TechnicianWorkOrderId, l.LabourTypeId })
+                var grouped = await q
+                    .GroupBy(x => new { x.TechnicianId, x.LabourTypeId })
                     .Select(g => new HourlyLbrSummary
                     {
-                        TechnicianID = techWorkOrders
-                            .First(t => t.TechnicianWorkOrderId == g.Key.TechnicianWorkOrderId).TechnicianId,
+                        TechnicianID = g.Key.TechnicianId,
                         LabourTypeID = g.Key.LabourTypeId,
-                        Labour = g.Select(l => new DTOs.RegularLabourLine
+                        Labour = g.Select(x => new DTOs.RegularLabourLine
                         {
-                            LabourId = l.LabourId,
-                            TechnicianWorkOrderID = l.TechnicianWorkOrderId ?? 0,
-                            DateOfLabor = l.DateOfLabor.Date,
-                            StartLabor = l.StartLabor,
-                            FinishLabor = l.FinishLabor.HasValue && l.FinishLabor.Value.Date.Year == 1969 ? null : l.FinishLabor,
-                            WorkDescription = l.WorkDescription,
-                            TotalHours = l.TotalHours ?? 0,
-                            TotalMinutes = l.TotalMinutes ?? 0,
-                            TotalOTHours = l.TotalOthours ?? 0,
-                            TotalOTMinutes = l.TotalOtminutes ?? 0,
-                            LabourTypeID = l.LabourTypeId
+                            LabourId = x.Labour.LabourId,
+                            TechnicianWorkOrderID = x.Labour.TechnicianWorkOrderId ?? 0,
+                            DateOfLabor = x.Labour.DateOfLabor,          // date
+                            StartLabor = x.Labour.StartLabor,           // datetime?
+                            FinishLabor = x.Labour.FinishLabor,          // guaranteed non-null here
+                            WorkDescription = x.Labour.WorkDescription,
+                            TotalHours = x.Labour.TotalHours ?? 0,
+                            TotalMinutes = x.Labour.TotalMinutes ?? 0,
+                            TotalOTHours = x.Labour.TotalOthours ?? 0,
+                            TotalOTMinutes = x.Labour.TotalOtminutes ?? 0,
+                            LabourTypeID = x.Labour.LabourTypeId
                         }).ToList()
                     })
-                    .ToList();
+                    .ToListAsync();
 
-                Log.Information($"✅ Grouped {grouped.Sum(g => g.Labour.Count)} labour rows for SheetID {sheetID} into {grouped.Count} tech/type combos.");
+                Log.Information($"✅ Sheet {sheetID}: returned {grouped.Sum(g => g.Labour.Count)} finished rows across {grouped.Count} tech/type groups.");
                 return grouped;
             }
             catch (Exception ex)
             {
-                Log.Error($"❌ Failed to group RegularLabour for SheetID {sheetID}: {ex.Message}");
-                return null;
+                Log.Error($"❌ GetLabourLines failed for Sheet {sheetID}: {ex}");
+                return new List<HourlyLbrSummary>();
             }
         }
 

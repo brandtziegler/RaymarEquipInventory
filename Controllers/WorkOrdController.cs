@@ -1639,7 +1639,7 @@ namespace RaymarEquipmentInventory.Controllers
         {
             try
             {
-                var result = await _workOrderService.GetLabourLines(sheetId, technicianId, labourTypeId);
+                var result = await _workOrderService.GetLabourLines(sheetId);
                 return Ok(result);
             }
             catch (Exception ex)
