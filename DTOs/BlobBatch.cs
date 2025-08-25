@@ -15,12 +15,30 @@
         int? ClientParallelism // <— new (optional)
     );
 
+
+
+    public record StartBlobBatchRequestMin(
+    string WorkOrderId,
+    string? TestPrefix,
+    string? BatchId,
+    string? CustPath,
+    List<ClientFileDto> Files,
+    int? ClientParallelism // <— new (optional)
+);
+
     /// <summary>Per-file plan returned by StartBlobBatch, including SAS for direct PUT.</summary>
 
 
     public record StartBlobFile(string Name, string Container, string BlobPath, string? ContentType, string SasUrl);
     public record StartBlobBatchResponse(
-        string WorkOrderId, string BatchId, string? TestPrefixApplied, int RecommendedParallelism, IReadOnlyList<StartBlobFile> Files);
+        string WorkOrderId, string BatchId, string? TestPrefixApplied, int RecommendedParallelism,
+        string? WorkOrderFolderId,
+        string? PdfFolderId,
+        string? ExpensesFolderId,
+        string? ImagesFolderId, IReadOnlyList<StartBlobFile> Files);
+
+    public record StartBlobBatchResponseMin(
+    string WorkOrderId, string BatchId, string? TestPrefixApplied, int RecommendedParallelism, IReadOnlyList<StartBlobFile> Files);
 
     public record FinalizeBlobFileDto(string Name, string Container, string BlobPath);
     public record FinalizeBlobBatchRequest(string WorkOrderId, string BatchId, List<FinalizeBlobFileDto> Files);

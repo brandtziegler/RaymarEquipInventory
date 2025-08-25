@@ -396,6 +396,126 @@ namespace RaymarEquipmentInventory.Controllers
             });
         }
 
+
+
+
+        //STARTBLOBBATCH-V2 START
+
+        // New endpoint that folds in Prepare + Clear, then follows your current Start logic
+        [HttpPost("StartBlobBatchV2")]
+        public async Task<ActionResult<StartBlobBatchResponse>> StartBlobBatchV2(
+          [FromBody] StartBlobBatchRequestMin req,
+          CancellationToken ct)
+        {
+            if (req is null || string.IsNullOrWhiteSpace(req.WorkOrderId))
+                return BadRequest("workOrderId is required.");
+            if (req.Files is null || req.Files.Count == 0)
+                return BadRequest("No files provided.");
+            if (string.IsNullOrWhiteSpace(req.CustPath))
+                return BadRequest("custPath is required for StartBlobBatchV2.");
+
+            // 1) Ensure Drive folders (idempotent) — we MUST await this to get the IDs for stamping
+            var folders = await _driveUploaderService.PrepareGoogleDriveFoldersAsync(
+                req.CustPath!, req.WorkOrderId
+            );
+            if (folders.HasCriticalError)
+                return StatusCode(500, folders);
+
+            // 1b) Fire-and-forget: clear Images folder for this WO (non-blocking via Hangfire)
+            // Make sure IDriveUploaderService is registered with DI so Hangfire can resolve it.
+            _jobs.Enqueue<IDriveUploaderService>(s =>
+                s.ClearImageFolderAsync(req.CustPath!, req.WorkOrderId));
+
+            // 2) Plan by filename (use the ensured folder IDs)
+            var plan = _driveUploaderService.PlanBlobRoutingFromClient(
+                req.Files.Select(f => (f.Name, f.Type)),
+                req.WorkOrderId,
+                /* workOrderFolderId */ folders.WorkOrderFolderId,
+                /* imagesFolderId    */ folders.ImagesFolderId,
+                /* pdfFolderId       */ folders.PdfFolderId,
+                req.BatchId
+            );
+
+            // 3) Optional test prefix (unchanged)
+            string? prefix = string.IsNullOrWhiteSpace(req.TestPrefix)
+                ? null
+                : req.TestPrefix!.Trim().Trim('/');
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                foreach (var pf in plan.Files)
+                    pf.BlobPath = $"{prefix}/{pf.BlobPath}".Replace("//", "/");
+            }
+
+            // 4) Stamp folder IDs into your DB records (uses ensured IDs)
+            foreach (var p in plan.Files)
+            {
+                var ext = (Path.GetExtension(p.FileName)?.ToLowerInvariant()) ?? string.Empty;
+
+                if (ext is ".jpg" or ".jpeg" or ".png")
+                {
+                    await _driveUploaderService.UpdateFolderIdsInPartsDocumentAsync(
+                        p.FileName,
+                        ext,
+                        plan.WorkOrderId,
+                        plan.WorkOrderFolderId,
+                        plan.ImagesFolderId, 
+                        plan.ImagesFolderId,
+                        p.BlobPath,
+                        ct
+                    );
+                }
+                else if (ext == ".pdf")
+                {
+                    await _driveUploaderService.UpdateFolderIdsInPDFDocumentAsync(
+                        p.FileName,
+                        ext,
+                        plan.WorkOrderId,
+                        plan.WorkOrderFolderId,
+                        plan.PdfFolderId,
+                        p.BlobPath,
+                        ct
+                    );
+                }
+                // else: unsupported → skip
+            }
+
+            // 5) Build SAS per file (Create+Write; 15-min TTL)
+            var files = plan.Files.Select(p =>
+            {
+                var ctHint = req.Files.FirstOrDefault(f =>
+                    string.Equals(f.Name, p.FileName, StringComparison.OrdinalIgnoreCase))?.ContentType
+                    ?? "application/octet-stream";
+
+                var sas = SASHelper.GenerateBlobPutSasUri(
+                    p.Container!, p.BlobPath!, TimeSpan.FromMinutes(15));
+
+                return new StartBlobFile(
+                    p.FileName, p.Container!, p.BlobPath!, ctHint, sas.ToString());
+            }).ToList();
+
+            // 6) Recommended parallelism (server clamps)
+            var raw = req.ClientParallelism ?? 5;
+            var recommended = Math.Clamp(raw, 1, 16);
+
+            // 7) Return plan + SAS
+            var resp = new StartBlobBatchResponse(
+                WorkOrderId: plan.WorkOrderId,
+                BatchId: plan.BatchId,
+                TestPrefixApplied: prefix,
+                RecommendedParallelism: recommended,
+                WorkOrderFolderId: plan.WorkOrderFolderId,
+                PdfFolderId: plan.PdfFolderId,
+                ExpensesFolderId: plan.ImagesFolderId, // explicitly say images = expenses
+                ImagesFolderId: plan.ImagesFolderId,
+                Files: files
+            );
+
+            return Ok(resp);
+        }
+
+        //STARTBLOBBATCH-V2 END
+
+
         // SEND DIRECTLY TO SAS
         [HttpPost("StartBlobBatch")]
         public async Task<ActionResult<StartBlobBatchResponse>> StartBlobBatch(
@@ -467,7 +587,7 @@ namespace RaymarEquipmentInventory.Controllers
             var recommended = Math.Clamp(raw, 1, 16);
 
             // 6) Return plan + SAS
-            var resp = new StartBlobBatchResponse(
+            var resp = new StartBlobBatchResponseMin(
                 plan.WorkOrderId,
                 plan.BatchId,
                 prefix,
@@ -477,6 +597,9 @@ namespace RaymarEquipmentInventory.Controllers
 
             return Ok(resp);
         }
+
+
+
 
 
 
