@@ -10,6 +10,7 @@ using Serilog;
 using ClosedXML.Excel;
 using System.Globalization;
 using CsvHelper;
+using RaymarEquipmentInventory.Helpers;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -86,6 +87,25 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        private static string CleanDesc(string? s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return "";
+            // IIF fields are tab-delimited; remove embedded tabs/CR/LF; keep quotes as literal characters.
+            return s.Replace('\t', ' ')
+                    .Replace("\r", " ")
+                    .Replace("\n", " ")
+                    .Trim();
+        }
+
+        private static string CustomerFullNameFromCustPath(string? custPath)
+        {
+            if (string.IsNullOrWhiteSpace(custPath)) return "";
+            // Replace " > " hierarchy with ":" which is how QBDT represents Full Name paths
+            return string.Join(":", custPath.Split('>')
+                                         .Select(x => x.Trim())
+                                         .Where(x => x.Length > 0));
+        }
+
         private static string AsEstDateString(DateTime utcNow)
         {
             // Windows TZ id (use "America/Toronto" on Linux if needed)
@@ -94,6 +114,249 @@ namespace RaymarEquipmentInventory.Services
             return local.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
 
+
+        /// <summary>
+        /// IIF LOGIC GOES BELOW
+        /// </summary>
+        /// <param name="sheetId"></param>
+        /// <param name="summed"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        // Map a line to a QuickBooks Item (INVITEM) + Description according to our rules
+        private (string InvItem, string Desc) MapLineToItem(IIFConfig cfg, InvoiceCSVRow row)
+        {
+            string item = cfg.LabourItem;              // default
+            string desc = row.ItemName ?? "";
+
+            switch ((row.Category ?? "").Trim())
+            {
+                case "RegularLabour":
+                    {
+                        // e.g. "Labour OT - Regular Labour"
+                        var parts = (row.ItemName ?? "")
+                                    .Split(" - ", 2, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+                        if (parts.Length == 2)
+                        {
+                            var before = parts[0];   // "Labour" or "Labour OT"
+                            var after = parts[1];   // "Regular Labour"
+                            item = before.Equals("Labour OT", StringComparison.OrdinalIgnoreCase)
+                                   ? cfg.LabourOtItem
+                                   : cfg.LabourItem;
+                            desc = after;
+                        }
+                        else
+                        {
+                            var isOt = (row.ItemName ?? "").Contains("OT", StringComparison.OrdinalIgnoreCase);
+                            item = isOt ? cfg.LabourOtItem : cfg.LabourItem;
+                            desc = row.ItemName ?? "";
+                        }
+                        break;
+                    }
+
+                case "MileageAndTravel":
+                    {
+                        // If the view’s ItemName is literally "Mileage", use Mileage item; otherwise use Travel Time
+                        var isMileage = (row.ItemName ?? "").Equals("Mileage", StringComparison.OrdinalIgnoreCase);
+                        item = isMileage ? cfg.MileageItem : cfg.TravelTimeItem;
+                        desc = row.ItemName ?? "";
+                        break;
+                    }
+
+                case "PartsUsed":
+                    {
+                        item = cfg.MiscPartItem;                // always post parts to the generic “Misc”
+                        desc = row.ItemName ?? "";
+                        break;
+                    }
+
+                case "WorkOrderFees":
+                    {
+                        item = cfg.FeeItem;                     // generic fee item; put the fee text in DESC
+                        desc = row.ItemName ?? "";
+                        break;
+                    }
+
+                default:
+                    {
+                        item = cfg.FeeItem;                     // fail-safe
+                        desc = row.ItemName ?? "";
+                        break;
+                    }
+            }
+
+            return (item, CleanDesc(desc));
+        }
+
+        // ------------------------ BUILD IIF (one invoice) ------------------------
+
+        public async Task<MemoryStream> BuildInvoiceIifAsync(int sheetId, bool summed, CancellationToken ct = default)
+        {
+            var cfg = IIFConfigHelper.GetIifConfig();
+
+            // Header data
+            var header = await _context.BillingInformations.AsNoTracking()
+                .FirstOrDefaultAsync(b => b.SheetId == sheetId, ct);
+
+            var wo = await _context.WorkOrderSheets.AsNoTracking()
+                .FirstOrDefaultAsync(w => w.SheetId == sheetId, ct);
+
+            var rows = await GetInvoiceRowsAsync(sheetId, summed, ct);
+
+            string custFullName = CustomerFullNameFromCustPath(header?.CustPath);
+            int workOrderNo = wo?.WorkOrderNumber ?? sheetId;
+            string invDate = AsEstDateString(DateTime.UtcNow);
+
+            // Totals (sum of per-line tax rounded to 2dp)
+            decimal subtotal = 0m, totalTax = 0m;
+            foreach (var r in rows)
+            {
+                subtotal += r.TotalAmount;
+                var lineTax = Math.Round(r.TotalAmount * cfg.HstRate, 2, MidpointRounding.AwayFromZero);
+                totalTax += lineTax;
+            }
+            decimal grand = subtotal + totalTax;
+
+            // IIF writer (tab-delimited, CRLF, Windows-1252, no BOM)
+            var ms = new MemoryStream();
+            using var writer = new StreamWriter(ms, Encoding.GetEncoding(1252), leaveOpen: true);
+
+            // Headers (one time per file)
+            writer.WriteLine("!TRNS\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tTERMS\tPONUM\tMEMO");
+            writer.WriteLine("!SPL\tSPLTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tQNTY\tPRICE\tINVITEM\tTAXABLE\tDESC");
+            writer.WriteLine("!ENDTRNS");
+
+            // TRNS (invoice header) – AMOUNT is grand total
+            writer.Write("TRNS"); writer.Write('\t');
+            writer.Write("INVOICE"); writer.Write('\t');
+            writer.Write(invDate); writer.Write('\t');
+            writer.Write(cfg.ArAccount); writer.Write('\t');                 // ACCNT (A/R)
+            writer.Write(custFullName); writer.Write('\t');                  // NAME (Customer Full Name)
+            writer.Write('\t');                                              // CLASS
+            writer.Write(grand.ToString(CultureInfo.InvariantCulture)); writer.Write('\t'); // AMOUNT (grand)
+            writer.Write(workOrderNo.ToString(CultureInfo.InvariantCulture)); writer.Write('\t');    // DOCNUM
+            writer.Write('\t');                                              // TERMS
+            writer.Write((header?.Pono ?? "").Trim()); writer.Write('\t');   // PONUM
+            writer.Write(CleanDesc(header?.WorkDescription));                // MEMO
+            writer.WriteLine();
+
+            // SPL lines – QTY + PRICE (AMOUNT blank so QB computes)
+            foreach (var r in rows.OrderBy(x => x.Category).ThenBy(x => x.TechnicianName).ThenBy(x => x.ItemName))
+            {
+                var (invItem, desc) = MapLineToItem(cfg, r);
+
+                writer.Write("SPL"); writer.Write('\t');
+                writer.Write("INVOICE"); writer.Write('\t');
+                writer.Write(invDate); writer.Write('\t');
+                writer.Write('\t');                                       // ACCNT (item’s income account)
+                writer.Write('\t');                                       // NAME
+                writer.Write('\t');                                       // CLASS
+                writer.Write('\t');                                       // AMOUNT (blank)
+                writer.Write(r.TotalQty.ToString(CultureInfo.InvariantCulture)); writer.Write('\t');   // QNTY
+                writer.Write(r.UnitPrice.ToString(CultureInfo.InvariantCulture)); writer.Write('\t');  // PRICE
+                writer.Write(invItem); writer.Write('\t');                // INVITEM
+                writer.Write("Y"); writer.Write('\t');                    // TAXABLE (we also add explicit tax SPL)
+                writer.Write(desc);                                       // DESC
+                writer.WriteLine();
+            }
+
+            // Sales-tax SPL – lock totals to your XLSX
+            if (totalTax != 0m)
+            {
+                writer.Write("SPL"); writer.Write('\t');
+                writer.Write("INVOICE"); writer.Write('\t');
+                writer.Write(invDate); writer.Write('\t');
+                writer.Write('\t');                                       // ACCNT
+                writer.Write('\t');                                       // NAME
+                writer.Write('\t');                                       // CLASS
+                writer.Write(totalTax.ToString(CultureInfo.InvariantCulture)); writer.Write('\t'); // AMOUNT (explicit)
+                writer.Write('\t');                                       // QNTY
+                writer.Write('\t');                                       // PRICE
+                writer.Write(cfg.HstItem); writer.Write('\t');            // INVITEM (Sales Tax Item)
+                writer.Write('\t');                                       // TAXABLE
+                writer.Write("HST");                                      // DESC
+                writer.WriteLine();
+            }
+
+            // ENDTRNS
+            writer.WriteLine("ENDTRNS");
+
+            writer.Flush();
+            ms.Position = 0;
+            return ms;
+        }
+
+        public async Task<(string FileName, MemoryStream Iif)> GetInvoiceIifPackageAsync(
+            int sheetId, bool summed, CancellationToken ct = default)
+        {
+            var wo = await _context.WorkOrderSheets.AsNoTracking()
+                .FirstOrDefaultAsync(w => w.SheetId == sheetId, ct);
+
+            var woNumber = wo?.WorkOrderNumber ?? sheetId;
+            var name = $"Invoice_{woNumber}_{AsEstDateString(DateTime.UtcNow).Replace("-", "")}.iif";
+
+            var iif = await BuildInvoiceIifAsync(sheetId, summed, ct);
+            return (name, iif);
+        }
+
+        public async Task SendInvoiceIIFAsync(int sheetId, bool summed, CancellationToken ct = default)
+        {
+            var (fileName, iif) = await GetInvoiceIifPackageAsync(sheetId, summed, ct);
+
+            var apiKey = Environment.GetEnvironmentVariable("Resend_Key");
+            if (string.IsNullOrWhiteSpace(apiKey))
+                throw new InvalidOperationException("Resend_Key not set.");
+
+            string? to = Environment.GetEnvironmentVariable("Invoice_Receiver1");
+            if (string.IsNullOrWhiteSpace(to))
+                throw new InvalidOperationException("Invoice_Receiver1 not set.");
+
+            var bccList = new List<string>();
+            for (int i = 2; i <= 10; i++)
+            {
+                var addr = Environment.GetEnvironmentVariable($"Invoice_Receiver{i}");
+                if (!string.IsNullOrWhiteSpace(addr)) bccList.Add(addr);
+            }
+
+            var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
+
+            byte[] bytes = iif.ToArray();
+            string b64 = Convert.ToBase64String(bytes);
+
+            var payload = new
+            {
+                from = "service@taskfuel.app",
+                to = new[] { to },
+                bcc = bccList.Count > 0 ? bccList : null,
+                subject = $"Invoice (IIF) for Work Order {sheetId}",
+                text = $"Attached is the IIF for work order SheetID {sheetId}.",
+                attachments = new[]
+                {
+            new { filename = fileName, content = b64 }
+        }
+            };
+
+            var json = System.Text.Json.JsonSerializer.Serialize(payload);
+            using var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var resp = await http.PostAsync("https://api.resend.com/emails", content, ct);
+            var body = await resp.Content.ReadAsStringAsync(ct);
+
+            if (!resp.IsSuccessStatusCode)
+                throw new InvalidOperationException($"Resend failed: {resp.StatusCode} {body}");
+
+            Log.Information("Invoice IIF {File} sent to {To} (bcc={BccCount})", fileName, to, bccList.Count);
+        }
+
+
+        /// <summary>
+        /// XLSX LOGIC GOES BELOW
+        /// </summary>
+        /// <param name="sheetId"></param>
+        /// <param name="summed"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         public async Task<MemoryStream> BuildInvoiceXlsxAsync(
             int sheetId, bool summed, CancellationToken ct = default)
         {

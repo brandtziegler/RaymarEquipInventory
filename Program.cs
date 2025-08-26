@@ -88,7 +88,16 @@ if (builder.Environment.IsDevelopment())
         "Receipt_Receiver_3",
         "WO_Receiver1",
         "WO_Receiver2",
-        "WO_Receiver3"
+        "WO_Receiver3",
+        "IIF_AR_ACCOUNT",
+        "IIF_ITEM_LABOUR",
+        "IIF_ITEM_LABOUR_OT",
+        "IIF_ITEM_TRAVEL_TIME",
+        "IIF_ITEM_MILEAGE",
+        "IIF_ITEM_MISC_PART",
+        "IIF_ITEM_FEE",
+        "IIF_ITEM_HST",
+        "IIF_HST_RATE"
     })
         SetIfPresent(k, builder.Configuration[k]);
 

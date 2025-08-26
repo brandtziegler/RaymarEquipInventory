@@ -68,5 +68,48 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, $"Failed to enqueue invoice email for SheetID {sheetId}.");
             }
         }
+
+        [HttpPost("invoicesiif/{sheetId:int}/send")]
+        public IActionResult SendInvoiceIIF(int sheetId, [FromQuery] bool summed = true)
+        {
+            try
+            {
+                var jobId = _jobs.Enqueue(() =>
+                    _reportingService.SendInvoiceIIFAsync(sheetId, summed, CancellationToken.None));
+
+                return Accepted(new
+                {
+                    jobId,
+                    message = $"Queued invoice email for SheetID {sheetId} (summed={summed})."
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "❌ SendInvoiceXlsx enqueue failed for SheetID {SheetId} (summed={Summed})", sheetId, summed);
+                return StatusCode(500, $"Failed to enqueue invoice email for SheetID {sheetId}.");
+            }
+        }
+
+        /// <summary>
+        /// Returns the invoice XLSX file for the given SheetID (summed by default).
+        /// Example: GET /api/reporting/invoices/491?summed=true
+        /// </summary>
+        [HttpGet("invoicesiif/{sheetId:int}")]
+        public async Task<IActionResult> GetInvoiceIIF(int sheetId, [FromQuery] bool summed = true, CancellationToken ct = default)
+        {
+            try
+            {
+                var (fileName, xlsx) = await _reportingService.GetInvoiceIifPackageAsync(sheetId, summed, ct);
+                var bytes = xlsx.ToArray();
+
+                const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                return File(bytes, contentType, fileName);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "❌ GetInvoiceIIF failed for SheetID {SheetId} (summed={Summed})", sheetId, summed);
+                return StatusCode(500, $"Failed to build invoice IIF for SheetID {sheetId}.");
+            }
+        }
     }
 }
