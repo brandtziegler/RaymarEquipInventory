@@ -21,6 +21,8 @@ public partial class Technician
 
     public virtual Person Person { get; set; }
 
+    public virtual ICollection<TechnicianAndType> TechnicianAndTypes { get; set; } = new List<TechnicianAndType>();
+
     public virtual ICollection<TechnicianExperience> TechnicianExperiences { get; set; } = new List<TechnicianExperience>();
 
     public virtual ICollection<TechnicianLicence> TechnicianLicences { get; set; } = new List<TechnicianLicence>();

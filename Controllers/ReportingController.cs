@@ -69,6 +69,42 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+
+
+        // In your ReportingController (same DI pattern as your other actions)
+
+        /// <summary>
+        /// Imports Parts from an uploaded XLSX (Sheet1 header must match:
+        /// Item, Description, Preferred Vendor, U/M, Price).
+        /// Example: POST /api/reporting/parts/importxlsx  (multipart/form-data with file field "file")
+        /// </summary>
+        [HttpPost("ImportPartsXlsx")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> ImportPartsXlsx([FromForm] FileUploadDto input, CancellationToken ct)
+        {
+            if (input.File == null || input.File.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            using var stream = input.File.OpenReadStream();
+            var result = await _reportingService.ImportPartsAsync(stream, ct);
+
+            return Ok(new
+            {
+                file = input.File.FileName,
+                result.Inserted,
+                result.Updated,
+                result.Reactivated,
+                result.MarkedInactive,
+                result.Rejected,
+                result.InsertedSamples,
+                result.UpdatedSamples,
+                result.ReactivatedSamples,
+                result.MarkedInactiveSamples,
+                result.Timestamp
+            });
+        }
+
+
         [HttpPost("invoicesiif/{sheetId:int}/send")]
         public IActionResult SendInvoiceIIF(int sheetId, [FromQuery] bool summed = true)
         {

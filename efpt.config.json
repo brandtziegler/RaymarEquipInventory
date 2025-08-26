@@ -96,6 +96,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[InventoryDataArchive]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[InventoryDataNew]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[InventoryDocument]",
          "ObjectType": 0
       },
@@ -157,6 +165,10 @@
       },
       {
          "Name": "[dbo].[Technician]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TechnicianAndTypes]",
          "ObjectType": 0
       },
       {

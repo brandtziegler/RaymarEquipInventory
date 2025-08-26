@@ -14,4 +14,6 @@ public partial class TechnicianType
     public string Description { get; set; }
 
     public bool? IsActive { get; set; }
+
+    public virtual ICollection<TechnicianAndType> TechnicianAndTypes { get; set; } = new List<TechnicianAndType>();
 }

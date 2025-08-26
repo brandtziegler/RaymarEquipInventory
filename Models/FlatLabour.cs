@@ -21,5 +21,7 @@ public partial class FlatLabour
 
     public virtual LabourType LabourType { get; set; }
 
+    public virtual ICollection<TechnicianAndType> TechnicianAndTypes { get; set; } = new List<TechnicianAndType>();
+
     public virtual ICollection<WorkOrderFee> WorkOrderFees { get; set; } = new List<WorkOrderFee>();
 }

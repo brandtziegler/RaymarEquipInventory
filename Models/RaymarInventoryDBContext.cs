@@ -51,6 +51,10 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<IncomeAccount> IncomeAccounts { get; set; }
 
+    public virtual DbSet<InventoryDataArchive> InventoryDataArchives { get; set; }
+
+    public virtual DbSet<InventoryDataNew> InventoryDataNews { get; set; }
+
     public virtual DbSet<InventoryDatum> InventoryData { get; set; }
 
     public virtual DbSet<InventoryDocument> InventoryDocuments { get; set; }
@@ -84,6 +88,8 @@ public partial class RaymarInventoryDBContext : DbContext
     public virtual DbSet<ServiceDescription> ServiceDescriptions { get; set; }
 
     public virtual DbSet<Technician> Technicians { get; set; }
+
+    public virtual DbSet<TechnicianAndType> TechnicianAndTypes { get; set; }
 
     public virtual DbSet<TechnicianExperience> TechnicianExperiences { get; set; }
 
@@ -678,6 +684,65 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasDefaultValueSql("('Sales')");
         });
 
+        modelBuilder.Entity<InventoryDataArchive>(entity =>
+        {
+            entity.HasKey(e => e.InventoryId).HasName("PK__Inventor__F5FDE6D30F7F6AC5");
+
+            entity.ToTable("InventoryDataArchive");
+
+            entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
+            entity.Property(e => e.AverageCost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.IncomeAccountId).HasColumnName("IncomeAccountID");
+            entity.Property(e => e.ItemName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.LastRestockedDate).HasColumnType("datetime");
+            entity.Property(e => e.ManufacturerPartNumber)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.QuickBooksInvId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("QuickBooksInvID");
+            entity.Property(e => e.SalesPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<InventoryDataNew>(entity =>
+        {
+            entity.HasKey(e => e.InventoryId).HasName("PK__Inventor__F5FDE6D3081A9689");
+
+            entity.ToTable("InventoryDataNew");
+
+            entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
+            entity.Property(e => e.AverageCost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.IncomeAccountId).HasColumnName("IncomeAccountID");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.ItemName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.LastRestockedDate).HasColumnType("datetime");
+            entity.Property(e => e.ManufacturerPartNumber)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.QuickBooksInvId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("QuickBooksInvID");
+            entity.Property(e => e.SalesPrice).HasColumnType("decimal(10, 2)");
+        });
+
         modelBuilder.Entity<InventoryDatum>(entity =>
         {
             entity.HasKey(e => e.InventoryId).HasName("PK__Inventor__F5FDE6D30BA95700");
@@ -1085,6 +1150,36 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.PersonId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Technicia__Perso__3587F3E0");
+        });
+
+        modelBuilder.Entity<TechnicianAndType>(entity =>
+        {
+            entity.HasKey(e => e.TechTypeAssignId).HasName("PK__Technici__3F27C19B8E8196BD");
+
+            entity.HasIndex(e => new { e.TechnicianId, e.TechTypeId }, "UX_TechnicianAndTypes_Tech_TechType").IsUnique();
+
+            entity.Property(e => e.TechTypeAssignId).HasColumnName("TechTypeAssignID");
+            entity.Property(e => e.EffectiveFrom).HasColumnType("date");
+            entity.Property(e => e.EffectiveTo).HasColumnType("date");
+            entity.Property(e => e.FlatLabourId).HasColumnName("FlatLabourID");
+            entity.Property(e => e.RateOverride).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.TechTypeId).HasColumnName("TechTypeID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+
+            entity.HasOne(d => d.FlatLabour).WithMany(p => p.TechnicianAndTypes)
+                .HasForeignKey(d => d.FlatLabourId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Technicia__FlatL__48EFCE0F");
+
+            entity.HasOne(d => d.TechType).WithMany(p => p.TechnicianAndTypes)
+                .HasForeignKey(d => d.TechTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Technicia__TechT__47FBA9D6");
+
+            entity.HasOne(d => d.Technician).WithMany(p => p.TechnicianAndTypes)
+                .HasForeignKey(d => d.TechnicianId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Technicia__Techn__4707859D");
         });
 
         modelBuilder.Entity<TechnicianExperience>(entity =>

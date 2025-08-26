@@ -11,6 +11,7 @@ using ClosedXML.Excel;
 using System.Globalization;
 using CsvHelper;
 using RaymarEquipmentInventory.Helpers;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -47,6 +48,7 @@ namespace RaymarEquipmentInventory.Services
             {
                 if (summed)
                 {
+                 
                     return await _context.VwInvoicePreviewSummeds
                         .Where(v => v.SheetId == sheetId)
                         .Select(v => new InvoiceCSVRow
@@ -114,6 +116,137 @@ namespace RaymarEquipmentInventory.Services
             return local.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
 
+        public async Task<PartImportResult> ImportPartsAsync(Stream xlsx, CancellationToken ct = default)
+        {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
+            // raise timeout only for this operation
+            var prevTimeout = _context.Database.GetCommandTimeout();
+            _context.Database.SetCommandTimeout(TimeSpan.FromMinutes(5));
+
+            try
+            {
+                // 1) Parse XLSX → DTOs (header validation inside)
+                List<PartCSVRow> rows;
+                try
+                {
+                    rows = PartImportHelper.ParsePartRows(xlsx).ToList();
+                    if (rows.Count == 0)
+                        throw new InvalidDataException("No data rows found beneath the header in PartUpload.xlsx.");
+                }
+                catch (InvalidDataException ide)
+                {
+                    Serilog.Log.Warning(ide, "Parts import rejected: {Reason}", ide.Message);
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Serilog.Log.Error(ex, "Failed to read/parse the uploaded XLSX for parts import.");
+                    throw new InvalidDataException(
+                        "Could not read the uploaded XLSX. Ensure it is a valid .xlsx with the expected columns (Item, Description, Preferred Vendor, U/M, Price).",
+                        ex);
+                }
+
+                // Build the active key set (normalized) once
+                var activeKeys = rows
+                    .Select(r => (r.Item ?? string.Empty).Trim())
+                    .Where(k => k.Length > 0)
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+                // 2–3) Upserts + MarkInactive in one transaction for atomicity
+                await using var tx = await _context.Database.BeginTransactionAsync(ct);
+
+                PartImportResult upserts;
+                int inactiveCount;
+                List<PartChangeSample> inactiveSamples;
+
+                try
+                {
+                    upserts = await PartImportHelper.ApplyUpsertsAsync(_context, rows, ct);
+
+                    (inactiveCount, inactiveSamples) =
+                        await PartImportHelper.MarkInactiveAsync(_context, activeKeys, ct);
+
+                    await tx.CommitAsync(ct);
+                }
+                catch (OperationCanceledException oce)
+                {
+                    try { await tx.RollbackAsync(CancellationToken.None); } catch { /* ignore */ }
+                    Serilog.Log.Warning(oce, "Parts import was cancelled.");
+                    throw;
+                }
+                catch (DbUpdateException dbx)
+                {
+                    try { await tx.RollbackAsync(ct); } catch { /* ignore */ }
+                    Serilog.Log.Error(dbx, "Database update failed during parts import.");
+                    throw new InvalidOperationException("Database update failed while applying the parts import.", dbx);
+                }
+                catch (Exception ex)
+                {
+                    try { await tx.RollbackAsync(ct); } catch { /* ignore */ }
+                    Serilog.Log.Error(ex, "Unexpected error during parts import transaction.");
+                    throw;
+                }
+
+                // 4) Merge counts + sample proofs
+                var result = PartImportHelper.BuildAuditResult(upserts, inactiveCount, inactiveSamples);
+
+                sw.Stop();
+                Serilog.Log.Information(
+                    "Parts import complete: inserted={Inserted}, updated={Updated}, reactivated={Reactivated}, inactivated={Inactivated}, rejected={Rejected}, elapsedMs={Elapsed}",
+                    result.Inserted, result.Updated, result.Reactivated, result.MarkedInactive, result.Rejected, sw.ElapsedMilliseconds);
+
+                return result;
+            }
+            finally
+            {
+                _context.Database.SetCommandTimeout(prevTimeout);
+                if (sw.IsRunning) sw.Stop();
+            }
+        }
+
+
+
+        public async Task<PartImportResult> ImportPartsAsync(byte[] xlsxBytes, CancellationToken ct = default)
+        {
+            using var ms = new MemoryStream(xlsxBytes);
+            return await ImportPartsAsync(ms, ct); // calls your existing Stream-based method
+        }
+
+        public Task<PartImportResult> PreviewPartsImportAsync(Stream xlsx, CancellationToken ct = default)
+        {
+            // Parse only; do not touch DB
+            var rows = PartImportHelper.ParsePartRows(xlsx).ToList();
+
+            // Super-light estimate: treat all keys that exist as “updates/reactivations”
+            // and all others as “inserts”. If you want this, say the word and I’ll wire it properly.
+            return Task.FromResult(new PartImportResult
+            {
+                Inserted = 0,
+                Updated = 0,
+                Reactivated = 0,
+                MarkedInactive = 0,
+                Rejected = 0
+            });
+        }
+
+        public (string FileName, MemoryStream Csv) GetPartsCsvPackage(Stream xlsx)
+        {
+            var rows = PartImportHelper.ParsePartRows(xlsx).ToList();
+
+            var ms = new MemoryStream();
+            using (var writer = new StreamWriter(ms, leaveOpen: true))
+            {
+                writer.WriteLine("Item,Description,U/M,Price");
+                foreach (var r in rows)
+                    writer.WriteLine($"{r.Item},{r.Description},{r.Uom},{r.Price:0.00}");
+                writer.Flush();
+            }
+            ms.Position = 0;
+            var name = $"Parts_{DateTime.UtcNow:yyyyMMdd_HHmmss}.csv";
+            return (name, ms);
+        }
 
         /// <summary>
         /// IIF LOGIC GOES BELOW

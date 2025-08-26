@@ -29,5 +29,11 @@ namespace RaymarEquipmentInventory.Services
             int sheetId, bool summed, CancellationToken ct = default);
 
         Task SendInvoiceIIFAsync(int sheetId, bool summed, CancellationToken ct = default);
+
+        Task<PartImportResult> ImportPartsAsync(Stream xlsx, CancellationToken ct = default);
+
+        Task<PartImportResult> PreviewPartsImportAsync(Stream xlsx, CancellationToken ct = default);
+
+        //Task<PartImportResult> ImportPartsAsync(byte[] xlsxBytes, CancellationToken ct = default);
     }
 }
