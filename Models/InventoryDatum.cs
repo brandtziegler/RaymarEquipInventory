@@ -31,6 +31,12 @@ public partial class InventoryDatum
 
     public DateTime? LastRestockedDate { get; set; }
 
+    public bool? IsActive { get; set; }
+
+    public DateTime? LastUpdated { get; set; }
+
+    public string LastTrans { get; set; }
+
     public virtual IncomeAccount IncomeAccount { get; set; }
 
     public virtual ICollection<InventoryDocument> InventoryDocuments { get; set; } = new List<InventoryDocument>();

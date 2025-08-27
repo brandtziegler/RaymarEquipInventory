@@ -69,7 +69,47 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns a snapshot time (UTC) that the client should use as the upper bound
+        /// when paging changes. Example: GET /api/reporting/inventory/watermark
+        /// </summary>
+        [HttpGet("GetInventoryWatermark")]
+        public async Task<IActionResult> GetInventoryWatermark(CancellationToken ct = default)
+        {
+            try
+            {
+                var wm = await _reportingService.GetWatermarkAsync(ct);
+                return Ok(new { watermark = wm.ToString("O") });  // ISO 8601
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "❌ GetInventoryWatermark failed");
+                return StatusCode(500, "Failed to get inventory watermark.");
+            }
+        }
 
+        /// <summary>
+        /// Returns paged inventory changes between 'since' (exclusive) and 'upto' (inclusive).
+        /// Example: GET /api/reporting/inventory/changes?since=2025-08-26T00:00:00Z&upto=2025-08-27T12:00:00Z&limit=500
+        /// </summary>
+        [HttpGet("GetInventoryChanges")]
+        public async Task<ActionResult<InventoryChangesResponse>> GetInventoryChanges(
+            [FromQuery] DateTimeOffset since,
+            [FromQuery] DateTimeOffset upto,
+            [FromQuery] int limit = 500,
+            CancellationToken ct = default)
+        {
+            try
+            {
+                var payload = await _reportingService.GetChangesAsync(since, upto, limit, ct);
+                return Ok(payload);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "❌ GetInventoryChanges failed (since={Since}, upto={Upto}, limit={Limit})", since, upto, limit);
+                return StatusCode(500, "Failed to get inventory changes.");
+            }
+        }
 
         // In your ReportingController (same DI pattern as your other actions)
 

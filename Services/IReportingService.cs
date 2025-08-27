@@ -35,5 +35,8 @@ namespace RaymarEquipmentInventory.Services
         Task<PartImportResult> PreviewPartsImportAsync(Stream xlsx, CancellationToken ct = default);
 
         //Task<PartImportResult> ImportPartsAsync(byte[] xlsxBytes, CancellationToken ct = default);
-    }
+        Task<DateTimeOffset> GetWatermarkAsync(CancellationToken ct);
+        Task<InventoryChangesResponse> GetChangesAsync(DateTimeOffset since, DateTimeOffset upto, int limit, CancellationToken ct);
+    
+}
 }

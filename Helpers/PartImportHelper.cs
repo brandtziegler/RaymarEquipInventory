@@ -93,7 +93,7 @@ namespace RaymarEquipmentInventory.Helpers
             var result = new PartImportResult(); // carries counts + samples
             var normalized = rows.Select(NormalizeRow).ToList();
 
-            // ----- Build a CSV map (last row wins), skip blank keys -----
+            // ---- CSV map (last row wins), skip blank keys ----
             var csvMap = new Dictionary<string, PartCSVRow>(StringComparer.OrdinalIgnoreCase);
             foreach (var r in normalized)
             {
@@ -102,13 +102,13 @@ namespace RaymarEquipmentInventory.Helpers
                 csvMap[key] = r; // last one wins
             }
 
-            // ----- Build DB key→entity map, skip blank keys, resolve duplicates deterministically -----
-            var existingList = await context.InventoryDataNews
+            // ---- Build DB key→entity map on ManufacturerPartNumber ----
+            var existingList = await context.InventoryData      // <— real table DbSet
                 .AsTracking()
                 .Where(x => !string.IsNullOrWhiteSpace(x.ManufacturerPartNumber))
                 .ToListAsync(ct);
 
-            var existingParts = new Dictionary<string, InventoryDataNew>(StringComparer.OrdinalIgnoreCase);
+            var existingParts = new Dictionary<string, InventoryDatum>(StringComparer.OrdinalIgnoreCase);
             foreach (var p in existingList)
             {
                 var key = p.ManufacturerPartNumber!.Trim();
@@ -117,13 +117,14 @@ namespace RaymarEquipmentInventory.Helpers
                     var cur = existingParts[key];
                     bool candidateWins =
                         (cur.IsActive != true && p.IsActive == true) ||
-                        ((cur.IsActive == p.IsActive) && /* prefer the most recent row */
-                         (p.InventoryId > cur.InventoryId));
+                        ((cur.IsActive == p.IsActive) && (p.InventoryId > cur.InventoryId));
                     if (candidateWins) existingParts[key] = p;
                 }
             }
 
-            // ----- Upsert loop -----
+            var now = DateTime.UtcNow; // one timestamp for this import pass
+
+            // ---- Upsert loop ----
             foreach (var (key, row) in csvMap)
             {
                 if (existingParts.TryGetValue(key, out var entity))
@@ -139,55 +140,60 @@ namespace RaymarEquipmentInventory.Helpers
 
                     bool wasInactive = entity.IsActive != true;
 
-                    // UPDATE
-                    entity.ItemName = row.Description;
-                    entity.Description = row.Description;
-                    entity.SalesPrice = row.Price;
-                    entity.IsActive = true;
+                    // Detect real change; avoid bumping LastUpdated on no-ops
+                    bool nameChanged = !string.Equals(entity.ItemName, row.Description, StringComparison.Ordinal);
+                    bool descChanged = !string.Equals(entity.Description, row.Description, StringComparison.Ordinal);
+                    bool priceChanged = entity.SalesPrice != row.Price;
+                    bool reactivate = wasInactive;
 
-                    // AFTER snapshot
-                    var after = new PartChangeSample
+                    if (nameChanged || descChanged || priceChanged || reactivate)
                     {
-                        Key = key,
-                        AfterItemName = entity.ItemName,
-                        AfterPrice = entity.SalesPrice,
-                        AfterIsActive = entity.IsActive,
-                        Action = wasInactive ? "Reactivated" : "Updated",
-                        BeforeItemName = before.BeforeItemName,
-                        BeforePrice = before.BeforePrice,
-                        BeforeIsActive = before.BeforeIsActive
-                    };
+                        entity.ItemName = row.Description;
+                        entity.Description = row.Description;
+                        entity.SalesPrice = row.Price;
+                        entity.IsActive = true;
 
-                    if (wasInactive)
-                    {
-                        reactivated++;
-                        TryAddSample(result.ReactivatedSamples, after);
+                        entity.LastUpdated = now;
+                        entity.LastTrans = "U"; // update OR reactivate treated as Update
+
+                        var after = new PartChangeSample
+                        {
+                            Key = key,
+                            AfterItemName = entity.ItemName,
+                            AfterPrice = entity.SalesPrice,
+                            AfterIsActive = entity.IsActive,
+                            Action = reactivate ? "Reactivated" : "Updated",
+                            BeforeItemName = before.BeforeItemName,
+                            BeforePrice = before.BeforePrice,
+                            BeforeIsActive = before.BeforeIsActive
+                        };
+
+                        if (reactivate) { reactivated++; TryAddSample(result.ReactivatedSamples, after); }
+                        else { updated++; TryAddSample(result.UpdatedSamples, after); }
                     }
-                    else
-                    {
-                        updated++;
-                        TryAddSample(result.UpdatedSamples, after);
-                    }
+                    // else: perfect match and already active → do nothing (no timestamp bump)
                 }
                 else
                 {
                     // INSERT
-                    var newEntity = new InventoryDataNew
+                    var newEntity = new InventoryDatum
                     {
                         ManufacturerPartNumber = key,
                         ItemName = row.Description,
                         Description = row.Description,
                         SalesPrice = row.Price,
-                        IsActive = true
+                        IsActive = true,
+                        LastUpdated = now,
+                        LastTrans = "A"
                     };
-                    await context.InventoryDataNews.AddAsync(newEntity, ct);
+
+                    await context.InventoryData.AddAsync(newEntity, ct);  // <— real table DbSet
                     inserted++;
 
                     var sample = new PartChangeSample
                     {
                         Key = key,
                         Action = "Inserted",
-                        // Before = nulls
                         AfterItemName = row.Description,
                         AfterPrice = row.Price,
                         AfterIsActive = true
@@ -202,7 +208,7 @@ namespace RaymarEquipmentInventory.Helpers
             result.Updated = updated;
             result.Reactivated = reactivated;
             result.Rejected = rejected;
-            result.Timestamp = DateTime.UtcNow;
+            result.Timestamp = now;
             return result;
         }
 
@@ -218,23 +224,25 @@ namespace RaymarEquipmentInventory.Helpers
         {
             var samples = new List<PartChangeSample>(SAMPLE_LIMIT);
 
-            // Normalize & de-dup the active keys from the CSV
+            // Normalize active keys from the CSV (case-insensitive, trimmed)
             var activeSet = new HashSet<string>(
-                activePartNumbers
-                    .Where(s => !string.IsNullOrWhiteSpace(s))
-                    .Select(s => s.Trim()),
+                activePartNumbers.Where(s => !string.IsNullOrWhiteSpace(s))
+                                 .Select(s => s.Trim()),
                 StringComparer.OrdinalIgnoreCase);
 
-            // Only deactivate rows that:
-            //  - are currently active
-            //  - have a non-blank ManufacturerPartNumber
-            //  - are NOT present in the current CSV's active set
-            var toDeactivate = context.InventoryDataNews
+            // Candidates to deactivate:
+            //  - currently active
+            //  - have a non-blank MPN
+            //  - NOT present in the CSV's active set
+            var toDeactivate = context.InventoryData
                 .Where(p => p.IsActive == true
                          && !string.IsNullOrWhiteSpace(p.ManufacturerPartNumber)
-                         && !activeSet.Contains(p.ManufacturerPartNumber!));
+                         && !activeSet.Contains(p.ManufacturerPartNumber!))
+                .AsTracking();
 
             int count = 0;
+            var now = DateTime.UtcNow;
+
             await foreach (var part in toDeactivate.AsAsyncEnumerable().WithCancellation(ct))
             {
                 // BEFORE
@@ -246,7 +254,10 @@ namespace RaymarEquipmentInventory.Helpers
                     BeforeIsActive = part.IsActive
                 };
 
+                // Deactivate + stamp audit fields
                 part.IsActive = false;
+                part.LastUpdated = now;
+                part.LastTrans = "D";
                 count++;
 
                 // AFTER

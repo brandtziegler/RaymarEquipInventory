@@ -758,13 +758,19 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.IncomeAccountId).HasColumnName("IncomeAccountID");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
             entity.Property(e => e.ItemName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.LastRestockedDate).HasColumnType("datetime");
-            entity.Property(e => e.ManufacturerPartNumber)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.LastTrans)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.LastUpdated).HasPrecision(3);
+            entity.Property(e => e.ManufacturerPartNumber).IsUnicode(false);
             entity.Property(e => e.QuickBooksInvId)
                 .HasMaxLength(50)
                 .IsUnicode(false)

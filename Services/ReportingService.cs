@@ -36,6 +36,46 @@ namespace RaymarEquipmentInventory.Services
             _config = config;
         }
 
+
+
+
+        public Task<DateTimeOffset> GetWatermarkAsync(CancellationToken ct)
+        => Task.FromResult(DateTimeOffset.UtcNow);
+
+        public async Task<InventoryChangesResponse> GetChangesAsync(
+           DateTimeOffset since, DateTimeOffset upto, int limit, CancellationToken ct)
+        {
+            limit = Math.Clamp(limit, 1, 1000);
+
+            var rows = await _context.InventoryData
+                .Where(x => x.LastUpdated != null
+                         && x.LastUpdated > since.UtcDateTime
+                         && x.LastUpdated <= upto.UtcDateTime)
+                .OrderBy(x => x.LastUpdated)
+                .ThenBy(x => x.InventoryId)
+                .Take(limit)
+                .Select(x => new InventoryChangeDto
+                {
+                    InventoryId = x.InventoryId.ToString(),
+                    ItemName = x.ItemName ?? "",
+                    ManufacturerPartNumber = x.ManufacturerPartNumber ?? "",
+                    QuickBooksInvId = x.QuickBooksInvId ?? "",
+                    Description = x.Description ?? "",
+                    IsActive = x.IsActive ?? true,            // ← fix #1
+                    LastUpdatedUtc = x.LastUpdated!.Value
+                })
+                .ToListAsync(ct);
+
+            var hasMore = rows.Count() == limit;              // ← fix #2 (or use the 2-line property version)
+
+            return new InventoryChangesResponse
+            {
+                Cursor = upto.ToString("O"),
+                HasMore = hasMore,
+                Upserts = rows
+            };
+        }
+
         /// <remarks>
         /// EF Core Power Tools will generate entities for your views:
         ///   - vw_InvoicePreview        (detail)
