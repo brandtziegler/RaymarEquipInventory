@@ -118,31 +118,32 @@ namespace RaymarEquipmentInventory.Services
 
         public int receiveResponseXML(string ticket, string response, string hresult, string message)
         {
-            if (!_session.TryGetRunId(ticket, out var runId))
-            {
-                // No session? Log and tell QBWC we're done
-                Log.Warning("QBWC receiveResponseXML with unknown ticket {Ticket}", ticket);
-                return 0;
-            }
+            if (!_session.TryGetRunId(ticket, out var runId)) return 0;
 
-            // 1) Parse & audit
+            var state = _session.GetIterator(runId);
             var parsed = _response.HandleReceiveAsync(runId, response, hresult, message).GetAwaiter().GetResult();
 
-            // 2) Stage inventory rows
-            if (parsed.InventoryItems.Count > 0)
+            // If we just handled CompanyQuery, keep the loop going to Inventory
+            bool isCompany = state.LastRequestType == "CompanyQueryRq" || response.Contains("<CompanyQueryRs");
+            if (isCompany)
             {
-                _import.BulkInsertInventoryAsync(runId, parsed.InventoryItems).GetAwaiter().GetResult();
+                // Company XML is already logged to QbwcMessage.PayloadXml.
+                state.LastRequestType = null;            // next sendRequestXML will choose Inventory Start
+                _session.SetIterator(runId, state);
+                return 100;                              // tell QBWC: continue
             }
 
-            // 3) Update iterator state
-            var state = _session.GetIterator(runId);
+            // Inventory batch
+            if (parsed.InventoryItems.Count > 0)
+                _import.BulkInsertInventoryAsync(runId, parsed.InventoryItems).GetAwaiter().GetResult();
+
             state.IteratorId = parsed.IteratorId;
             state.Remaining = parsed.IteratorRemaining;
             state.LastRequestType = "ItemInventoryQueryRq";
             _session.SetIterator(runId, state);
 
-            // 4) Continue (100) until no pages remain; then 0
-            return parsed.IteratorRemaining > 0 ? 100 : 0;
+            return parsed.IteratorRemaining > 0 ? 100 : 0; // 100=continue, 0=done
         }
+
     }
 }
