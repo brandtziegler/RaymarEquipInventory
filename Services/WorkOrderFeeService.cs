@@ -59,13 +59,13 @@ namespace RaymarEquipmentInventory.Services
 
 
         public async Task<int> InsertWorkOrderFeeBulkAsync(
-    IEnumerable<RaymarEquipmentInventory.DTOs.WorkOrderFee> items,
+    IEnumerable<DTOs.WorkOrderFee> items,
     CancellationToken cancellationToken = default)
         {
-            var src = items?.ToList() ?? new List<RaymarEquipmentInventory.DTOs.WorkOrderFee>();
+            var src = items?.ToList() ?? new List<DTOs.WorkOrderFee>();
             if (src.Count == 0) return 0;
 
-            var entities = new List<RaymarEquipmentInventory.Models.WorkOrderFee>(src.Count);
+            var entities = new List<Models.WorkOrderFee>(src.Count);
 
             foreach (var fee in src)
             {
@@ -75,7 +75,7 @@ namespace RaymarEquipmentInventory.Services
 
                 if (fee.Qty < 0) fee.Qty = 0;
 
-                entities.Add(new RaymarEquipmentInventory.Models.WorkOrderFee
+                entities.Add(new Models.WorkOrderFee
                 {
                     TechnicianWorkOrderId = fee.TechnicianWorkOrderID,
                     FlatLabourId = fee.FlatLabourID,

@@ -318,7 +318,7 @@ namespace RaymarEquipmentInventory.Services
                 else
                 {
                     // Create a new document entry
-                    var newInventoryDocument = new RaymarEquipmentInventory.Models.InventoryDocument
+                    var newInventoryDocument = new Models.InventoryDocument
                     {
                         InventoryId = inventoryId,
                         DocumentTypeId = docTypeId ?? 8,

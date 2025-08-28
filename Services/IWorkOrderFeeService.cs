@@ -11,7 +11,7 @@ namespace RaymarEquipmentInventory.Services
         Task<bool> InsertWorkOrderFee(WorkOrderFee workOrderFee, CancellationToken cancellationToken = default);
 
         Task<int> InsertWorkOrderFeeBulkAsync(
-    IEnumerable<RaymarEquipmentInventory.DTOs.WorkOrderFee> items,
+    IEnumerable<DTOs.WorkOrderFee> items,
     CancellationToken cancellationToken = default);
     }
 }

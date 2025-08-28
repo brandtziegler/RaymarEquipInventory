@@ -59,6 +59,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<InventoryDocument> InventoryDocuments { get; set; }
 
+    public virtual DbSet<InventoryStaging> InventoryStagings { get; set; }
+
     public virtual DbSet<Labour> Labours { get; set; }
 
     public virtual DbSet<LabourType> LabourTypes { get; set; }
@@ -78,6 +80,10 @@ public partial class RaymarInventoryDBContext : DbContext
     public virtual DbSet<Person> People { get; set; }
 
     public virtual DbSet<PlaceholderDocument> PlaceholderDocuments { get; set; }
+
+    public virtual DbSet<QbwcMessage> QbwcMessages { get; set; }
+
+    public virtual DbSet<QbwcSession> QbwcSessions { get; set; }
 
     public virtual DbSet<RegularLabour> RegularLabours { get; set; }
 
@@ -747,6 +753,8 @@ public partial class RaymarInventoryDBContext : DbContext
         {
             entity.HasKey(e => e.InventoryId).HasName("PK__Inventor__F5FDE6D30BA95700");
 
+            entity.HasIndex(e => new { e.LastUpdated, e.InventoryId }, "IX_Inventory_LastUpdated");
+
             entity.HasIndex(e => e.QuickBooksInvId, "IX_Unique_QuickBooksInvID")
                 .IsUnique()
                 .HasFilter("([QuickBooksInvID] IS NOT NULL)");
@@ -815,6 +823,32 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.InventoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InventoryDocuments_InventoryData");
+        });
+
+        modelBuilder.Entity<InventoryStaging>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Inventor__3214EC07F26A0A08");
+
+            entity.ToTable("InventoryStaging");
+
+            entity.HasIndex(e => new { e.ListId, e.EditSequence }, "IX_InventoryStaging_List_EditSeq");
+
+            entity.HasIndex(e => e.RunId, "IX_InventoryStaging_RunId");
+
+            entity.Property(e => e.CreatedAtUtc)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.EditSequence).HasMaxLength(50);
+            entity.Property(e => e.FullName)
+                .IsRequired()
+                .HasMaxLength(300);
+            entity.Property(e => e.ListId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("ListID");
+            entity.Property(e => e.PurchaseCost).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.QuantityOnHand).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.SalesPrice).HasColumnType("decimal(18, 4)");
         });
 
         modelBuilder.Entity<Labour>(entity =>
@@ -1059,6 +1093,53 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.DocumentTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PlaceholderDocuments_DocumentTypes");
+        });
+
+        modelBuilder.Entity<QbwcMessage>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__QbwcMess__3214EC07AB815C51");
+
+            entity.ToTable("QbwcMessage");
+
+            entity.HasIndex(e => new { e.RunId, e.CreatedAtUtc }, "IX_QbwcMessage_RunId_Time");
+
+            entity.Property(e => e.CompanyFile).HasMaxLength(400);
+            entity.Property(e => e.CreatedAtUtc)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.Direction)
+                .IsRequired()
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.Hresult)
+                .HasMaxLength(50)
+                .HasColumnName("HResult");
+            entity.Property(e => e.Message).HasMaxLength(4000);
+            entity.Property(e => e.Method)
+                .IsRequired()
+                .HasMaxLength(40)
+                .IsUnicode(false);
+            entity.Property(e => e.PayloadXml).HasColumnType("xml");
+        });
+
+        modelBuilder.Entity<QbwcSession>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__QbwcSess__3214EC0772A72675");
+
+            entity.ToTable("QbwcSession");
+
+            entity.HasIndex(e => e.RunId, "IX_QbwcSession_RunId").IsUnique();
+
+            entity.Property(e => e.ClientVersion).HasMaxLength(40);
+            entity.Property(e => e.CompanyFile).HasMaxLength(400);
+            entity.Property(e => e.EndedAtUtc).HasPrecision(3);
+            entity.Property(e => e.Notes).HasMaxLength(400);
+            entity.Property(e => e.QbwcUser).HasMaxLength(100);
+            entity.Property(e => e.ServerVersion).HasMaxLength(40);
+            entity.Property(e => e.StartedAtUtc)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.Ticket).HasMaxLength(200);
         });
 
         modelBuilder.Entity<RegularLabour>(entity =>
@@ -1906,6 +1987,7 @@ public partial class RaymarInventoryDBContext : DbContext
                     });
         });
 
+        OnModelCreatingGeneratedProcedures(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
     }
 

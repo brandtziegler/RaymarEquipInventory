@@ -23,6 +23,12 @@ using System.Threading;
 
 using RaymarEquipmentInventory.Helpers;
 
+using DocumentFormat.OpenXml.Bibliography;
+using Google.Apis.Drive.v3.Data;
+using SoapCore;
+using SoapCore.Extensibility; // if needed by your version
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog for logging
@@ -34,6 +40,12 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 builder.Services.AddHttpClient();
+builder.Services.AddSoapCore();
+
+// QBWC DI bits
+builder.Services.AddMemoryCache();                                            // needed by session store
+builder.Services.Configure<QbwcRequestOptions>(builder.Configuration.GetSection("QBWC")); // bind options in ALL envs
+
 // Add Hangfire services to the container
 builder.Services.AddHangfire(configuration => configuration
     .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
@@ -108,6 +120,13 @@ if (builder.Environment.IsDevelopment())
     SetIfPresent("GOOGLE_WORKLOAD_IDENTITY_PROVIDER", builder.Configuration["Google:WorkloadIdentityProvider"]);
     SetIfPresent("GOOGLE_IMPERSONATE_SERVICE_ACCOUNT", builder.Configuration["Google:ImpersonateServiceAccount"]);
 
+
+    var qbwc = builder.Configuration.GetSection("QBWC").Get<QbwcRequestOptions>() ?? new();
+    Console.WriteLine($"QBWC bound: PageSize={qbwc.PageSize}, ActiveOnly={qbwc.ActiveOnly}, FromModified={qbwc.FromModifiedDateUtc}, FirstCompany={qbwc.RequestCompanyQueryFirst}");
+
+
+    builder.Services.Configure<QbwcRequestOptions>(
+        builder.Configuration.GetSection("QBWC"));
     // (Optional) quick sanity peek — redact secrets if you log these
     // Console.WriteLine($"BlobContainer_Receipts={Environment.GetEnvironmentVariable("BlobContainer_Receipts")}");
 
@@ -155,25 +174,6 @@ if (samsaraApiConfig != null)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
-
-//var quickBooksConnectionString = builder.Configuration.GetConnectionString("QuickBooksODBCConnection");
-//using (OdbcConnection conn = new OdbcConnection(quickBooksConnectionString))
-//{
-//    try
-//    {
-//        conn.Open();
-//        // If all goes well, nothing to see here, just a connection being opened.
-//    }
-//    catch (Exception ex)
-//    {
-//        // This is where we get to make fun of our tech error:
-//        Console.WriteLine($"Oh great, another error. Apparently, QuickBooks doesn't like your connection string. Here's what it thinks: {ex.Message}");
-//    }
-//}
-
-
 var connectionString = builder.Configuration.GetConnectionString("RaymarAzureConnection");
 
 builder.Services.AddDbContext<RaymarInventoryDBContext>(options =>
@@ -199,7 +199,14 @@ builder.Services.AddScoped<ITechnicianService, TechnicanService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<ITechWOService, TechWOService>();
+builder.Services.AddScoped<IAuditLogger, AuditLogger>();
+builder.Services.AddScoped<IQBWCSessionStore, QbwcSessionStore>();
+builder.Services.AddScoped<IQBWCRequestBuilder, QbwcRequestBuilder>();
+builder.Services.AddScoped<IQBWCResponseHandler, QbwcResponseHandler>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
+builder.Services.AddScoped<IInventoryImportService, InventoryImportService>();
+builder.Services.AddScoped<IQBWebConnectorSvc, QbwcSoapService>();
+
 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "");
 Environment.SetEnvironmentVariable("GOOGLE_CLOUD_PROJECT", "");
 Environment.SetEnvironmentVariable("GOOGLE_WORKLOAD_IDENTITY_POOL", "");
@@ -237,18 +244,6 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
-//using (var connection = new SqlConnection(builder.Configuration.GetConnectionString("RaymarAzureConnection")))
-//{
-//    try
-//    {
-//        connection.Open();
-//        Console.WriteLine("Connection successful!");
-//    }
-//    catch (Exception ex)
-//    {
-//        Console.WriteLine($"Connection failed: {ex.Message}");
-//    }
-//}
 
 var serviceProvider = app.Services;
 
@@ -277,6 +272,19 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {
     Authorization = new[] { new AllowAllDashboardAuthorizationFilter() }
 });
+
+app.UseRouting();
+
+// SOAP endpoint at /qbwc (what you’ll put in the .qwc file)
+app.UseEndpoints(endpoints =>
+{
+    endpoints.UseSoapEndpoint<IQBWebConnectorSvc>(
+        "/qbwc",
+        new SoapEncoderOptions(),                     // default SOAP 1.1
+        SoapSerializer.XmlSerializer,                 // QBWC is happy with XmlSerializer
+        caseInsensitivePath: true);
+});
+
 
 
 app.Run();

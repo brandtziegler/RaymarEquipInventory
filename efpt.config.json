@@ -108,6 +108,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[InventoryStaging]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Labour]",
          "ObjectType": 0
       },
@@ -145,6 +149,14 @@
       },
       {
          "Name": "[dbo].[PlaceholderDocument]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QbwcMessage]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QbwcSession]",
          "ObjectType": 0
       },
       {
@@ -302,6 +314,22 @@
       {
          "Name": "[dbo].[vwWorkOrderCards]",
          "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[Qbwc_EndSession]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[Qbwc_LogMessage]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[Qbwc_StartSession]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[usp_DI_PromoteCandidateKeywords]",
+         "ObjectType": 1
       }
    ],
    "UiHint": "greatfurnituresql.RaymarInventoryDB.dbo",
