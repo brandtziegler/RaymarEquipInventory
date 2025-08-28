@@ -77,7 +77,21 @@ namespace RaymarEquipmentInventory.Services
             return "OK";
         }
 
-        public string sendRequestXML(string ticket, string strCompanyFileName, string qbXMLCountry, int qbXMLMajorVers, int qbXMLMinorVers)
+
+        public string connectionError(string ticket, string hresult, string message)
+        {
+            if (_session.TryGetRunId(ticket, out var runId))
+            {
+                _audit.LogMessageAsync(runId, "connectionError", "resp",
+                                       message: $"{hresult}: {message}")
+                      .GetAwaiter().GetResult();
+            }
+            // Returning "DONE" tells QBWC to stop trying this session,
+            // or return a company file path to re-try against another file.
+            return "DONE";
+        }
+
+        public string sendRequestXML(string ticket, string strHCPResponse, string strCompanyFileName, string qbXMLCountry, int qbXMLMajorVers, int qbXMLMinorVers)
         {
             if (!_session.TryGetRunId(ticket, out var runId))
             {

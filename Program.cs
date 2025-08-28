@@ -27,7 +27,8 @@ using DocumentFormat.OpenXml.Bibliography;
 using Google.Apis.Drive.v3.Data;
 using SoapCore;
 using SoapCore.Extensibility; // if needed by your version
-
+using System.ServiceModel.Channels;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -264,7 +265,23 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost
+});
+
+app.UseRouting();
+app.UseAuthentication();   // if used
 app.UseAuthorization();
+
+// 👇 Disambiguate by casting to IApplicationBuilder
+((IApplicationBuilder)app).UseSoapEndpoint<IQBWebConnectorSvc>(
+    "/qbwc",
+    new SoapEncoderOptions { MessageVersion = MessageVersion.Soap11 }, // SOAP 1.1
+    SoapSerializer.XmlSerializer,
+    caseInsensitivePath: true
+);
 
 app.MapControllers();
 
@@ -272,20 +289,6 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {
     Authorization = new[] { new AllowAllDashboardAuthorizationFilter() }
 });
-
-app.UseRouting();
-
-// SOAP endpoint at /qbwc (what you’ll put in the .qwc file)
-app.UseEndpoints(endpoints =>
-{
-    endpoints.UseSoapEndpoint<IQBWebConnectorSvc>(
-        "/qbwc",
-        new SoapEncoderOptions(),                     // default SOAP 1.1
-        SoapSerializer.XmlSerializer,                 // QBWC is happy with XmlSerializer
-        caseInsensitivePath: true);
-});
-
-
 
 app.Run();
 
