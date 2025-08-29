@@ -88,6 +88,21 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpGet("GetCustomerWatermark")]
+        public async Task<IActionResult> GetCustomerWatermark(CancellationToken ct = default)
+        {
+            try
+            {
+                var wm = await _reportingService.GetWatermarkAsync(ct);
+                return Ok(new { watermark = wm.ToString("O") });  // ISO 8601
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "❌ GetCustomerWatermark failed");
+                return StatusCode(500, "Failed to get customer watermark.");
+            }
+        }
+
         /// <summary>
         /// Returns paged inventory changes between 'since' (exclusive) and 'upto' (inclusive).
         /// Example: GET /api/reporting/inventory/changes?since=2025-08-26T00:00:00Z&upto=2025-08-27T12:00:00Z&limit=500

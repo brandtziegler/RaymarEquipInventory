@@ -37,6 +37,31 @@ namespace RaymarEquipmentInventory.Controllers
         //}
 
 
+        [HttpGet("Watermark")]
+        public async Task<IActionResult> GetWatermark(CancellationToken ct)
+        {
+            var wm = await _customerService.GetWatermarkAsync(ct);
+            return Ok(wm);
+        }
+
+
+        // GET /api/Customer/GetCusts?since=...&limit=...
+        [HttpGet("GetCusts")]
+        public async Task<IActionResult> GetCusts([FromQuery] string? since = null, [FromQuery] int limit = 500, CancellationToken ct = default)
+        {
+            DateTime? sinceUtc = null;
+            if (!string.IsNullOrWhiteSpace(since))
+            {
+                if (DateTime.TryParse(since, null, System.Globalization.DateTimeStyles.AdjustToUniversal | System.Globalization.DateTimeStyles.AssumeUniversal, out var parsed))
+                    sinceUtc = parsed.ToUniversalTime();
+            }
+
+            limit = Math.Clamp(limit, 1, 2000);
+
+            var res = await _customerService.GetCustomerChangesAsync(sinceUtc, limit, ct);
+            return Ok(res);
+        }
+
         [HttpGet("GetCustomersForDropdown")]
         public async Task<IActionResult> GetCustomersForDropdown()
         {

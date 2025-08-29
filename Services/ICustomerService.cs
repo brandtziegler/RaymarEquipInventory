@@ -7,6 +7,7 @@ namespace RaymarEquipmentInventory.Services
         Task<List<CustomerData>> GetCustomersFromQuickBooksAsnyc(bool doUpdate = false);
         Task<List<CustomerData>> GetAllCustomers();
         Task<CustomerData> GetCustomerByID(int custID);
-
+        Task<WatermarkResponse> GetWatermarkAsync(CancellationToken ct = default);
+        Task<CustomerChangesResponse> GetCustomerChangesAsync(DateTime? sinceUtc, int limit = 500, CancellationToken ct = default);
     }
 }

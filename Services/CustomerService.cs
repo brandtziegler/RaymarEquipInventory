@@ -345,7 +345,57 @@ namespace RaymarEquipmentInventory.Services
 
 
 
+        public async Task<WatermarkResponse> GetWatermarkAsync(CancellationToken ct = default)
+        {
+            var maxUtc = await _context.Customers
+                .Select(c => (DateTime?)c.LastUpdated)
+                .MaxAsync(ct) ?? DateTime.MinValue;
 
+            return new WatermarkResponse { ServerWatermark = maxUtc.ToUniversalTime().ToString("o") };
+        }
+
+        public async Task<CustomerChangesResponse> GetCustomerChangesAsync(DateTime? sinceUtc, int limit = 500, CancellationToken ct = default)
+        {
+            // base: only rows flagged Added/Updated
+            var q = _context.Customers
+                .AsNoTracking()
+                .Where(c => c.UpdateType == "A" || c.UpdateType == "U");
+
+            // optional since filter (strictly greater-than)
+            if (sinceUtc is not null)
+                q = q.Where(c => c.LastUpdated > sinceUtc.Value);
+
+            // stable ordering for paging
+            q = q.OrderBy(c => c.LastUpdated).ThenBy(c => c.Id);
+
+            // materialize page + lookahead to compute hasMore
+            var page = await q.Take(limit + 1).Select(c => new CustomerMin
+            {
+                ID = c.Id,
+                ParentID = c.ParentId,
+                CustomerName = c.CustomerName,
+                ParentName = c.ParentName,
+                FullAddress = c.FullAddress,
+                LastUpdated = c.LastUpdated
+            }).ToListAsync(ct);
+
+            var hasMore = page.Count > limit;
+            if (hasMore) page.RemoveAt(page.Count - 1);
+
+            // server-wide watermark (for client cursor)
+            var watermark = await _context.Customers
+                .AsNoTracking()
+                .Select(c => (DateTime?)c.LastUpdated)
+                .MaxAsync(ct) ?? DateTime.MinValue;
+
+            return new CustomerChangesResponse
+            {
+                Items = page,
+                Count = page.Count,
+                HasMore = hasMore,
+                ServerWatermark = watermark.ToUniversalTime().ToString("o")
+            };
+        }
 
         // Helper method to update an existing customer without touching ParentID
         private void UpdateExistingCustomerWithoutParent(Models.Customer existingCustomer, DTOs.CustomerData customer)

@@ -285,11 +285,18 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.JobType).HasMaxLength(100);
             entity.Property(e => e.JobTypeId).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(100);
+            entity.Property(e => e.LastUpdated).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.ParentId)
                 .HasMaxLength(50)
                 .HasColumnName("ParentID");
             entity.Property(e => e.ParentName).HasMaxLength(255);
             entity.Property(e => e.Phone).HasMaxLength(50);
+            entity.Property(e => e.UpdateType)
+                .IsRequired()
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasDefaultValueSql("('A')")
+                .IsFixedLength();
 
             entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
                 .HasPrincipalKey(p => p.Id)

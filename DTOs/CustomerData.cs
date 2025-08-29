@@ -28,6 +28,8 @@
 
         public bool IsActive { get; set; } = false;
         public int SubLevelId { get; set; } = 0;
+        public DateTime LastUpdated { get; set; } = DateTime.UtcNow;   // when we last touched this row
+        public string UpdateType { get; set; } = "A";                  // "A"=Added, "U"=Updated
         public List<CustomerData> Children { get; set; } = new List<CustomerData>();
 
 

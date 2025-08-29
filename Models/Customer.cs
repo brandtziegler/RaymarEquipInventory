@@ -51,6 +51,10 @@ public partial class Customer
 
     public string FullAddress { get; set; }
 
+    public DateTime LastUpdated { get; set; }
+
+    public string UpdateType { get; set; }
+
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
 
     public virtual ICollection<Customer> InverseParent { get; set; } = new List<Customer>();
