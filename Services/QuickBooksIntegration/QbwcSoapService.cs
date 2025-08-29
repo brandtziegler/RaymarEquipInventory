@@ -35,23 +35,33 @@ namespace RaymarEquipmentInventory.Services
 
         public string[] authenticate(string strUserName, string strPassword)
         {
-            // Start a new run/session and issue a ticket
+            // 1) validate creds (must match your QWC's <UserName>)
+            const string expectedUser = "raymar-qbwc";
+            const string expectedPass = "Thr!ve2025AD";   // <-- pick yours
+
+            if (!string.Equals(strUserName, expectedUser, StringComparison.Ordinal) ||
+                !string.Equals(strPassword, expectedPass, StringComparison.Ordinal))
+            {
+                // tell QBWC "not valid user"
+                return new[] { "", "nvu" };
+            }
+
+            // 2) start session and return a ticket
             var runId = _session.StartSessionAsync(strUserName ?? "unknown", companyFile: null).GetAwaiter().GetResult();
             var ticket = Guid.NewGuid().ToString("n");
             _session.MapTicketAsync(ticket, runId).GetAwaiter().GetResult();
 
-            // Also log that we created a ticket
             _audit.LogMessageAsync(runId, "authenticate", "resp", message: "ok", ct: CancellationToken.None)
                   .GetAwaiter().GetResult();
 
-            // Return [ticket, companyFilePath] — second can be blank
+            // second element "" = use current/open company file
             return new[] { ticket, "" };
         }
 
         public string clientVersion(string strVersion)
         {
             // Keep it simple for now; can add stricter checks later
-            return "OK";
+            return "";                 // <-- must be empty string
         }
 
         public string serverVersion()
