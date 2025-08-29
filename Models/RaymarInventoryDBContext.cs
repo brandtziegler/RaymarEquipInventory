@@ -631,6 +631,9 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .IsFixedLength();
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
             entity.Property(e => e.LabourDescription)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -883,6 +886,9 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.ToTable("LabourType");
 
             entity.Property(e => e.LabourTypeId).HasColumnName("LabourTypeID");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
             entity.Property(e => e.LabourTypeDescription)
                 .IsRequired()
                 .HasMaxLength(255)

@@ -19,6 +19,8 @@ public partial class FlatLabour
 
     public decimal Price { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public virtual LabourType LabourType { get; set; }
 
     public virtual ICollection<TechnicianAndType> TechnicianAndTypes { get; set; } = new List<TechnicianAndType>();

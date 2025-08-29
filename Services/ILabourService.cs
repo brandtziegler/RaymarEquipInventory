@@ -16,6 +16,8 @@ namespace RaymarEquipmentInventory.Services
         Task<LabourLine> GetLabourById(int labourID);
         Task<bool> UpdateLabour(LabourLine labourDTO);
         //Task<List<Tech>> GetAllParts();
-
+        Task<IReadOnlyList<DTOs.LabourType>> GetCatalogueAsync(
+            bool onlyActive = true,
+            CancellationToken ct = default);
     }
 }

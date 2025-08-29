@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaymarEquipmentInventory.DTOs;
+using RaymarEquipmentInventory.Models;
 using RaymarEquipmentInventory.Services;
 using Serilog;
 
@@ -44,6 +45,17 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Returns LabourTypes with their FlatLabour children (Fee/Expense only).
+        /// Use onlyActive=false to include inactive records.
+        /// </summary>
+        [HttpGet("GetCatalogue")]
+        public async Task<IActionResult> GetCatalogue([FromQuery] bool onlyActive = true, CancellationToken ct = default)
+        {
+            var data = await _labourService.GetCatalogueAsync(onlyActive, ct);
+            return Ok(new { items = data, count = data.Count });
+        }
 
 
         [HttpPost("UpdateLabour")]

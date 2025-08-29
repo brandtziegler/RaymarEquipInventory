@@ -54,6 +54,50 @@ namespace RaymarEquipmentInventory.Services
 
         }
 
+        public async Task<IReadOnlyList<DTOs.LabourType>> GetCatalogueAsync(
+            bool onlyActive = true,
+            CancellationToken ct = default)
+        {
+            var baseTypes = _context.LabourTypes
+                .AsNoTracking()
+                .Where(lt => !onlyActive || lt.IsActive == true) // lt.IsActive may be bool?
+                .Select(lt => new DTOs.LabourType
+                {
+                    LabourTypeId = lt.LabourTypeId,
+                    LabourTypeDescription = lt.LabourTypeDescription ?? "",
+                    IsActive = lt.IsActive ?? false,
+
+                    FlatLabours = _context.FlatLabours
+                        .Where(fl =>
+                            fl.LabourTypeId == lt.LabourTypeId &&
+                            fl.LabourTypeId != null &&                 // guard nullable FK
+                            fl.FeeAndExpense == "Y" &&
+                            (!onlyActive || fl.IsActive == true))      // fl.IsActive may be bool?
+                        .OrderBy(fl => fl.LabourName)
+                        .Select(fl => new DTOs.FlatLabour
+                        {
+                            FlatLabourId = fl.FlatLabourId,
+                            LabourTypeId = fl.LabourTypeId!.Value,     // safe: filtered above
+                            LabourName = fl.LabourName ?? "",
+                            LabourDescription = fl.LabourDescription ?? "",
+                            IsActive = fl.IsActive ?? false,
+                            Price = fl.Price
+                        })
+                        .ToList()
+                });
+
+            var data = await baseTypes
+                .OrderBy(t => t.LabourTypeId)
+                .ThenBy(t => t.LabourTypeDescription)
+                .ToListAsync(ct);
+
+            // Optional: drop empty parents
+            data.RemoveAll(t => t.FlatLabours.Count == 0);
+
+            return data;
+        }
+
+
         public async Task<DTOs.LabourLine> GetLabourById(int labourId)
         {
             var labour = await _context.Labours
@@ -140,10 +184,6 @@ namespace RaymarEquipmentInventory.Services
                 return false;
             }
         }
-
-
-
     }
-
 }
 
