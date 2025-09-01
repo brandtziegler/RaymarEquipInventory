@@ -21,6 +21,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<Customer> Customers { get; set; }
 
+    public virtual DbSet<CustomerTombstone> CustomerTombstones { get; set; }
+
     public virtual DbSet<DiAllowedKeyword> DiAllowedKeywords { get; set; }
 
     public virtual DbSet<DiCandidateKeyword> DiCandidateKeywords { get; set; }
@@ -261,16 +263,33 @@ public partial class RaymarInventoryDBContext : DbContext
         {
             entity.HasKey(e => e.CustomerId).HasName("PK_Customers");
 
-            entity.ToTable("Customer");
+            entity.ToTable("Customer", tb =>
+                {
+                    tb.HasTrigger("trg_Customer_ServerUpdatedAt");
+                    tb.HasTrigger("trg_Customer_Tombstone");
+                });
+
+            entity.HasIndex(e => e.ChangeVersion, "IX_Customer_ChangeVersion");
+
+            entity.HasIndex(e => new { e.RootId, e.EffectiveActive, e.Depth }, "IX_Customer_Root_EffActive");
+
+            entity.HasIndex(e => new { e.ServerUpdatedAt, e.CustomerId }, "IX_Customer_ServerUpdatedAt");
 
             entity.HasIndex(e => e.Id, "UQ_Customers_ID").IsUnique();
 
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.AccountNumber).HasMaxLength(50);
+            entity.Property(e => e.ChangeVersion)
+                .IsRequired()
+                .IsRowVersion()
+                .IsConcurrencyToken();
             entity.Property(e => e.Company).HasMaxLength(255);
             entity.Property(e => e.CustomerName)
                 .IsRequired()
                 .HasMaxLength(255);
+            entity.Property(e => e.EffectiveActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
             entity.Property(e => e.Email).HasMaxLength(255);
             entity.Property(e => e.FirstName).HasMaxLength(100);
             entity.Property(e => e.FullAddress).IsUnicode(false);
@@ -279,6 +298,9 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("ID");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
             entity.Property(e => e.JobProjectedEndDate).HasColumnType("date");
             entity.Property(e => e.JobStartDate).HasColumnType("date");
             entity.Property(e => e.JobStatus).HasMaxLength(100);
@@ -286,11 +308,17 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.JobTypeId).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.LastUpdated).HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.MaterializedPath).HasMaxLength(1024);
             entity.Property(e => e.ParentId)
                 .HasMaxLength(50)
                 .HasColumnName("ParentID");
             entity.Property(e => e.ParentName).HasMaxLength(255);
+            entity.Property(e => e.PathIds).HasMaxLength(512);
             entity.Property(e => e.Phone).HasMaxLength(50);
+            entity.Property(e => e.QbLastUpdated).HasPrecision(3);
+            entity.Property(e => e.ServerUpdatedAt)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.UpdateType)
                 .IsRequired()
                 .HasMaxLength(1)
@@ -302,6 +330,20 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasPrincipalKey(p => p.Id)
                 .HasForeignKey(d => d.ParentId)
                 .HasConstraintName("FK_ParentCustomer");
+        });
+
+        modelBuilder.Entity<CustomerTombstone>(entity =>
+        {
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64B844A21B0E");
+
+            entity.ToTable("CustomerTombstone");
+
+            entity.Property(e => e.CustomerId)
+                .ValueGeneratedNever()
+                .HasColumnName("CustomerID");
+            entity.Property(e => e.DeletedAt)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
         });
 
         modelBuilder.Entity<DiAllowedKeyword>(entity =>

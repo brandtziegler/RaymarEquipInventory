@@ -45,6 +45,50 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
+
+        // CustomersController.cs
+        [HttpGet("GetCustomerChanges")]
+        public async Task<IActionResult> GetCustomerChanges([FromQuery] string? sinceVersion, [FromQuery] int limit = 500, CancellationToken ct = default)
+        {
+            limit = Math.Clamp(limit, 1, 2000);
+            var cursor = RowVer.Parse(sinceVersion);
+
+            var upserts = await _customerService.GetRecentChangedCustomers(cursor, limit);
+
+            var nextCursor = upserts.Count > 0
+                ? upserts[^1].ChangeVersion           // already normalized "0x..."
+                : RowVer.ToHex(cursor);               // echo normalized input
+
+            return Ok(new { upserts, nextCursor });
+        }
+
+        private static byte[] ParseRowVersion(string? hex)
+        {
+            if (string.IsNullOrWhiteSpace(hex))
+                return new byte[8]; // 0x0000000000000000
+
+            if (hex.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                hex = hex[2..];
+
+            // ensure even length
+            if (hex.Length % 2 != 0) hex = "0" + hex;
+
+            var src = new byte[hex.Length / 2];
+            for (int i = 0; i < src.Length; i++)
+                src[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
+
+            // left-pad/truncate to exactly 8 bytes (rowversion size)
+            var bytes = new byte[8];
+            var offset = Math.Max(0, 8 - src.Length);
+            Array.Copy(src, 0, bytes, offset, Math.Min(src.Length, 8));
+            return bytes;
+        }
+
+        private static string NormalizeHex(string? hex) =>
+            string.IsNullOrWhiteSpace(hex)
+                ? "0x0000000000000000"
+                : (hex.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? hex : "0x" + hex.ToUpperInvariant());
+
         // GET /api/Customer/GetCusts?since=...&limit=...
         [HttpGet("GetCusts")]
         public async Task<IActionResult> GetCusts([FromQuery] string? since = null, [FromQuery] int limit = 500, CancellationToken ct = default)

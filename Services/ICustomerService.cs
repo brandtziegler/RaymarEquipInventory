@@ -9,5 +9,7 @@ namespace RaymarEquipmentInventory.Services
         Task<CustomerData> GetCustomerByID(int custID);
         Task<WatermarkResponse> GetWatermarkAsync(CancellationToken ct = default);
         Task<CustomerChangesResponse> GetCustomerChangesAsync(DateTime? sinceUtc, int limit = 500, CancellationToken ct = default);
+        Task<List<CustomerData>> GetRecentChangedCustomers(byte[] sinceVersion, int limit = 1200);
+
     }
 }

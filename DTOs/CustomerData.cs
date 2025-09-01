@@ -26,8 +26,22 @@
       
         public string Description { get; set; } = "";
 
-        public bool IsActive { get; set; } = false;
-        public int SubLevelId { get; set; } = 0;
+
+        public bool IsActive { get; set; }
+        public bool EffectiveActive { get; set; }
+        public int SubLevelId { get; set; }
+
+        public string MaterializedPath { get; set; } = "";
+        public string PathIds { get; set; } = "";
+        public int Depth { get; set; }
+        public int RootId { get; set; }
+
+        public DateTime ServerUpdatedAt { get; set; }
+        public DateTime? QbLastUpdated { get; set; }
+
+        // rowversion serialized for JSON cursoring
+        public string ChangeVersion { get; set; } = "";
+
         public DateTime LastUpdated { get; set; } = DateTime.UtcNow;   // when we last touched this row
         public string UpdateType { get; set; } = "A";                  // "A"=Added, "U"=Updated
         public List<CustomerData> Children { get; set; } = new List<CustomerData>();

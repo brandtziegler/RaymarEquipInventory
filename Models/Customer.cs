@@ -55,6 +55,24 @@ public partial class Customer
 
     public string UpdateType { get; set; }
 
+    public string MaterializedPath { get; set; }
+
+    public string PathIds { get; set; }
+
+    public int? Depth { get; set; }
+
+    public int? RootId { get; set; }
+
+    public DateTime? QbLastUpdated { get; set; }
+
+    public bool? IsActive { get; set; }
+
+    public DateTime ServerUpdatedAt { get; set; }
+
+    public byte[] ChangeVersion { get; set; }
+
+    public bool? EffectiveActive { get; set; }
+
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
 
     public virtual ICollection<Customer> InverseParent { get; set; } = new List<Customer>();

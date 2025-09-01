@@ -11,6 +11,28 @@ using Serilog;
 
 namespace RaymarEquipmentInventory.Services
 {
+
+
+
+    static class RowVer
+    {
+        public static string ToHex(byte[] rv) =>
+            "0x" + BitConverter.ToString(rv).Replace("-", "");
+        public static byte[] Parse(string? hex)
+        {
+            if (string.IsNullOrWhiteSpace(hex)) return new byte[8];
+            if (hex.StartsWith("0x", StringComparison.OrdinalIgnoreCase)) hex = hex[2..];
+            if (hex.Length % 2 != 0) hex = "0" + hex;
+            var bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < bytes.Length; i++) bytes[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
+            // left-pad/truncate to 8 bytes
+            if (bytes.Length == 8) return bytes;
+            var out8 = new byte[8];
+            Array.Copy(bytes, 0, out8, Math.Max(0, 8 - bytes.Length), Math.Min(8, bytes.Length));
+            return out8;
+        }
+    }
+
     public class CustomerService : ICustomerService
     {
 
@@ -299,6 +321,57 @@ namespace RaymarEquipmentInventory.Services
 
             return customerDataList.OrderBy(c => c.FullName).ToList(); // Order by FullName before returning
         }
+
+
+
+        public async Task<List<CustomerData>> GetRecentChangedCustomers(byte[] sinceVersion, int limit = 1200)
+        {
+            var entities = await _context.Customers
+                .FromSqlInterpolated($@"
+            SELECT TOP ({limit}) *
+            FROM dbo.Customer
+            WHERE ChangeVersion > {sinceVersion}
+            ORDER BY ChangeVersion")
+                .AsNoTracking()
+                .ToListAsync();            // async DB call happens here
+
+            var rows = entities
+                .Select(c => new CustomerData
+                {
+                    CustomerID = c.CustomerId,
+                    ID = c.Id,
+                    ParentID = c.ParentId,
+                    Name = c.CustomerName,
+                    ParentName = c.ParentName,
+                    FullAddress = c.FullAddress,
+                    Company = c.Company,
+                    FullName = c.FullName,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    AccountNumber = c.AccountNumber,
+                    Phone = c.Phone,
+                    Email = c.Email,
+                    Notes = c.Notes,
+                    SubLevelId = c.SubLevelId,
+                    Description = c.Description,
+
+                    IsActive = c.IsActive ?? false,
+                    EffectiveActive = c.EffectiveActive ?? false,
+                    MaterializedPath = c.MaterializedPath ?? "",
+                    PathIds = c.PathIds ?? "",
+                    Depth = c.Depth ?? 0,
+                    RootId = c.RootId ?? 0,
+
+                    ServerUpdatedAt = c.ServerUpdatedAt,
+                    QbLastUpdated = c.QbLastUpdated,
+                    ChangeVersion = RowVer.ToHex(c.ChangeVersion)  // safe client-side conversion
+                })
+                .ToList();
+
+            return rows;
+        }
+
+
 
         // Recursive method to get all children of a customer
         private async Task<List<CustomerData>> GetChildren(string parentId)
