@@ -29,6 +29,9 @@ using SoapCore;
 using SoapCore.Extensibility; // if needed by your version
 using System.ServiceModel.Channels;
 using Microsoft.AspNetCore.HttpOverrides;
+using RaymarEquipmentInventory.DTOs;
+using Microsoft.Extensions.Options;
+using RaymarEquipmentInventory.BackgroundEmailTasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -110,7 +113,13 @@ if (builder.Environment.IsDevelopment())
         "IIF_ITEM_MISC_PART",
         "IIF_ITEM_FEE",
         "IIF_ITEM_HST",
-        "IIF_HST_RATE"
+        "IIF_HST_RATE",
+        "Upsert_ImapHost",
+        "Upsert_ImapPort",
+        "Upsert_Email",
+        "Upsert_Password",
+        "Upsert_ExpectedSubject_Inventory",
+        "Upsert_ExpectedAttachment_Inventory"
     })
         SetIfPresent(k, builder.Configuration[k]);
 
@@ -148,6 +157,47 @@ if (builder.Environment.IsDevelopment())
     var googleOAuthClientId = Environment.GetEnvironmentVariable("GoogleOAuth__ClientId");
     var googleOAuthClientSecret = Environment.GetEnvironmentVariable("GoogleOAuth__ClientSecret");
     var googleOAuthTokenPassword = Environment.GetEnvironmentVariable("GoogleOAuth__TokenPassword");
+}
+
+
+
+builder.Services.Configure<PartsInboxOptions>(opt =>
+{
+    opt.ImapHost = Environment.GetEnvironmentVariable("Upsert_ImapHost")!;
+    opt.ImapPort = int.Parse(Environment.GetEnvironmentVariable("Upsert_ImapPort") ?? "993");
+    opt.Email = Environment.GetEnvironmentVariable("Upsert_Email")!;
+    opt.Password = Environment.GetEnvironmentVariable("Upsert_Password")!;
+    opt.ExpectedSubject = Environment.GetEnvironmentVariable("Upsert_ExpectedSubject_Inventory") ?? "Inventory Upsert";
+    opt.ExpectedAttachment = Environment.GetEnvironmentVariable("Upsert_ExpectedAttachment_Inventory") ?? "InventoryUpsert";
+});
+
+builder.Services.AddTransient<PartsInboxJob>();
+
+// ✅ Pre-flight validation
+using (var scope = builder.Services.BuildServiceProvider().CreateScope())
+{
+    var opts = scope.ServiceProvider.GetRequiredService<IOptions<PartsInboxOptions>>().Value;
+
+    var missing = new List<string>();
+    if (string.IsNullOrWhiteSpace(opts.ImapHost)) missing.Add("Upsert_ImapHost");
+    if (opts.ImapPort <= 0) missing.Add("Upsert_ImapPort");
+    if (string.IsNullOrWhiteSpace(opts.Email)) missing.Add("Upsert_Email");
+    if (string.IsNullOrWhiteSpace(opts.Password)) missing.Add("Upsert_Password");
+
+    if (missing.Count > 0)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"[CONFIG ERROR] Missing required settings: {string.Join(", ", missing)}");
+        Console.ResetColor();
+        throw new InvalidOperationException("Critical mail settings missing.");
+    }
+    else
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"[CONFIG OK] IMAP host={opts.ImapHost}, port={opts.ImapPort}, user={opts.Email}");
+        Console.WriteLine($"[CONFIG OK] Expected subject={opts.ExpectedSubject}, attachment={opts.ExpectedAttachment}");
+        Console.ResetColor();
+    }
 }
 
 

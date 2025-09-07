@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using RaymarEquipmentInventory.Services;
+using RaymarEquipmentInventory.BackgroundEmailTasks;
 
 namespace RaymarEquipmentInventory.BackgroundTasks
 {
@@ -40,6 +41,12 @@ namespace RaymarEquipmentInventory.BackgroundTasks
                 "59 15 * * *",
                 jobOptions);
 
+
+            _recurringJobManager.AddOrUpdate<PartsInboxJob>(
+            "Inventory-Upsert-Import",
+            j => j.RunAsync(CancellationToken.None),
+            "*/5 * * * *",
+            jobOptions);
             // ---- Example (left from before) ----
             // _recurringJobManager.AddOrUpdate<IInventoryService>(
             //     "QuickBooksInventoryUpdateJob",
