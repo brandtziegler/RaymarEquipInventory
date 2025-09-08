@@ -47,6 +47,14 @@ namespace RaymarEquipmentInventory.BackgroundTasks
             j => j.RunAsync(CancellationToken.None),
             "*/5 * * * *",
             jobOptions);
+
+
+            //_recurringJobManager.AddOrUpdate<CustomersInboxJob>(
+            //    "Customers-Upsert-Import",
+            //    j => j.RunAsync(CancellationToken.None),
+            //    "*/5 * * * *",
+            //    jobOptions);
+
             // ---- Example (left from before) ----
             // _recurringJobManager.AddOrUpdate<IInventoryService>(
             //     "QuickBooksInventoryUpdateJob",

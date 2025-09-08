@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Models;
 using Serilog;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace RaymarEquipmentInventory.Helpers
 {
@@ -90,6 +92,13 @@ namespace RaymarEquipmentInventory.Helpers
             return s.Replace("\r\n", ", ").Replace('\n', ' ').Replace('\r', ' ').Replace("  ", " ").Trim();
         }
 
+
+        private static string MakePseudoListId(string fullName)
+        {
+            // "FN-" + 40 hex chars = 43 chars total (fits nvarchar(50))
+            var bytes = SHA1.HashData(Encoding.UTF8.GetBytes(fullName.Trim()));
+            return "FN-" + Convert.ToHexString(bytes).ToLowerInvariant();
+        }
         /// <summary>
         /// Upsert customers by FullName. Process in depth layers so parents exist before children.
         /// Sets ParentCustomerID, basic fields, and returns counts.
@@ -100,44 +109,44 @@ namespace RaymarEquipmentInventory.Helpers
             CancellationToken ct = default)
         {
             var result = new CustomerImportResult();
+
             var normalized = rows
                 .Select(Norm)
                 .Where(r => !string.IsNullOrWhiteSpace(r.FullName) && !string.IsNullOrWhiteSpace(r.Name))
                 .ToList();
 
-            // Last-row-wins per FullName
+            // Last-row-wins map by FullName
             var csvMap = new Dictionary<string, CustomerCsvRow>(StringComparer.OrdinalIgnoreCase);
             foreach (var r in normalized)
                 csvMap[r.FullName] = r;
 
-            // preload existing by FullName
-            var existing = await context.Customers  // DbSet<Customer>
-                .AsTracking()
-                .ToListAsync(ct);
+            // Preload existing (tracking) and index by FullName
+            var existing = await context.Customers.AsTracking().ToListAsync(ct);
 
             var byFullName = new Dictionary<string, Customer>(StringComparer.OrdinalIgnoreCase);
             foreach (var e in existing)
             {
                 var key = (e.FullName ?? "").Trim();
-                if (!string.IsNullOrEmpty(key))
-                    byFullName[key] = e;
+                if (!string.IsNullOrEmpty(key)) byFullName[key] = e;
             }
 
-            // Also map FullName -> CustomerID for quick parent resolution as we go
+            // FullName -> CustomerId (for fast parent resolution as we go)
             var idByFullName = byFullName.ToDictionary(k => k.Key, v => v.Value.CustomerId, StringComparer.OrdinalIgnoreCase);
 
-            // process by depth (parents first)
+            // Process by depth so parents exist before children
             var groups = csvMap.Values.GroupBy(r => r.Depth).OrderBy(g => g.Key);
             foreach (var group in groups)
             {
                 foreach (var row in group)
                 {
-                    // resolve parent id (if any)
+                    // Resolve parent int id (for hierarchy) and optional parent ListID
                     int? parentId = null;
+                    string? parentListId = null;
                     if (!string.IsNullOrWhiteSpace(row.ParentFullName) &&
                         idByFullName.TryGetValue(row.ParentFullName!, out var pid))
                     {
                         parentId = pid;
+                        parentListId = MakePseudoListId(row.ParentFullName!);
                     }
 
                     if (byFullName.TryGetValue(row.FullName, out var entity))
@@ -145,7 +154,19 @@ namespace RaymarEquipmentInventory.Helpers
                         bool changed = false;
                         bool reparented = false;
 
-                        // detect and apply changes
+                        // 🔧 Backfill missing alt-key (Id) and ParentId for legacy rows
+                        if (string.IsNullOrWhiteSpace(entity.Id))
+                        {
+                            entity.Id = MakePseudoListId(entity.FullName ?? row.FullName);
+                            changed = true;
+                        }
+                        if (string.IsNullOrWhiteSpace(entity.ParentId) && !string.IsNullOrWhiteSpace(parentListId))
+                        {
+                            entity.ParentId = parentListId;
+                            changed = true;
+                        }
+
+                        // Detect & apply meaningful changes
                         if (!string.Equals(entity.CustomerName, row.Name, StringComparison.Ordinal))
                         { entity.CustomerName = row.Name; changed = true; }
 
@@ -164,11 +185,11 @@ namespace RaymarEquipmentInventory.Helpers
                         if ((entity.IsActive ?? false) != row.IsActive)
                         { entity.IsActive = row.IsActive; changed = true; }
 
-                        // keep SubLevelId congruent (optional but nice)
+                        // Keep SubLevelId congruent
                         if (entity.SubLevelId != row.Depth)
                         { entity.SubLevelId = row.Depth; changed = true; }
 
-                        // reparent if needed
+                        // Reparent if needed (int-based link)
                         if (entity.ParentCustomerId != parentId)
                         {
                             entity.ParentCustomerId = parentId;
@@ -186,9 +207,17 @@ namespace RaymarEquipmentInventory.Helpers
                     }
                     else
                     {
-                        // INSERT
+                        // INSERT — generate deterministic pseudo ListIDs to satisfy NOT NULL + alternate key
+                        var id = MakePseudoListId(row.FullName);
+                        if (string.IsNullOrWhiteSpace(parentListId) && !string.IsNullOrWhiteSpace(row.ParentFullName))
+                            parentListId = MakePseudoListId(row.ParentFullName!);
+
                         var e = new Customer
                         {
+                            // 🔑 alt-key & optional string parent
+                            Id = id,
+                            ParentId = parentListId,
+
                             CustomerName = row.Name,
                             FullName = row.FullName,
                             Company = row.Company,
@@ -197,28 +226,29 @@ namespace RaymarEquipmentInventory.Helpers
                             Email = row.Email,
                             IsActive = row.IsActive,
                             SubLevelId = row.Depth,
-                            ParentCustomerId = parentId,
+                            ParentCustomerId = parentId, // authoritative int link
                             ServerUpdatedAt = DateTime.UtcNow,
                             UpdateType = "A"
                         };
+
                         await context.Customers.AddAsync(e, ct);
                         result.Inserted++;
-
-                        // make it visible to later children in this batch after SaveChanges
                     }
                 }
 
-                // commit this depth, so inserts get their identity values
+                // Commit this depth so inserts get identity values
                 await context.SaveChangesAsync(ct);
 
-                // extend the FullName -> id map with any inserts from this depth
+                // Extend maps with any newly inserted rows
                 foreach (var e in context.ChangeTracker.Entries<Customer>()
-                                         .Where(x => x.State == EntityState.Unchanged)) // just saved
+                                         .Where(x => x.State == EntityState.Unchanged))
                 {
                     var key = (e.Entity.FullName ?? "").Trim();
                     if (!string.IsNullOrEmpty(key))
+                    {
                         idByFullName[key] = e.Entity.CustomerId;
-                    byFullName[key] = e.Entity;
+                        byFullName[key] = e.Entity;
+                    }
                 }
             }
 

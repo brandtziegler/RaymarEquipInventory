@@ -212,6 +212,7 @@ IF NOT EXISTS (SELECT 1 FROM dbo.CustomerHierarchyWork WHERE StartCustomerID = {
                     }
 
                     await tx.CommitAsync(ct);
+                    await _context.Database.ExecuteSqlRawAsync("EXEC dbo.Customer_ProcessHierarchyWork", ct);
                 }
                 catch (OperationCanceledException oce)
                 {

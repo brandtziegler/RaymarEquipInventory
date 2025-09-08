@@ -21,6 +21,18 @@ namespace RaymarEquipmentInventory.Controllers
             _jobs = jobs;
         }
 
+
+
+        [HttpPost("customers/import")]
+        public async Task<IActionResult> ImportCustomers(IFormFile file, CancellationToken ct = default)
+        {
+            if (file is null || file.Length == 0) return BadRequest("Upload an .xlsx file.");
+
+            await using var stream = file.OpenReadStream();
+            var result = await _reportingService.ImportCustomersAsync(stream, ct);
+            return Ok(result);
+        }
+
         /// <summary>
         /// Returns the invoice XLSX file for the given SheetID (summed by default).
         /// Example: GET /api/reporting/invoices/491?summed=true
