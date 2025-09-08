@@ -265,17 +265,22 @@ public partial class RaymarInventoryDBContext : DbContext
 
             entity.ToTable("Customer", tb =>
                 {
+                    tb.HasTrigger("trg_Customer_EnqueueHierarchyWork");
                     tb.HasTrigger("trg_Customer_ServerUpdatedAt");
                     tb.HasTrigger("trg_Customer_Tombstone");
                 });
 
             entity.HasIndex(e => e.ChangeVersion, "IX_Customer_ChangeVersion");
 
+            entity.HasIndex(e => e.ParentCustomerId, "IX_Customer_ParentCustomerID");
+
             entity.HasIndex(e => new { e.RootId, e.EffectiveActive, e.Depth }, "IX_Customer_Root_EffActive");
 
             entity.HasIndex(e => new { e.ServerUpdatedAt, e.CustomerId }, "IX_Customer_ServerUpdatedAt");
 
             entity.HasIndex(e => e.Id, "UQ_Customers_ID").IsUnique();
+
+            entity.HasIndex(e => e.FullName, "UX_Customer_FullName").IsUnique();
 
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.AccountNumber).HasMaxLength(50);
@@ -309,6 +314,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.LastUpdated).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.MaterializedPath).HasMaxLength(1024);
+            entity.Property(e => e.ParentCustomerId).HasColumnName("ParentCustomerID");
             entity.Property(e => e.ParentId)
                 .HasMaxLength(50)
                 .HasColumnName("ParentID");
@@ -325,6 +331,10 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsUnicode(false)
                 .HasDefaultValueSql("('A')")
                 .IsFixedLength();
+
+            entity.HasOne(d => d.ParentCustomer).WithMany(p => p.InverseParentCustomer)
+                .HasForeignKey(d => d.ParentCustomerId)
+                .HasConstraintName("FK_Customer_ParentCustomerID__CustomerID");
 
             entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
                 .HasPrincipalKey(p => p.Id)

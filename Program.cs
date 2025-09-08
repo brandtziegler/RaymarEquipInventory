@@ -171,8 +171,18 @@ builder.Services.Configure<PartsInboxOptions>(opt =>
     opt.ExpectedAttachment = Environment.GetEnvironmentVariable("Upsert_ExpectedAttachment_Inventory") ?? "InventoryUpsert";
 });
 
-builder.Services.AddTransient<PartsInboxJob>();
+builder.Services.Configure<CustomersInboxOptions>(opt =>
+{
+    opt.ImapHost = Environment.GetEnvironmentVariable("Upsert_ImapHost")!;
+    opt.ImapPort = int.Parse(Environment.GetEnvironmentVariable("Upsert_ImapPort") ?? "993");
+    opt.Email = Environment.GetEnvironmentVariable("Upsert_Email")!;
+    opt.Password = Environment.GetEnvironmentVariable("Upsert_Password")!;
+    opt.ExpectedSubject = Environment.GetEnvironmentVariable("Upsert_ExpectedSubject_Customer") ?? "Customer Upsert";
+    opt.ExpectedAttachment = Environment.GetEnvironmentVariable("Upsert_ExpectedAttachment_Customer") ?? "CustomerUpsert";
+});
 
+builder.Services.AddTransient<PartsInboxJob>();
+builder.Services.AddTransient<CustomersInboxJob>();
 // ✅ Pre-flight validation
 using (var scope = builder.Services.BuildServiceProvider().CreateScope())
 {

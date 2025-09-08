@@ -73,9 +73,15 @@ public partial class Customer
 
     public bool? EffectiveActive { get; set; }
 
+    public int? ParentCustomerId { get; set; }
+
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
 
     public virtual ICollection<Customer> InverseParent { get; set; } = new List<Customer>();
 
+    public virtual ICollection<Customer> InverseParentCustomer { get; set; } = new List<Customer>();
+
     public virtual Customer Parent { get; set; }
+
+    public virtual Customer ParentCustomer { get; set; }
 }

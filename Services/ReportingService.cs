@@ -156,6 +156,97 @@ namespace RaymarEquipmentInventory.Services
             return local.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
 
+        public async Task<CustomerImportResult> ImportCustomersAsync(Stream xlsx, CancellationToken ct = default)
+        {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
+            var prevTimeout = _context.Database.GetCommandTimeout();
+            _context.Database.SetCommandTimeout(TimeSpan.FromMinutes(5));
+
+            try
+            {
+                // 1) Parse XLSX → DTOs (header validation inside)
+                List<CustomerCsvRow> rows;
+                try
+                {
+                    rows = CustomerImportHelper.ParseCustomerRows(xlsx).ToList();
+                    if (rows.Count == 0)
+                        throw new InvalidDataException("No data rows found beneath the header in CustomerUpsert.xlsx.");
+                }
+                catch (InvalidDataException ide)
+                {
+                    Serilog.Log.Warning(ide, "Customer import rejected: {Reason}", ide.Message);
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Serilog.Log.Error(ex, "Failed to read/parse the uploaded XLSX for customer import.");
+                    throw new InvalidDataException(
+                        "Could not read the uploaded XLSX. Ensure it is a valid .xlsx with expected columns (Full Name, Name, Company Name, Bill To Address, Main Phone, Main Email, Is Active).",
+                        ex);
+                }
+
+                // 2) Transactional upsert (no inactivation sweep for customers)
+                await using var tx = await _context.Database.BeginTransactionAsync(ct);
+
+                CustomerImportResult upserts;
+
+                try
+                {
+                    upserts = await CustomerImportHelper.ApplyUpsertsAsync(_context, rows, ct);
+
+                    // enqueue hierarchy work for all touched rows (simple approach: any row whose FullName is in the file)
+                    // You can narrow this to only inserted/updated in the helper if you prefer to track IDs there.
+                    var idsToQueue = await _context.Customers
+                        .Where(c => rows.Select(r => r.FullName).Contains(c.FullName))
+                        .Select(c => c.CustomerId)
+                        .ToListAsync(ct);
+
+                    foreach (var cid in idsToQueue.Distinct())
+                    {
+                        // upsert a work item (idempotent)
+                        await _context.Database.ExecuteSqlInterpolatedAsync($@"
+IF NOT EXISTS (SELECT 1 FROM dbo.CustomerHierarchyWork WHERE StartCustomerID = {cid})
+    INSERT dbo.CustomerHierarchyWork(StartCustomerID, RequestedAt) VALUES({cid}, SYSUTCDATETIME());
+", ct);
+                    }
+
+                    await tx.CommitAsync(ct);
+                }
+                catch (OperationCanceledException oce)
+                {
+                    try { await tx.RollbackAsync(CancellationToken.None); } catch { /* ignore */ }
+                    Serilog.Log.Warning(oce, "Customer import was cancelled.");
+                    throw;
+                }
+                catch (DbUpdateException dbx)
+                {
+                    try { await tx.RollbackAsync(ct); } catch { /* ignore */ }
+                    Serilog.Log.Error(dbx, "Database update failed during customer import.");
+                    throw new InvalidOperationException("Database update failed while applying the customer import.", dbx);
+                }
+                catch (Exception ex)
+                {
+                    try { await tx.RollbackAsync(ct); } catch { /* ignore */ }
+                    Serilog.Log.Error(ex, "Unexpected error during customer import transaction.");
+                    throw;
+                }
+
+                sw.Stop();
+                Serilog.Log.Information(
+                    "Customer import complete: inserted={Inserted}, updated={Updated}, reparented={Reparented}, rejected={Rejected}, elapsedMs={Elapsed}",
+                    upserts.Inserted, upserts.Updated, upserts.Reparented, upserts.Rejected, sw.ElapsedMilliseconds);
+
+                return upserts;
+            }
+            finally
+            {
+                _context.Database.SetCommandTimeout(prevTimeout);
+                if (sw.IsRunning) sw.Stop();
+            }
+        }
+
+
         public async Task<PartImportResult> ImportPartsAsync(Stream xlsx, CancellationToken ct = default)
         {
             var sw = System.Diagnostics.Stopwatch.StartNew();
