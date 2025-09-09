@@ -44,6 +44,7 @@ namespace RaymarEquipmentInventory.Controllers
         //private readonly IFederatedTokenService _federatedTokenService;
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly ISamsaraApiService _samsaraApiService;
+        private readonly IInventoryImportService _inventoryImportService;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IDriveUploaderService _driveUploaderService;
         private readonly IDriveAuthService _driveAuthService;
@@ -54,7 +55,8 @@ namespace RaymarEquipmentInventory.Controllers
         public WorkOrdController(IWorkOrderService workOrderService, 
             IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, 
             ISamsaraApiService samsaraApiService, IMailService mailService,
-            IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService, IDriveAuthService driveAuthService, IBackgroundJobClient jobs)
+            IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService, 
+            IDriveAuthService driveAuthService, IBackgroundJobClient jobs, IInventoryImportService inventoryImportService)
         {
             _workOrderService = workOrderService;
             _quickBooksConnectionService = quickBooksConnectionService;
@@ -64,7 +66,7 @@ namespace RaymarEquipmentInventory.Controllers
             _driveUploaderService = driveUploaderService;
             _mailService = mailService;
             _jobs = jobs;
-           
+            _inventoryImportService = inventoryImportService;
             _driveAuthService = driveAuthService;
             //_federatedTokenService = federatedTokenService;
 
@@ -94,7 +96,30 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-     
+
+
+        [HttpPost("inventory/staging/bulk")]
+        public async Task<IActionResult> BulkInsertInventoryStaging(
+    [FromBody] List<InventoryItemDto> items,
+    CancellationToken ct)
+        {
+            if (items == null || items.Count == 0)
+                return BadRequest("Body must be a non-empty JSON array of InventoryItemDto.");
+
+            var runId = Guid.NewGuid();
+
+            var inserted = await _inventoryImportService
+                .BulkInsertInventoryAsync(runId, items, ct);
+
+            return Ok(new
+            {
+                runId,
+                inserted,
+                received = items.Count,
+                message = $"Inserted {inserted} rows into dbo.InventoryStaging."
+            });
+        }
+
         [HttpGet("ping")]
         public IActionResult Ping() => Ok("Connected");
 
