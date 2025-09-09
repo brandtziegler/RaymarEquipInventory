@@ -1,0 +1,332 @@
+2025-09-09 08:54:06.599 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-09 08:54:06.623 -04:00 [INF] Hosting environment: Development
+2025-09-09 08:54:06.624 -04:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2025-09-09 09:38:18.083 -04:00 [INF] Start installing Hangfire SQL objects...
+2025-09-09 09:38:18.844 -04:00 [INF] Hangfire SQL objects installed.
+2025-09-09 09:38:19.565 -04:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-09-09 09:38:20.877 -04:00 [INF] Now listening on: https://localhost:52212
+2025-09-09 09:38:20.877 -04:00 [INF] Now listening on: http://localhost:52213
+2025-09-09 09:38:20.878 -04:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-09-09 09:38:20.879 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-09-09 09:38:20.879 -04:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-09-09 09:38:20.880 -04:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-09-09 09:38:20.920 -04:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-09-09 09:38:20.921 -04:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-09-09 09:38:20.922 -04:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-09-09 09:38:20.932 -04:00 [DBG] Execution loop BackgroundServerProcess:f6a39b9e has started in 4.9082 ms
+2025-09-09 09:38:20.999 -04:00 [INF] Server bz2024ad:36572:c1103e22 successfully announced in 28.9833 ms
+2025-09-09 09:38:21.004 -04:00 [DBG] Execution loop ServerHeartbeatProcess:65efcbad has started in 3.0536 ms
+2025-09-09 09:38:21.004 -04:00 [INF] Server bz2024ad:36572:c1103e22 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-09-09 09:38:21.008 -04:00 [DBG] Execution loop ServerWatchdog:861995a6 has started in 2.6798 ms
+2025-09-09 09:38:21.011 -04:00 [DBG] Execution loop ServerJobCancellationWatcher:71e87318 has started in 4.8277 ms
+2025-09-09 09:38:21.014 -04:00 [DBG] Execution loop ExpirationManager:5c6e8566 has started in 2.6867 ms
+2025-09-09 09:38:21.016 -04:00 [DBG] Execution loop CountersAggregator:14364fbe has started in 4.7514 ms
+2025-09-09 09:38:21.018 -04:00 [DBG] Execution loop SqlServerHeartbeatProcess:be33a0c7 has started in 4.6906 ms
+2025-09-09 09:38:21.021 -04:00 [DBG] Execution loop Worker:b0b5489f has started in 5.2439 ms
+2025-09-09 09:38:21.022 -04:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-09-09 09:38:21.022 -04:00 [DBG] Aggregating records in 'Counter' table...
+2025-09-09 09:38:21.024 -04:00 [DBG] Execution loop Worker:0bea714e has started in 7.8588 ms
+2025-09-09 09:38:21.026 -04:00 [DBG] Execution loop Worker:9321942d has started in 10.5948 ms
+2025-09-09 09:38:21.029 -04:00 [DBG] Execution loop Worker:06aa5e6e has started in 13.1803 ms
+2025-09-09 09:38:21.031 -04:00 [DBG] Execution loop Worker:75e0a3cc has started in 15.5342 ms
+2025-09-09 09:38:21.034 -04:00 [DBG] Execution loop Worker:2bdcb9ba has started in 18.1057 ms
+2025-09-09 09:38:21.036 -04:00 [DBG] Execution loop Worker:136ffd92 has started in 20.5838 ms
+2025-09-09 09:38:21.040 -04:00 [DBG] Execution loop Worker:9587bed7 has started in 24.3883 ms
+2025-09-09 09:38:21.044 -04:00 [DBG] Execution loop Worker:fd771a8a has started in 27.6535 ms
+2025-09-09 09:38:21.046 -04:00 [DBG] Execution loop Worker:7b03db61 has started in 30.1383 ms
+2025-09-09 09:38:21.049 -04:00 [DBG] Execution loop Worker:2b97baea has started in 32.8407 ms
+2025-09-09 09:38:21.051 -04:00 [DBG] Execution loop Worker:071c2808 has started in 35.4523 ms
+2025-09-09 09:38:21.054 -04:00 [DBG] Execution loop Worker:b3441025 has started in 38.3257 ms
+2025-09-09 09:38:21.057 -04:00 [DBG] Execution loop Worker:55d6c1e1 has started in 41.0772 ms
+2025-09-09 09:38:21.059 -04:00 [DBG] Execution loop Worker:c5c36d2c has started in 43.551 ms
+2025-09-09 09:38:21.062 -04:00 [DBG] Execution loop Worker:ad9ad11e has started in 46.4275 ms
+2025-09-09 09:38:21.066 -04:00 [DBG] Execution loop Worker:c58fed6c has started in 49.6339 ms
+2025-09-09 09:38:21.069 -04:00 [DBG] Execution loop Worker:e9a12fd2 has started in 53.401 ms
+2025-09-09 09:38:21.080 -04:00 [INF] Server bz2024ad:36572:c1103e22 all the dispatchers started
+2025-09-09 09:38:21.074 -04:00 [DBG] Execution loop Worker:acd64757 has started in 57.8456 ms
+2025-09-09 09:38:21.077 -04:00 [DBG] Execution loop Worker:6edfc8b8 has started in 60.849 ms
+2025-09-09 09:38:21.081 -04:00 [DBG] Execution loop DelayedJobScheduler:0fc84581 has started in 6.7489 ms
+2025-09-09 09:38:21.084 -04:00 [DBG] Execution loop RecurringJobScheduler:11d4e9f4 has started in 7.3268 ms
+2025-09-09 09:38:21.154 -04:00 [DBG] Connection id "0HNFFKOI743LL" received FIN.
+2025-09-09 09:38:21.218 -04:00 [DBG] Removing outdated records from the 'Job' table...
+2025-09-09 09:38:21.233 -04:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-09-09 09:38:21.244 -04:00 [DBG] Connection id "0HNFFKOI743LL" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-09-09 09:38:21.287 -04:00 [DBG] Removing outdated records from the 'List' table...
+2025-09-09 09:38:21.406 -04:00 [DBG] Removing outdated records from the 'Set' table...
+2025-09-09 09:38:21.471 -04:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-09-09 09:38:21.847 -04:00 [DBG] Connection 0HNFFKOI743LM established using the following protocol: "Tls13"
+2025-09-09 09:38:21.908 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/swagger/index.html - null null
+2025-09-09 09:38:21.995 -04:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-09-09 09:38:22.042 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-09-09 09:38:22.051 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-09-09 09:38:22.063 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-09-09 09:38:22.064 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-09-09 09:38:22.066 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/swagger/index.html - 200 null text/html;charset=utf-8 163.2953ms
+2025-09-09 09:38:22.101 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_vs/browserLink - null null
+2025-09-09 09:38:22.101 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-09 09:38:22.118 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 15.8809ms
+2025-09-09 09:38:22.147 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_vs/browserLink - 200 null text/javascript; charset=UTF-8 46.0249ms
+2025-09-09 09:38:22.172 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/swagger/v1/swagger.json - null null
+2025-09-09 09:38:22.260 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 88.4617ms
+2025-09-09 09:38:24.974 -04:00 [DBG] Connection id "0HNFFKOI743LM" received FIN.
+2025-09-09 09:38:24.975 -04:00 [DBG] Connection id "0HNFFKOI743LM" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-09-09 09:38:37.016 -04:00 [DBG] Connection 0HNFFKOI743LN established using the following protocol: "Tls13"
+2025-09-09 09:38:37.019 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/hangfire - null null
+2025-09-09 09:38:37.027 -04:00 [DBG] The request path  does not match the path filter
+2025-09-09 09:38:37.048 -04:00 [DBG] No candidates found for the request path '/hangfire'
+2025-09-09 09:38:37.049 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:37.395 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-09-09 09:38:37.396 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-09-09 09:38:37.402 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-09-09 09:38:37.403 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-09-09 09:38:37.406 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/hangfire - 200 null text/html 387.2554ms
+2025-09-09 09:38:37.408 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/hangfire/js181401731509076 - null null
+2025-09-09 09:38:37.409 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-09 09:38:37.407 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/hangfire/css181401845628333 - null null
+2025-09-09 09:38:37.415 -04:00 [DBG] The request path  does not match the path filter
+2025-09-09 09:38:37.409 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_vs/browserLink - null null
+2025-09-09 09:38:37.417 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 8.1182ms
+2025-09-09 09:38:37.423 -04:00 [DBG] The request path  does not match the path filter
+2025-09-09 09:38:37.423 -04:00 [DBG] No candidates found for the request path '/hangfire/js181401731509076'
+2025-09-09 09:38:37.430 -04:00 [DBG] No candidates found for the request path '/hangfire/css181401845628333'
+2025-09-09 09:38:37.431 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:37.407 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/hangfire/css-dark181401757496181 - null null
+2025-09-09 09:38:37.432 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:37.434 -04:00 [DBG] The request path  does not match the path filter
+2025-09-09 09:38:37.435 -04:00 [DBG] No candidates found for the request path '/hangfire/css-dark181401757496181'
+2025-09-09 09:38:37.436 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:37.450 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/hangfire/css-dark181401757496181 - 200 null text/css 42.7659ms
+2025-09-09 09:38:37.450 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/hangfire/css181401845628333 - 200 null text/css 43.0342ms
+2025-09-09 09:38:37.458 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_vs/browserLink - 200 null text/javascript; charset=UTF-8 49.123ms
+2025-09-09 09:38:37.462 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/hangfire/js181401731509076 - 200 null application/javascript 54.2333ms
+2025-09-09 09:38:39.524 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 485
+2025-09-09 09:38:39.526 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:38:39.527 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:38:39.527 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:38:39.528 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:38:39.528 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:39.699 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 175.4746ms
+2025-09-09 09:38:40.088 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/hangfire/recurring - null null
+2025-09-09 09:38:40.092 -04:00 [DBG] The request path  does not match the path filter
+2025-09-09 09:38:40.092 -04:00 [DBG] No candidates found for the request path '/hangfire/recurring'
+2025-09-09 09:38:40.094 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:40.303 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-09-09 09:38:40.304 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-09-09 09:38:40.307 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-09-09 09:38:40.307 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-09-09 09:38:40.308 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/hangfire/recurring - 200 null text/html 220.0818ms
+2025-09-09 09:38:40.313 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-09 09:38:40.314 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_vs/browserLink - null null
+2025-09-09 09:38:40.316 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 2.1391ms
+2025-09-09 09:38:40.331 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_vs/browserLink - 200 null text/javascript; charset=UTF-8 17.3328ms
+2025-09-09 09:38:42.374 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 167
+2025-09-09 09:38:42.376 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:38:42.376 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:38:42.377 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:38:42.377 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:38:42.378 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:42.418 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 44.4124ms
+2025-09-09 09:38:44.423 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 167
+2025-09-09 09:38:44.424 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:38:44.425 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:38:44.425 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:38:44.426 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:38:44.426 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:44.456 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 33.5689ms
+2025-09-09 09:38:44.762 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/recurring/trigger - application/x-www-form-urlencoded; charset=UTF-8 40
+2025-09-09 09:38:44.764 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:38:44.765 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:38:44.765 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:38:44.766 -04:00 [DBG] No candidates found for the request path '/hangfire/recurring/trigger'
+2025-09-09 09:38:44.766 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:45.079 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/recurring/trigger - 204 null null 317.3637ms
+2025-09-09 09:38:45.088 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/hangfire/recurring - null null
+2025-09-09 09:38:45.092 -04:00 [DBG] The request path  does not match the path filter
+2025-09-09 09:38:45.093 -04:00 [DBG] No candidates found for the request path '/hangfire/recurring'
+2025-09-09 09:38:45.094 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:45.281 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-09-09 09:38:45.281 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-09-09 09:38:45.284 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-09-09 09:38:45.284 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-09-09 09:38:45.285 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/hangfire/recurring - 200 null text/html 196.252ms
+2025-09-09 09:38:45.291 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-09 09:38:45.291 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_vs/browserLink - null null
+2025-09-09 09:38:45.300 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 9.2209ms
+2025-09-09 09:38:45.311 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_vs/browserLink - 200 null text/javascript; charset=UTF-8 20.1365ms
+2025-09-09 09:38:47.334 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 167
+2025-09-09 09:38:47.339 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:38:47.340 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:38:47.340 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:38:47.342 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:38:47.343 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:47.361 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 27.6588ms
+2025-09-09 09:38:49.373 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 167
+2025-09-09 09:38:49.374 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:38:49.375 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:38:49.375 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:38:49.375 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:38:49.376 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:49.393 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 20.6456ms
+2025-09-09 09:38:51.051 -04:00 [DBG] Server bz2024ad:36572:c1103e22 heartbeat successfully sent
+2025-09-09 09:38:51.403 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 167
+2025-09-09 09:38:51.406 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:38:51.407 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:38:51.407 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:38:51.408 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:38:51.408 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:51.443 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 40.0637ms
+2025-09-09 09:38:53.457 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 167
+2025-09-09 09:38:53.460 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:38:53.460 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:38:53.461 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:38:53.461 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:38:53.462 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:53.480 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 22.9484ms
+2025-09-09 09:38:55.492 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 167
+2025-09-09 09:38:55.494 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:38:55.495 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:38:55.496 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:38:55.496 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:38:55.497 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:55.514 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 22.7884ms
+2025-09-09 09:38:57.521 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 167
+2025-09-09 09:38:57.523 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:38:57.524 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:38:57.524 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:38:57.525 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:38:57.525 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:57.557 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 35.9678ms
+2025-09-09 09:38:59.563 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 167
+2025-09-09 09:38:59.566 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:38:59.567 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:38:59.567 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:38:59.568 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:38:59.569 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:38:59.588 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 24.7869ms
+2025-09-09 09:39:00.958 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/hangfire/jobs/enqueued - null null
+2025-09-09 09:39:00.961 -04:00 [DBG] The request path  does not match the path filter
+2025-09-09 09:39:00.963 -04:00 [DBG] No candidates found for the request path '/hangfire/jobs/enqueued'
+2025-09-09 09:39:00.964 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:01.063 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-09-09 09:39:01.063 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-09-09 09:39:01.065 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-09-09 09:39:01.066 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-09-09 09:39:01.066 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/hangfire/jobs/enqueued - 200 null text/html 108.4806ms
+2025-09-09 09:39:01.075 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-09 09:39:01.075 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_vs/browserLink - null null
+2025-09-09 09:39:01.079 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 4.3559ms
+2025-09-09 09:39:01.091 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_vs/browserLink - 200 null text/javascript; charset=UTF-8 15.6858ms
+2025-09-09 09:39:03.121 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:03.123 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:03.124 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:03.124 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:03.124 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:03.125 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:03.160 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 39.2564ms
+2025-09-09 09:39:04.897 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/hangfire/jobs/succeeded - null null
+2025-09-09 09:39:04.900 -04:00 [DBG] The request path  does not match the path filter
+2025-09-09 09:39:04.901 -04:00 [DBG] No candidates found for the request path '/hangfire/jobs/succeeded'
+2025-09-09 09:39:04.901 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:04.998 -04:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-09-09 09:39:04.999 -04:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-09-09 09:39:05.004 -04:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-09-09 09:39:05.005 -04:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-09-09 09:39:05.006 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/hangfire/jobs/succeeded - 200 null text/html 108.3464ms
+2025-09-09 09:39:05.008 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-09 09:39:05.009 -04:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_vs/browserLink - null null
+2025-09-09 09:39:05.011 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 2.1113ms
+2025-09-09 09:39:05.021 -04:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_vs/browserLink - 200 null text/javascript; charset=UTF-8 12.3651ms
+2025-09-09 09:39:07.052 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:07.055 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:07.055 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:07.056 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:07.056 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:07.057 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:07.090 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 37.6485ms
+2025-09-09 09:39:09.098 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:09.099 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:09.100 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:09.100 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:09.101 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:09.101 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:09.135 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 37.4614ms
+2025-09-09 09:39:11.150 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:11.151 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:11.152 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:11.152 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:11.152 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:11.153 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:11.188 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 38.2624ms
+2025-09-09 09:39:13.193 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:13.195 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:13.196 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:13.196 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:13.196 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:13.197 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:13.233 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 39.584ms
+2025-09-09 09:39:15.239 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:15.241 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:15.241 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:15.241 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:15.242 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:15.242 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:15.278 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 39.2967ms
+2025-09-09 09:39:17.296 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:17.298 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:17.298 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:17.299 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:17.299 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:17.300 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:17.334 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 38.1599ms
+2025-09-09 09:39:19.343 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:19.346 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:19.347 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:19.347 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:19.348 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:19.349 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:19.385 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 41.622ms
+2025-09-09 09:39:21.097 -04:00 [DBG] Server bz2024ad:36572:c1103e22 heartbeat successfully sent
+2025-09-09 09:39:21.406 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:21.408 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:21.409 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:21.410 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:21.410 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:21.411 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:21.445 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 39.6898ms
+2025-09-09 09:39:23.456 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:23.457 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:23.457 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:23.458 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:23.458 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:23.459 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:23.492 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 37.072ms
+2025-09-09 09:39:25.498 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:25.500 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:25.500 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:25.501 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:25.501 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:25.502 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:25.536 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 37.7799ms
+2025-09-09 09:39:27.539 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:27.541 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:27.542 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:27.542 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:27.542 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:27.543 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:27.576 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 36.3823ms
+2025-09-09 09:39:29.579 -04:00 [INF] Request starting HTTP/2 POST https://localhost:52212/hangfire/stats - application/x-www-form-urlencoded; charset=UTF-8 392
+2025-09-09 09:39:29.581 -04:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-09-09 09:39:29.581 -04:00 [INF] CORS policy execution successful.
+2025-09-09 09:39:29.582 -04:00 [DBG] POST requests are not supported
+2025-09-09 09:39:29.582 -04:00 [DBG] No candidates found for the request path '/hangfire/stats'
+2025-09-09 09:39:29.583 -04:00 [DBG] Request did not match any endpoints
+2025-09-09 09:39:29.616 -04:00 [INF] Request finished HTTP/2 POST https://localhost:52212/hangfire/stats - 200 null application/json 37.3212ms

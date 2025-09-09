@@ -28,11 +28,11 @@ namespace RaymarEquipmentInventory.BackgroundTasks
 
             // ---- DATABASE BACKUP ----
             // Prod: every day at 11:59 PM ET
-            _recurringJobManager.AddOrUpdate<IDriveUploaderService>(
-                "Nightly-DB-Backup-23_59-ET",
-                svc => svc.BackupDatabaseToGoogleDriveAsync(CancellationToken.None),
-                "59 23 * * *",
-                jobOptions);
+            //_recurringJobManager.AddOrUpdate<IDriveUploaderService>(
+            //    "Nightly-DB-Backup-23_59-ET",
+            //    svc => svc.BackupDatabaseToGoogleDriveAsync(CancellationToken.None),
+            //    "59 23 * * *",
+            //    jobOptions);
 
             // Test: every day at 2:40 PM ET
             _recurringJobManager.AddOrUpdate<IDriveUploaderService>(

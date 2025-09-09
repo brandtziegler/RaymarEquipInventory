@@ -1658,56 +1658,66 @@ namespace RaymarEquipmentInventory.Services
         // inside class DriveUploaderService …
         public async Task<string?> BackupDatabaseToGoogleDriveAsync(CancellationToken ct = default)
         {
-            // 1) Target Drive folder (env var first, then appsettings fallback)
+            // 1) Drive target (env first, then appsettings)
             var driveFolderId = Environment.GetEnvironmentVariable("GOOGLE_DBBackups")
                 ?? _config["GoogleDrive:DBBackupsFolderId"];
-
             if (string.IsNullOrWhiteSpace(driveFolderId))
                 throw new InvalidOperationException("Missing GOOGLE_DBBackups (or GoogleDrive:DBBackupsFolderId).");
 
-            // 2) Connection string from EF context
-            var connString = _context.Database.GetDbConnection().ConnectionString;
-            var csb = new SqlConnectionStringBuilder(connString);
-            var dbName = csb.InitialCatalog ?? "Database";
-            var server = csb.DataSource ?? "server";
+            // 2) Backup connection (env > appsettings key > fall back to normal conn string)
+            string? rawConn =
+                Environment.GetEnvironmentVariable("SQL_BACKUP_CONNSTR")
+                ?? _config["SQL_BACKUP_CONNSTR"]
+                ?? _config.GetConnectionString("RaymarAzureConnection");
+            if (string.IsNullOrWhiteSpace(rawConn))
+                throw new InvalidOperationException("Missing SQL_BACKUP_CONNSTR (or ConnectionStrings:RaymarAzureConnection).");
+
+            var csb = new SqlConnectionStringBuilder(rawConn);
+
+            // Optional overrides for user/password (preferred)
+            var u = Environment.GetEnvironmentVariable("SQL_BACKUP_USER") ?? _config["SQL_BACKUP_USER"];
+            var p = Environment.GetEnvironmentVariable("SQL_BACKUP_PASSWORD") ?? _config["SQL_BACKUP_PASSWORD"];
+            if (!string.IsNullOrWhiteSpace(u)) csb.UserID = u;
+            if (!string.IsNullOrWhiteSpace(p)) csb.Password = p;
+
+            // Validate creds (Azure SQL usually requires SQL auth, not Integrated)
+            if (!csb.IntegratedSecurity && (string.IsNullOrWhiteSpace(csb.UserID) || string.IsNullOrWhiteSpace(csb.Password)))
+                throw new InvalidOperationException("Backup connection is missing SQL credentials.");
+
+            var dbName = string.IsNullOrWhiteSpace(csb.InitialCatalog) ? "Database" : csb.InitialCatalog;
+            var server = string.IsNullOrWhiteSpace(csb.DataSource) ? "(unknown)" : csb.DataSource;
 
             var stamp = DateTime.UtcNow.ToString("yyyyMMdd_HHmmss");
             var fileName = $"{dbName}_{stamp}.bacpac";
             var tempPath = Path.Combine(Path.GetTempPath(), fileName);
 
-            Log.Information("Starting .bacpac export for {Db} on {Server} -> {Path}", dbName, server, tempPath);
+            Log.Information("Starting .bacpac export for {Db} on {Server} → {Path} (Integrated={Integrated}, User={User})",
+                dbName, server, tempPath, csb.IntegratedSecurity, csb.UserID ?? "(none)");
 
             try
             {
-                // 3) Export .bacpac (DacFx is sync; run on background thread)
+                // 3) Export .bacpac (DacFx is sync; run on a background thread)
                 await Task.Run(() =>
                 {
-                    var dac = new DacServices(connString);
+                    var dac = new DacServices(csb.ToString());
                     dac.Message += (s, e) => Log.Information("DacFx: {Msg}", e.Message);
                     dac.ExportBacpac(tempPath, dbName);
                 }, ct);
 
                 var size = new FileInfo(tempPath).Length;
-                Log.Information("Bacpac created: {Path} ({Size} bytes)", tempPath, size);
+                Log.Information("Bacpac created: {Path} ({Size:n0} bytes)", tempPath, size);
 
-                // 4) Auth to Drive using your existing OAuth2 user token
-                DriveService drive = await _authService.GetDriveServiceFromUserTokenAsync();
-
-                // 5) Upload (resumable)
-                var meta = new Google.Apis.Drive.v3.Data.File
-                {
-                    Name = fileName,
-                    Parents = new[] { driveFolderId }
-                };
+                // 4) Upload to Google Drive
+                var drive = await _authService.GetDriveServiceFromUserTokenAsync();
+                var meta = new Google.Apis.Drive.v3.Data.File { Name = fileName, Parents = new[] { driveFolderId } };
 
                 using var fs = new FileStream(tempPath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 var upload = drive.Files.Create(meta, fs, "application/octet-stream");
                 upload.Fields = "id,name,parents,size,createdTime,webViewLink";
-                upload.ChunkSize = ResumableUpload.MinimumChunkSize * 8; // ~8MB chunks
+                upload.ChunkSize = Google.Apis.Upload.ResumableUpload.MinimumChunkSize * 8;
 
                 Log.Information("Uploading {File} to Drive folder {Folder}…", fileName, driveFolderId);
                 var result = await upload.UploadAsync(ct);
-
                 if (result.Status != Google.Apis.Upload.UploadStatus.Completed)
                 {
                     Log.Error(result.Exception, "Google Drive upload failed with status {Status}", result.Status);
@@ -1716,8 +1726,17 @@ namespace RaymarEquipmentInventory.Services
 
                 var created = upload.ResponseBody;
                 Log.Information("✅ Backup uploaded. fileId={FileId} size={Size}", created.Id, created.Size);
-
                 return created.Id;
+            }
+            catch (Microsoft.SqlServer.Dac.DacServicesException dex)
+            {
+                Log.Error(dex, "DacFx export failed for {Db} on {Server}", dbName, server);
+                return null;
+            }
+            catch (SqlException sex)
+            {
+                Log.Error(sex, "SQL error during export for {Db} on {Server}", dbName, server);
+                return null;
             }
             catch (Exception ex)
             {
@@ -1737,6 +1756,7 @@ namespace RaymarEquipmentInventory.Services
                 }
             }
         }
+
 
         private async Task<string> EnsureFolderExistsAsync(string folderName, string parentId, DriveService driveService)
         {

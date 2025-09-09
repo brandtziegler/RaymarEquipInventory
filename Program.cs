@@ -119,7 +119,11 @@ if (builder.Environment.IsDevelopment())
         "Upsert_Email",
         "Upsert_Password",
         "Upsert_ExpectedSubject_Inventory",
-        "Upsert_ExpectedAttachment_Inventory"
+        "Upsert_ExpectedAttachment_Inventory",
+        "GOOGLE_DBBackups",
+        "SQL_BACKUP_CONNSTR",
+        "SQL_BACKUP_PASSWORD",
+        "SQL_BACKUP_USER"
     })
         SetIfPresent(k, builder.Configuration[k]);
 
