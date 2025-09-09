@@ -49,11 +49,11 @@ namespace RaymarEquipmentInventory.BackgroundTasks
             jobOptions);
 
 
-            //_recurringJobManager.AddOrUpdate<CustomersInboxJob>(
-            //    "Customers-Upsert-Import",
-            //    j => j.RunAsync(CancellationToken.None),
-            //    "*/5 * * * *",
-            //    jobOptions);
+            _recurringJobManager.AddOrUpdate<CustomersInboxJob>(
+                "Customers-Upsert-Import",
+                j => j.RunAsync(CancellationToken.None),
+                "59 15 * * *",
+                jobOptions);
 
             // ---- Example (left from before) ----
             // _recurringJobManager.AddOrUpdate<IInventoryService>(
