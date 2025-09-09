@@ -1,14 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using RaymarEquipmentInventory.Models;
-using RaymarEquipmentInventory.DTOs;
-using System.Data.Odbc;
-using System.Data;
-using System.Reflection.PortableExecutable;
-using RaymarEquipmentInventory.Helpers;
-using Serilog;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 
@@ -28,49 +18,67 @@ namespace RaymarEquipmentInventory.Services
             _opt = opt.Value ?? new QbwcRequestOptions();
         }
 
-        public string BuildCompanyQuery() =>
-                @"<?xml version=""1.0"" encoding=""utf-8""?>
-                <QBXML>
-                  <QBXMLMsgsRq onError=""stopOnError"">
-                    <CompanyQueryRq/>
-                  </QBXMLMsgsRq>
-                </QBXML>";
+        // IMPORTANT: no encoding attribute here; include qbXML PI
+        private const string QbXmlHeader = @"<?xml version=""1.0"" ?>
+<?qbxml version=""16.0""?>";
 
-        public string BuildItemInventoryStart(int pageSize, bool activeOnly, string? fromModifiedIso8601Utc, string[]? includeRetElements = null)
+        public string BuildCompanyQuery() =>
+$@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <CompanyQueryRq/>
+  </QBXMLMsgsRq>
+</QBXML>";
+
+        public string BuildItemInventoryStart(
+            int pageSize,
+            bool activeOnly,
+            string? fromModifiedIso8601Utc,
+            string[]? includeRetElements = null)
         {
             var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
             var from = !string.IsNullOrWhiteSpace(fromModifiedIso8601Utc)
-                          ? $"<FromModifiedDate>{fromModifiedIso8601Utc}</FromModifiedDate>" : "";
-            var include = string.Join("\n      ", (includeRetElements ?? DefaultInclude).Select(x => $"<IncludeRetElement>{x}</IncludeRetElement>"));
-                                return
-                    $@"<?xml version=""1.0"" encoding=""utf-8""?>
-                    <QBXML>
-                      <QBXMLMsgsRq onError=""stopOnError"">
-                        <ItemInventoryQueryRq requestID=""inv-1"" iterator=""Start"">
-                          {active}
-                          {from}
-                          <MaxReturned>{pageSize}</MaxReturned>
-                          {include}
-                        </ItemInventoryQueryRq>
-                      </QBXMLMsgsRq>
-                    </QBXML>";
+                         ? $"<FromModifiedDate>{fromModifiedIso8601Utc}</FromModifiedDate>"
+                         : "";
+            var include = string.Join("\n      ",
+                (includeRetElements ?? DefaultInclude)
+                .Select(x => $"<IncludeRetElement>{x}</IncludeRetElement>"));
+
+            return
+$@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemInventoryQueryRq requestID=""inv-1"" iterator=""Start"">
+      {active}
+      {from}
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemInventoryQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
         }
 
-        public string BuildItemInventoryContinue(string iteratorId, int pageSize, string[]? includeRetElements = null)
+        public string BuildItemInventoryContinue(
+            string iteratorId,
+            int pageSize,
+            string[]? includeRetElements = null)
         {
-            var include = string.Join("\n      ", (includeRetElements ?? DefaultInclude).Select(x => $"<IncludeRetElement>{x}</IncludeRetElement>"));
-                                return
-                    $@"<?xml version=""1.0"" encoding=""utf-8""?>
-                    <QBXML>
-                      <QBXMLMsgsRq onError=""stopOnError"">
-                        <ItemInventoryQueryRq requestID=""inv-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
-                          <MaxReturned>{pageSize}</MaxReturned>
-                          {include}
-                        </ItemInventoryQueryRq>
-                      </QBXMLMsgsRq>
-                    </QBXML>";
+            var include = string.Join("\n      ",
+                (includeRetElements ?? DefaultInclude)
+                .Select(x => $"<IncludeRetElement>{x}</IncludeRetElement>"));
+
+            return
+$@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemInventoryQueryRq requestID=""inv-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemInventoryQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
         }
     }
-
 }
+
 
