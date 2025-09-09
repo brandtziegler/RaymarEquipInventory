@@ -183,7 +183,7 @@ namespace RaymarEquipmentInventory.Services
                 // Reset to let the next sendRequestXML choose ItemInventory START
                 state.LastRequestType = null;
                 _session.SetIterator(runId, state);
-                return 100; // tell QBWC to continue
+                return 1; // tell QBWC to continue
             }
 
             // Inventory batch: insert if we actually parsed items
@@ -208,7 +208,7 @@ namespace RaymarEquipmentInventory.Services
             ).GetAwaiter().GetResult();
 
             // 100 = continue; 0 = done
-            return state.Remaining > 0 ? 100 : 0;
+            return state.Remaining > 0 ? 1 : 100;
         }
 
 
