@@ -95,7 +95,7 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, "An error occurred while launching the work order.");
             }
         }
-
+        //Why did upsert not work earlier?
 
 
         [HttpPost("inventory/staging/bulk")]
