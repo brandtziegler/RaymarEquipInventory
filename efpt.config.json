@@ -80,6 +80,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[FeeVisibility]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[FlatLabour]",
          "ObjectType": 0
       },

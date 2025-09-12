@@ -65,52 +65,61 @@ namespace RaymarEquipmentInventory.Controllers
         // Always enqueue: clear fees for the TechWO, then bulk-insert the provided batch.
         [HttpPost("InsertWorkOrderFeeBatchForTechWO")]
         public IActionResult InsertWorkOrderFeeBatchForTechWO(
-            [FromQuery] int technicianWorkOrderId,
-            [FromBody] WorkOrderFeesGroup feeGroup)
+          [FromQuery] int technicianWorkOrderId,
+          [FromBody] WorkOrderFeesGroup feeGroup)
         {
-            if (technicianWorkOrderId <= 0)
-                return BadRequest("technicianWorkOrderId is required.");
-            if (feeGroup is null)
-                return BadRequest("Payload is required.");
+            if (technicianWorkOrderId <= 0) return BadRequest("technicianWorkOrderId is required.");
+            if (feeGroup is null) return BadRequest("Payload is required.");
 
             var items = feeGroup.WorkOrderFeesList ?? new List<WorkOrderFee>();
             var intendedInsert = items.Count;
 
-            // Normalize: server is source of truth for TechWO id
+            // normalize fees TechWO
             if (intendedInsert > 0)
-            {
                 foreach (var f in items)
-                {
-                    if (f.TechnicianWorkOrderID <= 0)
-                        f.TechnicianWorkOrderID = technicianWorkOrderId;
-                }
-            }
+                    if (f.TechnicianWorkOrderID <= 0) f.TechnicianWorkOrderID = technicianWorkOrderId;
 
-            // 1) Enqueue clear
+            // normalize visibility TechWO (optional in payload)
+            var visItems = feeGroup.FeeVisibilityList ?? new List<FeeVisibilityDto>();
+            foreach (var v in visItems)
+                if (v.TechnicianWorkOrderID <= 0) v.TechnicianWorkOrderID = technicianWorkOrderId;
+            var visCount = visItems.Count;
+
+            // 1) Clear WOF
             var clearJobId = _jobs.Enqueue(() =>
                 _workOrderFeeService.DeleteWorkOrderFees(technicianWorkOrderId, CancellationToken.None));
 
-            // 2) Chain insert (only if we have items)
+            // 2) Re-insert WOF
             string? insertJobId = null;
             if (intendedInsert > 0)
             {
-                var payload = items; // Hangfire will serialize DTOs
+                var payload = items;
                 insertJobId = _jobs.ContinueJobWith(clearJobId, () =>
                     _workOrderFeeService.InsertWorkOrderFeeBulkAsync(payload, CancellationToken.None));
             }
 
-            // 3) Return fast
+            // 3) Replace FeeVisibility for this TechWO (delete then insert distinct)
+            string? visJobId = null;
+            if (visCount >= 0) // allow empty list to mean "reset to defaults (no rows = visible)"
+            {
+                var vp = visItems;
+                visJobId = _jobs.Enqueue(() =>
+                    _workOrderFeeService.ReplaceFeeVisibilityAsync(technicianWorkOrderId, vp, CancellationToken.None));
+            }
+
             return Accepted(new
             {
                 technicianWorkOrderId,
                 intendedInsert,
                 clearJobId,
                 insertJobId,
-                message = intendedInsert == 0
-                    ? "Queued clear only (no fees in payload)."
-                    : $"Queued clear + insert of {intendedInsert} WorkOrderFee row(s)."
+                visCount,
+                visJobId,
+                message = $"{(intendedInsert == 0 ? "Queued clear only for fees" : $"Queued clear + insert of {intendedInsert} fees")}; " +
+                          $"{(visCount == 0 ? "reset visibility to defaults" : $"replace {visCount} visibility rows")}."
             });
         }
+
 
 
 

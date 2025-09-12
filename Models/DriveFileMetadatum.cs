@@ -39,5 +39,13 @@ public partial class DriveFileMetadatum
 
     public int? PdfTagId { get; set; }
 
+    public string CategoriesCsv { get; set; }
+
+    public string Notes { get; set; }
+
+    public string CleanDescription { get; set; }
+
+    public string FileNameLower { get; set; }
+
     public virtual Pdftag PdfTag { get; set; }
 }

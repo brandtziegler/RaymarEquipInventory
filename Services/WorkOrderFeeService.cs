@@ -57,6 +57,46 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task<int> ReplaceFeeVisibilityAsync(
+    int technicianWorkOrderId,
+    IEnumerable<DTOs.FeeVisibilityDto> items,
+    CancellationToken cancellationToken = default)
+        {
+            if (technicianWorkOrderId <= 0) return 0;
+
+            var src = (items ?? Enumerable.Empty<DTOs.FeeVisibilityDto>()).ToList();
+            foreach (var v in src)
+                if (v.TechnicianWorkOrderID <= 0) v.TechnicianWorkOrderID = technicianWorkOrderId;
+
+            // delete current visibility rows for this TechWO
+            var existing = await _context.FeeVisibilities
+                .Where(x => x.TechnicianWorkOrderId == technicianWorkOrderId)
+                .ToListAsync(cancellationToken);
+
+            if (existing.Count > 0)
+            {
+                _context.FeeVisibilities.RemoveRange(existing);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+
+            // empty list => no rows → defaults to visible via COALESCE on read
+            if (src.Count == 0) return 0;
+
+            // distinct per LabourType
+            var distinct = src.GroupBy(v => v.LabourTypeID).Select(g => g.First()).ToList();
+
+            var entities = distinct.Select(v => new Models.FeeVisibility
+            {
+                TechnicianWorkOrderId = technicianWorkOrderId,
+                LabourTypeId = v.LabourTypeID,
+                IsVisible = v.IsVisible != 0,           // EF model likely bool (BIT)
+                UpdatedAtUtc = DateTime.UtcNow
+            }).ToList();
+
+            _context.FeeVisibilities.AddRange(entities);
+            await _context.SaveChangesAsync(cancellationToken);
+            return entities.Count;
+        }
 
         public async Task<int> InsertWorkOrderFeeBulkAsync(
     IEnumerable<DTOs.WorkOrderFee> items,

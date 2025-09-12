@@ -1,12 +1,21 @@
 ﻿namespace RaymarEquipmentInventory.DTOs
 {
-    public sealed class PartsInboxOptions
+    public class BillingMin
     {
-        public string ImapHost { get; set; } = default!;
-        public int ImapPort { get; set; }
-        public string Email { get; set; } = default!;
-        public string Password { get; set; } = default!;
-        public string ExpectedSubject { get; set; } = "Inventory Upsert";
-        public string ExpectedAttachment { get; set; } = "InventoryUpsert";
+        public int SheetId { get; set; }
+        public int CustomerId { get; set; }
+
+        public string PONo { get; set; } = string.Empty;
+        public int Kilometers { get; set; } = 0;
+
+        public string UnitNo { get; set; } = string.Empty;
+        public string JobSiteCity { get; set; } = string.Empty;
+        public string WorkDescription { get; set; } = string.Empty;
+        public string CustPath { get; set; } = string.Empty;
+
+        public string WorkOrderStatus { get; set; } = string.Empty;
+        public DateTime? DateUploaded { get; set; }
+        public int? CompletedBy { get; set; }
     }
+
 }

@@ -45,6 +45,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<FailedSyncLog> FailedSyncLogs { get; set; }
 
+    public virtual DbSet<FeeVisibility> FeeVisibilities { get; set; }
+
     public virtual DbSet<FlatLabour> FlatLabours { get; set; }
 
     public virtual DbSet<GoogleDriveFolder> GoogleDriveFolders { get; set; }
@@ -633,13 +635,25 @@ public partial class RaymarInventoryDBContext : DbContext
         {
             entity.HasKey(e => e.MetadataId).HasName("PK__DriveFil__66106FD9C917F7A0");
 
+            entity.HasIndex(e => e.CategoriesCsv, "IX_DriveFileMetadata_CategoriesCsv");
+
+            entity.HasIndex(e => e.FileNameLower, "IX_DriveFileMetadata_FileNameLower");
+
+            entity.HasIndex(e => new { e.FolderId, e.IsTemplateFile }, "IX_DriveFileMetadata_Folder_IsTemplate");
+
+            entity.HasIndex(e => e.ModifiedTime, "IX_DriveFileMetadata_ModifiedTime");
+
             entity.HasIndex(e => e.PdfTagId, "IX_DriveFileMetadata_PdfTagId");
 
             entity.HasIndex(e => e.DriveFileId, "UQ_DriveFile").IsUnique();
 
+            entity.Property(e => e.CategoriesCsv).HasMaxLength(400);
             entity.Property(e => e.DriveFileId)
                 .IsRequired()
                 .HasMaxLength(128);
+            entity.Property(e => e.FileNameLower)
+                .HasMaxLength(400)
+                .HasComputedColumnSql("(lower([Name]))", true);
             entity.Property(e => e.FolderId).HasMaxLength(128);
             entity.Property(e => e.IsTemplateFile)
                 .IsRequired()
@@ -677,6 +691,23 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.Timestamp)
                 .HasPrecision(3)
                 .HasDefaultValueSql("(sysutcdatetime())");
+        });
+
+        modelBuilder.Entity<FeeVisibility>(entity =>
+        {
+            entity.HasKey(e => new { e.LabourTypeId, e.TechnicianWorkOrderId });
+
+            entity.ToTable("FeeVisibility", tb => tb.HasTrigger("trg_FeeVisibility_touch"));
+
+            entity.Property(e => e.LabourTypeId).HasColumnName("LabourTypeID");
+            entity.Property(e => e.TechnicianWorkOrderId).HasColumnName("TechnicianWorkOrderID");
+            entity.Property(e => e.UpdatedAtUtc)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
+
+            entity.HasOne(d => d.LabourType).WithMany(p => p.FeeVisibilities)
+                .HasForeignKey(d => d.LabourTypeId)
+                .HasConstraintName("FK_FeeVis_LabourType");
         });
 
         modelBuilder.Entity<FlatLabour>(entity =>

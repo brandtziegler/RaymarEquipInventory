@@ -861,6 +861,38 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+        public async Task<List<DTOs.FeeVisibilityDto>> GetFeeVisibility(int sheetID)
+        {
+            try
+            {
+                var techWorkOrderIds = await _context.TechnicianWorkOrders
+                    .Where(t => t.SheetId == sheetID)
+                    .Select(t => t.TechnicianWorkOrderId)
+                    .ToListAsync();
+
+                if (!techWorkOrderIds.Any())
+                    return new List<DTOs.FeeVisibilityDto>();
+
+                var rows = await _context.FeeVisibilities
+                    .Where(v => techWorkOrderIds.Contains(v.TechnicianWorkOrderId))
+                    .ToListAsync();
+
+                var result = rows.Select(v => new DTOs.FeeVisibilityDto
+                {
+                    TechnicianWorkOrderID = v.TechnicianWorkOrderId,
+                    LabourTypeID = v.LabourTypeId,
+                    IsVisible = v.IsVisible ? 1 : 0   // EF model likely bool → device 0/1
+                }).ToList();
+
+                Log.Information($"✅ Retrieved {result.Count} FeeVisibility rows for SheetID {sheetID}.");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"❌ Failed to get FeeVisibility for SheetID {sheetID}: {ex.Message}");
+                return new List<DTOs.FeeVisibilityDto>();
+            }
+        }
 
         public async Task<List<DTOs.TravelLog>> GetMileage(int sheetID)
         {

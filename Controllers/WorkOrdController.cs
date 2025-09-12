@@ -1803,6 +1803,7 @@ namespace RaymarEquipmentInventory.Controllers
             try
             {
                 var workOrdNumber = await _workOrderService.GetWorkOrderNumber(sheetId);
+
                 var result = new WorkOrderDetails
                 {
                     WorkOrderNumber = workOrdNumber,
@@ -1812,6 +1813,9 @@ namespace RaymarEquipmentInventory.Controllers
                     Parts = await _workOrderService.GetPartsUsed(sheetId),
                     Fees = await _workOrderService.GetFees(sheetId),
                     MileageAndTime = await _workOrderService.GetMileage(sheetId),
+
+                    // NEW: feed the device per-TechWO visibility (empty list = default visible client-side)
+                    FeeVisibility = await _workOrderService.GetFeeVisibility(sheetId) ?? new List<FeeVisibilityDto>()
                 };
 
                 return Ok(result);
@@ -1822,6 +1826,7 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, "Could not download work order.");
             }
         }
+
 
 
         [HttpGet("GetBilling")]

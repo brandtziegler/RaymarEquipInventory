@@ -12,5 +12,6 @@
         public List<WorkOrderFee> Fees { get; set; } = new List<WorkOrderFee>();
         public List<TravelLog> MileageAndTime { get; set; } = new List<TravelLog>();
         // Add more as needed: signatures, PDFs, etc.
+        public List<FeeVisibilityDto> FeeVisibility { get; set; } = new();
     }
 }
