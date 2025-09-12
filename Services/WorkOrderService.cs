@@ -865,6 +865,7 @@ namespace RaymarEquipmentInventory.Services
         {
             try
             {
+             
                 var techWorkOrderIds = await _context.TechnicianWorkOrders
                     .Where(t => t.SheetId == sheetID)
                     .Select(t => t.TechnicianWorkOrderId)
@@ -892,6 +893,66 @@ namespace RaymarEquipmentInventory.Services
                 Log.Error($"❌ Failed to get FeeVisibility for SheetID {sheetID}: {ex.Message}");
                 return new List<DTOs.FeeVisibilityDto>();
             }
+        }
+
+
+        public async Task<List<DTOs.PdfViewedForSheet>> GetPdfViewedForSheetAsync(int sheetId)
+        {
+            if (sheetId <= 0) return new List<DTOs.PdfViewedForSheet>();
+
+            var rows = await _context.PdfviewedForSheets   // ← your DbSet
+                .Where(v => v.SheetId == sheetId)
+                .OrderByDescending(v => v.ViewedAt)
+                .Select(v => new DTOs.PdfViewedForSheet
+                {
+                    SheetId = v.SheetId,
+                    FileName = v.FileName,
+                    ViewedAtUtc = v.ViewedAt  // assuming UTC; convert if needed
+                })
+                .ToListAsync();
+
+            return rows;
+        }
+
+
+        // WorkOrderService.cs
+        public async Task<(int deleted, int inserted)> ReplaceViewedForSheetAsync(
+            int sheetId,
+            IEnumerable<PdfViewedItem> items,
+            CancellationToken ct = default)
+        {
+            var list = (items ?? Enumerable.Empty<PdfViewedItem>()).ToList();
+
+            // Clear existing
+            var existing = await _context.PdfviewedForSheets
+                .Where(v => v.SheetId == sheetId)
+                .ToListAsync(ct);
+            if (existing.Count > 0)
+            {
+                _context.PdfviewedForSheets.RemoveRange(existing);
+                await _context.SaveChangesAsync(ct);
+            }
+
+            // Insert fresh (dedupe by FileName; keep latest timestamp)
+            var toInsert = list
+                .Where(v => !string.IsNullOrWhiteSpace(v.FileName))
+                .GroupBy(v => v.FileName.Trim(), StringComparer.OrdinalIgnoreCase)
+                .Select(g => g.OrderByDescending(x => x.ViewedAtUtc).First())
+                .Select(v => new Models.PdfviewedForSheet
+                {
+                    SheetId = sheetId,
+                    FileName = v.FileName.Trim(),
+                    ViewedAt = DateTime.SpecifyKind(v.ViewedAtUtc, DateTimeKind.Utc)
+                })
+                .ToList();
+
+            if (toInsert.Count > 0)
+            {
+                _context.PdfviewedForSheets.AddRange(toInsert);
+                await _context.SaveChangesAsync(ct);
+            }
+
+            return (deleted: existing.Count, inserted: toInsert.Count);
         }
 
         public async Task<List<DTOs.TravelLog>> GetMileage(int sheetID)

@@ -1615,6 +1615,16 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        // Controllers/WorkOrdController.cs  (or a PdfController if you prefer)
+        [HttpGet("ViewedPdfs/{sheetId}")]
+        public async Task<IActionResult> GetViewedPdfs(int sheetId)
+        {
+            if (sheetId <= 0) return BadRequest("sheetId is required.");
+            var items = await _workOrderService.GetPdfViewedForSheetAsync(sheetId);
+            return Ok(items); // [] when none; camelCase JSON by default
+        }
+
+
         [HttpPost("SendWorkOrderEmailTwo")]
         public async Task<IActionResult> SendWorkOrderEmailTwo([FromBody] DTOs.WorkOrdMailContent dto)
         {
@@ -1671,6 +1681,33 @@ namespace RaymarEquipmentInventory.Controllers
                 return StatusCode(500, "Internal error: " + ex.Message);
             }
         }
+
+        // WorkOrdController.cs
+        [HttpPost("ReplaceViewedForSheet")]
+        public async Task<IActionResult> ReplaceViewedForSheet(
+            [FromQuery] int sheetId,
+            [FromBody] ReplaceViewedForSheetRequest payload,
+            CancellationToken ct)
+        {
+            if (sheetId <= 0) return BadRequest("sheetId is required.");
+            if (payload is null) return BadRequest("Payload is required.");
+
+            var (deleted, inserted) =
+                await _workOrderService.ReplaceViewedForSheetAsync(sheetId, payload.ViewedList ?? [], ct);
+
+            return Accepted(new
+            {
+                sheetId,
+                received = payload.ViewedList?.Count ?? 0,
+                deleted,
+                inserted,
+                message = inserted == 0
+                    ? "Cleared viewed PDFs for sheet."
+                    : $"Replaced viewed list with {inserted} item(s)."
+            });
+        }
+
+
 
         [HttpGet("GetWorkOrder")]
         public async Task<IActionResult> GetWorkOrder(int sheetID)

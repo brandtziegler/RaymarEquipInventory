@@ -56,5 +56,8 @@ namespace RaymarEquipmentInventory.Services
         Task LogFailedSync(int sheetId, string reason);
 
         Task<List<DTOs.FeeVisibilityDto>> GetFeeVisibility(int sheetID);
+        Task<List<DTOs.PdfViewedForSheet>> GetPdfViewedForSheetAsync(int sheetId);
+
+        Task<(int deleted, int inserted)> ReplaceViewedForSheetAsync(int sheetId,IEnumerable<PdfViewedItem> items,CancellationToken ct = default);
     }
 }

@@ -81,6 +81,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<Pdftag> Pdftags { get; set; }
 
+    public virtual DbSet<PdfviewedForSheet> PdfviewedForSheets { get; set; }
+
     public virtual DbSet<Person> People { get; set; }
 
     public virtual DbSet<PlaceholderDocument> PlaceholderDocuments { get; set; }
@@ -1133,6 +1135,18 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasOne(d => d.LabourType).WithMany(p => p.Pdftags)
                 .HasForeignKey(d => d.LabourTypeId)
                 .HasConstraintName("FK_PDFTags_LabourType");
+        });
+
+        modelBuilder.Entity<PdfviewedForSheet>(entity =>
+        {
+            entity.HasKey(e => new { e.SheetId, e.FileName });
+
+            entity.ToTable("PDFViewedForSheet");
+
+            entity.Property(e => e.FileName).HasMaxLength(255);
+            entity.Property(e => e.ViewedAt)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
         });
 
         modelBuilder.Entity<Person>(entity =>

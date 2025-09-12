@@ -152,6 +152,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[PDFViewedForSheet]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Person]",
          "ObjectType": 0
       },
