@@ -109,51 +109,111 @@ namespace RaymarEquipmentInventory.Services
             int qbXMLMajorVers,
             int qbXMLMinorVers)
         {
-            // Make sure we have a run/session
+            // Ensure run/session
             if (!_session.TryGetRunId(ticket, out var runId))
             {
                 runId = _session.StartSessionAsync("unknown", strCompanyFileName).GetAwaiter().GetResult();
                 _session.MapTicketAsync(ticket, runId).GetAwaiter().GetResult();
             }
 
-            // Build the next request based on iterator state
             var iter = _session.GetIterator(runId);
             string xml;
 
-            if (_opt.RequestCompanyQueryFirst && string.IsNullOrEmpty(iter.LastRequestType))
+            // ---- PHASE 1: Company (optional, once) ----
+            if (_opt.RequestCompanyQueryFirst &&
+                string.IsNullOrEmpty(iter.LastRequestType) &&
+                string.IsNullOrEmpty(iter.IteratorId))
             {
                 xml = _request.BuildCompanyQuery();
                 iter.LastRequestType = "CompanyQueryRq";
+                _session.SetIterator(runId, iter);
+
+                _audit.LogMessageAsync(
+                    runId, "sendRequestXML", "req",
+                    companyFile: strCompanyFileName,
+                    message: $"type=CompanyQueryRq; iterator=<none>; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}; country={qbXMLCountry}",
+                    payloadXml: xml
+                ).GetAwaiter().GetResult();
+
+                return xml;
             }
-            else if (string.IsNullOrEmpty(iter.IteratorId))
+
+            // ---- PHASE 2: Inventory START (forced unfiltered first page after Company) ----
+            if (string.Equals(iter.LastRequestType, "CompanyDone", StringComparison.Ordinal))
             {
-                xml = _request.BuildItemInventoryStart(_opt.PageSize, _opt.ActiveOnly, _opt.FromModifiedDateUtc);
+                const int firstPage = 1000;
+
+                // Unfiltered START: no ActiveOnly, no FromModified
+                xml = _request.BuildItemInventoryStart(
+                    pageSize: firstPage,
+                    activeOnly: false,
+                    fromModifiedIso8601Utc: null
+                );
+
                 iter.LastRequestType = "ItemInventoryQueryRq";
+                iter.IteratorId = null; // explicit START
+                _session.SetIterator(runId, iter);
+
+                _audit.LogMessageAsync(
+                    runId, "sendRequestXML", "req",
+                    companyFile: strCompanyFileName,
+                    message: $"type=ItemInventoryQueryRq(START,unfiltered); iterator=<none>; maxReturned={firstPage}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}",
+                    payloadXml: xml
+                ).GetAwaiter().GetResult();
+
+                return xml;
             }
-            else
+
+            // ---- PHASE 2 (normal START when no company step) ----
+            if (string.IsNullOrEmpty(iter.IteratorId))
             {
-                xml = _request.BuildItemInventoryContinue(iter.IteratorId!, _opt.PageSize);
+                var pageSize = _opt.PageSize > 0 ? _opt.PageSize : 500;
+
+                // _opt.FromModifiedDateUtc is a string (ISO). Use null if blank.
+                string? fromIso = string.IsNullOrWhiteSpace(_opt.FromModifiedDateUtc)
+                    ? null
+                    : _opt.FromModifiedDateUtc;
+
+                xml = _request.BuildItemInventoryStart(
+                    pageSize: pageSize,
+                    activeOnly: _opt.ActiveOnly,
+                    fromModifiedIso8601Utc: fromIso
+                );
+
                 iter.LastRequestType = "ItemInventoryQueryRq";
+                _session.SetIterator(runId, iter);
+
+                _audit.LogMessageAsync(
+                    runId, "sendRequestXML", "req",
+                    companyFile: strCompanyFileName,
+                    message: $"type=ItemInventoryQueryRq(START); iterator=<none>; maxReturned={pageSize}; activeOnly={_opt.ActiveOnly}; fromMod={fromIso ?? "<null>"}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}",
+                    payloadXml: xml
+                ).GetAwaiter().GetResult();
+
+                return xml;
             }
 
-            _session.SetIterator(runId, iter);
+            // ---- PHASE 3: Inventory CONTINUE ----
+            {
+                var pageSize = _opt.PageSize > 0 ? _opt.PageSize : 500;
 
-            // Helpful context for troubleshooting (single audit record)
-            var typeLabel = string.IsNullOrEmpty(iter.LastRequestType) ? "start" : iter.LastRequestType;
-            var iteratorLabel = string.IsNullOrEmpty(iter.IteratorId) ? "<none>" : iter.IteratorId;
+                xml = _request.BuildItemInventoryContinue(iter.IteratorId!, pageSize);
 
-            _audit.LogMessageAsync(
-                runId,
-                "sendRequestXML",
-                "req",
-                companyFile: strCompanyFileName,
-                message:
-                    $"type={typeLabel}; iterator={iteratorLabel}; pageSize={_opt.PageSize}; activeOnly={_opt.ActiveOnly}; fromMod={_opt.FromModifiedDateUtc ?? "<null>"}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}; country={qbXMLCountry}",
-                payloadXml: xml
-            ).GetAwaiter().GetResult();
+                iter.LastRequestType = "ItemInventoryQueryRq";
+                _session.SetIterator(runId, iter);
 
-            return xml;
+                _audit.LogMessageAsync(
+                    runId, "sendRequestXML", "req",
+                    companyFile: strCompanyFileName,
+                    message: $"type=ItemInventoryQueryRq(CONTINUE); iterator={iter.IteratorId}; maxReturned={pageSize}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}",
+                    payloadXml: xml
+                ).GetAwaiter().GetResult();
+
+                return xml;
+            }
         }
+
+
 
 
         public int receiveResponseXML(string ticket, string response, string hresult, string message)
@@ -164,14 +224,13 @@ namespace RaymarEquipmentInventory.Services
 
             var state = _session.GetIterator(runId);
 
-            // Parse the qbXML into DTOs + iterator info
-            var parsed = _response
-                .HandleReceiveAsync(runId, response, hresult, message)
-                .GetAwaiter()
-                .GetResult();
+            // ---- COMPANY BRANCH ----
+            // Detect CompanyQueryRs either by our own state or by the payload
+            bool isCompanyRs =
+                state.LastRequestType == "CompanyQueryRq" ||
+                (response?.IndexOf("<CompanyQueryRs", StringComparison.OrdinalIgnoreCase) >= 0);
 
-            // If this was the CompanyQueryRs, just log and continue to inventory
-            if (state.LastRequestType == "CompanyQueryRq" || (response?.Contains("<CompanyQueryRs") ?? false))
+            if (isCompanyRs)
             {
                 _audit.LogMessageAsync(
                     runId,
@@ -180,26 +239,79 @@ namespace RaymarEquipmentInventory.Services
                     message: $"companyRs: hresult={hresult ?? "<null>"}; msg={message ?? "<null>"}"
                 ).GetAwaiter().GetResult();
 
-                // Reset to let the next sendRequestXML choose ItemInventory START
-                state.LastRequestType = null;
+                // ✅ Mark company phase complete so next sendRequestXML issues START (unfiltered)
+                state.LastRequestType = "CompanyDone";
+                state.IteratorId = null;      // force a clean START on next call
+                state.Remaining = 0;
                 _session.SetIterator(runId, state);
-                return 1; // tell QBWC to continue
+
+                _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: "returning=1 after CompanyQueryRq"
+                ).GetAwaiter().GetResult();
+
+                return 1; // continue
             }
 
-            // Inventory batch: insert if we actually parsed items
-            var itemCount = parsed?.InventoryItems?.Count ?? 0;
+            // ---- INVENTORY BRANCH ----
+            // Guard: empty/whitespace response → stop gracefully
+            if (string.IsNullOrWhiteSpace(response))
+            {
+                _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: "empty response; returning=100"
+                ).GetAwaiter().GetResult();
+                return 100;
+            }
+
+            // Parse the qbXML into DTOs + iterator info (with safety)
+            dynamic? parsed = null;
+            try
+            {
+                parsed = _response
+                    .HandleReceiveAsync(runId, response, hresult, message)
+                    .GetAwaiter()
+                    .GetResult();
+            }
+            catch (Exception ex)
+            {
+                _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: $"parser exception: {ex.GetType().Name}: {ex.Message}"
+                ).GetAwaiter().GetResult();
+                return 100; // fail-safe: end this run so QBWC doesn't spin forever
+            }
+
+            // Insert batch if we actually parsed items
+            var itemCount = (int?)parsed?.InventoryItems?.Count ?? 0;
             if (itemCount > 0)
             {
-                _import.BulkInsertInventoryAsync(runId, parsed.InventoryItems).GetAwaiter().GetResult();
+                try
+                {
+                    _import.BulkInsertInventoryAsync(runId, parsed!.InventoryItems).GetAwaiter().GetResult();
+                }
+                catch (Exception ex)
+                {
+                    _audit.LogMessageAsync(
+                        runId, "receiveResponseXML", "resp",
+                        message: $"BulkInsertInventory failed: {ex.GetType().Name}: {ex.Message}"
+                    ).GetAwaiter().GetResult();
+                    // continue; iterator/state will still advance
+                }
             }
 
             // Advance iterator state
             state.IteratorId = parsed?.IteratorId;
-            state.Remaining = parsed?.IteratorRemaining ?? 0;
+            state.Remaining = (int?)parsed?.IteratorRemaining ?? 0;
             state.LastRequestType = "ItemInventoryQueryRq";
             _session.SetIterator(runId, state);
 
-            // Helpful audit crumb: how many items this batch, how many left, and any QB error text
+            // Extra audit crumbs for triage
+            _audit.LogMessageAsync(
+                runId, "receiveResponseXML", "resp",
+                message: $"parsed.iteratorId={parsed?.IteratorId ?? "<null>"}; parsed.remaining={(int?)parsed?.IteratorRemaining ?? -1}"
+            ).GetAwaiter().GetResult();
+
             _audit.LogMessageAsync(
                 runId,
                 "receiveResponseXML",
@@ -207,9 +319,17 @@ namespace RaymarEquipmentInventory.Services
                 message: $"items={itemCount}; remaining={state.Remaining}; hresult={hresult ?? "<null>"}; msg={message ?? "<null>"}"
             ).GetAwaiter().GetResult();
 
-            // 100 = continue; 0 = done
-            return state.Remaining > 0 ? 1 : 100;
+            var ret = state.Remaining > 0 ? 1 : 100; // 100 = done
+            _audit.LogMessageAsync(
+                runId,
+                "receiveResponseXML",
+                "resp",
+                message: $"returning={ret} after ItemInventoryQueryRq"
+            ).GetAwaiter().GetResult();
+
+            return ret;
         }
+
 
 
     }

@@ -28,6 +28,7 @@ using RaymarEquipmentInventory.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using RaymarEquipmentInventory.Models;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
+using SixLabors.ImageSharp.Formats;
 
 
 
@@ -866,6 +867,59 @@ namespace RaymarEquipmentInventory.Controllers
                     s.Release();
                 }
             }
+        }
+
+
+        [HttpPost("UploadReceiptsToTestPrefix")]
+        public async Task<IActionResult> UploadReceiptsToTestPrefix(
+    [FromQuery] string workOrderId,
+    [FromQuery] string batchId,
+    [FromQuery] string testPrefix, // e.g. "uploadFromApp/testFolder"
+    [FromForm] List<IFormFile> files,
+    CancellationToken ct)
+        {
+            if (string.IsNullOrWhiteSpace(workOrderId)) return BadRequest("workOrderId is required.");
+            if (string.IsNullOrWhiteSpace(batchId)) return BadRequest("batchId is required.");
+            if (string.IsNullOrWhiteSpace(testPrefix)) return BadRequest("testPrefix is required.");
+            if (files == null || files.Count == 0) return BadRequest("No files supplied.");
+
+            var connStr = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING")
+                          ?? throw new InvalidOperationException("AzureStorage:ConnectionString missing");
+            var receiptsContainer = Environment.GetEnvironmentVariable("BlobContainer_Receipts") ?? "images-receipts";
+
+            var service = new Azure.Storage.Blobs.BlobServiceClient(connStr);
+            var container = service.GetBlobContainerClient(receiptsContainer);
+            await container.CreateIfNotExistsAsync(cancellationToken: ct);
+
+            // Normalize the prefix: "uploadFromApp/testFolder/WO/BATCH/<file>"
+            var basePrefix = $"{testPrefix.Trim().Trim('/')}/{workOrderId}/{batchId}";
+
+            var uploaded = new List<object>();
+            foreach (var file in files)
+            {
+                ct.ThrowIfCancellationRequested();
+
+                var name = Path.GetFileName(file.FileName);
+                // Put your test files directly at the batch level.
+                // If you want to mimic app’s extra GUID subfolder, append it here.
+                var blobPath = $"{basePrefix}/{name}";
+
+                var blob = container.GetBlobClient(blobPath);
+                await using var s = file.OpenReadStream();
+                await blob.UploadAsync(s, overwrite: true, cancellationToken: ct);
+
+                uploaded.Add(new { container = receiptsContainer, blobPath });
+            }
+
+            return Ok(new
+            {
+                message = "Uploaded to test prefix.",
+                workOrderId,
+                batchId,
+                testPrefix = basePrefix,
+                uploadedCount = uploaded.Count,
+                uploaded
+            });
         }
 
 
