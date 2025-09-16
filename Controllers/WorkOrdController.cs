@@ -1904,7 +1904,7 @@ namespace RaymarEquipmentInventory.Controllers
                     Parts = await _workOrderService.GetPartsUsed(sheetId),
                     Fees = await _workOrderService.GetFees(sheetId),
                     MileageAndTime = await _workOrderService.GetMileage(sheetId),
-
+                    PDFsViewedForSheet = await _workOrderService.GetPdfViewedForSheetAsync(sheetId),
                     // NEW: feed the device per-TechWO visibility (empty list = default visible client-side)
                     FeeVisibility = await _workOrderService.GetFeeVisibility(sheetId) ?? new List<FeeVisibilityDto>()
                 };

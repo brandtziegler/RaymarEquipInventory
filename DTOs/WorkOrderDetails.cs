@@ -13,5 +13,6 @@
         public List<TravelLog> MileageAndTime { get; set; } = new List<TravelLog>();
         // Add more as needed: signatures, PDFs, etc.
         public List<FeeVisibilityDto> FeeVisibility { get; set; } = new();
+        public List<PdfViewedForSheet> PDFsViewedForSheet { get; set; } = new();
     }
 }
