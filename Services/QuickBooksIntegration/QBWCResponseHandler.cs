@@ -1,18 +1,16 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Data;                    // for SqlDbType
-using System.Threading;
-using System.Threading.Tasks;
+using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Models;
-
-using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Concurrent;
-using RaymarEquipmentInventory.DTOs;
+using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Linq;
-
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -47,46 +45,82 @@ namespace RaymarEquipmentInventory.Services
 
             // 2) Parse
             var result = new ReceiveParseResult();
-
             var doc = XDocument.Parse(responseXml);
 
             // ItemInventoryQueryRs node carries iterator attrs and status
             var rs = doc.Descendants("ItemInventoryQueryRs").FirstOrDefault();
-            if (rs != null)
-            {
-                var iterRemainAttr = (string?)rs.Attribute("iteratorRemainingCount");
-                var iterIdAttr = (string?)rs.Attribute("iteratorID");
-                var statusCodeAttr = (string?)rs.Attribute("statusCode");
-                var statusMsgAttr = (string?)rs.Attribute("statusMessage");
+            if (rs == null) return result;
 
-                if (int.TryParse(iterRemainAttr, out var remain)) result.IteratorRemaining = remain;
-                result.IteratorId = iterIdAttr;
-                if (int.TryParse(statusCodeAttr, out var sc)) result.StatusCode = sc;
-                result.StatusMessage = statusMsgAttr;
+            var iterRemainAttr = (string?)rs.Attribute("iteratorRemainingCount");
+            var iterIdAttr = (string?)rs.Attribute("iteratorID");
+            var statusCodeAttr = (string?)rs.Attribute("statusCode");
+            var statusMsgAttr = (string?)rs.Attribute("statusMessage");
 
-                var items =
-                    from it in rs.Elements("ItemInventoryRet")
-                    select new InventoryItemDto
-                    {
-                        ListID = (string?)it.Element("ListID"),
-                        FullName = (string?)it.Element("FullName"),
-                        EditSequence = (string?)it.Element("EditSequence"),
-                        QuantityOnHand = TryDec((string?)it.Element("QuantityOnHand")),
-                        SalesPrice = TryDec((string?)it.Element("SalesPrice")),
-                        PurchaseCost = TryDec((string?)it.Element("PurchaseCost")),
-                        TimeModified = TryDate((string?)it.Element("TimeModified"))
-                    };
+            if (int.TryParse(iterRemainAttr, out var remain)) result.IteratorRemaining = remain;
+            result.IteratorId = iterIdAttr;
+            if (int.TryParse(statusCodeAttr, out var sc)) result.StatusCode = sc;
+            result.StatusMessage = statusMsgAttr;
 
-                result.InventoryItems.AddRange(items);
-            }
+            // 3) Items
+            var items =
+                from it in rs.Elements("ItemInventoryRet")
+                let sop = it.Element("SalesOrPurchase")
+                let sap = it.Element("SalesAndPurchase")
+                select new InventoryItemDto
+                {
+                    ListID = (string?)it.Element("ListID"),
+                    Name = (string?)it.Element("Name") ?? (string?)it.Element("FullName"),
+                    FullName = (string?)it.Element("FullName"),
+                    EditSequence = (string?)it.Element("EditSequence"),
+
+                    QuantityOnHand = TryDec((string?)it.Element("QuantityOnHand")),
+
+                    // price/cost can be at top level or under aggregates
+                    SalesPrice = TryDec((string?)it.Element("SalesPrice")
+                                           ?? (string?)sop?.Element("Price")),
+                    PurchaseCost = TryDec((string?)it.Element("PurchaseCost")
+                                           ?? (string?)sap?.Element("PurchaseCost")),
+
+                    // descriptions may be nested
+                    SalesDesc = (string?)it.Element("SalesDesc")
+                                    ?? (string?)sop?.Element("SalesDesc")
+                                    ?? (string?)sap?.Element("SalesDesc"),
+                    PurchaseDesc = (string?)it.Element("PurchaseDesc")
+                                    ?? (string?)sap?.Element("PurchaseDesc"),
+
+                    ManufacturerPartNum = (string?)it.Element("ManufacturerPartNumber"),
+
+                    TimeModified = TryDate((string?)it.Element("TimeModified"))
+                };
+
+            // materialize once, add, and (optional) quick audit
+            var list = items.ToList();
+            result.InventoryItems.AddRange(list);
+
+            await _audit.LogMessageAsync(
+                runId, "receiveResponseXML", "resp",
+                message:
+                    $"items={list.Count}; " +
+                    $"withName={list.Count(i => !string.IsNullOrEmpty(i.Name))}; " +
+                    $"withSalesDesc={list.Count(i => !string.IsNullOrEmpty(i.SalesDesc))}; " +
+                    $"withPurchaseDesc={list.Count(i => !string.IsNullOrEmpty(i.PurchaseDesc))}; " +
+                    $"withMPN={list.Count(i => !string.IsNullOrEmpty(i.ManufacturerPartNum))}",
+                ct: ct);
 
             return result;
         }
 
-        private static decimal? TryDec(string? s)
-            => decimal.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out var d) ? d : null;
+        private static decimal? TryDec(string? s) =>
+            decimal.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out var d) ? d : (decimal?)null;
 
+        // Normalize to UTC; handles offsets if present
         private static DateTime? TryDate(string? s)
-            => DateTime.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out var d) ? d : null;
+        {
+            if (string.IsNullOrWhiteSpace(s)) return null;
+            return DateTimeOffset.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var dto)
+                ? dto.UtcDateTime
+                : (DateTime?)null;
+        }
     }
 }
+
