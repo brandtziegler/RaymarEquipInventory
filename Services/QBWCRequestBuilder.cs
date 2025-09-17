@@ -9,8 +9,18 @@ namespace RaymarEquipmentInventory.Services
         private readonly QbwcRequestOptions _opt;
 
         private static readonly string[] DefaultInclude = new[]
-        {
-            "ListID","FullName","EditSequence","QuantityOnHand","SalesPrice","PurchaseCost"
+         {
+                "ListID",
+                "Name",                 // add
+                "FullName",
+                "EditSequence",
+                "QuantityOnHand",
+                "SalesPrice",
+                "PurchaseCost",
+                "SalesDesc",            // add
+                "PurchaseDesc",         // add
+                "ManufacturerPartNumber", // add
+                "TimeModified"
         };
 
         public QbwcRequestBuilder(IOptions<QbwcRequestOptions> opt)

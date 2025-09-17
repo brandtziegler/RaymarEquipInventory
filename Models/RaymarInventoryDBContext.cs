@@ -941,9 +941,14 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("ListID");
+            entity.Property(e => e.ManufacturerPartNum).HasMaxLength(100);
+            entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.PurchaseCost).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.PurchaseDesc).HasMaxLength(4000);
             entity.Property(e => e.QuantityOnHand).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.SalesDesc).HasMaxLength(4000);
             entity.Property(e => e.SalesPrice).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.TimeModified).HasPrecision(3);
         });
 
         modelBuilder.Entity<Labour>(entity =>

@@ -24,4 +24,14 @@ public partial class InventoryStaging
     public decimal? PurchaseCost { get; set; }
 
     public DateTime CreatedAtUtc { get; set; }
+
+    public string Name { get; set; }
+
+    public string SalesDesc { get; set; }
+
+    public string PurchaseDesc { get; set; }
+
+    public string ManufacturerPartNum { get; set; }
+
+    public DateTime? TimeModified { get; set; }
 }
