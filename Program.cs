@@ -270,6 +270,7 @@ builder.Services.AddScoped<IQBWCRequestBuilder, QbwcRequestBuilder>();
 builder.Services.AddScoped<IQBWCResponseHandler, QbwcResponseHandler>();
 builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionService>();
 builder.Services.AddScoped<IInventoryImportService, InventoryImportService>();
+builder.Services.AddScoped<ICustomerImportService, CustomerImportService>();
 builder.Services.AddScoped<IQBWebConnectorSvc, QbwcSoapService>();
 
 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "");

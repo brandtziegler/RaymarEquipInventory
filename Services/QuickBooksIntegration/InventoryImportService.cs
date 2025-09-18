@@ -36,7 +36,7 @@ namespace RaymarEquipmentInventory.Services
             }
 
             var table = BuildTable(runId, list);
-          
+            
             var conn = (SqlConnection)_context.Database.GetDbConnection();
             if (conn.State != ConnectionState.Open)
                 await conn.OpenAsync(ct);

@@ -8,21 +8,6 @@ namespace RaymarEquipmentInventory.Services
     {
         private readonly QbwcRequestOptions _opt;
 
-        private static readonly string[] DefaultInclude = new[]
-         {
-                "ListID",
-                "Name",                 // add
-                "FullName",
-                "EditSequence",
-                "QuantityOnHand",
-                "SalesPrice",
-                "PurchaseCost",
-                "SalesDesc",            // add
-                "PurchaseDesc",         // add
-                "ManufacturerPartNumber", // add
-                "TimeModified"
-        };
-
         public QbwcRequestBuilder(IOptions<QbwcRequestOptions> opt)
         {
             _opt = opt.Value ?? new QbwcRequestOptions();
@@ -32,6 +17,47 @@ namespace RaymarEquipmentInventory.Services
         private const string QbXmlHeader = @"<?xml version=""1.0"" ?>
 <?qbxml version=""16.0""?>";
 
+        // ---------- Include sets ----------
+        private static readonly string[] ItemInclude = new[]
+        {
+            "ListID",
+            "Name",
+            "FullName",
+            "EditSequence",
+            "QuantityOnHand",
+            "SalesPrice",
+            "PurchaseCost",
+            "SalesDesc",
+            "PurchaseDesc",
+            "ManufacturerPartNumber",
+            "TimeModified"
+        };
+
+        // CustomerRet aggregate fields cover subfields used for CustomerBackup mapping
+        private static readonly string[] CustomerInclude = new[]
+        {
+            "ListID",
+            "Name",
+            "FullName",
+            "ParentRef",            // ParentRef.ListID / ParentRef.FullName
+            "Sublevel",
+            "CompanyName",
+            "FirstName",
+            "LastName",
+            "AccountNumber",
+            "Phone",
+            "Email",
+            "Notes",
+            "BillAddress",          // Addr1..City..PostalCode..Country
+            "JobInfo",              // JobStatus, JobStartDate, JobProjectedEnd, JobDesc, JobTypeRef
+            "IsActive",
+            "TimeModified"
+        };
+
+        private static string IncludeBlock(string[]? include) =>
+            string.Join("\n      ", (include ?? Array.Empty<string>()).Select(x => $"<IncludeRetElement>{x}</IncludeRetElement>"));
+
+        // ---------- Company ----------
         public string BuildCompanyQuery() =>
 $@"{QbXmlHeader}
 <QBXML>
@@ -40,6 +66,7 @@ $@"{QbXmlHeader}
   </QBXMLMsgsRq>
 </QBXML>";
 
+        // ---------- Inventory (ItemInventory) ----------
         public string BuildItemInventoryStart(
             int pageSize,
             bool activeOnly,
@@ -48,11 +75,9 @@ $@"{QbXmlHeader}
         {
             var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
             var from = !string.IsNullOrWhiteSpace(fromModifiedIso8601Utc)
-                         ? $"<FromModifiedDate>{fromModifiedIso8601Utc}</FromModifiedDate>"
-                         : "";
-            var include = string.Join("\n      ",
-                (includeRetElements ?? DefaultInclude)
-                .Select(x => $"<IncludeRetElement>{x}</IncludeRetElement>"));
+                       ? $"<FromModifiedDate>{fromModifiedIso8601Utc}</FromModifiedDate>"
+                       : "";
+            var include = IncludeBlock(includeRetElements ?? ItemInclude);
 
             return
 $@"{QbXmlHeader}
@@ -73,9 +98,7 @@ $@"{QbXmlHeader}
             int pageSize,
             string[]? includeRetElements = null)
         {
-            var include = string.Join("\n      ",
-                (includeRetElements ?? DefaultInclude)
-                .Select(x => $"<IncludeRetElement>{x}</IncludeRetElement>"));
+            var include = IncludeBlock(includeRetElements ?? ItemInclude);
 
             return
 $@"{QbXmlHeader}
@@ -88,7 +111,51 @@ $@"{QbXmlHeader}
   </QBXMLMsgsRq>
 </QBXML>";
         }
+
+        // ---------- Customers / Jobs (CustomerRet) ----------
+        public string BuildCustomerStart(
+            int pageSize,
+            bool activeOnly,
+            string? fromModifiedIso8601Utc,
+            string[]? includeRetElements = null)
+        {
+            var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
+            var from = !string.IsNullOrWhiteSpace(fromModifiedIso8601Utc)
+                       ? $"<FromModifiedDate>{fromModifiedIso8601Utc}</FromModifiedDate>"
+                       : "";
+            var include = IncludeBlock(includeRetElements ?? CustomerInclude);
+
+            return
+$@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <CustomerQueryRq requestID=""cust-1"" iterator=""Start"">
+      {active}
+      {from}
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </CustomerQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
+
+        public string BuildCustomerContinue(
+            string iteratorId,
+            int pageSize,
+            string[]? includeRetElements = null)
+        {
+            var include = IncludeBlock(includeRetElements ?? CustomerInclude);
+
+            return
+$@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <CustomerQueryRq requestID=""cust-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </CustomerQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
     }
 }
-
-

@@ -13,26 +13,32 @@ namespace RaymarEquipmentInventory.Services
         private readonly IQBWCSessionStore _session;
         private readonly IQBWCRequestBuilder _request;
         private readonly IQBWCResponseHandler _response;
-        private readonly IInventoryImportService _import;
+        private readonly IInventoryImportService _importInv;
+        private readonly ICustomerImportService _customerImport;    // <-- added in your code
         private readonly QbwcRequestOptions _opt;
         private readonly IBackgroundJobClient _jobs;
+
+        // ======= Feature flag: set TRUE to enable Customer sync after Inventory =======
+        private const bool ENABLE_CUSTOMER_SYNC = false; // <-- flip to true when ready
 
         public QbwcSoapService(
             IAuditLogger audit,
             IQBWCSessionStore session,
             IQBWCRequestBuilder request,
             IQBWCResponseHandler response,
-            IInventoryImportService import, 
+            IInventoryImportService importInv,
             IOptions<QbwcRequestOptions> opt,
-            IBackgroundJobClient jobs)
+            IBackgroundJobClient jobs,
+            ICustomerImportService customerImport)  // <-- already present in your code
         {
             _audit = audit;
             _session = session;
             _request = request;
             _response = response;
-            _import = import;
+            _importInv = importInv;
             _opt = opt.Value ?? new QbwcRequestOptions();
             _jobs = jobs;
+            _customerImport = customerImport;
         }
 
         // ---- SOAP ops ----
@@ -122,6 +128,54 @@ namespace RaymarEquipmentInventory.Services
 
             var iter = _session.GetIterator(runId);
             string xml;
+
+            // ---- OPTIONAL: Customers flow (guarded; won't run unless ENABLE_CUSTOMER_SYNC) ----
+            if (ENABLE_CUSTOMER_SYNC)
+            {
+                // START customers if we scheduled it after finishing Inventory
+                if (string.Equals(iter.LastRequestType, "CustomerStartPending", StringComparison.Ordinal))
+                {
+                    var pageSizeCust = _opt.PageSize > 0 ? _opt.PageSize : 500;
+                    string? fromIsoCust = string.IsNullOrWhiteSpace(_opt.FromModifiedDateUtc) ? null : _opt.FromModifiedDateUtc;
+
+                    xml = _request.BuildCustomerStart(
+                        pageSize: pageSizeCust,
+                        activeOnly: _opt.ActiveOnly,
+                        fromModifiedIso8601Utc: fromIsoCust);
+
+                    iter.LastRequestType = "CustomerQueryRq";
+                    iter.IteratorId = null; // explicit START
+                    _session.SetIterator(runId, iter);
+
+                    _audit.LogMessageAsync(
+                        runId, "sendRequestXML", "req",
+                        companyFile: strCompanyFileName,
+                        message: $"type=CustomerQueryRq(START); iterator=<none>; maxReturned={pageSizeCust}; activeOnly={_opt.ActiveOnly}; fromMod={fromIsoCust ?? "<null>"}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}",
+                        payloadXml: xml
+                    ).GetAwaiter().GetResult();
+
+                    return xml;
+                }
+
+                // CONTINUE customers if we're mid-iteration
+                if (string.Equals(iter.LastRequestType, "CustomerQueryRq", StringComparison.Ordinal) &&
+                    !string.IsNullOrEmpty(iter.IteratorId))
+                {
+                    var pageSizeCust = _opt.PageSize > 0 ? _opt.PageSize : 500;
+                    xml = _request.BuildCustomerContinue(iter.IteratorId!, pageSizeCust);
+
+                    _session.SetIterator(runId, iter);
+
+                    _audit.LogMessageAsync(
+                        runId, "sendRequestXML", "req",
+                        companyFile: strCompanyFileName,
+                        message: $"type=CustomerQueryRq(CONTINUE); iterator={iter.IteratorId}; maxReturned={pageSizeCust}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}",
+                        payloadXml: xml
+                    ).GetAwaiter().GetResult();
+
+                    return xml;
+                }
+            }
 
             // ---- PHASE 1: Company (optional, once) ----
             if (_opt.RequestCompanyQueryFirst &&
@@ -257,7 +311,7 @@ namespace RaymarEquipmentInventory.Services
                 return 1; // continue
             }
 
-            // ---- INVENTORY BRANCH ----
+            // ---- INVENTORY + CUSTOMERS (parsed by handler) ----
             // Guard: empty/whitespace response → stop gracefully
             if (string.IsNullOrWhiteSpace(response))
             {
@@ -286,13 +340,13 @@ namespace RaymarEquipmentInventory.Services
                 return 100; // fail-safe: end this run so QBWC doesn't spin forever
             }
 
-            // Insert batch if we actually parsed items
+            // ======================= INVENTORY BRANCH (existing) =======================
             var itemCount = (int?)parsed?.InventoryItems?.Count ?? 0;
             if (itemCount > 0)
             {
                 try
                 {
-                    _import.BulkInsertInventoryAsync(runId, parsed!.InventoryItems).GetAwaiter().GetResult();
+                    _importInv.BulkInsertInventoryAsync(runId, parsed!.InventoryItems).GetAwaiter().GetResult();
                     // Kick off backup promotion as a background job -- TURN BACK ON FOR LIVE TEST.NOW FOR THIS.
                     //var jobId = _jobs.Enqueue<IInventoryImportService>(
                     //    svc => svc.SyncInventoryDataAsync(runId, default)
@@ -309,39 +363,104 @@ namespace RaymarEquipmentInventory.Services
                     ).GetAwaiter().GetResult();
                     // continue; iterator/state will still advance
                 }
+
+                // Advance iterator state (inventory)
+                state.IteratorId = parsed?.IteratorId;
+                state.Remaining = (int?)parsed?.IteratorRemaining ?? 0;
+                state.LastRequestType = "ItemInventoryQueryRq";
+                _session.SetIterator(runId, state);
+
+                // Extra audit crumbs for triage
+                _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: $"parsed.iteratorId={parsed?.IteratorId ?? "<null>"}; parsed.remaining={(int?)parsed?.IteratorRemaining ?? -1}"
+                ).GetAwaiter().GetResult();
+
+                _audit.LogMessageAsync(
+                    runId,
+                    "receiveResponseXML",
+                    "resp",
+                    message: $"items={itemCount}; remaining={state.Remaining}; hresult={hresult ?? "<null>"}; msg={message ?? "<null>"}"
+                ).GetAwaiter().GetResult();
+
+                var ret = state.Remaining > 0 ? 1 : 100; // 100 = done (for inventory phase)
+
+                // If inventory is done and customer sync is enabled, chain into Customer phase
+                if (ENABLE_CUSTOMER_SYNC && state.Remaining <= 0)
+                {
+                    state.LastRequestType = "CustomerStartPending";
+                    state.IteratorId = null;
+                    state.Remaining = 0;
+                    _session.SetIterator(runId, state);
+
+                    _audit.LogMessageAsync(
+                        runId, "receiveResponseXML", "resp",
+                        message: "Inventory complete; scheduling CustomerQuery START (returning=1)"
+                    ).GetAwaiter().GetResult();
+
+                    return 1; // continue so sendRequestXML issues Customer START
+                }
+
+                _audit.LogMessageAsync(
+                    runId,
+                    "receiveResponseXML",
+                    "resp",
+                    message: $"returning={ret} after ItemInventoryQueryRq"
+                ).GetAwaiter().GetResult();
+
+                return ret;
             }
 
-            // Advance iterator state
-            state.IteratorId = parsed?.IteratorId;
-            state.Remaining = (int?)parsed?.IteratorRemaining ?? 0;
-            state.LastRequestType = "ItemInventoryQueryRq";
-            _session.SetIterator(runId, state);
+            // ======================= CUSTOMERS BRANCH (new; non-intrusive) =======================
+            var custCount = (int?)parsed?.Customers?.Count ?? 0;
+            if (custCount > 0)
+            {
+                try
+                {
+                    _customerImport.BulkInsertCustomersAsync(runId, parsed!.Customers).GetAwaiter().GetResult();
 
-            // Extra audit crumbs for triage
+                    // Optional promotion step into CustomerBackup hierarchy/etc. — keep OFF for now.
+                    //var jobId = _jobs.Enqueue<ICustomerImportService>(
+                    //    svc => svc.SyncCustomerBackupAsync(runId, default)
+                    //);
+                    //_audit.LogMessageAsync(runId, "hangfire", "enqueue",
+                    //    message: $"CustomerBackup sync job {jobId} enqueued").GetAwaiter().GetResult();
+                }
+                catch (Exception ex)
+                {
+                    _audit.LogMessageAsync(
+                        runId, "receiveResponseXML", "resp",
+                        message: $"BulkInsertCustomers failed: {ex.GetType().Name}: {ex.Message}"
+                    ).GetAwaiter().GetResult();
+                    // continue regardless
+                }
+
+                // Advance iterator state (customers)
+                state.IteratorId = parsed?.IteratorId;
+                state.Remaining = (int?)parsed?.IteratorRemaining ?? 0;
+                state.LastRequestType = "CustomerQueryRq";
+                _session.SetIterator(runId, state);
+
+                _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: $"customers={custCount}; remaining={state.Remaining}; iteratorId={parsed?.IteratorId ?? "<null>"}"
+                ).GetAwaiter().GetResult();
+
+                var ret = state.Remaining > 0 ? 1 : 100; // finish session when customers done
+                _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: $"returning={ret} after CustomerQueryRq"
+                ).GetAwaiter().GetResult();
+
+                return ret;
+            }
+
+            // If neither inventory nor customers were parsed, end gracefully.
             _audit.LogMessageAsync(
                 runId, "receiveResponseXML", "resp",
-                message: $"parsed.iteratorId={parsed?.IteratorId ?? "<null>"}; parsed.remaining={(int?)parsed?.IteratorRemaining ?? -1}"
+                message: "no recognized payload (neither ItemInventoryQueryRs nor CustomerQueryRs); returning=100"
             ).GetAwaiter().GetResult();
-
-            _audit.LogMessageAsync(
-                runId,
-                "receiveResponseXML",
-                "resp",
-                message: $"items={itemCount}; remaining={state.Remaining}; hresult={hresult ?? "<null>"}; msg={message ?? "<null>"}"
-            ).GetAwaiter().GetResult();
-
-            var ret = state.Remaining > 0 ? 1 : 100; // 100 = done
-            _audit.LogMessageAsync(
-                runId,
-                "receiveResponseXML",
-                "resp",
-                message: $"returning={ret} after ItemInventoryQueryRq"
-            ).GetAwaiter().GetResult();
-
-            return ret;
+            return 100;
         }
-
-
-
     }
 }

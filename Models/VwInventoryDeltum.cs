@@ -17,17 +17,17 @@ public partial class VwInventoryDeltum
 
     public string StagingDesc { get; set; }
 
-    public decimal? DataCost { get; set; }
-
     public decimal? StagingCost { get; set; }
-
-    public decimal? DataSalesPrice { get; set; }
 
     public decimal? StagingSalesPrice { get; set; }
 
-    public int? DataOnHand { get; set; }
+    public decimal? DataCost { get; set; }
+
+    public decimal? DataSalesPrice { get; set; }
 
     public int? StagingOnHand { get; set; }
+
+    public int? DataOnHand { get; set; }
 
     public DateTime? TimeModified { get; set; }
 

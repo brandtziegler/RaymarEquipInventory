@@ -47,10 +47,145 @@ namespace RaymarEquipmentInventory.Services
             var result = new ReceiveParseResult();
             var doc = XDocument.Parse(responseXml);
 
-            // ItemInventoryQueryRs node carries iterator attrs and status
-            var rs = doc.Descendants("ItemInventoryQueryRs").FirstOrDefault();
-            if (rs == null) return result;
+            // ---------- INVENTORY BRANCH (unchanged behavior) ----------
+            var invRs = doc.Descendants("ItemInventoryQueryRs").FirstOrDefault();
+            if (invRs != null)
+            {
+                PopulateIterator(invRs, result);
 
+                var items =
+                    from it in invRs.Elements("ItemInventoryRet")
+                    let sop = it.Element("SalesOrPurchase")
+                    let sap = it.Element("SalesAndPurchase")
+                    select new InventoryItemDto
+                    {
+                        ListID = (string?)it.Element("ListID"),
+                        Name = (string?)it.Element("Name") ?? (string?)it.Element("FullName"),
+                        FullName = (string?)it.Element("FullName"),
+                        EditSequence = (string?)it.Element("EditSequence"),
+
+                        QuantityOnHand = TryDec((string?)it.Element("QuantityOnHand")),
+
+                        // price/cost can be at top level or under aggregates
+                        SalesPrice = TryDec((string?)it.Element("SalesPrice")
+                                               ?? (string?)sop?.Element("Price")),
+                        PurchaseCost = TryDec((string?)it.Element("PurchaseCost")
+                                               ?? (string?)sap?.Element("PurchaseCost")),
+
+                        // descriptions may be nested
+                        SalesDesc = (string?)it.Element("SalesDesc")
+                                        ?? (string?)sop?.Element("SalesDesc")
+                                        ?? (string?)sap?.Element("SalesDesc"),
+                        PurchaseDesc = (string?)it.Element("PurchaseDesc")
+                                        ?? (string?)sap?.Element("PurchaseDesc"),
+
+                        ManufacturerPartNum = (string?)it.Element("ManufacturerPartNumber"),
+
+                        TimeModified = TryDate((string?)it.Element("TimeModified"))
+                    };
+
+                var list = items.ToList();
+                result.InventoryItems.AddRange(list);
+
+                await _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message:
+                        $"items={list.Count}; " +
+                        $"withName={list.Count(i => !string.IsNullOrEmpty(i.Name))}; " +
+                        $"withSalesDesc={list.Count(i => !string.IsNullOrEmpty(i.SalesDesc))}; " +
+                        $"withPurchaseDesc={list.Count(i => !string.IsNullOrEmpty(i.PurchaseDesc))}; " +
+                        $"withMPN={list.Count(i => !string.IsNullOrEmpty(i.ManufacturerPartNum))}",
+                    ct: ct);
+
+                return result;
+            }
+
+            // ---------- CUSTOMERS/JOBS BRANCH ----------
+            var custRs = doc.Descendants("CustomerQueryRs").FirstOrDefault();
+            if (custRs != null)
+            {
+                PopulateIterator(custRs, result);
+
+                var customers =
+                    from c in custRs.Elements("CustomerRet")
+                    let parent = c.Element("ParentRef")
+                    let bill = c.Element("BillAddress")
+                    let job = c.Element("JobInfo")
+                    let jobTypeRef = job?.Element("JobTypeRef")
+                    select new CustomerData
+                    {
+                        // IDs & hierarchy (ParentCustomerID resolved later)
+                        CustomerID = 0,
+                        ID = (string?)c.Element("ListID") ?? "",
+                        ParentID = (string?)parent?.Element("ListID") ?? "",
+                        Name = (string?)c.Element("Name") ?? "",
+                        ParentName = (string?)parent?.Element("FullName") ?? "",
+                        SubLevelId = TryInt((string?)c.Element("Sublevel")) ?? 0,
+
+                        // Company/person
+                        Company = (string?)c.Element("CompanyName") ?? "",
+                        FullName = (string?)c.Element("FullName") ?? "",
+                        FirstName = (string?)c.Element("FirstName") ?? "",
+                        LastName = (string?)c.Element("LastName") ?? "",
+                        AccountNumber = (string?)c.Element("AccountNumber") ?? "",
+
+                        // Contact
+                        Phone = (string?)c.Element("Phone") ?? (string?)c.Element("Phone1") ?? "",
+                        Email = (string?)c.Element("Email") ?? "",
+                        Notes = (string?)c.Element("Notes") ?? "",
+
+                        // Address
+                        FullAddress = BuildAddress(bill) ?? "",
+
+                        // Job info
+                        JobStatus = (string?)job?.Element("JobStatus") ?? "",
+                        JobStartDate = (string?)job?.Element("JobStartDate") ?? "",
+                        JobProjectedEndDate = (string?)job?.Element("JobProjectedEndDate") ?? "",
+                        JobDescription = (string?)job?.Element("JobDesc") ?? "",
+                        JobType = (string?)jobTypeRef?.Element("FullName") ?? "",
+                        JobTypeId = (string?)jobTypeRef?.Element("ListID") ?? "",
+
+                        // Misc/derived
+                        Description = (string?)c.Element("Notes") ?? "",
+                        IsActive = TryBool((string?)c.Element("IsActive")) ?? false,
+                        EffectiveActive = false,             // recomputed later
+                        MaterializedPath = "",
+                        PathIds = "",
+                        Depth = 0,
+                        RootId = 0,
+
+                        // Concurrency/meta
+                        EditSequence = (string?)c.Element("EditSequence") ?? "",
+                        QbLastUpdated = TryDate((string?)c.Element("TimeModified")),
+                        LastUpdated = DateTime.UtcNow,
+                        UpdateType = "A",
+                        ChangeVersion = "",                  // DB will set when persisted
+                        ParentCustomerID = 0,                // resolve after insert
+                        UnitNumber = ""                      // (optional) parse from Name if you choose
+                    };
+
+                var list = customers.ToList();
+                result.Customers.AddRange(list);
+
+                await _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message:
+                        $"customers.items={list.Count}; " +
+                        $"withParents={list.Count(x => !string.IsNullOrEmpty(x.ParentID))}; " +
+                        $"sublevels>0={list.Count(x => x.SubLevelId > 0)}; " +
+                        $"active={list.Count(x => x.IsActive)}",
+                    ct: ct);
+
+                return result;
+            }
+
+            // Neither branch matched
+            return result;
+        }
+
+        // ------------- helpers -------------
+        private static void PopulateIterator(XElement rs, ReceiveParseResult result)
+        {
             var iterRemainAttr = (string?)rs.Attribute("iteratorRemainingCount");
             var iterIdAttr = (string?)rs.Attribute("iteratorID");
             var statusCodeAttr = (string?)rs.Attribute("statusCode");
@@ -60,54 +195,52 @@ namespace RaymarEquipmentInventory.Services
             result.IteratorId = iterIdAttr;
             if (int.TryParse(statusCodeAttr, out var sc)) result.StatusCode = sc;
             result.StatusMessage = statusMsgAttr;
+        }
 
-            // 3) Items
-            var items =
-                from it in rs.Elements("ItemInventoryRet")
-                let sop = it.Element("SalesOrPurchase")
-                let sap = it.Element("SalesAndPurchase")
-                select new InventoryItemDto
-                {
-                    ListID = (string?)it.Element("ListID"),
-                    Name = (string?)it.Element("Name") ?? (string?)it.Element("FullName"),
-                    FullName = (string?)it.Element("FullName"),
-                    EditSequence = (string?)it.Element("EditSequence"),
+        private static string? BuildAddress(XElement? bill)
+        {
+            if (bill == null) return null;
 
-                    QuantityOnHand = TryDec((string?)it.Element("QuantityOnHand")),
+            var parts = new[]
+            {
+                (string?)bill.Element("Addr1"),
+                (string?)bill.Element("Addr2"),
+                (string?)bill.Element("Addr3"),
+                (string?)bill.Element("Addr4"),
+                (string?)bill.Element("Addr5"),
+                JoinCityStatePostal(
+                    (string?)bill.Element("City"),
+                    (string?)bill.Element("State"),
+                    (string?)bill.Element("PostalCode")),
+                (string?)bill.Element("Country")
+            }
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Select(s => s!.Trim());
 
-                    // price/cost can be at top level or under aggregates
-                    SalesPrice = TryDec((string?)it.Element("SalesPrice")
-                                           ?? (string?)sop?.Element("Price")),
-                    PurchaseCost = TryDec((string?)it.Element("PurchaseCost")
-                                           ?? (string?)sap?.Element("PurchaseCost")),
+            var line = string.Join(", ", parts);
+            return string.IsNullOrWhiteSpace(line) ? null : line;
+        }
 
-                    // descriptions may be nested
-                    SalesDesc = (string?)it.Element("SalesDesc")
-                                    ?? (string?)sop?.Element("SalesDesc")
-                                    ?? (string?)sap?.Element("SalesDesc"),
-                    PurchaseDesc = (string?)it.Element("PurchaseDesc")
-                                    ?? (string?)sap?.Element("PurchaseDesc"),
+        private static string? JoinCityStatePostal(string? city, string? state, string? postal)
+        {
+            var left = string.Join(", ",
+                new[] { city, state }
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Select(s => s!.Trim()));
 
-                    ManufacturerPartNum = (string?)it.Element("ManufacturerPartNumber"),
+            if (string.IsNullOrWhiteSpace(postal)) return string.IsNullOrWhiteSpace(left) ? null : left;
+            return string.IsNullOrWhiteSpace(left) ? postal?.Trim() : $"{left} {postal!.Trim()}";
+        }
 
-                    TimeModified = TryDate((string?)it.Element("TimeModified"))
-                };
+        private static int? TryInt(string? s) =>
+            int.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out var v) ? v : (int?)null;
 
-            // materialize once, add, and (optional) quick audit
-            var list = items.ToList();
-            result.InventoryItems.AddRange(list);
-
-            await _audit.LogMessageAsync(
-                runId, "receiveResponseXML", "resp",
-                message:
-                    $"items={list.Count}; " +
-                    $"withName={list.Count(i => !string.IsNullOrEmpty(i.Name))}; " +
-                    $"withSalesDesc={list.Count(i => !string.IsNullOrEmpty(i.SalesDesc))}; " +
-                    $"withPurchaseDesc={list.Count(i => !string.IsNullOrEmpty(i.PurchaseDesc))}; " +
-                    $"withMPN={list.Count(i => !string.IsNullOrEmpty(i.ManufacturerPartNum))}",
-                ct: ct);
-
-            return result;
+        private static bool? TryBool(string? s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return null;
+            return s.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                   s.Equals("y", StringComparison.OrdinalIgnoreCase) ||
+                   s.Equals("1", StringComparison.OrdinalIgnoreCase);
         }
 
         private static decimal? TryDec(string? s) =>
@@ -123,4 +256,3 @@ namespace RaymarEquipmentInventory.Services
         }
     }
 }
-

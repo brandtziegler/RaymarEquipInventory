@@ -21,6 +21,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<Customer> Customers { get; set; }
 
+    public virtual DbSet<CustomerBackup> CustomerBackups { get; set; }
+
     public virtual DbSet<CustomerTombstone> CustomerTombstones { get; set; }
 
     public virtual DbSet<DiAllowedKeyword> DiAllowedKeywords { get; set; }
@@ -354,6 +356,55 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasPrincipalKey(p => p.Id)
                 .HasForeignKey(d => d.ParentId)
                 .HasConstraintName("FK_ParentCustomer");
+        });
+
+        modelBuilder.Entity<CustomerBackup>(entity =>
+        {
+            entity.HasKey(e => e.CustomerId);
+
+            entity.ToTable("CustomerBackup");
+
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+            entity.Property(e => e.AccountNumber).HasMaxLength(50);
+            entity.Property(e => e.ChangeVersion)
+                .IsRequired()
+                .IsRowVersion()
+                .IsConcurrencyToken();
+            entity.Property(e => e.Company).HasMaxLength(255);
+            entity.Property(e => e.CustomerName)
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.Email).HasMaxLength(255);
+            entity.Property(e => e.FirstName).HasMaxLength(100);
+            entity.Property(e => e.FullAddress).IsUnicode(false);
+            entity.Property(e => e.FullName).HasMaxLength(255);
+            entity.Property(e => e.Id)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("ID");
+            entity.Property(e => e.JobProjectedEndDate).HasColumnType("date");
+            entity.Property(e => e.JobStartDate).HasColumnType("date");
+            entity.Property(e => e.JobStatus).HasMaxLength(100);
+            entity.Property(e => e.JobType).HasMaxLength(100);
+            entity.Property(e => e.JobTypeId).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(100);
+            entity.Property(e => e.MaterializedPath).HasMaxLength(1024);
+            entity.Property(e => e.ParentCustomerId).HasColumnName("ParentCustomerID");
+            entity.Property(e => e.ParentId)
+                .HasMaxLength(50)
+                .HasColumnName("ParentID");
+            entity.Property(e => e.ParentName).HasMaxLength(255);
+            entity.Property(e => e.PathIds).HasMaxLength(512);
+            entity.Property(e => e.Phone).HasMaxLength(50);
+            entity.Property(e => e.QblastUpdated)
+                .HasPrecision(3)
+                .HasColumnName("QBlastUpdated");
+            entity.Property(e => e.ServerUpdatedAt).HasPrecision(3);
+            entity.Property(e => e.UpdateType)
+                .IsRequired()
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
         });
 
         modelBuilder.Entity<CustomerTombstone>(entity =>
@@ -829,6 +880,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
             entity.ToTable("InventoryDataBackup");
 
+            entity.HasIndex(e => e.QuickBooksInvId, "IX_Backup_QB");
+
             entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
             entity.Property(e => e.AverageCost).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
@@ -969,6 +1022,8 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasIndex(e => new { e.ListId, e.EditSequence }, "IX_InventoryStaging_List_EditSeq");
 
             entity.HasIndex(e => e.RunId, "IX_InventoryStaging_RunId");
+
+            entity.HasIndex(e => new { e.ListId, e.TimeModified, e.CreatedAtUtc }, "IX_Staging_ListID_Mod").IsDescending(false, true, true);
 
             entity.Property(e => e.CreatedAtUtc)
                 .HasPrecision(3)
@@ -1770,17 +1825,13 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasNoKey()
                 .ToView("vw_InventoryDelta");
 
-            entity.Property(e => e.CreatedAtUtc).HasPrecision(3);
             entity.Property(e => e.DataCost)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("Data_Cost");
             entity.Property(e => e.DataDesc)
                 .HasMaxLength(255)
-                .IsUnicode(false)
                 .HasColumnName("Data_Desc");
-            entity.Property(e => e.DataMpn)
-                .IsUnicode(false)
-                .HasColumnName("Data_MPN");
+            entity.Property(e => e.DataMpn).HasColumnName("Data_MPN");
             entity.Property(e => e.DataOnHand).HasColumnName("Data_OnHand");
             entity.Property(e => e.DataSalesPrice)
                 .HasColumnType("decimal(10, 2)")

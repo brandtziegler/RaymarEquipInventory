@@ -25,7 +25,8 @@
         public string JobTypeId { get; set; } = "";
       
         public string Description { get; set; } = "";
-
+        public string EditSequence { get; set; } = "";   // QuickBooks concurrency token
+        public int ParentCustomerID { get; set; } = 0;   // local FK after ParentID resolved
 
         public bool IsActive { get; set; }
         public bool EffectiveActive { get; set; }

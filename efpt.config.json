@@ -32,6 +32,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[CustomerBackup]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[CustomerTombstone]",
          "ObjectType": 0
       },
