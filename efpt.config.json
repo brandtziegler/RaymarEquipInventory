@@ -108,6 +108,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[InventoryDataBackup]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[InventoryDataNew]",
          "ObjectType": 0
       },
@@ -289,6 +293,22 @@
       },
       {
          "Name": "[dbo].[vw_Billing_WorkOrderFees]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_InventoryComparison]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_InventoryDelta]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_InventoryDifferences]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_InventoryNew]",
          "ObjectType": 3
       },
       {

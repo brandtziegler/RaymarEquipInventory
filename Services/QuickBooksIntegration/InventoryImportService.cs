@@ -21,6 +21,7 @@ namespace RaymarEquipmentInventory.Services
             _audit = audit;
         }
 
+       
         public async Task<int> BulkInsertInventoryAsync(
             Guid runId,
             IEnumerable<InventoryItemDto> items,
@@ -35,7 +36,7 @@ namespace RaymarEquipmentInventory.Services
             }
 
             var table = BuildTable(runId, list);
-
+          
             var conn = (SqlConnection)_context.Database.GetDbConnection();
             if (conn.State != ConnectionState.Open)
                 await conn.OpenAsync(ct);
@@ -71,6 +72,103 @@ namespace RaymarEquipmentInventory.Services
 
             return table.Rows.Count;
         }
+
+
+        /// <summary>
+        /// Promote deltas from vw_InventoryDelta into InventoryDataBackup (idempotent).
+        /// - NEW      -> INSERT (IsActive=1, LastTrans='I')
+        /// - CHANGED  -> UPDATE (IsActive=1, LastTrans='U')
+        /// - DELETED  -> soft delete (IsActive=0, LastTrans='D')
+        /// </summary>
+        public async Task<InventoryBackupSyncResult> SyncInventoryDataAsync(
+            Guid runId,
+            CancellationToken ct = default)
+        {
+            var conn = (SqlConnection)_context.Database.GetDbConnection();
+            if (conn.State != ConnectionState.Open)
+                await conn.OpenAsync(ct);
+
+            using var tx = await _context.Database.BeginTransactionAsync(ct);
+
+            // 1) UPDATE changed
+            var sqlUpdateChanged = @"
+UPDATE b
+SET  b.ManufacturerPartNumber = LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(v.Staging_MPN,CHAR(160),' '),CHAR(9),' '),CHAR(13),' '))),
+     b.[Description] = LEFT(CONCAT(
+        COALESCE(LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(v.Staging_MPN,CHAR(160),' '),CHAR(9),' '),CHAR(13),' '))), ''),
+        CASE WHEN NULLIF(LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(v.Staging_MPN,CHAR(160),' '),CHAR(9),' '),CHAR(13),' '))), '') IS NOT NULL
+              AND NULLIF(LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(v.Staging_Desc,CHAR(160),' '),CHAR(9),' '),CHAR(13),' '))), '') IS NOT NULL
+             THEN '-' ELSE '' END,
+        COALESCE(LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(v.Staging_Desc,CHAR(160),' '),CHAR(9),' '),CHAR(13),' '))), '')
+     ),255),
+     b.Cost = v.Staging_Cost,
+     b.SalesPrice = v.Staging_SalesPrice,
+     b.OnHand = v.Staging_OnHand,
+     b.IsActive = 1,
+     b.LastUpdated = SYSUTCDATETIME(),
+     b.LastTrans = 'U'
+FROM dbo.InventoryData b
+JOIN dbo.vw_InventoryDelta v
+  ON TRIM(v.ListID)=TRIM(b.QuickBooksInvID)
+WHERE v.Status='CHANGED';
+";
+            var updated = await _context.Database.ExecuteSqlRawAsync(sqlUpdateChanged);
+
+            // 2) INSERT new (normalized exactly like UPDATE)
+            var sqlInsertNew = @"
+INSERT dbo.InventoryData (
+  ItemName, ManufacturerPartNumber, [Description],
+  Cost, SalesPrice, ReorderPoint, OnHand, AverageCost, IncomeAccountID,
+  QuickBooksInvID, LastRestockedDate, IsActive, LastUpdated, LastTrans
+)
+SELECT
+  NULL,
+  LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(v.Staging_MPN,CHAR(160),' '),CHAR(9),' '),CHAR(13),' '))),
+  LEFT(CONCAT(
+      COALESCE(LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(v.Staging_MPN,CHAR(160),' '),CHAR(9),' '),CHAR(13),' '))), ''),
+      CASE WHEN NULLIF(LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(v.Staging_MPN,CHAR(160),' '),CHAR(9),' '),CHAR(13),' '))), '') IS NOT NULL
+            AND NULLIF(LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(v.Staging_Desc,CHAR(160),' '),CHAR(9),' '),CHAR(13),' '))), '') IS NOT NULL
+           THEN '-' ELSE '' END,
+      COALESCE(LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(v.Staging_Desc,CHAR(160),' '),CHAR(9),' '),CHAR(13),' '))), '')
+  ),255),
+  v.Staging_Cost, v.Staging_SalesPrice, NULL, v.Staging_OnHand,
+  NULL, NULL, v.ListID, NULL, 1, SYSUTCDATETIME(), 'I'
+FROM dbo.vw_InventoryDelta v
+LEFT JOIN dbo.InventoryData b
+  ON TRIM(b.QuickBooksInvID)=TRIM(v.ListID)
+WHERE v.Status='NEW' AND b.InventoryID IS NULL;
+";
+            var inserted = await _context.Database.ExecuteSqlRawAsync(sqlInsertNew);
+
+            // 3) Soft-delete those marked DELETED (protect special item)
+            var sqlSoftDelete = @"
+UPDATE b
+SET  b.IsActive    = 0,
+     b.LastUpdated = SYSUTCDATETIME(),
+     b.LastTrans   = 'D'
+FROM dbo.InventoryData b
+JOIN dbo.vw_InventoryDelta v
+  ON TRIM(v.ListID) = TRIM(b.QuickBooksInvID)
+WHERE v.Status = 'DELETED'
+  AND b.IsActive = 1
+  AND ISNULL(b.ManufacturerPartNumber,'') <> '__TRAVEL_RECEIPT__';
+";
+            var deactivated = await _context.Database.ExecuteSqlRawAsync(sqlSoftDelete);
+
+            await tx.CommitAsync(ct);
+
+            await _audit.LogMessageAsync(
+                runId, "InventoryData", "promote",
+                message: $"Inserted={inserted}, Updated={updated}, Deactivated={deactivated}", ct: ct);
+
+            return new InventoryBackupSyncResult
+            {
+                Inserted = inserted,
+                Updated = updated,
+                Deactivated = deactivated
+            };
+        }
+
 
         private static DataTable BuildTable(Guid runId, List<InventoryItemDto> items)
         {

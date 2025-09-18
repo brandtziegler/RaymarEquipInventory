@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Serilog;
+using Hangfire;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -14,14 +15,16 @@ namespace RaymarEquipmentInventory.Services
         private readonly IQBWCResponseHandler _response;
         private readonly IInventoryImportService _import;
         private readonly QbwcRequestOptions _opt;
+        private readonly IBackgroundJobClient _jobs;
 
         public QbwcSoapService(
             IAuditLogger audit,
             IQBWCSessionStore session,
             IQBWCRequestBuilder request,
             IQBWCResponseHandler response,
-            IInventoryImportService import,
-            IOptions<QbwcRequestOptions> opt)
+            IInventoryImportService import, 
+            IOptions<QbwcRequestOptions> opt,
+            IBackgroundJobClient jobs)
         {
             _audit = audit;
             _session = session;
@@ -29,6 +32,7 @@ namespace RaymarEquipmentInventory.Services
             _response = response;
             _import = import;
             _opt = opt.Value ?? new QbwcRequestOptions();
+            _jobs = jobs;
         }
 
         // ---- SOAP ops ----
@@ -289,6 +293,13 @@ namespace RaymarEquipmentInventory.Services
                 try
                 {
                     _import.BulkInsertInventoryAsync(runId, parsed!.InventoryItems).GetAwaiter().GetResult();
+                    // Kick off backup promotion as a background job -- TURN BACK ON FOR LIVE TEST.
+                    //var jobId = _jobs.Enqueue<IInventoryImportService>(
+                    //    svc => svc.SyncInventoryDataAsync(runId, default)
+                    //);
+
+                    //_audit.LogMessageAsync(runId, "hangfire", "enqueue",
+                    //    message: $"BackupSync job {jobId} enqueued").GetAwaiter().GetResult();
                 }
                 catch (Exception ex)
                 {

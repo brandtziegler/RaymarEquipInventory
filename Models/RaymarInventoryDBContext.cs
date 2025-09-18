@@ -57,6 +57,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<InventoryDataArchive> InventoryDataArchives { get; set; }
 
+    public virtual DbSet<InventoryDataBackup> InventoryDataBackups { get; set; }
+
     public virtual DbSet<InventoryDataNew> InventoryDataNews { get; set; }
 
     public virtual DbSet<InventoryDatum> InventoryData { get; set; }
@@ -130,6 +132,14 @@ public partial class RaymarInventoryDBContext : DbContext
     public virtual DbSet<VwBillingRegularLabourSummed> VwBillingRegularLabourSummeds { get; set; }
 
     public virtual DbSet<VwBillingWorkOrderFee> VwBillingWorkOrderFees { get; set; }
+
+    public virtual DbSet<VwInventoryComparison> VwInventoryComparisons { get; set; }
+
+    public virtual DbSet<VwInventoryDeltum> VwInventoryDelta { get; set; }
+
+    public virtual DbSet<VwInventoryDifference> VwInventoryDifferences { get; set; }
+
+    public virtual DbSet<VwInventoryNew> VwInventoryNews { get; set; }
 
     public virtual DbSet<VwInvoicePreview> VwInvoicePreviews { get; set; }
 
@@ -806,6 +816,36 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.ManufacturerPartNumber)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.QuickBooksInvId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("QuickBooksInvID");
+            entity.Property(e => e.SalesPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<InventoryDataBackup>(entity =>
+        {
+            entity.HasKey(e => e.InventoryId);
+
+            entity.ToTable("InventoryDataBackup");
+
+            entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
+            entity.Property(e => e.AverageCost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.IncomeAccountId).HasColumnName("IncomeAccountID");
+            entity.Property(e => e.ItemName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.LastRestockedDate).HasColumnType("datetime");
+            entity.Property(e => e.LastTrans)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.LastUpdated).HasPrecision(3);
+            entity.Property(e => e.ManufacturerPartNumber).IsUnicode(false);
             entity.Property(e => e.QuickBooksInvId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -1680,6 +1720,164 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(21, 2)");
             entity.Property(e => e.TotalQty).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<VwInventoryComparison>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_InventoryComparison");
+
+            entity.Property(e => e.CreatedAtUtc).HasPrecision(3);
+            entity.Property(e => e.DataCost)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Data_Cost");
+            entity.Property(e => e.DataManufacturerPartNumber)
+                .IsUnicode(false)
+                .HasColumnName("Data_ManufacturerPartNumber");
+            entity.Property(e => e.DataMpnDesc)
+                .IsRequired()
+                .IsUnicode(false)
+                .HasColumnName("Data_MPN_Desc");
+            entity.Property(e => e.DataOnHand).HasColumnName("Data_OnHand");
+            entity.Property(e => e.DataSalesPrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Data_SalesPrice");
+            entity.Property(e => e.ListId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("ListID");
+            entity.Property(e => e.StagingManufacturerPartNum)
+                .HasMaxLength(100)
+                .HasColumnName("Staging_ManufacturerPartNum");
+            entity.Property(e => e.StagingMpnPurchaseDesc)
+                .IsRequired()
+                .HasMaxLength(4000)
+                .HasColumnName("Staging_MPN_PurchaseDesc");
+            entity.Property(e => e.StagingOnHand).HasColumnName("Staging_OnHand");
+            entity.Property(e => e.StagingPurchaseCost)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Staging_PurchaseCost");
+            entity.Property(e => e.StagingSalesPrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Staging_SalesPrice");
+            entity.Property(e => e.TimeModified).HasPrecision(3);
+        });
+
+        modelBuilder.Entity<VwInventoryDeltum>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_InventoryDelta");
+
+            entity.Property(e => e.CreatedAtUtc).HasPrecision(3);
+            entity.Property(e => e.DataCost)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Data_Cost");
+            entity.Property(e => e.DataDesc)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("Data_Desc");
+            entity.Property(e => e.DataMpn)
+                .IsUnicode(false)
+                .HasColumnName("Data_MPN");
+            entity.Property(e => e.DataOnHand).HasColumnName("Data_OnHand");
+            entity.Property(e => e.DataSalesPrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Data_SalesPrice");
+            entity.Property(e => e.DiffCost).HasColumnName("Diff_Cost");
+            entity.Property(e => e.DiffDesc).HasColumnName("Diff_Desc");
+            entity.Property(e => e.DiffMpn).HasColumnName("Diff_MPN");
+            entity.Property(e => e.DiffOnHand).HasColumnName("Diff_OnHand");
+            entity.Property(e => e.DiffSalesPrice).HasColumnName("Diff_SalesPrice");
+            entity.Property(e => e.ListId)
+                .HasMaxLength(50)
+                .HasColumnName("ListID");
+            entity.Property(e => e.StagingCost)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Staging_Cost");
+            entity.Property(e => e.StagingDesc)
+                .HasMaxLength(4000)
+                .HasColumnName("Staging_Desc");
+            entity.Property(e => e.StagingMpn)
+                .HasMaxLength(100)
+                .HasColumnName("Staging_MPN");
+            entity.Property(e => e.StagingOnHand).HasColumnName("Staging_OnHand");
+            entity.Property(e => e.StagingSalesPrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Staging_SalesPrice");
+            entity.Property(e => e.Status)
+                .IsRequired()
+                .HasMaxLength(9)
+                .IsUnicode(false);
+            entity.Property(e => e.TimeModified).HasPrecision(3);
+        });
+
+        modelBuilder.Entity<VwInventoryDifference>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_InventoryDifferences");
+
+            entity.Property(e => e.CreatedAtUtc).HasPrecision(3);
+            entity.Property(e => e.DataCost)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Data_Cost");
+            entity.Property(e => e.DataMpn)
+                .IsUnicode(false)
+                .HasColumnName("Data_MPN");
+            entity.Property(e => e.DataMpnDesc)
+                .IsRequired()
+                .IsUnicode(false)
+                .HasColumnName("Data_MPN_Desc");
+            entity.Property(e => e.DataOnHand).HasColumnName("Data_OnHand");
+            entity.Property(e => e.DataSalesPrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Data_SalesPrice");
+            entity.Property(e => e.DiffCost).HasColumnName("Diff_Cost");
+            entity.Property(e => e.DiffDesc).HasColumnName("Diff_Desc");
+            entity.Property(e => e.DiffMpn).HasColumnName("Diff_MPN");
+            entity.Property(e => e.DiffOnHand).HasColumnName("Diff_OnHand");
+            entity.Property(e => e.DiffSalesPrice).HasColumnName("Diff_SalesPrice");
+            entity.Property(e => e.ListId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("ListID");
+            entity.Property(e => e.StagingMpn)
+                .HasMaxLength(100)
+                .HasColumnName("Staging_MPN");
+            entity.Property(e => e.StagingMpnPurchaseDesc)
+                .IsRequired()
+                .HasMaxLength(4000)
+                .HasColumnName("Staging_MPN_PurchaseDesc");
+            entity.Property(e => e.StagingOnHand).HasColumnName("Staging_OnHand");
+            entity.Property(e => e.StagingPurchaseCost)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Staging_PurchaseCost");
+            entity.Property(e => e.StagingSalesPrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Staging_SalesPrice");
+            entity.Property(e => e.TimeModified).HasPrecision(3);
+        });
+
+        modelBuilder.Entity<VwInventoryNew>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_InventoryNew");
+
+            entity.Property(e => e.CreatedAtUtc).HasPrecision(3);
+            entity.Property(e => e.ListId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("ListID");
+            entity.Property(e => e.ManufacturerPartNum).HasMaxLength(100);
+            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.PurchaseCost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.PurchaseDesc).HasMaxLength(4000);
+            entity.Property(e => e.SalesDesc).HasMaxLength(4000);
+            entity.Property(e => e.SalesPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.TimeModified).HasPrecision(3);
         });
 
         modelBuilder.Entity<VwInvoicePreview>(entity =>

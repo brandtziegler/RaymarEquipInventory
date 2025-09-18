@@ -16,5 +16,9 @@ namespace RaymarEquipmentInventory.Services
             Guid runId,
             IEnumerable<InventoryItemDto> items,
             CancellationToken ct = default);
+
+        Task<InventoryBackupSyncResult> SyncInventoryDataAsync(
+            Guid runId,
+            CancellationToken ct = default);
     }
 }

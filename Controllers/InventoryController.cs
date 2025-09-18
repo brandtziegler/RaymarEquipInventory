@@ -11,11 +11,13 @@ namespace RaymarEquipmentInventory.Controllers
         private readonly IInventoryService _inventoryService;
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly IDocumentService _documentService;
-        public InventoryController(IInventoryService inventoryService, IDocumentService documentService, IQuickBooksConnectionService quickBooksConnectionService)
+        private readonly IInventoryImportService _inventoryImportService;   
+        public InventoryController(IInventoryService inventoryService, IDocumentService documentService, IQuickBooksConnectionService quickBooksConnectionService, IInventoryImportService inventoryImportService)
         {
             _inventoryService = inventoryService;
             _documentService = documentService;
-            _quickBooksConnectionService = quickBooksConnectionService; 
+            _quickBooksConnectionService = quickBooksConnectionService;
+            _inventoryImportService = inventoryImportService;
         }
 
         // Dummy endpoint for getting a product by ID
@@ -68,6 +70,15 @@ namespace RaymarEquipmentInventory.Controllers
             // Return success message after processing
             return Ok("Inventory data processed successfully.");
         }
+
+        [HttpPost("SyncInventoryDataBackup")]
+        public async Task<IActionResult> SyncInventoryDataBackup([FromQuery] Guid? runId)
+        {
+            var id = runId ?? Guid.NewGuid();
+            var res = await _inventoryImportService.SyncInventoryDataAsync(id, HttpContext.RequestAborted);
+            return Ok(new { runId = id, res.Inserted, res.Updated, res.Deactivated });
+        }
+
 
         [HttpGet("GrabInventoryAndUpdate")]
         public async Task<IActionResult> GrabInventoryAndUpdate()
