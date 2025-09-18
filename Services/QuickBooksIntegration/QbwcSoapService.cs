@@ -293,7 +293,7 @@ namespace RaymarEquipmentInventory.Services
                 try
                 {
                     _import.BulkInsertInventoryAsync(runId, parsed!.InventoryItems).GetAwaiter().GetResult();
-                    // Kick off backup promotion as a background job -- TURN BACK ON FOR LIVE TEST.
+                    // Kick off backup promotion as a background job -- TURN BACK ON FOR LIVE TEST.NOW FOR THIS.
                     //var jobId = _jobs.Enqueue<IInventoryImportService>(
                     //    svc => svc.SyncInventoryDataAsync(runId, default)
                     //);
