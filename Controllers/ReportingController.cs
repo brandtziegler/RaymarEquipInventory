@@ -11,14 +11,17 @@ namespace RaymarEquipmentInventory.Controllers
     public class ReportingController : Controller
     {
         private readonly IReportingService _reportingService;
+        private readonly IInvoiceSnapshotService _invoiceSnapshotService;
         private readonly IBackgroundJobClient _jobs;
 
         public ReportingController(
-            IReportingService reportingService,
-            IBackgroundJobClient jobs)
+            IReportingService reportingService, 
+            IBackgroundJobClient jobs,
+            IInvoiceSnapshotService invoiceSnapshotService)
         {
             _reportingService = reportingService;
             _jobs = jobs;
+            _invoiceSnapshotService = invoiceSnapshotService;   
         }
 
 
@@ -190,6 +193,54 @@ namespace RaymarEquipmentInventory.Controllers
             {
                 Log.Error(ex, "❌ SendInvoiceXlsx enqueue failed for SheetID {SheetId} (summed={Summed})", sheetId, summed);
                 return StatusCode(500, $"Failed to enqueue invoice email for SheetID {sheetId}.");
+            }
+        }
+
+
+        /// <summary>
+        /// Build (or rebuild) an invoice snapshot for a work order (SheetID).
+        /// Returns 201 on success and includes a link to /status.
+        /// </summary>
+        [HttpPost("invoices/{sheetId:int}/build")]
+        public async Task<IActionResult> BuildInvoice(int sheetId, [FromQuery] bool summed = true, CancellationToken ct = default)
+        {
+            try
+            {
+                var result = await _invoiceSnapshotService.BuildInvoiceSnapshotAsync(sheetId, summed, ct);
+
+                if (string.Equals(result.Status, "Error", StringComparison.OrdinalIgnoreCase))
+                    return UnprocessableEntity(new { message = result.ErrorMessage ?? "Validation failed." });
+
+                return CreatedAtAction(nameof(GetInvoiceStatus), new { sheetId }, new
+                {
+                    result.InvoiceId,
+                    result.RefNumber,
+                    result.Status
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "❌ BuildInvoiceSnapshot failed for SheetID {SheetId} (summed={Summed})", sheetId, summed);
+                return StatusCode(500, $"Failed to build invoice snapshot for SheetID {sheetId}.");
+            }
+        }
+
+        /// <summary>
+        /// Get snapshot/export status for a work order (SheetID).
+        /// </summary>
+        [HttpGet("invoices/{sheetId:int}/status")]
+        public async Task<IActionResult> GetInvoiceStatus(int sheetId, CancellationToken ct = default)
+        {
+            try
+            {
+                var (status, error, qbTxnId, lastAttemptAt) = await _invoiceSnapshotService.GetStatusAsync(sheetId, ct);
+                if (status == "NotFound") return NotFound(new { message = error });
+                return Ok(new { status, error, qbTxnId, lastAttemptAt });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "❌ GetInvoiceStatus failed for SheetID {SheetId}", sheetId);
+                return StatusCode(500, $"Failed to get invoice status for SheetID {sheetId}.");
             }
         }
 

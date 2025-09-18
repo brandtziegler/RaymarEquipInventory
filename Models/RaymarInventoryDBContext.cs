@@ -69,6 +69,10 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<InventoryStaging> InventoryStagings { get; set; }
 
+    public virtual DbSet<Invoice> Invoices { get; set; }
+
+    public virtual DbSet<InvoiceLine> InvoiceLines { get; set; }
+
     public virtual DbSet<Labour> Labours { get; set; }
 
     public virtual DbSet<LabourType> LabourTypes { get; set; }
@@ -144,6 +148,8 @@ public partial class RaymarInventoryDBContext : DbContext
     public virtual DbSet<VwInventoryNew> VwInventoryNews { get; set; }
 
     public virtual DbSet<VwInvoicePreview> VwInvoicePreviews { get; set; }
+
+    public virtual DbSet<VwInvoicePreviewExport> VwInvoicePreviewExports { get; set; }
 
     public virtual DbSet<VwInvoicePreviewSummed> VwInvoicePreviewSummeds { get; set; }
 
@@ -1044,6 +1050,95 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.SalesDesc).HasMaxLength(4000);
             entity.Property(e => e.SalesPrice).HasColumnType("decimal(18, 4)");
             entity.Property(e => e.TimeModified).HasPrecision(3);
+        });
+
+        modelBuilder.Entity<Invoice>(entity =>
+        {
+            entity.HasKey(e => e.InvoiceId).HasName("PK__Invoice__D796AAD5CF7DB5A9");
+
+            entity.ToTable("Invoice");
+
+            entity.HasIndex(e => e.RefNumber, "UX_Invoice_RefNumber").IsUnique();
+
+            entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
+            entity.Property(e => e.ChangeVersion)
+                .IsRequired()
+                .IsRowVersion()
+                .IsConcurrencyToken();
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.Currency).HasMaxLength(3);
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+            entity.Property(e => e.CustomerListId)
+                .HasMaxLength(50)
+                .HasColumnName("CustomerListID");
+            entity.Property(e => e.DueDate).HasColumnType("date");
+            entity.Property(e => e.ErrorMessage).HasMaxLength(4000);
+            entity.Property(e => e.ExportedAt).HasPrecision(3);
+            entity.Property(e => e.LastExportAttemptAt).HasPrecision(3);
+            entity.Property(e => e.Memo).HasMaxLength(255);
+            entity.Property(e => e.Ponumber)
+                .HasMaxLength(50)
+                .HasColumnName("PONumber");
+            entity.Property(e => e.QbEditSequence).HasMaxLength(50);
+            entity.Property(e => e.QbTxnId)
+                .HasMaxLength(50)
+                .HasColumnName("QbTxnID");
+            entity.Property(e => e.RefNumber)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.SourceHash).HasMaxLength(32);
+            entity.Property(e => e.Status)
+                .IsRequired()
+                .HasMaxLength(16)
+                .HasDefaultValueSql("('Ready')");
+            entity.Property(e => e.Subtotal).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TaxAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TermsRef).HasMaxLength(50);
+            entity.Property(e => e.Total).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TxnDate).HasColumnType("date");
+            entity.Property(e => e.UpdatedAt)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.WorkOrderId).HasColumnName("WorkOrderID");
+        });
+
+        modelBuilder.Entity<InvoiceLine>(entity =>
+        {
+            entity.ToTable("InvoiceLine");
+
+            entity.HasIndex(e => e.InvoiceId, "IX_InvoiceLine_InvoiceID");
+
+            entity.HasIndex(e => new { e.InvoiceId, e.LineNumber }, "UX_InvoiceLine_Invoice_LineNumber").IsUnique();
+
+            entity.Property(e => e.InvoiceLineId).HasColumnName("InvoiceLineID");
+            entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.ClassRef).HasMaxLength(50);
+            entity.Property(e => e.Description).HasMaxLength(4000);
+            entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
+            entity.Property(e => e.IsTaxable)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.ItemListId)
+                .HasMaxLength(50)
+                .HasColumnName("ItemListID");
+            entity.Property(e => e.ItemNameSnapshot).HasMaxLength(255);
+            entity.Property(e => e.Qty).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.Rate).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.ServiceDate).HasColumnType("date");
+            entity.Property(e => e.SourceId).HasMaxLength(64);
+            entity.Property(e => e.SourceType)
+                .IsRequired()
+                .HasMaxLength(16);
+            entity.Property(e => e.TaxCodeRef).HasMaxLength(20);
+            entity.Property(e => e.Uom)
+                .HasMaxLength(20)
+                .HasColumnName("UOM");
+
+            entity.HasOne(d => d.Invoice).WithMany(p => p.InvoiceLines)
+                .HasForeignKey(d => d.InvoiceId)
+                .HasConstraintName("FK_InvoiceLine_Invoice");
         });
 
         modelBuilder.Entity<Labour>(entity =>
@@ -1947,6 +2042,33 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
             entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(38, 6)");
+            entity.Property(e => e.TotalQty).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<VwInvoicePreviewExport>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_InvoicePreviewExport");
+
+            entity.Property(e => e.Category)
+                .IsRequired()
+                .HasMaxLength(16)
+                .IsUnicode(false);
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+            entity.Property(e => e.CustomerListId)
+                .HasMaxLength(50)
+                .HasColumnName("CustomerListID");
+            entity.Property(e => e.ItemName).HasMaxLength(255);
+            entity.Property(e => e.QuickBooksInvId)
+                .HasMaxLength(50)
+                .HasColumnName("QuickBooksInvID");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.SourceInventoryId).HasColumnName("SourceInventoryID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TechnicianName).HasMaxLength(100);
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.TotalQty).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
         });

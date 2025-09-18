@@ -128,6 +128,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Invoice]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[InvoiceLine]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Labour]",
          "ObjectType": 0
       },
@@ -317,6 +325,10 @@
       },
       {
          "Name": "[dbo].[vw_InvoicePreview]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_InvoicePreviewExport]",
          "ObjectType": 3
       },
       {

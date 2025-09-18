@@ -88,7 +88,7 @@ namespace RaymarEquipmentInventory.Services
             {
                 if (summed)
                 {
-                 
+                
                     return await _context.VwInvoicePreviewSummeds
                         .Where(v => v.SheetId == sheetId)
                         .Select(v => new InvoiceCSVRow
