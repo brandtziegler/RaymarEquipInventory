@@ -36,7 +36,8 @@ namespace RaymarEquipmentInventory.Services
                     CanDownloadFromCloud = v.CanDownloadFromCloud,
                     CanUploadToCloud = v.CanUploadToCloud,
                     CanApprove = v.CanApprove,
-                    CanAssignTech = v.CanAssignTech
+                    CanAssignTech = v.CanAssignTech,
+                    CanExportInvoice = v.CanExportInvoice
                 })
                 .FirstOrDefaultAsync();
 

@@ -17,5 +17,7 @@ public partial class RolePermission
 
     public bool CanAssignTech { get; set; }
 
+    public bool CanExportInvoice { get; set; }
+
     public virtual Role Role { get; set; }
 }

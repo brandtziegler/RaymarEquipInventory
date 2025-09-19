@@ -20,4 +20,6 @@ public partial class VwRolesMin
     public bool CanApprove { get; set; }
 
     public bool CanAssignTech { get; set; }
+
+    public bool CanExportInvoice { get; set; }
 }

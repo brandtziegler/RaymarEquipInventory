@@ -7,14 +7,6 @@ namespace RaymarEquipmentInventory.Models;
 
 public partial class VwRole
 {
-    public int TechnicianId { get; set; }
-
-    public int PersonId { get; set; }
-
-    public string FirstName { get; set; }
-
-    public string LastName { get; set; }
-
     public int RoleId { get; set; }
 
     public string RoleName { get; set; }
@@ -26,4 +18,6 @@ public partial class VwRole
     public bool CanApprove { get; set; }
 
     public bool CanAssignTech { get; set; }
+
+    public bool CanExportInvoice { get; set; }
 }

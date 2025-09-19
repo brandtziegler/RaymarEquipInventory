@@ -2125,19 +2125,11 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasNoKey()
                 .ToView("vwRoles");
 
-            entity.Property(e => e.FirstName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.LastName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.PersonId).HasColumnName("PersonID");
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.RoleName)
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
         });
 
         modelBuilder.Entity<VwRolesMin>(entity =>

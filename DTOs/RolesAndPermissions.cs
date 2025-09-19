@@ -9,5 +9,7 @@
         public bool CanUploadToCloud { get; set; }
         public bool CanApprove { get; set; }
         public bool CanAssignTech { get; set; }
+
+        public bool CanExportInvoice { get; set; }
     }
 }
