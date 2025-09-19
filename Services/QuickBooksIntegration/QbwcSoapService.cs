@@ -19,7 +19,7 @@ namespace RaymarEquipmentInventory.Services
         private readonly IBackgroundJobClient _jobs;
 
         // ======= Feature flag: set TRUE to enable Customer sync after Inventory =======
-        private const bool ENABLE_CUSTOMER_SYNC = false; // <-- flip to true when ready
+        private const bool ENABLE_CUSTOMER_SYNC = true; // <-- flip to true when ready
 
         public QbwcSoapService(
             IAuditLogger audit,
