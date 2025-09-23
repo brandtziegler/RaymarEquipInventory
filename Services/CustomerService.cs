@@ -415,7 +415,7 @@ namespace RaymarEquipmentInventory.Services
                     RootId = c.RootId ?? 0,
 
                     ServerUpdatedAt = c.ServerUpdatedAt,
-                    QBLastUpdated = c.QbLastUpdated,
+                    QBLastUpdated = c.QblastUpdated,
                     ChangeVersion = RowVer.ToHex(c.ChangeVersion)  // safe client-side conversion
                 })
                 .ToList();

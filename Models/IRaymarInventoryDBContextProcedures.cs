@@ -12,9 +12,21 @@ namespace RaymarEquipmentInventory.Models
 {
     public partial interface IRaymarInventoryDBContextProcedures
     {
+        Task<List<Customer_ProcessHierarchyWorkResult>> Customer_ProcessHierarchyWorkAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<int> Customer_RebuildPaths_AllAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<Customer_RebuildPaths_AllBckResult>> Customer_RebuildPaths_AllBckAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<Customer_RebuildPaths_SubtreeResult>> Customer_RebuildPaths_SubtreeAsync(int? StartCustomerID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<Customer_RebuildPaths_SubtreeBckResult>> Customer_RebuildPaths_SubtreeBckAsync(int? StartCustomerID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<int> Customer_RecomputeEffectiveActive_AllAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<Customer_RecomputeEffectiveActive_SubtreeResult>> Customer_RecomputeEffectiveActive_SubtreeAsync(int? StartCustomerID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<int> Customer_SoftDeleteAsync(int? CustomerID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<Customers_ChangesSinceTimeResult>> Customers_ChangesSinceTimeAsync(DateTime? SinceTime, int? PageSize, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<Customers_ChangesSinceVersionResult>> Customers_ChangesSinceVersionAsync(byte[] SinceVersion, int? PageSize, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<int> Qbwc_EndSessionAsync(Guid? RunId, string LastError, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<int> Qbwc_LogMessageAsync(Guid? RunId, string Method, string Direction, int? StatusCode, string HResult, string Message, string CompanyFile, string PayloadXml, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<int> Qbwc_StartSessionAsync(Guid? RunId, string QbwcUser, string CompanyFile, string Ticket, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<SearchCustomersResult>> SearchCustomersAsync(string q, int? Top, bool? OrderByRank, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<int> SyncCustomerFromBackupAsync(bool? FullRefresh, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<usp_DI_PromoteCandidateKeywordsResult>> usp_DI_PromoteCandidateKeywordsAsync(int? MinSeenCount, decimal? MinConfidence, bool? RequireApproval, bool? DryRun, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
     }
 }

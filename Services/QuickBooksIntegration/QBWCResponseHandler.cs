@@ -100,6 +100,44 @@ namespace RaymarEquipmentInventory.Services
                 return result;
             }
 
+            // ---------- SERVICE ITEMS (ItemServiceQueryRs) ----------
+            var svcRs = doc.Descendants("ItemServiceQueryRs").FirstOrDefault();
+            if (svcRs != null)
+            {
+                PopulateIterator(svcRs, result);
+
+                var items =
+                    from it in svcRs.Elements("ItemServiceRet")
+                    let sop = it.Element("SalesOrPurchase")
+                    let sap = it.Element("SalesAndPurchase")
+                    select new CatalogItemDto
+                    {
+                        ListID = (string?)it.Element("ListID"),
+                        Name = (string?)it.Element("Name") ?? (string?)it.Element("FullName"),
+                        FullName = (string?)it.Element("FullName"),
+                        EditSequence = (string?)it.Element("EditSequence"),
+                        SalesPrice = TryDec((string?)it.Element("SalesPrice") ?? (string?)sop?.Element("Price")),
+                        PurchaseCost = TryDec((string?)it.Element("PurchaseCost") ?? (string?)sap?.Element("PurchaseCost")),
+                        SalesDesc = (string?)it.Element("SalesDesc") ?? (string?)sop?.Element("SalesDesc") ?? (string?)sap?.Element("SalesDesc"),
+                        PurchaseDesc = (string?)it.Element("PurchaseDesc") ?? (string?)sap?.Element("PurchaseDesc"),
+                        IsActive = TryBool((string?)it.Element("IsActive")),
+                        TimeModified = TryDate((string?)it.Element("TimeModified")),
+                        Type = "Service"
+                    };
+
+                var list = items.ToList();
+                result.ServiceItems.AddRange(list);
+
+                await _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: $"service.items={list.Count}; withName={list.Count(i => !string.IsNullOrEmpty(i.Name))}",
+                    ct: ct);
+
+                return result;
+            }
+
+
+
             // ---------- CUSTOMERS/JOBS BRANCH ----------
             var custRs = doc.Descendants("CustomerQueryRs").FirstOrDefault();
             if (custRs != null)

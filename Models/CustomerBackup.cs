@@ -74,4 +74,6 @@ public partial class CustomerBackup
     public bool EffectiveActive { get; set; }
 
     public int? ParentCustomerId { get; set; }
+
+    public string EditSequence { get; set; }
 }

@@ -34,6 +34,14 @@ namespace RaymarEquipmentInventory.Models
 
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Customer_ProcessHierarchyWorkResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<Customer_RebuildPaths_AllBckResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<Customer_RebuildPaths_SubtreeResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<Customer_RebuildPaths_SubtreeBckResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<Customer_RecomputeEffectiveActive_SubtreeResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<Customers_ChangesSinceTimeResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<Customers_ChangesSinceVersionResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<SearchCustomersResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<usp_DI_PromoteCandidateKeywordsResult>().HasNoKey().ToView(null);
         }
     }
@@ -45,6 +53,256 @@ namespace RaymarEquipmentInventory.Models
         public RaymarInventoryDBContextProcedures(RaymarInventoryDBContext context)
         {
             _context = context;
+        }
+
+        public virtual async Task<List<Customer_ProcessHierarchyWorkResult>> Customer_ProcessHierarchyWorkAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<Customer_ProcessHierarchyWorkResult>("EXEC @returnValue = [dbo].[Customer_ProcessHierarchyWork]", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<int> Customer_RebuildPaths_AllAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[Customer_RebuildPaths_All]", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<Customer_RebuildPaths_AllBckResult>> Customer_RebuildPaths_AllBckAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<Customer_RebuildPaths_AllBckResult>("EXEC @returnValue = [dbo].[Customer_RebuildPaths_AllBck]", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<Customer_RebuildPaths_SubtreeResult>> Customer_RebuildPaths_SubtreeAsync(int? StartCustomerID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "StartCustomerID",
+                    Value = StartCustomerID ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<Customer_RebuildPaths_SubtreeResult>("EXEC @returnValue = [dbo].[Customer_RebuildPaths_Subtree] @StartCustomerID", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<Customer_RebuildPaths_SubtreeBckResult>> Customer_RebuildPaths_SubtreeBckAsync(int? StartCustomerID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "StartCustomerID",
+                    Value = StartCustomerID ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<Customer_RebuildPaths_SubtreeBckResult>("EXEC @returnValue = [dbo].[Customer_RebuildPaths_SubtreeBck] @StartCustomerID", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<int> Customer_RecomputeEffectiveActive_AllAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[Customer_RecomputeEffectiveActive_All]", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<Customer_RecomputeEffectiveActive_SubtreeResult>> Customer_RecomputeEffectiveActive_SubtreeAsync(int? StartCustomerID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "StartCustomerID",
+                    Value = StartCustomerID ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<Customer_RecomputeEffectiveActive_SubtreeResult>("EXEC @returnValue = [dbo].[Customer_RecomputeEffectiveActive_Subtree] @StartCustomerID", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<int> Customer_SoftDeleteAsync(int? CustomerID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "CustomerID",
+                    Value = CustomerID ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[Customer_SoftDelete] @CustomerID", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<Customers_ChangesSinceTimeResult>> Customers_ChangesSinceTimeAsync(DateTime? SinceTime, int? PageSize, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "SinceTime",
+                    Scale = 3,
+                    Value = SinceTime ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.DateTime2,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "PageSize",
+                    Value = PageSize ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<Customers_ChangesSinceTimeResult>("EXEC @returnValue = [dbo].[Customers_ChangesSinceTime] @SinceTime, @PageSize", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<Customers_ChangesSinceVersionResult>> Customers_ChangesSinceVersionAsync(byte[] SinceVersion, int? PageSize, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "SinceVersion",
+                    Size = 8,
+                    Value = SinceVersion ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Binary,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "PageSize",
+                    Value = PageSize ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<Customers_ChangesSinceVersionResult>("EXEC @returnValue = [dbo].[Customers_ChangesSinceVersion] @SinceVersion, @PageSize", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
         }
 
         public virtual async Task<int> Qbwc_EndSessionAsync(Guid? RunId, string LastError, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
@@ -194,6 +452,71 @@ namespace RaymarEquipmentInventory.Models
                 parameterreturnValue,
             };
             var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[Qbwc_StartSession] @RunId, @QbwcUser, @CompanyFile, @Ticket", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<SearchCustomersResult>> SearchCustomersAsync(string q, int? Top, bool? OrderByRank, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "q",
+                    Size = 8000,
+                    Value = q ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Top",
+                    Value = Top ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "OrderByRank",
+                    Value = OrderByRank ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Bit,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<SearchCustomersResult>("EXEC @returnValue = [dbo].[SearchCustomers] @q, @Top, @OrderByRank", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<int> SyncCustomerFromBackupAsync(bool? FullRefresh, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "FullRefresh",
+                    Value = FullRefresh ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Bit,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[SyncCustomerFromBackup] @FullRefresh", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

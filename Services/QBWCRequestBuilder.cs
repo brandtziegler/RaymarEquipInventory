@@ -157,5 +157,68 @@ $@"{QbXmlHeader}
   </QBXMLMsgsRq>
 </QBXML>";
         }
+
+        // Add next to ItemInclude / CustomerInclude
+        private static readonly string[] ServiceInclude = new[]
+        {
+    "ListID",
+    "Name",
+    "FullName",
+    "EditSequence",
+    "SalesPrice",        // may be null; also covered under SalesOrPurchase.Price
+    "PurchaseCost",      // may be null; also covered under SalesAndPurchase.PurchaseCost
+    "SalesDesc",
+    "PurchaseDesc",
+    "IsActive",
+    "TimeModified"
+};
+
+        // ---------- ItemService (Service items) ----------
+        public string BuildItemServiceStart(
+            int pageSize,
+            bool activeOnly,
+            string? fromModifiedIso8601Utc,
+            string[]? includeRetElements = null)
+        {
+            var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
+            var from = !string.IsNullOrWhiteSpace(fromModifiedIso8601Utc)
+                       ? $"<FromModifiedDate>{fromModifiedIso8601Utc}</FromModifiedDate>"
+                       : "";
+            var include = IncludeBlock(includeRetElements ?? ServiceInclude);
+
+            return
+        $@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemServiceQueryRq requestID=""svc-1"" iterator=""Start"">
+      {active}
+      {from}
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemServiceQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
+
+        public string BuildItemServiceContinue(
+            string iteratorId,
+            int pageSize,
+            string[]? includeRetElements = null)
+        {
+            var include = IncludeBlock(includeRetElements ?? ServiceInclude);
+
+            return
+        $@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemServiceQueryRq requestID=""svc-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemServiceQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
+
+
     }
 }

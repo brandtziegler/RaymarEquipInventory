@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace RaymarEquipmentInventory.Models;
 
-public partial class Customer
+public partial class CustomerSubtreeBakAgri
 {
     public int CustomerId { get; set; }
 
@@ -63,23 +63,15 @@ public partial class Customer
 
     public int? RootId { get; set; }
 
-    public DateTime? QblastUpdated { get; set; }
+    public DateTime? QbLastUpdated { get; set; }
 
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; }
 
     public DateTime ServerUpdatedAt { get; set; }
 
     public byte[] ChangeVersion { get; set; }
 
-    public bool? EffectiveActive { get; set; }
+    public bool EffectiveActive { get; set; }
 
     public int? ParentCustomerId { get; set; }
-
-    public string EditSequence { get; set; }
-
-    public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
-
-    public virtual ICollection<Customer> InverseParentCustomer { get; set; } = new List<Customer>();
-
-    public virtual Customer ParentCustomer { get; set; }
 }

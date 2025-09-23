@@ -22,5 +22,19 @@ namespace RaymarEquipmentInventory.Services
     string? fromModifiedIso8601Utc,
     string[]? includeRetElements = null);
 
+
+        public string BuildItemServiceStart(
+    int pageSize,
+    bool activeOnly,
+    string? fromModifiedIso8601Utc,
+    string[]? includeRetElements = null);
+
+        public string BuildItemServiceContinue(
+    string iteratorId,
+    int pageSize,
+    string[]? includeRetElements = null);
+
     }
+
+
 }

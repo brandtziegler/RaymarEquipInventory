@@ -1,18 +1,16 @@
 ﻿namespace RaymarEquipmentInventory.DTOs
 {
-    public sealed class InventoryItemDto
+
+    public sealed class ReceiveParseResult
     {
-        public string? ListID { get; set; }
-        public string? Name { get; set; }
-        public string? FullName { get; set; }
-        public string? EditSequence { get; set; }
-        public decimal? QuantityOnHand { get; set; }
-        public decimal? SalesPrice { get; set; }
-        public decimal? PurchaseCost { get; set; }
-        public string? SalesDesc { get; set; }
-        public string? PurchaseDesc { get; set; }
-        public string? ManufacturerPartNum { get; set; }
-        public DateTime? TimeModified { get; set; }   // ⬅️ add this
+        public List<InventoryItemDto> InventoryItems { get; set; } = new();
+        public List<CustomerData> Customers { get; set; } = new(); // <— add this
+        public List<CatalogItemDto> ServiceItems { get; } = new();
+        public string? IteratorId { get; set; }
+        public int IteratorRemaining { get; set; }
+        public int? StatusCode { get; set; }
+        public string? StatusMessage { get; set; }
     }
+
 
 }

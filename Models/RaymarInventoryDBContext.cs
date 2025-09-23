@@ -13,15 +13,25 @@ public partial class RaymarInventoryDBContext : DbContext
     {
     }
 
+    public virtual DbSet<AggregatedCounter> AggregatedCounters { get; set; }
+
     public virtual DbSet<BillingInformation> BillingInformations { get; set; }
 
     public virtual DbSet<ChargeItem> ChargeItems { get; set; }
 
     public virtual DbSet<ChargeItemRateHistory> ChargeItemRateHistories { get; set; }
 
+    public virtual DbSet<Counter> Counters { get; set; }
+
     public virtual DbSet<Customer> Customers { get; set; }
 
     public virtual DbSet<CustomerBackup> CustomerBackups { get; set; }
+
+    public virtual DbSet<CustomerBak20250908> CustomerBak20250908s { get; set; }
+
+    public virtual DbSet<CustomerHierarchyWork> CustomerHierarchyWorks { get; set; }
+
+    public virtual DbSet<CustomerSubtreeBakAgri> CustomerSubtreeBakAgris { get; set; }
 
     public virtual DbSet<CustomerTombstone> CustomerTombstones { get; set; }
 
@@ -43,6 +53,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<DocumentType> DocumentTypes { get; set; }
 
+    public virtual DbSet<DriveFileMetadataBackup20250910> DriveFileMetadataBackup20250910s { get; set; }
+
     public virtual DbSet<DriveFileMetadatum> DriveFileMetadata { get; set; }
 
     public virtual DbSet<FailedSyncLog> FailedSyncLogs { get; set; }
@@ -52,6 +64,8 @@ public partial class RaymarInventoryDBContext : DbContext
     public virtual DbSet<FlatLabour> FlatLabours { get; set; }
 
     public virtual DbSet<GoogleDriveFolder> GoogleDriveFolders { get; set; }
+
+    public virtual DbSet<Hash> Hashes { get; set; }
 
     public virtual DbSet<HourlyLabourType> HourlyLabourTypes { get; set; }
 
@@ -73,9 +87,17 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<InvoiceLine> InvoiceLines { get; set; }
 
+    public virtual DbSet<Job> Jobs { get; set; }
+
+    public virtual DbSet<JobParameter> JobParameters { get; set; }
+
+    public virtual DbSet<JobQueue> JobQueues { get; set; }
+
     public virtual DbSet<Labour> Labours { get; set; }
 
     public virtual DbSet<LabourType> LabourTypes { get; set; }
+
+    public virtual DbSet<List> Lists { get; set; }
 
     public virtual DbSet<MileageAndTime> MileageAndTimes { get; set; }
 
@@ -95,6 +117,10 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<PlaceholderDocument> PlaceholderDocuments { get; set; }
 
+    public virtual DbSet<QbitemCatalog> QbitemCatalogs { get; set; }
+
+    public virtual DbSet<QbitemCatalogStaging> QbitemCatalogStagings { get; set; }
+
     public virtual DbSet<QbwcMessage> QbwcMessages { get; set; }
 
     public virtual DbSet<QbwcSession> QbwcSessions { get; set; }
@@ -105,7 +131,15 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<RolePermission> RolePermissions { get; set; }
 
+    public virtual DbSet<Schema> Schemas { get; set; }
+
+    public virtual DbSet<Server> Servers { get; set; }
+
     public virtual DbSet<ServiceDescription> ServiceDescriptions { get; set; }
+
+    public virtual DbSet<Set> Sets { get; set; }
+
+    public virtual DbSet<State> States { get; set; }
 
     public virtual DbSet<Technician> Technicians { get; set; }
 
@@ -187,6 +221,18 @@ public partial class RaymarInventoryDBContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<AggregatedCounter>(entity =>
+        {
+            entity.HasKey(e => e.Key).HasName("PK_HangFire_CounterAggregated");
+
+            entity.ToTable("AggregatedCounter", "HangFire");
+
+            entity.HasIndex(e => e.ExpireAt, "IX_HangFire_AggregatedCounter_ExpireAt").HasFilter("([ExpireAt] IS NOT NULL)");
+
+            entity.Property(e => e.Key).HasMaxLength(100);
+            entity.Property(e => e.ExpireAt).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<BillingInformation>(entity =>
         {
             entity.HasKey(e => e.BillingId).HasName("PK__BillingI__F1656D132D42E93A");
@@ -281,6 +327,17 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasConstraintName("FK__ChargeIte__ItemI__3AA1AEB8");
         });
 
+        modelBuilder.Entity<Counter>(entity =>
+        {
+            entity.HasKey(e => new { e.Key, e.Id }).HasName("PK_HangFire_Counter");
+
+            entity.ToTable("Counter", "HangFire");
+
+            entity.Property(e => e.Key).HasMaxLength(100);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.ExpireAt).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.HasKey(e => e.CustomerId).HasName("PK_Customers");
@@ -295,6 +352,8 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasIndex(e => e.ChangeVersion, "IX_Customer_ChangeVersion");
 
             entity.HasIndex(e => e.ParentCustomerId, "IX_Customer_ParentCustomerID");
+
+            entity.HasIndex(e => e.QblastUpdated, "IX_Customer_QbLastUpdated");
 
             entity.HasIndex(e => new { e.RootId, e.EffectiveActive, e.Depth }, "IX_Customer_Root_EffActive");
 
@@ -314,6 +373,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.CustomerName)
                 .IsRequired()
                 .HasMaxLength(255);
+            entity.Property(e => e.EditSequence).HasMaxLength(50);
             entity.Property(e => e.EffectiveActive)
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
@@ -343,7 +403,9 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.ParentName).HasMaxLength(255);
             entity.Property(e => e.PathIds).HasMaxLength(512);
             entity.Property(e => e.Phone).HasMaxLength(50);
-            entity.Property(e => e.QbLastUpdated).HasPrecision(3);
+            entity.Property(e => e.QblastUpdated)
+                .HasPrecision(3)
+                .HasColumnName("QBLastUpdated");
             entity.Property(e => e.ServerUpdatedAt)
                 .HasPrecision(3)
                 .HasDefaultValueSql("(sysutcdatetime())");
@@ -357,11 +419,6 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasOne(d => d.ParentCustomer).WithMany(p => p.InverseParentCustomer)
                 .HasForeignKey(d => d.ParentCustomerId)
                 .HasConstraintName("FK_Customer_ParentCustomerID__CustomerID");
-
-            entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
-                .HasPrincipalKey(p => p.Id)
-                .HasForeignKey(d => d.ParentId)
-                .HasConstraintName("FK_ParentCustomer");
         });
 
         modelBuilder.Entity<CustomerBackup>(entity =>
@@ -370,6 +427,14 @@ public partial class RaymarInventoryDBContext : DbContext
 
             entity.ToTable("CustomerBackup");
 
+            entity.HasIndex(e => e.Depth, "IX_CustomerBackup_Depth");
+
+            entity.HasIndex(e => e.Id, "IX_CustomerBackup_ID");
+
+            entity.HasIndex(e => e.ParentId, "IX_CustomerBackup_ParentID");
+
+            entity.HasIndex(e => e.QblastUpdated, "IX_CustomerBackup_QbLastUpdated");
+
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.AccountNumber).HasMaxLength(50);
             entity.Property(e => e.ChangeVersion)
@@ -377,6 +442,121 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsRowVersion()
                 .IsConcurrencyToken();
             entity.Property(e => e.Company).HasMaxLength(255);
+            entity.Property(e => e.CustomerName)
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.EditSequence).HasMaxLength(50);
+            entity.Property(e => e.Email).HasMaxLength(255);
+            entity.Property(e => e.FirstName).HasMaxLength(100);
+            entity.Property(e => e.FullAddress).IsUnicode(false);
+            entity.Property(e => e.FullName).HasMaxLength(255);
+            entity.Property(e => e.Id)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("ID");
+            entity.Property(e => e.JobProjectedEndDate).HasColumnType("date");
+            entity.Property(e => e.JobStartDate).HasColumnType("date");
+            entity.Property(e => e.JobStatus).HasMaxLength(100);
+            entity.Property(e => e.JobType).HasMaxLength(100);
+            entity.Property(e => e.JobTypeId).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(100);
+            entity.Property(e => e.MaterializedPath).HasMaxLength(1024);
+            entity.Property(e => e.ParentCustomerId).HasColumnName("ParentCustomerID");
+            entity.Property(e => e.ParentId)
+                .HasMaxLength(50)
+                .HasColumnName("ParentID");
+            entity.Property(e => e.ParentName).HasMaxLength(255);
+            entity.Property(e => e.PathIds).HasMaxLength(512);
+            entity.Property(e => e.Phone).HasMaxLength(50);
+            entity.Property(e => e.QblastUpdated)
+                .HasPrecision(3)
+                .HasColumnName("QBLastUpdated");
+            entity.Property(e => e.ServerUpdatedAt).HasPrecision(3);
+            entity.Property(e => e.UpdateType)
+                .IsRequired()
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
+        });
+
+        modelBuilder.Entity<CustomerBak20250908>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("_Customer_bak_20250908");
+
+            entity.HasIndex(e => e.CustomerId, "CX__Customer_bak_20250908__CustomerID").IsClustered();
+
+            entity.Property(e => e.AccountNumber).HasMaxLength(50);
+            entity.Property(e => e.ChangeVersion)
+                .IsRequired()
+                .IsRowVersion()
+                .IsConcurrencyToken();
+            entity.Property(e => e.Company).HasMaxLength(255);
+            entity.Property(e => e.CustomerId)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("CustomerID");
+            entity.Property(e => e.CustomerName)
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.Email).HasMaxLength(255);
+            entity.Property(e => e.FirstName).HasMaxLength(100);
+            entity.Property(e => e.FullAddress).IsUnicode(false);
+            entity.Property(e => e.FullName).HasMaxLength(255);
+            entity.Property(e => e.Id)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("ID");
+            entity.Property(e => e.JobProjectedEndDate).HasColumnType("date");
+            entity.Property(e => e.JobStartDate).HasColumnType("date");
+            entity.Property(e => e.JobStatus).HasMaxLength(100);
+            entity.Property(e => e.JobType).HasMaxLength(100);
+            entity.Property(e => e.JobTypeId).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(100);
+            entity.Property(e => e.MaterializedPath).HasMaxLength(1024);
+            entity.Property(e => e.ParentId)
+                .HasMaxLength(50)
+                .HasColumnName("ParentID");
+            entity.Property(e => e.ParentName).HasMaxLength(255);
+            entity.Property(e => e.PathIds).HasMaxLength(512);
+            entity.Property(e => e.Phone).HasMaxLength(50);
+            entity.Property(e => e.QbLastUpdated).HasPrecision(3);
+            entity.Property(e => e.ServerUpdatedAt).HasPrecision(3);
+            entity.Property(e => e.UpdateType)
+                .IsRequired()
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
+        });
+
+        modelBuilder.Entity<CustomerHierarchyWork>(entity =>
+        {
+            entity.HasKey(e => e.StartCustomerId).HasName("PK__Customer__0187FB1ED91C789E");
+
+            entity.ToTable("CustomerHierarchyWork");
+
+            entity.Property(e => e.StartCustomerId)
+                .ValueGeneratedNever()
+                .HasColumnName("StartCustomerID");
+            entity.Property(e => e.Reason).HasMaxLength(50);
+            entity.Property(e => e.RequestedAt)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
+        });
+
+        modelBuilder.Entity<CustomerSubtreeBakAgri>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("_Customer_subtree_bak_Agris");
+
+            entity.Property(e => e.AccountNumber).HasMaxLength(50);
+            entity.Property(e => e.ChangeVersion)
+                .IsRequired()
+                .IsRowVersion()
+                .IsConcurrencyToken();
+            entity.Property(e => e.Company).HasMaxLength(255);
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.CustomerName)
                 .IsRequired()
                 .HasMaxLength(255);
@@ -402,9 +582,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.ParentName).HasMaxLength(255);
             entity.Property(e => e.PathIds).HasMaxLength(512);
             entity.Property(e => e.Phone).HasMaxLength(50);
-            entity.Property(e => e.QblastUpdated)
-                .HasPrecision(3)
-                .HasColumnName("QBlastUpdated");
+            entity.Property(e => e.QbLastUpdated).HasPrecision(3);
             entity.Property(e => e.ServerUpdatedAt).HasPrecision(3);
             entity.Property(e => e.UpdateType)
                 .IsRequired()
@@ -700,6 +878,34 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<DriveFileMetadataBackup20250910>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("DriveFileMetadata_Backup_20250910");
+
+            entity.Property(e => e.CategoriesCsv).HasMaxLength(400);
+            entity.Property(e => e.DriveFileId)
+                .IsRequired()
+                .HasMaxLength(128);
+            entity.Property(e => e.FileNameLower).HasMaxLength(400);
+            entity.Property(e => e.FolderId).HasMaxLength(128);
+            entity.Property(e => e.LastModUser).HasMaxLength(200);
+            entity.Property(e => e.LastSeenAt).HasPrecision(2);
+            entity.Property(e => e.Md5Checksum)
+                .HasMaxLength(32)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.MetadataId).ValueGeneratedOnAdd();
+            entity.Property(e => e.MimeType).HasMaxLength(200);
+            entity.Property(e => e.ModifiedTime).HasPrecision(2);
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(400);
+            entity.Property(e => e.WebContentLink).HasMaxLength(1000);
+            entity.Property(e => e.WebViewLink).HasMaxLength(1000);
+        });
+
         modelBuilder.Entity<DriveFileMetadatum>(entity =>
         {
             entity.HasKey(e => e.MetadataId).HasName("PK__DriveFil__66106FD9C917F7A0");
@@ -824,6 +1030,18 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.FolderId).HasMaxLength(255);
             entity.Property(e => e.FolderName).HasMaxLength(255);
             entity.Property(e => e.ParentFolderId).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<Hash>(entity =>
+        {
+            entity.HasKey(e => new { e.Key, e.Field }).HasName("PK_HangFire_Hash");
+
+            entity.ToTable("Hash", "HangFire");
+
+            entity.HasIndex(e => e.ExpireAt, "IX_HangFire_Hash_ExpireAt").HasFilter("([ExpireAt] IS NOT NULL)");
+
+            entity.Property(e => e.Key).HasMaxLength(100);
+            entity.Property(e => e.Field).HasMaxLength(100);
         });
 
         modelBuilder.Entity<HourlyLabourType>(entity =>
@@ -1141,6 +1359,47 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasConstraintName("FK_InvoiceLine_Invoice");
         });
 
+        modelBuilder.Entity<Job>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_HangFire_Job");
+
+            entity.ToTable("Job", "HangFire");
+
+            entity.HasIndex(e => e.ExpireAt, "IX_HangFire_Job_ExpireAt").HasFilter("([ExpireAt] IS NOT NULL)");
+
+            entity.HasIndex(e => e.StateName, "IX_HangFire_Job_StateName").HasFilter("([StateName] IS NOT NULL)");
+
+            entity.Property(e => e.Arguments).IsRequired();
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.ExpireAt).HasColumnType("datetime");
+            entity.Property(e => e.InvocationData).IsRequired();
+            entity.Property(e => e.StateName).HasMaxLength(20);
+        });
+
+        modelBuilder.Entity<JobParameter>(entity =>
+        {
+            entity.HasKey(e => new { e.JobId, e.Name }).HasName("PK_HangFire_JobParameter");
+
+            entity.ToTable("JobParameter", "HangFire");
+
+            entity.Property(e => e.Name).HasMaxLength(40);
+
+            entity.HasOne(d => d.Job).WithMany(p => p.JobParameters)
+                .HasForeignKey(d => d.JobId)
+                .HasConstraintName("FK_HangFire_JobParameter_Job");
+        });
+
+        modelBuilder.Entity<JobQueue>(entity =>
+        {
+            entity.HasKey(e => new { e.Queue, e.Id }).HasName("PK_HangFire_JobQueue");
+
+            entity.ToTable("JobQueue", "HangFire");
+
+            entity.Property(e => e.Queue).HasMaxLength(50);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.FetchedAt).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<Labour>(entity =>
         {
             entity.HasKey(e => e.LabourId).HasName("PK__Labour__74A96217720C8D93");
@@ -1180,6 +1439,19 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsRequired()
                 .HasMaxLength(255)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<List>(entity =>
+        {
+            entity.HasKey(e => new { e.Key, e.Id }).HasName("PK_HangFire_List");
+
+            entity.ToTable("List", "HangFire");
+
+            entity.HasIndex(e => e.ExpireAt, "IX_HangFire_List_ExpireAt").HasFilter("([ExpireAt] IS NOT NULL)");
+
+            entity.Property(e => e.Key).HasMaxLength(100);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.ExpireAt).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<MileageAndTime>(entity =>
@@ -1400,6 +1672,77 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasConstraintName("FK_PlaceholderDocuments_DocumentTypes");
         });
 
+        modelBuilder.Entity<QbitemCatalog>(entity =>
+        {
+            entity.HasKey(e => e.ItemId);
+
+            entity.ToTable("QBItemCatalog");
+
+            entity.HasIndex(e => new { e.Type, e.Name }, "IX_QBItemCatalog_Active_Type_Name").HasFilter("([IsActive]=(1))");
+
+            entity.HasIndex(e => e.FullName, "IX_QBItemCatalog_FullName");
+
+            entity.HasIndex(e => e.ListId, "IX_QBItemCatalog_ListID_includes");
+
+            entity.HasIndex(e => e.TimeModified, "IX_QBItemCatalog_TimeModified");
+
+            entity.HasIndex(e => new { e.Type, e.Name }, "IX_QBItemCatalog_Type_Name");
+
+            entity.HasIndex(e => e.ListId, "UQ_QBItemCatalog_ListID").IsUnique();
+
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
+            entity.Property(e => e.EditSequence).HasMaxLength(50);
+            entity.Property(e => e.FullName).HasMaxLength(300);
+            entity.Property(e => e.LastUpdated)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.ListId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("ListID");
+            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.PurchaseCost).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.PurchaseDesc).HasMaxLength(4000);
+            entity.Property(e => e.SalesDesc).HasMaxLength(4000);
+            entity.Property(e => e.SalesPrice).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.ServerUpdatedAt)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.TimeModified).HasPrecision(3);
+            entity.Property(e => e.Type)
+                .IsRequired()
+                .HasMaxLength(20);
+        });
+
+        modelBuilder.Entity<QbitemCatalogStaging>(entity =>
+        {
+            entity.HasKey(e => new { e.RunId, e.ListId });
+
+            entity.ToTable("QBItemCatalog_Staging");
+
+            entity.HasIndex(e => e.ListId, "IX_QBItemCatalog_Staging_ListID");
+
+            entity.HasIndex(e => new { e.Type, e.Name }, "IX_QBItemCatalog_Staging_Type_Name");
+
+            entity.Property(e => e.ListId)
+                .HasMaxLength(50)
+                .HasColumnName("ListID");
+            entity.Property(e => e.CreatedAtUtc)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.EditSequence).HasMaxLength(50);
+            entity.Property(e => e.FullName).HasMaxLength(300);
+            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.PurchaseCost).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.PurchaseDesc).HasMaxLength(4000);
+            entity.Property(e => e.SalesDesc).HasMaxLength(4000);
+            entity.Property(e => e.SalesPrice).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.TimeModified).HasPrecision(3);
+            entity.Property(e => e.Type)
+                .IsRequired()
+                .HasMaxLength(20);
+        });
+
         modelBuilder.Entity<QbwcMessage>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__QbwcMess__3214EC07AB815C51");
@@ -1501,6 +1844,27 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasConstraintName("FK__RolePermi__RoleI__3BCADD1B");
         });
 
+        modelBuilder.Entity<Schema>(entity =>
+        {
+            entity.HasKey(e => e.Version).HasName("PK_HangFire_Schema");
+
+            entity.ToTable("Schema", "HangFire");
+
+            entity.Property(e => e.Version).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<Server>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_HangFire_Server");
+
+            entity.ToTable("Server", "HangFire");
+
+            entity.HasIndex(e => e.LastHeartbeat, "IX_HangFire_Server_LastHeartbeat");
+
+            entity.Property(e => e.Id).HasMaxLength(200);
+            entity.Property(e => e.LastHeartbeat).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<ServiceDescription>(entity =>
         {
             entity.HasKey(e => e.ServiceId).HasName("PK__ServiceD__C51BB0EAFE16C469");
@@ -1519,6 +1883,41 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.BillingId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ServiceDe__Billi__208CD6FA");
+        });
+
+        modelBuilder.Entity<Set>(entity =>
+        {
+            entity.HasKey(e => new { e.Key, e.Value }).HasName("PK_HangFire_Set");
+
+            entity.ToTable("Set", "HangFire");
+
+            entity.HasIndex(e => e.ExpireAt, "IX_HangFire_Set_ExpireAt").HasFilter("([ExpireAt] IS NOT NULL)");
+
+            entity.HasIndex(e => new { e.Key, e.Score }, "IX_HangFire_Set_Score");
+
+            entity.Property(e => e.Key).HasMaxLength(100);
+            entity.Property(e => e.Value).HasMaxLength(256);
+            entity.Property(e => e.ExpireAt).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<State>(entity =>
+        {
+            entity.HasKey(e => new { e.JobId, e.Id }).HasName("PK_HangFire_State");
+
+            entity.ToTable("State", "HangFire");
+
+            entity.HasIndex(e => e.CreatedAt, "IX_HangFire_State_CreatedAt");
+
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(20);
+            entity.Property(e => e.Reason).HasMaxLength(100);
+
+            entity.HasOne(d => d.Job).WithMany(p => p.States)
+                .HasForeignKey(d => d.JobId)
+                .HasConstraintName("FK_HangFire_State_Job");
         });
 
         modelBuilder.Entity<Technician>(entity =>
