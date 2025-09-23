@@ -384,6 +384,13 @@ namespace RaymarEquipmentInventory.Services
                 try
                 {
                     _importInv.BulkInsertInventoryAsync(runId, parsed!.InventoryItems).GetAwaiter().GetResult();
+                    var jobId = _jobs.Enqueue<IInventoryImportService>(
+                        svc => svc.SyncInventoryDataAsync(runId, default)
+                    );
+
+                    _audit.LogMessageAsync(runId, "hangfire", "enqueue",
+                        message: $"BackupSync job {jobId} enqueued").GetAwaiter().GetResult();
+
                     // (optional) enqueue promotion job here if desired
                 }
                 catch (Exception ex)
@@ -487,6 +494,13 @@ namespace RaymarEquipmentInventory.Services
                 try
                 {
                     _customerImport.BulkInsertCustomersAsync(runId, parsed!.Customers).GetAwaiter().GetResult();
+
+                    // Optional promotion step into CustomerBackup hierarchy/etc. — keep OFF for now.
+                    var jobId = _jobs.Enqueue<ICustomerImportService>(
+                        svc => svc.SyncCustomerDataAsync(runId, /* fullRefresh: */ false, default));
+                    _audit.LogMessageAsync(runId, "hangfire", "enqueue",
+                        message: $"CustomerBackup sync job {jobId} enqueued").GetAwaiter().GetResult();
+
                     // (optional) enqueue promotion job here
                 }
                 catch (Exception ex)
