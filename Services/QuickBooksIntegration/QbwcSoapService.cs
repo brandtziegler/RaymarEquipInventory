@@ -335,16 +335,14 @@ namespace RaymarEquipmentInventory.Services
                     message: $"companyRs: hresult={hresult ?? "<null>"}; msg={message ?? "<null>"}"
                 ).GetAwaiter().GetResult();
 
-                // ✅ Next call should issue Inventory START (unfiltered)
+                // Next call should issue Inventory START (unfiltered)
                 state.LastRequestType = "CompanyDone";
                 state.IteratorId = null;
                 state.Remaining = 0;
                 _session.SetIterator(runId, state);
 
-                _audit.LogMessageAsync(
-                    runId, "receiveResponseXML", "resp",
-                    message: "returning=1 after CompanyQueryRq"
-                ).GetAwaiter().GetResult();
+                _audit.LogMessageAsync(runId, "receiveResponseXML", "resp",
+                    message: "returning=1 after CompanyQueryRq").GetAwaiter().GetResult();
 
                 return 1;
             }
@@ -384,14 +382,6 @@ namespace RaymarEquipmentInventory.Services
                 try
                 {
                     _importInv.BulkInsertInventoryAsync(runId, parsed!.InventoryItems).GetAwaiter().GetResult();
-                    var jobId = _jobs.Enqueue<IInventoryImportService>(
-                        svc => svc.SyncInventoryDataAsync(runId, default)
-                    );
-
-                    _audit.LogMessageAsync(runId, "hangfire", "enqueue",
-                        message: $"BackupSync job {jobId} enqueued").GetAwaiter().GetResult();
-
-                    // (optional) enqueue promotion job here if desired
                 }
                 catch (Exception ex)
                 {
@@ -414,9 +404,15 @@ namespace RaymarEquipmentInventory.Services
 
                 var ret = state.Remaining > 0 ? 1 : 100;
 
-                // When inventory is done, chain into SERVICE
+                // Enqueue promotion only on last page, then chain to Service
                 if (state.Remaining <= 0)
                 {
+                    var jobId = _jobs.Enqueue<IInventoryImportService>(
+                        svc => svc.SyncInventoryDataAsync(runId, default)
+                    );
+                    _audit.LogMessageAsync(runId, "hangfire", "enqueue",
+                        message: $"Inventory promote job {jobId} enqueued").GetAwaiter().GetResult();
+
                     state.LastRequestType = "ServiceStartPending";
                     state.IteratorId = null;
                     state.Remaining = 0;
@@ -438,7 +434,7 @@ namespace RaymarEquipmentInventory.Services
                 return ret;
             }
 
-            // ======================= SERVICE ITEMS BRANCH (NEW) =======================
+            // ======================= SERVICE ITEMS BRANCH =======================
             var svcCount = (int?)parsed?.ServiceItems?.Count ?? 0;
             if (svcCount > 0)
             {
@@ -493,15 +489,11 @@ namespace RaymarEquipmentInventory.Services
             {
                 try
                 {
-                    _customerImport.BulkInsertCustomersAsync(runId, parsed!.Customers).GetAwaiter().GetResult();
+                    bool firstPage = string.Equals(state.LastRequestType, "CustomerQueryRq", StringComparison.Ordinal)
+                                     && string.IsNullOrEmpty(state.IteratorId);   // ← first page
 
-                    // Optional promotion step into CustomerBackup hierarchy/etc. — keep OFF for now.
-                    var jobId = _jobs.Enqueue<ICustomerImportService>(
-                        svc => svc.SyncCustomerDataAsync(runId, /* fullRefresh: */ false, default));
-                    _audit.LogMessageAsync(runId, "hangfire", "enqueue",
-                        message: $"CustomerBackup sync job {jobId} enqueued").GetAwaiter().GetResult();
+                    _customerImport.BulkInsertCustomersAsync(runId, parsed.Customers, firstPage).GetAwaiter().GetResult();
 
-                    // (optional) enqueue promotion job here
                 }
                 catch (Exception ex)
                 {
@@ -524,6 +516,16 @@ namespace RaymarEquipmentInventory.Services
 
                 var ret = state.Remaining > 0 ? 1 : 100;
 
+                // Enqueue promotion only on last page
+                if (state.Remaining <= 0)
+                {
+                    var jobId = _jobs.Enqueue<ICustomerImportService>(
+                        svc => svc.SyncCustomerDataAsync(runId, /* fullRefresh: */ false, default)
+                    );
+                    _audit.LogMessageAsync(runId, "hangfire", "enqueue",
+                        message: $"Customer promote job {jobId} enqueued").GetAwaiter().GetResult();
+                }
+
                 _audit.LogMessageAsync(
                     runId, "receiveResponseXML", "resp",
                     message: $"returning={ret} after CustomerQueryRq"
@@ -540,6 +542,7 @@ namespace RaymarEquipmentInventory.Services
 
             return 100;
         }
+
 
 
     }

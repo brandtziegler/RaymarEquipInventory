@@ -9,9 +9,10 @@ namespace RaymarEquipmentInventory.Services
     public interface ICustomerImportService
     {
         Task<int> BulkInsertCustomersAsync(
-            Guid runId,
-            IEnumerable<CustomerData> customers,
-            CancellationToken ct = default);
+                    Guid runId,
+                    IEnumerable<CustomerData> customers,
+                    bool firstPage = false,                     // <— NEW
+                    CancellationToken ct = default);
 
         Task<CustomerBackupSyncResult> SyncCustomerBackupAsync(
             Guid runId,

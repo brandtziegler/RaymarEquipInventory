@@ -26,6 +26,7 @@ namespace RaymarEquipmentInventory.Services
         public async Task<int> BulkInsertCustomersAsync(
             Guid runId,
             IEnumerable<CustomerData> customers,
+            bool firstPage = false,                     // <— NEW
             CancellationToken ct = default)
         {
             var list = customers as List<CustomerData> ?? customers.ToList();
@@ -41,8 +42,13 @@ namespace RaymarEquipmentInventory.Services
             if (conn.State != ConnectionState.Open)
                 await conn.OpenAsync(ct);
 
-            // Clear backup for pilot runs (simple, deterministic)
-            await _context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE dbo.CustomerBackup;", ct);
+            // Only clear on the first page of a paged pull
+            if (firstPage)
+            {
+                await _context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE dbo.CustomerBackup;", ct);
+                await _audit.LogMessageAsync(runId, "CustomerBackup", "resp",
+                    message: "TRUNCATE on first page", ct: ct);
+            }
 
             using var bulk = new SqlBulkCopy(conn)
             {
@@ -79,20 +85,21 @@ namespace RaymarEquipmentInventory.Services
             bulk.ColumnMappings.Add("PathIds", "PathIds");
             bulk.ColumnMappings.Add("Depth", "Depth");
             bulk.ColumnMappings.Add("RootId", "RootId");
-            bulk.ColumnMappings.Add("QbLastUpdated", "QBLastUpdated");      // if your column is QBlastUpdated
+            bulk.ColumnMappings.Add("QbLastUpdated", "QBLastUpdated");
             bulk.ColumnMappings.Add("IsActive", "IsActive");
             bulk.ColumnMappings.Add("ServerUpdatedAt", "ServerUpdatedAt");
             bulk.ColumnMappings.Add("EffectiveActive", "EffectiveActive");
             bulk.ColumnMappings.Add("EditSequence", "EditSequence");
-            bulk.ColumnMappings.Add("ParentCustomerID", "ParentCustomerID"); // temp 0; resolved in Sync
+            bulk.ColumnMappings.Add("ParentCustomerID", "ParentCustomerID");
 
             await bulk.WriteToServerAsync(table, ct);
 
             await _audit.LogMessageAsync(runId, "CustomerBackup", "resp",
-                message: $"Inserted {table.Rows.Count} rows", ct: ct);
+                message: $"Inserted {table.Rows.Count} rows (firstPage={firstPage})", ct: ct);
 
             return table.Rows.Count;
         }
+
 
 
 
