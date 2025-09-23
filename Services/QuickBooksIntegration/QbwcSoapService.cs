@@ -435,13 +435,20 @@ namespace RaymarEquipmentInventory.Services
             }
 
             // ======================= SERVICE ITEMS BRANCH =======================
-            var svcCount = (int?)parsed?.ServiceItems?.Count ?? 0;
-            if (svcCount > 0)
+            // Handle Service even when svcCount == 0 so we still advance to Customers.
+            bool isServiceRs =
+                state.LastRequestType == "ItemServiceQueryRq" ||
+                (response?.IndexOf("<ItemServiceQueryRs", StringComparison.OrdinalIgnoreCase) >= 0);
+
+            if (isServiceRs)
             {
+                var svcCount = (int?)parsed?.ServiceItems?.Count ?? 0;
+
                 try
                 {
-                    // Stage service items into QBItemCatalog_Staging
-                    _catalog.BulkInsertServiceItemsAsync(runId, parsed!.ServiceItems).GetAwaiter().GetResult();
+                    // Stage service items into QBItemCatalog_Staging (only if any)
+                    if (svcCount > 0)
+                        _catalog.BulkInsertServiceItemsAsync(runId, parsed!.ServiceItems).GetAwaiter().GetResult();
                 }
                 catch (Exception ex)
                 {
@@ -451,7 +458,7 @@ namespace RaymarEquipmentInventory.Services
                     ).GetAwaiter().GetResult();
                 }
 
-                // Advance iterator (service)
+                // Advance iterator (service) even when zero rows
                 state.IteratorId = parsed?.IteratorId;
                 state.Remaining = (int?)parsed?.IteratorRemaining ?? 0;
                 state.LastRequestType = "ItemServiceQueryRq";
@@ -469,7 +476,7 @@ namespace RaymarEquipmentInventory.Services
 
                     _audit.LogMessageAsync(
                         runId, "receiveResponseXML", "resp",
-                        message: "Service items complete; scheduling CustomerQuery START (returning=1)"
+                        message: $"service.items={svcCount}; complete; scheduling CustomerQuery START (returning=1)"
                     ).GetAwaiter().GetResult();
 
                     return 1; // continue so sendRequestXML issues Customer START
@@ -480,7 +487,7 @@ namespace RaymarEquipmentInventory.Services
                     message: $"service.items={svcCount}; remaining={state.Remaining}"
                 ).GetAwaiter().GetResult();
 
-                return ret;
+                return ret; // continue Service CONTINUE
             }
 
             // ======================= CUSTOMERS BRANCH =======================
@@ -491,6 +498,10 @@ namespace RaymarEquipmentInventory.Services
                 {
                     bool firstPage = string.Equals(state.LastRequestType, "CustomerQueryRq", StringComparison.Ordinal)
                                      && string.IsNullOrEmpty(state.IteratorId);   // ← first page
+
+                    _audit.LogMessageAsync(runId, "CustomerBackup", "resp",
+                        message: $"about to bulk: custCount={(int?)parsed?.Customers?.Count ?? 0}, firstPage={string.IsNullOrEmpty(state.IteratorId)}")
+                        .GetAwaiter().GetResult();
 
                     _customerImport.BulkInsertCustomersAsync(runId, parsed.Customers, firstPage).GetAwaiter().GetResult();
 
