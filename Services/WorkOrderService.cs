@@ -518,7 +518,7 @@ namespace RaymarEquipmentInventory.Services
         {
             var billing = await _context.BillingInformations
               .Include(t => t.Customer)  // Include the related work order
-              .Include(t => t.Customer.Parent)  // Include the related work order
+              .Include(t => t.Customer.ParentCustomer)  // Include the related work order
               .Where(t => t.SheetId == sheetID)
               .FirstOrDefaultAsync();
 
@@ -533,10 +533,10 @@ namespace RaymarEquipmentInventory.Services
                 SheetId = billing.SheetId,
                 CustomerId = billing.Customer.CustomerId,
                 CustomerName = billing.Customer.CustomerName,
-                ParentCustomerId = billing.Customer.Parent.CustomerId,
-                ParentCustomerName = billing.Customer.Parent.CustomerName,
+                ParentCustomerId = billing.Customer.ParentCustomer.CustomerId,
+                ParentCustomerName = billing.Customer.ParentCustomer.CustomerName,
                 CustomerQBId = billing.Customer.Id,
-                ParentCustomerQBId = billing.Customer.Parent.Id,
+                ParentCustomerQBId = billing.Customer.ParentCustomer.Id,
                 PONo = billing.Pono,
                 Notes = billing.Notes,
                 UnitNo = billing.UnitNo
@@ -1116,7 +1116,7 @@ namespace RaymarEquipmentInventory.Services
 
                 var billing = await _context.BillingInformations
                     .Include(t => t.Customer)  // Include the related work order
-                    .Include(t => t.Customer.Parent)  // Include the related work order
+                    .Include(t => t.Customer.ParentCustomer)  // Include the related work order
                     .Where(t => t.SheetId == sheetID)
                     .FirstOrDefaultAsync();
 
@@ -1132,7 +1132,7 @@ namespace RaymarEquipmentInventory.Services
                     return null; // Could return null or throw an exception based on your design
                 }
                 workOrderDto.Customer = billing.Customer;
-                workOrderDto.ParentCustomer = billing.Customer.Parent;
+                workOrderDto.ParentCustomer = billing.Customer.ParentCustomer;
 
                 workOrderDto.WOBilling = new DTOs.Billing();
                 workOrderDto.WOBilling.BillingID = billing.BillingId;

@@ -62,6 +62,24 @@ namespace RaymarEquipmentInventory.Controllers
             return Ok(new { upserts, nextCursor });
         }
 
+
+        // POST /api/Customer/simulate-qbwc-customers?insert=true&promote=false&fullRefresh=false
+        [HttpPost("simulate-qbwc-customers")]
+        public async Task<IActionResult> SimulateQbwcCustomers(
+            IFormFile file,
+            [FromQuery] bool insert = true,
+            [FromQuery] bool promote = false,
+            [FromQuery] bool fullRefresh = false,
+            CancellationToken ct = default)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Upload a qbXML file.");
+
+            using var stream = file.OpenReadStream();
+            var result = await _customerService.ImportCustomersFromQbwcXmlAsync(stream, insert, promote, fullRefresh, ct);
+            return Ok(result);
+        }
+
         private static byte[] ParseRowVersion(string? hex)
         {
             if (string.IsNullOrWhiteSpace(hex))

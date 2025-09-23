@@ -16,271 +16,51 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[BillingInformation]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ChargeItemRateHistory]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ChargeItems]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Customer]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[CustomerBackup]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[CustomerTombstone]",
+         "Name": "[HangFire].[AggregatedCounter]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DI_AllowedKeywords]",
+         "Name": "[HangFire].[Counter]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DI_CandidateKeywords]",
+         "Name": "[HangFire].[Hash]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DI_Categories]",
+         "Name": "[HangFire].[Job]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DI_ItemKeywords]",
+         "Name": "[HangFire].[JobParameter]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DI_PlaceAliases]",
+         "Name": "[HangFire].[JobQueue]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DI_Places]",
+         "Name": "[HangFire].[List]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DI_Stopwords]",
+         "Name": "[HangFire].[Schema]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Documents]",
+         "Name": "[HangFire].[Server]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DocumentTypes]",
+         "Name": "[HangFire].[Set]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[DriveFileMetadata]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[FailedSyncLog]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[FeeVisibility]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[FlatLabour]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[GoogleDriveFolders]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[HourlyLabourType]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[IncomeAccount]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InventoryData]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InventoryDataArchive]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InventoryDataBackup]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InventoryDataNew]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InventoryDocument]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InventoryStaging]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Invoice]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InvoiceLine]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Labour]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[LabourType]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[MileageAndTime]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[NextWorkOrderNumber]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PartsDocument]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PartsUsed]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PDFDocument]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PDFTags]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PDFViewedForSheet]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Person]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PlaceholderDocument]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[QbwcMessage]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[QbwcSession]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[RegularLabour]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Role]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[RolePermission]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ServiceDescription]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Technician]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[TechnicianAndTypes]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[TechnicianExperience]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[TechnicianLicences]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[TechnicianTypes]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[TechnicianWorkOrder]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[VehicleData]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[VehicleHistory]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[VehicleTravelLog]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[VehicleWorkOrder]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[WorkOrderCounter]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[WorkOrderFees]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[WorkOrderLine]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[WorkOrderSheet]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[WorkOrderStatus]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[WorkOrderStatusSetup]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[WorkOrderSyncEvents]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[WorkOrderSyncLog]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[WorkOrderType]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[WorkOrderType_Status]",
+         "Name": "[HangFire].[State]",
          "ObjectType": 0
       },
       {
@@ -364,6 +144,46 @@
          "ObjectType": 3
       },
       {
+         "Name": "[dbo].[Customer_ProcessHierarchyWork]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[Customer_RebuildPaths_All]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[Customer_RebuildPaths_AllBck]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[Customer_RebuildPaths_Subtree]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[Customer_RebuildPaths_SubtreeBck]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[Customer_RecomputeEffectiveActive_All]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[Customer_RecomputeEffectiveActive_Subtree]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[Customer_SoftDelete]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[Customers_ChangesSinceTime]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[Customers_ChangesSinceVersion]",
+         "ObjectType": 1
+      },
+      {
          "Name": "[dbo].[Qbwc_EndSession]",
          "ObjectType": 1
       },
@@ -373,6 +193,14 @@
       },
       {
          "Name": "[dbo].[Qbwc_StartSession]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[SearchCustomers]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[SyncCustomerFromBackup]",
          "ObjectType": 1
       },
       {

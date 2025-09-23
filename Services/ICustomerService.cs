@@ -10,6 +10,6 @@ namespace RaymarEquipmentInventory.Services
         Task<WatermarkResponse> GetWatermarkAsync(CancellationToken ct = default);
         Task<CustomerChangesResponse> GetCustomerChangesAsync(DateTime? sinceUtc, int limit = 500, CancellationToken ct = default);
         Task<List<CustomerData>> GetRecentChangedCustomers(byte[] sinceVersion, int limit = 1200);
-
+        Task<object> ImportCustomersFromQbwcXmlAsync(Stream xmlStream, bool insert = true, bool promote = false, bool fullRefresh = false, CancellationToken ct = default);
     }
 }

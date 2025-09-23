@@ -156,7 +156,7 @@ namespace RaymarEquipmentInventory.Services
 
                         // Concurrency/meta
                         EditSequence = (string?)c.Element("EditSequence") ?? "",
-                        QbLastUpdated = TryDate((string?)c.Element("TimeModified")),
+                        QBLastUpdated = TryDate((string?)c.Element("TimeModified")),
                         LastUpdated = DateTime.UtcNow,
                         UpdateType = "A",
                         ChangeVersion = "",                  // DB will set when persisted

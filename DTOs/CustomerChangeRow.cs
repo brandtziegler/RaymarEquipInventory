@@ -15,7 +15,7 @@
         public bool IsActive { get; set; }
         public bool EffectiveActive { get; set; }
         public DateTime ServerUpdatedAt { get; set; }
-        public DateTime? QbLastUpdated { get; set; }
+        public DateTime? QBLastUpdated { get; set; }
         public byte[] ChangeVersion { get; set; } = Array.Empty<byte>();
     }
 }

@@ -16,6 +16,8 @@ namespace RaymarEquipmentInventory.Services
         Task<CustomerBackupSyncResult> SyncCustomerBackupAsync(
             Guid runId,
             CancellationToken ct = default);
+
+        Task<int> SyncCustomerDataAsync(Guid runId, bool fullRefresh = false, CancellationToken ct = default);
     }
 
     public sealed class CustomerBackupSyncResult

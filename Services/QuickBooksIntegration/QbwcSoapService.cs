@@ -352,8 +352,8 @@ namespace RaymarEquipmentInventory.Services
                     //    svc => svc.SyncInventoryDataAsync(runId, default)
                     //);
 
-                    //_audit.LogMessageAsync(runId, "hangfire", "enqueue",
-                    //    message: $"BackupSync job {jobId} enqueued").GetAwaiter().GetResult();
+                    _audit.LogMessageAsync(runId, "hangfire", "enqueue",
+                        message: $"BackupSync job {jobId} enqueued").GetAwaiter().GetResult();
                 }
                 catch (Exception ex)
                 {
@@ -421,8 +421,7 @@ namespace RaymarEquipmentInventory.Services
 
                     // Optional promotion step into CustomerBackup hierarchy/etc. — keep OFF for now.
                     //var jobId = _jobs.Enqueue<ICustomerImportService>(
-                    //    svc => svc.SyncCustomerBackupAsync(runId, default)
-                    //);
+                    //    svc => svc.SyncCustomerDataAsync(runId, /* fullRefresh: */ false, default));
                     //_audit.LogMessageAsync(runId, "hangfire", "enqueue",
                     //    message: $"CustomerBackup sync job {jobId} enqueued").GetAwaiter().GetResult();
                 }

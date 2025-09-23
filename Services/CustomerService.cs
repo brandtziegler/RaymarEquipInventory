@@ -8,6 +8,7 @@ using System.Data;
 using System.Reflection.PortableExecutable;
 using RaymarEquipmentInventory.Helpers;
 using Serilog;
+using System.Text;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -37,13 +38,61 @@ namespace RaymarEquipmentInventory.Services
     {
 
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
+        private readonly IQBWCResponseHandler _qbwcResponseHandler;
+        private readonly ICustomerImportService _customerImport;
         private readonly RaymarInventoryDBContext _context;
-        public CustomerService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context)
+        public CustomerService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context, IQBWCResponseHandler qBWCResponseHandler, ICustomerImportService customerImport)
         {
             _quickBooksConnectionService = quickBooksConnectionService;
+            _qbwcResponseHandler = qBWCResponseHandler;
             _context = context;
+            _customerImport = customerImport;
         }
-       
+
+
+
+        public async Task<object> ImportCustomersFromQbwcXmlAsync(
+        Stream xmlStream,
+        bool insert = true,
+        bool promote = false,
+        bool fullRefresh = false,
+        CancellationToken ct = default)
+        {
+            using var reader = new StreamReader(xmlStream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true, bufferSize: 4096, leaveOpen: true);
+            var qbxml = await reader.ReadToEndAsync();
+
+            var runId = Guid.NewGuid();
+
+            // Parse the uploaded qbXML → same code path as QBWC responses
+            var parsed = await _qbwcResponseHandler.HandleReceiveAsync(runId, qbxml, null, null, ct);
+            var custCount = parsed.Customers?.Count ?? 0;   // customers only here
+                                                            // (If you ever send an inventory file by mistake, parser would put those under InventoryItems.) :contentReference[oaicite:4]{index=4}
+
+            int inserted = 0;
+            if (insert && custCount > 0)
+            {
+                inserted = await _customerImport.BulkInsertCustomersAsync(runId, parsed.Customers, ct);   // → dbo.CustomerBackup (TRUNCATE + bulk) :contentReference[oaicite:5]{index=5}
+                await _customerImport.SyncCustomerDataAsync(runId);                                  // resolve parents/paths/effective-active (in backup) :contentReference[oaicite:6]{index=6}
+            }
+
+            int promoted = 0;
+            if (promote)
+            {
+                // Call your stored proc when ready (from earlier step):
+                // promoted = await _context.Database.ExecuteSqlRawAsync(
+                //    "EXEC dbo.SyncCustomerFromBackup @FullRefresh = {0}", fullRefresh ? 1 : 0, ct);
+            }
+
+            return new
+            {
+                runId,
+                parsedCustomers = custCount,
+                insertedToBackup = inserted,
+                promotedToLive = promoted
+            };
+        }
+
+
         public async Task<List<CustomerData>> GetCustomersFromQuickBooksAsnyc(bool doUpdate = false)
         {
             var allCustomers = new Dictionary<string, CustomerData>();
@@ -183,6 +232,9 @@ namespace RaymarEquipmentInventory.Services
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
         }
+
+
+
 
         // Step 1: Insert all customers with ParentID set to null
         private async Task InsertCustomersWithoutParentIDAsync(List<CustomerData> customerList)
@@ -363,7 +415,7 @@ namespace RaymarEquipmentInventory.Services
                     RootId = c.RootId ?? 0,
 
                     ServerUpdatedAt = c.ServerUpdatedAt,
-                    QbLastUpdated = c.QbLastUpdated,
+                    QBLastUpdated = c.QbLastUpdated,
                     ChangeVersion = RowVer.ToHex(c.ChangeVersion)  // safe client-side conversion
                 })
                 .ToList();

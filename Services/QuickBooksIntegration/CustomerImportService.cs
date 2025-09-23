@@ -79,7 +79,7 @@ namespace RaymarEquipmentInventory.Services
             bulk.ColumnMappings.Add("PathIds", "PathIds");
             bulk.ColumnMappings.Add("Depth", "Depth");
             bulk.ColumnMappings.Add("RootId", "RootId");
-            bulk.ColumnMappings.Add("QbLastUpdated", "QBlastUpdated");      // if your column is QBlastUpdated
+            bulk.ColumnMappings.Add("QbLastUpdated", "QBLastUpdated");      // if your column is QBlastUpdated
             bulk.ColumnMappings.Add("IsActive", "IsActive");
             bulk.ColumnMappings.Add("ServerUpdatedAt", "ServerUpdatedAt");
             bulk.ColumnMappings.Add("EffectiveActive", "EffectiveActive");
@@ -92,6 +92,24 @@ namespace RaymarEquipmentInventory.Services
                 message: $"Inserted {table.Rows.Count} rows", ct: ct);
 
             return table.Rows.Count;
+        }
+
+
+
+        public async Task<int> SyncCustomerDataAsync(Guid runId, bool fullRefresh = false, CancellationToken ct = default)
+        {
+            // Make sure backup has ParentCustomerID/Depth/paths before promoting
+            await SyncCustomerBackupAsync(runId, ct);
+
+            var affected = await _context.Database.ExecuteSqlRawAsync(
+                "EXEC dbo.SyncCustomerFromBackup @FullRefresh = {0}",
+                new object[] { fullRefresh ? 1 : 0 },
+                cancellationToken: ct);
+
+             await _audit.LogMessageAsync(runId, "Customer", "promote",
+                message: $"SyncCustomerFromBackup done (FullRefresh={fullRefresh}); ExecuteSqlRaw affected={affected}", ct: ct);
+
+            return affected;
         }
 
         public async Task<CustomerBackupSyncResult> SyncCustomerBackupAsync(

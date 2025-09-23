@@ -43,6 +43,7 @@
         // rowversion serialized for JSON cursoring
         public string ChangeVersion { get; set; } = "";
 
+        public DateTime? QBLastUpdated { get; set; } = DateTime.UtcNow;   // when we last touched this row
         public DateTime LastUpdated { get; set; } = DateTime.UtcNow;   // when we last touched this row
         public string UpdateType { get; set; } = "A";                  // "A"=Added, "U"=Updated
         public List<CustomerData> Children { get; set; } = new List<CustomerData>();
