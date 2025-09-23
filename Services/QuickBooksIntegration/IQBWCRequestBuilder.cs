@@ -26,13 +26,11 @@ namespace RaymarEquipmentInventory.Services
         public string BuildItemServiceStart(
     int pageSize,
     bool activeOnly,
-    string? fromModifiedIso8601Utc,
-    string[]? includeRetElements = null);
+    string? fromModifiedIso8601Utc);
 
         public string BuildItemServiceContinue(
     string iteratorId,
-    int pageSize,
-    string[]? includeRetElements = null);
+    int pageSize);
 
     }
 

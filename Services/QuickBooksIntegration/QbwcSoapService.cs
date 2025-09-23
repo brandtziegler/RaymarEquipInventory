@@ -407,11 +407,11 @@ namespace RaymarEquipmentInventory.Services
                 // Enqueue promotion only on last page, then chain to Service
                 if (state.Remaining <= 0)
                 {
-                    var jobId = _jobs.Enqueue<IInventoryImportService>(
-                        svc => svc.SyncInventoryDataAsync(runId, default)
-                    );
-                    _audit.LogMessageAsync(runId, "hangfire", "enqueue",
-                        message: $"Inventory promote job {jobId} enqueued").GetAwaiter().GetResult();
+                    //var jobId = _jobs.Enqueue<IInventoryImportService>(
+                    //    svc => svc.SyncInventoryDataAsync(runId, default)
+                    //);
+                    //_audit.LogMessageAsync(runId, "hangfire", "enqueue",
+                    //    message: $"Inventory promote job {jobId} enqueued").GetAwaiter().GetResult();
 
                     state.LastRequestType = "ServiceStartPending";
                     state.IteratorId = null;
@@ -519,11 +519,11 @@ namespace RaymarEquipmentInventory.Services
                 // Enqueue promotion only on last page
                 if (state.Remaining <= 0)
                 {
-                    var jobId = _jobs.Enqueue<ICustomerImportService>(
-                        svc => svc.SyncCustomerDataAsync(runId, /* fullRefresh: */ false, default)
-                    );
-                    _audit.LogMessageAsync(runId, "hangfire", "enqueue",
-                        message: $"Customer promote job {jobId} enqueued").GetAwaiter().GetResult();
+                    //var jobId = _jobs.Enqueue<ICustomerImportService>(
+                    //    svc => svc.SyncCustomerDataAsync(runId, /* fullRefresh: */ false, default)
+                    //);
+                    //_audit.LogMessageAsync(runId, "hangfire", "enqueue",
+                    //    message: $"Customer promote job {jobId} enqueued").GetAwaiter().GetResult();
                 }
 
                 _audit.LogMessageAsync(

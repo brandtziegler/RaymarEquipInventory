@@ -174,50 +174,35 @@ $@"{QbXmlHeader}
 };
 
         // ---------- ItemService (Service items) ----------
-        public string BuildItemServiceStart(
-            int pageSize,
-            bool activeOnly,
-            string? fromModifiedIso8601Utc,
-            string[]? includeRetElements = null)
+        public string BuildItemServiceStart(int pageSize, bool activeOnly, string? fromIso)
         {
             var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
-            var from = !string.IsNullOrWhiteSpace(fromModifiedIso8601Utc)
-                       ? $"<FromModifiedDate>{fromModifiedIso8601Utc}</FromModifiedDate>"
-                       : "";
-            var include = IncludeBlock(includeRetElements ?? ServiceInclude);
+            var from = !string.IsNullOrWhiteSpace(fromIso) ? $"<FromModifiedDate>{fromIso}</FromModifiedDate>" : "";
 
-            return
-        $@"{QbXmlHeader}
+            return $@"{QbXmlHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemServiceQueryRq requestID=""svc-1"" iterator=""Start"">
       {active}
       {from}
       <MaxReturned>{pageSize}</MaxReturned>
-      {include}
     </ItemServiceQueryRq>
   </QBXMLMsgsRq>
 </QBXML>";
         }
 
-        public string BuildItemServiceContinue(
-            string iteratorId,
-            int pageSize,
-            string[]? includeRetElements = null)
+        public string BuildItemServiceContinue(string iteratorId, int pageSize)
         {
-            var include = IncludeBlock(includeRetElements ?? ServiceInclude);
-
-            return
-        $@"{QbXmlHeader}
+            return $@"{QbXmlHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemServiceQueryRq requestID=""svc-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
       <MaxReturned>{pageSize}</MaxReturned>
-      {include}
     </ItemServiceQueryRq>
   </QBXMLMsgsRq>
 </QBXML>";
         }
+
 
 
     }
