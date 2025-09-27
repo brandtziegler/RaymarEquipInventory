@@ -884,6 +884,55 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
+        public async Task<List<DTOs.FileMetadata>> ListActiveFileUrlsAsync(int sheetId)
+        {
+            try
+            {
+                Log.Information("ListActiveFileUrlsAsync sheetId={SheetId}", sheetId);
+
+                var localZone = TimeZoneInfo.Local;
+
+                var rows = await _context.Pdfdocuments
+                    .AsNoTracking()
+                    .Where(p => p.SheetId == sheetId)
+                    .OrderByDescending(p => p.UploadDate)
+                    .ThenBy(p => p.FileName)
+                    .ToListAsync();
+
+                // Map dbo.PDFDocument -> DTOs.FileMetadata
+                var result = rows.Select(p => new DTOs.FileMetadata
+                {
+                    // Prefer Drive id if present; otherwise synthesize a stable id
+                    Id = !string.IsNullOrWhiteSpace(p.DriveFileId)
+                            ? p.DriveFileId
+                            : $"{p.SheetId}:{p.FileName}",
+
+                    PDFName = p.FileName,
+                    fileDescription = p.Description ?? string.Empty,
+
+                    dateLastEdited = TimeZoneInfo.ConvertTime(p.UploadDate, localZone).ToString("o"),
+                    lastEditTechName = string.IsNullOrWhiteSpace(p.UploadedBy) ? "Unknown" : p.UploadedBy,
+
+                    MimeType = "application/pdf",
+
+                    // Use the stored URL for both (keeps the consumer contract stable)
+                    WebContentLink = !string.IsNullOrWhiteSpace(p.FileUrl) ? p.FileUrl : p.AzureBlobPath,
+                    WebViewLink = !string.IsNullOrWhiteSpace(p.FileUrl) ? p.FileUrl : p.AzureBlobPath,
+
+                    sheetId = p.SheetId
+                }).ToList();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error in ListActiveFileUrlsAsync for sheetId={SheetId}", sheetId);
+                throw;
+            }
+        }
+
+
+
         public async Task UpdateFolderIdsInPDFDocumentAsync(
             string fileName,
             string extension,

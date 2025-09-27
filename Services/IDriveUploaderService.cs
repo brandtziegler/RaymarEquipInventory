@@ -21,7 +21,7 @@ namespace RaymarEquipmentInventory.Services
         Task<ReceiptConfirm> ParseReceiptsBuildCsvAsync(List<IFormFile> files, CancellationToken ct = default);
 
         Task<(MemoryStream Csv, ReceiptConfirm Confirm)> ParseReceiptsAndReturnCsvAsync(List<IFormFile> files, CancellationToken ct = default);
-
+        Task<List<DTOs.FileMetadata>> ListActiveFileUrlsAsync(int sheetId);
         UploadPlan PlanBlobRoutingFromClient(
             IEnumerable<(string FileName, string? Kind)> files,
             string workOrderId,

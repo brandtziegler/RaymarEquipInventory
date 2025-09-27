@@ -1560,6 +1560,30 @@ namespace RaymarEquipmentInventory.Controllers
 
             return Ok(uploads);
         }
+
+
+        [HttpPost("ListActivePDFFiles")]
+        public async Task<IActionResult> ListActivePDFFiles(int sheetId)
+        {
+            if (sheetId <= 0) return BadRequest("sheetId must be > 0");
+
+            try
+            {
+                var files = await _driveUploaderService.ListActiveFileUrlsAsync(sheetId);
+
+                if (files == null || files.Count == 0)
+                    return NotFound("No files found");
+
+                return Ok(files);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error listing active PDF files for sheetId={SheetId}", sheetId);
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+
+
         [HttpPost("ListPDFFiles")]
         public async Task<IActionResult> ListPDFFiles(int sheetId, int? labourTypeID)
         {
