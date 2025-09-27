@@ -702,104 +702,179 @@ namespace RaymarEquipmentInventory.Services
 
                 var driveService = await _authService.GetDriveServiceFromUserTokenAsync();
 
-                var listRequest = driveService.Files.List();
-                var templatesFolderId = Environment.GetEnvironmentVariable("GoogleDrive__TemplatesFolderId") ?? _config["GoogleDrive:TemplatesFolderId"] 
-                    ?? throw new InvalidOperationException("Missing config: GoogleDrive:TemplatesFolderId");
+                // ----------------- local helpers -----------------
+                static string BaseName(string name) =>
+                    Regex.Replace(name ?? "", @"_\d+\.pdf$", ".pdf", RegexOptions.IgnoreCase);
 
-                listRequest.Q = $"'{templatesFolderId}' in parents and trashed=false and mimeType != 'application/vnd.google-apps.folder'";
-                listRequest.Fields = "files(id,name,description,modifiedTime,lastModifyingUser(displayName),mimeType,webContentLink,webViewLink)";
-
-                var result = await listRequest.ExecuteAsync();
-                if (result.Files == null || result.Files.Count == 0)
+                static IEnumerable<string> ExtractCategories(string description)
                 {
-                    Log.Information("No files found in the TechPDFs folder.");
-                    return new List<DTOs.FileMetadata>();
+                    if (string.IsNullOrWhiteSpace(description)) yield break;
+                    var i = description.IndexOf("Categories:", StringComparison.OrdinalIgnoreCase);
+                    if (i < 0) yield break;
+                    var after = description.Substring(i + "Categories:".Length);
+                    var n = after.IndexOf("Notes:", StringComparison.OrdinalIgnoreCase);
+                    if (n >= 0) after = after.Substring(0, n);
+                    foreach (var s in after.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                        if (!string.IsNullOrWhiteSpace(s)) yield return s;
                 }
 
-                var localZone = TimeZoneInfo.Local;
-
-                var templates = result.Files.Select(file => new DTOs.FileMetadata
+                async Task<List<DTOs.FileMetadata>> GetTemplatesAsync()
                 {
-                    Id = file.Id,
-                    PDFName = file.Name,
-                    fileDescription = file.Description ?? string.Empty,
-                    dateLastEdited = file.ModifiedTimeDateTimeOffset.HasValue
-                        ? TimeZoneInfo.ConvertTime(file.ModifiedTimeDateTimeOffset.Value, localZone).ToString("o")
-                        : string.Empty,
-                    lastEditTechName = file.LastModifyingUser?.DisplayName ?? "Unknown",
-                    MimeType = file.MimeType,
-                    WebContentLink = file.WebContentLink,
-                    WebViewLink = file.WebViewLink,
-                    sheetId = sheetId
-                }).ToList();
+                    var templatesFolderId =
+                        Environment.GetEnvironmentVariable("GoogleDrive__TemplatesFolderId")
+                        ?? _config["GoogleDrive:TemplatesFolderId"]
+                        ?? throw new InvalidOperationException("Missing config: GoogleDrive:TemplatesFolderId");
 
-                // 🧩 Step 1: Filter by LabourTypeID
+                    var list = driveService.Files.List();
+                    list.Q = $"'{templatesFolderId}' in parents and trashed=false and mimeType != 'application/vnd.google-apps.folder'";
+                    list.Fields = "files(id,name,description,modifiedTime,lastModifyingUser(displayName),mimeType,webContentLink,webViewLink)";
+
+                    var result = await list.ExecuteAsync();
+                    if (result.Files == null || result.Files.Count == 0) return new List<DTOs.FileMetadata>();
+
+                    var localZone = TimeZoneInfo.Local;
+
+                    return result.Files.Select(file => new DTOs.FileMetadata
+                    {
+                        Id = file.Id,                                  // Drive id
+                        PDFName = file.Name,
+                        fileDescription = file.Description ?? string.Empty,
+                        dateLastEdited = file.ModifiedTimeDateTimeOffset.HasValue
+                                            ? TimeZoneInfo.ConvertTime(file.ModifiedTimeDateTimeOffset.Value, localZone).ToString("o")
+                                            : string.Empty,
+                        lastEditTechName = file.LastModifyingUser?.DisplayName ?? "Unknown",
+                        MimeType = file.MimeType,
+                        WebContentLink = file.WebContentLink,
+                        WebViewLink = file.WebViewLink,
+                        sheetId = sheetId
+                    }).ToList();
+                }
+                // --------------------------------------------------
+
+                // 1) Pull templates from Drive
+                var templates = await GetTemplatesAsync();
+
+                // ===== Global mode (sheetId == 0): return templates only =====
+                if (sheetId == 0)
+                {
+                    // guard: exclude anything that already has a suffix
+                    templates = templates
+                        .Where(t => !Regex.IsMatch(t.PDFName ?? "", @"_\d+\.pdf$", RegexOptions.IgnoreCase))
+                        .ToList();
+
+                    // labour filter
+                    if (labourTypeId.HasValue)
+                    {
+                        var allowed = await _context.Pdftags
+                            .Where(p => p.LabourTypeId == labourTypeId.Value)
+                            .Select(p => p.FileName)
+                            .ToListAsync();
+
+                        templates = templates
+                            .Where(t => allowed.Contains(t.PDFName, StringComparer.OrdinalIgnoreCase))
+                            .ToList();
+                    }
+
+                    // tag filter
+                    if (tags != null && tags.Any())
+                    {
+                        templates = templates
+                            .Where(t => ExtractCategories(t.fileDescription ?? "")
+                                .Any(tag => tags.Contains(tag, StringComparer.OrdinalIgnoreCase)))
+                            .ToList();
+                    }
+
+                    return templates;
+                }
+
+                // ===== Per-sheet mode (sheetId != 0): templates + instances =====
+                var templateByName = templates.ToDictionary(t => t.PDFName, StringComparer.OrdinalIgnoreCase);
+                var templateByBase = templates.ToDictionary(t => BaseName(t.PDFName), StringComparer.OrdinalIgnoreCase);
+
+                // Filled docs (instances) for this sheet
+                var filledDocs = await _context.Pdfdocuments
+                    .Where(p => p.SheetId == sheetId)
+                    .ToListAsync();
+
+                // labour filter (apply to both)
                 if (labourTypeId.HasValue)
                 {
-                    var matchingFileNames = await _context.Pdftags
+                    var allowed = await _context.Pdftags
                         .Where(p => p.LabourTypeId == labourTypeId.Value)
                         .Select(p => p.FileName)
                         .ToListAsync();
 
                     templates = templates
-                        .Where(t => matchingFileNames.Contains(t.PDFName, StringComparer.OrdinalIgnoreCase))
+                        .Where(t => allowed.Contains(t.PDFName, StringComparer.OrdinalIgnoreCase))
+                        .ToList();
+
+                    filledDocs = filledDocs
+                        .Where(f => allowed.Contains(f.FileName, StringComparer.OrdinalIgnoreCase)
+                                 || allowed.Contains(BaseName(f.FileName), StringComparer.OrdinalIgnoreCase))
                         .ToList();
                 }
 
-                // 🧩 Step 2: Filter by tags parsed from Categories: before Notes:
-                if (tags != null && tags.Any())
+                // a) merge exact-name fills into templates
+                foreach (var f in filledDocs)
                 {
-                    templates = templates.Where(t =>
+                    if (templateByName.TryGetValue(f.FileName, out var t))
                     {
-                        var description = t.fileDescription ?? string.Empty;
-                        string categoriesPart = string.Empty;
-
-                        var startIndex = description.IndexOf("Categories:", StringComparison.OrdinalIgnoreCase);
-                        if (startIndex >= 0)
-                        {
-                            var afterCategories = description.Substring(startIndex + "Categories:".Length);
-
-                            // ✅ Fix: strip off any trailing Notes: section, even if no comma
-                            var notesIndex = afterCategories.IndexOf("Notes:", StringComparison.OrdinalIgnoreCase);
-                            if (notesIndex >= 0)
-                                afterCategories = afterCategories.Substring(0, notesIndex);
-
-                            categoriesPart = afterCategories.Trim();
-                        }
-
-                        if (string.IsNullOrWhiteSpace(categoriesPart))
-                            return false;
-
-                        var fileTags = categoriesPart.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-
-                        return fileTags.Any(tag => tags.Contains(tag, StringComparer.OrdinalIgnoreCase));
-                    }).ToList();
-                }
-
-                // 🧩 Step 3: Merge filled file data for sheetId
-                var filledDocs = await _context.Pdfdocuments
-                    .Where(p => p.SheetId == sheetId)
-                    .ToListAsync();
-
-                if (sheetId != 0)
-                {
-                    foreach (var filled in filledDocs)
-                    {
-                        var match = templates.FirstOrDefault(t => t.PDFName == filled.FileName);
-                        if (match != null)
-                        {
-                            match.WebContentLink = filled.FileUrl;
-                            match.WebViewLink = filled.FileUrl;
-                            match.fileDescription = string.IsNullOrWhiteSpace(filled.Description)
-                                ? match.fileDescription
-                                : filled.Description;
-                            match.dateLastEdited = filled.UploadDate.ToString("o");
-                            match.lastEditTechName = filled.UploadedBy ?? match.lastEditTechName;
-                        }
+                        t.WebContentLink = f.FileUrl;
+                        t.WebViewLink = f.FileUrl;
+                        t.fileDescription = string.IsNullOrWhiteSpace(f.Description) ? t.fileDescription : f.Description;
+                        t.dateLastEdited = f.UploadDate.ToString("o");
+                        t.lastEditTechName = string.IsNullOrWhiteSpace(f.UploadedBy) ? t.lastEditTechName : f.UploadedBy;
                     }
                 }
 
-                return templates;
+                // b) add instance rows (suffix files) that don't equal a template name
+                var instances = new List<DTOs.FileMetadata>();
+                foreach (var f in filledDocs)
+                {
+                    // if the filled name equals a template name, it’s already merged
+                    if (templateByName.ContainsKey(f.FileName)) continue;
+
+                    var baseName = BaseName(f.FileName);
+                    templateByBase.TryGetValue(baseName, out var baseT);
+
+                    instances.Add(new DTOs.FileMetadata
+                    {
+                        Id = $"{sheetId}:{f.FileName}",  // stable string id for instances
+                        PDFName = f.FileName,                  // e.g., Form_2.pdf
+                        fileDescription = string.IsNullOrWhiteSpace(f.Description)
+                                            ? (baseT?.fileDescription ?? "")
+                                            : f.Description,
+                        dateLastEdited = f.UploadDate.ToString("o"),
+                        lastEditTechName = string.IsNullOrWhiteSpace(f.UploadedBy) ? (baseT?.lastEditTechName ?? "Unknown") : f.UploadedBy,
+                        MimeType = "application/pdf",
+                        WebContentLink = f.FileUrl,
+                        WebViewLink = f.FileUrl,
+                        sheetId = sheetId
+                    });
+                }
+
+                var unified = templates.Concat(instances).ToList();
+
+                // tag filter (for both templates and instances)
+                if (tags != null && tags.Any())
+                {
+                    unified = unified.Where(row =>
+                    {
+                        var desc = row.fileDescription ?? "";
+                        // if instance has empty desc, borrow base template's
+                        if (!templateByName.ContainsKey(row.PDFName) && string.IsNullOrWhiteSpace(desc))
+                        {
+                            var baseName = BaseName(row.PDFName);
+                            if (templateByBase.TryGetValue(baseName, out var baseT))
+                                desc = baseT.fileDescription ?? "";
+                        }
+
+                        var cats = ExtractCategories(desc);
+                        return cats.Any(tag => tags.Contains(tag, StringComparer.OrdinalIgnoreCase));
+                    }).ToList();
+                }
+
+                return unified;
             }
             catch (Exception ex)
             {
@@ -807,6 +882,7 @@ namespace RaymarEquipmentInventory.Services
                 throw;
             }
         }
+
 
         public async Task UpdateFolderIdsInPDFDocumentAsync(
             string fileName,
