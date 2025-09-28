@@ -1562,23 +1562,20 @@ namespace RaymarEquipmentInventory.Controllers
         }
 
 
+        [HttpGet("ListActivePDFFiles")]
         [HttpPost("ListActivePDFFiles")]
-        public async Task<IActionResult> ListActivePDFFiles(int sheetId)
+        public async Task<IActionResult> ListActivePDFFiles([FromQuery] int sheetId)
         {
             if (sheetId <= 0) return BadRequest("sheetId must be > 0");
-
             try
             {
                 var files = await _driveUploaderService.ListActiveFileUrlsAsync(sheetId);
-
-                if (files == null || files.Count == 0)
-                    return NotFound("No files found");
-
+                if (files == null || files.Count == 0) return NotFound("No files found");
                 return Ok(files);
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error listing active PDF files for sheetId={SheetId}", sheetId);
+                Log.Error(ex, "ListActivePDFFiles failed for sheetId={SheetId}", sheetId);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
