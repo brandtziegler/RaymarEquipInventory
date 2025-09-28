@@ -888,6 +888,7 @@ namespace RaymarEquipmentInventory.Services
         {
             try
             {
+                //This needs to work!
                 Log.Information("ListActiveFileUrlsAsync sheetId={SheetId}", sheetId);
 
                 var localZone = TimeZoneInfo.Local;
