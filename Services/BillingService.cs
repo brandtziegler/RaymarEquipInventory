@@ -93,56 +93,87 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        public async Task<bool> TryInsertBillingInformationAsync(DTOs.Billing billingDto, CancellationToken cancellationToken = default)
+        public async Task<bool> TryInsertBillingInformationAsync(DTOs.Billing dto, CancellationToken ct = default)
         {
             try
             {
-                // Step 1: Basic validation
-                if (billingDto.SheetId <= 0 || billingDto.CustomerId <= 0)
+                if (dto.SheetId <= 0 || string.IsNullOrWhiteSpace(dto.CustomerQBId))
                 {
-                    Log.Warning("SheetId and CustomerId are required.");
+                    Log.Warning("SheetId and CustomerQBId are required.");
                     return false;
                 }
 
-                // Step 2: Check if entry already exists
-                bool exists = await _context.BillingInformations
-                    .AnyAsync(b => b.SheetId == billingDto.SheetId);
+                // Resolve the numeric CustomerId from the stable QuickBooks ID (ListID)
+                var cust = await _context.Customers
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync(c => c.Id == dto.CustomerQBId, ct); // c.Id = QB ListID column
 
-                if (exists)
+                if (cust is null)
                 {
-                    Log.Warning($"🟡 Billing entry already exists for SheetID {billingDto.SheetId}. Skipping insert.");
-                    return true; // Not a failure — just not an insert
+                    Log.Warning("No customer found for CustomerQBId {CustomerQBId}", dto.CustomerQBId);
+                    return false; // or throw, if you truly expect it to always exist
                 }
 
-                // Step 3: Create new entity
+                var resolvedCustomerId = cust.CustomerId; // numeric PK in your Customers table
+
+                // Find existing by SheetId + QB ID (stable), via join to Customers
+                var existing = await _context.BillingInformations
+                    .Where(b => b.SheetId == dto.SheetId)
+                    .Join(_context.Customers,
+                          b => b.CustomerId,
+                          c => c.CustomerId,
+                          (b, c) => new { b, c })
+                    .Where(x => x.c.Id == dto.CustomerQBId)
+                    .Select(x => x.b)
+                    .SingleOrDefaultAsync(ct);
+
+                if (existing != null)
+                {
+                    // UPDATE path
+                    existing.BillingPersonId = dto.BillingPersonID;
+                    existing.CustomerId = resolvedCustomerId; // keep numeric in sync
+                    existing.Notes = dto.Notes?.Trim() ?? "";
+                    existing.UnitNo = dto.UnitNo?.Trim() ?? "";
+                    existing.JobSiteCity = dto.JobSiteCity?.Trim() ?? "";
+                    existing.Kilometers = dto.Kilometers;
+                    existing.Pono = dto.PONo?.Trim() ?? "";
+                    existing.WorkDescription = dto.WorkDescription?.Trim() ?? "";
+                    existing.CustPath = dto.CustPath?.Trim() ?? "";
+
+                    await _context.SaveChangesAsync(ct);
+                    Log.Information("🟢 Updated BillingInfo for SheetId {SheetId}, CustomerQBId {CustomerQBId}", dto.SheetId, dto.CustomerQBId);
+                    return true;
+                }
+
+                // INSERT path
                 var newEntry = new Models.BillingInformation
                 {
-                    SheetId = billingDto.SheetId,
-                    BillingPersonId = billingDto.BillingPersonID,
-                    CustomerId = billingDto.CustomerId,
-                    Notes = billingDto.Notes?.Trim() ?? "",
-                    UnitNo = billingDto.UnitNo?.Trim() ?? "",
-                    JobSiteCity = billingDto.JobSiteCity?.Trim() ?? "",
-                    Kilometers = billingDto.Kilometers,
-                    Pono = billingDto.PONo?.Trim() ?? "",
-                    WorkDescription = billingDto.WorkDescription?.Trim() ?? "",
-                    CustPath = billingDto.CustPath?.Trim() ?? ""
+                    SheetId = dto.SheetId,
+                    BillingPersonId = dto.BillingPersonID,
+                    CustomerId = resolvedCustomerId,
+                    Notes = dto.Notes?.Trim() ?? "",
+                    UnitNo = dto.UnitNo?.Trim() ?? "",
+                    JobSiteCity = dto.JobSiteCity?.Trim() ?? "",
+                    Kilometers = dto.Kilometers,
+                    Pono = dto.PONo?.Trim() ?? "",
+                    WorkDescription = dto.WorkDescription?.Trim() ?? "",
+                    CustPath = dto.CustPath?.Trim() ?? ""
                 };
 
-                // Step 4: Save to DB
-                await _context.BillingInformations.AddAsync(newEntry);
-                await _context.SaveChangesAsync();
+                await _context.BillingInformations.AddAsync(newEntry, ct);
+                await _context.SaveChangesAsync(ct);
 
-                Log.Information($"✅ Inserted BillingInfo for SheetID {billingDto.SheetId} and CustomerID {billingDto.CustomerId}");
+                Log.Information("✅ Inserted BillingInfo for SheetId {SheetId}, CustomerQBId {CustomerQBId}", dto.SheetId, dto.CustomerQBId);
                 return true;
             }
             catch (Exception ex)
             {
-                var inner = ex.InnerException?.Message ?? "No inner exception";
-                Log.Error($"❌ Failed to insert BillingInfo: {ex.Message} | Inner: {inner}");
+                Log.Error("❌ Failed to upsert BillingInfo: {Message} | Inner: {Inner}",
+                    ex.Message, ex.InnerException?.Message ?? "No inner exception");
                 return false;
             }
         }
+
 
 
         public async Task<bool> RemoveCustomerFromBill(int billId, int customerId)

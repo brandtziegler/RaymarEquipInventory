@@ -60,7 +60,34 @@ namespace RaymarEquipmentInventory.Controllers
 
 
 
+        [HttpPost("UpsertBillingTemp")]
+        public IActionResult UpsertBillingTemp([FromBody] Billing billingDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
+            try
+            {
+                // 1) Enqueue the insert-if-needed
+                var insertJobId = _billingService.TryInsertBillingInformationAsync(billingDTO, CancellationToken.None);
+
+                // 2) Chain the update after insert completes
+                var updateJobId = _billingService.UpdateBillingInformationAsync(billingDTO, CancellationToken.None);
+
+                // 3) Return immediately with the job IDs
+                return Accepted(new
+                {
+                    insertJobId,
+                    updateJobId,
+                    message = "Queued billing upsert (insert then update)."
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "🔥 Billing enqueue failed for CustPath {CustPath}", billingDTO.CustPath);
+                return StatusCode(500, "An error occurred while enqueuing billing.");
+            }
+        }
 
 
         [HttpGet("GetBillingForWorkOrder")]
