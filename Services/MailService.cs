@@ -94,6 +94,14 @@ namespace RaymarEquipmentInventory.Services
                 for (int i = 0; i < lines.Count; i++)
                 {
                     var r = lines[i];
+
+                    // skip tax lines (we show them in summary instead)
+                    if (string.Equals(r.SourceType, "Tax", StringComparison.OrdinalIgnoreCase) ||
+                        (r.ItemNameSnapshot ?? "").StartsWith("HST", StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
                     var zebra = (i % 2 == 0) ? "#f6f6f8" : "#ffffff";
                     sb.Append($@"
     <tr style=""background:{zebra}; border-bottom:1px solid #eee;"">
@@ -107,6 +115,7 @@ namespace RaymarEquipmentInventory.Services
       <td align=""right"">{Money(r.Amount ?? 0m)}</td>
     </tr>");
                 }
+
 
                 // summary rows (same table)
                 sb.Append($@"
