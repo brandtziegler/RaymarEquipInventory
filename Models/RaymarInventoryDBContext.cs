@@ -181,6 +181,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VwInventoryNew> VwInventoryNews { get; set; }
 
+    public virtual DbSet<VwInvoiceLineExport> VwInvoiceLineExports { get; set; }
+
     public virtual DbSet<VwInvoicePreview> VwInvoicePreviews { get; set; }
 
     public virtual DbSet<VwInvoicePreviewExport> VwInvoicePreviewExports { get; set; }
@@ -2422,6 +2424,28 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.SalesDesc).HasMaxLength(4000);
             entity.Property(e => e.SalesPrice).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.TimeModified).HasPrecision(3);
+        });
+
+        modelBuilder.Entity<VwInvoiceLineExport>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_InvoiceLineExport");
+
+            entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.Description).HasMaxLength(4000);
+            entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
+            entity.Property(e => e.ItemListId)
+                .HasMaxLength(50)
+                .HasColumnName("ItemListID");
+            entity.Property(e => e.ItemNameSnapshot).HasMaxLength(255);
+            entity.Property(e => e.Qty).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.Rate).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.SourceType)
+                .IsRequired()
+                .HasMaxLength(16);
+            entity.Property(e => e.TechnicianName).HasMaxLength(60);
+            entity.Property(e => e.WorkOrderId).HasColumnName("WorkOrderID");
         });
 
         modelBuilder.Entity<VwInvoicePreview>(entity =>

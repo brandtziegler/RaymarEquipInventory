@@ -392,6 +392,10 @@
          "ObjectType": 3
       },
       {
+         "Name": "[dbo].[vw_InvoiceLineExport]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[vw_InvoicePreview]",
          "ObjectType": 3
       },

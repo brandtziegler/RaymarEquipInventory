@@ -1,4 +1,4 @@
-﻿using Azure.Core;
+﻿ using Azure.Core;
 using Azure.Identity;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
