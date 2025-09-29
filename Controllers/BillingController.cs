@@ -30,6 +30,7 @@ namespace RaymarEquipmentInventory.Controllers
         [HttpPost("UpsertBilling")]
         public IActionResult UpsertBilling([FromBody] Billing billingDTO)
         {
+            //UpsertBilling working now.
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
