@@ -39,5 +39,7 @@ public partial class InvoiceLine
 
     public bool? IsTaxable { get; set; }
 
+    public string TechnicianName { get; set; }
+
     public virtual Invoice Invoice { get; set; }
 }

@@ -1350,6 +1350,7 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsRequired()
                 .HasMaxLength(16);
             entity.Property(e => e.TaxCodeRef).HasMaxLength(20);
+            entity.Property(e => e.TechnicianName).HasMaxLength(60);
             entity.Property(e => e.Uom)
                 .HasMaxLength(20)
                 .HasColumnName("UOM");
@@ -2260,13 +2261,11 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsRequired()
                 .HasMaxLength(13)
                 .IsUnicode(false);
-            entity.Property(e => e.ItemName)
-                .HasMaxLength(255)
-                .IsUnicode(false);
+            entity.Property(e => e.ItemName).IsUnicode(false);
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
             entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
             entity.Property(e => e.TechnicianName).IsUnicode(false);
-            entity.Property(e => e.TotalAmount).HasColumnType("decimal(21, 2)");
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(21, 4)");
             entity.Property(e => e.TotalQty).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
         });

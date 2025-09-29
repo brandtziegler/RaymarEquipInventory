@@ -25,6 +25,9 @@ namespace RaymarEquipmentInventory.Services
             static string CleanDesc(string? s) =>
                 string.IsNullOrWhiteSpace(s) ? "" : s.Replace('\t', ' ').Replace("\r", " ").Replace("\n", " ").Trim();
 
+            static string CleanTech(string? s) =>
+                string.IsNullOrWhiteSpace(s) ? "N/A" : s.Trim();
+
             BuildInvoiceResult Error(string msg)
             {
                 Serilog.Log.Error("InvoiceSnapshot FAIL sheetId={SheetId}: {Msg}", sheetId, msg);
@@ -50,7 +53,7 @@ namespace RaymarEquipmentInventory.Services
                 if (rows.Count == 0)
                     return Error($"No invoice data found for SheetID {sheetId}.");
 
-                // 2) WO + customer (from view)
+                // 2) WO + customer
                 Models.WorkOrderSheet? wo;
                 try
                 {
@@ -81,10 +84,10 @@ namespace RaymarEquipmentInventory.Services
                 }
                 catch
                 {
-                    invoiceDate = DateTime.UtcNow.Date; // fallback if timezone not found
+                    invoiceDate = DateTime.UtcNow.Date;
                 }
 
-                // 4) Config & which service items we’ll need ListIDs for
+                // 4) Config & service item names we’ll need
                 IIFConfig cfg;
                 try
                 {
@@ -128,7 +131,7 @@ namespace RaymarEquipmentInventory.Services
                 decimal tax = Math.Round(subtotal * cfg.HstRate, MONEY2, MidpointRounding.AwayFromZero);
                 decimal total = subtotal + tax;
 
-                // Try resolve service-item ListIDs (best effort)
+                // Resolve service ListIDs
                 Dictionary<string, string> nameToListId;
                 try
                 {
@@ -176,7 +179,7 @@ namespace RaymarEquipmentInventory.Services
                         ErrorMessage = "Invoice already exported; cannot rebuild."
                     };
 
-                // Header fields that require extra reads
+                // Header fields
                 string? poNum = null, memo = null;
                 try
                 {
@@ -218,8 +221,8 @@ namespace RaymarEquipmentInventory.Services
                             Currency = "CAD",
                             Status = "Ready",
                             ErrorMessage = missingNames.Count > 0
-                                                    ? $"Missing QuickBooks ListIDs for: {string.Join(", ", missingNames)}"
-                                                    : null,
+                                                ? $"Missing QuickBooks ListIDs for: {string.Join(", ", missingNames)}"
+                                                : null,
                             SourceHash = ComputeSourceHash(rows),
                             QbTxnId = null,
                             QbEditSequence = null,
@@ -258,7 +261,6 @@ namespace RaymarEquipmentInventory.Services
                 {
                     await tx.RollbackAsync(ct);
                     var baseMsg = dbx.GetBaseException().Message;
-                    // Handle unique RefNumber race
                     if (baseMsg.IndexOf("UX_Invoice_RefNumber", StringComparison.OrdinalIgnoreCase) >= 0 ||
                         baseMsg.IndexOf("duplicate", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
@@ -275,7 +277,7 @@ namespace RaymarEquipmentInventory.Services
                     return Error($"Unexpected error writing header: {ex.GetBaseException().Message}");
                 }
 
-                // Build lines in-memory for preflight diagnostics
+                // Build lines
                 var pending = new List<Models.InvoiceLine>();
                 try
                 {
@@ -335,7 +337,8 @@ namespace RaymarEquipmentInventory.Services
                             SourceType = r.Category ?? "",
                             SourceId = r.SourceInventoryId?.ToString(),
                             Uom = null,
-                            IsTaxable = true
+                            IsTaxable = true,
+                            TechnicianName = CleanTech(r.TechnicianName) // <<— NEW
                         });
                     }
 
@@ -359,7 +362,8 @@ namespace RaymarEquipmentInventory.Services
                             SourceType = "Tax",
                             SourceId = sheetId.ToString(),
                             Uom = null,
-                            IsTaxable = false
+                            IsTaxable = false,
+                            TechnicianName = "N/A"                    // <<— NEW
                         });
                     }
                 }
@@ -387,7 +391,6 @@ namespace RaymarEquipmentInventory.Services
                     await tx.RollbackAsync(ct);
                     var baseMsg = dbx.GetBaseException().Message;
 
-                    // Friendly diagnosis for the most likely constraint
                     if (baseMsg.IndexOf("ItemListID", StringComparison.OrdinalIgnoreCase) >= 0 &&
                         baseMsg.IndexOf("NULL", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
@@ -400,7 +403,6 @@ namespace RaymarEquipmentInventory.Services
                         return Error(hint);
                     }
 
-                    // Unique indexes, FK issues, etc.
                     return Error($"DB write failed (lines): {baseMsg}");
                 }
                 catch (OperationCanceledException oce)
@@ -420,7 +422,7 @@ namespace RaymarEquipmentInventory.Services
                     InvoiceId = inv.InvoiceId,
                     RefNumber = inv.RefNumber,
                     Status = inv.Status,
-                    ErrorMessage = inv.ErrorMessage // may contain missing names note
+                    ErrorMessage = inv.ErrorMessage
                 };
             }
             catch (Exception outer)
@@ -428,6 +430,7 @@ namespace RaymarEquipmentInventory.Services
                 return Error($"Unhandled failure: {outer.GetBaseException().Message}");
             }
         }
+
 
 
         public async Task<(string Status, string? Error, string? QbTxnID, DateTime? LastAttemptAt)>

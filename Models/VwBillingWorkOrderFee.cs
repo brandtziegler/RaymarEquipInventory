@@ -17,7 +17,7 @@ public partial class VwBillingWorkOrderFee
 
     public string ItemName { get; set; }
 
-    public decimal UnitPrice { get; set; }
+    public decimal? UnitPrice { get; set; }
 
     public decimal? TotalQty { get; set; }
 
