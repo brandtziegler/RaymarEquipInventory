@@ -38,7 +38,6 @@
         public int RootId { get; set; }
 
         public DateTime ServerUpdatedAt { get; set; }
-        public DateTime? QbLastUpdated { get; set; }
 
         // rowversion serialized for JSON cursoring
         public string ChangeVersion { get; set; } = "";

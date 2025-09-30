@@ -301,7 +301,7 @@ JOIN #eff_bk e ON e.CustomerID = c.CustomerID;
                 r["PathIds"] = x.PathIds ?? "";
                 r["Depth"] = x.Depth;
                 r["RootId"] = x.RootId;
-                r["QbLastUpdated"] = (object?)x.QbLastUpdated ?? DBNull.Value;
+                r["QbLastUpdated"] = (object?)x.QBLastUpdated ?? DBNull.Value;
                 r["IsActive"] = x.IsActive;
                 r["ServerUpdatedAt"] = x.ServerUpdatedAt == default ? now : x.ServerUpdatedAt;
                 r["EffectiveActive"] = x.EffectiveActive;
