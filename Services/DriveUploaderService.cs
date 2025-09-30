@@ -1202,6 +1202,40 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
+        public async Task ClearPdfFolderAsync(string pdfFolderId)
+        {
+            var driveService = await _authService.GetDriveServiceFromUserTokenAsync();
+
+            Log.Information("🧼 Fetching files in 'PDF' folder for deletion...");
+
+            var listRequest = driveService.Files.List();
+            listRequest.Q = $"'{pdfFolderId}' in parents and trashed = false";
+            listRequest.Fields = "files(id, name)";
+            var fileList = await listRequest.ExecuteAsync();
+
+            if (fileList.Files.Count == 0)
+            {
+                Log.Information("📭 No files found to delete in 'PDF' folder.");
+                return;
+            }
+
+            foreach (var file in fileList.Files)
+            {
+                try
+                {
+                    await driveService.Files.Delete(file.Id).ExecuteAsync();
+                    Log.Information($"🗑️ Deleted PDF file: {file.Name} (ID: {file.Id})");
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, $"⚠️ Failed to delete PDF file: {file.Name}");
+                }
+            }
+
+            Log.Information($"✅ PDF folder cleanup complete. {fileList.Files.Count} file(s) processed.");
+        }
+
+
         public async Task ClearImageFolderNewAsync(string imagesFolderId)
         {
             var driveService = await _authService.GetDriveServiceFromUserTokenAsync();
@@ -1683,6 +1717,19 @@ namespace RaymarEquipmentInventory.Services
                 }
             }
 
+
+            if (!string.IsNullOrWhiteSpace(args.PdfFolderId))
+            {
+                try
+                {
+                    Log.Information("🧼 Clearing PDF folder for WO {WO}…", args.WorkOrderId);
+                    await ClearImageFolderNewAsync(args.PdfFolderId);
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, "⚠️ Failed to clear PDF folder; continuing with uploads.");
+                }
+            }
             // 2) Clients
             var drive = await _authService.GetDriveServiceFromUserTokenAsync();
 
