@@ -203,7 +203,7 @@ namespace RaymarEquipmentInventory.Controllers
             }
             if (invalid.Count > 0)
                 return BadRequest(new { message = "Invalid emails.", invalid });
-
+            //Send work orders should work this time. 
             // 4) Enqueue fan-out send; return fast
             var jobId = _jobs.Enqueue(() =>
                 _mailService.SendWorkOrderEmailsAsync(new DTOs.WorkOrdMailContentBatch
