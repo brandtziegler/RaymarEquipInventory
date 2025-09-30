@@ -5,7 +5,7 @@ namespace RaymarEquipmentInventory.Services
 {
     public sealed class QbwcRequestOptions
     {
-        public int PageSize { get; set; } = 1000;
+        public int PageSize { get; set; } = 1500;
 
         // relax these for now
         public bool ActiveOnly { get; set; } = false;
@@ -13,7 +13,7 @@ namespace RaymarEquipmentInventory.Services
 
         public bool RequestCompanyQueryFirst { get; set; } = true;
 
-        public bool CustomersOnly { get; set; } = true;
+        public bool CustomersOnly { get; set; } = false;
 
     }
 }
