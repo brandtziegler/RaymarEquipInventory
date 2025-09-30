@@ -21,6 +21,7 @@ namespace RaymarEquipmentInventory.Services
 
         // ======= Feature flag: set TRUE to enable Customer sync after Inventory =======
         private const bool ENABLE_CUSTOMER_SYNC = true; // <-- flip to true when ready
+        private const bool CUSTOMERS_ONLY = true;
 
         public QbwcSoapService(
             IAuditLogger audit,
@@ -132,48 +133,59 @@ namespace RaymarEquipmentInventory.Services
             var iter = _session.GetIterator(runId);
             string xml;
 
-
-            // START Service items if scheduled
-            if (string.Equals(iter.LastRequestType, "ServiceStartPending", StringComparison.Ordinal))
+            // --- Customers-only bootstrap: on first tick, force Customer START ---
+            if (_opt.CustomersOnly && string.IsNullOrEmpty(iter.LastRequestType))
             {
-                var pageSize = _opt.PageSize > 0 ? _opt.PageSize : 500;
-                string? fromIso = string.IsNullOrWhiteSpace(_opt.FromModifiedDateUtc) ? null : _opt.FromModifiedDateUtc;
-
-                xml = _request.BuildItemServiceStart(pageSize, _opt.ActiveOnly, fromIso);   // uses your new builder
-                iter.LastRequestType = "ItemServiceQueryRq";
+                iter.LastRequestType = "CustomerStartPending";
                 iter.IteratorId = null;
+                iter.Remaining = 0;
                 _session.SetIterator(runId, iter);
-
-                _audit.LogMessageAsync(runId, "sendRequestXML", "req",
-                    companyFile: strCompanyFileName,
-                    message: $"type=ItemServiceQueryRq(START); maxReturned={pageSize}; activeOnly={_opt.ActiveOnly}; fromMod={fromIso ?? "<null>"}")
-                    .GetAwaiter().GetResult();
-
-                return xml;
             }
 
-            // CONTINUE Service items if mid-iteration
-            if (string.Equals(iter.LastRequestType, "ItemServiceQueryRq", StringComparison.Ordinal) &&
-                !string.IsNullOrEmpty(iter.IteratorId))
+            // ======================= SERVICE REQUESTS (guarded off in customers-only) =======================
+            if (!_opt.CustomersOnly)
             {
-                var pageSize = _opt.PageSize > 0 ? _opt.PageSize : 500;
-                xml = _request.BuildItemServiceContinue(iter.IteratorId!, pageSize);
+                // START Service items if scheduled
+                if (string.Equals(iter.LastRequestType, "ServiceStartPending", StringComparison.Ordinal))
+                {
+                    var pageSize = _opt.PageSize > 0 ? _opt.PageSize : 500;
+                    string? fromIso = string.IsNullOrWhiteSpace(_opt.FromModifiedDateUtc) ? null : _opt.FromModifiedDateUtc;
 
-                _session.SetIterator(runId, iter);
+                    xml = _request.BuildItemServiceStart(pageSize, _opt.ActiveOnly, fromIso);
+                    iter.LastRequestType = "ItemServiceQueryRq";
+                    iter.IteratorId = null;
+                    _session.SetIterator(runId, iter);
 
-                _audit.LogMessageAsync(runId, "sendRequestXML", "req",
-                    companyFile: strCompanyFileName,
-                    message: $"type=ItemServiceQueryRq(CONTINUE); iterator={iter.IteratorId}; maxReturned={pageSize}")
-                    .GetAwaiter().GetResult();
+                    _audit.LogMessageAsync(runId, "sendRequestXML", "req",
+                        companyFile: strCompanyFileName,
+                        message: $"type=ItemServiceQueryRq(START); maxReturned={pageSize}; activeOnly={_opt.ActiveOnly}; fromMod={fromIso ?? "<null>"}")
+                        .GetAwaiter().GetResult();
 
-                return xml;
+                    return xml;
+                }
+
+                // CONTINUE Service items if mid-iteration
+                if (string.Equals(iter.LastRequestType, "ItemServiceQueryRq", StringComparison.Ordinal) &&
+                    !string.IsNullOrEmpty(iter.IteratorId))
+                {
+                    var pageSize = _opt.PageSize > 0 ? _opt.PageSize : 500;
+                    xml = _request.BuildItemServiceContinue(iter.IteratorId!, pageSize);
+
+                    _session.SetIterator(runId, iter);
+
+                    _audit.LogMessageAsync(runId, "sendRequestXML", "req",
+                        companyFile: strCompanyFileName,
+                        message: $"type=ItemServiceQueryRq(CONTINUE); iterator={iter.IteratorId}; maxReturned={pageSize}")
+                        .GetAwaiter().GetResult();
+
+                    return xml;
+                }
             }
 
-
-            // ---- OPTIONAL: Customers flow (guarded; won't run unless ENABLE_CUSTOMER_SYNC) ----
-            if (ENABLE_CUSTOMER_SYNC)
+            // ======================= CUSTOMERS REQUESTS =======================
+            if (_opt.CustomersOnly || ENABLE_CUSTOMER_SYNC)
             {
-                // START customers if we scheduled it after finishing Inventory
+                // START customers if we scheduled it
                 if (string.Equals(iter.LastRequestType, "CustomerStartPending", StringComparison.Ordinal))
                 {
                     var pageSizeCust = _opt.PageSize > 0 ? _opt.PageSize : 500;
@@ -218,98 +230,104 @@ namespace RaymarEquipmentInventory.Services
                 }
             }
 
-            // ---- PHASE 1: Company (optional, once) ----
-            if (_opt.RequestCompanyQueryFirst &&
-                string.IsNullOrEmpty(iter.LastRequestType) &&
-                string.IsNullOrEmpty(iter.IteratorId))
+            // ======================= COMPANY + INVENTORY REQUESTS (guarded off in customers-only) =======================
+            if (!_opt.CustomersOnly)
             {
-                xml = _request.BuildCompanyQuery();
-                iter.LastRequestType = "CompanyQueryRq";
-                _session.SetIterator(runId, iter);
+                // ---- PHASE 1: Company (optional, once) ----
+                if (_opt.RequestCompanyQueryFirst &&
+                    string.IsNullOrEmpty(iter.LastRequestType) &&
+                    string.IsNullOrEmpty(iter.IteratorId))
+                {
+                    xml = _request.BuildCompanyQuery();
+                    iter.LastRequestType = "CompanyQueryRq";
+                    _session.SetIterator(runId, iter);
 
-                _audit.LogMessageAsync(
-                    runId, "sendRequestXML", "req",
-                    companyFile: strCompanyFileName,
-                    message: $"type=CompanyQueryRq; iterator=<none>; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}; country={qbXMLCountry}",
-                    payloadXml: xml
-                ).GetAwaiter().GetResult();
+                    _audit.LogMessageAsync(
+                        runId, "sendRequestXML", "req",
+                        companyFile: strCompanyFileName,
+                        message: $"type=CompanyQueryRq; iterator=<none>; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}; country={qbXMLCountry}",
+                        payloadXml: xml
+                    ).GetAwaiter().GetResult();
 
-                return xml;
+                    return xml;
+                }
+
+                // ---- PHASE 2: Inventory START (forced unfiltered first page after Company) ----
+                if (string.Equals(iter.LastRequestType, "CompanyDone", StringComparison.Ordinal))
+                {
+                    const int firstPage = 1000;
+
+                    xml = _request.BuildItemInventoryStart(
+                        pageSize: firstPage,
+                        activeOnly: false,
+                        fromModifiedIso8601Utc: null
+                    );
+
+                    iter.LastRequestType = "ItemInventoryQueryRq";
+                    iter.IteratorId = null; // explicit START
+                    _session.SetIterator(runId, iter);
+
+                    _audit.LogMessageAsync(
+                        runId, "sendRequestXML", "req",
+                        companyFile: strCompanyFileName,
+                        message: $"type=ItemInventoryQueryRq(START,unfiltered); iterator=<none>; maxReturned={firstPage}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}",
+                        payloadXml: xml
+                    ).GetAwaiter().GetResult();
+
+                    return xml;
+                }
+
+                // ---- PHASE 2 (normal START when no company step) ----
+                if (string.IsNullOrEmpty(iter.IteratorId))
+                {
+                    var pageSize = _opt.PageSize > 0 ? _opt.PageSize : 500;
+
+                    string? fromIso = string.IsNullOrWhiteSpace(_opt.FromModifiedDateUtc)
+                        ? null
+                        : _opt.FromModifiedDateUtc;
+
+                    xml = _request.BuildItemInventoryStart(
+                        pageSize: pageSize,
+                        activeOnly: _opt.ActiveOnly,
+                        fromModifiedIso8601Utc: fromIso
+                    );
+
+                    iter.LastRequestType = "ItemInventoryQueryRq";
+                    _session.SetIterator(runId, iter);
+
+                    _audit.LogMessageAsync(
+                        runId, "sendRequestXML", "req",
+                        companyFile: strCompanyFileName,
+                        message: $"type=ItemInventoryQueryRq(START); iterator=<none>; maxReturned={pageSize}; activeOnly={_opt.ActiveOnly}; fromMod={fromIso ?? "<null>"}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}",
+                        payloadXml: xml
+                    ).GetAwaiter().GetResult();
+
+                    return xml;
+                }
+
+                // ---- PHASE 3: Inventory CONTINUE ----
+                {
+                    var pageSize = _opt.PageSize > 0 ? _opt.PageSize : 500;
+
+                    xml = _request.BuildItemInventoryContinue(iter.IteratorId!, pageSize);
+
+                    iter.LastRequestType = "ItemInventoryQueryRq";
+                    _session.SetIterator(runId, iter);
+
+                    _audit.LogMessageAsync(
+                        runId, "sendRequestXML", "req",
+                        companyFile: strCompanyFileName,
+                        message: $"type=ItemInventoryQueryRq(CONTINUE); iterator={iter.IteratorId}; maxReturned={pageSize}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}",
+                        payloadXml: xml
+                    ).GetAwaiter().GetResult();
+
+                    return xml;
+                }
             }
 
-            // ---- PHASE 2: Inventory START (forced unfiltered first page after Company) ----
-            if (string.Equals(iter.LastRequestType, "CompanyDone", StringComparison.Ordinal))
-            {
-                const int firstPage = 1000;
-
-                // Unfiltered START: no ActiveOnly, no FromModified
-                xml = _request.BuildItemInventoryStart(
-                    pageSize: firstPage,
-                    activeOnly: false,
-                    fromModifiedIso8601Utc: null
-                );
-
-                iter.LastRequestType = "ItemInventoryQueryRq";
-                iter.IteratorId = null; // explicit START
-                _session.SetIterator(runId, iter);
-
-                _audit.LogMessageAsync(
-                    runId, "sendRequestXML", "req",
-                    companyFile: strCompanyFileName,
-                    message: $"type=ItemInventoryQueryRq(START,unfiltered); iterator=<none>; maxReturned={firstPage}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}",
-                    payloadXml: xml
-                ).GetAwaiter().GetResult();
-
-                return xml;
-            }
-
-            // ---- PHASE 2 (normal START when no company step) ----
-            if (string.IsNullOrEmpty(iter.IteratorId))
-            {
-                var pageSize = _opt.PageSize > 0 ? _opt.PageSize : 500;
-
-                // _opt.FromModifiedDateUtc is a string (ISO). Use null if blank.
-                string? fromIso = string.IsNullOrWhiteSpace(_opt.FromModifiedDateUtc)
-                    ? null
-                    : _opt.FromModifiedDateUtc;
-
-                xml = _request.BuildItemInventoryStart(
-                    pageSize: pageSize,
-                    activeOnly: _opt.ActiveOnly,
-                    fromModifiedIso8601Utc: fromIso
-                );
-
-                iter.LastRequestType = "ItemInventoryQueryRq";
-                _session.SetIterator(runId, iter);
-
-                _audit.LogMessageAsync(
-                    runId, "sendRequestXML", "req",
-                    companyFile: strCompanyFileName,
-                    message: $"type=ItemInventoryQueryRq(START); iterator=<none>; maxReturned={pageSize}; activeOnly={_opt.ActiveOnly}; fromMod={fromIso ?? "<null>"}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}",
-                    payloadXml: xml
-                ).GetAwaiter().GetResult();
-
-                return xml;
-            }
-
-            // ---- PHASE 3: Inventory CONTINUE ----
-            {
-                var pageSize = _opt.PageSize > 0 ? _opt.PageSize : 500;
-
-                xml = _request.BuildItemInventoryContinue(iter.IteratorId!, pageSize);
-
-                iter.LastRequestType = "ItemInventoryQueryRq";
-                _session.SetIterator(runId, iter);
-
-                _audit.LogMessageAsync(
-                    runId, "sendRequestXML", "req",
-                    companyFile: strCompanyFileName,
-                    message: $"type=ItemInventoryQueryRq(CONTINUE); iterator={iter.IteratorId}; maxReturned={pageSize}; qbXmlVer={qbXMLMajorVers}.{qbXMLMinorVers}",
-                    payloadXml: xml
-                ).GetAwaiter().GetResult();
-
-                return xml;
-            }
+            // If we reach here in customers-only mode and no request matched, tell QBWC we're done
+            _audit.LogMessageAsync(runId, "sendRequestXML", "req", message: "customers-only: no further requests").GetAwaiter().GetResult();
+            return "";
         }
 
 
@@ -375,123 +393,145 @@ namespace RaymarEquipmentInventory.Services
                 return 100; // fail-safe
             }
 
-            // ======================= INVENTORY BRANCH =======================
-            var itemCount = (int?)parsed?.InventoryItems?.Count ?? 0;
-            if (itemCount > 0)
+            // ======================= INVENTORY + SERVICE RESPONSES (guarded off in customers-only) =======================
+            if (!_opt.CustomersOnly)
             {
-                try
+                // ======================= INVENTORY BRANCH =======================
+                var itemCount = (int?)parsed?.InventoryItems?.Count ?? 0;
+                if (itemCount > 0)
                 {
-                    _importInv.BulkInsertInventoryAsync(runId, parsed!.InventoryItems).GetAwaiter().GetResult();
-                }
-                catch (Exception ex)
-                {
-                    _audit.LogMessageAsync(
-                        runId, "receiveResponseXML", "resp",
-                        message: $"BulkInsertInventory failed: {ex.GetType().Name}: {ex.Message}"
-                    ).GetAwaiter().GetResult();
-                }
+                    try
+                    {
+                        _importInv.BulkInsertInventoryAsync(runId, parsed!.InventoryItems).GetAwaiter().GetResult();
+                    }
+                    catch (Exception ex)
+                    {
+                        _audit.LogMessageAsync(
+                            runId, "receiveResponseXML", "resp",
+                            message: $"BulkInsertInventory failed: {ex.GetType().Name}: {ex.Message}"
+                        ).GetAwaiter().GetResult();
+                    }
 
-                // Advance iterator (inventory)
-                state.IteratorId = parsed?.IteratorId;
-                state.Remaining = (int?)parsed?.IteratorRemaining ?? 0;
-                state.LastRequestType = "ItemInventoryQueryRq";
-                _session.SetIterator(runId, state);
-
-                _audit.LogMessageAsync(
-                    runId, "receiveResponseXML", "resp",
-                    message: $"items={itemCount}; remaining={state.Remaining}; hresult={hresult ?? "<null>"}; msg={message ?? "<null>"}"
-                ).GetAwaiter().GetResult();
-
-                var ret = state.Remaining > 0 ? 1 : 100;
-
-                // Enqueue promotion only on last page, then chain to Service
-                if (state.Remaining <= 0)
-                {
-                    //var jobId = _jobs.Enqueue<IInventoryImportService>(
-                    //    svc => svc.SyncInventoryDataAsync(runId, default)
-                    //);
-                    //_audit.LogMessageAsync(runId, "hangfire", "enqueue",
-                    //    message: $"Inventory promote job {jobId} enqueued").GetAwaiter().GetResult();
-
-                    state.LastRequestType = "ServiceStartPending";
-                    state.IteratorId = null;
-                    state.Remaining = 0;
+                    // Advance iterator (inventory)
+                    state.IteratorId = parsed?.IteratorId;
+                    state.Remaining = (int?)parsed?.IteratorRemaining ?? 0;
+                    state.LastRequestType = "ItemInventoryQueryRq";
                     _session.SetIterator(runId, state);
 
                     _audit.LogMessageAsync(
                         runId, "receiveResponseXML", "resp",
-                        message: "Inventory complete; scheduling ItemServiceQuery START (returning=1)"
+                        message: $"items={itemCount}; remaining={state.Remaining}; hresult={hresult ?? "<null>"}; msg={message ?? "<null>"}"
                     ).GetAwaiter().GetResult();
 
-                    return 1; // continue so sendRequestXML issues Service START
-                }
+                    var ret = state.Remaining > 0 ? 1 : 100;
 
-                _audit.LogMessageAsync(
-                    runId, "receiveResponseXML", "resp",
-                    message: $"returning={ret} after ItemInventoryQueryRq"
-                ).GetAwaiter().GetResult();
+                    // Enqueue promotion only on last page, then chain to Service
+                    if (state.Remaining <= 0)
+                    {
+                        //var jobId = _jobs.Enqueue<IInventoryImportService>(
+                        //    svc => svc.SyncInventoryDataAsync(runId, default)
+                        //);
+                        //_audit.LogMessageAsync(runId, "hangfire", "enqueue",
+                        //    message: $"Inventory promote job {jobId} enqueued").GetAwaiter().GetResult();
 
-                return ret;
-            }
+                        state.LastRequestType = "ServiceStartPending";
+                        state.IteratorId = null;
+                        state.Remaining = 0;
+                        _session.SetIterator(runId, state);
 
-            // ======================= SERVICE ITEMS BRANCH =======================
-            // Handle Service even when svcCount == 0 so we still advance to Customers.
-            bool isServiceRs =
-                state.LastRequestType == "ItemServiceQueryRq" ||
-                (response?.IndexOf("<ItemServiceQueryRs", StringComparison.OrdinalIgnoreCase) >= 0);
+                        _audit.LogMessageAsync(
+                            runId, "receiveResponseXML", "resp",
+                            message: "Inventory complete; scheduling ItemServiceQuery START (returning=1)"
+                        ).GetAwaiter().GetResult();
 
-            if (isServiceRs)
-            {
-                var svcCount = (int?)parsed?.ServiceItems?.Count ?? 0;
+                        return 1; // continue so sendRequestXML issues Service START
+                    }
 
-                try
-                {
-                    // Stage service items into QBItemCatalog_Staging (only if any)
-                    if (svcCount > 0)
-                        _catalog.BulkInsertServiceItemsAsync(runId, parsed!.ServiceItems).GetAwaiter().GetResult();
-                }
-                catch (Exception ex)
-                {
                     _audit.LogMessageAsync(
                         runId, "receiveResponseXML", "resp",
-                        message: $"BulkInsertServiceItems failed: {ex.GetType().Name}: {ex.Message}"
+                        message: $"returning={ret} after ItemInventoryQueryRq"
                     ).GetAwaiter().GetResult();
+
+                    return ret;
                 }
 
-                // Advance iterator (service) even when zero rows
-                state.IteratorId = parsed?.IteratorId;
-                state.Remaining = (int?)parsed?.IteratorRemaining ?? 0;
-                state.LastRequestType = "ItemServiceQueryRq";
-                _session.SetIterator(runId, state);
+                // ======================= SERVICE ITEMS BRANCH =======================
+                bool isServiceRs =
+                    state.LastRequestType == "ItemServiceQueryRq" ||
+                    (response?.IndexOf("<ItemServiceQueryRs", StringComparison.OrdinalIgnoreCase) >= 0);
 
-                var ret = state.Remaining > 0 ? 1 : 100;
-
-                // When service is done, proceed to CUSTOMERS (for now)
-                if (state.Remaining <= 0 && ENABLE_CUSTOMER_SYNC)
+                if (isServiceRs)
                 {
-                    state.LastRequestType = "CustomerStartPending";
-                    state.IteratorId = null;
-                    state.Remaining = 0;
+                    var svcCount = (int?)parsed?.ServiceItems?.Count ?? 0;
+
+                    try
+                    {
+                        if (svcCount > 0)
+                            _catalog.BulkInsertServiceItemsAsync(runId, parsed!.ServiceItems).GetAwaiter().GetResult();
+                    }
+                    catch (Exception ex)
+                    {
+                        _audit.LogMessageAsync(
+                            runId, "receiveResponseXML", "resp",
+                            message: $"BulkInsertServiceItems failed: {ex.GetType().Name}: {ex.Message}"
+                        ).GetAwaiter().GetResult();
+                    }
+
+                    // Advance iterator (service) even when zero rows
+                    state.IteratorId = parsed?.IteratorId;
+                    state.Remaining = (int?)parsed?.IteratorRemaining ?? 0;
+                    state.LastRequestType = "ItemServiceQueryRq";
                     _session.SetIterator(runId, state);
 
+                    var ret = state.Remaining > 0 ? 1 : 100;
+
+                    if (state.Remaining <= 0 && ENABLE_CUSTOMER_SYNC)
+                    {
+                        state.LastRequestType = "CustomerStartPending";
+                        state.IteratorId = null;
+                        state.Remaining = 0;
+                        _session.SetIterator(runId, state);
+
+                        _audit.LogMessageAsync(
+                            runId, "receiveResponseXML", "resp",
+                            message: $"service.items={svcCount}; complete; scheduling CustomerQuery START (returning=1)"
+                        ).GetAwaiter().GetResult();
+
+                        return 1; // continue so sendRequestXML issues Customer START
+                    }
+
                     _audit.LogMessageAsync(
                         runId, "receiveResponseXML", "resp",
-                        message: $"service.items={svcCount}; complete; scheduling CustomerQuery START (returning=1)"
+                        message: $"service.items={svcCount}; remaining={state.Remaining}"
                     ).GetAwaiter().GetResult();
 
-                    return 1; // continue so sendRequestXML issues Customer START
+                    return ret; // continue Service CONTINUE
                 }
-
-                _audit.LogMessageAsync(
-                    runId, "receiveResponseXML", "resp",
-                    message: $"service.items={svcCount}; remaining={state.Remaining}"
-                ).GetAwaiter().GetResult();
-
-                return ret; // continue Service CONTINUE
             }
 
             // ======================= CUSTOMERS BRANCH =======================
             var custCount = (int?)parsed?.Customers?.Count ?? 0;
+
+            // Even if custCount == 0, advance/finish cleanly when the response type is CustomerQueryRs
+            bool isCustomerRs =
+                state.LastRequestType == "CustomerQueryRq" ||
+                (response?.IndexOf("<CustomerQueryRs", StringComparison.OrdinalIgnoreCase) >= 0);
+
+            if (isCustomerRs && custCount == 0)
+            {
+                state.IteratorId = parsed?.IteratorId;
+                state.Remaining = (int?)parsed?.IteratorRemaining ?? 0;
+                state.LastRequestType = "CustomerQueryRq";
+                _session.SetIterator(runId, state);
+
+                _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: $"customers=0; remaining={state.Remaining}; iteratorId={parsed?.IteratorId ?? "<null>"}"
+                ).GetAwaiter().GetResult();
+
+                return state.Remaining > 0 ? 1 : 100;
+            }
+
             if (custCount > 0)
             {
                 try
@@ -527,7 +567,7 @@ namespace RaymarEquipmentInventory.Services
 
                 var ret = state.Remaining > 0 ? 1 : 100;
 
-                // Enqueue promotion only on last page
+                // Optional: enqueue promotion on last page
                 if (state.Remaining <= 0)
                 {
                     //var jobId = _jobs.Enqueue<ICustomerImportService>(
@@ -553,6 +593,8 @@ namespace RaymarEquipmentInventory.Services
 
             return 100;
         }
+
+
 
 
 

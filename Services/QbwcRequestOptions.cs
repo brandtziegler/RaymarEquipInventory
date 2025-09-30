@@ -12,5 +12,8 @@ namespace RaymarEquipmentInventory.Services
         public string? FromModifiedDateUtc { get; set; } = null;
 
         public bool RequestCompanyQueryFirst { get; set; } = true;
+
+        public bool CustomersOnly { get; set; } = true;
+
     }
 }
