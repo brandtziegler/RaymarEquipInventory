@@ -45,7 +45,7 @@ namespace RaymarEquipmentInventory.Services
             _catalog = catalog;
         }
 
-        // ---- SOAP ops ----
+        // ---- SOAP ops ---- soap service.
 
         public string[] authenticate(string strUserName, string strPassword)
         {
