@@ -173,6 +173,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VwBillingWorkOrderFee> VwBillingWorkOrderFees { get; set; }
 
+    public virtual DbSet<VwFlatLabourQbmatch> VwFlatLabourQbmatches { get; set; }
+
     public virtual DbSet<VwInventoryComparison> VwInventoryComparisons { get; set; }
 
     public virtual DbSet<VwInventoryDeltum> VwInventoryDelta { get; set; }
@@ -188,6 +190,8 @@ public partial class RaymarInventoryDBContext : DbContext
     public virtual DbSet<VwInvoicePreviewExport> VwInvoicePreviewExports { get; set; }
 
     public virtual DbSet<VwInvoicePreviewSummed> VwInvoicePreviewSummeds { get; set; }
+
+    public virtual DbSet<VwInvoicePreviewWithQbinv> VwInvoicePreviewWithQbinvs { get; set; }
 
     public virtual DbSet<VwPartsUsedWithInventory> VwPartsUsedWithInventories { get; set; }
 
@@ -2272,6 +2276,30 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
         });
 
+        modelBuilder.Entity<VwFlatLabourQbmatch>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_FlatLabour_QBMatch");
+
+            entity.Property(e => e.FlatLabourId).HasColumnName("FlatLabourID");
+            entity.Property(e => e.LabourDescription)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.LabourName)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ListId)
+                .HasMaxLength(50)
+                .HasColumnName("ListID");
+            entity.Property(e => e.MatchedQb)
+                .IsRequired()
+                .HasMaxLength(8)
+                .IsUnicode(false)
+                .HasColumnName("MatchedQB");
+        });
+
         modelBuilder.Entity<VwInventoryComparison>(entity =>
         {
             entity
@@ -2512,6 +2540,42 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(38, 6)");
             entity.Property(e => e.TotalQty).HasColumnType("decimal(38, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<VwInvoicePreviewWithQbinv>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_InvoicePreviewWithQBInv");
+
+            entity.Property(e => e.Category)
+                .IsRequired()
+                .HasMaxLength(16)
+                .IsUnicode(false);
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+            entity.Property(e => e.CustomerListId)
+                .HasMaxLength(50)
+                .HasColumnName("CustomerListID");
+            entity.Property(e => e.ItemName).HasMaxLength(255);
+            entity.Property(e => e.MatchedFrom)
+                .HasMaxLength(19)
+                .IsUnicode(false);
+            entity.Property(e => e.MatchedLabourDescription)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.MatchedLabourName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.QuickBooksInvId)
+                .HasMaxLength(50)
+                .HasColumnName("QuickBooksInvID");
+            entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.SourceInventoryId).HasColumnName("SourceInventoryID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TechnicianName).HasMaxLength(100);
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.TotalQty).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
         });
 

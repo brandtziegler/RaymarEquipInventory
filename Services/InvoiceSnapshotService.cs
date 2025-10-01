@@ -7,7 +7,7 @@ using System.Text;
 
 namespace RaymarEquipmentInventory.Services
 {
-    /// Builds an idempotent Invoice + InvoiceLines snapshot using vw_InvoicePreviewExport.
+    /// Builds an idempotent Invoice + InvoiceLines snapshot using vw_InvoicePreviewWithQBInv.
     public sealed class InvoiceSnapshotService : IInvoiceSnapshotService
     {
         private readonly RaymarInventoryDBContext _context;
@@ -21,10 +21,8 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<BuildInvoiceResult> BuildInvoiceSnapshotAsync(int sheetId, bool summed, CancellationToken ct = default)
         {
-            // ---------- helpers ----------
             static string CleanDesc(string? s) =>
                 string.IsNullOrWhiteSpace(s) ? "" : s.Replace('\t', ' ').Replace("\r", " ").Replace("\n", " ").Trim();
-
             static string CleanTech(string? s) =>
                 string.IsNullOrWhiteSpace(s) ? "N/A" : s.Trim();
 
@@ -36,22 +34,20 @@ namespace RaymarEquipmentInventory.Services
 
             try
             {
-                // 1) Source rows
-                List<Models.VwInvoicePreviewExport> rows;
+                // 1) Source rows (from the NEW view with QuickBooksInvID already resolved)
+                List<Models.VwInvoicePreviewWithQbinv> rows;
                 try
                 {
-                    rows = await _context.VwInvoicePreviewExports
+                    rows = await _context.VwInvoicePreviewWithQbinvs
                         .Where(v => v.SheetId == sheetId)
                         .AsNoTracking()
                         .ToListAsync(ct);
                 }
                 catch (Exception ex)
                 {
-                    return Error($"Failed reading vw_InvoicePreviewExport: {ex.GetBaseException().Message}");
+                    return Error($"Failed reading vw_InvoicePreviewWithQBInv: {ex.GetBaseException().Message}");
                 }
-
-                if (rows.Count == 0)
-                    return Error($"No invoice data found for SheetID {sheetId}.");
+                if (rows.Count == 0) return Error($"No invoice data found for SheetID {sheetId}.");
 
                 // 2) WO + customer
                 Models.WorkOrderSheet? wo;
@@ -69,7 +65,6 @@ namespace RaymarEquipmentInventory.Services
                 var any = rows[0];
                 var customerListId = any.CustomerListId;
                 var customerId = any.CustomerId;
-
                 if (string.IsNullOrWhiteSpace(customerListId))
                     return Error("Customer ListID missing on export view.");
 
@@ -82,77 +77,24 @@ namespace RaymarEquipmentInventory.Services
                     invoiceDate = TimeZoneInfo.ConvertTimeFromUtc(
                         DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time")).Date;
                 }
-                catch
-                {
-                    invoiceDate = DateTime.UtcNow.Date;
-                }
+                catch { invoiceDate = DateTime.UtcNow.Date; }
 
-                // 4) Config & service item names we’ll need
+                // 4) Config + totals
                 IIFConfig cfg;
-                try
-                {
-                    cfg = IIFConfigHelper.GetIifConfig();
-                }
-                catch (Exception ex)
-                {
-                    return Error($"Failed to load IIF config: {ex.GetBaseException().Message}");
-                }
+                try { cfg = IIFConfigHelper.GetIifConfig(); }
+                catch (Exception ex) { return Error($"Failed to load IIF config: {ex.GetBaseException().Message}"); }
 
-                var needNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-                foreach (var r in rows)
-                {
-                    if (string.Equals(r.Category, "PartsUsed", StringComparison.OrdinalIgnoreCase))
-                    {
-                        if (string.IsNullOrWhiteSpace(r.QuickBooksInvId))
-                            needNames.Add(cfg.MiscPartItem);
-                    }
-                    else if (string.Equals(r.Category, "MileageAndTravel", StringComparison.OrdinalIgnoreCase))
-                    {
-                        needNames.Add((r.ItemName ?? "").Equals("Mileage", StringComparison.OrdinalIgnoreCase)
-                                      ? cfg.MileageItem : cfg.TravelTimeItem);
-                    }
-                    else if (string.Equals(r.Category, "RegularLabour", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var isOt = (r.ItemName ?? "").StartsWith("Labour OT", StringComparison.OrdinalIgnoreCase);
-                        needNames.Add(isOt ? cfg.LabourOtItem : cfg.LabourItem);
-                    }
-                    else if (string.Equals(r.Category, "WorkOrderFees", StringComparison.OrdinalIgnoreCase))
-                    {
-                        needNames.Add(cfg.FeeItem);
-                    }
-                }
-
-                // Totals + tax
                 const int MONEY2 = 2;
                 decimal subtotal = rows.Sum(r => Math.Round((decimal)r.TotalAmount, MONEY2, MidpointRounding.AwayFromZero));
                 bool needTax = subtotal != 0m && cfg.HstRate != 0m;
-                if (needTax) needNames.Add(cfg.HstItem);
                 decimal tax = Math.Round(subtotal * cfg.HstRate, MONEY2, MidpointRounding.AwayFromZero);
                 decimal total = subtotal + tax;
 
-                // Resolve service ListIDs
-                Dictionary<string, string> nameToListId;
-                try
-                {
-                    var listIdMap = await _context.InventoryData
-                        .Where(i => i.ItemName != null && needNames.Contains(i.ItemName))
-                        .Select(i => new { i.ItemName, i.QuickBooksInvId })
-                        .ToListAsync(ct);
-
-                    nameToListId = listIdMap
-                        .GroupBy(x => x.ItemName!, StringComparer.OrdinalIgnoreCase)
-                        .ToDictionary(g => g.Key, g => g.Select(v => v.QuickBooksInvId).FirstOrDefault() ?? "", StringComparer.OrdinalIgnoreCase);
-                }
-                catch (Exception ex)
-                {
-                    return Error($"Failed resolving service ListIDs from InventoryData: {ex.GetBaseException().Message}");
-                }
-
-                var missingNames = needNames
-                    .Where(n => !nameToListId.TryGetValue(n, out var lid) || string.IsNullOrWhiteSpace(lid))
-                    .OrderBy(n => n)
-                    .ToList();
+                // (Optional, tiny fallback) If a PartsUsed row lacks a ListID, map to a “Misc Part” item if you have it
+                var miscPartListId = await _context.InventoryData
+                    .Where(i => i.ItemName == cfg.MiscPartItem)
+                    .Select(i => i.QuickBooksInvId)
+                    .FirstOrDefaultAsync(ct);
 
                 // 5) TX: upsert header, build/replace lines
                 await using var tx = await _context.Database.BeginTransactionAsync(ct);
@@ -220,9 +162,7 @@ namespace RaymarEquipmentInventory.Services
                             Total = total,
                             Currency = "CAD",
                             Status = "Ready",
-                            ErrorMessage = missingNames.Count > 0
-                                                ? $"Missing QuickBooks ListIDs for: {string.Join(", ", missingNames)}"
-                                                : null,
+                            ErrorMessage = null,                      // view already hydrated ListIDs
                             SourceHash = ComputeSourceHash(rows),
                             QbTxnId = null,
                             QbEditSequence = null,
@@ -247,9 +187,7 @@ namespace RaymarEquipmentInventory.Services
                         inv.TaxAmount = tax;
                         inv.Total = total;
                         inv.Status = "Ready";
-                        inv.ErrorMessage = missingNames.Count > 0
-                                                ? $"Missing QuickBooks ListIDs for: {string.Join(", ", missingNames)}"
-                                                : null;
+                        inv.ErrorMessage = null;
                         inv.SourceHash = ComputeSourceHash(rows);
                         inv.UpdatedAt = DateTime.UtcNow;
 
@@ -261,8 +199,8 @@ namespace RaymarEquipmentInventory.Services
                 {
                     await tx.RollbackAsync(ct);
                     var baseMsg = dbx.GetBaseException().Message;
-                    if (baseMsg.IndexOf("UX_Invoice_RefNumber", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                        baseMsg.IndexOf("duplicate", StringComparison.OrdinalIgnoreCase) >= 0)
+                    if (baseMsg.Contains("UX_Invoice_RefNumber", StringComparison.OrdinalIgnoreCase) ||
+                        baseMsg.Contains("duplicate", StringComparison.OrdinalIgnoreCase))
                     {
                         var dupe = await _context.Invoices.AsNoTracking()
                                       .FirstOrDefaultAsync(i => i.RefNumber == refNumber, ct);
@@ -271,13 +209,8 @@ namespace RaymarEquipmentInventory.Services
                     }
                     return Error($"DB write failed (header): {baseMsg}");
                 }
-                catch (Exception ex)
-                {
-                    await tx.RollbackAsync(ct);
-                    return Error($"Unexpected error writing header: {ex.GetBaseException().Message}");
-                }
 
-                // Build lines
+                // Build lines (use QuickBooksInvId directly)
                 var pending = new List<Models.InvoiceLine>();
                 try
                 {
@@ -287,45 +220,23 @@ namespace RaymarEquipmentInventory.Services
                         .ThenBy(x => x.TechnicianName)
                         .ThenBy(x => x.ItemName))
                     {
-                        string itemNameSnapshot;
-                        string? listId;
+                        string itemNameSnapshot = r.ItemName ?? "";
+                        string? listId = r.QuickBooksInvId; // ← hydrated by the view
 
-                        if (string.Equals(r.Category, "PartsUsed", StringComparison.OrdinalIgnoreCase))
+                        // Tiny fallback for parts that came without a ListID
+                        if (string.Equals(r.Category, "PartsUsed", StringComparison.OrdinalIgnoreCase) &&
+                            string.IsNullOrWhiteSpace(listId) &&
+                            !string.IsNullOrWhiteSpace(miscPartListId))
                         {
-                            if (!string.IsNullOrWhiteSpace(r.QuickBooksInvId))
-                            {
-                                itemNameSnapshot = r.ItemName ?? "Part";
-                                listId = r.QuickBooksInvId!;
-                            }
-                            else
-                            {
-                                itemNameSnapshot = cfg.MiscPartItem;
-                                listId = (nameToListId.TryGetValue(cfg.MiscPartItem, out var lid) && !string.IsNullOrWhiteSpace(lid)) ? lid : null;
-                            }
-                        }
-                        else if (string.Equals(r.Category, "MileageAndTravel", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var isMileage = (r.ItemName ?? "").Equals("Mileage", StringComparison.OrdinalIgnoreCase);
-                            itemNameSnapshot = isMileage ? cfg.MileageItem : cfg.TravelTimeItem;
-                            listId = (nameToListId.TryGetValue(itemNameSnapshot, out var lid) && !string.IsNullOrWhiteSpace(lid)) ? lid : null;
-                        }
-                        else if (string.Equals(r.Category, "RegularLabour", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var isOt = (r.ItemName ?? "").StartsWith("Labour OT", StringComparison.OrdinalIgnoreCase);
-                            itemNameSnapshot = isOt ? cfg.LabourOtItem : cfg.LabourItem;
-                            listId = (nameToListId.TryGetValue(itemNameSnapshot, out var lid) && !string.IsNullOrWhiteSpace(lid)) ? lid : null;
-                        }
-                        else
-                        {
-                            itemNameSnapshot = cfg.FeeItem;
-                            listId = (nameToListId.TryGetValue(itemNameSnapshot, out var lid) && !string.IsNullOrWhiteSpace(lid)) ? lid : null;
+                            itemNameSnapshot = cfg.MiscPartItem;
+                            listId = miscPartListId;
                         }
 
                         pending.Add(new Models.InvoiceLine
                         {
                             InvoiceId = inv.InvoiceId,
                             LineNumber = lineNo++,
-                            ItemListId = listId,                      // may be NULL
+                            ItemListId = listId,                           // may be NULL; export layer will guard
                             ItemNameSnapshot = itemNameSnapshot,
                             Description = CleanDesc(r.ItemName),
                             Qty = Math.Round((decimal)r.TotalQty, 4, MidpointRounding.AwayFromZero),
@@ -333,24 +244,23 @@ namespace RaymarEquipmentInventory.Services
                             Amount = Math.Round((decimal)r.TotalAmount, MONEY2, MidpointRounding.AwayFromZero),
                             ClassRef = null,
                             ServiceDate = null,
-                            TaxCodeRef = null,
+                            TaxCodeRef = null,   // set at export time (TAX/NON)
                             SourceType = r.Category ?? "",
                             SourceId = r.SourceInventoryId?.ToString(),
                             Uom = null,
-                            IsTaxable = true,
-                            TechnicianName = CleanTech(r.TechnicianName) // <<— NEW
+                            IsTaxable = true,   // tweak if you track non-tax
+                            TechnicianName = CleanTech(r.TechnicianName)
                         });
                     }
 
+                    // Keep a Tax line in DB for visibility; DO NOT send it to qbXML later
                     if (needTax && tax != 0m)
                     {
-                        string? taxListId = (nameToListId.TryGetValue(cfg.HstItem, out var lid) && !string.IsNullOrWhiteSpace(lid)) ? lid : null;
-
                         pending.Add(new Models.InvoiceLine
                         {
                             InvoiceId = inv.InvoiceId,
                             LineNumber = pending.Count + 1,
-                            ItemListId = taxListId,                   // may be NULL
+                            ItemListId = null,                 // header SalesTaxItemRef is used in qbXML
                             ItemNameSnapshot = cfg.HstItem,
                             Description = "HST",
                             Qty = 0m,
@@ -363,7 +273,7 @@ namespace RaymarEquipmentInventory.Services
                             SourceId = sheetId.ToString(),
                             Uom = null,
                             IsTaxable = false,
-                            TechnicianName = "N/A"                    // <<— NEW
+                            TechnicianName = "N/A"
                         });
                     }
                 }
@@ -373,9 +283,9 @@ namespace RaymarEquipmentInventory.Services
                     return Error($"Unexpected error building lines in memory: {ex.GetBaseException().Message}");
                 }
 
-                // Pre-diagnose null ItemListIDs that might violate NOT NULL schema
+                // Pre-diagnose missing ItemListIDs (only for non-Tax lines)
                 var nullItemListLines = pending
-                    .Where(l => string.IsNullOrWhiteSpace(l.ItemListId))
+                    .Where(l => l.SourceType != "Tax" && string.IsNullOrWhiteSpace(l.ItemListId))
                     .Select(l => $"{l.SourceType}:{l.ItemNameSnapshot}")
                     .Distinct()
                     .ToList();
@@ -391,18 +301,15 @@ namespace RaymarEquipmentInventory.Services
                     await tx.RollbackAsync(ct);
                     var baseMsg = dbx.GetBaseException().Message;
 
-                    if (baseMsg.IndexOf("ItemListID", StringComparison.OrdinalIgnoreCase) >= 0 &&
-                        baseMsg.IndexOf("NULL", StringComparison.OrdinalIgnoreCase) >= 0)
+                    if (baseMsg.Contains("ItemListID", StringComparison.OrdinalIgnoreCase) &&
+                        baseMsg.Contains("NULL", StringComparison.OrdinalIgnoreCase))
                     {
                         var hint =
                             "DB rejected NULL ItemListID on InvoiceLine. " +
-                            "Either configure QuickBooks ListIDs for the following items, " +
-                            "or allow NULLs with:\n" +
-                            "ALTER TABLE dbo.InvoiceLine ALTER COLUMN ItemListID NVARCHAR(50) NULL;\n" +
+                            "Hydrate from vw_InvoicePreviewWithQBInv or configure a Misc Part item. " +
                             $"Missing: {string.Join(", ", nullItemListLines)}";
                         return Error(hint);
                     }
-
                     return Error($"DB write failed (lines): {baseMsg}");
                 }
                 catch (OperationCanceledException oce)
@@ -416,13 +323,12 @@ namespace RaymarEquipmentInventory.Services
                     return Error($"Unexpected error writing lines: {ex.GetBaseException().Message}");
                 }
 
-                // Success
                 return new BuildInvoiceResult
                 {
-                    InvoiceId = inv.InvoiceId,
-                    RefNumber = inv.RefNumber,
-                    Status = inv.Status,
-                    ErrorMessage = inv.ErrorMessage
+                    InvoiceId = existing?.InvoiceId ?? _context.Entry(_context.Invoices.Local.Last()).Entity.InvoiceId,
+                    RefNumber = refNumber,
+                    Status = "Ready",
+                    ErrorMessage = null
                 };
             }
             catch (Exception outer)
@@ -430,6 +336,7 @@ namespace RaymarEquipmentInventory.Services
                 return Error($"Unhandled failure: {outer.GetBaseException().Message}");
             }
         }
+
 
 
 
@@ -457,7 +364,7 @@ namespace RaymarEquipmentInventory.Services
         private static string CleanDesc(string? s)
             => string.IsNullOrWhiteSpace(s) ? "" : s.Replace('\t', ' ').Replace("\r", " ").Replace("\n", " ").Trim();
 
-        private static byte[] ComputeSourceHash(IReadOnlyList<Models.VwInvoicePreviewExport> rows)
+        private static byte[] ComputeSourceHash(IReadOnlyList<Models.VwInvoicePreviewWithQbinv> rows)
         {
             var sb = new StringBuilder();
             foreach (var r in rows.OrderBy(x => x.Category).ThenBy(x => x.TechnicianName).ThenBy(x => x.ItemName))

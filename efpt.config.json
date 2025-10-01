@@ -376,6 +376,10 @@
          "ObjectType": 3
       },
       {
+         "Name": "[dbo].[vw_FlatLabour_QBMatch]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[vw_InventoryComparison]",
          "ObjectType": 3
       },
@@ -405,6 +409,10 @@
       },
       {
          "Name": "[dbo].[vw_InvoicePreviewSummed]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vw_InvoicePreviewWithQBInv]",
          "ObjectType": 3
       },
       {
