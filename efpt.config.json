@@ -96,6 +96,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[ExpensesQB]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[FailedSyncLog]",
          "ObjectType": 0
       },
@@ -201,6 +205,10 @@
       },
       {
          "Name": "[dbo].[QBItemCatalog_Staging]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QBItemOther_Staging]",
          "ObjectType": 0
       },
       {
@@ -429,6 +437,26 @@
       },
       {
          "Name": "[dbo].[vw_WorkOrderTechnicians]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vwInventory_StagingInsertCandidates]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vwInventory_StagingUpdateCandidates]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vwInventory_StagingUpsertWork]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vwInventory_UpsertPreview]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[vwInventory_UpsertWork]",
          "ObjectType": 3
       },
       {

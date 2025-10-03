@@ -1,5 +1,4 @@
 ﻿
-
 namespace RaymarEquipmentInventory.Services
 {
     public interface IQBWCRequestBuilder
@@ -7,32 +6,82 @@ namespace RaymarEquipmentInventory.Services
         // First “hello” request (super light)
         string BuildCompanyQuery();
 
-        // Start/Continue inventory paging
-        string BuildItemInventoryStart(int pageSize, bool activeOnly, string? fromModifiedIso8601Utc, string[]? includeRetElements = null);
-        string BuildItemInventoryContinue(string iteratorId, int pageSize, string[]? includeRetElements = null);
+        // ---------- Inventory (ItemInventory) ----------
+        string BuildItemInventoryStart(
+            int pageSize,
+            bool activeOnly,
+            string? fromModifiedIso8601Utc,
+            string[]? includeRetElements = null);
 
-        public string BuildCustomerContinue(
-    string iteratorId,
-    int pageSize,
-    string[]? includeRetElements = null);
+        string BuildItemInventoryContinue(
+            string iteratorId,
+            int pageSize,
+            string[]? includeRetElements = null);
 
-        public string BuildCustomerStart(
-    int pageSize,
-    bool activeOnly,
-    string? fromModifiedIso8601Utc,
-    string[]? includeRetElements = null);
+        // ---------- Customers / Jobs ----------
+        string BuildCustomerStart(
+            int pageSize,
+            bool activeOnly,
+            string? fromModifiedIso8601Utc,
+            string[]? includeRetElements = null);
 
+        string BuildCustomerContinue(
+            string iteratorId,
+            int pageSize,
+            string[]? includeRetElements = null);
 
-        public string BuildItemServiceStart(
-    int pageSize,
-    bool activeOnly,
-    string? fromModifiedIso8601Utc);
+        // ---------- ItemService ----------
+        string BuildItemServiceStart(
+            int pageSize,
+            bool activeOnly,
+            string? fromModifiedIso8601Utc);
 
-        public string BuildItemServiceContinue(
-    string iteratorId,
-    int pageSize);
+        string BuildItemServiceContinue(
+            string iteratorId,
+            int pageSize);
 
+        // ============================================================
+        // NEW: Non-Inventory / Other-Charge / Sales-Tax / Tax-Group
+        // ============================================================
+
+        // ---------- ItemNonInventory ----------
+        string BuildItemNonInventoryStart(
+            int pageSize,
+            bool activeOnly,
+            string? fromModifiedIso8601Utc);
+
+        string BuildItemNonInventoryContinue(
+            string iteratorId,
+            int pageSize);
+
+        // ---------- ItemOtherCharge ----------
+        string BuildItemOtherChargeStart(
+            int pageSize,
+            bool activeOnly,
+            string? fromModifiedIso8601Utc);
+
+        string BuildItemOtherChargeContinue(
+            string iteratorId,
+            int pageSize);
+
+        // ---------- ItemSalesTax ----------
+        string BuildItemSalesTaxStart(
+            int pageSize,
+            bool activeOnly,
+            string? fromModifiedIso8601Utc);
+
+        string BuildItemSalesTaxContinue(
+            string iteratorId,
+            int pageSize);
+
+        // ---------- ItemSalesTaxGroup ----------
+        string BuildItemSalesTaxGroupStart(
+            int pageSize,
+            bool activeOnly,
+            string? fromModifiedIso8601Utc);
+
+        string BuildItemSalesTaxGroupContinue(
+            string iteratorId,
+            int pageSize);
     }
-
-
 }

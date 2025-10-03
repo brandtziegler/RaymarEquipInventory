@@ -136,7 +136,144 @@ namespace RaymarEquipmentInventory.Services
                 return result;
             }
 
+            // =================================================================
+            // NEW: NON-INVENTORY / OTHER-CHARGE / SALES-TAX / SALES-TAX-GROUP
+            // =================================================================
 
+            // ---------- ItemNonInventoryQueryRs ----------
+            var nonInvRs = doc.Descendants("ItemNonInventoryQueryRs").FirstOrDefault();
+            if (nonInvRs != null)
+            {
+                PopulateIterator(nonInvRs, result);
+
+                var items =
+                    from it in nonInvRs.Elements("ItemNonInventoryRet")
+                    let sop = it.Element("SalesOrPurchase")
+                    let sap = it.Element("SalesAndPurchase")
+                    select new CatalogItemDto
+                    {
+                        ListID = (string?)it.Element("ListID"),
+                        Name = (string?)it.Element("Name") ?? (string?)it.Element("FullName"),
+                        FullName = (string?)it.Element("FullName"),
+                        EditSequence = (string?)it.Element("EditSequence"),
+                        SalesPrice = TryDec((string?)it.Element("SalesPrice") ?? (string?)sop?.Element("Price")),
+                        PurchaseCost = TryDec((string?)it.Element("PurchaseCost") ?? (string?)sap?.Element("PurchaseCost")),
+                        SalesDesc = (string?)it.Element("SalesDesc") ?? (string?)sop?.Element("SalesDesc") ?? (string?)sap?.Element("SalesDesc"),
+                        PurchaseDesc = (string?)it.Element("PurchaseDesc") ?? (string?)sap?.Element("PurchaseDesc"),
+                        IsActive = TryBool((string?)it.Element("IsActive")),
+                        TimeModified = TryDate((string?)it.Element("TimeModified")),
+                        Type = "NonInventory"
+                    };
+
+                var list = items.ToList();
+                // TEMP: keep using ServiceItems bucket with Type discriminator
+                result.ServiceItems.AddRange(list);
+
+                await _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: $"noninv.items={list.Count}",
+                    ct: ct);
+
+                return result;
+            }
+
+            // ---------- ItemOtherChargeQueryRs ----------
+            var otherRs = doc.Descendants("ItemOtherChargeQueryRs").FirstOrDefault();
+            if (otherRs != null)
+            {
+                PopulateIterator(otherRs, result);
+
+                var items =
+                    from it in otherRs.Elements("ItemOtherChargeRet")
+                    let sop = it.Element("SalesOrPurchase")
+                    select new CatalogItemDto
+                    {
+                        ListID = (string?)it.Element("ListID"),
+                        Name = (string?)it.Element("Name") ?? (string?)it.Element("FullName"),
+                        FullName = (string?)it.Element("FullName"),
+                        EditSequence = (string?)it.Element("EditSequence"),
+                        SalesPrice = TryDec((string?)it.Element("SalesPrice") ?? (string?)sop?.Element("Price")),
+                        SalesDesc = (string?)it.Element("SalesDesc") ?? (string?)sop?.Element("SalesDesc"),
+                        // OtherCharge seldom has Purchase*; leave null
+                        IsActive = TryBool((string?)it.Element("IsActive")),
+                        TimeModified = TryDate((string?)it.Element("TimeModified")),
+                        Type = "OtherCharge"
+                    };
+
+                var list = items.ToList();
+                result.ServiceItems.AddRange(list);
+
+                await _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: $"othercharge.items={list.Count}",
+                    ct: ct);
+
+                return result;
+            }
+
+            // ---------- ItemSalesTaxQueryRs ----------
+            var taxRs = doc.Descendants("ItemSalesTaxQueryRs").FirstOrDefault();
+            if (taxRs != null)
+            {
+                PopulateIterator(taxRs, result);
+
+                var items =
+                    from it in taxRs.Elements("ItemSalesTaxRet")
+                    select new CatalogItemDto
+                    {
+                        ListID = (string?)it.Element("ListID"),
+                        Name = (string?)it.Element("Name") ?? (string?)it.Element("FullName"),
+                        FullName = (string?)it.Element("FullName"),
+                        EditSequence = (string?)it.Element("EditSequence"),
+                        SalesDesc = (string?)it.Element("ItemDesc"),
+                        // TaxRate may exist but not a “price”; store in PurchaseCost as null, keep desc
+                        IsActive = TryBool((string?)it.Element("IsActive")),
+                        TimeModified = TryDate((string?)it.Element("TimeModified")),
+                        Type = "SalesTaxItem"
+                    };
+
+                var list = items.ToList();
+                result.ServiceItems.AddRange(list);
+
+                await _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: $"salestax.items={list.Count}",
+                    ct: ct);
+
+                return result;
+            }
+
+            // ---------- ItemSalesTaxGroupQueryRs ----------
+            var taxGrpRs = doc.Descendants("ItemSalesTaxGroupQueryRs").FirstOrDefault();
+            if (taxGrpRs != null)
+            {
+                PopulateIterator(taxGrpRs, result);
+
+                var items =
+                    from it in taxGrpRs.Elements("ItemSalesTaxGroupRet")
+                    select new CatalogItemDto
+                    {
+                        ListID = (string?)it.Element("ListID"),
+                        Name = (string?)it.Element("Name") ?? (string?)it.Element("FullName"),
+                        FullName = (string?)it.Element("FullName"),
+                        EditSequence = (string?)it.Element("EditSequence"),
+                        SalesDesc = (string?)it.Element("ItemDesc"),
+                        IsActive = TryBool((string?)it.Element("IsActive")),
+                        TimeModified = TryDate((string?)it.Element("TimeModified")),
+                        Type = "SalesTaxGroup"
+                        // Group members (ItemSalesTaxRef) can be parsed later if needed
+                    };
+
+                var list = items.ToList();
+                result.ServiceItems.AddRange(list);
+
+                await _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: $"salestaxgroup.items={list.Count}",
+                    ct: ct);
+
+                return result;
+            }
 
             // ---------- CUSTOMERS/JOBS BRANCH ----------
             var custRs = doc.Descendants("CustomerQueryRs").FirstOrDefault();

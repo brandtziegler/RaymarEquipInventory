@@ -274,6 +274,7 @@ builder.Services.AddScoped<IInvoiceSnapshotService, InvoiceSnapshotService>();
 builder.Services.AddScoped<ICustomerImportService, CustomerImportService>();
 builder.Services.AddScoped<IQBWebConnectorSvc, QbwcSoapService>();
 builder.Services.AddScoped<IQBItemCatalogImportService, QBItemCatalogImportService>();
+builder.Services.AddScoped<IQBItemOtherImportService, QBItemOtherImportService>();
 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "");
 Environment.SetEnvironmentVariable("GOOGLE_CLOUD_PROJECT", "");
 Environment.SetEnvironmentVariable("GOOGLE_WORKLOAD_IDENTITY_POOL", "");

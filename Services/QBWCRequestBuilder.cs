@@ -158,22 +158,22 @@ $@"{QbXmlHeader}
 </QBXML>";
         }
 
-        // Add next to ItemInclude / CustomerInclude
+        // ---------- ItemService (Service items) ----------
+        // Keep your existing include for reference; QB ignores IncludeRetElement for ItemService sometimes.
         private static readonly string[] ServiceInclude = new[]
         {
-    "ListID",
-    "Name",
-    "FullName",
-    "EditSequence",
-    "SalesPrice",        // may be null; also covered under SalesOrPurchase.Price
-    "PurchaseCost",      // may be null; also covered under SalesAndPurchase.PurchaseCost
-    "SalesDesc",
-    "PurchaseDesc",
-    "IsActive",
-    "TimeModified"
-};
+            "ListID",
+            "Name",
+            "FullName",
+            "EditSequence",
+            "SalesPrice",
+            "PurchaseCost",
+            "SalesDesc",
+            "PurchaseDesc",
+            "IsActive",
+            "TimeModified"
+        };
 
-        // ---------- ItemService (Service items) ----------
         public string BuildItemServiceStart(int pageSize, bool activeOnly, string? fromIso)
         {
             var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
@@ -203,7 +203,170 @@ $@"{QbXmlHeader}
 </QBXML>";
         }
 
+        // =====================================================================
+        // NEW: Non-Inventory, Other Charge, Sales Tax Item, Sales Tax Group
+        // =====================================================================
 
+        private static readonly string[] NonInventoryInclude = new[]
+        {
+            "ListID","Name","FullName","EditSequence",
+            "SalesPrice","PurchaseCost","SalesDesc","PurchaseDesc",
+            "IsActive","TimeModified"
+        };
 
+        private static readonly string[] OtherChargeInclude = new[]
+        {
+            "ListID","Name","FullName","EditSequence",
+            "SalesPrice","SalesDesc","IsActive","TimeModified"
+        };
+
+        private static readonly string[] SalesTaxItemInclude = new[]
+        {
+            "ListID","Name","FullName","EditSequence",
+            "ItemDesc","TaxRate","IsActive","TimeModified"
+        };
+
+        private static readonly string[] SalesTaxGroupInclude = new[]
+        {
+            "ListID","Name","FullName","EditSequence",
+            "ItemDesc","IsActive","TimeModified"
+            // (Group members come as ItemSalesTaxRef aggregate; we’ll parse in handler)
+        };
+
+        // ---- ItemNonInventory ----
+        public string BuildItemNonInventoryStart(int pageSize, bool activeOnly, string? fromIso)
+        {
+            var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
+            var from = !string.IsNullOrWhiteSpace(fromIso) ? $"<FromModifiedDate>{fromIso}</FromModifiedDate>" : "";
+            var include = IncludeBlock(NonInventoryInclude);
+
+            return $@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemNonInventoryQueryRq requestID=""noninv-1"" iterator=""Start"">
+      {active}
+      {from}
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemNonInventoryQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
+
+        public string BuildItemNonInventoryContinue(string iteratorId, int pageSize)
+        {
+            var include = IncludeBlock(NonInventoryInclude);
+            return $@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemNonInventoryQueryRq requestID=""noninv-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemNonInventoryQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
+
+        // ---- ItemOtherCharge ----
+        public string BuildItemOtherChargeStart(int pageSize, bool activeOnly, string? fromIso)
+        {
+            var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
+            var from = !string.IsNullOrWhiteSpace(fromIso) ? $"<FromModifiedDate>{fromIso}</FromModifiedDate>" : "";
+            var include = IncludeBlock(OtherChargeInclude);
+
+            return $@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemOtherChargeQueryRq requestID=""other-1"" iterator=""Start"">
+      {active}
+      {from}
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemOtherChargeQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
+
+        public string BuildItemOtherChargeContinue(string iteratorId, int pageSize)
+        {
+            var include = IncludeBlock(OtherChargeInclude);
+            return $@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemOtherChargeQueryRq requestID=""other-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemOtherChargeQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
+
+        // ---- ItemSalesTax (single tax item, e.g., HST) ----
+        public string BuildItemSalesTaxStart(int pageSize, bool activeOnly, string? fromIso)
+        {
+            var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
+            var from = !string.IsNullOrWhiteSpace(fromIso) ? $"<FromModifiedDate>{fromIso}</FromModifiedDate>" : "";
+            var include = IncludeBlock(SalesTaxItemInclude);
+
+            return $@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemSalesTaxQueryRq requestID=""tax-1"" iterator=""Start"">
+      {active}
+      {from}
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemSalesTaxQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
+
+        public string BuildItemSalesTaxContinue(string iteratorId, int pageSize)
+        {
+            var include = IncludeBlock(SalesTaxItemInclude);
+            return $@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemSalesTaxQueryRq requestID=""tax-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemSalesTaxQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
+
+        // ---- ItemSalesTaxGroup (group like HST composed of members) ----
+        public string BuildItemSalesTaxGroupStart(int pageSize, bool activeOnly, string? fromIso)
+        {
+            var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
+            var from = !string.IsNullOrWhiteSpace(fromIso) ? $"<FromModifiedDate>{fromIso}</FromModifiedDate>" : "";
+            var include = IncludeBlock(SalesTaxGroupInclude);
+
+            return $@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemSalesTaxGroupQueryRq requestID=""taxgrp-1"" iterator=""Start"">
+      {active}
+      {from}
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemSalesTaxGroupQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
+
+        public string BuildItemSalesTaxGroupContinue(string iteratorId, int pageSize)
+        {
+            var include = IncludeBlock(SalesTaxGroupInclude);
+            return $@"{QbXmlHeader}
+<QBXML>
+  <QBXMLMsgsRq onError=""stopOnError"">
+    <ItemSalesTaxGroupQueryRq requestID=""taxgrp-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
+      <MaxReturned>{pageSize}</MaxReturned>
+      {include}
+    </ItemSalesTaxGroupQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>";
+        }
     }
 }
