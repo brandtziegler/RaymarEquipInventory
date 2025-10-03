@@ -1,4 +1,6 @@
 ﻿
+using RaymarEquipmentInventory.DTOs;
+
 namespace RaymarEquipmentInventory.Services
 {
     public interface IQBWCRequestBuilder
@@ -83,5 +85,10 @@ namespace RaymarEquipmentInventory.Services
         string BuildItemSalesTaxGroupContinue(
             string iteratorId,
             int pageSize);
+
+        string BuildInvoiceAdd(InvoiceAddPayload payload);
     }
+
+   
+
 }

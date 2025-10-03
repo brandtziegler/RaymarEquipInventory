@@ -166,7 +166,6 @@ namespace RaymarEquipmentInventory.Services
                     };
 
                 var list = items.ToList();
-                // TEMP: keep using ServiceItems bucket with Type discriminator
                 result.ServiceItems.AddRange(list);
 
                 await _audit.LogMessageAsync(
@@ -194,7 +193,6 @@ namespace RaymarEquipmentInventory.Services
                         EditSequence = (string?)it.Element("EditSequence"),
                         SalesPrice = TryDec((string?)it.Element("SalesPrice") ?? (string?)sop?.Element("Price")),
                         SalesDesc = (string?)it.Element("SalesDesc") ?? (string?)sop?.Element("SalesDesc"),
-                        // OtherCharge seldom has Purchase*; leave null
                         IsActive = TryBool((string?)it.Element("IsActive")),
                         TimeModified = TryDate((string?)it.Element("TimeModified")),
                         Type = "OtherCharge"
@@ -226,7 +224,6 @@ namespace RaymarEquipmentInventory.Services
                         FullName = (string?)it.Element("FullName"),
                         EditSequence = (string?)it.Element("EditSequence"),
                         SalesDesc = (string?)it.Element("ItemDesc"),
-                        // TaxRate may exist but not a “price”; store in PurchaseCost as null, keep desc
                         IsActive = TryBool((string?)it.Element("IsActive")),
                         TimeModified = TryDate((string?)it.Element("TimeModified")),
                         Type = "SalesTaxItem"
@@ -261,7 +258,6 @@ namespace RaymarEquipmentInventory.Services
                         IsActive = TryBool((string?)it.Element("IsActive")),
                         TimeModified = TryDate((string?)it.Element("TimeModified")),
                         Type = "SalesTaxGroup"
-                        // Group members (ItemSalesTaxRef) can be parsed later if needed
                     };
 
                 var list = items.ToList();
@@ -270,6 +266,32 @@ namespace RaymarEquipmentInventory.Services
                 await _audit.LogMessageAsync(
                     runId, "receiveResponseXML", "resp",
                     message: $"salestaxgroup.items={list.Count}",
+                    ct: ct);
+
+                return result;
+            }
+
+            // ====================== NEW: INVOICE ADD RESPONSE ======================
+            var invAddRs = doc.Descendants("InvoiceAddRs").FirstOrDefault();
+            if (invAddRs != null)
+            {
+                PopulateIterator(invAddRs, result); // harmless here
+
+                var ret = invAddRs.Element("InvoiceRet");
+                if (ret != null)
+                {
+                    result.InvoiceTxnId = (string?)ret.Element("TxnID");
+                    result.InvoiceEditSeq = (string?)ret.Element("EditSequence");
+                }
+
+                var scAttr = (string?)invAddRs.Attribute("statusCode");
+                var smAttr = (string?)invAddRs.Attribute("statusMessage");
+                if (int.TryParse(scAttr, out var sc)) result.StatusCode = sc;
+                result.StatusMessage = smAttr ?? result.StatusMessage;
+
+                await _audit.LogMessageAsync(
+                    runId, "receiveResponseXML", "resp",
+                    message: $"InvoiceAddRs: txnId={result.InvoiceTxnId ?? "<null>"}; editSeq={result.InvoiceEditSeq ?? "<null>"}; status={result.StatusCode}:{result.StatusMessage}",
                     ct: ct);
 
                 return result;
@@ -289,54 +311,41 @@ namespace RaymarEquipmentInventory.Services
                     let jobTypeRef = job?.Element("JobTypeRef")
                     select new CustomerData
                     {
-                        // IDs & hierarchy (ParentCustomerID resolved later)
                         CustomerID = 0,
                         ID = (string?)c.Element("ListID") ?? "",
                         ParentID = (string?)parent?.Element("ListID") ?? "",
                         Name = (string?)c.Element("Name") ?? "",
                         ParentName = (string?)parent?.Element("FullName") ?? "",
                         SubLevelId = TryInt((string?)c.Element("Sublevel")) ?? 0,
-
-                        // Company/person
                         Company = (string?)c.Element("CompanyName") ?? "",
                         FullName = (string?)c.Element("FullName") ?? "",
                         FirstName = (string?)c.Element("FirstName") ?? "",
                         LastName = (string?)c.Element("LastName") ?? "",
                         AccountNumber = (string?)c.Element("AccountNumber") ?? "",
-
-                        // Contact
                         Phone = (string?)c.Element("Phone") ?? (string?)c.Element("Phone1") ?? "",
                         Email = (string?)c.Element("Email") ?? "",
                         Notes = (string?)c.Element("Notes") ?? "",
-
-                        // Address
                         FullAddress = BuildAddress(bill) ?? "",
-
-                        // Job info
                         JobStatus = (string?)job?.Element("JobStatus") ?? "",
                         JobStartDate = (string?)job?.Element("JobStartDate") ?? "",
                         JobProjectedEndDate = (string?)job?.Element("JobProjectedEndDate") ?? "",
                         JobDescription = (string?)job?.Element("JobDesc") ?? "",
                         JobType = (string?)jobTypeRef?.Element("FullName") ?? "",
                         JobTypeId = (string?)jobTypeRef?.Element("ListID") ?? "",
-
-                        // Misc/derived
                         Description = (string?)c.Element("Notes") ?? "",
                         IsActive = TryBool((string?)c.Element("IsActive")) ?? false,
-                        EffectiveActive = false,             // recomputed later
+                        EffectiveActive = false,
                         MaterializedPath = "",
                         PathIds = "",
                         Depth = 0,
                         RootId = 0,
-
-                        // Concurrency/meta
                         EditSequence = (string?)c.Element("EditSequence") ?? "",
                         QBLastUpdated = TryDate((string?)c.Element("TimeModified")),
                         LastUpdated = DateTime.UtcNow,
                         UpdateType = "A",
-                        ChangeVersion = "",                  // DB will set when persisted
-                        ParentCustomerID = 0,                // resolve after insert
-                        UnitNumber = ""                      // (optional) parse from Name if you choose
+                        ChangeVersion = "",
+                        ParentCustomerID = 0,
+                        UnitNumber = ""
                     };
 
                 var list = customers.ToList();
@@ -357,6 +366,7 @@ namespace RaymarEquipmentInventory.Services
             // Neither branch matched
             return result;
         }
+
 
         // ------------- helpers -------------
         private static void PopulateIterator(XElement rs, ReceiveParseResult result)

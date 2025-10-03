@@ -19,6 +19,7 @@ namespace RaymarEquipmentInventory.Services
         private readonly QbwcRequestOptions _opt;
         private readonly IBackgroundJobClient _jobs;
         private readonly IQBItemCatalogImportService _catalog;
+        private readonly IInvoiceExportService _invoiceExport;
         private readonly IQBItemOtherImportService _other;  
         // ===== Feature flags =====
         private const bool ENABLE_CUSTOMER_SYNC = true;
@@ -36,7 +37,8 @@ namespace RaymarEquipmentInventory.Services
             IBackgroundJobClient jobs,
             ICustomerImportService customerImport,
             IQBItemCatalogImportService catalog,
-            IQBItemOtherImportService other)
+            IQBItemOtherImportService other,
+            IInvoiceExportService invoiceExport)
         {
             _audit = audit;
             _session = session;
@@ -48,6 +50,7 @@ namespace RaymarEquipmentInventory.Services
             _customerImport = customerImport;
             _catalog = catalog;
             _other = other;
+            _invoiceExport = invoiceExport;
         }
 
         public string[] authenticate(string strUserName, string strPassword)
@@ -115,6 +118,36 @@ namespace RaymarEquipmentInventory.Services
 
             var iter = _session.GetIterator(runId);
             string xml;
+
+            // ---------------- ONE-TIME INVOICE SEND (test) ----------------
+            // Kick off a single InvoiceAdd once per new session
+            if (string.IsNullOrEmpty(iter.LastRequestType))
+            {
+                iter.LastRequestType = "InvoiceAddPending";
+                iter.IteratorId = null;
+                iter.Remaining = 0;
+                _session.SetIterator(runId, iter);
+            }
+
+            if (string.Equals(iter.LastRequestType, "InvoiceAddPending", StringComparison.Ordinal))
+            {
+                // Build from DB (InvoiceID = 7 for now)
+                var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(7).GetAwaiter().GetResult();
+                xml = _request.BuildInvoiceAdd(payload);
+
+                iter.LastRequestType = "InvoiceAddRq";
+                iter.IteratorId = null;
+                iter.Remaining = 0;
+                _session.SetIterator(runId, iter);
+
+                _audit.LogMessageAsync(runId, "sendRequestXML", "req",
+                    companyFile: strCompanyFileName,
+                    message: $"type=InvoiceAddRq Ref={payload.RefNumber}")
+                    .GetAwaiter().GetResult();
+
+                return xml;
+            }
+            // --------------- END INVOICE SEND ----------------
 
             if (_opt.CustomersOnly && string.IsNullOrEmpty(iter.LastRequestType))
             {
@@ -425,6 +458,7 @@ namespace RaymarEquipmentInventory.Services
             return "";
         }
 
+
         public int receiveResponseXML(string ticket, string response, string hresult, string message)
         {
             if (!_session.TryGetRunId(ticket, out var runId))
@@ -467,6 +501,37 @@ namespace RaymarEquipmentInventory.Services
                     message: $"parser exception: {ex.GetType().Name}: {ex.Message}")
                     .GetAwaiter().GetResult();
                 return 100;
+            }
+
+            // ======================= INVOICE ADD RESULT =======================
+            bool isInvoiceAddRs =
+                state.LastRequestType == "InvoiceAddRq" ||
+                (response?.IndexOf("<InvoiceAddRs", StringComparison.OrdinalIgnoreCase) >= 0);
+
+            if (isInvoiceAddRs)
+            {
+                try
+                {
+                    var txnId = (string?)parsed?.InvoiceTxnId;
+                    var editSeq = (string?)parsed?.InvoiceEditSeq;
+                    if (!string.IsNullOrWhiteSpace(txnId))
+                        _invoiceExport.OnInvoiceExportSuccessAsync(7, txnId!, editSeq ?? "").GetAwaiter().GetResult();
+                    else
+                        _invoiceExport.OnInvoiceExportFailureAsync(7, parsed?.StatusMessage ?? "Unknown error").GetAwaiter().GetResult();
+                }
+                catch (Exception ex)
+                {
+                    _audit.LogMessageAsync(runId, "InvoiceAdd", "resp",
+                        message: $"post-write fail: {ex.GetType().Name}: {ex.Message}")
+                        .GetAwaiter().GetResult();
+                }
+
+                // After the one-shot invoice, continue with your normal flow (Inventory → ...)
+                state.LastRequestType = "CompanyDone";
+                state.IteratorId = null;
+                state.Remaining = 0;
+                _session.SetIterator(runId, state);
+                return 1;
             }
 
             // ======================= INVENTORY =======================
@@ -756,6 +821,7 @@ namespace RaymarEquipmentInventory.Services
 
             return 100;
         }
+
 
     }
 }

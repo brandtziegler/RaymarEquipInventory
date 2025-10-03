@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
+using RaymarEquipmentInventory.DTOs;
 using System;
+using System.Globalization;
 using System.Linq;
 
 namespace RaymarEquipmentInventory.Services
@@ -367,6 +369,54 @@ $@"{QbXmlHeader}
     </ItemSalesTaxGroupQueryRq>
   </QBXMLMsgsRq>
 </QBXML>";
+        }
+
+
+        public string BuildInvoiceAdd(InvoiceAddPayload p)
+        {
+            string Esc(string? s) => System.Security.SecurityElement.Escape(s ?? "");
+            string D(DateTime dt) => dt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine(@"<?xml version=""1.0"" ?>");
+            sb.AppendLine(@"<?qbxml version=""16.0""?>");
+            sb.AppendLine("<QBXML><QBXMLMsgsRq onError=\"stopOnError\">");
+            sb.AppendLine(@"  <InvoiceAddRq requestID=""inv-add-1"">");
+            sb.AppendLine("    <InvoiceAdd>");
+            sb.AppendLine($"      <CustomerRef><ListID>{Esc(p.CustomerListID)}</ListID></CustomerRef>");
+            if (!string.IsNullOrWhiteSpace(p.ItemSalesTaxRefListID))
+                sb.AppendLine($"      <ItemSalesTaxRef><ListID>{Esc(p.ItemSalesTaxRefListID)}</ListID></ItemSalesTaxRef>");
+            sb.AppendLine($"      <RefNumber>{Esc(p.RefNumber)}</RefNumber>");
+            sb.AppendLine($"      <TxnDate>{D(p.TxnDate)}</TxnDate>");
+            if (!string.IsNullOrWhiteSpace(p.PONumber)) sb.AppendLine($"      <PONumber>{Esc(p.PONumber)}</PONumber>");
+            if (!string.IsNullOrWhiteSpace(p.Memo)) sb.AppendLine($"      <Memo>{Esc(p.Memo)}</Memo>");
+
+            foreach (var L in p.Lines)
+            {
+                // We’ll send Qty + Rate (QuickBooks calculates Amount)
+                sb.AppendLine("      <InvoiceLineAdd>");
+                if (!string.IsNullOrWhiteSpace(L.ItemListID))
+                    sb.AppendLine($"        <ItemRef><ListID>{Esc(L.ItemListID)}</ListID></ItemRef>");
+                if (!string.IsNullOrWhiteSpace(L.Desc))
+                    sb.AppendLine($"        <Desc>{Esc(L.Desc)}</Desc>");
+                if (L.ServiceDate.HasValue)
+                    sb.AppendLine($"        <ServiceDate>{D(L.ServiceDate.Value)}</ServiceDate>");
+                if (!string.IsNullOrWhiteSpace(L.ClassRef))
+                    sb.AppendLine($"        <ClassRef><FullName>{Esc(L.ClassRef)}</FullName></ClassRef>");
+                if (L.Qty.HasValue) sb.AppendLine($"        <Quantity>{L.Qty.Value:0.####}</Quantity>");
+                if (L.Rate.HasValue) sb.AppendLine($"        <Rate>{L.Rate.Value:0.####}</Rate>");
+
+                // Optional tax code hint (only if you’re using them). Otherwise omit and let item defaults apply.
+                if (L.IsTaxable.HasValue)
+                    sb.AppendLine($"        <SalesTaxCodeRef><FullName>{(L.IsTaxable.Value ? "Tax" : "Non")}</FullName></SalesTaxCodeRef>");
+
+                sb.AppendLine("      </InvoiceLineAdd>");
+            }
+
+            sb.AppendLine("    </InvoiceAdd>");
+            sb.AppendLine("  </InvoiceAddRq>");
+            sb.AppendLine("</QBXMLMsgsRq></QBXML>");
+            return sb.ToString();
         }
     }
 }

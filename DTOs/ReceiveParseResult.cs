@@ -10,6 +10,9 @@
         public int IteratorRemaining { get; set; }
         public int? StatusCode { get; set; }
         public string? StatusMessage { get; set; }
+
+        public string? InvoiceTxnId { get; set; }
+        public string? InvoiceEditSeq { get; set; }
     }
 
 
