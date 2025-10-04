@@ -119,6 +119,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<PlaceholderDocument> PlaceholderDocuments { get; set; }
 
+    public virtual DbSet<QbXmlLog> QbXmlLogs { get; set; }
+
     public virtual DbSet<QbitemCatalog> QbitemCatalogs { get; set; }
 
     public virtual DbSet<QbitemCatalogStaging> QbitemCatalogStagings { get; set; }
@@ -1717,6 +1719,40 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasForeignKey(d => d.DocumentTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PlaceholderDocuments_DocumentTypes");
+        });
+
+        modelBuilder.Entity<QbXmlLog>(entity =>
+        {
+            entity.HasKey(e => e.LogId).HasName("PK__QbXmlLog__5E548648CE735A60");
+
+            entity.ToTable("QbXmlLog");
+
+            entity.HasIndex(e => new { e.Direction, e.Phase, e.CreatedAtUtc }, "IX_QbXmlLog_DirPhase").IsDescending(false, false, true);
+
+            entity.HasIndex(e => new { e.InvoiceId, e.CreatedAtUtc }, "IX_QbXmlLog_Invoice").IsDescending(false, true);
+
+            entity.HasIndex(e => e.RequestGuid, "IX_QbXmlLog_Request");
+
+            entity.HasIndex(e => new { e.RunId, e.CreatedAtUtc }, "IX_QbXmlLog_RunId").IsDescending(false, true);
+
+            entity.Property(e => e.CompanyFile).HasMaxLength(260);
+            entity.Property(e => e.CreatedAtUtc)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.Direction)
+                .IsRequired()
+                .HasMaxLength(4);
+            entity.Property(e => e.Hresult)
+                .HasMaxLength(16)
+                .HasColumnName("HResult");
+            entity.Property(e => e.IteratorId).HasMaxLength(100);
+            entity.Property(e => e.Message).HasMaxLength(4000);
+            entity.Property(e => e.PayloadSha256).HasMaxLength(32);
+            entity.Property(e => e.Phase)
+                .IsRequired()
+                .HasMaxLength(32);
+            entity.Property(e => e.RefNumber).HasMaxLength(50);
+            entity.Property(e => e.RequestType).HasMaxLength(64);
         });
 
         modelBuilder.Entity<QbitemCatalog>(entity =>

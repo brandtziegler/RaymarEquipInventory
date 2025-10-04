@@ -220,6 +220,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[QbXmlLog]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[RegularLabour]",
          "ObjectType": 0
       },
