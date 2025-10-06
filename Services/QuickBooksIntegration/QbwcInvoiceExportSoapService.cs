@@ -21,7 +21,7 @@ namespace RaymarEquipmentInventory.Services
         private readonly QbwcRequestOptions _opt;
 
         // Hardcoded single-invoice test; replace with queue later
-        private const int TEST_INVOICE_ID = 7;
+        private const int TEST_INVOICE_ID = 8;
 
         public QbwcInvoiceExportSoapService(
             IAuditLogger audit,

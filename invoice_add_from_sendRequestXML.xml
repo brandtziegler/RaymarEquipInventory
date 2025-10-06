@@ -1,0 +1,7 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <s:Body>
+    <sendRequestXMLResponse xmlns="http://developer.intuit.com/">
+      <sendRequestXMLResult />
+    </sendRequestXMLResponse>
+  </s:Body>
+</s:Envelope>
