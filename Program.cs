@@ -246,7 +246,6 @@ builder.Services.AddDbContext<RaymarInventoryDBContext>(options =>
 
 builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<IReportingService, ReportingService>();
-builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IPermissionsService, PermissionsService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>(); // Registering our new service
 builder.Services.AddScoped<IWorkOrderFeeService, WorkOrderFeeService>(); // Registering our new service
@@ -272,7 +271,8 @@ builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionSer
 builder.Services.AddScoped<IInventoryImportService, InventoryImportService>();
 builder.Services.AddScoped<IInvoiceSnapshotService, InvoiceSnapshotService>();
 builder.Services.AddScoped<ICustomerImportService, CustomerImportService>();
-builder.Services.AddScoped<IQBWebConnectorSvc, QbwcSoapService>();
+builder.Services.AddScoped<QbwcSoapService>();
+builder.Services.AddScoped<QbwcInvoiceExportSoapService>();
 builder.Services.AddScoped<IQBItemCatalogImportService, QBItemCatalogImportService>();
 builder.Services.AddScoped<IQBItemOtherImportService, QBItemOtherImportService>();
 builder.Services.AddScoped<IInvoiceExportService, InvoiceExportService>();
@@ -343,10 +343,18 @@ app.UseRouting();
 app.UseAuthentication();   // if used
 app.UseAuthorization();
 
-// 👇 Disambiguate by casting to IApplicationBuilder
-((IApplicationBuilder)app).UseSoapEndpoint<IQBWebConnectorSvc>(
+// Import endpoint
+((IApplicationBuilder)app).UseSoapEndpoint<QbwcSoapService>(
     "/qbwc",
-    new SoapEncoderOptions { MessageVersion = MessageVersion.Soap11 }, // SOAP 1.1
+    new SoapEncoderOptions { MessageVersion = MessageVersion.Soap11 },
+    SoapSerializer.XmlSerializer,
+    caseInsensitivePath: true
+);
+
+// Invoice export endpoint
+((IApplicationBuilder)app).UseSoapEndpoint<QbwcInvoiceExportSoapService>(
+    "/qbwc-invoice",
+    new SoapEncoderOptions { MessageVersion = MessageVersion.Soap11 },
     SoapSerializer.XmlSerializer,
     caseInsensitivePath: true
 );
