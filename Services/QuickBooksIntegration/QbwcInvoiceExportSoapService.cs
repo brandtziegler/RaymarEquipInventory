@@ -21,7 +21,7 @@ namespace RaymarEquipmentInventory.Services
         private readonly QbwcRequestOptions _opt;
 
         // Hardcoded single-invoice test; replace with queue later
-        private const int TEST_INVOICE_ID = 8;
+        private const int TEST_INVOICE_ID = 7;
 
         public QbwcInvoiceExportSoapService(
             IAuditLogger audit,
@@ -120,7 +120,7 @@ namespace RaymarEquipmentInventory.Services
                 try
                 {
                     var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(TEST_INVOICE_ID).GetAwaiter().GetResult();
-                    var xml = _request.BuildInvoiceAdd(payload);
+                    var xml = _request.BuildInvoiceAdd(payload, qbXMLMajorVers, qbXMLMinorVers, qbXMLCountry);
 
                     iter.LastRequestType = "InvoiceAddRq";
                     iter.IteratorId = null;

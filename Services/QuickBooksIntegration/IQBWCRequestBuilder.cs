@@ -87,6 +87,9 @@ namespace RaymarEquipmentInventory.Services
             int pageSize);
 
         string BuildInvoiceAdd(InvoiceAddPayload payload);
+
+        // new: use the versions/country QBWC supplies
+        string BuildInvoiceAdd(InvoiceAddPayload payload, int qbXmlMajor, int qbXmlMinor, string qbXmlCountry = "US");
     }
 
    
