@@ -271,6 +271,7 @@ builder.Services.AddScoped<IQuickBooksConnectionService, QuickBooksConnectionSer
 builder.Services.AddScoped<IInventoryImportService, InventoryImportService>();
 builder.Services.AddScoped<IInvoiceSnapshotService, InvoiceSnapshotService>();
 builder.Services.AddScoped<ICustomerImportService, CustomerImportService>();
+builder.Services.AddScoped<IQbXmlLogger, QbXmlLogger>();
 builder.Services.AddScoped<QbwcSoapService>();
 builder.Services.AddScoped<QbwcInvoiceExportSoapService>();
 builder.Services.AddScoped<IQBItemCatalogImportService, QBItemCatalogImportService>();
