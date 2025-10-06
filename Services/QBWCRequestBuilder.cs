@@ -3,21 +3,30 @@ using RaymarEquipmentInventory.DTOs;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 
 namespace RaymarEquipmentInventory.Services
 {
     public sealed class QbwcRequestBuilder : IQBWCRequestBuilder
     {
         private readonly QbwcRequestOptions _opt;
+        private readonly int _defaultMajor;
+        private readonly int _defaultMinor;
 
         public QbwcRequestBuilder(IOptions<QbwcRequestOptions> opt)
         {
             _opt = opt.Value ?? new QbwcRequestOptions();
+            // If you ever add these to options, wire them here; else default to a widely-supported version.
+            _defaultMajor = 13;
+            _defaultMinor = 0;
         }
 
-        // IMPORTANT: no encoding attribute here; include qbXML PI
-        private const string QbXmlHeader = @"<?xml version=""1.0"" ?>
-<?qbxml version=""16.0""?>";
+        // Build a header with *no* leading whitespace and *no* extra spaces in the PI.
+        private static string Header(int major, int minor) =>
+            $@"<?xml version=""1.0""?><?qbxml version=""{major}.{minor}""?>";
+
+        // Convenience wrapper for default header
+        private string DefaultHeader => Header(_defaultMajor, _defaultMinor);
 
         // ---------- Include sets ----------
         private static readonly string[] ItemInclude = new[]
@@ -35,13 +44,12 @@ namespace RaymarEquipmentInventory.Services
             "TimeModified"
         };
 
-        // CustomerRet aggregate fields cover subfields used for CustomerBackup mapping
         private static readonly string[] CustomerInclude = new[]
         {
             "ListID",
             "Name",
             "FullName",
-            "ParentRef",            // ParentRef.ListID / ParentRef.FullName
+            "ParentRef",
             "Sublevel",
             "CompanyName",
             "FirstName",
@@ -50,8 +58,8 @@ namespace RaymarEquipmentInventory.Services
             "Phone",
             "Email",
             "Notes",
-            "BillAddress",          // Addr1..City..PostalCode..Country
-            "JobInfo",              // JobStatus, JobStartDate, JobProjectedEnd, JobDesc, JobTypeRef
+            "BillAddress",
+            "JobInfo",
             "IsActive",
             "TimeModified"
         };
@@ -61,7 +69,7 @@ namespace RaymarEquipmentInventory.Services
 
         // ---------- Company ----------
         public string BuildCompanyQuery() =>
-$@"{QbXmlHeader}
+$@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <CompanyQueryRq/>
@@ -82,7 +90,7 @@ $@"{QbXmlHeader}
             var include = IncludeBlock(includeRetElements ?? ItemInclude);
 
             return
-$@"{QbXmlHeader}
+$@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemInventoryQueryRq requestID=""inv-1"" iterator=""Start"">
@@ -103,7 +111,7 @@ $@"{QbXmlHeader}
             var include = IncludeBlock(includeRetElements ?? ItemInclude);
 
             return
-$@"{QbXmlHeader}
+$@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemInventoryQueryRq requestID=""inv-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
@@ -128,7 +136,7 @@ $@"{QbXmlHeader}
             var include = IncludeBlock(includeRetElements ?? CustomerInclude);
 
             return
-$@"{QbXmlHeader}
+$@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <CustomerQueryRq requestID=""cust-1"" iterator=""Start"">
@@ -149,7 +157,7 @@ $@"{QbXmlHeader}
             var include = IncludeBlock(includeRetElements ?? CustomerInclude);
 
             return
-$@"{QbXmlHeader}
+$@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <CustomerQueryRq requestID=""cust-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
@@ -160,20 +168,12 @@ $@"{QbXmlHeader}
 </QBXML>";
         }
 
-        // ---------- ItemService (Service items) ----------
-        // Keep your existing include for reference; QB ignores IncludeRetElement for ItemService sometimes.
+        // ---------- ItemService ----------
         private static readonly string[] ServiceInclude = new[]
         {
-            "ListID",
-            "Name",
-            "FullName",
-            "EditSequence",
-            "SalesPrice",
-            "PurchaseCost",
-            "SalesDesc",
-            "PurchaseDesc",
-            "IsActive",
-            "TimeModified"
+            "ListID","Name","FullName","EditSequence",
+            "SalesPrice","PurchaseCost","SalesDesc","PurchaseDesc",
+            "IsActive","TimeModified"
         };
 
         public string BuildItemServiceStart(int pageSize, bool activeOnly, string? fromIso)
@@ -181,7 +181,7 @@ $@"{QbXmlHeader}
             var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
             var from = !string.IsNullOrWhiteSpace(fromIso) ? $"<FromModifiedDate>{fromIso}</FromModifiedDate>" : "";
 
-            return $@"{QbXmlHeader}
+            return $@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemServiceQueryRq requestID=""svc-1"" iterator=""Start"">
@@ -195,7 +195,7 @@ $@"{QbXmlHeader}
 
         public string BuildItemServiceContinue(string iteratorId, int pageSize)
         {
-            return $@"{QbXmlHeader}
+            return $@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemServiceQueryRq requestID=""svc-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
@@ -206,7 +206,7 @@ $@"{QbXmlHeader}
         }
 
         // =====================================================================
-        // NEW: Non-Inventory, Other Charge, Sales Tax Item, Sales Tax Group
+        // Non-Inventory, Other Charge, Sales Tax Item, Sales Tax Group
         // =====================================================================
 
         private static readonly string[] NonInventoryInclude = new[]
@@ -232,17 +232,15 @@ $@"{QbXmlHeader}
         {
             "ListID","Name","FullName","EditSequence",
             "ItemDesc","IsActive","TimeModified"
-            // (Group members come as ItemSalesTaxRef aggregate; we’ll parse in handler)
         };
 
-        // ---- ItemNonInventory ----
         public string BuildItemNonInventoryStart(int pageSize, bool activeOnly, string? fromIso)
         {
             var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
             var from = !string.IsNullOrWhiteSpace(fromIso) ? $"<FromModifiedDate>{fromIso}</FromModifiedDate>" : "";
             var include = IncludeBlock(NonInventoryInclude);
 
-            return $@"{QbXmlHeader}
+            return $@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemNonInventoryQueryRq requestID=""noninv-1"" iterator=""Start"">
@@ -258,7 +256,7 @@ $@"{QbXmlHeader}
         public string BuildItemNonInventoryContinue(string iteratorId, int pageSize)
         {
             var include = IncludeBlock(NonInventoryInclude);
-            return $@"{QbXmlHeader}
+            return $@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemNonInventoryQueryRq requestID=""noninv-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
@@ -269,14 +267,13 @@ $@"{QbXmlHeader}
 </QBXML>";
         }
 
-        // ---- ItemOtherCharge ----
         public string BuildItemOtherChargeStart(int pageSize, bool activeOnly, string? fromIso)
         {
             var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
             var from = !string.IsNullOrWhiteSpace(fromIso) ? $"<FromModifiedDate>{fromIso}</FromModifiedDate>" : "";
             var include = IncludeBlock(OtherChargeInclude);
 
-            return $@"{QbXmlHeader}
+            return $@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemOtherChargeQueryRq requestID=""other-1"" iterator=""Start"">
@@ -292,7 +289,7 @@ $@"{QbXmlHeader}
         public string BuildItemOtherChargeContinue(string iteratorId, int pageSize)
         {
             var include = IncludeBlock(OtherChargeInclude);
-            return $@"{QbXmlHeader}
+            return $@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemOtherChargeQueryRq requestID=""other-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
@@ -303,14 +300,13 @@ $@"{QbXmlHeader}
 </QBXML>";
         }
 
-        // ---- ItemSalesTax (single tax item, e.g., HST) ----
         public string BuildItemSalesTaxStart(int pageSize, bool activeOnly, string? fromIso)
         {
             var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
             var from = !string.IsNullOrWhiteSpace(fromIso) ? $"<FromModifiedDate>{fromIso}</FromModifiedDate>" : "";
             var include = IncludeBlock(SalesTaxItemInclude);
 
-            return $@"{QbXmlHeader}
+            return $@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemSalesTaxQueryRq requestID=""tax-1"" iterator=""Start"">
@@ -326,7 +322,7 @@ $@"{QbXmlHeader}
         public string BuildItemSalesTaxContinue(string iteratorId, int pageSize)
         {
             var include = IncludeBlock(SalesTaxItemInclude);
-            return $@"{QbXmlHeader}
+            return $@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemSalesTaxQueryRq requestID=""tax-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
@@ -337,14 +333,13 @@ $@"{QbXmlHeader}
 </QBXML>";
         }
 
-        // ---- ItemSalesTaxGroup (group like HST composed of members) ----
         public string BuildItemSalesTaxGroupStart(int pageSize, bool activeOnly, string? fromIso)
         {
             var active = activeOnly ? "<ActiveStatus>ActiveOnly</ActiveStatus>" : "";
             var from = !string.IsNullOrWhiteSpace(fromIso) ? $"<FromModifiedDate>{fromIso}</FromModifiedDate>" : "";
             var include = IncludeBlock(SalesTaxGroupInclude);
 
-            return $@"{QbXmlHeader}
+            return $@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemSalesTaxGroupQueryRq requestID=""taxgrp-1"" iterator=""Start"">
@@ -360,7 +355,7 @@ $@"{QbXmlHeader}
         public string BuildItemSalesTaxGroupContinue(string iteratorId, int pageSize)
         {
             var include = IncludeBlock(SalesTaxGroupInclude);
-            return $@"{QbXmlHeader}
+            return $@"{DefaultHeader}
 <QBXML>
   <QBXMLMsgsRq onError=""stopOnError"">
     <ItemSalesTaxGroupQueryRq requestID=""taxgrp-1"" iterator=""Continue"" iteratorID=""{System.Security.SecurityElement.Escape(iteratorId)}"">
@@ -371,52 +366,72 @@ $@"{QbXmlHeader}
 </QBXML>";
         }
 
+        // =====================================================================
+        // INVOICE ADD
+        // =====================================================================
 
-        public string BuildInvoiceAdd(InvoiceAddPayload p)
+        // New overload: pass the versions you get from QBWC (qbXMLMajorVers/minor).
+        public string BuildInvoiceAdd(InvoiceAddPayload p, int qbXmlMajor, int qbXmlMinor, string qbXmlCountry = "US")
         {
             string Esc(string? s) => System.Security.SecurityElement.Escape(s ?? "");
             string D(DateTime dt) => dt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            string N(decimal v) => v.ToString("0.####", CultureInfo.InvariantCulture);
 
-            var sb = new System.Text.StringBuilder();
-            sb.AppendLine(@"<?xml version=""1.0"" ?>");
-            sb.AppendLine(@"<?qbxml version=""16.0""?>");
-            sb.AppendLine("<QBXML><QBXMLMsgsRq onError=\"stopOnError\">");
-            sb.AppendLine(@"  <InvoiceAddRq requestID=""inv-add-1"">");
-            sb.AppendLine("    <InvoiceAdd>");
-            sb.AppendLine($"      <CustomerRef><ListID>{Esc(p.CustomerListID)}</ListID></CustomerRef>");
+            var sb = new StringBuilder(4096);
+
+            // Header must be the very first bytes, no extra spaces/newlines.
+            sb.Append(Header(qbXmlMajor, qbXmlMinor));
+            sb.Append("<QBXML><QBXMLMsgsRq onError=\"stopOnError\">");
+            sb.Append(@"<InvoiceAddRq requestID=""inv-add-1""><InvoiceAdd>");
+
+            sb.Append($@"<CustomerRef><ListID>{Esc(p.CustomerListID)}</ListID></CustomerRef>");
+
             if (!string.IsNullOrWhiteSpace(p.ItemSalesTaxRefListID))
-                sb.AppendLine($"      <ItemSalesTaxRef><ListID>{Esc(p.ItemSalesTaxRefListID)}</ListID></ItemSalesTaxRef>");
-            sb.AppendLine($"      <RefNumber>{Esc(p.RefNumber)}</RefNumber>");
-            sb.AppendLine($"      <TxnDate>{D(p.TxnDate)}</TxnDate>");
-            if (!string.IsNullOrWhiteSpace(p.PONumber)) sb.AppendLine($"      <PONumber>{Esc(p.PONumber)}</PONumber>");
-            if (!string.IsNullOrWhiteSpace(p.Memo)) sb.AppendLine($"      <Memo>{Esc(p.Memo)}</Memo>");
+                sb.Append($@"<ItemSalesTaxRef><ListID>{Esc(p.ItemSalesTaxRefListID)}</ListID></ItemSalesTaxRef>");
+
+            sb.Append($@"<RefNumber>{Esc(p.RefNumber)}</RefNumber>");
+            sb.Append($@"<TxnDate>{D(p.TxnDate)}</TxnDate>");
+
+            if (!string.IsNullOrWhiteSpace(p.PONumber))
+                sb.Append($@"<PONumber>{Esc(p.PONumber)}</PONumber>");
+
+            if (!string.IsNullOrWhiteSpace(p.Memo))
+                sb.Append($@"<Memo>{Esc(p.Memo)}</Memo>");
 
             foreach (var L in p.Lines)
             {
-                // We’ll send Qty + Rate (QuickBooks calculates Amount)
-                sb.AppendLine("      <InvoiceLineAdd>");
+                sb.Append("<InvoiceLineAdd>");
+
                 if (!string.IsNullOrWhiteSpace(L.ItemListID))
-                    sb.AppendLine($"        <ItemRef><ListID>{Esc(L.ItemListID)}</ListID></ItemRef>");
+                    sb.Append($@"<ItemRef><ListID>{Esc(L.ItemListID)}</ListID></ItemRef>");
+
                 if (!string.IsNullOrWhiteSpace(L.Desc))
-                    sb.AppendLine($"        <Desc>{Esc(L.Desc)}</Desc>");
+                    sb.Append($@"<Desc>{Esc(L.Desc)}</Desc>");
+
                 if (L.ServiceDate.HasValue)
-                    sb.AppendLine($"        <ServiceDate>{D(L.ServiceDate.Value)}</ServiceDate>");
+                    sb.Append($@"<ServiceDate>{D(L.ServiceDate.Value)}</ServiceDate>");
+
                 if (!string.IsNullOrWhiteSpace(L.ClassRef))
-                    sb.AppendLine($"        <ClassRef><FullName>{Esc(L.ClassRef)}</FullName></ClassRef>");
-                if (L.Qty.HasValue) sb.AppendLine($"        <Quantity>{L.Qty.Value:0.####}</Quantity>");
-                if (L.Rate.HasValue) sb.AppendLine($"        <Rate>{L.Rate.Value:0.####}</Rate>");
+                    sb.Append($@"<ClassRef><FullName>{Esc(L.ClassRef)}</FullName></ClassRef>");
 
-                // Optional tax code hint (only if you’re using them). Otherwise omit and let item defaults apply.
+                if (L.Qty.HasValue)
+                    sb.Append($@"<Quantity>{N(L.Qty.Value)}</Quantity>");
+
+                if (L.Rate.HasValue)
+                    sb.Append($@"<Rate>{N(L.Rate.Value)}</Rate>");
+
                 if (L.IsTaxable.HasValue)
-                    sb.AppendLine($"        <SalesTaxCodeRef><FullName>{(L.IsTaxable.Value ? "Tax" : "Non")}</FullName></SalesTaxCodeRef>");
+                    sb.Append($@"<SalesTaxCodeRef><FullName>{(L.IsTaxable.Value ? "Tax" : "Non")}</FullName></SalesTaxCodeRef>");
 
-                sb.AppendLine("      </InvoiceLineAdd>");
+                sb.Append("</InvoiceLineAdd>");
             }
 
-            sb.AppendLine("    </InvoiceAdd>");
-            sb.AppendLine("  </InvoiceAddRq>");
-            sb.AppendLine("</QBXMLMsgsRq></QBXML>");
+            sb.Append("</InvoiceAdd></InvoiceAddRq></QBXMLMsgsRq></QBXML>");
             return sb.ToString();
         }
+
+        // Backward-compatible signature; uses default header
+        public string BuildInvoiceAdd(InvoiceAddPayload p)
+            => BuildInvoiceAdd(p, _defaultMajor, _defaultMinor, "US");
     }
 }
