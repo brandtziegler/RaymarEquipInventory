@@ -139,7 +139,7 @@ namespace RaymarEquipmentInventory.Services
                     // 🚿 Clean the XML to remove BOM/whitespace/hidden chars
                     xml = CleanForQuickBooks(xml);
 
-                    // Optional: verify and persist for troubleshooting
+                    // Optional: verify and persist for troubleshooting // let's get rid of these stupid errors.
                     var bytes = new UTF8Encoding(false).GetBytes(xml); // no BOM
                     Directory.CreateDirectory(@"C:\Temp");
                     File.WriteAllBytes(@"C:\Temp\InvoiceAddSent.xml", bytes);
