@@ -23,7 +23,7 @@ namespace RaymarEquipmentInventory.Services
 
         // Build a header with *no* leading whitespace and *no* extra spaces in the PI.
         private static string Header(int major, int minor) =>
-            $@"<?xml version=""1.0""?><?qbxml version=""{major}.{minor}""?>";
+            $@"<?xml version=""1.0""?>{Environment.NewLine}<?qbxml version=""{major}.{minor}""?>";
 
         // Convenience wrapper for default header
         private string DefaultHeader => Header(_defaultMajor, _defaultMinor);
