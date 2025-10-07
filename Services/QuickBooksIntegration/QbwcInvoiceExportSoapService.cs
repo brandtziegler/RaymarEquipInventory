@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
@@ -90,6 +91,18 @@ namespace RaymarEquipmentInventory.Services
             return "OK";
         }
 
+        private static string CleanForQuickBooks(string xml)
+        {
+            if (string.IsNullOrEmpty(xml)) return xml;
+
+            // Remove UTF-8 BOM or stray zero-width characters that can sneak in
+            xml = xml.TrimStart('\uFEFF', '\u200B', '\u0000');
+
+            // Remove all leading whitespace before the first '<'
+            var first = xml.IndexOf('<');
+            return first > 0 ? xml.Substring(first) : xml;
+        }
+
         // ================== Export Flow ==================
 
         public string sendRequestXML(
@@ -119,15 +132,24 @@ namespace RaymarEquipmentInventory.Services
             {
                 try
                 {
-                    var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(TEST_INVOICE_ID).GetAwaiter().GetResult();
+                    var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(TEST_INVOICE_ID)
+                                                .GetAwaiter().GetResult();
                     var xml = _request.BuildInvoiceAdd(payload, qbXMLMajorVers, qbXMLMinorVers, qbXMLCountry);
+
+                    // 🚿 Clean the XML to remove BOM/whitespace/hidden chars
+                    xml = CleanForQuickBooks(xml);
+
+                    // Optional: verify and persist for troubleshooting
+                    var bytes = new UTF8Encoding(false).GetBytes(xml); // no BOM
+                    Directory.CreateDirectory(@"C:\Temp");
+                    File.WriteAllBytes(@"C:\Temp\InvoiceAddSent.xml", bytes);
 
                     iter.LastRequestType = "InvoiceAddRq";
                     iter.IteratorId = null;
                     iter.Remaining = 0;
                     _session.SetIterator(runId, iter);
 
-                    // Forensic log of the exact qbXML sent
+                    // Forensic log of what is actually sent
                     _qbXmlLogger.LogAsync(runId, "req", "sendRequestXML", "InvoiceAddRq",
                         strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
                         null, null, "sending invoice", xml).GetAwaiter().GetResult();
@@ -136,7 +158,8 @@ namespace RaymarEquipmentInventory.Services
                         companyFile: strCompanyFileName,
                         message: $"type=InvoiceAddRq Ref={payload.RefNumber}").GetAwaiter().GetResult();
 
-                    return xml;
+                    // ✅ Return a pure string with no BOM or leading whitespace
+                    return Encoding.UTF8.GetString(bytes);
                 }
                 catch (Exception ex)
                 {
@@ -144,7 +167,6 @@ namespace RaymarEquipmentInventory.Services
                         message: $"InvoiceAdd build failure: {ex.GetType().Name}: {ex.Message}")
                         .GetAwaiter().GetResult();
 
-                    // Nothing to send → finish
                     return "";
                 }
             }
@@ -154,6 +176,7 @@ namespace RaymarEquipmentInventory.Services
                 message: "export-only: no further requests").GetAwaiter().GetResult();
             return "";
         }
+
 
         public int receiveResponseXML(string ticket, string response, string hresult, string message)
         {
