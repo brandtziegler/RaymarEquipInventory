@@ -31,6 +31,8 @@ public partial class VwInvoicePreviewWithQbinv
 
     public string MatchedFrom { get; set; }
 
+    public string HstListId { get; set; }
+
     public int? SourceInventoryId { get; set; }
 
     public int? CustomerId { get; set; }

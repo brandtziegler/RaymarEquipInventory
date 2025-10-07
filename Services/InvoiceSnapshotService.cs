@@ -34,7 +34,7 @@ namespace RaymarEquipmentInventory.Services
 
             try
             {
-                // 1) Source rows (from the NEW view with QuickBooksInvID already resolved)
+                // 1) Source rows (from view)
                 List<Models.VwInvoicePreviewWithQbinv> rows;
                 try
                 {
@@ -50,16 +50,8 @@ namespace RaymarEquipmentInventory.Services
                 if (rows.Count == 0) return Error($"No invoice data found for SheetID {sheetId}.");
 
                 // 2) WO + customer
-                Models.WorkOrderSheet? wo;
-                try
-                {
-                    wo = await _context.WorkOrderSheets.AsNoTracking()
-                            .FirstOrDefaultAsync(w => w.SheetId == sheetId, ct);
-                }
-                catch (Exception ex)
-                {
-                    return Error($"Failed reading WorkOrderSheets: {ex.GetBaseException().Message}");
-                }
+                var wo = await _context.WorkOrderSheets.AsNoTracking()
+                             .FirstOrDefaultAsync(w => w.SheetId == sheetId, ct);
                 if (wo == null) return Error($"Work order not found for SheetID {sheetId}.");
 
                 var any = rows[0];
@@ -68,7 +60,7 @@ namespace RaymarEquipmentInventory.Services
                 if (string.IsNullOrWhiteSpace(customerListId))
                     return Error("Customer ListID missing on export view.");
 
-                // 3) RefNumber + date
+                // 3) Ref/date
                 var woNumber = (wo.WorkOrderNumber != 0) ? wo.WorkOrderNumber : sheetId;
                 var refNumber = $"WO-{woNumber}";
                 DateTime invoiceDate;
@@ -90,27 +82,17 @@ namespace RaymarEquipmentInventory.Services
                 decimal tax = Math.Round(subtotal * cfg.HstRate, MONEY2, MidpointRounding.AwayFromZero);
                 decimal total = subtotal + tax;
 
-                // (Optional, tiny fallback) If a PartsUsed row lacks a ListID, map to a “Misc Part” item if you have it
+                // fallback for parts missing ListID
                 var miscPartListId = await _context.InventoryData
                     .Where(i => i.ItemName == cfg.MiscPartItem)
                     .Select(i => i.QuickBooksInvId)
                     .FirstOrDefaultAsync(ct);
 
-                // 5) TX: upsert header, build/replace lines
                 await using var tx = await _context.Database.BeginTransactionAsync(ct);
 
-                Models.Invoice? existing;
-                try
-                {
-                    existing = await _context.Invoices
-                        .Include(h => h.InvoiceLines)
-                        .FirstOrDefaultAsync(i => i.RefNumber == refNumber, ct);
-                }
-                catch (Exception ex)
-                {
-                    await tx.RollbackAsync(ct);
-                    return Error($"Failed reading Invoice by RefNumber '{refNumber}': {ex.GetBaseException().Message}");
-                }
+                var existing = await _context.Invoices
+                    .Include(h => h.InvoiceLines)
+                    .FirstOrDefaultAsync(i => i.RefNumber == refNumber, ct);
 
                 if (existing != null && string.Equals(existing.Status, "Exported", StringComparison.OrdinalIgnoreCase))
                     return new BuildInvoiceResult
@@ -121,211 +103,122 @@ namespace RaymarEquipmentInventory.Services
                         ErrorMessage = "Invoice already exported; cannot rebuild."
                     };
 
-                // Header fields
-                string? poNum = null, memo = null;
-                try
-                {
-                    poNum = await _context.BillingInformations.AsNoTracking()
+                // header fields
+                var poNum = await _context.BillingInformations.AsNoTracking()
                                 .Where(b => b.SheetId == sheetId)
                                 .Select(b => b.Pono)
                                 .FirstOrDefaultAsync(ct);
-                    memo = await _context.BillingInformations.AsNoTracking()
+                var memo = await _context.BillingInformations.AsNoTracking()
                                 .Where(b => b.SheetId == sheetId)
                                 .Select(b => b.WorkDescription)
                                 .FirstOrDefaultAsync(ct);
-                }
-                catch (Exception ex)
-                {
-                    await tx.RollbackAsync(ct);
-                    return Error($"Failed reading BillingInformation: {ex.GetBaseException().Message}");
-                }
 
-                // Create/update header
                 Models.Invoice inv;
-                try
+                if (existing == null)
                 {
-                    if (existing == null)
+                    inv = new Models.Invoice
                     {
-                        inv = new Models.Invoice
-                        {
-                            WorkOrderId = wo.SheetId,
-                            CustomerId = customerId,
-                            CustomerListId = customerListId,
-                            RefNumber = refNumber,
-                            TxnDate = invoiceDate,
-                            DueDate = null,
-                            TermsRef = null,
-                            Ponumber = poNum,
-                            Memo = memo,
-                            Subtotal = subtotal,
-                            TaxAmount = tax,
-                            Total = total,
-                            Currency = "CAD",
-                            Status = "Ready",
-                            ErrorMessage = null,                      // view already hydrated ListIDs
-                            SourceHash = ComputeSourceHash(rows),
-                            QbTxnId = null,
-                            QbEditSequence = null,
-                            ExportAttemptCount = 0,
-                            LastExportAttemptAt = null,
-                            ExportedAt = null,
-                            CreatedAt = DateTime.UtcNow,
-                            UpdatedAt = DateTime.UtcNow
-                        };
-                        _context.Invoices.Add(inv);
-                        await _context.SaveChangesAsync(ct); // need InvoiceId
-                    }
-                    else
-                    {
-                        inv = existing;
-                        inv.CustomerId = customerId;
-                        inv.CustomerListId = customerListId;
-                        inv.TxnDate = invoiceDate;
-                        inv.Ponumber = poNum;
-                        inv.Memo = memo;
-                        inv.Subtotal = subtotal;
-                        inv.TaxAmount = tax;
-                        inv.Total = total;
-                        inv.Status = "Ready";
-                        inv.ErrorMessage = null;
-                        inv.SourceHash = ComputeSourceHash(rows);
-                        inv.UpdatedAt = DateTime.UtcNow;
-
-                        _context.InvoiceLines.RemoveRange(inv.InvoiceLines);
-                        await _context.SaveChangesAsync(ct);
-                    }
-                }
-                catch (DbUpdateException dbx)
-                {
-                    await tx.RollbackAsync(ct);
-                    var baseMsg = dbx.GetBaseException().Message;
-                    if (baseMsg.Contains("UX_Invoice_RefNumber", StringComparison.OrdinalIgnoreCase) ||
-                        baseMsg.Contains("duplicate", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var dupe = await _context.Invoices.AsNoTracking()
-                                      .FirstOrDefaultAsync(i => i.RefNumber == refNumber, ct);
-                        if (dupe != null)
-                            return new BuildInvoiceResult { InvoiceId = dupe.InvoiceId, RefNumber = dupe.RefNumber, Status = dupe.Status };
-                    }
-                    return Error($"DB write failed (header): {baseMsg}");
-                }
-
-                // Build lines (use QuickBooksInvId directly)
-                var pending = new List<Models.InvoiceLine>();
-                try
-                {
-                    int lineNo = 1;
-                    foreach (var r in rows
-                        .OrderBy(x => x.Category)
-                        .ThenBy(x => x.TechnicianName)
-                        .ThenBy(x => x.ItemName))
-                    {
-                        string itemNameSnapshot = r.ItemName ?? "";
-                        string? listId = r.QuickBooksInvId; // ← hydrated by the view
-
-                        // Tiny fallback for parts that came without a ListID
-                        if (string.Equals(r.Category, "PartsUsed", StringComparison.OrdinalIgnoreCase) &&
-                            string.IsNullOrWhiteSpace(listId) &&
-                            !string.IsNullOrWhiteSpace(miscPartListId))
-                        {
-                            itemNameSnapshot = cfg.MiscPartItem;
-                            listId = miscPartListId;
-                        }
-
-                        pending.Add(new Models.InvoiceLine
-                        {
-                            InvoiceId = inv.InvoiceId,
-                            LineNumber = lineNo++,
-                            ItemListId = listId,                           // may be NULL; export layer will guard
-                            ItemNameSnapshot = itemNameSnapshot,
-                            Description = CleanDesc(r.ItemName),
-                            Qty = Math.Round((decimal)r.TotalQty, 4, MidpointRounding.AwayFromZero),
-                            Rate = Math.Round((decimal)r.UnitPrice, 4, MidpointRounding.AwayFromZero),
-                            Amount = Math.Round((decimal)r.TotalAmount, MONEY2, MidpointRounding.AwayFromZero),
-                            ClassRef = null,
-                            ServiceDate = null,
-                            TaxCodeRef = null,   // set at export time (TAX/NON)
-                            SourceType = r.Category ?? "",
-                            SourceId = r.SourceInventoryId?.ToString(),
-                            Uom = null,
-                            IsTaxable = true,   // tweak if you track non-tax
-                            TechnicianName = CleanTech(r.TechnicianName)
-                        });
-                    }
-
-                    // Keep a Tax line in DB for visibility; DO NOT send it to qbXML later
-                    if (needTax && tax != 0m)
-                    {
-                        pending.Add(new Models.InvoiceLine
-                        {
-                            InvoiceId = inv.InvoiceId,
-                            LineNumber = pending.Count + 1,
-                            ItemListId = null,                 // header SalesTaxItemRef is used in qbXML
-                            ItemNameSnapshot = cfg.HstItem,
-                            Description = "HST",
-                            Qty = 0m,
-                            Rate = 0m,
-                            Amount = tax,
-                            ClassRef = null,
-                            ServiceDate = null,
-                            TaxCodeRef = null,
-                            SourceType = "Tax",
-                            SourceId = sheetId.ToString(),
-                            Uom = null,
-                            IsTaxable = false,
-                            TechnicianName = "N/A"
-                        });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await tx.RollbackAsync(ct);
-                    return Error($"Unexpected error building lines in memory: {ex.GetBaseException().Message}");
-                }
-
-                // Pre-diagnose missing ItemListIDs (only for non-Tax lines)
-                var nullItemListLines = pending
-                    .Where(l => l.SourceType != "Tax" && string.IsNullOrWhiteSpace(l.ItemListId))
-                    .Select(l => $"{l.SourceType}:{l.ItemNameSnapshot}")
-                    .Distinct()
-                    .ToList();
-
-                try
-                {
-                    _context.InvoiceLines.AddRange(pending);
+                        WorkOrderId = wo.SheetId,
+                        CustomerId = customerId,
+                        CustomerListId = customerListId,
+                        RefNumber = refNumber,
+                        TxnDate = invoiceDate,
+                        Subtotal = subtotal,
+                        TaxAmount = tax,
+                        Total = total,
+                        Ponumber = poNum,
+                        Memo = memo,
+                        Currency = "CAD",
+                        Status = "Ready",
+                        SourceHash = ComputeSourceHash(rows),
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow
+                    };
+                    _context.Invoices.Add(inv);
                     await _context.SaveChangesAsync(ct);
-                    await tx.CommitAsync(ct);
                 }
-                catch (DbUpdateException dbx)
+                else
                 {
-                    await tx.RollbackAsync(ct);
-                    var baseMsg = dbx.GetBaseException().Message;
+                    inv = existing;
+                    inv.CustomerId = customerId;
+                    inv.CustomerListId = customerListId;
+                    inv.Subtotal = subtotal;
+                    inv.TaxAmount = tax;
+                    inv.Total = total;
+                    inv.Status = "Ready";
+                    inv.Memo = memo;
+                    inv.Ponumber = poNum;
+                    inv.UpdatedAt = DateTime.UtcNow;
+                    inv.SourceHash = ComputeSourceHash(rows);
 
-                    if (baseMsg.Contains("ItemListID", StringComparison.OrdinalIgnoreCase) &&
-                        baseMsg.Contains("NULL", StringComparison.OrdinalIgnoreCase))
+                    _context.InvoiceLines.RemoveRange(inv.InvoiceLines);
+                    await _context.SaveChangesAsync(ct);
+                }
+
+                // Build invoice lines
+                var pending = new List<Models.InvoiceLine>();
+                int lineNo = 1;
+                foreach (var r in rows
+                    .OrderBy(x => x.Category)
+                    .ThenBy(x => x.TechnicianName)
+                    .ThenBy(x => x.ItemName))
+                {
+                    string itemNameSnapshot = r.ItemName ?? "";
+                    string? listId = r.QuickBooksInvId;
+
+                    if (string.Equals(r.Category, "PartsUsed", StringComparison.OrdinalIgnoreCase) &&
+                        string.IsNullOrWhiteSpace(listId) &&
+                        !string.IsNullOrWhiteSpace(miscPartListId))
                     {
-                        var hint =
-                            "DB rejected NULL ItemListID on InvoiceLine. " +
-                            "Hydrate from vw_InvoicePreviewWithQBInv or configure a Misc Part item. " +
-                            $"Missing: {string.Join(", ", nullItemListLines)}";
-                        return Error(hint);
+                        itemNameSnapshot = cfg.MiscPartItem;
+                        listId = miscPartListId;
                     }
-                    return Error($"DB write failed (lines): {baseMsg}");
+
+                    pending.Add(new Models.InvoiceLine
+                    {
+                        InvoiceId = inv.InvoiceId,
+                        LineNumber = lineNo++,
+                        ItemListId = listId,
+                        ItemNameSnapshot = itemNameSnapshot,
+                        Description = CleanDesc(r.ItemName),
+                        Qty = Math.Round((decimal)r.TotalQty, 4, MidpointRounding.AwayFromZero),
+                        Rate = Math.Round((decimal)r.UnitPrice, 4, MidpointRounding.AwayFromZero),
+                        Amount = Math.Round((decimal)r.TotalAmount, MONEY2, MidpointRounding.AwayFromZero),
+                        SourceType = r.Category ?? "",
+                        SourceId = r.SourceInventoryId?.ToString(),
+                        IsTaxable = true,
+                        TechnicianName = CleanTech(r.TechnicianName)
+                    });
                 }
-                catch (OperationCanceledException oce)
+
+                // ✅ Add one tax line using the HstListId from the view
+                if (needTax && tax != 0m)
                 {
-                    try { await tx.RollbackAsync(CancellationToken.None); } catch { /* ignore */ }
-                    return Error($"Operation cancelled: {oce.Message}");
+                    var hstListId = rows.FirstOrDefault()?.HstListId; // from view
+                    pending.Add(new Models.InvoiceLine
+                    {
+                        InvoiceId = inv.InvoiceId,
+                        LineNumber = pending.Count + 1,
+                        ItemListId = hstListId,
+                        ItemNameSnapshot = cfg.HstItem,
+                        Description = "HST",
+                        Qty = 0m,
+                        Rate = 0m,
+                        Amount = tax,
+                        SourceType = "Tax",
+                        SourceId = sheetId.ToString(),
+                        IsTaxable = false,
+                        TechnicianName = "N/A"
+                    });
                 }
-                catch (Exception ex)
-                {
-                    try { await tx.RollbackAsync(ct); } catch { /* ignore */ }
-                    return Error($"Unexpected error writing lines: {ex.GetBaseException().Message}");
-                }
+
+                _context.InvoiceLines.AddRange(pending);
+                await _context.SaveChangesAsync(ct);
+                await tx.CommitAsync(ct);
 
                 return new BuildInvoiceResult
                 {
-                    InvoiceId = existing?.InvoiceId ?? _context.Entry(_context.Invoices.Local.Last()).Entity.InvoiceId,
+                    InvoiceId = inv.InvoiceId,
                     RefNumber = refNumber,
                     Status = "Ready",
                     ErrorMessage = null
@@ -333,7 +226,7 @@ namespace RaymarEquipmentInventory.Services
             }
             catch (Exception outer)
             {
-                return Error($"Unhandled failure: {outer.GetBaseException().Message}");
+                return new BuildInvoiceResult { Status = "Error", ErrorMessage = outer.GetBaseException().Message };
             }
         }
 

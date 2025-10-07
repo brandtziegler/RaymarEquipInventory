@@ -2808,6 +2808,10 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.CustomerListId)
                 .HasMaxLength(50)
                 .HasColumnName("CustomerListID");
+            entity.Property(e => e.HstListId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("HstListID");
             entity.Property(e => e.ItemName).HasMaxLength(255);
             entity.Property(e => e.MatchedFrom)
                 .HasMaxLength(19)
