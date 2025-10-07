@@ -377,10 +377,11 @@ $@"{DefaultHeader}
             string D(DateTime dt) => dt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             string N(decimal v) => v.ToString("0.####", CultureInfo.InvariantCulture);
 
-            var sb = new StringBuilder(4096);
+            // --- SAFE HEADER: no BOM, no CRLF, single LF between declarations ---
+            string header = $"<?xml version=\"1.0\"?>\n<?qbxml version=\"{qbXmlMajor}.{qbXmlMinor}\"?>";
 
-            // Header must be the very first bytes, no extra spaces/newlines.
-            sb.Append(Header(qbXmlMajor, qbXmlMinor));
+            var sb = new StringBuilder(4096);
+            sb.Append(header);
             sb.Append("<QBXML><QBXMLMsgsRq onError=\"stopOnError\">");
             sb.Append(@"<InvoiceAddRq requestID=""inv-add-1""><InvoiceAdd>");
 
@@ -429,6 +430,7 @@ $@"{DefaultHeader}
             sb.Append("</InvoiceAdd></InvoiceAddRq></QBXMLMsgsRq></QBXML>");
             return sb.ToString();
         }
+
 
         // Backward-compatible signature; uses default header
         public string BuildInvoiceAdd(InvoiceAddPayload p)
