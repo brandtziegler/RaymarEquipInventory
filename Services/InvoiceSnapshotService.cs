@@ -191,7 +191,7 @@ namespace RaymarEquipmentInventory.Services
                     });
                 }
 
-                // ✅ Add one tax line using the HstListId from the view
+                // ✅ Add one tax line using the HstListId from the view--additional comment. 
                 if (needTax && tax != 0m)
                 {
                     var hstListId = rows.FirstOrDefault()?.HstListId; // from view
