@@ -122,99 +122,78 @@ namespace RaymarEquipmentInventory.Services
                 _session.SetIterator(runId, iter);
             }
 
-            if (string.Equals(iter.LastRequestType, "InvoiceAddPending", StringComparison.Ordinal))
+            if (!string.Equals(iter.LastRequestType, "InvoiceAddPending", StringComparison.Ordinal))
+                return "";
+
+            try
             {
-                try
-                {
-                    var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(TEST_INVOICE_ID)
-                                                .GetAwaiter().GetResult();
+                var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(TEST_INVOICE_ID)
+                                            .GetAwaiter().GetResult();
 
-                    //---------------------------------------------------------------------
-                    // 1️⃣ Build XML and hard-force QBXML 14.0
-                    //---------------------------------------------------------------------
-                    var xml = _request.BuildInvoiceAdd(payload, 14, 0, "US");
+                //---------------------------------------------------------------------
+                // Build and strip any existing header completely
+                //---------------------------------------------------------------------
+                var body = _request.BuildInvoiceAdd(payload, 14, 0, "US");
+                int qbxmlIndex = body.IndexOf("<QBXML", StringComparison.OrdinalIgnoreCase);
+                if (qbxmlIndex > 0)
+                    body = body.Substring(qbxmlIndex);
 
-                    //---------------------------------------------------------------------
-                    // 2️⃣ Scrub every possible invisible character / space / BOM
-                    //---------------------------------------------------------------------
-                    xml = xml.TrimStart('\uFEFF', '\u200B', '\u0000', ' ', '\t', '\r', '\n');
-                    int firstTag = xml.IndexOf('<');
-                    if (firstTag > 0) xml = xml.Substring(firstTag);
+                //---------------------------------------------------------------------
+                // 🔒 Hard-coded header – no spaces, no BOM, no chance
+                //---------------------------------------------------------------------
+                const string header = "<?xml version=\"1.0\"?>\n<?qbxml version=\"14.0\"?>\n";
+                var xml = header + body;
 
-                    //---------------------------------------------------------------------
-                    // 3️⃣ Normalize line endings and fix header spacing exactly
-                    //---------------------------------------------------------------------
-                    xml = xml.Replace("\r\n", "\n").Replace("\r", "\n");
-                    // Replace any header with one that has *no space* between declarations
-                    xml = System.Text.RegularExpressions.Regex.Replace(
-                        xml,
-                        @"<\?xml\s+version=""1\.0""\s*\?>\s*<\?qbxml\s+version=""[^""]+""\s*\?>",
-                        "<?xml version=\"1.0\"?>\n<?qbxml version=\"14.0\"?>",
-                        System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                //---------------------------------------------------------------------
+                // Write UTF-8-without-BOM file for inspection
+                //---------------------------------------------------------------------
+                var utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+                var bytes = utf8NoBom.GetBytes(xml);
 
-                    // Absolute choke-hold header guarantee
-                    if (!xml.StartsWith("<?xml version=\"1.0\"?>\n<?qbxml version=\"14.0\"?>"))
-                    {
-                        // Remove any junk before first tag and rebuild header clean
-                        int qbIndex = xml.IndexOf("<QBXML", StringComparison.OrdinalIgnoreCase);
-                        if (qbIndex > 0)
-                            xml = xml.Substring(qbIndex);
-                        xml = "<?xml version=\"1.0\"?>\n<?qbxml version=\"14.0\"?>\n" + xml;
-                    }
+                var tempDir = Path.GetTempPath();
+                Directory.CreateDirectory(tempDir);
+                var tempFile = Path.Combine(tempDir, $"InvoiceAddSent_{DateTime.UtcNow:yyyyMMdd_HHmmss}.xml");
+                File.WriteAllBytes(tempFile, bytes);
 
-                    //---------------------------------------------------------------------
-                    // 4️⃣ Write clean UTF-8-without-BOM file for inspection
-                    //---------------------------------------------------------------------
-                    var bytes = new UTF8Encoding(false).GetBytes(xml);
-                    var tempDir = Path.GetTempPath();
-                    Directory.CreateDirectory(tempDir);
-                    var tempFile = Path.Combine(tempDir, $"InvoiceAddSent_{DateTime.UtcNow:yyyyMMdd_HHmmss}.xml");
-                    File.WriteAllBytes(tempFile, bytes);
+                _qbXmlLogger.LogAsync(runId, "info", "sendRequestXML", "TempFilePath",
+                    strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
+                    null, null, $"QuickBooks XML written to: {tempFile}", null)
+                    .GetAwaiter().GetResult();
 
-                    _qbXmlLogger.LogAsync(runId, "info", "sendRequestXML", "TempFilePath",
-                        strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
-                        null, null, $"QuickBooks XML written to: {tempFile}", null)
-                        .GetAwaiter().GetResult();
+                //---------------------------------------------------------------------
+                // Log + iterator update
+                //---------------------------------------------------------------------
+                iter.LastRequestType = "InvoiceAddRq";
+                iter.IteratorId = null;
+                iter.Remaining = 0;
+                _session.SetIterator(runId, iter);
 
-                    //---------------------------------------------------------------------
-                    // 5️⃣ Update iterator + log
-                    //---------------------------------------------------------------------
-                    iter.LastRequestType = "InvoiceAddRq";
-                    iter.IteratorId = null;
-                    iter.Remaining = 0;
-                    _session.SetIterator(runId, iter);
+                _qbXmlLogger.LogAsync(runId, "req", "sendRequestXML", "InvoiceAddRq",
+                    strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
+                    null, null, "sending invoice", xml)
+                    .GetAwaiter().GetResult();
 
-                    _qbXmlLogger.LogAsync(runId, "req", "sendRequestXML", "InvoiceAddRq",
-                        strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
-                        null, null, "sending invoice", xml)
-                        .GetAwaiter().GetResult();
+                _audit.LogMessageAsync(runId, "sendRequestXML", "req",
+                    companyFile: strCompanyFileName,
+                    message: $"type=InvoiceAddRq Ref={payload.RefNumber}")
+                    .GetAwaiter().GetResult();
 
-                    _audit.LogMessageAsync(runId, "sendRequestXML", "req",
-                        companyFile: strCompanyFileName,
-                        message: $"type=InvoiceAddRq Ref={payload.RefNumber}")
-                        .GetAwaiter().GetResult();
+                //---------------------------------------------------------------------
+                // Force the outgoing SOAP body to be true UTF-8 text
+                //---------------------------------------------------------------------
+                var utf8Clean = Encoding.UTF8.GetString(
+                    Encoding.Convert(Encoding.Unicode, Encoding.UTF8,
+                    Encoding.Unicode.GetBytes(xml)));
 
-                    //---------------------------------------------------------------------
-                    // 6️⃣ Force the outgoing SOAP body to be *true UTF-8 text*
-                    //---------------------------------------------------------------------
-                    var utf8Clean = Encoding.UTF8.GetString(
-                        Encoding.Convert(Encoding.Unicode, Encoding.UTF8,
-                        Encoding.Unicode.GetBytes(xml)));
-
-                    return utf8Clean;
-                }
-                catch (Exception ex)
-                {
-                    _audit.LogMessageAsync(runId, "sendRequestXML", "req",
-                        message: $"InvoiceAdd build failure: {ex.GetType().Name}: {ex.Message}")
-                        .GetAwaiter().GetResult();
-                    return "";
-                }
+                return utf8Clean;
             }
-
-            _audit.LogMessageAsync(runId, "sendRequestXML", "req",
-                message: "export-only: no further requests").GetAwaiter().GetResult();
-            return "";
+            catch (Exception ex)
+            {
+                _audit.LogMessageAsync(runId, "sendRequestXML", "req",
+                    message: $"InvoiceAdd build failure: {ex.GetType().Name}: {ex.Message}")
+                    .GetAwaiter().GetResult();
+                return "";
+            }
         }
 
 
