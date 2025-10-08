@@ -381,8 +381,8 @@ $@"{DefaultHeader}
             string D(DateTime dt) => dt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             string N(decimal v) => v.ToString("0.####", CultureInfo.InvariantCulture);
 
-            // --- SAFE HEADER: no BOM, no CRLF, single LF between declarations ---
-            string header = $"<?xml version=\"1.0\"?>\n<?qbxml version=\"{qbXmlMajor}.{qbXmlMinor}\"?>";
+            // --- HARD-LOCK HEADER: no BOM, no CRLF, single LF between declarations ---
+            const string header = "<?xml version=\"1.0\"?>\n<?qbxml version=\"14.0\"?>";
 
             var sb = new StringBuilder(4096);
             sb.Append(header);
@@ -434,6 +434,7 @@ $@"{DefaultHeader}
             sb.Append("</InvoiceAdd></InvoiceAddRq></QBXMLMsgsRq></QBXML>");
             return sb.ToString();
         }
+
 
 
 

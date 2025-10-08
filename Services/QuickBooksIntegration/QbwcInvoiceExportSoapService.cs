@@ -162,7 +162,8 @@ namespace RaymarEquipmentInventory.Services
                         message: $"type=InvoiceAddRq Ref={payload.RefNumber}")
                         .GetAwaiter().GetResult();
 
-                    return Encoding.UTF8.GetString(bytes);
+                    //return Encoding.UTF8.GetString(bytes);
+                    return xml;
                 }
                 catch (Exception ex)
                 {
