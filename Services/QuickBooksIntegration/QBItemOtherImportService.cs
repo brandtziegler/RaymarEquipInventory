@@ -28,8 +28,16 @@ namespace RaymarEquipmentInventory.Services
             _audit = audit;
         }
 
-        public async Task<int> BulkInsertOtherItemsAsync(Guid runId, IEnumerable<CatalogItemDto> items, CancellationToken ct = default)
+        public async Task<int> BulkInsertOtherItemsAsync(Guid runId, IEnumerable<CatalogItemDto> items, bool firstPage = false, CancellationToken ct = default)
         {
+
+            if (firstPage)
+            {
+                await _context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE dbo.QBItemOther_Staging;", ct);
+                await _audit.LogMessageAsync(runId, "QBItemOther_Staging", "resp",
+                    message: "TRUNCATE on first page of OtherItems import", ct: ct);
+            }
+
             var list = (items ?? Enumerable.Empty<CatalogItemDto>())
                       .Where(x => x != null && !string.IsNullOrWhiteSpace(x.ListID) && AllowedTypes.Contains(x.Type ?? ""))
                       .ToList();

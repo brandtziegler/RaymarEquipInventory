@@ -564,8 +564,15 @@ namespace RaymarEquipmentInventory.Services
                     {
                         var list = (IEnumerable<CatalogItemDto>)parsed?.ServiceItems ?? Enumerable.Empty<CatalogItemDto>();
                         var batch = list.Where(x => string.Equals(x.Type, "NonInventory", StringComparison.OrdinalIgnoreCase)).ToList();
+
                         if (batch.Count > 0)
-                            _other.BulkInsertOtherItemsAsync(runId, batch).GetAwaiter().GetResult();
+                        {
+                            // First “Other Item” import → truncate QBItemOther_Staging
+                            bool firstPage = string.Equals(state.LastRequestType, "ItemNonInventoryQueryRq", StringComparison.Ordinal)
+                                             && string.IsNullOrEmpty(state.IteratorId);
+
+                            _other.BulkInsertOtherItemsAsync(runId, batch, firstPage).GetAwaiter().GetResult();
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -602,7 +609,7 @@ namespace RaymarEquipmentInventory.Services
                         var list = (IEnumerable<CatalogItemDto>)parsed?.ServiceItems ?? Enumerable.Empty<CatalogItemDto>();
                         var batch = list.Where(x => string.Equals(x.Type, "OtherCharge", StringComparison.OrdinalIgnoreCase)).ToList();
                         if (batch.Count > 0)
-                            _other.BulkInsertOtherItemsAsync(runId, batch).GetAwaiter().GetResult();
+                            _other.BulkInsertOtherItemsAsync(runId, batch, false).GetAwaiter().GetResult();   // append only
                     }
                     catch (Exception ex)
                     {
@@ -639,7 +646,7 @@ namespace RaymarEquipmentInventory.Services
                         var list = (IEnumerable<CatalogItemDto>)parsed?.ServiceItems ?? Enumerable.Empty<CatalogItemDto>();
                         var batch = list.Where(x => string.Equals(x.Type, "SalesTaxItem", StringComparison.OrdinalIgnoreCase)).ToList();
                         if (batch.Count > 0)
-                            _other.BulkInsertOtherItemsAsync(runId, batch).GetAwaiter().GetResult();
+                            _other.BulkInsertOtherItemsAsync(runId, batch, false).GetAwaiter().GetResult();   // append only
                     }
                     catch (Exception ex)
                     {
@@ -676,7 +683,7 @@ namespace RaymarEquipmentInventory.Services
                         var list = (IEnumerable<CatalogItemDto>)parsed?.ServiceItems ?? Enumerable.Empty<CatalogItemDto>();
                         var batch = list.Where(x => string.Equals(x.Type, "SalesTaxGroup", StringComparison.OrdinalIgnoreCase)).ToList();
                         if (batch.Count > 0)
-                            _other.BulkInsertOtherItemsAsync(runId, batch).GetAwaiter().GetResult();
+                            _other.BulkInsertOtherItemsAsync(runId, batch, false).GetAwaiter().GetResult();   // append only
                     }
                     catch (Exception ex)
                     {
@@ -703,6 +710,7 @@ namespace RaymarEquipmentInventory.Services
                     }
                     return state.Remaining > 0 ? 1 : 100;
                 }
+
             }
 
             // ======================= CUSTOMERS =======================

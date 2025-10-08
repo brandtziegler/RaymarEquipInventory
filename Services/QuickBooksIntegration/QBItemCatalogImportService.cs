@@ -28,14 +28,21 @@ namespace RaymarEquipmentInventory.Services
             var list = items?.ToList() ?? new List<CatalogItemDto>();
             if (list.Count == 0)
             {
-                await _audit.LogMessageAsync(runId, "QBItemCatalog_Staging", "resp", message: "0 service rows (empty batch)", ct: ct);
+                await _audit.LogMessageAsync(runId, "QBItemCatalog_Staging", "resp",
+                    message: "0 service rows (empty batch)", ct: ct);
                 return 0;
             }
 
             var table = BuildStagingTable(runId, list, "Service");
 
             var conn = (SqlConnection)_context.Database.GetDbConnection();
-            if (conn.State != ConnectionState.Open) await conn.OpenAsync(ct);
+            if (conn.State != ConnectionState.Open)
+                await conn.OpenAsync(ct);
+
+            // 🧹 Always start fresh before new SOAP batch
+            await _context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE dbo.QBItemCatalog_Staging;", ct);
+            await _audit.LogMessageAsync(runId, "QBItemCatalog_Staging", "resp",
+                message: "TRUNCATE before service item import", ct: ct);
 
             using var bulk = new SqlBulkCopy(conn)
             {
@@ -65,6 +72,7 @@ namespace RaymarEquipmentInventory.Services
 
             return table.Rows.Count;
         }
+
 
         private static DataTable BuildStagingTable(Guid runId, List<CatalogItemDto> items, string type)
         {
