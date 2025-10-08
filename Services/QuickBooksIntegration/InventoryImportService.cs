@@ -21,7 +21,7 @@ namespace RaymarEquipmentInventory.Services
             _audit = audit;
         }
 
-       
+
         public async Task<int> BulkInsertInventoryAsync(
             Guid runId,
             IEnumerable<InventoryItemDto> items,
@@ -36,10 +36,13 @@ namespace RaymarEquipmentInventory.Services
             }
 
             var table = BuildTable(runId, list);
-            
+
             var conn = (SqlConnection)_context.Database.GetDbConnection();
             if (conn.State != ConnectionState.Open)
                 await conn.OpenAsync(ct);
+
+            // 🧹 always start with a clean slate
+            await _context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE dbo.InventoryStaging;", ct);
 
             using var bulk = new SqlBulkCopy(conn)
             {
@@ -67,11 +70,19 @@ namespace RaymarEquipmentInventory.Services
 
             await bulk.WriteToServerAsync(table, ct);
 
+            // 🧾 log insert summary once
             await _audit.LogMessageAsync(runId, "InventoryStaging", "resp",
                 message: $"Inserted {table.Rows.Count} rows", ct: ct);
 
+            // 🚀 promote staging → main
+            await _context.Database.ExecuteSqlRawAsync("EXEC dbo.Inventory_Upsert_FromStagingWork;", ct);
+
+            await _audit.LogMessageAsync(runId, "InventoryData", "promote",
+                message: "Executed Inventory_Upsert_FromStagingWork after bulk insert.", ct: ct);
+
             return table.Rows.Count;
         }
+
 
 
         /// <summary>

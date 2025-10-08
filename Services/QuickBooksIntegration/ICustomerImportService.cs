@@ -12,6 +12,7 @@ namespace RaymarEquipmentInventory.Services
                     Guid runId,
                     IEnumerable<CustomerData> customers,
                     bool firstPage = false,                     // <— NEW
+                    bool lastPage = false,
                     CancellationToken ct = default);
 
         Task<CustomerBackupSyncResult> SyncCustomerBackupAsync(

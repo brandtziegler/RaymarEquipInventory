@@ -478,6 +478,7 @@ namespace RaymarEquipmentInventory.Services
                     try
                     {
                         _importInv.BulkInsertInventoryAsync(runId, parsed!.InventoryItems).GetAwaiter().GetResult();
+
                     }
                     catch (Exception ex)
                     {
@@ -727,11 +728,13 @@ namespace RaymarEquipmentInventory.Services
                     bool firstPage = string.Equals(state.LastRequestType, "CustomerQueryRq", StringComparison.Ordinal)
                                      && string.IsNullOrEmpty(state.IteratorId);
 
+                    bool lastPage = parsed?.IteratorRemaining == 0;
+
                     _audit.LogMessageAsync(runId, "CustomerBackup", "resp",
                         message: $"about to bulk: custCount={(int?)parsed?.Customers?.Count ?? 0}, firstPage={string.IsNullOrEmpty(state.IteratorId)}")
                         .GetAwaiter().GetResult();
 
-                    _customerImport.BulkInsertCustomersAsync(runId, parsed.Customers, firstPage).GetAwaiter().GetResult();
+                    _customerImport.BulkInsertCustomersAsync(runId, parsed.Customers, firstPage, lastPage).GetAwaiter().GetResult();
 
                 }
                 catch (Exception ex)

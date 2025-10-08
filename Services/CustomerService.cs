@@ -71,7 +71,7 @@ namespace RaymarEquipmentInventory.Services
             int inserted = 0;
             if (insert && custCount > 0)
             {
-                inserted = await _customerImport.BulkInsertCustomersAsync(runId, parsed.Customers, true, ct);   // → dbo.CustomerBackup (TRUNCATE + bulk) :contentReference[oaicite:5]{index=5}
+                inserted = await _customerImport.BulkInsertCustomersAsync(runId, parsed.Customers, true, false, ct);   // → dbo.CustomerBackup (TRUNCATE + bulk) :contentReference[oaicite:5]{index=5}
                 await _customerImport.SyncCustomerDataAsync(runId);                                  // resolve parents/paths/effective-active (in backup) :contentReference[oaicite:6]{index=6}
             }
 

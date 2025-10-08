@@ -26,7 +26,8 @@ namespace RaymarEquipmentInventory.Services
         public async Task<int> BulkInsertCustomersAsync(
             Guid runId,
             IEnumerable<CustomerData> customers,
-            bool firstPage = false,                     // <— NEW
+            bool firstPage = false,
+            bool lastPage = false,                   // <— NEW: mark true when final page received
             CancellationToken ct = default)
         {
             var list = customers as List<CustomerData> ?? customers.ToList();
@@ -42,7 +43,7 @@ namespace RaymarEquipmentInventory.Services
             if (conn.State != ConnectionState.Open)
                 await conn.OpenAsync(ct);
 
-            // Only clear on the first page of a paged pull
+            // 🧹 Only clear staging on the first page of a full QuickBooks sync
             if (firstPage)
             {
                 await _context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE dbo.CustomerBackup;", ct);
@@ -57,7 +58,7 @@ namespace RaymarEquipmentInventory.Services
                 BatchSize = Math.Min(1000, table.Rows.Count)
             };
 
-            // Do NOT map CustomerID (IDENTITY) or ChangeVersion (rowversion).
+            // Do NOT map CustomerID (IDENTITY) or ChangeVersion (rowversion)
             bulk.ColumnMappings.Add("ID", "ID");
             bulk.ColumnMappings.Add("ParentID", "ParentID");
             bulk.ColumnMappings.Add("CustomerName", "CustomerName");
@@ -95,10 +96,20 @@ namespace RaymarEquipmentInventory.Services
             await bulk.WriteToServerAsync(table, ct);
 
             await _audit.LogMessageAsync(runId, "CustomerBackup", "resp",
-                message: $"Inserted {table.Rows.Count} rows (firstPage={firstPage})", ct: ct);
+                message: $"Inserted {table.Rows.Count} rows (firstPage={firstPage}, lastPage={lastPage})", ct: ct);
+
+            // 🚀 Run full sync only once, after the last page of QuickBooks data is received
+            if (lastPage)
+            {
+                await _context.Database.ExecuteSqlRawAsync("EXEC dbo.Customer_SyncFromBackup_FullRefresh;", ct);
+
+                await _audit.LogMessageAsync(runId, "CustomerData", "promote",
+                    message: "Executed Customer_SyncFromBackup_FullRefresh after final page insert.", ct: ct);
+            }
 
             return table.Rows.Count;
         }
+
 
 
 
