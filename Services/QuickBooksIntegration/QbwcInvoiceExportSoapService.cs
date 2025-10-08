@@ -98,7 +98,7 @@ namespace RaymarEquipmentInventory.Services
             return first > 0 ? xml.Substring(first) : xml;
         }
 
-        // ================== Export Flow ==================
+        // ================== Export Flow ==================///make sure we write to the right temp directory. 
 
         public string sendRequestXML(
             string ticket,
