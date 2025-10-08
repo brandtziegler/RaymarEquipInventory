@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,7 +47,6 @@ namespace RaymarEquipmentInventory.Services
 
         public string[] authenticate(string strUserName, string strPassword)
         {
-            // Use a distinct export user if desired; falls back to options/defaults
             const string expectedUser = "raymar-qbwc";
             const string expectedPass = "Thr!ve2025AD";
 
@@ -63,8 +63,7 @@ namespace RaymarEquipmentInventory.Services
             _audit.LogMessageAsync(runId, "authenticate", "resp", message: "ok", ct: CancellationToken.None)
                   .GetAwaiter().GetResult();
 
-            // second element "" = use currently-open company file
-            return new[] { ticket, "" };
+            return new[] { ticket, "" }; // use currently-open company file
         }
 
         public string clientVersion(string strVersion) => "";
@@ -94,11 +93,7 @@ namespace RaymarEquipmentInventory.Services
         private static string CleanForQuickBooks(string xml)
         {
             if (string.IsNullOrEmpty(xml)) return xml;
-
-            // Remove UTF-8 BOM or stray zero-width characters that can sneak in
             xml = xml.TrimStart('\uFEFF', '\u200B', '\u0000');
-
-            // Remove all leading whitespace before the first '<'
             var first = xml.IndexOf('<');
             return first > 0 ? xml.Substring(first) : xml;
         }
@@ -121,7 +116,6 @@ namespace RaymarEquipmentInventory.Services
 
             var iter = _session.GetIterator(runId);
 
-            // Bootstrap this session with a single InvoiceAdd
             if (string.IsNullOrEmpty(iter.LastRequestType))
             {
                 iter.LastRequestType = "InvoiceAddPending";
@@ -135,30 +129,39 @@ namespace RaymarEquipmentInventory.Services
                     var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(TEST_INVOICE_ID)
                                                 .GetAwaiter().GetResult();
                     var xml = _request.BuildInvoiceAdd(payload, qbXMLMajorVers, qbXMLMinorVers, qbXMLCountry);
-
-                    // 🚿 Clean the XML to remove BOM/whitespace/hidden chars
                     xml = CleanForQuickBooks(xml);
 
-                    // Optional: verify and persist for troubleshooting // let's get rid of these stupid errors.
-                    var bytes = new UTF8Encoding(false).GetBytes(xml); // no BOM
-                    Directory.CreateDirectory(@"C:\Temp");
-                    File.WriteAllBytes(@"C:\Temp\InvoiceAddSent.xml", bytes);
+                    // -------------------------------------------------------------------
+                    // Pick a system-safe temp directory, create a timestamped file
+                    // -------------------------------------------------------------------
+                    var bytes = new UTF8Encoding(false).GetBytes(xml);
+                    var tempDir = Path.GetTempPath();
+                    Directory.CreateDirectory(tempDir);
+
+                    var tempFile = Path.Combine(tempDir, $"InvoiceAddSent_{DateTime.UtcNow:yyyyMMdd_HHmmss}.xml");
+                    File.WriteAllBytes(tempFile, bytes);
+
+                    // Log the actual path
+                    _qbXmlLogger.LogAsync(runId, "info", "sendRequestXML", "TempFilePath",
+                        strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
+                        null, null, $"QuickBooks XML written to: {tempFile}", null)
+                        .GetAwaiter().GetResult();
 
                     iter.LastRequestType = "InvoiceAddRq";
                     iter.IteratorId = null;
                     iter.Remaining = 0;
                     _session.SetIterator(runId, iter);
 
-                    // Forensic log of what is actually sent
                     _qbXmlLogger.LogAsync(runId, "req", "sendRequestXML", "InvoiceAddRq",
                         strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
-                        null, null, "sending invoice", xml).GetAwaiter().GetResult();
+                        null, null, "sending invoice", xml)
+                        .GetAwaiter().GetResult();
 
                     _audit.LogMessageAsync(runId, "sendRequestXML", "req",
                         companyFile: strCompanyFileName,
-                        message: $"type=InvoiceAddRq Ref={payload.RefNumber}").GetAwaiter().GetResult();
+                        message: $"type=InvoiceAddRq Ref={payload.RefNumber}")
+                        .GetAwaiter().GetResult();
 
-                    // ✅ Return a pure string with no BOM or leading whitespace
                     return Encoding.UTF8.GetString(bytes);
                 }
                 catch (Exception ex)
@@ -166,17 +169,14 @@ namespace RaymarEquipmentInventory.Services
                     _audit.LogMessageAsync(runId, "sendRequestXML", "req",
                         message: $"InvoiceAdd build failure: {ex.GetType().Name}: {ex.Message}")
                         .GetAwaiter().GetResult();
-
                     return "";
                 }
             }
 
-            // No more work; finish the session
             _audit.LogMessageAsync(runId, "sendRequestXML", "req",
                 message: "export-only: no further requests").GetAwaiter().GetResult();
             return "";
         }
-
 
         public int receiveResponseXML(string ticket, string response, string hresult, string message)
         {
@@ -185,7 +185,6 @@ namespace RaymarEquipmentInventory.Services
 
             var state = _session.GetIterator(runId);
 
-            // Blank or parser error from QBWC
             if (string.IsNullOrWhiteSpace(response))
             {
                 _qbXmlLogger.LogAsync(runId, "resp", "receiveResponseXML", "InvoiceAddRs",
@@ -194,8 +193,7 @@ namespace RaymarEquipmentInventory.Services
 
                 _invoiceExport.OnInvoiceExportFailureAsync(TEST_INVOICE_ID, message ?? "XML parse error")
                     .GetAwaiter().GetResult();
-
-                return 100; // done
+                return 100;
             }
 
             dynamic? parsed = null;
@@ -214,13 +212,11 @@ namespace RaymarEquipmentInventory.Services
                 return 100;
             }
 
-            // Log the raw response with parsed status
             _qbXmlLogger.LogAsync(runId, "resp", "receiveResponseXML", "InvoiceAddRs",
                 null, null, TEST_INVOICE_ID, null,
                 (int?)parsed?.StatusCode, hresult, (string?)parsed?.StatusMessage, response)
                 .GetAwaiter().GetResult();
 
-            // Handle success/failure
             var txnId = (string?)parsed?.InvoiceTxnId;
             var editSeq = (string?)parsed?.InvoiceEditSeq;
 
@@ -228,6 +224,25 @@ namespace RaymarEquipmentInventory.Services
             {
                 _invoiceExport.OnInvoiceExportSuccessAsync(TEST_INVOICE_ID, txnId!, editSeq ?? "")
                     .GetAwaiter().GetResult();
+
+                // 🧹 Clean up any old XML temp files older than an hour
+                try
+                {
+                    var tempDir = Path.GetTempPath();
+                    foreach (var file in Directory.GetFiles(tempDir, "InvoiceAddSent_*.xml"))
+                    {
+                        var age = DateTime.UtcNow - File.GetCreationTimeUtc(file);
+                        if (age > TimeSpan.FromHours(1))
+                            File.Delete(file);
+                    }
+                }
+                catch (Exception cleanupEx)
+                {
+                    _qbXmlLogger.LogAsync(runId, "warn", "receiveResponseXML", "Cleanup",
+                        null, null, TEST_INVOICE_ID, null, null, null,
+                        $"Could not clean temp files: {cleanupEx.Message}", null)
+                        .GetAwaiter().GetResult();
+                }
             }
             else
             {
@@ -236,7 +251,6 @@ namespace RaymarEquipmentInventory.Services
                     .GetAwaiter().GetResult();
             }
 
-            // One-and-done per session
             state.LastRequestType = "InvoiceExportDone";
             state.IteratorId = null;
             state.Remaining = 0;
