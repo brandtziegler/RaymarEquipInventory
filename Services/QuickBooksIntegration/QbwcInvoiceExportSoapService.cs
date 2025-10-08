@@ -130,54 +130,42 @@ namespace RaymarEquipmentInventory.Services
                                                 .GetAwaiter().GetResult();
 
                     //---------------------------------------------------------------------
-                    // Build raw XML (force QBXML 14.0 header no matter what)
+                    // 1️⃣ Build XML and hard-force QBXML 14.0
                     //---------------------------------------------------------------------
                     var xml = _request.BuildInvoiceAdd(payload, 14, 0, "US");
 
                     //---------------------------------------------------------------------
-                    // Hard clean: remove any BOMs, zero-width, stray spaces/newlines
+                    // 2️⃣ Scrub every possible invisible character / space / BOM
                     //---------------------------------------------------------------------
-                    xml = xml.TrimStart('\uFEFF', '\u200B', '\u0000', '\r', '\n', ' ', '\t');
-                    var firstTag = xml.IndexOf('<');
-                    if (firstTag > 0)
-                        xml = xml.Substring(firstTag);
+                    xml = xml.TrimStart('\uFEFF', '\u200B', '\u0000', ' ', '\t', '\r', '\n');
+                    int firstTag = xml.IndexOf('<');
+                    if (firstTag > 0) xml = xml.Substring(firstTag);
 
-                    // Normalize line endings to \n
+                    //---------------------------------------------------------------------
+                    // 3️⃣ Normalize line endings and fix header spacing exactly
+                    //---------------------------------------------------------------------
                     xml = xml.Replace("\r\n", "\n").Replace("\r", "\n");
+                    // Replace any header with one that has *no space* between declarations
+                    xml = System.Text.RegularExpressions.Regex.Replace(
+                        xml,
+                        @"<\?xml\s+version=""1\.0""\s*\?>\s*<\?qbxml\s+version=""[^""]+""\s*\?>",
+                        "<?xml version=\"1.0\"?>\n<?qbxml version=\"14.0\"?>",
+                        System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
-                    //---------------------------------------------------------------------
-                    // Header police: force exactly this header — no excuses
-                    //---------------------------------------------------------------------
-                    if (!xml.StartsWith("<?xml version=\"1.0\"?>"))
+                    // Absolute choke-hold header guarantee
+                    if (!xml.StartsWith("<?xml version=\"1.0\"?>\n<?qbxml version=\"14.0\"?>"))
                     {
-                        var headerEnd = xml.IndexOf("?>");
-                        if (headerEnd > 0)
-                            xml = xml.Substring(headerEnd + 2).TrimStart('\r', '\n', ' ');
+                        // Remove any junk before first tag and rebuild header clean
+                        int qbIndex = xml.IndexOf("<QBXML", StringComparison.OrdinalIgnoreCase);
+                        if (qbIndex > 0)
+                            xml = xml.Substring(qbIndex);
                         xml = "<?xml version=\"1.0\"?>\n<?qbxml version=\"14.0\"?>\n" + xml;
                     }
-                    else if (!xml.Contains("<?qbxml version=\"14.0\"?>"))
-                    {
-                        // replace any other qbxml version
-                        xml = System.Text.RegularExpressions.Regex.Replace(
-                            xml,
-                            @"<\?qbxml version\s*=\s*""[^""]+""\?>",
-                            "<?qbxml version=\"14.0\"?>",
-                            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                    }
 
                     //---------------------------------------------------------------------
-                    // Validate header sanity (debug aid)
+                    // 4️⃣ Write clean UTF-8-without-BOM file for inspection
                     //---------------------------------------------------------------------
-                    if (!xml.StartsWith("<?xml"))
-                    {
-                        _audit.LogMessageAsync(runId, "sendRequestXML", "warn",
-                            message: "XML sanity check failed – first bytes are not '<?xml'").GetAwaiter().GetResult();
-                    }
-
-                    //---------------------------------------------------------------------
-                    // Write clean file to temp dir for inspection
-                    //---------------------------------------------------------------------
-                    var bytes = new UTF8Encoding(false).GetBytes(xml); // UTF-8 no BOM
+                    var bytes = new UTF8Encoding(false).GetBytes(xml);
                     var tempDir = Path.GetTempPath();
                     Directory.CreateDirectory(tempDir);
                     var tempFile = Path.Combine(tempDir, $"InvoiceAddSent_{DateTime.UtcNow:yyyyMMdd_HHmmss}.xml");
@@ -189,7 +177,7 @@ namespace RaymarEquipmentInventory.Services
                         .GetAwaiter().GetResult();
 
                     //---------------------------------------------------------------------
-                    // Update iterator and log request
+                    // 5️⃣ Update iterator + log
                     //---------------------------------------------------------------------
                     iter.LastRequestType = "InvoiceAddRq";
                     iter.IteratorId = null;
@@ -207,9 +195,13 @@ namespace RaymarEquipmentInventory.Services
                         .GetAwaiter().GetResult();
 
                     //---------------------------------------------------------------------
-                    // 🚀 Return exact clean XML text – NOT re-encoded string
+                    // 6️⃣ Force the outgoing SOAP body to be *true UTF-8 text*
                     //---------------------------------------------------------------------
-                    return xml;
+                    var utf8Clean = Encoding.UTF8.GetString(
+                        Encoding.Convert(Encoding.Unicode, Encoding.UTF8,
+                        Encoding.Unicode.GetBytes(xml)));
+
+                    return utf8Clean;
                 }
                 catch (Exception ex)
                 {
@@ -224,6 +216,8 @@ namespace RaymarEquipmentInventory.Services
                 message: "export-only: no further requests").GetAwaiter().GetResult();
             return "";
         }
+
+
 
 
         public int receiveResponseXML(string ticket, string response, string hresult, string message)
