@@ -17,7 +17,7 @@ namespace RaymarEquipmentInventory.Services
         {
             _opt = opt.Value ?? new QbwcRequestOptions();
             // If you ever add these to options, wire them here; else default to a widely-supported version.
-            _defaultMajor = 13;
+            _defaultMajor = 14;
             _defaultMinor = 0;
         }
 
@@ -373,6 +373,10 @@ $@"{DefaultHeader}
         // New overload: pass the versions you get from QBWC (qbXMLMajorVers/minor).
         public string BuildInvoiceAdd(InvoiceAddPayload p, int qbXmlMajor, int qbXmlMinor, string qbXmlCountry = "US")
         {
+            // 🔒 Force QuickBooks Premier 2021-compatible version
+            qbXmlMajor = 14;
+            qbXmlMinor = 0;
+
             string Esc(string? s) => System.Security.SecurityElement.Escape(s ?? "");
             string D(DateTime dt) => dt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             string N(decimal v) => v.ToString("0.####", CultureInfo.InvariantCulture);
@@ -430,6 +434,7 @@ $@"{DefaultHeader}
             sb.Append("</InvoiceAdd></InvoiceAddRq></QBXMLMsgsRq></QBXML>");
             return sb.ToString();
         }
+
 
 
         // Backward-compatible signature; uses default header
