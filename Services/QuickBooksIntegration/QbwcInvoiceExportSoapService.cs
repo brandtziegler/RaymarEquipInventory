@@ -128,25 +128,69 @@ namespace RaymarEquipmentInventory.Services
                 {
                     var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(TEST_INVOICE_ID)
                                                 .GetAwaiter().GetResult();
-                    var xml = _request.BuildInvoiceAdd(payload, qbXMLMajorVers, qbXMLMinorVers, qbXMLCountry);
-                    xml = CleanForQuickBooks(xml);
 
-                    // -------------------------------------------------------------------
-                    // Pick a system-safe temp directory, create a timestamped file
-                    // -------------------------------------------------------------------
-                    var bytes = new UTF8Encoding(false).GetBytes(xml);
+                    //---------------------------------------------------------------------
+                    // Build raw XML (force QBXML 14.0 header no matter what)
+                    //---------------------------------------------------------------------
+                    var xml = _request.BuildInvoiceAdd(payload, 14, 0, "US");
+
+                    //---------------------------------------------------------------------
+                    // Hard clean: remove any BOMs, zero-width, stray spaces/newlines
+                    //---------------------------------------------------------------------
+                    xml = xml.TrimStart('\uFEFF', '\u200B', '\u0000', '\r', '\n', ' ', '\t');
+                    var firstTag = xml.IndexOf('<');
+                    if (firstTag > 0)
+                        xml = xml.Substring(firstTag);
+
+                    // Normalize line endings to \n
+                    xml = xml.Replace("\r\n", "\n").Replace("\r", "\n");
+
+                    //---------------------------------------------------------------------
+                    // Header police: force exactly this header — no excuses
+                    //---------------------------------------------------------------------
+                    if (!xml.StartsWith("<?xml version=\"1.0\"?>"))
+                    {
+                        var headerEnd = xml.IndexOf("?>");
+                        if (headerEnd > 0)
+                            xml = xml.Substring(headerEnd + 2).TrimStart('\r', '\n', ' ');
+                        xml = "<?xml version=\"1.0\"?>\n<?qbxml version=\"14.0\"?>\n" + xml;
+                    }
+                    else if (!xml.Contains("<?qbxml version=\"14.0\"?>"))
+                    {
+                        // replace any other qbxml version
+                        xml = System.Text.RegularExpressions.Regex.Replace(
+                            xml,
+                            @"<\?qbxml version\s*=\s*""[^""]+""\?>",
+                            "<?qbxml version=\"14.0\"?>",
+                            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                    }
+
+                    //---------------------------------------------------------------------
+                    // Validate header sanity (debug aid)
+                    //---------------------------------------------------------------------
+                    if (!xml.StartsWith("<?xml"))
+                    {
+                        _audit.LogMessageAsync(runId, "sendRequestXML", "warn",
+                            message: "XML sanity check failed – first bytes are not '<?xml'").GetAwaiter().GetResult();
+                    }
+
+                    //---------------------------------------------------------------------
+                    // Write clean file to temp dir for inspection
+                    //---------------------------------------------------------------------
+                    var bytes = new UTF8Encoding(false).GetBytes(xml); // UTF-8 no BOM
                     var tempDir = Path.GetTempPath();
                     Directory.CreateDirectory(tempDir);
-
                     var tempFile = Path.Combine(tempDir, $"InvoiceAddSent_{DateTime.UtcNow:yyyyMMdd_HHmmss}.xml");
                     File.WriteAllBytes(tempFile, bytes);
 
-                    // Log the actual path
                     _qbXmlLogger.LogAsync(runId, "info", "sendRequestXML", "TempFilePath",
                         strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
                         null, null, $"QuickBooks XML written to: {tempFile}", null)
                         .GetAwaiter().GetResult();
 
+                    //---------------------------------------------------------------------
+                    // Update iterator and log request
+                    //---------------------------------------------------------------------
                     iter.LastRequestType = "InvoiceAddRq";
                     iter.IteratorId = null;
                     iter.Remaining = 0;
@@ -162,7 +206,9 @@ namespace RaymarEquipmentInventory.Services
                         message: $"type=InvoiceAddRq Ref={payload.RefNumber}")
                         .GetAwaiter().GetResult();
 
-                    //return Encoding.UTF8.GetString(bytes);
+                    //---------------------------------------------------------------------
+                    // 🚀 Return exact clean XML text – NOT re-encoded string
+                    //---------------------------------------------------------------------
                     return xml;
                 }
                 catch (Exception ex)
@@ -178,6 +224,7 @@ namespace RaymarEquipmentInventory.Services
                 message: "export-only: no further requests").GetAwaiter().GetResult();
             return "";
         }
+
 
         public int receiveResponseXML(string ticket, string response, string hresult, string message)
         {
