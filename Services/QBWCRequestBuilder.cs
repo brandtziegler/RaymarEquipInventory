@@ -366,10 +366,9 @@ $@"{DefaultHeader}
 </QBXML>";
         }
 
-        // =====================================================================
-        // INVOICE ADD
-        // =====================================================================
-        // Sanitizer for QuickBooks-safe XML text
+        // Brutal sanitizer for QuickBooks-safe XML text.
+        // Absolutely everything outside printable ASCII 0x20–0x7E is stripped.
+        // Also removes or normalizes punctuation that might upset QuickBooks.
         private static string CleanForQBXML(string? input)
         {
             if (string.IsNullOrEmpty(input))
@@ -378,18 +377,47 @@ $@"{DefaultHeader}
             var sb = new StringBuilder(input.Length);
             foreach (var c in input)
             {
-                // Skip illegal XML control chars (except tab/newline)
+                // Skip all control characters except tab/newline/CR
                 if (c < 0x20 && c != 0x09 && c != 0x0A && c != 0x0D)
                     continue;
 
-                // Replace non-ASCII characters with '?'
+                // Replace non-ASCII and high-bit chars with space
                 if (c > 0x7E)
-                    sb.Append('?');
-                else
-                    sb.Append(c);
+                {
+                    sb.Append(' ');
+                    continue;
+                }
+
+                // Replace anything that isn't safe alphanumeric or simple punctuation with space
+                // Safe chars: A-Z a-z 0-9 . , - _ / : ; ' " ( ) [ ] { } + = space
+                if (!(char.IsLetterOrDigit(c) ||
+                      c == '.' || c == ',' || c == '-' || c == '_' ||
+                      c == '/' || c == ':' || c == ';' ||
+                      c == '\'' || c == '"' ||
+                      c == '(' || c == ')' ||
+                      c == '[' || c == ']' ||
+                      c == '{' || c == '}' ||
+                      c == '+' || c == '=' || c == ' '))
+                {
+                    sb.Append(' ');
+                    continue;
+                }
+
+                sb.Append(c);
             }
 
-            return System.Security.SecurityElement.Escape(sb.ToString());
+            // Collapse multiple spaces and trim edges
+            var cleaned = System.Text.RegularExpressions.Regex.Replace(sb.ToString(), @"\s{2,}", " ").Trim();
+
+            // Escape XML entities
+            cleaned = cleaned
+                .Replace("&", "&amp;")
+                .Replace("<", "&lt;")
+                .Replace(">", "&gt;")
+                .Replace("\"", "&quot;")
+                .Replace("'", "&apos;");
+
+            return cleaned;
         }
 
 
