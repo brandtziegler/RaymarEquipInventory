@@ -388,7 +388,7 @@ $@"{DefaultHeader}
                     continue;
                 }
 
-                // Replace anything that isn't safe alphanumeric or simple punctuation with space
+                // Replace anything that isn't safe alphanumeric or simple punctuation with space///
                 // Safe chars: A-Z a-z 0-9 . , - _ / : ; ' " ( ) [ ] { } + = space
                 if (!(char.IsLetterOrDigit(c) ||
                       c == '.' || c == ',' || c == '-' || c == '_' ||
