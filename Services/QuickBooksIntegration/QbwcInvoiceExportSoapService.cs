@@ -123,30 +123,33 @@ namespace RaymarEquipmentInventory.Services
             }
 
             if (!string.Equals(iter.LastRequestType, "InvoiceAddPending", StringComparison.Ordinal))
-                return "";
+                return string.Empty;
 
             try
             {
+                // ---------------------------------------------------------------------
+                // Build payload
+                // ---------------------------------------------------------------------
                 var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(TEST_INVOICE_ID)
                                             .GetAwaiter().GetResult();
 
-                //---------------------------------------------------------------------
-                // Build and strip any existing header completely
-                //---------------------------------------------------------------------
+                // ---------------------------------------------------------------------
+                // Strip any existing header completely
+                // ---------------------------------------------------------------------
                 var body = _request.BuildInvoiceAdd(payload, 14, 0, "US");
                 int qbxmlIndex = body.IndexOf("<QBXML", StringComparison.OrdinalIgnoreCase);
                 if (qbxmlIndex > 0)
                     body = body.Substring(qbxmlIndex);
 
-                //---------------------------------------------------------------------
-                // 🔒 Hard-coded header – no spaces, no BOM, no chance
-                //---------------------------------------------------------------------
-                const string header = "<?xml version=\"1.0\"?>\n<?qbxml version=\"14.0\"?>\n";
-                var xml = header + body;
+                // ---------------------------------------------------------------------
+                // Hard-coded header – absolutely no line breaks or spaces
+                // ---------------------------------------------------------------------
+                const string header = "<?xml version=\"1.0\"?><?qbxml version=\"14.0\"?>";
+                string xml = string.Concat(header, body);
 
-                //---------------------------------------------------------------------
-                // Write UTF-8-without-BOM file for inspection
-                //---------------------------------------------------------------------
+                // ---------------------------------------------------------------------
+                // Write UTF-8 without BOM for inspection
+                // ---------------------------------------------------------------------
                 var utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
                 var bytes = utf8NoBom.GetBytes(xml);
 
@@ -160,9 +163,9 @@ namespace RaymarEquipmentInventory.Services
                     null, null, $"QuickBooks XML written to: {tempFile}", null)
                     .GetAwaiter().GetResult();
 
-                //---------------------------------------------------------------------
+                // ---------------------------------------------------------------------
                 // Log + iterator update
-                //---------------------------------------------------------------------
+                // ---------------------------------------------------------------------
                 iter.LastRequestType = "InvoiceAddRq";
                 iter.IteratorId = null;
                 iter.Remaining = 0;
@@ -178,24 +181,19 @@ namespace RaymarEquipmentInventory.Services
                     message: $"type=InvoiceAddRq Ref={payload.RefNumber}")
                     .GetAwaiter().GetResult();
 
-                //---------------------------------------------------------------------
-                // Force the outgoing SOAP body to be true UTF-8 text
-                //---------------------------------------------------------------------
-                var utf8Clean = Encoding.UTF8.GetString(
-                    Encoding.Convert(Encoding.Unicode, Encoding.UTF8,
-                    Encoding.Unicode.GetBytes(xml)));
-
-                return utf8Clean;
+                // ---------------------------------------------------------------------
+                // Return clean XML (UTF-8 text, no re-encoding)
+                // ---------------------------------------------------------------------
+                return xml;
             }
             catch (Exception ex)
             {
                 _audit.LogMessageAsync(runId, "sendRequestXML", "req",
                     message: $"InvoiceAdd build failure: {ex.GetType().Name}: {ex.Message}")
                     .GetAwaiter().GetResult();
-                return "";
+                return string.Empty;
             }
         }
-
 
 
 
