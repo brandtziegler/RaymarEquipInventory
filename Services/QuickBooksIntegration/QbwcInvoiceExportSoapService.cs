@@ -157,7 +157,16 @@ namespace RaymarEquipmentInventory.Services
                 Directory.CreateDirectory(tempDir);
                 var tempFile = Path.Combine(tempDir, $"InvoiceAddSent_{DateTime.UtcNow:yyyyMMdd_HHmmss}.xml");
                 File.WriteAllBytes(tempFile, bytes);
+                var xmlPreview = xml.Length > 8000 ? xml.Substring(0, 8000) + "\n...[truncated]..." : xml;
+                _qbXmlLogger.LogAsync(runId, "debug", "sendRequestXML",
+                    "InvoiceXML",
+                    strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
+                    null, null, xmlPreview, null)
+                    .GetAwaiter().GetResult();
 
+                // ---------------------------------------------------------------------
+                // Log the temp file path for completeness
+                // ---------------------------------------------------------------------
                 _qbXmlLogger.LogAsync(runId, "info", "sendRequestXML", "TempFilePath",
                     strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
                     null, null, $"QuickBooks XML written to: {tempFile}", null)
