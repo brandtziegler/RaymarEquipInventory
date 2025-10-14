@@ -369,19 +369,40 @@ $@"{DefaultHeader}
         // =====================================================================
         // INVOICE ADD
         // =====================================================================
+        // Sanitizer for QuickBooks-safe XML text
+        private static string CleanForQBXML(string? input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return string.Empty;
 
-        // New overload: pass the versions you get from QBWC (qbXMLMajorVers/minor).
+            var sb = new StringBuilder(input.Length);
+            foreach (var c in input)
+            {
+                // Skip illegal XML control chars (except tab/newline)
+                if (c < 0x20 && c != 0x09 && c != 0x0A && c != 0x0D)
+                    continue;
+
+                // Replace non-ASCII characters with '?'
+                if (c > 0x7E)
+                    sb.Append('?');
+                else
+                    sb.Append(c);
+            }
+
+            return System.Security.SecurityElement.Escape(sb.ToString());
+        }
+
+
+
         public string BuildInvoiceAdd(InvoiceAddPayload p, int qbXmlMajor, int qbXmlMinor, string qbXmlCountry = "US")
         {
-            // 🔒 Force QuickBooks Premier 2021-compatible version
+            // Lock to stable version
             qbXmlMajor = 14;
             qbXmlMinor = 0;
 
-            string Esc(string? s) => System.Security.SecurityElement.Escape(s ?? "");
             string D(DateTime dt) => dt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             string N(decimal v) => v.ToString("0.####", CultureInfo.InvariantCulture);
 
-            // --- HARD-LOCK HEADER: no BOM, no CRLF, single LF between declarations ---
             const string header = "<?xml version=\"1.0\"?>\n<?qbxml version=\"14.0\"?>";
 
             var sb = new StringBuilder(4096);
@@ -389,35 +410,35 @@ $@"{DefaultHeader}
             sb.Append("<QBXML><QBXMLMsgsRq onError=\"stopOnError\">");
             sb.Append(@"<InvoiceAddRq requestID=""inv-add-1""><InvoiceAdd>");
 
-            sb.Append($@"<CustomerRef><ListID>{Esc(p.CustomerListID)}</ListID></CustomerRef>");
+            sb.Append($@"<CustomerRef><ListID>{CleanForQBXML(p.CustomerListID)}</ListID></CustomerRef>");
 
             if (!string.IsNullOrWhiteSpace(p.ItemSalesTaxRefListID))
-                sb.Append($@"<ItemSalesTaxRef><ListID>{Esc(p.ItemSalesTaxRefListID)}</ListID></ItemSalesTaxRef>");
+                sb.Append($@"<ItemSalesTaxRef><ListID>{CleanForQBXML(p.ItemSalesTaxRefListID)}</ListID></ItemSalesTaxRef>");
 
-            sb.Append($@"<RefNumber>{Esc(p.RefNumber)}</RefNumber>");
+            sb.Append($@"<RefNumber>{CleanForQBXML(p.RefNumber)}</RefNumber>");
             sb.Append($@"<TxnDate>{D(p.TxnDate)}</TxnDate>");
 
             if (!string.IsNullOrWhiteSpace(p.PONumber))
-                sb.Append($@"<PONumber>{Esc(p.PONumber)}</PONumber>");
+                sb.Append($@"<PONumber>{CleanForQBXML(p.PONumber)}</PONumber>");
 
             if (!string.IsNullOrWhiteSpace(p.Memo))
-                sb.Append($@"<Memo>{Esc(p.Memo)}</Memo>");
+                sb.Append($@"<Memo>{CleanForQBXML(p.Memo)}</Memo>");
 
             foreach (var L in p.Lines)
             {
                 sb.Append("<InvoiceLineAdd>");
 
                 if (!string.IsNullOrWhiteSpace(L.ItemListID))
-                    sb.Append($@"<ItemRef><ListID>{Esc(L.ItemListID)}</ListID></ItemRef>");
+                    sb.Append($@"<ItemRef><ListID>{CleanForQBXML(L.ItemListID)}</ListID></ItemRef>");
 
                 if (!string.IsNullOrWhiteSpace(L.Desc))
-                    sb.Append($@"<Desc>{Esc(L.Desc)}</Desc>");
+                    sb.Append($@"<Desc>{CleanForQBXML(L.Desc)}</Desc>");
 
                 if (L.ServiceDate.HasValue)
                     sb.Append($@"<ServiceDate>{D(L.ServiceDate.Value)}</ServiceDate>");
 
                 if (!string.IsNullOrWhiteSpace(L.ClassRef))
-                    sb.Append($@"<ClassRef><FullName>{Esc(L.ClassRef)}</FullName></ClassRef>");
+                    sb.Append($@"<ClassRef><FullName>{CleanForQBXML(L.ClassRef)}</FullName></ClassRef>");
 
                 if (L.Qty.HasValue)
                     sb.Append($@"<Quantity>{N(L.Qty.Value)}</Quantity>");
@@ -435,10 +456,7 @@ $@"{DefaultHeader}
             return sb.ToString();
         }
 
-
-
-
-        // Backward-compatible signature; uses default header
+        // Default overload
         public string BuildInvoiceAdd(InvoiceAddPayload p)
             => BuildInvoiceAdd(p, _defaultMajor, _defaultMinor, "US");
     }

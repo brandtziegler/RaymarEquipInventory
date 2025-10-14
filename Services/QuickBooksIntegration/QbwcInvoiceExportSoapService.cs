@@ -184,7 +184,7 @@ namespace RaymarEquipmentInventory.Services
                 // ---------------------------------------------------------------------
                 // Return clean XML (UTF-8 text, no re-encoding)
                 // ---------------------------------------------------------------------
-                return xml;
+                return CleanForQuickBooks(xml);
             }
             catch (Exception ex)
             {
