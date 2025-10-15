@@ -62,7 +62,9 @@ namespace RaymarEquipmentInventory.Services
             using var sha = System.Security.Cryptography.SHA512.Create();
             var combinedBytes = System.Text.Encoding.UTF8.GetBytes(password + storedSalt);
             var computedHashBytes = sha.ComputeHash(combinedBytes);
-            var computedHash = BitConverter.ToString(computedHashBytes).Replace("-", "").ToLowerInvariant();
+            var computedHash = BitConverter.ToString(computedHashBytes)
+                                           .Replace("-", "")
+                                           .ToUpperInvariant();
 
             // Compare with stored hash (case-insensitive)
             return string.Equals(storedHash, computedHash, StringComparison.OrdinalIgnoreCase);

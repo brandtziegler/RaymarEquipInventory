@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Mvc;
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Services;
 using Serilog;
@@ -30,6 +31,28 @@ namespace RaymarEquipmentInventory.Controllers
                 return NotFound($"Technician {technicianId} not found or not permissioned.");
 
             return Ok(permissions);
+        }
+
+        [HttpPost("verify-login")]
+        public async Task<IActionResult> VerifyLogin([FromBody] LoginRequest request)
+        {
+            if (request == null || string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
+                return BadRequest("Email and password are required.");
+
+            try
+            {
+                bool isValid = await _permissionsService.VerifyLoginAsync(request.Email, request.Password);
+
+                if (!isValid)
+                    return Unauthorized("Invalid email or password.");
+
+                return Ok(new { success = true, message = "Login successful." });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error verifying login for {Email}", request.Email);
+                return StatusCode(500, "Internal server error.");
+            }
         }
 
     }
