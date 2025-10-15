@@ -22,7 +22,7 @@ namespace RaymarEquipmentInventory.Services
         private readonly IQbXmlLogger _qbXmlLogger;
         private readonly QbwcRequestOptions _opt;
 
-        // Hardcoded single-invoice test; replace with queue later//new comment.
+        // Hardcoded single-invoice test; replace with queue later//new comment.///another new comment.
         private const int TEST_INVOICE_ID = 11;
 
         public QbwcInvoiceExportSoapService(
