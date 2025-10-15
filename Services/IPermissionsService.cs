@@ -5,6 +5,6 @@ namespace RaymarEquipmentInventory.Services
     public interface IPermissionsService    
     {
         Task<DTOs.RolesAndPermissions?> GetPermissionsByTechnicianIdAsync(int technicianId);
-        Task<bool> VerifyLoginAsync(string email, string password);
+        Task<LoginResultDto?> VerifyLoginAsync(string email, string password);
     }
 }

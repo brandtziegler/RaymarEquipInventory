@@ -45,20 +45,21 @@ namespace RaymarEquipmentInventory.Services
             return result;
         }
 
-        public async Task<bool> VerifyLoginAsync(string email, string password)
+        public async Task<LoginResultDto?> VerifyLoginAsync(string email, string password)
         {
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
-                return false;
+                return null;
 
-            var user = await _context.AuthUsers.FirstOrDefaultAsync(u => u.Email == email && u.IsActive == true);
+            var user = await _context.AuthUsers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email == email && u.IsActive == true);
+
             if (user == null)
-                return false;
+                return null;
 
-            // Convert stored hash and salt (they may be hex or plain text)
             string storedSalt = user.Salt ?? string.Empty;
             string storedHash = user.PasswordHash ?? string.Empty;
 
-            // Rehash input password with the same salt
             using var sha = System.Security.Cryptography.SHA512.Create();
             var combinedBytes = System.Text.Encoding.UTF8.GetBytes(password + storedSalt);
             var computedHashBytes = sha.ComputeHash(combinedBytes);
@@ -66,9 +67,26 @@ namespace RaymarEquipmentInventory.Services
                                            .Replace("-", "")
                                            .ToUpperInvariant();
 
-            // Compare with stored hash (case-insensitive)
-            return string.Equals(storedHash, computedHash, StringComparison.OrdinalIgnoreCase);
+            bool passwordMatch = string.Equals(storedHash, computedHash, StringComparison.OrdinalIgnoreCase);
+            if (!passwordMatch)
+                return new LoginResultDto { Success = false, Message = "Invalid email or password." };
+
+            return new LoginResultDto
+            {
+                Success = true,
+                UUID = user.Uuid,
+                Email = user.Email,
+                PersonID = user.PersonId ?? 0,
+                CreatedAt = user.CreatedAt,
+                LastLoginAt = user.LastLoginAt,
+                IsActive = user.IsActive == true,
+                Salt = user.Salt,
+                PasswordHash = user.PasswordHash,
+                Message = "Login successful."
+            };
         }
+
+
 
     }
 

@@ -41,20 +41,23 @@ namespace RaymarEquipmentInventory.Controllers
 
             try
             {
-                bool isValid = await _permissionsService.VerifyLoginAsync(request.Email, request.Password);
+                // ✅ The service now returns a DTO, not a bool
+                var result = await _permissionsService.VerifyLoginAsync(request.Email, request.Password);
 
-                if (!isValid)
-                    return Unauthorized("Invalid email or password.");
+                if (result == null || !result.Success)
+                    return Unauthorized(new { success = false, message = "Invalid email or password." });
 
-                return Ok(new { success = true, message = "Login successful." });
+                // ✅ Return the DTO directly (serialized automatically)
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error verifying login for {Email}", request.Email);
-                return StatusCode(500, "Internal server error.");
+                return StatusCode(500, new { success = false, message = "Internal server error." });
             }
         }
 
+
     }
-       
+
 }
