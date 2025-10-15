@@ -193,6 +193,14 @@ namespace RaymarEquipmentInventory.Services
                 // ---------------------------------------------------------------------
                 // Return clean XML (UTF-8 text, no re-encoding)
                 // ---------------------------------------------------------------------
+
+                // 🔹 Optional summary log for quick visibility in QbwcXmlLog
+                _qbXmlLogger.LogAsync(runId, "summary", "sendRequestXML", "InvoiceAddRq",
+                    strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
+                    null, null, $"Attempted invoice export for RefNumber={payload.RefNumber}", null)
+                    .GetAwaiter().GetResult();
+
+                // 🔹 Return the XML that QuickBooks will receive
                 return CleanForQuickBooks(xml);
             }
             catch (Exception ex)
