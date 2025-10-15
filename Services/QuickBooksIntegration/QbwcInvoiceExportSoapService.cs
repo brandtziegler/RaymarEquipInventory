@@ -127,29 +127,23 @@ namespace RaymarEquipmentInventory.Services
 
             try
             {
-                // ---------------------------------------------------------------------
-                // Build payload
-                // ---------------------------------------------------------------------
+                //---------------------------------------------------------------------
+                // 1️⃣ Build payload + XML body
+                //---------------------------------------------------------------------
                 var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(TEST_INVOICE_ID)
                                             .GetAwaiter().GetResult();
 
-                // ---------------------------------------------------------------------
-                // Strip any existing header completely
-                // ---------------------------------------------------------------------
                 var body = _request.BuildInvoiceAdd(payload, 14, 0, "US");
                 int qbxmlIndex = body.IndexOf("<QBXML", StringComparison.OrdinalIgnoreCase);
                 if (qbxmlIndex > 0)
                     body = body.Substring(qbxmlIndex);
 
-                // ---------------------------------------------------------------------
-                // Hard-coded header – absolutely no line breaks or spaces
-                // ---------------------------------------------------------------------
                 const string header = "<?xml version=\"1.0\"?><?qbxml version=\"14.0\"?>";
                 string xml = string.Concat(header, body);
 
-                // ---------------------------------------------------------------------
-                // Write UTF-8 without BOM for inspection
-                // ---------------------------------------------------------------------
+                //---------------------------------------------------------------------
+                // 2️⃣ Write XML file for inspection (UTF-8 without BOM)
+                //---------------------------------------------------------------------
                 var utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
                 var bytes = utf8NoBom.GetBytes(xml);
 
@@ -157,57 +151,74 @@ namespace RaymarEquipmentInventory.Services
                 Directory.CreateDirectory(tempDir);
                 var tempFile = Path.Combine(tempDir, $"InvoiceAddSent_{DateTime.UtcNow:yyyyMMdd_HHmmss}.xml");
                 File.WriteAllBytes(tempFile, bytes);
-                var xmlPreview = xml.Length > 8000 ? xml.Substring(0, 8000) + "\n...[truncated]..." : xml;
-                _qbXmlLogger.LogAsync(runId, "debug", "sendRequestXML",
-                    "InvoiceXML",
-                    strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
-                    null, null, xmlPreview, null)
-                    .GetAwaiter().GetResult();
 
-                // ---------------------------------------------------------------------
-                // Log the temp file path for completeness
-                // ---------------------------------------------------------------------
-                _qbXmlLogger.LogAsync(runId, "info", "sendRequestXML", "TempFilePath",
-                    strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
-                    null, null, $"QuickBooks XML written to: {tempFile}", null)
-                    .GetAwaiter().GetResult();
-
-                // ---------------------------------------------------------------------
-                // Log + iterator update
-                // ---------------------------------------------------------------------
+                //---------------------------------------------------------------------
+                // 3️⃣ Update iterator state
+                //---------------------------------------------------------------------
                 iter.LastRequestType = "InvoiceAddRq";
                 iter.IteratorId = null;
                 iter.Remaining = 0;
                 _session.SetIterator(runId, iter);
 
-                _qbXmlLogger.LogAsync(runId, "req", "sendRequestXML", "InvoiceAddRq",
-                    strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
-                    null, null, "sending invoice", xml)
-                    .GetAwaiter().GetResult();
+                //---------------------------------------------------------------------
+                // 4️⃣ Minimal guaranteed logging (single summary record)
+                //---------------------------------------------------------------------
+                try
+                {
+                    _qbXmlLogger.LogAsync(
+                        runId,
+                        "summary",
+                        "sendRequestXML",
+                        "InvoiceAddRq",
+                        strCompanyFileName,
+                        null,
+                        TEST_INVOICE_ID,
+                        payload.RefNumber,
+                        null,
+                        null,
+                        $"InvoiceAdd send attempt for RefNumber={payload.RefNumber}. XML saved to {tempFile}",
+                        null
+                    ).GetAwaiter().GetResult();
+                }
+                catch (Exception logEx)
+                {
+                    // Fallback to audit logger if primary logger fails
+                    try
+                    {
+                        _audit.LogMessageAsync(
+                            runId,
+                            "sendRequestXML",
+                            "warn",
+                            message: $"_qbXmlLogger failed: {logEx.GetType().Name}: {logEx.Message} | Inner: {logEx.InnerException?.Message}"
+                        ).GetAwaiter().GetResult();
+                    }
+                    catch
+                    {
+                        // completely swallow secondary logger failure
+                    }
+                }
 
-                _audit.LogMessageAsync(runId, "sendRequestXML", "req",
-                    companyFile: strCompanyFileName,
-                    message: $"type=InvoiceAddRq Ref={payload.RefNumber}")
-                    .GetAwaiter().GetResult();
-
-                // ---------------------------------------------------------------------
-                // Return clean XML (UTF-8 text, no re-encoding)
-                // ---------------------------------------------------------------------
-
-                // 🔹 Optional summary log for quick visibility in QbwcXmlLog
-                _qbXmlLogger.LogAsync(runId, "summary", "sendRequestXML", "InvoiceAddRq",
-                    strCompanyFileName, null, TEST_INVOICE_ID, payload.RefNumber,
-                    null, null, $"Attempted invoice export for RefNumber={payload.RefNumber}", null)
-                    .GetAwaiter().GetResult();
-
-                // 🔹 Return the XML that QuickBooks will receive
+                //---------------------------------------------------------------------
+                // 5️⃣ Return the cleaned XML back to QuickBooks
+                //---------------------------------------------------------------------
                 return CleanForQuickBooks(xml);
             }
             catch (Exception ex)
             {
-                _audit.LogMessageAsync(runId, "sendRequestXML", "req",
-                    message: $"InvoiceAdd build failure: {ex.GetType().Name}: {ex.Message}")
-                    .GetAwaiter().GetResult();
+                try
+                {
+                    _audit.LogMessageAsync(
+                        runId,
+                        "sendRequestXML",
+                        "error",
+                        message: $"InvoiceAdd build failure: {ex.GetType().Name}: {ex.Message} | Inner: {ex.InnerException?.Message}"
+                    ).GetAwaiter().GetResult();
+                }
+                catch
+                {
+                    // fail silently if audit logging itself fails
+                }
+
                 return string.Empty;
             }
         }
