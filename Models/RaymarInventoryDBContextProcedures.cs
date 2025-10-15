@@ -35,16 +35,13 @@ namespace RaymarEquipmentInventory.Models
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer_ProcessHierarchyWorkResult>().HasNoKey().ToView(null);
-            modelBuilder.Entity<Customer_RebuildPaths_AllResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<Customer_RebuildPaths_AllBckResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<Customer_RebuildPaths_SubtreeResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<Customer_RebuildPaths_SubtreeBckResult>().HasNoKey().ToView(null);
-            modelBuilder.Entity<Customer_RecomputeEffectiveActive_AllResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<Customer_RecomputeEffectiveActive_SubtreeResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<Customers_ChangesSinceTimeResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<Customers_ChangesSinceVersionResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<SearchCustomersResult>().HasNoKey().ToView(null);
-            modelBuilder.Entity<SyncCustomerFromBackupResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<usp_DI_PromoteCandidateKeywordsResult>().HasNoKey().ToView(null);
         }
     }
@@ -78,7 +75,7 @@ namespace RaymarEquipmentInventory.Models
             return _;
         }
 
-        public virtual async Task<List<Customer_RebuildPaths_AllResult>> Customer_RebuildPaths_AllAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<int> Customer_RebuildPaths_AllAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -91,7 +88,7 @@ namespace RaymarEquipmentInventory.Models
             {
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<Customer_RebuildPaths_AllResult>("EXEC @returnValue = [dbo].[Customer_RebuildPaths_All]", sqlParameters, cancellationToken);
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[Customer_RebuildPaths_All]", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
@@ -170,7 +167,7 @@ namespace RaymarEquipmentInventory.Models
             return _;
         }
 
-        public virtual async Task<List<Customer_RecomputeEffectiveActive_AllResult>> Customer_RecomputeEffectiveActive_AllAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<int> Customer_RecomputeEffectiveActive_AllAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -183,7 +180,7 @@ namespace RaymarEquipmentInventory.Models
             {
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<Customer_RecomputeEffectiveActive_AllResult>("EXEC @returnValue = [dbo].[Customer_RecomputeEffectiveActive_All]", sqlParameters, cancellationToken);
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[Customer_RecomputeEffectiveActive_All]", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
@@ -500,7 +497,7 @@ namespace RaymarEquipmentInventory.Models
             return _;
         }
 
-        public virtual async Task<List<SyncCustomerFromBackupResult>> SyncCustomerFromBackupAsync(bool? FullRefresh, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<int> SyncCustomerFromBackupAsync(bool? FullRefresh, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -519,7 +516,7 @@ namespace RaymarEquipmentInventory.Models
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<SyncCustomerFromBackupResult>("EXEC @returnValue = [dbo].[SyncCustomerFromBackup] @FullRefresh", sqlParameters, cancellationToken);
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[SyncCustomerFromBackup] @FullRefresh", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

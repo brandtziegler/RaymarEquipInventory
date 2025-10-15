@@ -26,6 +26,7 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<DTOs.RolesAndPermissions?> GetPermissionsByTechnicianIdAsync(int technicianId)
         {
+            
             var result = await _context.VwRolesMins
                 .Where(v => v.TechnicianId == technicianId)
                 .Select(v => new DTOs.RolesAndPermissions
@@ -43,6 +44,30 @@ namespace RaymarEquipmentInventory.Services
 
             return result;
         }
+
+        public async Task<bool> VerifyLoginAsync(string email, string password)
+        {
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+                return false;
+
+            var user = await _context.AuthUsers.FirstOrDefaultAsync(u => u.Email == email && u.IsActive == true);
+            if (user == null)
+                return false;
+
+            // Convert stored hash and salt (they may be hex or plain text)
+            string storedSalt = user.Salt ?? string.Empty;
+            string storedHash = user.PasswordHash ?? string.Empty;
+
+            // Rehash input password with the same salt
+            using var sha = System.Security.Cryptography.SHA512.Create();
+            var combinedBytes = System.Text.Encoding.UTF8.GetBytes(password + storedSalt);
+            var computedHashBytes = sha.ComputeHash(combinedBytes);
+            var computedHash = BitConverter.ToString(computedHashBytes).Replace("-", "").ToLowerInvariant();
+
+            // Compare with stored hash (case-insensitive)
+            return string.Equals(storedHash, computedHash, StringComparison.OrdinalIgnoreCase);
+        }
+
     }
 
 

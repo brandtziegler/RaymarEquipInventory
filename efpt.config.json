@@ -24,6 +24,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[AuthUser]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[BillingInformation]",
          "ObjectType": 0
       },

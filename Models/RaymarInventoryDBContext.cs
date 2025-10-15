@@ -15,6 +15,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<AggregatedCounter> AggregatedCounters { get; set; }
 
+    public virtual DbSet<AuthUser> AuthUsers { get; set; }
+
     public virtual DbSet<BillingInformation> BillingInformations { get; set; }
 
     public virtual DbSet<ChargeItem> ChargeItems { get; set; }
@@ -253,6 +255,31 @@ public partial class RaymarInventoryDBContext : DbContext
 
             entity.Property(e => e.Key).HasMaxLength(100);
             entity.Property(e => e.ExpireAt).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<AuthUser>(entity =>
+        {
+            entity.HasKey(e => e.Uuid).HasName("PK__AuthUser__65A475E75961E856");
+
+            entity.ToTable("AuthUser");
+
+            entity.HasIndex(e => e.Email, "UQ__AuthUser__A9D10534A96C7635").IsUnique();
+
+            entity.Property(e => e.Uuid)
+                .HasMaxLength(64)
+                .HasColumnName("UUID");
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.Email)
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.PasswordHash)
+                .IsRequired()
+                .HasMaxLength(512);
+            entity.Property(e => e.PersonId).HasColumnName("PersonID");
+            entity.Property(e => e.Salt).HasMaxLength(256);
         });
 
         modelBuilder.Entity<BillingInformation>(entity =>
