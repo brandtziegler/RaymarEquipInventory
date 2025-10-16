@@ -187,7 +187,7 @@ WHERE v.Status = 'DELETED'
 
             // existing columns
             dt.Columns.Add(new DataColumn("RunId", typeof(Guid)));
-            dt.Columns.Add(new DataColumn("ListID", typeof(string)) { MaxLength = 50 });      // nvarchar(50)  NOT NULL
+            dt.Columns.Add(new DataColumn("ListID", typeof(string)) { MaxLength = 64 });      // nvarchar(50)  NOT NULL
             dt.Columns.Add(new DataColumn("FullName", typeof(string)) { MaxLength = 300 });   // nvarchar(300)
             dt.Columns.Add(new DataColumn("EditSequence", typeof(string)) { MaxLength = 50 }); // nvarchar(50)
             dt.Columns.Add(new DataColumn("QuantityOnHand", typeof(decimal)));                // decimal(18,4)

@@ -246,8 +246,8 @@ JOIN #eff_bk e ON e.CustomerID = c.CustomerID;
             var dt = new DataTable("CustomerBackup");
 
             // Columns matching dbo.CustomerBackup (excluding identity + rowversion)
-            dt.Columns.Add(new DataColumn("ID", typeof(string)) { MaxLength = 50 });
-            dt.Columns.Add(new DataColumn("ParentID", typeof(string)) { MaxLength = 50 });
+            dt.Columns.Add(new DataColumn("ID", typeof(string)) { MaxLength = 64 });
+            dt.Columns.Add(new DataColumn("ParentID", typeof(string)) { MaxLength = 64 });
             dt.Columns.Add(new DataColumn("CustomerName", typeof(string)) { MaxLength = 255 });
             dt.Columns.Add(new DataColumn("ParentName", typeof(string)) { MaxLength = 255 });
             dt.Columns.Add(new DataColumn("Company", typeof(string)) { MaxLength = 255 });

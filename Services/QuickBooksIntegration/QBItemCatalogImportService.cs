@@ -78,7 +78,7 @@ namespace RaymarEquipmentInventory.Services
         {
             var dt = new DataTable("QBItemCatalog_Staging");
             dt.Columns.Add(new DataColumn("RunId", typeof(Guid)));
-            dt.Columns.Add(new DataColumn("ListID", typeof(string)) { MaxLength = 50 });
+            dt.Columns.Add(new DataColumn("ListID", typeof(string)) { MaxLength = 64 });
             dt.Columns.Add(new DataColumn("Type", typeof(string)) { MaxLength = 20 });
             dt.Columns.Add(new DataColumn("Name", typeof(string)) { MaxLength = 100 });
             dt.Columns.Add(new DataColumn("FullName", typeof(string)) { MaxLength = 300 });
