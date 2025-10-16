@@ -178,6 +178,9 @@ namespace RaymarEquipmentInventory.Services
                 //---------------------------------------------------------------------
                 try
                 {
+                    // Compute size once for readability
+                    var xmlSize = xml?.Length ?? 0;
+
                     _qbXmlLogger.LogAsync(
                         runId,
                         "summary",
@@ -189,8 +192,9 @@ namespace RaymarEquipmentInventory.Services
                         payload.RefNumber,
                         null,
                         null,
-                        $"InvoiceAdd send attempt for RefNumber={payload.RefNumber}. XML saved to {tempFile}",
-                        null
+                        $"InvoiceAdd send attempt for RefNumber={payload.RefNumber}. " +
+                        $"XML length={xmlSize} chars. File saved to {tempFile}",
+                        xml // 🟢 log full XML content to PayloadXml
                     ).GetAwaiter().GetResult();
                 }
                 catch (Exception logEx)
