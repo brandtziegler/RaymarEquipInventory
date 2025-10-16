@@ -70,6 +70,16 @@ namespace RaymarEquipmentInventory.Services
             return payload;
         }
 
+        public async Task<int?> GetNextPendingInvoiceIdAsync(CancellationToken ct = default)
+        {
+            return await _context.Invoices
+                .Where(i => i.Status == "Ready")
+                .OrderBy(i => i.InvoiceId)
+                .Select(i => (int?)i.InvoiceId)
+                .FirstOrDefaultAsync(ct);
+        }
+
+
         public async Task OnInvoiceExportSuccessAsync(int invoiceId, string txnId, string editSeq, CancellationToken ct = default)
         {
             var inv = await _context.Invoices.FirstAsync(i => i.InvoiceId == invoiceId, ct);

@@ -15,5 +15,7 @@ namespace RaymarEquipmentInventory.Services
 
         /// Optional helper to record an export failure and bump attempts.
         Task OnInvoiceExportFailureAsync(int invoiceId, string error, CancellationToken ct = default);
+
+        Task<int?> GetNextPendingInvoiceIdAsync(CancellationToken ct = default);
     }
 }

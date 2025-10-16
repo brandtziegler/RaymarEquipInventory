@@ -12,7 +12,7 @@ namespace RaymarEquipmentInventory.Services
     /// Invoice-only QBWC SOAP service: pushes ONE InvoiceAdd per session, then exits.
     /// Register as a second QWC app (e.g., "Raymar Invoice Export").
     /// </summary>
-    public sealed class QbwcInvoiceExportSoapService : IQBWebConnectorSvc
+    public sealed class QbwcInvoiceExportSoapService_Backup : IQBWebConnectorSvc
     {
         private readonly IAuditLogger _audit;
         private readonly IQBWCSessionStore _session;
@@ -25,7 +25,7 @@ namespace RaymarEquipmentInventory.Services
         // Hardcoded single-invoice test; replace with queue later//new comment.///another new comment.
         private const int TEST_INVOICE_ID = 11;
 
-        public QbwcInvoiceExportSoapService(
+        public QbwcInvoiceExportSoapService_Backup(
             IAuditLogger audit,
             IQBWCSessionStore session,
             IQBWCRequestBuilder request,
@@ -128,22 +128,9 @@ namespace RaymarEquipmentInventory.Services
             try
             {
                 //---------------------------------------------------------------------
-                // 1️⃣ Find next invoice marked as "Ready"
+                // 1️⃣ Build payload + XML body
                 //---------------------------------------------------------------------
-                var nextInvoiceId = _invoiceExport.GetNextPendingInvoiceIdAsync().GetAwaiter().GetResult();
-                if (nextInvoiceId == null)
-                {
-                    _audit.LogMessageAsync(runId, "sendRequestXML", "info", message: "No invoices pending for export")
-                        .GetAwaiter().GetResult();
-                    return string.Empty;
-                }
-
-                var invoiceId = nextInvoiceId.Value;
-
-                //---------------------------------------------------------------------
-                // 2️⃣ Build payload + XML body
-                //---------------------------------------------------------------------
-                var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(invoiceId)
+                var payload = _invoiceExport.BuildInvoiceAddPayloadAsync(TEST_INVOICE_ID)
                                             .GetAwaiter().GetResult();
 
                 var body = _request.BuildInvoiceAdd(payload, 14, 0, "US");
@@ -155,7 +142,7 @@ namespace RaymarEquipmentInventory.Services
                 string xml = string.Concat(header, body);
 
                 //---------------------------------------------------------------------
-                // 3️⃣ Write XML file for inspection (UTF-8 without BOM)
+                // 2️⃣ Write XML file for inspection (UTF-8 without BOM)
                 //---------------------------------------------------------------------
                 var utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
                 var bytes = utf8NoBom.GetBytes(xml);
@@ -166,7 +153,7 @@ namespace RaymarEquipmentInventory.Services
                 File.WriteAllBytes(tempFile, bytes);
 
                 //---------------------------------------------------------------------
-                // 4️⃣ Update iterator state
+                // 3️⃣ Update iterator state
                 //---------------------------------------------------------------------
                 iter.LastRequestType = "InvoiceAddRq";
                 iter.IteratorId = null;
@@ -174,7 +161,7 @@ namespace RaymarEquipmentInventory.Services
                 _session.SetIterator(runId, iter);
 
                 //---------------------------------------------------------------------
-                // 5️⃣ Log summary entry
+                // 4️⃣ Minimal guaranteed logging (single summary record)
                 //---------------------------------------------------------------------
                 try
                 {
@@ -185,7 +172,7 @@ namespace RaymarEquipmentInventory.Services
                         "InvoiceAddRq",
                         strCompanyFileName,
                         null,
-                        invoiceId,
+                        TEST_INVOICE_ID,
                         payload.RefNumber,
                         null,
                         null,
@@ -195,6 +182,7 @@ namespace RaymarEquipmentInventory.Services
                 }
                 catch (Exception logEx)
                 {
+                    // Fallback to audit logger if primary logger fails
                     try
                     {
                         _audit.LogMessageAsync(
@@ -204,11 +192,14 @@ namespace RaymarEquipmentInventory.Services
                             message: $"_qbXmlLogger failed: {logEx.GetType().Name}: {logEx.Message} | Inner: {logEx.InnerException?.Message}"
                         ).GetAwaiter().GetResult();
                     }
-                    catch { }
+                    catch
+                    {
+                        // completely swallow secondary logger failure
+                    }
                 }
 
                 //---------------------------------------------------------------------
-                // 6️⃣ Return cleaned XML back to QuickBooks
+                // 5️⃣ Return the cleaned XML back to QuickBooks
                 //---------------------------------------------------------------------
                 return CleanForQuickBooks(xml);
             }
@@ -223,12 +214,14 @@ namespace RaymarEquipmentInventory.Services
                         message: $"InvoiceAdd build failure: {ex.GetType().Name}: {ex.Message} | Inner: {ex.InnerException?.Message}"
                     ).GetAwaiter().GetResult();
                 }
-                catch { }
+                catch
+                {
+                    // fail silently if audit logging itself fails
+                }
 
                 return string.Empty;
             }
         }
-
 
 
 
@@ -239,26 +232,13 @@ namespace RaymarEquipmentInventory.Services
 
             var state = _session.GetIterator(runId);
 
-            //---------------------------------------------------------------------
-            // Retrieve the same invoice ID used in sendRequestXML()
-            //---------------------------------------------------------------------
-            var nextInvoiceId = _invoiceExport.GetNextPendingInvoiceIdAsync().GetAwaiter().GetResult();
-            if (nextInvoiceId == null)
-            {
-                _audit.LogMessageAsync(runId, "receiveResponseXML", "info", message: "No invoice context found")
-                    .GetAwaiter().GetResult();
-                return 100;
-            }
-
-            var invoiceId = nextInvoiceId.Value;
-
             if (string.IsNullOrWhiteSpace(response))
             {
                 _qbXmlLogger.LogAsync(runId, "resp", "receiveResponseXML", "InvoiceAddRs",
-                    null, null, invoiceId, null, null, hresult, message, response)
+                    null, null, TEST_INVOICE_ID, null, null, hresult, message, response)
                     .GetAwaiter().GetResult();
 
-                _invoiceExport.OnInvoiceExportFailureAsync(invoiceId, message ?? "XML parse error")
+                _invoiceExport.OnInvoiceExportFailureAsync(TEST_INVOICE_ID, message ?? "XML parse error")
                     .GetAwaiter().GetResult();
                 return 100;
             }
@@ -271,16 +251,16 @@ namespace RaymarEquipmentInventory.Services
             catch (Exception ex)
             {
                 _qbXmlLogger.LogAsync(runId, "resp", "receiveResponseXML", "InvoiceAddRs",
-                    null, null, invoiceId, null, null, hresult, $"parser exception: {ex.Message}", response)
+                    null, null, TEST_INVOICE_ID, null, null, hresult, $"parser exception: {ex.Message}", response)
                     .GetAwaiter().GetResult();
 
-                _invoiceExport.OnInvoiceExportFailureAsync(invoiceId, ex.Message)
+                _invoiceExport.OnInvoiceExportFailureAsync(TEST_INVOICE_ID, ex.Message)
                     .GetAwaiter().GetResult();
                 return 100;
             }
 
             _qbXmlLogger.LogAsync(runId, "resp", "receiveResponseXML", "InvoiceAddRs",
-                null, null, invoiceId, null,
+                null, null, TEST_INVOICE_ID, null,
                 (int?)parsed?.StatusCode, hresult, (string?)parsed?.StatusMessage, response)
                 .GetAwaiter().GetResult();
 
@@ -289,9 +269,10 @@ namespace RaymarEquipmentInventory.Services
 
             if (!string.IsNullOrWhiteSpace(txnId))
             {
-                _invoiceExport.OnInvoiceExportSuccessAsync(invoiceId, txnId!, editSeq ?? "")
+                _invoiceExport.OnInvoiceExportSuccessAsync(TEST_INVOICE_ID, txnId!, editSeq ?? "")
                     .GetAwaiter().GetResult();
 
+                // 🧹 Clean up any old XML temp files older than an hour
                 try
                 {
                     var tempDir = Path.GetTempPath();
@@ -305,7 +286,7 @@ namespace RaymarEquipmentInventory.Services
                 catch (Exception cleanupEx)
                 {
                     _qbXmlLogger.LogAsync(runId, "warn", "receiveResponseXML", "Cleanup",
-                        null, null, invoiceId, null, null, null,
+                        null, null, TEST_INVOICE_ID, null, null, null,
                         $"Could not clean temp files: {cleanupEx.Message}", null)
                         .GetAwaiter().GetResult();
                 }
@@ -313,7 +294,7 @@ namespace RaymarEquipmentInventory.Services
             else
             {
                 var err = (string?)parsed?.StatusMessage ?? "Unknown error";
-                _invoiceExport.OnInvoiceExportFailureAsync(invoiceId, err)
+                _invoiceExport.OnInvoiceExportFailureAsync(TEST_INVOICE_ID, err)
                     .GetAwaiter().GetResult();
             }
 
@@ -323,6 +304,5 @@ namespace RaymarEquipmentInventory.Services
             _session.SetIterator(runId, state);
             return 100;
         }
-
     }
 }
