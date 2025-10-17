@@ -74,7 +74,7 @@ namespace RaymarEquipmentInventory.Services
         {
             return await _context.Invoices
                 .Where(i => i.Status == "Ready")
-                .OrderBy(i => i.InvoiceId)
+                .OrderByDescending(i => i.InvoiceId)
                 .Select(i => (int?)i.InvoiceId)
                 .FirstOrDefaultAsync(ct);
         }
