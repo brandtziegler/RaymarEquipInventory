@@ -9,6 +9,7 @@ using System.Reflection.PortableExecutable;
 using RaymarEquipmentInventory.Helpers;
 using Serilog;
 using Microsoft.AspNetCore.Server.IISIntegration;
+using System.Text;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -61,7 +62,7 @@ namespace RaymarEquipmentInventory.Services
             string storedHash = user.PasswordHash ?? string.Empty;
 
             using var sha = System.Security.Cryptography.SHA512.Create();
-            var combinedBytes = System.Text.Encoding.UTF8.GetBytes(password + storedSalt);
+            var combinedBytes = Encoding.Unicode.GetBytes(password + storedSalt);
             var computedHashBytes = sha.ComputeHash(combinedBytes);
             var computedHash = BitConverter.ToString(computedHashBytes)
                                            .Replace("-", "")

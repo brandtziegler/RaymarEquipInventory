@@ -1,5 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyModel;
 using RaymarEquipmentInventory.DTOs;
 using RaymarEquipmentInventory.Models;
 using System;
@@ -25,6 +29,24 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<int> BulkInsertServiceItemsAsync(Guid runId, IEnumerable<CatalogItemDto> items, CancellationToken ct = default)
         {
+
+//            SELECT* FROM QBItemCatalog_Staging WHERE Name like '%B620%';
+
+//            --Delete dependent rows FIRST from WorkOrderFees
+//            --DELETE FROM WorkOrderFees
+//            --WHERE FlatLabourID IN(
+//            --SELECT f.FlatLabourID
+//            --    FROM FlatLabour AS f
+//            --    WHERE f.LabourName NOT IN(
+//            --SELECT Name FROM QBItemCatalog_Staging
+//            --)
+//            --);
+
+//            ----Then safely delete the FlatLabour rows themselves
+//--DELETE FROM FlatLabour
+//--WHERE LabourName NOT IN(
+//--SELECT Name FROM QBItemCatalog_Staging
+//--);
             var list = items?.ToList() ?? new List<CatalogItemDto>();
             if (list.Count == 0)
             {
@@ -74,9 +96,9 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-        private static DataTable BuildStagingTable(Guid runId, List<CatalogItemDto> items, string type)
+        private static System.Data.DataTable BuildStagingTable(Guid runId, List<CatalogItemDto> items, string type)
         {
-            var dt = new DataTable("QBItemCatalog_Staging");
+            var dt = new System.Data.DataTable("QBItemCatalog_Staging");
             dt.Columns.Add(new DataColumn("RunId", typeof(Guid)));
             dt.Columns.Add(new DataColumn("ListID", typeof(string)) { MaxLength = 64 });
             dt.Columns.Add(new DataColumn("Type", typeof(string)) { MaxLength = 20 });
