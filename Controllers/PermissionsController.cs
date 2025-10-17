@@ -41,7 +41,7 @@ namespace RaymarEquipmentInventory.Controllers
 
             try
             {
-                // ✅ The service now returns a DTO, not a bool
+                // ✅ The service now returns a DTO, not a bool-comment
                 var result = await _permissionsService.VerifyLoginAsync(request.Email, request.Password);
 
                 if (result == null || !result.Success)
