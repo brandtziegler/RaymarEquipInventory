@@ -6,6 +6,7 @@
         public int CustomerId { get; set; }
 
         public string PONo { get; set; } = string.Empty;
+        public string HippoNumber { get; set; } = string.Empty;
         public int Kilometers { get; set; } = 0;
 
         public string UnitNo { get; set; } = string.Empty;

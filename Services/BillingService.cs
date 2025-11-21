@@ -78,6 +78,7 @@ namespace RaymarEquipmentInventory.Services
                 existing.JobSiteCity = billingDto.JobSiteCity?.Trim() ?? existing.JobSiteCity;
                 existing.Kilometers = billingDto.Kilometers;
                 existing.Pono = billingDto.PONo?.Trim() ?? existing.Pono;
+                existing.HippoNumber = billingDto.HippoNumber?.Trim() ?? existing.HippoNumber;
                 existing.WorkDescription = billingDto.WorkDescription?.Trim() ?? existing.WorkDescription;
                 existing.CustPath = billingDto.CustPath?.Trim() ?? existing.CustPath;
 
@@ -137,6 +138,7 @@ namespace RaymarEquipmentInventory.Services
                     existing.JobSiteCity = dto.JobSiteCity?.Trim() ?? "";
                     existing.Kilometers = dto.Kilometers;
                     existing.Pono = dto.PONo?.Trim() ?? "";
+                    existing.HippoNumber = dto.HippoNumber?.Trim() ?? "";
                     existing.WorkDescription = dto.WorkDescription?.Trim() ?? "";
                     existing.CustPath = dto.CustPath?.Trim() ?? "";
 
@@ -156,6 +158,7 @@ namespace RaymarEquipmentInventory.Services
                     JobSiteCity = dto.JobSiteCity?.Trim() ?? "",
                     Kilometers = dto.Kilometers,
                     Pono = dto.PONo?.Trim() ?? "",
+                    HippoNumber = dto.HippoNumber?.Trim() ?? "",
                     WorkDescription = dto.WorkDescription?.Trim() ?? "",
                     CustPath = dto.CustPath?.Trim() ?? ""
                 };
@@ -236,6 +239,7 @@ namespace RaymarEquipmentInventory.Services
                 CustomerQBId = billing.Customer.Id,
                 ParentCustomerQBId = billing.Customer.ParentCustomer.Id,
                 PONo = billing.Pono,
+                HippoNumber = billing.HippoNumber,
                 Notes = billing.Notes,
                 UnitNo = billing.UnitNo
             };

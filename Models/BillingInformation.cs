@@ -31,6 +31,8 @@ public partial class BillingInformation
 
     public string CustPath { get; set; }
 
+    public string HippoNumber { get; set; }
+
     public virtual Person BillingPerson { get; set; }
 
     public virtual Customer Customer { get; set; }

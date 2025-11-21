@@ -277,7 +277,7 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasDefaultValueSql("((1))");
             entity.Property(e => e.PasswordHash)
                 .IsRequired()
-                .HasMaxLength(512);
+                .HasMaxLength(128);
             entity.Property(e => e.PersonId).HasColumnName("PersonID");
             entity.Property(e => e.Salt).HasMaxLength(256);
         });
@@ -294,6 +294,7 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+            entity.Property(e => e.HippoNumber).HasMaxLength(50);
             entity.Property(e => e.JobSiteCity).HasMaxLength(100);
             entity.Property(e => e.Pono)
                 .HasMaxLength(15)
@@ -501,7 +502,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.FullName).HasMaxLength(255);
             entity.Property(e => e.Id)
                 .IsRequired()
-                .HasMaxLength(50)
+                .HasMaxLength(64)
                 .HasColumnName("ID");
             entity.Property(e => e.JobProjectedEndDate).HasColumnType("date");
             entity.Property(e => e.JobStartDate).HasColumnType("date");
@@ -512,7 +513,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.MaterializedPath).HasMaxLength(1024);
             entity.Property(e => e.ParentCustomerId).HasColumnName("ParentCustomerID");
             entity.Property(e => e.ParentId)
-                .HasMaxLength(50)
+                .HasMaxLength(64)
                 .HasColumnName("ParentID");
             entity.Property(e => e.ParentName).HasMaxLength(255);
             entity.Property(e => e.PathIds).HasMaxLength(512);
@@ -1333,7 +1334,7 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(300);
             entity.Property(e => e.ListId)
                 .IsRequired()
-                .HasMaxLength(50)
+                .HasMaxLength(64)
                 .HasColumnName("ListID");
             entity.Property(e => e.ManufacturerPartNum).HasMaxLength(100);
             entity.Property(e => e.Name).HasMaxLength(100);
@@ -1768,7 +1769,7 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.Direction)
                 .IsRequired()
-                .HasMaxLength(4);
+                .HasMaxLength(25);
             entity.Property(e => e.Hresult)
                 .HasMaxLength(16)
                 .HasColumnName("HResult");
@@ -1835,7 +1836,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasIndex(e => new { e.Type, e.Name }, "IX_QBItemCatalog_Staging_Type_Name");
 
             entity.Property(e => e.ListId)
-                .HasMaxLength(50)
+                .HasMaxLength(64)
                 .HasColumnName("ListID");
             entity.Property(e => e.CreatedAtUtc)
                 .HasPrecision(3)
@@ -1871,7 +1872,7 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.Property(e => e.FullName).HasMaxLength(300);
             entity.Property(e => e.ListId)
                 .IsRequired()
-                .HasMaxLength(50)
+                .HasMaxLength(64)
                 .HasColumnName("ListID");
             entity.Property(e => e.Name).HasMaxLength(300);
             entity.Property(e => e.PurchaseCost).HasColumnType("decimal(18, 4)");
