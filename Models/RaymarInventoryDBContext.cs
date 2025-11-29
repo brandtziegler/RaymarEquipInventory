@@ -290,6 +290,7 @@ public partial class RaymarInventoryDBContext : DbContext
 
             entity.Property(e => e.BillingId).HasColumnName("BillingID");
             entity.Property(e => e.BillingPersonId).HasColumnName("BillingPersonID");
+            entity.Property(e => e.CorrigoNumber).HasMaxLength(50);
             entity.Property(e => e.CustPath)
                 .HasMaxLength(255)
                 .IsUnicode(false);

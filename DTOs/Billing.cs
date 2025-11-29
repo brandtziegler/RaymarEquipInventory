@@ -13,6 +13,7 @@
         public int Kilometers { get; set; } = 0;
         public string PONo { get; set; } = "";
         public string HippoNumber { get; set; } = "";
+        public string CorrigoNumber { get; set; } = "";
         public string WorkDescription { get; set; } = "";
         public string CustPath { get; set; } = "";
         public string CustomerQBId { get; set; } = "";

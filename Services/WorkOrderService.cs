@@ -839,6 +839,7 @@ namespace RaymarEquipmentInventory.Services
                             CustomerId = b.CustomerId ?? 0,
                             PONo = b.Pono ?? "",
                             HippoNumber = b.HippoNumber ?? "",
+                            CorrigoNumber = b.CorrigoNumber ?? "",
                             Kilometers = b.Kilometers ?? 0,
                             UnitNo = b.UnitNo ?? "",
                             JobSiteCity = b.JobSiteCity ?? "",

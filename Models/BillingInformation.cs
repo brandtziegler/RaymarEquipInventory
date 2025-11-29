@@ -33,6 +33,8 @@ public partial class BillingInformation
 
     public string HippoNumber { get; set; }
 
+    public string CorrigoNumber { get; set; }
+
     public virtual Person BillingPerson { get; set; }
 
     public virtual Customer Customer { get; set; }
