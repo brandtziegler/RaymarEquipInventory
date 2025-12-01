@@ -25,6 +25,8 @@ public partial class VwWorkOrderCard
 
     public string PathToRoot { get; set; }
 
+    public string ThirdPartyContractor { get; set; }
+
     public string ParentCustomerName { get; set; }
 
     public string ChildCustomerName { get; set; }

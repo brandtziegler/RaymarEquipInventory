@@ -302,6 +302,7 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("PONo");
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.ThirdPartyContractor).IsUnicode(false);
             entity.Property(e => e.UnitNo)
                 .HasMaxLength(35)
                 .IsUnicode(false);
@@ -2961,6 +2962,7 @@ public partial class RaymarInventoryDBContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
+            entity.Property(e => e.ThirdPartyContractor).IsUnicode(false);
             entity.Property(e => e.UnitNo)
                 .HasMaxLength(35)
                 .IsUnicode(false);

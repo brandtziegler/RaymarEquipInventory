@@ -81,7 +81,8 @@ namespace RaymarEquipmentInventory.Services
                 existing.HippoNumber = billingDto.HippoNumber?.Trim() ?? existing.HippoNumber;
                 existing.CorrigoNumber = billingDto.CorrigoNumber?.Trim() ?? existing.CorrigoNumber;
                 existing.WorkDescription = billingDto.WorkDescription?.Trim() ?? existing.WorkDescription;
-                existing.CustPath = billingDto.CustPath?.Trim() ?? existing.CustPath;
+                existing.ThirdPartyContractor = billingDto.ThirdPartyContractor?.Trim() ?? existing.ThirdPartyContractor;
+				existing.CustPath = billingDto.CustPath?.Trim() ?? existing.CustPath;
 
                 await _context.SaveChangesAsync(ct);
                 Log.Information("✅ Updated BillingInfo for SheetID {SheetId}", billingDto.SheetId);
@@ -134,6 +135,7 @@ namespace RaymarEquipmentInventory.Services
                     // UPDATE path
                     existing.BillingPersonId = dto.BillingPersonID;
                     existing.CustomerId = resolvedCustomerId; // keep numeric in sync
+            
                     existing.Notes = dto.Notes?.Trim() ?? "";
                     existing.UnitNo = dto.UnitNo?.Trim() ?? "";
                     existing.JobSiteCity = dto.JobSiteCity?.Trim() ?? "";
@@ -142,7 +144,8 @@ namespace RaymarEquipmentInventory.Services
                     existing.HippoNumber = dto.HippoNumber?.Trim() ?? "";
                     existing.CorrigoNumber = dto.CorrigoNumber?.Trim() ?? "";
                     existing.WorkDescription = dto.WorkDescription?.Trim() ?? "";
-                    existing.CustPath = dto.CustPath?.Trim() ?? "";
+                    existing.ThirdPartyContractor = dto.ThirdPartyContractor?.Trim() ?? "";
+					existing.CustPath = dto.CustPath?.Trim() ?? "";
 
                     await _context.SaveChangesAsync(ct);
                     Log.Information("🟢 Updated BillingInfo for SheetId {SheetId}, CustomerQBId {CustomerQBId}", dto.SheetId, dto.CustomerQBId);

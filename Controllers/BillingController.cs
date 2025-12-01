@@ -24,9 +24,6 @@ namespace RaymarEquipmentInventory.Controllers
             _jobs = jobs;
         }
 
-
-
-
         [HttpPost("UpsertBilling")]
         public IActionResult UpsertBilling([FromBody] Billing billingDTO)
         {

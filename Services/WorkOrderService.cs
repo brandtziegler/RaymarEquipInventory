@@ -844,6 +844,7 @@ namespace RaymarEquipmentInventory.Services
                             UnitNo = b.UnitNo ?? "",
                             JobSiteCity = b.JobSiteCity ?? "",
                             WorkDescription = w.WorkDescription ?? "",
+                            ThirdPartyContractor = b.ThirdPartyContractor ?? "",
                             CustPath = b.CustPath ?? "",
                             WorkOrderStatus = w.WorkOrderStatus ?? "",
                             DateUploaded = w.DateUploaded,

@@ -13,7 +13,9 @@
         public string UnitNo { get; set; } = string.Empty;
         public string JobSiteCity { get; set; } = string.Empty;
         public string WorkDescription { get; set; } = string.Empty;
-        public string CustPath { get; set; } = string.Empty;
+		public string ThirdPartyContractor { get; set; } = string.Empty;
+
+		public string CustPath { get; set; } = string.Empty;
 
         public string WorkOrderStatus { get; set; } = string.Empty;
         public DateTime? DateUploaded { get; set; }

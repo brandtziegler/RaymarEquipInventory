@@ -35,6 +35,8 @@ public partial class BillingInformation
 
     public string CorrigoNumber { get; set; }
 
+    public string ThirdPartyContractor { get; set; }
+
     public virtual Person BillingPerson { get; set; }
 
     public virtual Customer Customer { get; set; }

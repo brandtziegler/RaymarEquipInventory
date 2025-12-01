@@ -21,7 +21,8 @@
         public string ParentCustomerQBId { get; set; } = "";
         public string CustomerName { get; set; } = "";
         public string ParentCustomerName { get; set; } = "";
-        public int? TechId { get; set; }
+		public string ThirdPartyContractor { get; set; } = "";
+		public int? TechId { get; set; }
 
 
     }
