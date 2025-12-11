@@ -32,7 +32,7 @@ namespace RaymarEquipmentInventory.Services
 
 
 
-        public async Task<MailBatchResult> SendWorkOrderEmailsAsync(
+        public async Task<MailBatchResult> SendInvoiceEmailsAsync(
             WorkOrdMailContentBatch dto, CancellationToken ct = default)
         {
             
@@ -202,7 +202,79 @@ namespace RaymarEquipmentInventory.Services
 
 
 
+       public async Task<MailBatchResult> SendWorkOrderNotificationEmailsAsync(
+    WorkOrdMailContentBatch dto,
+    CancellationToken ct = default)
+        {
+            // recipients already merged/validated in controller
+            var recipients = dto.EmailAddresses?
+                                 .Where(e => !string.IsNullOrWhiteSpace(e))
+                                 .Distinct(StringComparer.OrdinalIgnoreCase)
+                                 .ToList()
+                             ?? new List<string>();
 
+            var result = new MailBatchResult { Attempted = recipients.Count };
+            if (recipients.Count == 0) return result;
+
+            // helper
+            static string H(string? s) =>
+                System.Net.WebUtility.HtmlEncode(s ?? string.Empty);
+
+            var client = _httpClientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _resendKey);
+
+            var to = new[] { recipients[0] };
+            var bcc = recipients.Skip(1).ToArray();
+
+            var subject = $"Work Order #{dto.WorkOrderNumber} for {dto.CustPath} Uploaded";
+
+            var html = $@"
+<h2>Work Order Synced</h2>
+<p><strong>Customer Path:</strong> {H(dto.CustPath)}</p>
+<p><strong>Description:</strong> {H(dto.WorkDescription)}</p>
+<p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Google Drive &amp; Azure SQL.</p>
+<p>You can view the uploaded files at this address:<br>
+  <a href='https://drive.google.com/drive/folders/{H(dto.WorkOrderFolderId)}'>
+      View WO #{dto.WorkOrderNumber} Files on Google Drive for {H(dto.CustPath)}
+  </a>
+</p>
+<p><em>Need access? Use the Raymar Google account already shared with this folder.</em></p>
+<p><em>If you're not sure of the password, call me directly.</em></p>";
+
+            var email = new
+            {
+                from = "service@taskfuel.app",
+                to,
+                bcc = (bcc.Length > 0 ? bcc : null),
+                subject,
+                html
+            };
+
+            try
+            {
+                var resp = await client.PostAsJsonAsync("https://api.resend.com/emails", email, ct);
+                if (resp.IsSuccessStatusCode)
+                {
+                    result.Succeeded = recipients.Count;
+                    _log.LogInformation("✅ WO notification email sent to {Count} recipient(s) for WO {WO}",
+                        recipients.Count, dto.WorkOrderNumber);
+                }
+                else
+                {
+                    var body = await resp.Content.ReadAsStringAsync(ct);
+                    result.Failed.Add(("batch", body));
+                    _log.LogWarning("❌ WO notification batch failed: {Body}", body);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed.Add(("batch", ex.Message));
+                _log.LogError(ex, "❌ Exception sending WO notification batch email");
+            }
+
+            return result;
+        }
 
 
     }

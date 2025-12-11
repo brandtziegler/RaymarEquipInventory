@@ -6,7 +6,9 @@ namespace RaymarEquipmentInventory.Services
     {
 
 
-        Task<MailBatchResult> SendWorkOrderEmailsAsync(WorkOrdMailContentBatch dto, CancellationToken ct = default);
+        Task<MailBatchResult> SendInvoiceEmailsAsync(WorkOrdMailContentBatch dto, CancellationToken ct = default);
+
+        Task<MailBatchResult> SendWorkOrderNotificationEmailsAsync(WorkOrdMailContentBatch dto, CancellationToken ct = default);
 
     }
 }

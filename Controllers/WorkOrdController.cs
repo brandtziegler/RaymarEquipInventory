@@ -156,15 +156,15 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-        [HttpPost("SendWorkOrderEmails")]
-        public async Task<IActionResult> SendWorkOrderEmails([FromBody] DTOs.WorkOrdMailContentBatch dto)
+        [HttpPost("SendWOInvoiceEmails")]
+        public async Task<IActionResult> SendWOInvoiceEmails([FromBody] DTOs.WorkOrdMailContentBatch dto)
         {
             if (dto is null) return BadRequest("Payload required.");
             if (dto.SheetId <= 0 || dto.WorkOrderNumber <= 0)
                 return BadRequest("SheetId and WorkOrderNumber are required.");
 
             // 1) Get recipients from RecipientService (SQL-backed) + any extras
-            var merged = (await _recipientService.GetWorkOrderRecipientsAsync(
+            var merged = (await _recipientService.GetInvoiceRecipientsAsync(
                 dto.SheetId,
                 dto.WorkOrderNumber,
                 dto.EmailAddresses,
@@ -186,7 +186,7 @@ namespace RaymarEquipmentInventory.Controllers
 
             // 3) Enqueue fan-out send; return fast
             var jobId = _jobs.Enqueue(() =>
-                _mailService.SendWorkOrderEmailsAsync(new DTOs.WorkOrdMailContentBatch
+                _mailService.SendInvoiceEmailsAsync(new DTOs.WorkOrdMailContentBatch
                 {
                     SheetId = dto.SheetId,
                     WorkOrderNumber = dto.WorkOrderNumber,
@@ -1680,62 +1680,57 @@ namespace RaymarEquipmentInventory.Controllers
             return Accepted(new { jobId });
         }
 
-        [HttpPost("SendWorkOrderEmail")]
-        public async Task<IActionResult> SendWorkOrderEmail([FromBody] DTOs.WorkOrdMailContent dto)
+        [HttpPost("SendWONotificationEmails")]
+        public async Task<IActionResult> SendWONotificationEmails(
+            [FromBody] DTOs.WorkOrdMailContentBatch dto)
         {
-            var resendKey = "re_exsqgshN_HidHMnaoQHNwGn7gn6yy6RbW";
+            if (dto is null) return BadRequest("Payload required.");
+            if (dto.SheetId <= 0 || dto.WorkOrderNumber <= 0)
+                return BadRequest("SheetId and WorkOrderNumber are required.");
 
-            // ✅ Email format sanity check...........
-            try
+            // 1) Get recipients from RecipientService (SQL-backed) + any extras
+            var merged = (await _recipientService.GetWorkOrderRecipientsAsync(
+                dto.SheetId,
+                dto.WorkOrderNumber,
+                dto.EmailAddresses,
+                HttpContext.RequestAborted)).ToList();
+
+            if (merged == null || merged.Count == 0)
+                return BadRequest("No recipients configured for Work Order notifications.");
+
+            // 2) Validate email formats
+            var invalid = new List<string>();
+            foreach (var e in merged)
             {
-                var _ = new MailAddress(dto.EmailAddress);
+                try { _ = new MailAddress(e); }
+                catch { invalid.Add(e); }
             }
-            catch (FormatException)
+
+            if (invalid.Count > 0)
+                return BadRequest(new { message = "Invalid emails.", invalid });
+
+            // 3) Enqueue send; return fast
+            var jobId = _jobs.Enqueue(() =>
+                _mailService.SendWorkOrderNotificationEmailsAsync(
+                    new DTOs.WorkOrdMailContentBatch
+                    {
+                        SheetId = dto.SheetId,
+                        WorkOrderNumber = dto.WorkOrderNumber,
+                        WorkOrderFolderId = dto.WorkOrderFolderId,
+                        CustPath = dto.CustPath,
+                        WorkDescription = dto.WorkDescription,
+                        EmailAddresses = merged,   // final merged list
+                    },
+                    CancellationToken.None));
+
+            return Accepted(new
             {
-                return BadRequest("Invalid email format.");
-            }
-
-            var email = new
-            {
-                from = "service@taskfuel.app",
-                to = dto.EmailAddress,
-                subject = $"Work Order #{dto.WorkOrderNumber} for {dto.CustPath} Uploaded",
-                html = $@"
-                    <h2>Work Order Synced</h2>
-                    <p><strong>Customer Path:</strong> {dto.CustPath}</p>
-                    <p><strong>Description:</strong> {dto.WorkDescription}</p>
-                    <p><strong>Work Order #{dto.WorkOrderNumber}</strong> is now live in Google Drive & Azure SQL.</p>
-                    <p>You can view the uploaded files at this address:<br>
-                    <a href='https://drive.google.com/drive/folders/1NmfDJ7Gyig9MhtQO29ZGqB4q1OfKMtBo'>
-                        View WO#{dto.WorkOrderNumber} Files on Google Drive for  {dto.CustPath}
-                    </a></p>
-                  <p><em>Need access? Use the Raymar Google account already shared with this folder.</em></p>
-                  <p><em>If you're not sure of the password, call me directly.</em></p>"
-            };
-
-            try
-            {
-                var client = _httpClientFactory.CreateClient();
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", resendKey);
-
-                var response = await client.PostAsJsonAsync("https://api.resend.com/emails", email);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var body = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("❌ Email failed: " + body);
-                    return StatusCode((int)response.StatusCode, body);
-                }
-
-                Console.WriteLine("✅ Email sent.");
-                return Ok("Email sent.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("🔥 Exception: " + ex.Message);
-                return StatusCode(500, "Internal error: " + ex.Message);
-            }
+                jobId,
+                recipients = merged.Count,
+                message = $"Queued WO notification email to {merged.Count} recipient(s) for WO #{dto.WorkOrderNumber}."
+            });
         }
+
 
         // Controllers/WorkOrdController.cs  (or a PdfController if you prefer)
         [HttpGet("ViewedPdfs/{sheetId}")]
