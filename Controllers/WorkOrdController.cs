@@ -48,7 +48,7 @@ namespace RaymarEquipmentInventory.Controllers
         private readonly IInventoryImportService _inventoryImportService;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IDriveUploaderService _driveUploaderService;
-        private readonly IDriveAuthService _driveAuthService;
+        private readonly IRecipientService _recipientService;
         private readonly IMailService _mailService;
         private static readonly ConcurrentDictionary<string, SemaphoreSlim> FolderLocks = new();
         private readonly IBackgroundJobClient _jobs;
@@ -57,7 +57,8 @@ namespace RaymarEquipmentInventory.Controllers
             IQuickBooksConnectionService quickBooksConnectionService, ITechnicianService technicianService, 
             ISamsaraApiService samsaraApiService, IMailService mailService,
             IHttpClientFactory httpClientFactory, IDriveUploaderService driveUploaderService, 
-            IDriveAuthService driveAuthService, IBackgroundJobClient jobs, IInventoryImportService inventoryImportService)
+            IBackgroundJobClient jobs, IInventoryImportService inventoryImportService,
+            IRecipientService recipientService)
         {
             _workOrderService = workOrderService;
             _quickBooksConnectionService = quickBooksConnectionService;
@@ -68,9 +69,7 @@ namespace RaymarEquipmentInventory.Controllers
             _mailService = mailService;
             _jobs = jobs;
             _inventoryImportService = inventoryImportService;
-            _driveAuthService = driveAuthService;
-            //_federatedTokenService = federatedTokenService;
-
+            _recipientService = recipientService;
         }
 
 
@@ -157,54 +156,35 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
-
         [HttpPost("SendWorkOrderEmails")]
-        public IActionResult SendWorkOrderEmails([FromBody] DTOs.WorkOrdMailContentBatch dto)
+        public async Task<IActionResult> SendWorkOrderEmails([FromBody] DTOs.WorkOrdMailContentBatch dto)
         {
             if (dto is null) return BadRequest("Payload required.");
             if (dto.SheetId <= 0 || dto.WorkOrderNumber <= 0)
                 return BadRequest("SheetId and WorkOrderNumber are required.");
 
-            // 1) Load recipients from environment: any key starting with "WO_Receiver"
-            var env = Environment.GetEnvironmentVariables();
-            var envRecipients = new List<string>();
+            // 1) Get recipients from RecipientService (SQL-backed) + any extras
+            var merged = (await _recipientService.GetWorkOrderRecipientsAsync(
+                dto.SheetId,
+                dto.WorkOrderNumber,
+                dto.EmailAddresses,
+                HttpContext.RequestAborted)).ToList();   // materialize to List<string>
 
-            foreach (DictionaryEntry de in env)
-            {
-                if (de.Key is string key &&
-                    key.StartsWith("WO_Receiver", StringComparison.OrdinalIgnoreCase) &&
-                    de.Value is string val &&
-                    !string.IsNullOrWhiteSpace(val))
-                {
-                    // allow comma-separated values in a single env var
-                    var split = val.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-                    envRecipients.AddRange(split);
-                }
-            }
+            if (merged == null || merged.Count == 0)
+                return BadRequest("No recipients configured for Work Order emails.");
 
-            // 2) Merge with optional extras from the payload (if any)
-            var extras = dto.EmailAddresses ?? new List<string>();
-            var merged = envRecipients
-                .Concat(extras)
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .Select(s => s.Trim())
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToList();
-
-            if (merged.Count == 0)
-                return BadRequest("No recipients configured. Set WO_Receiver* env vars or include EmailAddresses.");
-
-            // 3) Validate email formats
+            // 2) Validate email formats
             var invalid = new List<string>();
             foreach (var e in merged)
             {
                 try { _ = new MailAddress(e); }
                 catch { invalid.Add(e); }
             }
+
             if (invalid.Count > 0)
                 return BadRequest(new { message = "Invalid emails.", invalid });
-            //Send work orders should work this time. 
-            // 4) Enqueue fan-out send; return fast
+
+            // 3) Enqueue fan-out send; return fast
             var jobId = _jobs.Enqueue(() =>
                 _mailService.SendWorkOrderEmailsAsync(new DTOs.WorkOrdMailContentBatch
                 {
@@ -213,7 +193,7 @@ namespace RaymarEquipmentInventory.Controllers
                     WorkOrderFolderId = dto.WorkOrderFolderId,
                     CustPath = dto.CustPath,
                     WorkDescription = dto.WorkDescription,
-                    EmailAddresses = merged, // final merged list
+                    EmailAddresses = merged, // final merged list from RecipientService
                 }, CancellationToken.None));
 
             return Accepted(new
@@ -223,6 +203,73 @@ namespace RaymarEquipmentInventory.Controllers
                 message = $"Queued email to {merged.Count} recipient(s) for WO #{dto.WorkOrderNumber}."
             });
         }
+
+
+        //[HttpPost("SendWorkOrderEmails")]
+        //public IActionResult SendWorkOrderEmails([FromBody] DTOs.WorkOrdMailContentBatch dto)
+        //{
+        //    if (dto is null) return BadRequest("Payload required.");
+        //    if (dto.SheetId <= 0 || dto.WorkOrderNumber <= 0)
+        //        return BadRequest("SheetId and WorkOrderNumber are required.");
+
+        //    // 1) Load recipients from environment: any key starting with "WO_Receiver"
+        //    var env = Environment.GetEnvironmentVariables();
+        //    var envRecipients = new List<string>();
+
+        //    foreach (DictionaryEntry de in env)
+        //    {
+        //        if (de.Key is string key &&
+        //            key.StartsWith("WO_Receiver", StringComparison.OrdinalIgnoreCase) &&
+        //            de.Value is string val &&
+        //            !string.IsNullOrWhiteSpace(val))
+        //        {
+        //            // allow comma-separated values in a single env var
+        //            var split = val.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        //            envRecipients.AddRange(split);
+        //        }
+        //    }
+
+        //    // 2) Merge with optional extras from the payload (if any)
+        //    var extras = dto.EmailAddresses ?? new List<string>();
+        //    var merged = envRecipients
+        //        .Concat(extras)
+        //        .Where(s => !string.IsNullOrWhiteSpace(s))
+        //        .Select(s => s.Trim())
+        //        .Distinct(StringComparer.OrdinalIgnoreCase)
+        //        .ToList();
+
+        //    if (merged.Count == 0)
+        //        return BadRequest("No recipients configured. Set WO_Receiver* env vars or include EmailAddresses.");
+
+        //    // 3) Validate email formats
+        //    var invalid = new List<string>();
+        //    foreach (var e in merged)
+        //    {
+        //        try { _ = new MailAddress(e); }
+        //        catch { invalid.Add(e); }
+        //    }
+        //    if (invalid.Count > 0)
+        //        return BadRequest(new { message = "Invalid emails.", invalid });
+        //    //Send work orders should work this time. 
+        //    // 4) Enqueue fan-out send; return fast
+        //    var jobId = _jobs.Enqueue(() =>
+        //        _mailService.SendWorkOrderEmailsAsync(new DTOs.WorkOrdMailContentBatch
+        //        {
+        //            SheetId = dto.SheetId,
+        //            WorkOrderNumber = dto.WorkOrderNumber,
+        //            WorkOrderFolderId = dto.WorkOrderFolderId,
+        //            CustPath = dto.CustPath,
+        //            WorkDescription = dto.WorkDescription,
+        //            EmailAddresses = merged, // final merged list
+        //        }, CancellationToken.None));
+
+        //    return Accepted(new
+        //    {
+        //        jobId,
+        //        recipients = merged.Count,
+        //        message = $"Queued email to {merged.Count} recipient(s) for WO #{dto.WorkOrderNumber}."
+        //    });
+        //}
 
 
 

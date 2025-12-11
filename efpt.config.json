@@ -368,6 +368,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[Settings].[EmailNotificationRecipient]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Settings].[EmailNotificationType]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[vw_Billing_MileageAndTravel]",
          "ObjectType": 3
       },

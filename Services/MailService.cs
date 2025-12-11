@@ -35,6 +35,7 @@ namespace RaymarEquipmentInventory.Services
         public async Task<MailBatchResult> SendWorkOrderEmailsAsync(
             WorkOrdMailContentBatch dto, CancellationToken ct = default)
         {
+            
             // recipients already merged/validated in controller
             var recipients = dto.EmailAddresses?.Where(e => !string.IsNullOrWhiteSpace(e))
                                .Distinct(StringComparer.OrdinalIgnoreCase).ToList()
@@ -58,7 +59,7 @@ namespace RaymarEquipmentInventory.Services
                 .OrderBy(x => x.InvoiceId)
                 .ThenBy(x => x.ItemNameSnapshot)
                 .ToListAsync(ct);
-
+            
             // ---------- optional invoice table (gate) ----------
             string tableHtml = string.Empty;
             if (lines.Count > 0)

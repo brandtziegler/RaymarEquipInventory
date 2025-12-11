@@ -59,6 +59,10 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<DriveFileMetadatum> DriveFileMetadata { get; set; }
 
+    public virtual DbSet<EmailNotificationRecipient> EmailNotificationRecipients { get; set; }
+
+    public virtual DbSet<EmailNotificationType> EmailNotificationTypes { get; set; }
+
     public virtual DbSet<ExpensesQb> ExpensesQbs { get; set; }
 
     public virtual DbSet<FailedSyncLog> FailedSyncLogs { get; set; }
@@ -1004,6 +1008,51 @@ public partial class RaymarInventoryDBContext : DbContext
             entity.HasOne(d => d.PdfTag).WithMany(p => p.DriveFileMetadata)
                 .HasForeignKey(d => d.PdfTagId)
                 .HasConstraintName("FK_DFM_PDFTags");
+        });
+
+        modelBuilder.Entity<EmailNotificationRecipient>(entity =>
+        {
+            entity.ToTable("EmailNotificationRecipient", "Settings");
+
+            entity.HasIndex(e => new { e.NotificationTypeId, e.IsActive }, "IX_EmailNotificationRecipient_Type_Active");
+
+            entity.HasIndex(e => new { e.NotificationTypeId, e.EmailAddress }, "UX_EmailNotificationRecipient_Type_Email").IsUnique();
+
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(100);
+            entity.Property(e => e.DisplayName).HasMaxLength(100);
+            entity.Property(e => e.EmailAddress)
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+
+            entity.HasOne(d => d.NotificationType).WithMany(p => p.EmailNotificationRecipients)
+                .HasForeignKey(d => d.NotificationTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EmailNotificationRecipient_Type");
+        });
+
+        modelBuilder.Entity<EmailNotificationType>(entity =>
+        {
+            entity.ToTable("EmailNotificationType", "Settings");
+
+            entity.HasIndex(e => e.Code, "UX_EmailNotificationType_Code").IsUnique();
+
+            entity.Property(e => e.Code)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(100);
+            entity.Property(e => e.Description).HasMaxLength(200);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
         });
 
         modelBuilder.Entity<ExpensesQb>(entity =>
