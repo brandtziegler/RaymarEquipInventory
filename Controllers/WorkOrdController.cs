@@ -202,6 +202,23 @@ namespace RaymarEquipmentInventory.Controllers
             });
         }
 
+        [HttpGet("GetAllRecipients")]
+        public async Task<IActionResult> GetAllRecipients()
+        {
+            try
+            {
+                var rows = await _recipientService.GetAllRecipientsAsync(HttpContext.RequestAborted);
+
+                if (rows == null || rows.Count == 0)
+                    return NotFound("No recipients found.");
+
+                return Ok(rows); // List<SettingsEmailRecipientDto>
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         //[HttpPost("SendWorkOrderEmails")]
         //public IActionResult SendWorkOrderEmails([FromBody] DTOs.WorkOrdMailContentBatch dto)

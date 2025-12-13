@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-
+using RaymarEquipmentInventory.DTOs;
 namespace RaymarEquipmentInventory.Services
 {
     public interface IRecipientService
@@ -25,5 +25,7 @@ namespace RaymarEquipmentInventory.Services
             int workOrderNumber,
             IEnumerable<string>? extraEmails = null,
             CancellationToken ct = default);
+
+        Task<List<SettingsEmailRecipientDto>> GetAllRecipientsAsync(CancellationToken ct = default);
     }
 }

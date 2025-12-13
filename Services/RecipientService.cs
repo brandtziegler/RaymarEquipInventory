@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RaymarEquipmentInventory.Models;
-
+using RaymarEquipmentInventory.DTOs;
 namespace RaymarEquipmentInventory.Services
 {
     public class RecipientService : IRecipientService
@@ -23,6 +23,37 @@ namespace RaymarEquipmentInventory.Services
         {
             _context = context;
             _log = log;
+        }
+
+        // ✅ SettingsPanel DTO (inline)
+
+
+        // ✅ SettingsPanel: get all recipients + their type code
+        public async Task<List<SettingsEmailRecipientDto>> GetAllRecipientsAsync(CancellationToken ct = default)
+        {
+            // Join recipients to types so client can render Type column reliably.
+            var query =
+                from r in _context.EmailNotificationRecipients.AsNoTracking()
+                join t in _context.EmailNotificationTypes.AsNoTracking()
+                    on r.NotificationTypeId equals t.Id
+                where t.IsActive == true
+                      && (t.Code == WorkOrderNotificationCode || t.Code == InvoiceNotificationCode)
+                select new SettingsEmailRecipientDto
+                {
+                    Id = r.Id,
+                    NotificationTypeId = r.NotificationTypeId,
+                    NotificationCode = t.Code,
+                    EmailAddress = (r.EmailAddress ?? "").Trim(),
+                    DisplayName = (r.DisplayName ?? "").Trim(),
+                    IsActive = (r.IsActive ?? false),
+                    IsDefault = r.IsDefault,
+                };
+
+            return await query
+                .OrderBy(x => x.NotificationTypeId)
+                .ThenByDescending(x => x.IsDefault)
+                .ThenBy(x => x.EmailAddress)
+                .ToListAsync(ct);
         }
 
         public Task<IReadOnlyList<string>> GetWorkOrderRecipientsAsync(
@@ -71,7 +102,7 @@ namespace RaymarEquipmentInventory.Services
             var type = await _context.EmailNotificationTypes
                .AsNoTracking()
                .SingleOrDefaultAsync(
-                   t => t.Code == code && t.IsActive == true,  // or (t.IsActive ?? false)
+                   t => t.Code == code && t.IsActive == true,
                    ct);
 
             if (type == null)
