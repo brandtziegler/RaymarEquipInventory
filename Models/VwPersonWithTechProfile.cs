@@ -25,6 +25,8 @@ public partial class VwPersonWithTechProfile
 
     public int? RoleId { get; set; }
 
+    public bool IsActive { get; set; }
+
     public int? TechnicianId { get; set; }
 
     public string WorkStatus { get; set; }

@@ -25,6 +25,8 @@ public partial class Person
 
     public int? RoleId { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public virtual ICollection<BillingInformation> BillingInformations { get; set; } = new List<BillingInformation>();
 
     public virtual Role Role { get; set; }

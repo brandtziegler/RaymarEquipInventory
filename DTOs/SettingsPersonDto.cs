@@ -16,6 +16,8 @@
 
         public string PhoneOne { get; set; } = "";
 
+        public bool IsActive { get; set; } = true;
+
         // send/receive canonical role
         public int RoleID { get; set; }
 
@@ -29,7 +31,7 @@
         public int? TechnicianID { get; set; }
         public int? TechTypeId { get; set; }
 
-        public bool IsTechnician => TechnicianID.HasValue;
+        public bool IsTechnician => RoleID == 1;  // Technician role
     }
 }
 

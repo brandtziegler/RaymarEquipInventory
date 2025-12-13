@@ -13,5 +13,7 @@ namespace RaymarEquipmentInventory.Services
         Task<List<Tech>> GetAllTechs();
         Task<List<SettingsPersonDto>> GetSettingsPeople();
 
+        Task<SettingsPersonDto> UpsertSettingsPerson(SettingsPersonDto dto);
+
     }
 }

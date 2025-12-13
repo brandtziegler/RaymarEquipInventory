@@ -84,6 +84,32 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpPost("UpsertSettingsPerson")]
+        public async Task<IActionResult> UpsertSettingsPerson([FromBody] SettingsPersonDto dto)
+        {
+            if (dto == null) return BadRequest("Body required.");
+
+            try
+            {
+                var saved = await _technicianService.UpsertSettingsPerson(dto);
+                return Ok(saved); // return refreshed row from vw_PersonWithTechProfiles
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                // e.g. duplicate email, missing FlatLabour mapping, person not found, etc.
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
         [HttpGet("GetTechsByWorkOrder")]
         public async Task<IActionResult> GetTechsByWorkOrder(int sheetID)
         {

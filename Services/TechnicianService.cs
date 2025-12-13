@@ -102,6 +102,169 @@ namespace RaymarEquipmentInventory.Services
             return techDTOs;
         }
 
+        public async Task<SettingsPersonDto> UpsertSettingsPerson(SettingsPersonDto dto)
+        {
+            if (dto == null) throw new ArgumentNullException(nameof(dto));
+            if (dto.RoleID <= 0) throw new ArgumentException("RoleID is required.", nameof(dto));
+            if (string.IsNullOrWhiteSpace(dto.FirstName)) throw new ArgumentException("FirstName is required.", nameof(dto));
+            if (string.IsNullOrWhiteSpace(dto.LastName)) throw new ArgumentException("LastName is required.", nameof(dto));
+
+            // Canonical “Technician” role is 1 in your Roles table
+            const int TechnicianRoleId = 1;
+            var wantsTechnicianProfile = (dto.RoleID == TechnicianRoleId) || dto.TechTypeId.HasValue || dto.TechnicianID.HasValue;
+
+            await using var tx = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                // ---- 1) PERSON upsert ----
+                // NOTE: If your DbSet is _context.Persons (not People), rename here.
+                RaymarEquipmentInventory.Models.Person personEntity;
+
+                if (dto.PersonID > 0)
+                {
+                    personEntity = await _context.People.FirstOrDefaultAsync(p => p.PersonId == dto.PersonID);
+                    if (personEntity == null)
+                        throw new InvalidOperationException($"PersonID {dto.PersonID} not found.");
+                }
+                else
+                {
+                    personEntity = new RaymarEquipmentInventory.Models.Person();
+                    _context.People.Add(personEntity);
+                }
+
+                // Optional: prevent duplicate emails (ignore empty)
+                var normalizedEmail = (dto.Email ?? "").Trim().ToLowerInvariant();
+                if (!string.IsNullOrWhiteSpace(normalizedEmail))
+                {
+                    var emailExists = await _context.People.AnyAsync(p =>
+                        p.PersonId != personEntity.PersonId &&
+                        (p.Email ?? "").ToLower() == normalizedEmail
+                    );
+                    if (emailExists)
+                        throw new InvalidOperationException($"Email already exists: {normalizedEmail}");
+                }
+
+                personEntity.FirstName = dto.FirstName?.Trim() ?? "";
+                personEntity.LastName = dto.LastName?.Trim() ?? "";
+                personEntity.Email = normalizedEmail;
+                personEntity.PhoneOne = dto.PhoneOne ?? "";
+                personEntity.RoleId = dto.RoleID;
+                personEntity.RoleName = dto.RoleName ?? "";     // or compute from Roles table later
+                if (dto.StartDate.HasValue) personEntity.StartDate = dto.StartDate.Value;
+                if (dto.EndDate.HasValue) personEntity.EndDate = dto.EndDate.Value;
+
+                // You added IsActive to Person table + view
+                personEntity.IsActive = dto.IsActive;
+
+                await _context.SaveChangesAsync(); // ensures PersonId exists for new rows
+
+                // ---- 2) TECHNICIAN upsert (optional) ----
+                Technician techEntity = null;
+
+                if (wantsTechnicianProfile)
+                {
+                    techEntity = await _context.Technicians
+                        .FirstOrDefaultAsync(t => t.PersonId == personEntity.PersonId);
+
+                    if (techEntity == null)
+                    {
+                        techEntity = new Technician
+                        {
+                            PersonId = personEntity.PersonId,
+                            WorkStatus = "Available",
+                            Notes = "",
+                            HourlyRate = null
+                        };
+                        _context.Technicians.Add(techEntity);
+                        await _context.SaveChangesAsync(); // ensures TechnicianId exists
+                    }
+
+                    // ---- 3) TechnicianAndTypes primary assignment (optional) ----
+                    if (dto.TechTypeId.HasValue)
+                    {
+                        // Try to derive FlatLabourID by matching TechnicianTypes.TypeName to FlatLabours.LabourName
+                        var typeName = await _context.TechnicianTypes
+                            .Where(tt => tt.TechTypeId == dto.TechTypeId.Value)
+                            .Select(tt => tt.TypeName)
+                            .FirstOrDefaultAsync();
+
+                        int? flatLabourId = null;
+                        if (!string.IsNullOrWhiteSpace(typeName))
+                        {
+                            var flId = await _context.FlatLabours
+                                .Where(fl => fl.LabourName == typeName)
+                                .Select(fl => fl.FlatLabourId)
+                                .FirstOrDefaultAsync();
+
+                            if (flId > 0) flatLabourId = flId;
+                        }
+
+                        // If mapping is missing, don’t silently write junk.
+                        if (!flatLabourId.HasValue)
+                            throw new InvalidOperationException($"Could not map TechTypeId {dto.TechTypeId.Value} to a FlatLabourID.");
+
+                        var primaryAssign = await _context.TechnicianAndTypes
+                            .FirstOrDefaultAsync(a => a.TechnicianId == techEntity.TechnicianId && a.IsPrimary == true);
+
+                        if (primaryAssign == null)
+                        {
+                            primaryAssign = new TechnicianAndType
+                            {
+                                TechnicianId = techEntity.TechnicianId,
+                                TechTypeId = dto.TechTypeId.Value,
+                                FlatLabourId = flatLabourId.Value,
+                                RateOverride = null,
+                                EffectiveFrom = null,
+                                EffectiveTo = null,
+                                IsPrimary = true
+                            };
+                            _context.TechnicianAndTypes.Add(primaryAssign);
+                        }
+                        else
+                        {
+                            primaryAssign.TechTypeId = dto.TechTypeId.Value;
+                            primaryAssign.FlatLabourId = flatLabourId.Value;
+                            primaryAssign.IsPrimary = true;
+                        }
+
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+                await tx.CommitAsync();
+
+                // ---- return refreshed row from the view ----
+                var refreshed = await _context.VwPersonWithTechProfiles
+                    .AsNoTracking()
+                    .Where(x => x.PersonId == personEntity.PersonId)
+                    .Select(x => new SettingsPersonDto
+                    {
+                        PersonID = x.PersonId,
+                        FirstName = x.FirstName ?? "",
+                        LastName = x.LastName ?? "",
+                        Email = x.Email ?? "",
+                        RoleName = x.RoleName ?? "",
+                        RoleID = x.RoleId ?? 0,
+                        PhoneOne = x.PhoneOne ?? "",
+                        StartDate = x.StartDate,
+                        EndDate = x.EndDate,
+                        TechnicianID = x.TechnicianId,
+                        TechTypeId = x.TechTypeId,
+                        IsActive = x.IsActive
+                    })
+                    .FirstAsync();
+
+                return refreshed;
+            }
+            catch (Exception ex)
+            {
+                await tx.RollbackAsync();
+                Log.Error(ex, "UpsertSettingsPerson failed for PersonID={PersonID}", dto.PersonID);
+                throw;
+            }
+        }
+
         public async Task<List<Tech>> GetTechsByWorkOrder(int sheetID)
         {
 
@@ -142,6 +305,8 @@ namespace RaymarEquipmentInventory.Services
 
         public async Task<List<SettingsPersonDto>> GetSettingsPeople()
         {
+
+           
             return await _context.VwPersonWithTechProfiles
                 .AsNoTracking()
                 .Select(x => new SettingsPersonDto
@@ -156,7 +321,8 @@ namespace RaymarEquipmentInventory.Services
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
                     TechnicianID = x.TechnicianId,
-                    TechTypeId = x.TechTypeId
+                    TechTypeId = x.TechTypeId, 
+                    IsActive = x.IsActive
                 })
                 .ToListAsync();
         }
