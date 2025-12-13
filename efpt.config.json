@@ -444,6 +444,10 @@
          "ObjectType": 3
       },
       {
+         "Name": "[dbo].[vw_PersonWithTechProfile]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[vw_TechnicianTypeRates]",
          "ObjectType": 3
       },

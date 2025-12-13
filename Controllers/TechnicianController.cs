@@ -66,6 +66,23 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+        [HttpGet("GetSettingsPeople")]
+        public async Task<IActionResult> GetSettingsPeople()
+        {
+            try
+            {
+                var people = await _technicianService.GetSettingsPeople();
+
+                if (people == null || people.Count == 0)
+                    return NotFound("No people found.");
+
+                return Ok(people);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         [HttpGet("GetTechsByWorkOrder")]
         public async Task<IActionResult> GetTechsByWorkOrder(int sheetID)

@@ -31,8 +31,6 @@ using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext
 using SixLabors.ImageSharp.Formats;
 
 
-
-
 namespace RaymarEquipmentInventory.Controllers
 {
     [ApiController]

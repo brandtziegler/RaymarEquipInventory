@@ -28,6 +28,7 @@ namespace RaymarEquipmentInventory.Services
         public async Task<Tech> GetTechByID(int techID)
         {
             // First, let's get the tech, and include the related Person and TechLicences
+
             var technician = await _context.Technicians
                 .Include(t => t.Person)  // Include the related person
                 .Include(t => t.TechnicianLicences)  // Include related licences (1-many)
@@ -85,7 +86,8 @@ namespace RaymarEquipmentInventory.Services
                     FirstName = technician.Person.FirstName,
                     LastName = technician.Person.LastName,
                     Email = technician.Person.Email,
-                    PhoneOne = technician.Person.PhoneOne
+                    PhoneOne = technician.Person.PhoneOne,
+                    RoleName = technician.Person.RoleName
                 },
                 TechLicences = technician.TechnicianLicences.Select(licence => new TechLicence
                 {
@@ -138,7 +140,26 @@ namespace RaymarEquipmentInventory.Services
             return techDTOs;
         }
 
-
+        public async Task<List<SettingsPersonDto>> GetSettingsPeople()
+        {
+            return await _context.VwPersonWithTechProfiles
+                .AsNoTracking()
+                .Select(x => new SettingsPersonDto
+                {
+                    PersonID = x.PersonId,
+                    FirstName = x.FirstName ?? "",
+                    LastName = x.LastName ?? "",
+                    Email = x.Email ?? "",
+                    RoleName = x.RoleName ?? "",
+                    RoleID = x.RoleId ?? 0,
+                    PhoneOne = x.PhoneOne ?? "",
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    TechnicianID = x.TechnicianId,
+                    TechTypeId = x.TechTypeId
+                })
+                .ToListAsync();
+        }
 
 
     }

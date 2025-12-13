@@ -11,6 +11,7 @@ namespace RaymarEquipmentInventory.Services
         Task<List<Tech>> GetTechsByWorkOrder(int sheetID);
 
         Task<List<Tech>> GetAllTechs();
+        Task<List<SettingsPersonDto>> GetSettingsPeople();
 
     }
 }

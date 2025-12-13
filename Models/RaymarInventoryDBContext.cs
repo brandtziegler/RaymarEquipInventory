@@ -217,6 +217,8 @@ public partial class RaymarInventoryDBContext : DbContext
 
     public virtual DbSet<VwPartsUsedWithInventory> VwPartsUsedWithInventories { get; set; }
 
+    public virtual DbSet<VwPersonWithTechProfile> VwPersonWithTechProfiles { get; set; }
+
     public virtual DbSet<VwRole> VwRoles { get; set; }
 
     public virtual DbSet<VwRolesMin> VwRolesMins { get; set; }
@@ -2937,6 +2939,47 @@ public partial class RaymarInventoryDBContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.SalesPrice).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.SheetId).HasColumnName("SheetID");
+        });
+
+        modelBuilder.Entity<VwPersonWithTechProfile>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_PersonWithTechProfile");
+
+            entity.Property(e => e.EffectiveRate).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Email)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.EndDate).HasColumnType("datetime");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.FlatLabourId).HasColumnName("FlatLabourID");
+            entity.Property(e => e.HourlyRate).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.LabourName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Notes).IsUnicode(false);
+            entity.Property(e => e.PersonId).HasColumnName("PersonID");
+            entity.Property(e => e.PhoneOne)
+                .HasMaxLength(15)
+                .IsUnicode(false);
+            entity.Property(e => e.RoleId).HasColumnName("RoleID");
+            entity.Property(e => e.RoleName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.StartDate).HasColumnType("datetime");
+            entity.Property(e => e.TechTypeAssignId).HasColumnName("TechTypeAssignID");
+            entity.Property(e => e.TechTypeId).HasColumnName("TechTypeID");
+            entity.Property(e => e.TechnicianId).HasColumnName("TechnicianID");
+            entity.Property(e => e.TypeName).HasMaxLength(100);
+            entity.Property(e => e.WorkStatus)
+                .HasMaxLength(10)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<VwRole>(entity =>
