@@ -25,6 +25,8 @@ namespace RaymarEquipmentInventory.Services
             _context = context;
         }
 
+
+
         public async Task<LoginResultDto> UpsertAuthUserAsync(
             string email,
             int personId,
@@ -113,6 +115,40 @@ namespace RaymarEquipmentInventory.Services
         {
             var bytes = RandomNumberGenerator.GetBytes(byteCount);
             return Convert.ToBase64String(bytes);
+        }
+
+
+        public async Task<LoginResultDto> ResetPasswordAsync(string email, string currentPassword, string newPassword)
+        {
+            var normalizedEmail = (email ?? "").Trim().ToLowerInvariant();
+            if (string.IsNullOrWhiteSpace(normalizedEmail)) throw new ArgumentException("Email required.");
+            if (string.IsNullOrWhiteSpace(currentPassword)) throw new ArgumentException("Current password required.");
+            if (string.IsNullOrWhiteSpace(newPassword)) throw new ArgumentException("New password required.");
+
+            var user = await _context.AuthUsers.FirstOrDefaultAsync(u => u.Email == normalizedEmail && u.IsActive == true);
+            if (user == null) return new LoginResultDto { Success = false, Message = "Invalid email or password." };
+
+            // verify current password (same logic as VerifyLoginAsync) :contentReference[oaicite:3]{index=3}
+            var storedSalt = user.Salt ?? "";
+            var storedHash = user.PasswordHash ?? "";
+
+            using var sha = System.Security.Cryptography.SHA512.Create();
+            var currentBytes = Encoding.Unicode.GetBytes(currentPassword + storedSalt);
+            var currentHash = BitConverter.ToString(sha.ComputeHash(currentBytes)).Replace("-", "").ToUpperInvariant();
+
+            if (!string.Equals(storedHash, currentHash, StringComparison.OrdinalIgnoreCase))
+                return new LoginResultDto { Success = false, Message = "Invalid email or password." };
+
+            // set new password
+            var newSalt = Guid.NewGuid().ToString("N");
+            var newBytes = Encoding.Unicode.GetBytes(newPassword + newSalt);
+            var newHash = BitConverter.ToString(sha.ComputeHash(newBytes)).Replace("-", "").ToUpperInvariant();
+
+            user.Salt = newSalt;
+            user.PasswordHash = newHash;
+            await _context.SaveChangesAsync();
+
+            return new LoginResultDto { Success = true, Email = user.Email, PersonID = user.PersonId ?? 0, Message = "Password updated." };
         }
 
         public async Task<DTOs.RolesAndPermissions?> GetPermissionsByTechnicianIdAsync(int technicianId)

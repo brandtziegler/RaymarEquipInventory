@@ -33,6 +33,13 @@ namespace RaymarEquipmentInventory.Controllers
             return Ok(permissions);
         }
 
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto dto)
+        {
+            var result = await _permissionsService.ResetPasswordAsync(dto.Email, dto.CurrentPassword, dto.NewPassword);
+            return result.Success ? Ok(result) : Unauthorized(result);
+        }
+
         [HttpPost("verify-login")]
         public async Task<IActionResult> VerifyLogin([FromBody] LoginRequest request)
         {

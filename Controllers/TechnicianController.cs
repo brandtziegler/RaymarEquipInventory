@@ -66,6 +66,8 @@ namespace RaymarEquipmentInventory.Controllers
             }
         }
 
+
+
         [HttpGet("GetSettingsPeople")]
         public async Task<IActionResult> GetSettingsPeople()
         {
