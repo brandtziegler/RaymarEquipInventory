@@ -1,34 +1,35 @@
-﻿ using Azure.Core;
+﻿using Azure;
+ using Azure.Core;
 using Azure.Identity;
+using Azure.Storage.Blobs;
+using Azure.Storage.Sas;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
+using Hangfire;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RaymarEquipmentInventory.DTOs;
-using RaymarEquipmentInventory.Services;
-using Serilog;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections;
-using System.Diagnostics;
-using System.Linq;
-using System.Collections.Concurrent;
-using Azure;
-using Azure.Storage.Blobs;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RaymarEquipmentInventory.DTOs;
+using RaymarEquipmentInventory.Helpers;
+using RaymarEquipmentInventory.Models;
+using RaymarEquipmentInventory.Services;
+using Serilog;
+using SixLabors.ImageSharp.Formats;
+using System;
+using System.Collections;
+using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Mail;
-using Hangfire;
-using Azure.Storage.Sas;
-using RaymarEquipmentInventory.Helpers;
-using Microsoft.AspNetCore.Authorization;
-using RaymarEquipmentInventory.Models;
+using System.Threading;
+using System.Threading.Tasks;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
-using SixLabors.ImageSharp.Formats;
 
 
 namespace RaymarEquipmentInventory.Controllers
@@ -213,6 +214,47 @@ namespace RaymarEquipmentInventory.Controllers
                     return NotFound("No recipients found.");
 
                 return Ok(rows); // List<SettingsEmailRecipientDto>
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPost("UpsertSettingEmail")]
+        public async Task<IActionResult> UpsertSettingEmail([FromBody] SettingsEmailRecipientDto dto)
+        {
+            if (dto is null) return BadRequest("Payload required.");
+
+            // basic sanity
+            if (dto.NotificationTypeId <= 0)
+                return BadRequest("NotificationTypeId is required.");
+
+            if (string.IsNullOrWhiteSpace(dto.EmailAddress))
+                return BadRequest("EmailAddress is required.");
+
+            try
+            {
+                // createdBy is optional; use your auth identity if you have one
+                var createdBy = User?.Identity?.Name ?? "SettingsPanel";
+
+                var saved = await _recipientService.UpsertSettingsEmailRecipientAsync(
+                    dto,
+                    createdBy,
+                    HttpContext.RequestAborted
+                );
+
+                return Ok(saved); // SettingsEmailRecipientDto
+            }
+            catch (InvalidOperationException ex)
+            {
+                // service validation (bad typeId, missing email, etc.)
+                return BadRequest(ex.Message);
+            }
+            catch (DbUpdateException ex)
+            {
+                // DB constraint/unique key issues, etc.
+                return StatusCode(500, $"Database error: {ex.InnerException?.Message ?? ex.Message}");
             }
             catch (Exception ex)
             {

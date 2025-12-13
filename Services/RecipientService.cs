@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RaymarEquipmentInventory.Models;
 using RaymarEquipmentInventory.DTOs;
+
 namespace RaymarEquipmentInventory.Services
 {
     public class RecipientService : IRecipientService
@@ -25,13 +26,9 @@ namespace RaymarEquipmentInventory.Services
             _log = log;
         }
 
-        // ✅ SettingsPanel DTO (inline)
-
-
         // ✅ SettingsPanel: get all recipients + their type code
         public async Task<List<SettingsEmailRecipientDto>> GetAllRecipientsAsync(CancellationToken ct = default)
         {
-            // Join recipients to types so client can render Type column reliably.
             var query =
                 from r in _context.EmailNotificationRecipients.AsNoTracking()
                 join t in _context.EmailNotificationTypes.AsNoTracking()
@@ -54,6 +51,108 @@ namespace RaymarEquipmentInventory.Services
                 .ThenByDescending(x => x.IsDefault)
                 .ThenBy(x => x.EmailAddress)
                 .ToListAsync(ct);
+        }
+
+        // ✅ SettingsPanel: upsert one recipient
+        public async Task<SettingsEmailRecipientDto> UpsertSettingsEmailRecipientAsync(
+            SettingsEmailRecipientDto dto,
+            string? createdBy = null,
+            CancellationToken ct = default)
+        {
+            if (dto == null) throw new ArgumentNullException(nameof(dto));
+
+            var email = (dto.EmailAddress ?? "").Trim().ToLowerInvariant();
+            if (string.IsNullOrWhiteSpace(email))
+                throw new InvalidOperationException("EmailAddress is required.");
+
+            if (dto.NotificationTypeId <= 0)
+                throw new InvalidOperationException("NotificationTypeId is required.");
+
+            // Validate notification type and get its Code
+            var type = await _context.EmailNotificationTypes
+                .AsNoTracking()
+                .SingleOrDefaultAsync(t =>
+                    t.Id == dto.NotificationTypeId
+                    && t.IsActive == true
+                    && (t.Code == WorkOrderNotificationCode || t.Code == InvoiceNotificationCode),
+                    ct);
+
+            if (type == null)
+                throw new InvalidOperationException("Invalid or inactive NotificationTypeId.");
+
+            // Find existing row
+            EmailNotificationRecipient? entity = null;
+
+            if (dto.Id > 0)
+            {
+                entity = await _context.EmailNotificationRecipients
+                    .SingleOrDefaultAsync(r => r.Id == dto.Id, ct);
+            }
+
+            // If inserting (Id=0), treat (TypeId + Email) as natural key to avoid duplicates
+            if (entity == null && dto.Id <= 0)
+            {
+                entity = await _context.EmailNotificationRecipients
+                    .SingleOrDefaultAsync(r =>
+                        r.NotificationTypeId == dto.NotificationTypeId
+                        && (r.EmailAddress ?? "").Trim().ToLower() == email,
+                        ct);
+            }
+
+            var isInsert = (entity == null);
+
+            if (isInsert)
+            {
+                entity = new EmailNotificationRecipient
+                {
+                    NotificationTypeId = dto.NotificationTypeId,
+                    EmailAddress = email,
+                    DisplayName = (dto.DisplayName ?? "").Trim(),
+                    IsActive = dto.IsActive,
+                    IsDefault = dto.IsDefault,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = string.IsNullOrWhiteSpace(createdBy) ? "SettingsPanel" : createdBy.Trim()
+                };
+
+                _context.EmailNotificationRecipients.Add(entity);
+            }
+            else
+            {
+                // Update
+                entity!.NotificationTypeId = dto.NotificationTypeId; // allow type change if you want
+                entity.EmailAddress = email;
+                entity.DisplayName = (dto.DisplayName ?? "").Trim();
+                entity.IsActive = dto.IsActive;
+                entity.IsDefault = dto.IsDefault;
+            }
+
+            // Enforce single default per NotificationTypeId
+            if (dto.IsDefault)
+            {
+                var others = await _context.EmailNotificationRecipients
+                    .Where(r =>
+                        r.NotificationTypeId == dto.NotificationTypeId
+                        && r.Id != entity!.Id
+                        && r.IsDefault == true)
+                    .ToListAsync(ct);
+
+                foreach (var o in others)
+                    o.IsDefault = false;
+            }
+
+            await _context.SaveChangesAsync(ct);
+
+            // Return canonical DTO (with notification code)
+            return new SettingsEmailRecipientDto
+            {
+                Id = entity!.Id,
+                NotificationTypeId = entity.NotificationTypeId,
+                NotificationCode = type.Code,
+                EmailAddress = (entity.EmailAddress ?? "").Trim().ToLowerInvariant(),
+                DisplayName = (entity.DisplayName ?? "").Trim(),
+                IsActive = entity.IsActive ?? false,
+                IsDefault = entity.IsDefault
+            };
         }
 
         public Task<IReadOnlyList<string>> GetWorkOrderRecipientsAsync(
@@ -91,29 +190,22 @@ namespace RaymarEquipmentInventory.Services
             IEnumerable<string>? extraEmails,
             CancellationToken ct)
         {
-            // normalize extras
             var extraList = (extraEmails ?? Enumerable.Empty<string>())
                 .Where(e => !string.IsNullOrWhiteSpace(e))
                 .Select(e => e.Trim())
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
 
-            // look up notification type
             var type = await _context.EmailNotificationTypes
                .AsNoTracking()
-               .SingleOrDefaultAsync(
-                   t => t.Code == code && t.IsActive == true,
-                   ct);
+               .SingleOrDefaultAsync(t => t.Code == code && t.IsActive == true, ct);
 
             if (type == null)
             {
-                _log.LogWarning(
-                    "No EmailNotificationType found for code {Code}. Using extras only.",
-                    code);
+                _log.LogWarning("No EmailNotificationType found for code {Code}. Using extras only.", code);
                 return extraList;
             }
 
-            // base recipients from settings
             var baseRecipients = await _context.EmailNotificationRecipients
                 .AsNoTracking()
                 .Where(r => r.NotificationTypeId == type.Id && (r.IsActive ?? false))

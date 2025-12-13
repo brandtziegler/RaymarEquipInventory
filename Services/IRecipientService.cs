@@ -27,5 +27,10 @@ namespace RaymarEquipmentInventory.Services
             CancellationToken ct = default);
 
         Task<List<SettingsEmailRecipientDto>> GetAllRecipientsAsync(CancellationToken ct = default);
+
+        Task<SettingsEmailRecipientDto> UpsertSettingsEmailRecipientAsync(
+            SettingsEmailRecipientDto dto,
+            string? createdBy = null,
+            CancellationToken ct = default);
     }
 }
