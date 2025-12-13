@@ -16,10 +16,13 @@ namespace RaymarEquipmentInventory.Services
 
         private readonly IQuickBooksConnectionService _quickBooksConnectionService;
         private readonly RaymarInventoryDBContext _context;
-        public TechnicanService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context)
+        private readonly IPermissionsService _permissionsService;
+
+        public TechnicanService(IQuickBooksConnectionService quickBooksConnectionService, RaymarInventoryDBContext context, IPermissionsService permissionsService)
         {
             _quickBooksConnectionService = quickBooksConnectionService;
             _context = context;
+            _permissionsService = permissionsService;
         }
 
 
@@ -232,6 +235,16 @@ namespace RaymarEquipmentInventory.Services
                     }
                 }
 
+                if (!string.IsNullOrWhiteSpace(personEntity.Email))
+                {
+                    // create AuthUser if missing; don’t reset password on normal edits
+                    await _permissionsService.UpsertAuthUserAsync(
+                        personEntity.Email,
+                        personEntity.PersonId,
+                        personEntity.IsActive == true,
+                        resetPassword: false
+                    );
+                }
                 await tx.CommitAsync();
 
                 // ---- return refreshed row from the view ----

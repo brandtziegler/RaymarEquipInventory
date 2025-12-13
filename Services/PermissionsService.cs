@@ -1,15 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using RaymarEquipmentInventory.Models;
+﻿using Microsoft.AspNetCore.Server.IISIntegration;
+using Microsoft.EntityFrameworkCore;
 using RaymarEquipmentInventory.DTOs;
-using System.Data.Odbc;
-using System.Data;
-using System.Reflection.PortableExecutable;
 using RaymarEquipmentInventory.Helpers;
+using RaymarEquipmentInventory.Models;
 using Serilog;
-using Microsoft.AspNetCore.Server.IISIntegration;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Odbc;
+using System.Reflection.PortableExecutable;
+using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -24,6 +25,95 @@ namespace RaymarEquipmentInventory.Services
             _context = context;
         }
 
+        public async Task<LoginResultDto> UpsertAuthUserAsync(
+            string email,
+            int personId,
+            bool isActive,
+            bool resetPassword = false,
+            string? password = null)
+        {
+            var normalizedEmail = (email ?? "").Trim().ToLowerInvariant();
+            if (string.IsNullOrWhiteSpace(normalizedEmail))
+                throw new ArgumentException("Email is required.", nameof(email));
+            if (personId <= 0)
+                throw new ArgumentException("PersonID is required.", nameof(personId));
+
+            // Prefer link by PersonId, fallback to email match (helps if email changes later)
+            var user = await _context.AuthUsers
+                .FirstOrDefaultAsync(u => u.PersonId == personId);
+
+            if (user == null)
+            {
+                user = await _context.AuthUsers
+                    .FirstOrDefaultAsync(u => u.Email == normalizedEmail);
+            }
+
+            var isNew = (user == null);
+            if (isNew)
+            {
+                user = new AuthUser
+                {
+                    CreatedAt = DateTime.UtcNow,
+                    Uuid = Guid.NewGuid().ToString()
+                };
+                _context.AuthUsers.Add(user);
+            }
+
+            user.Email = normalizedEmail;
+            user.PersonId = personId;
+            user.IsActive = isActive;
+
+            // Only set password on INSERT, or when explicitly resetting
+            if (isNew || resetPassword)
+            {
+                var plain = string.IsNullOrWhiteSpace(password) ? "Raymar@1234" : password;
+
+
+                // Salt can be anything reasonably unique/random; keep it simple for v1
+                var salt = Guid.NewGuid().ToString("N");
+
+                using var sha = SHA512.Create();
+                var combinedBytes = Encoding.Unicode.GetBytes(plain + salt);
+                var computedHashBytes = sha.ComputeHash(combinedBytes);
+                var computedHash = BitConverter.ToString(computedHashBytes)
+                    .Replace("-", "")
+                    .ToUpperInvariant();
+
+                user.Salt = salt;
+                user.PasswordHash = computedHash;
+            }
+
+            await _context.SaveChangesAsync();
+
+            // DON’T return hash/salt to RN in real life — but since your DTO includes it:
+            return new LoginResultDto
+            {
+                Success = true,
+                UUID = user.Uuid,
+                Email = user.Email,
+                PersonID = user.PersonId ?? 0,
+                CreatedAt = user.CreatedAt,
+                LastLoginAt = user.LastLoginAt,
+                IsActive = user.IsActive == true,
+                Salt = user.Salt,
+                PasswordHash = user.PasswordHash,
+                Message = isNew ? "Auth user created." : "Auth user updated."
+            };
+        }
+
+        private static string ComputeSha512HexUpper(string password, string salt)
+        {
+            using var sha = SHA512.Create();
+            var bytes = Encoding.Unicode.GetBytes(password + salt); // matches your VerifyLoginAsync :contentReference[oaicite:1]{index=1}
+            var hash = sha.ComputeHash(bytes);
+            return BitConverter.ToString(hash).Replace("-", "").ToUpperInvariant();
+        }
+
+        private static string GenerateSaltBase64(int byteCount)
+        {
+            var bytes = RandomNumberGenerator.GetBytes(byteCount);
+            return Convert.ToBase64String(bytes);
+        }
 
         public async Task<DTOs.RolesAndPermissions?> GetPermissionsByTechnicianIdAsync(int technicianId)
         {
