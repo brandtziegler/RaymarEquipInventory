@@ -598,6 +598,7 @@ namespace RaymarEquipmentInventory.Services
             // Optional debug logging
             Log.Information($"Technician {technicianId} passed permission check. Filtering WorkOrderCards on LastSyncEventType = {syncEventType}");
 
+            var invoices = _context.Invoices.AsNoTracking();
             // Project to DTO
             var workOrderCards = await query.Select(w => new WorkOrderCard
             {
@@ -613,7 +614,10 @@ namespace RaymarEquipmentInventory.Services
                 ParentCustomerName = w.ParentCustomerName,
                 ChildCustomerName = w.ChildCustomerName,
                 LastSyncEventType = w.LastSyncEventType,
-                LastSyncTimestamp = w.LastSyncTimestamp
+                LastSyncTimestamp = w.LastSyncTimestamp,
+
+                // ✅ the whole point: Invoice.WorkOrderId == SheetId
+                HasInvoice = invoices.Any(i => i.WorkOrderId == w.SheetId)
             }).ToListAsync();
 
             return workOrderCards;
