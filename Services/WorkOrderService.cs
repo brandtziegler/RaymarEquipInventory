@@ -666,7 +666,7 @@ namespace RaymarEquipmentInventory.Services
         }
 
 
-
+        //Ensures labour is hydrated.
         private async Task EnsureLabourHydratedAsync(int sheetId)
         {
             // Only do this when you need blanks (optional optimization)
