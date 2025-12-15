@@ -1,21 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using RaymarEquipmentInventory.Models;
-using RaymarEquipmentInventory.DTOs;
-using System.Data.Odbc;
-using System.Data;
-using System.Reflection.PortableExecutable;
-using RaymarEquipmentInventory.Helpers;
-using Serilog;
-using Azure.Storage.Blobs;
-using Microsoft.Data.SqlClient;
+﻿using Azure.Storage.Blobs;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Dac; // DacFx
+using RaymarEquipmentInventory.DTOs;
+using RaymarEquipmentInventory.Helpers;
+using RaymarEquipmentInventory.Models;
+using Serilog;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Odbc;
 using System.IO;
+using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace RaymarEquipmentInventory.Services
 {
@@ -664,84 +665,221 @@ namespace RaymarEquipmentInventory.Services
             }
         }
 
+
+
+        private async Task EnsureLabourHydratedAsync(int sheetId)
+        {
+            // Only do this when you need blanks (optional optimization)
+            // if (!includeBlanks) return;
+
+            await using var tx = await _context.Database.BeginTransactionAsync();
+
+            // A) Base date = sheet created date (matches your local "todayDate" seed pattern)
+            var sheet = await _context.WorkOrderSheets
+                .AsNoTracking()
+                .Where(s => s.SheetId == sheetId)
+                .Select(s => new { s.SheetId, s.DateTimeCreated })
+                .FirstOrDefaultAsync();
+
+            if (sheet == null)
+            {
+                await tx.CommitAsync();
+                return;
+            }
+
+            var baseDate = sheet.DateTimeCreated.Date;                 // date-only
+            var dates = Enumerable.Range(0, 6).Select(i => baseDate.AddDays(i)).ToList();
+            var startTimes = dates.Select(d => d.AddHours(8)).ToList(); // 8:00 AM
+
+            // B) Ensure TechnicianWorkOrder exists for all techs
+            // NOTE: local creates for ALL technicians (no filter). Match that. :contentReference[oaicite:4]{index=4}
+            var allTechIds = await _context.Technicians
+                .AsNoTracking()
+                .Select(t => t.TechnicianId)
+                .ToListAsync();
+
+            var existingTWOs = await _context.TechnicianWorkOrders
+                .Where(t => t.SheetId == sheetId)
+                .Select(t => new { t.TechnicianId, t.TechnicianWorkOrderId })
+                .ToListAsync();
+
+            var existingTechSet = existingTWOs.Select(x => x.TechnicianId).ToHashSet();
+            var missingTechIds = allTechIds.Where(id => !existingTechSet.Contains(id)).ToList();
+
+            if (missingTechIds.Count > 0)
+            {
+                _context.TechnicianWorkOrders.AddRange(
+                    missingTechIds.Select(tid => new Models.TechnicianWorkOrder
+                    {
+                        SheetId = sheetId,
+                        TechnicianId = tid
+                    })
+                );
+
+                try { await _context.SaveChangesAsync(); }
+                catch { /* ignore dupes if unique index exists */ }
+            }
+
+            // Re-load TWOs now that we may have inserted
+            var twos = await _context.TechnicianWorkOrders
+                .AsNoTracking()
+                .Where(t => t.SheetId == sheetId)
+                .Select(t => new { t.TechnicianWorkOrderId, t.TechnicianId })
+                .ToListAsync();
+
+            var twoIds = twos.Select(x => x.TechnicianWorkOrderId).ToList();
+            if (twoIds.Count == 0)
+            {
+                await tx.CommitAsync();
+                return;
+            }
+
+            // C) All active labour types
+            var labourTypeIds = await _context.LabourTypes
+                .AsNoTracking()
+                .Where(lt => lt.IsActive ?? false)
+                .Select(lt => lt.LabourTypeId)
+                .ToListAsync();
+
+            if (labourTypeIds.Count == 0)
+            {
+                await tx.CommitAsync();
+                return;
+            }
+
+            // D) Pull existing keys for this 6-day window (so we don't overwrite anything)
+            var existingKeys = await _context.RegularLabours
+                .AsNoTracking()
+                .Where(rl =>
+                    rl.TechnicianWorkOrderId != null &&
+                    twoIds.Contains(rl.TechnicianWorkOrderId.Value) &&
+                    labourTypeIds.Contains(rl.LabourTypeId) &&
+                    rl.DateOfLabor >= baseDate &&
+                    rl.DateOfLabor < baseDate.AddDays(6))
+                .Select(rl => new
+                {
+                    TwoId = rl.TechnicianWorkOrderId!.Value,
+                    rl.LabourTypeId,
+                    Date = rl.DateOfLabor,
+                    Start = rl.StartLabor
+                })
+                .ToListAsync();
+
+            var keySet = new HashSet<(int twoId, int ltId, DateTime date, DateTime? start)>(
+                existingKeys.Select(k => (k.TwoId, k.LabourTypeId, k.Date, k.Start))
+            );
+
+            // E) Build missing combos (TWO × LabourType × 6 slots)
+            var inserts = new List<RegularLabour>(capacity: twoIds.Count * labourTypeIds.Count * 6);
+
+            foreach (var two in twos)
+            {
+                foreach (var ltId in labourTypeIds)
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        var d = dates[i];
+                        var start = startTimes[i];
+
+                        var key = (two.TechnicianWorkOrderId, ltId, d, (DateTime?)start);
+                        if (keySet.Contains(key)) continue;
+
+                        inserts.Add(new RegularLabour
+                        {
+                            TechnicianWorkOrderId = two.TechnicianWorkOrderId,
+                            LabourTypeId = ltId,
+                            DateOfLabor = d,
+                            StartLabor = start,
+                            FinishLabor = null,                 // keep null; your API already nulls sentinel anyway
+                            TotalHours = 0,
+                            TotalMinutes = 0,
+                            TotalOthours = 0,
+                            TotalOtminutes = 0,
+                            WorkDescription = "Filled from RN App"
+                        });
+                    }
+                }
+            }
+
+            if (inserts.Count > 0)
+            {
+                _context.RegularLabours.AddRange(inserts);
+
+                try { await _context.SaveChangesAsync(); }
+                catch { /* ignore dupes if unique index exists */ }
+            }
+
+            await tx.CommitAsync();
+        }
+
+
         public async Task<List<HourlyLbrSummary>> GetLabourLinesBySheet(int sheetID, bool includeBlanks)
         {
             try
             {
-                // Only technicians assigned to this sheet
-                var techWOs = _context.TechnicianWorkOrders
+                if (includeBlanks)
+                    await EnsureLabourHydratedAsync(sheetID);
+
+                // ✅ make this async (right now your snippet is sync .ToList())
+                var techWOs = await _context.TechnicianWorkOrders
                     .AsNoTracking()
                     .Where(t => t.SheetId == sheetID)
                     .Select(t => new { t.TechnicianWorkOrderId, t.TechnicianId })
-                    .ToList();
+                    .ToListAsync();
 
                 if (techWOs.Count == 0)
                     return new List<HourlyLbrSummary>();
 
                 var techWOIds = techWOs.Select(t => t.TechnicianWorkOrderId).ToList();
 
-                // Join to RegularLabour once; no per-tech/type loops
                 var q = from l in _context.RegularLabours.AsNoTracking()
                         join two in _context.TechnicianWorkOrders.AsNoTracking()
                             on l.TechnicianWorkOrderId equals two.TechnicianWorkOrderId
                         where techWOIds.Contains(two.TechnicianWorkOrderId)
-                        select new
-                        {
-                            two.TechnicianId,
-                            l.LabourTypeId,
-                            L = l
-                        };
+                        select new { two.TechnicianId, l.LabourTypeId, L = l };
 
                 if (!includeBlanks)
                 {
-                    // Finished only: valid finish + positive minutes
                     q = q.Where(x =>
                         x.L.FinishLabor != null &&
                         x.L.FinishLabor.Value.Year >= 1970 &&
                         (((x.L.TotalHours ?? 0) * 60 + (x.L.TotalMinutes ?? 0)) +
                          ((x.L.TotalOthours ?? 0) * 60 + (x.L.TotalOtminutes ?? 0))) > 0);
                 }
-                else
-                {
-                    // Include blanks: allow null/sentinel finish, but still ignore pure garbage rows if you want
-                    // (leave as-is to truly include blanks)
-                }
 
-                var grouped = await q
+                return await q
                     .GroupBy(x => new { x.TechnicianId, x.LabourTypeId })
                     .Select(g => new HourlyLbrSummary
                     {
                         TechnicianID = g.Key.TechnicianId,
                         LabourTypeID = g.Key.LabourTypeId,
-                        Labour = g
-                            .OrderBy(x => x.L.DateOfLabor)
-                            .ThenBy(x => x.L.StartLabor)
-                            .Select(x => new DTOs.RegularLabourLine
-                            {
-                                LabourId = x.L.LabourId,
-                                TechnicianWorkOrderID = x.L.TechnicianWorkOrderId ?? 0,
-                                DateOfLabor = x.L.DateOfLabor,
-                                StartLabor = x.L.StartLabor,
-                                FinishLabor = (x.L.FinishLabor.HasValue && x.L.FinishLabor.Value.Year < 1970)
-                                              ? null : x.L.FinishLabor,
-                                WorkDescription = x.L.WorkDescription,
-                                TotalHours = x.L.TotalHours ?? 0,
-                                TotalMinutes = x.L.TotalMinutes ?? 0,
-                                TotalOTHours = x.L.TotalOthours ?? 0,
-                                TotalOTMinutes = x.L.TotalOtminutes ?? 0,
-                                LabourTypeID = x.L.LabourTypeId
-                            })
-                            .ToList()
+                        Labour = g.OrderBy(x => x.L.DateOfLabor)
+                                  .ThenBy(x => x.L.StartLabor)
+                                  .Select(x => new DTOs.RegularLabourLine
+                                  {
+                                      LabourId = x.L.LabourId,
+                                      TechnicianWorkOrderID = x.L.TechnicianWorkOrderId ?? 0,
+                                      DateOfLabor = x.L.DateOfLabor,
+                                      StartLabor = x.L.StartLabor,
+                                      FinishLabor = (x.L.FinishLabor.HasValue && x.L.FinishLabor.Value.Year < 1970)
+                                                    ? null : x.L.FinishLabor,
+                                      WorkDescription = x.L.WorkDescription,
+                                      TotalHours = x.L.TotalHours ?? 0,
+                                      TotalMinutes = x.L.TotalMinutes ?? 0,
+                                      TotalOTHours = x.L.TotalOthours ?? 0,
+                                      TotalOTMinutes = x.L.TotalOtminutes ?? 0,
+                                      LabourTypeID = x.L.LabourTypeId
+                                  })
+                                  .ToList()
                     })
                     .ToListAsync();
-
-                return grouped;
             }
             catch
             {
                 return new List<HourlyLbrSummary>();
             }
         }
+
 
         public async Task<List<HourlyLbrSummary>> GetLabourLines(
             int sheetID)
