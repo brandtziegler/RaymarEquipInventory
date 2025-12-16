@@ -36,7 +36,8 @@ namespace RaymarEquipmentInventory.Controllers
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto dto)
         {
-            var result = await _permissionsService.ResetPasswordAsync(dto.Email, dto.CurrentPassword, dto.NewPassword);
+            var result = await _permissionsService.AdminResetPasswordAsync(dto.Email, dto.NewPassword);
+            //var result = await _permissionsService.ResetPasswordAsync(dto.Email, dto.CurrentPassword, dto.NewPassword);
             return result.Success ? Ok(result) : Unauthorized(result);
         }
 

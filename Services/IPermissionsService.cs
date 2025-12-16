@@ -15,5 +15,7 @@ namespace RaymarEquipmentInventory.Services
             string? password = null);
 
         Task<LoginResultDto> ResetPasswordAsync(string email, string currentPassword, string newPassword);
+
+        Task<LoginResultDto> AdminResetPasswordAsync(string email, string newPassword);
     }
 }

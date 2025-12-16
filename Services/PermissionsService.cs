@@ -151,6 +151,29 @@ namespace RaymarEquipmentInventory.Services
             return new LoginResultDto { Success = true, Email = user.Email, PersonID = user.PersonId ?? 0, Message = "Password updated." };
         }
 
+        public async Task<LoginResultDto> AdminResetPasswordAsync(string email, string newPassword)
+        {
+            var normalizedEmail = (email ?? "").Trim().ToLowerInvariant();
+            if (string.IsNullOrWhiteSpace(normalizedEmail)) throw new ArgumentException("Email required.");
+            if (string.IsNullOrWhiteSpace(newPassword)) throw new ArgumentException("New password required.");
+
+            var user = await _context.AuthUsers.FirstOrDefaultAsync(u => u.Email == normalizedEmail && u.IsActive == true);
+            if (user == null) return new LoginResultDto { Success = false, Message = "User not found." };
+
+            using var sha = System.Security.Cryptography.SHA512.Create();
+            var newSalt = Guid.NewGuid().ToString("N");
+            var newBytes = Encoding.Unicode.GetBytes(newPassword + newSalt);
+            var newHash = BitConverter.ToString(sha.ComputeHash(newBytes)).Replace("-", "").ToUpperInvariant();
+
+            user.Salt = newSalt;
+            user.PasswordHash = newHash;
+
+            // also set MustChangePassword = true (add this column) + write audit log
+            await _context.SaveChangesAsync();
+
+            return new LoginResultDto { Success = true, Email = user.Email, PersonID = user.PersonId ?? 0, Message = "Password reset by admin." };
+        }
+
         public async Task<DTOs.RolesAndPermissions?> GetPermissionsByTechnicianIdAsync(int technicianId)
         {
             
