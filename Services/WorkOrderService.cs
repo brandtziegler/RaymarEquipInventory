@@ -817,68 +817,81 @@ namespace RaymarEquipmentInventory.Services
         {
             try
             {
-                if (includeBlanks)
-                    await EnsureLabourHydratedAsync(sheetID);
-
-                // ✅ make this async (right now your snippet is sync .ToList())
-                var techWOs = await _context.TechnicianWorkOrders
+                // Only technicians assigned to this sheet
+                var techWOs = _context.TechnicianWorkOrders
                     .AsNoTracking()
                     .Where(t => t.SheetId == sheetID)
                     .Select(t => new { t.TechnicianWorkOrderId, t.TechnicianId })
-                    .ToListAsync();
+                    .ToList();
 
                 if (techWOs.Count == 0)
                     return new List<HourlyLbrSummary>();
 
                 var techWOIds = techWOs.Select(t => t.TechnicianWorkOrderId).ToList();
 
+                // Join to RegularLabour once; no per-tech/type loops
                 var q = from l in _context.RegularLabours.AsNoTracking()
                         join two in _context.TechnicianWorkOrders.AsNoTracking()
                             on l.TechnicianWorkOrderId equals two.TechnicianWorkOrderId
                         where techWOIds.Contains(two.TechnicianWorkOrderId)
-                        select new { two.TechnicianId, l.LabourTypeId, L = l };
+                        select new
+                        {
+                            two.TechnicianId,
+                            l.LabourTypeId,
+                            L = l
+                        };
 
                 if (!includeBlanks)
                 {
+                    // Finished only: valid finish + positive minutes
                     q = q.Where(x =>
                         x.L.FinishLabor != null &&
                         x.L.FinishLabor.Value.Year >= 1970 &&
                         (((x.L.TotalHours ?? 0) * 60 + (x.L.TotalMinutes ?? 0)) +
                          ((x.L.TotalOthours ?? 0) * 60 + (x.L.TotalOtminutes ?? 0))) > 0);
                 }
+                else
+                {
+                    // Include blanks: allow null/sentinel finish, but still ignore pure garbage rows if you want
+                    // (leave as-is to truly include blanks)
+                }
 
-                return await q
+                var grouped = await q
                     .GroupBy(x => new { x.TechnicianId, x.LabourTypeId })
                     .Select(g => new HourlyLbrSummary
                     {
                         TechnicianID = g.Key.TechnicianId,
                         LabourTypeID = g.Key.LabourTypeId,
-                        Labour = g.OrderBy(x => x.L.DateOfLabor)
-                                  .ThenBy(x => x.L.StartLabor)
-                                  .Select(x => new DTOs.RegularLabourLine
-                                  {
-                                      LabourId = x.L.LabourId,
-                                      TechnicianWorkOrderID = x.L.TechnicianWorkOrderId ?? 0,
-                                      DateOfLabor = x.L.DateOfLabor,
-                                      StartLabor = x.L.StartLabor,
-                                      FinishLabor = (x.L.FinishLabor.HasValue && x.L.FinishLabor.Value.Year < 1970)
-                                                    ? null : x.L.FinishLabor,
-                                      WorkDescription = x.L.WorkDescription,
-                                      TotalHours = x.L.TotalHours ?? 0,
-                                      TotalMinutes = x.L.TotalMinutes ?? 0,
-                                      TotalOTHours = x.L.TotalOthours ?? 0,
-                                      TotalOTMinutes = x.L.TotalOtminutes ?? 0,
-                                      LabourTypeID = x.L.LabourTypeId
-                                  })
-                                  .ToList()
+                        Labour = g
+                            .OrderBy(x => x.L.DateOfLabor)
+                            .ThenBy(x => x.L.StartLabor)
+                            .Select(x => new DTOs.RegularLabourLine
+                            {
+                                LabourId = x.L.LabourId,
+                                TechnicianWorkOrderID = x.L.TechnicianWorkOrderId ?? 0,
+                                DateOfLabor = x.L.DateOfLabor,
+                                StartLabor = x.L.StartLabor,
+                                FinishLabor = (x.L.FinishLabor.HasValue && x.L.FinishLabor.Value.Year < 1970)
+                                              ? null : x.L.FinishLabor,
+                                WorkDescription = x.L.WorkDescription,
+                                TotalHours = x.L.TotalHours ?? 0,
+                                TotalMinutes = x.L.TotalMinutes ?? 0,
+                                TotalOTHours = x.L.TotalOthours ?? 0,
+                                TotalOTMinutes = x.L.TotalOtminutes ?? 0,
+                                LabourTypeID = x.L.LabourTypeId
+                            })
+                            .ToList()
                     })
                     .ToListAsync();
+
+                return grouped;
             }
             catch
             {
                 return new List<HourlyLbrSummary>();
             }
         }
+
 
 
         public async Task<List<HourlyLbrSummary>> GetLabourLines(

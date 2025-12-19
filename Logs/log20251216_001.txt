@@ -1,0 +1,126 @@
+2025-12-16 11:22:34.220 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-16 11:22:34.297 -05:00 [INF] Hosting environment: Development
+2025-12-16 11:22:34.297 -05:00 [INF] Content root path: D:\2024Work\RaymarEquipInventory\RaymarEquipInventory
+2025-12-16 11:32:06.680 -05:00 [INF] Start installing Hangfire SQL objects...
+2025-12-16 11:32:07.924 -05:00 [INF] Hangfire SQL objects installed.
+2025-12-16 11:32:09.165 -05:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-12-16 11:32:12.434 -05:00 [INF] Now listening on: https://localhost:52212
+2025-12-16 11:32:12.435 -05:00 [INF] Now listening on: http://localhost:52213
+2025-12-16 11:32:12.436 -05:00 [DBG] Loaded hosting startup assembly RaymarEquipmentInventory
+2025-12-16 11:32:12.437 -05:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-12-16 11:32:12.437 -05:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-12-16 11:32:12.438 -05:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-12-16 11:32:12.501 -05:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: tcp:greatfurnituresql.database.windows.net,1433@RaymarInventoryDB'
+2025-12-16 11:32:12.502 -05:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2025-12-16 11:32:12.502 -05:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2025-12-16 11:32:12.518 -05:00 [DBG] Execution loop BackgroundServerProcess:19078777 has started in 5.4506 ms
+2025-12-16 11:32:12.617 -05:00 [INF] Server bz2024ad:35928:04f32b2a successfully announced in 92.6369 ms
+2025-12-16 11:32:12.621 -05:00 [DBG] Execution loop ServerHeartbeatProcess:2fbac6de has started in 3.2608 ms
+2025-12-16 11:32:12.621 -05:00 [INF] Server bz2024ad:35928:04f32b2a is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2025-12-16 11:32:12.625 -05:00 [DBG] Execution loop ServerWatchdog:e982ff6e has started in 2.9282 ms
+2025-12-16 11:32:12.628 -05:00 [DBG] Execution loop ServerJobCancellationWatcher:9b551282 has started in 5.7418 ms
+2025-12-16 11:32:12.631 -05:00 [DBG] Execution loop ExpirationManager:aaf353eb has started in 4.9731 ms
+2025-12-16 11:32:12.634 -05:00 [DBG] Execution loop CountersAggregator:c254f89f has started in 5.2008 ms
+2025-12-16 11:32:12.636 -05:00 [DBG] Execution loop SqlServerHeartbeatProcess:bec095c3 has started in 5.0413 ms
+2025-12-16 11:32:12.643 -05:00 [DBG] Removing outdated records from the 'AggregatedCounter' table...
+2025-12-16 11:32:12.643 -05:00 [DBG] Aggregating records in 'Counter' table...
+2025-12-16 11:32:12.639 -05:00 [DBG] Execution loop Worker:90352db9 has started in 5.7217 ms
+2025-12-16 11:32:12.642 -05:00 [DBG] Execution loop Worker:37e4393d has started in 8.2332 ms
+2025-12-16 11:32:12.646 -05:00 [DBG] Execution loop Worker:c4281caf has started in 12.5012 ms
+2025-12-16 11:32:12.654 -05:00 [DBG] Execution loop Worker:8ba5a34b has started in 20.2414 ms
+2025-12-16 11:32:12.650 -05:00 [DBG] Execution loop Worker:42f60559 has started in 16.5586 ms
+2025-12-16 11:32:12.657 -05:00 [DBG] Execution loop Worker:c2588cea has started in 22.6296 ms
+2025-12-16 11:32:12.660 -05:00 [DBG] Execution loop Worker:cf9298c2 has started in 26.4256 ms
+2025-12-16 11:32:12.662 -05:00 [DBG] Execution loop Worker:1273e835 has started in 28.2185 ms
+2025-12-16 11:32:12.665 -05:00 [DBG] Execution loop Worker:b0dd688f has started in 31.6448 ms
+2025-12-16 11:32:12.671 -05:00 [DBG] Execution loop Worker:ac01907b has started in 37.1331 ms
+2025-12-16 11:32:12.674 -05:00 [DBG] Execution loop Worker:664be60f has started in 40.0033 ms
+2025-12-16 11:32:12.676 -05:00 [DBG] Execution loop Worker:445b8148 has started in 42.6997 ms
+2025-12-16 11:32:12.680 -05:00 [DBG] Execution loop Worker:091bf634 has started in 46.3739 ms
+2025-12-16 11:32:12.683 -05:00 [DBG] Execution loop Worker:d9f94094 has started in 49.2229 ms
+2025-12-16 11:32:12.687 -05:00 [DBG] Execution loop Worker:c815b953 has started in 53.2607 ms
+2025-12-16 11:32:12.690 -05:00 [DBG] Execution loop Worker:bf01c97b has started in 56.3457 ms
+2025-12-16 11:32:12.693 -05:00 [DBG] Execution loop Worker:5f243c8c has started in 59.6104 ms
+2025-12-16 11:32:12.697 -05:00 [DBG] Execution loop Worker:d90a6b9a has started in 63.0016 ms
+2025-12-16 11:32:12.700 -05:00 [DBG] Execution loop Worker:50c7b98a has started in 66.6009 ms
+2025-12-16 11:32:12.704 -05:00 [DBG] Execution loop Worker:50c5c15d has started in 70.3496 ms
+2025-12-16 11:32:12.707 -05:00 [INF] Server bz2024ad:35928:04f32b2a all the dispatchers started
+2025-12-16 11:32:12.707 -05:00 [DBG] Execution loop DelayedJobScheduler:d82542f7 has started in 6.9597 ms
+2025-12-16 11:32:12.711 -05:00 [DBG] Execution loop RecurringJobScheduler:bad9cf23 has started in 6.5669 ms
+2025-12-16 11:32:12.713 -05:00 [DBG] Connection id "0HNHSO2L9U8DJ" received FIN.
+2025-12-16 11:32:12.797 -05:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-12-16 11:32:12.809 -05:00 [DBG] Connection id "0HNHSO2L9U8DJ" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-12-16 11:32:12.922 -05:00 [DBG] Removing outdated records from the 'Job' table...
+2025-12-16 11:32:13.022 -05:00 [DBG] Connection 0HNHSO2L9U8DK established using the following protocol: "Tls13"
+2025-12-16 11:32:13.077 -05:00 [INF] Request starting HTTP/2 GET https://localhost:52212/swagger - null null
+2025-12-16 11:32:13.146 -05:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-12-16 11:32:13.151 -05:00 [INF] Request finished HTTP/2 GET https://localhost:52212/swagger - 301 0 null 79.7759ms
+2025-12-16 11:32:13.157 -05:00 [INF] Request starting HTTP/2 GET https://localhost:52212/swagger/index.html - null null
+2025-12-16 11:32:13.170 -05:00 [DBG] Removing outdated records from the 'List' table...
+2025-12-16 11:32:13.204 -05:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-12-16 11:32:13.206 -05:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-12-16 11:32:13.215 -05:00 [DBG] Removing outdated records from the 'Set' table...
+2025-12-16 11:32:13.217 -05:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-12-16 11:32:13.218 -05:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-12-16 11:32:13.219 -05:00 [INF] Request finished HTTP/2 GET https://localhost:52212/swagger/index.html - 200 null text/html;charset=utf-8 62.4766ms
+2025-12-16 11:32:13.236 -05:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-16 11:32:13.236 -05:00 [INF] Request starting HTTP/2 GET https://localhost:52212/swagger/swagger-ui.css - null null
+2025-12-16 11:32:13.236 -05:00 [INF] Request starting HTTP/2 GET https://localhost:52212/_vs/browserLink - null null
+2025-12-16 11:32:13.258 -05:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_framework/aspnetcore-browser-refresh.js - 200 13784 application/javascript; charset=utf-8 23.0475ms
+2025-12-16 11:32:13.264 -05:00 [DBG] Removing outdated records from the 'Hash' table...
+2025-12-16 11:32:13.323 -05:00 [DBG] The file transmission was cancelled
+System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at Microsoft.AspNetCore.Http.SendFileResponseExtensions.SendFileAsyncCore(HttpResponse response, IFileInfo file, Int64 offset, Nullable`1 count, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.SendFileResponseExtensions.SendFileAsyncCore(HttpResponse response, IFileInfo file, Int64 offset, Nullable`1 count, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileContext.SendAsync()
+2025-12-16 11:32:13.325 -05:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2025-12-16 11:32:13.326 -05:00 [INF] Request finished HTTP/2 GET https://localhost:52212/swagger/swagger-ui.css - 499 143943 text/css 90.5696ms
+2025-12-16 11:32:13.345 -05:00 [INF] Request finished HTTP/2 GET https://localhost:52212/_vs/browserLink - 200 null text/javascript; charset=UTF-8 108.9264ms
+2025-12-16 11:32:13.347 -05:00 [INF] Request starting HTTP/2 GET https://localhost:52212/swagger/favicon-16x16.png - null null
+2025-12-16 11:32:13.391 -05:00 [INF] Request starting HTTP/2 GET https://localhost:52212/swagger/v1/swagger.json - null null
+2025-12-16 11:32:13.391 -05:00 [DBG] The file transmission was cancelled
+System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at Microsoft.AspNetCore.Http.SendFileResponseExtensions.SendFileAsyncCore(HttpResponse response, IFileInfo file, Int64 offset, Nullable`1 count, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.SendFileResponseExtensions.SendFileAsyncCore(HttpResponse response, IFileInfo file, Int64 offset, Nullable`1 count, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileContext.SendAsync()
+2025-12-16 11:32:13.395 -05:00 [INF] Sending file. Request path: '/favicon-16x16.png'. Physical path: 'N/A'
+2025-12-16 11:32:13.396 -05:00 [INF] Request finished HTTP/2 GET https://localhost:52212/swagger/favicon-16x16.png - 499 665 image/png 50.0879ms
+2025-12-16 11:32:13.415 -05:00 [INF] Request finished HTTP/2 GET https://localhost:52212/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 29.7961ms
+2025-12-16 11:32:42.655 -05:00 [DBG] Server bz2024ad:35928:04f32b2a heartbeat successfully sent
+2025-12-16 11:33:11.474 -05:00 [INF] Request starting HTTP/2 POST https://localhost:52212/api/Permissions/admin-reset-all-passwords - application/json 13
+2025-12-16 11:33:11.480 -05:00 [DBG] The request has an origin header: 'https://localhost:52212'.
+2025-12-16 11:33:11.482 -05:00 [INF] CORS policy execution successful.
+2025-12-16 11:33:11.484 -05:00 [DBG] POST requests are not supported
+2025-12-16 11:33:11.530 -05:00 [DBG] 1 candidate(s) found for the request path '/api/Permissions/admin-reset-all-passwords'
+2025-12-16 11:33:11.534 -05:00 [DBG] Endpoint 'RaymarEquipmentInventory.Controllers.PermissionsController.AdminResetAllPasswords (RaymarEquipmentInventory)' with route pattern 'api/Permissions/admin-reset-all-passwords' is valid for the request path '/api/Permissions/admin-reset-all-passwords'
+2025-12-16 11:33:11.535 -05:00 [DBG] Request matched endpoint 'RaymarEquipmentInventory.Controllers.PermissionsController.AdminResetAllPasswords (RaymarEquipmentInventory)'
+2025-12-16 11:33:11.544 -05:00 [DBG] Policy authentication schemes  did not succeed
+2025-12-16 11:33:11.547 -05:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-12-16 11:33:11.658 -05:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).
+   at Microsoft.AspNetCore.Authentication.AuthenticationService.ChallengeAsync(HttpContext context, String scheme, AuthenticationProperties properties)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.<>c__DisplayClass0_0.<<HandleAsync>g__Handle|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-12-16 11:33:11.664 -05:00 [INF] Request finished HTTP/2 POST https://localhost:52212/api/Permissions/admin-reset-all-passwords - 500 null text/plain; charset=utf-8 190.3859ms
+2025-12-16 11:33:12.695 -05:00 [DBG] Server bz2024ad:35928:04f32b2a heartbeat successfully sent
+2025-12-16 11:33:42.722 -05:00 [DBG] Server bz2024ad:35928:04f32b2a heartbeat successfully sent
+2025-12-16 11:34:12.748 -05:00 [DBG] Server bz2024ad:35928:04f32b2a heartbeat successfully sent
